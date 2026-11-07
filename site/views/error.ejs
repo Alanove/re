@@ -1,0 +1,13 @@
+<section class="error-page">
+	<div class="container error-page__inner">
+		<span class="error-page__code"><%= status %></span>
+		<span class="divider" aria-hidden="true"></span>
+		<h1 class="error-page__title"><%= title %></h1>
+		<p class="error-page__text"><%= message %></p>
+		<% if (detail) { %><pre class="error-page__detail"><%= detail %></pre><% } %>
+		<div class="error-page__actions">
+			<a class="btn btn--primary" href="/">Back to home</a>
+			<a class="btn btn--outline" href="<%= locals.contactUrl || '/' %>">Contact us</a>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,170 @@
+<%
+	const s = section;
+	const val = function (v) { return v === undefined || v === null ? '' : v; };
+	const fieldClass = function (name) { return errors[name] ? 'form-control is-invalid' : 'form-control'; };
+	const padRows = function (items, max, blank) {
+		const list = (items || []).slice(0, max);
+		while (list.length < max) { list.push(Object.assign({}, blank)); }
+		return list;
+	};
+%>
+<form method="POST" action="/admin/home/<%= sectionKey %>/edit?_csrf=<%= encodeURIComponent(csrfToken) %>" enctype="multipart/form-data" novalidate>
+	<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+	<div class="row">
+		<div class="col-xl-8">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title"><%= sectionLabel %></h4></div>
+				<div class="panel-body">
+					<div class="form-check form-switch mb-3">
+						<input class="form-check-input" type="checkbox" id="enabled" name="enabled" value="1" <%= s.enabled ? 'checked' : '' %> />
+						<label class="form-check-label" for="enabled">Show this section on the home page</label>
+					</div>
+					<% if (sectionKey !== 'hero') { %>
+						<div class="mb-3">
+							<label class="form-label" for="title">Heading <span class="text-danger">*</span></label>
+							<input type="text" class="<%= fieldClass('title') %>" id="title" name="title" value="<%= val(s.title) %>" required />
+							<%- include('../partials/field-error', { name: 'title' }) %>
+						</div>
+					<% } %>
+
+					<% if (sectionKey === 'hero') { %>
+						<p class="text-muted small">Add up to <%= heroSlidesMax %> slides. Drag the handle or use the arrows to change the order, and use the trash button to remove a slide. Empty slides are ignored. Each slide needs a title and should have an image. A video is optional and plays muted behind the text; the image is shown while it loads and to visitors who prefer reduced motion. Zoom is optional and slowly moves the image or video while that slide is showing. Images up to 8 MB, MP4 or WebM videos up to 25 MB.</p>
+						<div class="d-flex align-items-center gap-3 mb-3">
+							<button type="button" class="btn btn-primary" data-hero-add <%= (s.slides || []).length >= heroSlidesMax ? 'disabled' : '' %>><i class="fa fa-plus me-1" aria-hidden="true"></i> Add slide</button>
+							<span class="text-muted small" data-hero-count><%= (s.slides || []).length %> of <%= heroSlidesMax %> slides</span>
+						</div>
+						<p class="text-muted small" data-hero-empty<% if ((s.slides || []).length) { %> hidden<% } %>>No slides yet. Add a slide to show the hero.</p>
+						<div id="hero-slides" data-hero-slides data-max="<%= heroSlidesMax %>">
+							<% (s.slides || []).forEach(function (slide, i) { %>
+								<%- include('slide', { slide: slide, i: i }) %>
+							<% }) %>
+						</div>
+						<template id="hero-slide-template">
+							<%- include('slide', { slide: { title: '', text: '', image: '', video: '', zoom: '', primaryCta: {}, secondaryCta: {} }, i: 99 }) %>
+						</template>
+						<% Object.keys(errors).filter(function (k) { return k === 'slides'; }).forEach(function (k) { %>
+							<div class="invalid-feedback d-block"><%= errors[k] %></div>
+						<% }) %>
+					<% } %>
+
+					<% if (sectionKey === 'solar') { %>
+						<div class="mb-3">
+							<label class="form-label" for="text">Text</label>
+							<textarea class="<%= fieldClass('text') %>" id="text" name="text" rows="3"><%= val(s.text) %></textarea>
+							<%- include('../partials/field-error', { name: 'text' }) %>
+						</div>
+					<% } %>
+
+					<% if (sectionKey === 'about') { %>
+						<div class="mb-3">
+							<label class="form-label" for="lead">Lead paragraph</label>
+							<textarea class="<%= fieldClass('lead') %>" id="lead" name="lead" rows="3"><%= val(s.lead) %></textarea>
+							<%- include('../partials/field-error', { name: 'lead' }) %>
+						</div>
+						<div class="mb-3">
+							<label class="form-label" for="text">Second paragraph</label>
+							<textarea class="<%= fieldClass('text') %>" id="text" name="text" rows="3"><%= val(s.text) %></textarea>
+							<%- include('../partials/field-error', { name: 'text' }) %>
+						</div>
+						<div class="row g-2 mb-3">
+							<div class="col-md-4">
+								<label class="form-label" for="statValue">Highlight value</label>
+								<input type="text" class="<%= fieldClass('statValue') %>" id="statValue" name="statValue" value="<%= val(s.statValue) %>" placeholder="40+" />
+							</div>
+							<div class="col-md-8">
+								<label class="form-label" for="statLabel">Highlight label</label>
+								<input type="text" class="<%= fieldClass('statLabel') %>" id="statLabel" name="statLabel" value="<%= val(s.statLabel) %>" placeholder="Years of experience" />
+							</div>
+						</div>
+					<% } %>
+
+					<% if (['values', 'activities', 'presence', 'contact'].indexOf(sectionKey) !== -1) { %>
+						<div class="mb-3">
+							<label class="form-label" for="intro">Introduction</label>
+							<textarea class="<%= fieldClass('intro') %>" id="intro" name="intro" rows="3"><%= val(s.intro) %></textarea>
+							<%- include('../partials/field-error', { name: 'intro' }) %>
+						</div>
+					<% } %>
+
+					<% if (sectionKey === 'about' || sectionKey === 'solar') { %>
+						<div class="row g-2 mb-3">
+							<div class="col-md-6"><label class="form-label" for="ctaLabel">Button label</label><input type="text" class="<%= fieldClass('ctaLabel') %>" id="ctaLabel" name="ctaLabel" value="<%= val(s.cta && s.cta.label) %>" /></div>
+							<div class="col-md-6"><label class="form-label" for="ctaUrl">Button link</label><input type="text" class="<%= fieldClass('ctaUrl') %>" id="ctaUrl" name="ctaUrl" value="<%= val(s.cta && s.cta.url) %>" /><%- include('../partials/field-error', { name: 'ctaUrl' }) %></div>
+						</div>
+					<% } %>
+
+					<% if (sectionKey === 'solar') { %>
+						<h5 class="mt-4">Feature cards</h5>
+						<% padRows(s.cards, 4, { title: '', text: '' }).forEach(function (card, i) { %>
+							<div class="row g-2 mb-2 admin-row">
+								<div class="col-md-4"><input type="text" class="form-control" name="cards[<%= i %>][title]" value="<%= val(card.title) %>" placeholder="Card title" aria-label="Card <%= i + 1 %> title" /></div>
+								<div class="col-md-8"><input type="text" class="form-control" name="cards[<%= i %>][text]" value="<%= val(card.text) %>" placeholder="Card text" aria-label="Card <%= i + 1 %> text" /></div>
+							</div>
+						<% }) %>
+						<div class="mb-3 mt-3">
+							<label class="form-label" for="listTitle">Checklist heading</label>
+							<input type="text" class="<%= fieldClass('listTitle') %>" id="listTitle" name="listTitle" value="<%= val(s.listTitle) %>" />
+						</div>
+						<div class="mb-3">
+							<label class="form-label" for="list">Checklist (one item per line)</label>
+							<textarea class="<%= fieldClass('list') %>" id="list" name="list" rows="6"><%= (s.list || []).join('\n') %></textarea>
+							<%- include('../partials/field-error', { name: 'list' }) %>
+						</div>
+					<% } %>
+
+					<% if (sectionKey === 'values') { %>
+						<h5 class="mt-4">Values</h5>
+						<p class="text-muted small">Empty rows are ignored. Mark one value as highlighted to give it the large card.</p>
+						<% padRows(s.items, 8, { title: '', text: '', icon: '', highlight: false }).forEach(function (item, i) { %>
+							<div class="row g-2 mb-2 align-items-center admin-row">
+								<div class="col-md-3"><input type="text" class="form-control" name="items[<%= i %>][title]" value="<%= val(item.title) %>" placeholder="Title" aria-label="Value <%= i + 1 %> title" /></div>
+								<div class="col-md-5"><input type="text" class="form-control" name="items[<%= i %>][text]" value="<%= val(item.text) %>" placeholder="Text" aria-label="Value <%= i + 1 %> text" /></div>
+								<div class="col-md-2"><input type="text" class="form-control" name="items[<%= i %>][icon]" value="<%= val(item.icon) %>" placeholder="icon" aria-label="Value <%= i + 1 %> icon" /></div>
+								<div class="col-md-2"><div class="form-check"><input class="form-check-input" type="checkbox" name="items[<%= i %>][highlight]" value="1" id="hl-<%= i %>" <%= item.highlight ? 'checked' : '' %> /><label class="form-check-label" for="hl-<%= i %>">Highlight</label></div></div>
+								<%- include('../partials/field-error', { name: 'items.' + i + '.title' }) %>
+								<%- include('../partials/field-error', { name: 'items.' + i + '.icon' }) %>
+							</div>
+						<% }) %>
+					<% } %>
+
+					<% if (sectionKey === 'activities') { %>
+						<h5 class="mt-4">Activity cards</h5>
+						<p class="text-muted small">Empty rows are ignored. Images must be uploaded files (paths starting with /uploads/) or https links.</p>
+						<% padRows(s.items, 8, { title: '', text: '', image: '', url: '' }).forEach(function (item, i) { %>
+							<div class="row g-2 mb-3 admin-row">
+								<div class="col-md-3"><input type="text" class="form-control" name="items[<%= i %>][title]" value="<%= val(item.title) %>" placeholder="Title" aria-label="Card <%= i + 1 %> title" /></div>
+								<div class="col-md-4"><input type="text" class="form-control" name="items[<%= i %>][text]" value="<%= val(item.text) %>" placeholder="Text" aria-label="Card <%= i + 1 %> text" /></div>
+								<div class="col-md-3"><input type="text" class="form-control" name="items[<%= i %>][image]" value="<%= val(item.image) %>" placeholder="/uploads/..." aria-label="Card <%= i + 1 %> image" /></div>
+								<div class="col-md-2"><input type="text" class="form-control" name="items[<%= i %>][url]" value="<%= val(item.url) %>" placeholder="/link" aria-label="Card <%= i + 1 %> link" /></div>
+								<%- include('../partials/field-error', { name: 'items.' + i + '.title' }) %>
+								<%- include('../partials/field-error', { name: 'items.' + i + '.image' }) %>
+								<%- include('../partials/field-error', { name: 'items.' + i + '.url' }) %>
+							</div>
+						<% }) %>
+					<% } %>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xl-4">
+			<div class="panel panel-inverse admin-sticky">
+				<div class="panel-heading"><h4 class="panel-title">Save</h4></div>
+				<div class="panel-body">
+					<% if (hasImage) { %>
+						<label class="form-label" for="imageFile">Section image</label>
+						<div class="admin-image-preview mb-2" data-image-preview="#imageFile">
+							<% if (s.image) { %><img src="<%= s.image %>" alt="Current section image" /><% } else { %><span class="text-muted small">No image</span><% } %>
+						</div>
+						<input type="text" class="<%= fieldClass('image') %> mb-2" name="image" value="<%= val(s.image) %>" placeholder="/uploads/..." aria-label="Image path" />
+						<%- include('../partials/field-error', { name: 'image' }) %>
+						<input type="file" class="form-control mb-3" id="imageFile" name="imageFile" accept="image/jpeg,image/png,image/gif,image/webp" />
+					<% } %>
+					<div class="d-flex gap-2">
+						<button type="submit" class="btn btn-success flex-fill"><i class="fa fa-save me-1"></i> Save section</button>
+						<a href="/admin/home" class="btn btn-default">Back</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

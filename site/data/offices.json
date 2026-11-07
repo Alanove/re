@@ -1,0 +1,56 @@
+[
+  {
+    "id": "kuwait",
+    "country": "Kuwait",
+    "role": "Main Operations",
+    "address": "Salmiya, State of Kuwait",
+    "poBox": "4421 - Salmiya 22045",
+    "phones": [
+      "00965 22272270 -2"
+    ],
+    "fax": "00965 22272271",
+    "emails": [
+      "info@re-petroleum.com"
+    ],
+    "mapQuery": "Salmiya, Kuwait",
+    "isPrimary": true,
+    "sort": 10
+  },
+  {
+    "id": "egypt",
+    "country": "Egypt",
+    "role": "Construction & Maintenance Branch",
+    "address": "Alexandria, Egypt",
+    "poBox": "21311",
+    "phones": [
+      "+2 03 585 3835",
+      "+20 19 999 0203"
+    ],
+    "fax": "+2 03 583 8490",
+    "emails": [
+      "egypt@re-petroleum.com"
+    ],
+    "mapQuery": "Alexandria, Egypt",
+    "isPrimary": false,
+    "sort": 30
+  },
+  {
+    "id": "lebanon",
+    "country": "Lebanon",
+    "role": "Head Office",
+    "address": "Lebanon",
+    "poBox": "16-6523",
+    "phones": [
+      "00961 4 525322",
+      "00961 3 143336",
+      "00961 4 418939"
+    ],
+    "fax": "",
+    "emails": [
+      "info@re-pfm.com"
+    ],
+    "mapQuery": "Beirut, Lebanon",
+    "isPrimary": false,
+    "sort": 20
+  }
+]

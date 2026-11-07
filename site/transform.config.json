@@ -1,0 +1,36 @@
+{
+  "siteKey": "re-petroleum",
+  "siteName": "R&E Petroleum",
+  "legacySiteUrl": "https://www.re-petroleum.com",
+  "cmsSource": "C:\\ai\\tests\\btb\\solu-new",
+  "contentWorkbook": "../re.xls",
+  "contentSeed": "content/seed.json",
+  "designDir": "../re-petroleum",
+  "outputDir": ".",
+  "port": 3040,
+  "logo": {
+    "url": "https://www.re-petroleum.com/images/logo.png",
+    "localPath": "/uploads/site/logo.png",
+    "note": "Use only the circular R&E mark. The file is the mark alone (98x90), so no crop is applied."
+  },
+  "legacy": {
+    "pageImagePattern": "/Prv/Images/Pages/Page_{pageId}/Large/{fileName}",
+    "footerPageKey": "contact-us-footer",
+    "contactPageKey": "contact-us",
+    "uploadsMirrorPrefix": "/uploads/legacy"
+  },
+  "cmsSync": {
+    "adminPublicFiles": [
+      "css/vendor.min.css",
+      "css/app.min.css",
+      "js/vendor.min.js",
+      "js/app.min.js",
+      "js/custom.js",
+      "js/theme.js"
+    ],
+    "adminPublicDirs": [
+      "css/images",
+      "webfonts"
+    ]
+  }
+}

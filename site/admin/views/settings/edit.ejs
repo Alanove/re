@@ -1,0 +1,135 @@
+<%
+	const v = values;
+	const seo = v.seo || {};
+	const fieldClass = function (name) { return errors[name] ? 'form-control is-invalid' : 'form-control'; };
+%>
+<form method="POST" action="/admin/site-settings?_csrf=<%= encodeURIComponent(csrfToken) %>" enctype="multipart/form-data" novalidate>
+	<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+	<div class="row">
+		<div class="col-xl-8">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Identity</h4></div>
+				<div class="panel-body">
+					<div class="row g-3">
+						<div class="col-md-6">
+							<label class="form-label" for="siteName">Site name <span class="text-danger">*</span></label>
+							<input type="text" class="<%= fieldClass('siteName') %>" id="siteName" name="siteName" value="<%= v.siteName %>" required />
+							<%- include('../partials/field-error', { name: 'siteName' }) %>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label" for="tagline">Tagline</label>
+							<input type="text" class="<%= fieldClass('tagline') %>" id="tagline" name="tagline" value="<%= v.tagline %>" />
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="description">Short description</label>
+							<textarea class="<%= fieldClass('description') %>" id="description" name="description" rows="2"><%= v.description %></textarea>
+							<small class="text-muted">Shown in the footer under the logo.</small>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Contact &amp; footer</h4></div>
+				<div class="panel-body">
+					<div class="row g-3">
+						<div class="col-md-6">
+							<label class="form-label" for="contactEmail">Contact email <span class="text-danger">*</span></label>
+							<input type="email" class="<%= fieldClass('contactEmail') %>" id="contactEmail" name="contactEmail" value="<%= v.contactEmail %>" required />
+							<%- include('../partials/field-error', { name: 'contactEmail' }) %>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label" for="contactPhone">Contact phone</label>
+							<input type="text" class="<%= fieldClass('contactPhone') %>" id="contactPhone" name="contactPhone" value="<%= v.contactPhone %>" />
+						</div>
+						<div class="col-md-6">
+							<label class="form-label" for="whatsappNumber">WhatsApp number</label>
+							<input type="text" class="<%= fieldClass('whatsappNumber') %>" id="whatsappNumber" name="whatsappNumber" value="<%= v.whatsappNumber || '' %>" placeholder="+965 2227 2270" inputmode="tel" autocomplete="tel" />
+							<%- include('../partials/field-error', { name: 'whatsappNumber' }) %>
+							<small class="text-muted">Include the country code. A WhatsApp button appears on every page when this is set.</small>
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="brochureFile">Brochure</label>
+							<input type="hidden" name="brochureUrl" value="<%= v.brochureUrl %>" />
+							<%- include('../partials/file-browse', { fileId: 'brochureFile', fileField: 'brochureFile', fileAccept: '.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,application/pdf', fileCurrent: v.brochureUrl, fileLabel: 'brochure' }) %>
+							<% if (v.brochureUrl) { %><a class="small d-inline-block mt-1" href="<%= v.brochureUrl %>" target="_blank" rel="noopener">Open current brochure</a><% } %>
+							<small class="text-muted d-block">PDF, Word, Excel or PowerPoint, up to 20 MB. This file is the Download Brochure link.</small>
+							<%- include('../partials/field-error', { name: 'brochureUrl' }) %>
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="footerText">Footer text</label>
+							<textarea class="<%= fieldClass('footerText') %>" id="footerText" name="footerText" rows="2"><%= v.footerText %></textarea>
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="copyright">Copyright line</label>
+							<input type="text" class="<%= fieldClass('copyright') %>" id="copyright" name="copyright" value="<%= v.copyright %>" />
+							<small class="text-muted">Use {year} for the current year.</small>
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="inquiryTopics">Contact form topics (one per line) <span class="text-danger">*</span></label>
+							<textarea class="<%= fieldClass('inquiryTopics') %>" id="inquiryTopics" name="inquiryTopics" rows="5"><%= (v.inquiryTopics || []).join('\n') %></textarea>
+							<%- include('../partials/field-error', { name: 'inquiryTopics' }) %>
+						</div>
+					</div>
+					<p class="small mt-3 mb-0 <%= mailConfigured ? 'text-success' : 'text-muted' %>">
+						<i class="fa <%= mailConfigured ? 'fa-check-circle' : 'fa-info-circle' %> me-1"></i>
+						<%= mailConfigured ? 'Email notifications are on (SMTP is configured).' : 'Email notifications are off. Inquiries are stored in the admin until SMTP settings are added to the environment.' %>
+					</p>
+				</div>
+			</div>
+
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Search engines</h4></div>
+				<div class="panel-body">
+					<div class="mb-3">
+						<label class="form-label" for="seoDefaultTitle">Default title</label>
+						<input type="text" class="form-control" id="seoDefaultTitle" name="seoDefaultTitle" value="<%= seo.defaultTitle %>" data-char-count="60" />
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="seoDefaultDescription">Default description</label>
+						<textarea class="form-control" id="seoDefaultDescription" name="seoDefaultDescription" rows="2" data-char-count="160"><%= seo.defaultDescription %></textarea>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="seoDefaultKeywords">Default keywords</label>
+						<input type="text" class="form-control" id="seoDefaultKeywords" name="seoDefaultKeywords" value="<%= seo.defaultKeywords %>" />
+					</div>
+					<div>
+						<label class="form-label" for="seoImageFile">Default share image</label>
+						<input type="hidden" name="seoDefaultImage" value="<%= seo.defaultImage %>" />
+						<%- include('../partials/file-browse', { fileId: 'seoImageFile', fileField: 'seoImageFile', fileAccept: 'image/jpeg,image/png,image/gif,image/webp', fileCurrent: seo.defaultImage, fileLabel: 'share image' }) %>
+						<% if (seo.defaultImage) { %><a class="small d-inline-block mt-1" href="<%= seo.defaultImage %>" target="_blank" rel="noopener">Open current image</a><% } %>
+						<small class="text-muted d-block">JPEG, PNG, GIF or WebP, up to 8 MB. Used when a page is shared and has no image of its own.</small>
+						<%- include('../partials/field-error', { name: 'seoDefaultImage' }) %>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xl-4">
+			<div class="panel panel-inverse admin-sticky">
+				<div class="panel-heading"><h4 class="panel-title">Branding</h4></div>
+				<div class="panel-body">
+					<label class="form-label" for="logoFile">Logo</label>
+					<div class="admin-image-preview admin-image-preview-sm mb-2" data-image-preview="#logoFile">
+						<% if (v.logo) { %><img src="<%= v.logo %>" alt="Current logo" /><% } else { %><span class="text-muted small">No logo</span><% } %>
+					</div>
+					<input type="hidden" name="logo" value="<%= v.logo %>" />
+					<%- include('../partials/file-browse', { fileId: 'logoFile', fileField: 'logoFile', fileAccept: 'image/png,image/webp,image/jpeg,image/gif', fileCurrent: v.logo, fileLabel: 'logo' }) %>
+					<small class="text-muted d-block mb-3">PNG, WebP, JPEG or GIF, up to 8 MB.</small>
+
+					<label class="form-label" for="faviconFile">Favicon</label>
+					<div class="admin-image-preview admin-image-preview-sm mb-2" data-image-preview="#faviconFile">
+						<% if (v.favicon) { %><img src="<%= v.favicon %>" alt="Current favicon" /><% } else { %><span class="text-muted small">No favicon</span><% } %>
+					</div>
+					<input type="hidden" name="favicon" value="<%= v.favicon %>" />
+					<%- include('../partials/file-browse', { fileId: 'faviconFile', fileField: 'faviconFile', fileAccept: 'image/png,image/webp,image/jpeg,image/gif', fileCurrent: v.favicon, fileLabel: 'favicon' }) %>
+					<small class="text-muted d-block mb-3">PNG, WebP, JPEG or GIF, up to 8 MB.</small>
+					<%- include('../partials/field-error', { name: 'logo' }) %>
+					<%- include('../partials/field-error', { name: 'favicon' }) %>
+
+					<button type="submit" class="btn btn-success w-100"><i class="fa fa-save me-1"></i> Save settings</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

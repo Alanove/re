@@ -1,0 +1,280 @@
+[
+  {
+    "id": "main",
+    "name": "Main navigation",
+    "description": "Header navigation imported from the legacy page tree.",
+    "items": [
+      {
+        "id": "page-33",
+        "title": "Company Profile",
+        "url": "/company-profile",
+        "pageId": 33,
+        "sort": 10,
+        "active": true,
+        "children": [
+          {
+            "id": "page-34",
+            "title": "About us",
+            "url": "/company-profile/about-us",
+            "pageId": 34,
+            "sort": 10,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "page-35",
+            "title": "Vision & Mission",
+            "url": "/company-profile/vision-mission",
+            "pageId": 35,
+            "sort": 20,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "page-36",
+            "title": "Values & Beliefs",
+            "url": "/company-profile/values-beliefs",
+            "pageId": 36,
+            "sort": 30,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "page-37",
+            "title": "Organisation Charts",
+            "url": "/company-profile/organisation-charts",
+            "pageId": 37,
+            "sort": 40,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "page-38",
+            "title": "Work Sites",
+            "url": "/company-profile/work-sites",
+            "pageId": 38,
+            "sort": 50,
+            "active": true,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "page-39",
+        "title": "Field of Activity",
+        "url": "/field-of-activity",
+        "pageId": 39,
+        "sort": 20,
+        "active": true,
+        "children": [
+          {
+            "id": "page-40",
+            "title": "Engineering",
+            "url": "/field-of-activity/engineering",
+            "pageId": 40,
+            "sort": 10,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "page-41",
+            "title": "Procurement Operations",
+            "url": "/field-of-activity/procurement-operations",
+            "pageId": 41,
+            "sort": 20,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "page-45",
+            "title": "Contracting",
+            "url": "/field-of-activity/contracting",
+            "pageId": 45,
+            "sort": 30,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "page-50",
+            "title": "Facilities Management",
+            "url": "/field-of-activity/facilities-management",
+            "pageId": 50,
+            "sort": 40,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "page-51",
+            "title": "Scrap Collector",
+            "url": "/field-of-activity/scrap-collector",
+            "pageId": 51,
+            "sort": 50,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "page-52",
+            "title": "Commissioning",
+            "url": "/field-of-activity/commissioning",
+            "pageId": 52,
+            "sort": 60,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "page-61",
+            "title": "Solar",
+            "url": "/field-of-activity/solar",
+            "pageId": 61,
+            "sort": 70,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "page-62",
+            "title": "Fire Fighting",
+            "url": "/field-of-activity/fire-fighting",
+            "pageId": 62,
+            "sort": 80,
+            "active": true,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "page-53",
+        "title": "Support",
+        "url": "/support",
+        "pageId": 53,
+        "sort": 30,
+        "active": true,
+        "children": [
+          {
+            "id": "page-54",
+            "title": "Heavy Equipment",
+            "url": "/support/heavy-equipment",
+            "pageId": 54,
+            "sort": 10,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "page-55",
+            "title": "Scaffolding",
+            "url": "/support/scaffolding",
+            "pageId": 55,
+            "sort": 20,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "page-56",
+            "title": "Manpower Supply",
+            "url": "/support/manpower-supply",
+            "pageId": 56,
+            "sort": 30,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "page-57",
+            "title": "Fabrication Facilities",
+            "url": "/support/fabrication-facilities",
+            "pageId": 57,
+            "sort": 40,
+            "active": true,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "page-58",
+        "title": "Agencies",
+        "url": "/agencies",
+        "pageId": 58,
+        "sort": 40,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "page-59",
+        "title": "Job Opportunities",
+        "url": "/job-oportunities",
+        "pageId": 59,
+        "sort": 50,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "page-60",
+        "title": "Contact Us",
+        "url": "/contact-us",
+        "pageId": 60,
+        "sort": 60,
+        "active": true,
+        "children": []
+      }
+    ]
+  },
+  {
+    "id": "footer",
+    "name": "Footer links",
+    "description": "Top-level pages listed in the footer.",
+    "items": [
+      {
+        "id": "page-33",
+        "title": "Company Profile",
+        "url": "/company-profile",
+        "pageId": 33,
+        "sort": 10,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "page-39",
+        "title": "Field of Activity",
+        "url": "/field-of-activity",
+        "pageId": 39,
+        "sort": 20,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "page-53",
+        "title": "Support",
+        "url": "/support",
+        "pageId": 53,
+        "sort": 30,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "page-58",
+        "title": "Agencies",
+        "url": "/agencies",
+        "pageId": 58,
+        "sort": 40,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "page-59",
+        "title": "Job Opportunities",
+        "url": "/job-oportunities",
+        "pageId": 59,
+        "sort": 50,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "page-60",
+        "title": "Contact Us",
+        "url": "/contact-us",
+        "pageId": 60,
+        "sort": 60,
+        "active": true,
+        "children": []
+      }
+    ]
+  }
+]

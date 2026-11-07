@@ -1,0 +1,222 @@
+{
+  "settings": {
+    "tagline": "Petroleum & Facilities Management",
+    "description": "Material supply and contracting for the Oil & Gas, Power and Commercial sectors across Kuwait, Lebanon and Egypt.",
+    "contactEmail": "info@re-petroleum.com",
+    "contactPhone": "00965 22272270",
+    "whatsappNumber": "",
+    "brochureUrl": "legacy:/downloads/public/field-of-activity-commissioning.pdf",
+    "favicon": "legacy:/images/icons/favicon-96x96.png",
+    "footerText": "",
+    "copyright": "© {year} R&E Petroleum. All rights reserved.",
+    "inquiryTopics": [
+      "Procurement Operations",
+      "Engineering Services",
+      "Contracting",
+      "Solar & Green Energy",
+      "Facilities Management",
+      "Support & Heavy Equipment",
+      "General Inquiry"
+    ],
+    "seo": {
+      "defaultTitle": "R&E Petroleum | Material Supply & Contracting in Kuwait",
+      "defaultDescription": "R&E Petroleum is a Kuwait-based material supplier and contracting company serving the Oil & Gas industries, Power Stations and the Commercial sector.",
+      "defaultKeywords": "R&E Petroleum, Kuwait, oil and gas, contracting, procurement, facilities management, solar, scaffolding, heavy equipment",
+      "defaultImage": "legacy:/images/slides/your-partner-in-success-20.jpg"
+    }
+  },
+  "extraAssets": [
+    "/images/icons/favicon-16x16.png",
+    "/images/icons/favicon-32x32.png",
+    "/images/icons/apple-icon-180x180.png",
+    "/images/icons/android-icon-192x192.png",
+    "/images/logo-big.png"
+  ],
+  "assetAliases": {
+    "/downloads/field-of-activity-commissioning.pdf": "/downloads/public/field-of-activity-commissioning.pdf"
+  },
+  "pageIcons": {
+    "about-us": "info",
+    "vision-mission": "visibility",
+    "values-beliefs": "verified",
+    "organisation-charts": "account_tree",
+    "work-sites": "location_on",
+    "engineering": "engineering",
+    "procurement-operations": "inventory_2",
+    "oil-gaz": "oil_barrel",
+    "insulation-material": "layers",
+    "fire-fighting-material": "fire_extinguisher",
+    "contracting": "construction",
+    "mechanical-contracting": "settings",
+    "contracting_2": "handyman",
+    "electro-mechanical": "bolt",
+    "facilities-management": "apartment",
+    "scrap-collector": "recycling",
+    "commissioning": "task_alt",
+    "solar": "solar_power",
+    "fire-fighting": "local_fire_department",
+    "heavy-equipment": "front_loader",
+    "scaffolding": "foundation",
+    "manpower-supply": "groups",
+    "fabrication-facilities": "precision_manufacturing",
+    "agencies": "handshake",
+    "job-oportunities": "work",
+    "contact-us": "mail"
+  },
+  "pageOverrides": {
+    "about-us": { "heroVideo": "/uploads/site/sample-hero.mp4" },
+    "contracting": { "title": "Contracting" },
+    "contracting_2": { "title": "General Contracting" },
+    "agencies": { "title": "Agencies" },
+    "job-oportunities": { "title": "Job Opportunities" },
+    "oil-gaz": { "title": "Oil & Gas" },
+    "contact-us": { "summary": "Reach our offices in Kuwait, Lebanon and Egypt, or send us your requirements using the form below." }
+  },
+  "menus": {
+    "mainDepth": 2,
+    "includeHome": true
+  },
+  "offices": {
+    "kuwait": {
+      "role": "Main Operations",
+      "isPrimary": true,
+      "sort": 10,
+      "address": "Salmiya, State of Kuwait",
+      "poBox": "4421 - Salmiya 22045",
+      "phones": ["00965 22272270 -2"],
+      "fax": "00965 22272271",
+      "mapQuery": "Salmiya, Kuwait"
+    },
+    "lebanon": {
+      "role": "Head Office",
+      "isPrimary": false,
+      "sort": 20,
+      "address": "Lebanon",
+      "poBox": "16-6523",
+      "mapQuery": "Beirut, Lebanon"
+    },
+    "egypt": {
+      "role": "Construction & Maintenance Branch",
+      "isPrimary": false,
+      "sort": 30,
+      "address": "Alexandria, Egypt",
+      "poBox": "21311",
+      "phones": ["+2 03 585 3835", "+20 19 999 0203"],
+      "fax": "+2 03 583 8490",
+      "mapQuery": "Alexandria, Egypt"
+    }
+  },
+  "home": {
+    "hero": {
+      "enabled": true,
+      "slides": [
+        {
+          "title": "Your Partner in Success",
+          "text": "R&E Petroleum provides major material supply and contracting services for the Oil & Gas, Power and Commercial sectors.",
+          "image": "legacy:/images/slides/your-partner-in-success-20.jpg",
+          "video": "",
+          "primaryCta": { "label": "Explore Capabilities", "url": "page:field-of-activity" },
+          "secondaryCta": { "label": "Download Brochure", "url": "legacy:/downloads/public/field-of-activity-commissioning.pdf" }
+        },
+        {
+          "title": "Trusted Across the Gulf and Middle East",
+          "text": "Quality, on-time delivery and dependable after-sale service have made us a long-term partner to major companies in the region.",
+          "image": "legacy:/images/slides/work-shop-15.jpg",
+          "video": "",
+          "primaryCta": { "label": "Read More", "url": "page:about-us" },
+          "secondaryCta": { "label": "Contact Us", "url": "page:contact-us" }
+        },
+        {
+          "title": "Sustainable Energy & Solar Solutions",
+          "text": "Total solutions for energy saving and production enhancement, from EPC solar systems to detailed energy audits.",
+          "image": "legacy:/images/slides/solar-18.jpg",
+          "video": "",
+          "primaryCta": { "label": "Solar Services", "url": "page:solar" },
+          "secondaryCta": { "label": "", "url": "" }
+        },
+        {
+          "title": "Engineering with Precision",
+          "text": "Pre-construction reviews, design and technical planning for demanding industrial systems.",
+          "image": "legacy:/images/slides/civil-contractor-17.jpg",
+          "video": "",
+          "primaryCta": { "label": "Engineering Services", "url": "page:engineering" },
+          "secondaryCta": { "label": "", "url": "" }
+        },
+        {
+          "title": "Contracting for Refineries and Plants",
+          "text": "Mechanical, electro-mechanical and general contracting delivered safely and on schedule.",
+          "image": "legacy:/images/slides/fire-fighting-skid-epc-16.jpg",
+          "video": "",
+          "primaryCta": { "label": "Explore Contracting", "url": "page:contracting" },
+          "secondaryCta": { "label": "Request a Quote", "url": "page:contact-us" }
+        }
+      ]
+    },
+    "about": {
+      "enabled": true,
+      "title": "Who We Are",
+      "lead": "R&E Petroleum co., based in the State of Kuwait, is a major material supplier and contracting company for a wide range of materials and services related to the Oil & Gas industries, Power Stations and the Commercial sector.",
+      "text": "Our commitment to quality, on-time service delivery with best value and satisfactory after-sale services introduced us to several important projects in the Gulf Area and Middle East, and has established strong business relations with giant companies.",
+      "image": "legacy:/images/slides/work-shop-15.jpg",
+      "statValue": "3",
+      "statLabel": "Countries of operation",
+      "cta": { "label": "Read More", "url": "page:about-us" }
+    },
+    "values": {
+      "enabled": true,
+      "title": "Core Values & Beliefs",
+      "intro": "The principles that guide our technical precision and industrial operations.",
+      "items": [
+        { "title": "Customer Satisfaction", "text": "We believe customer satisfaction is first and foremost in every project we deliver.", "icon": "sentiment_satisfied", "highlight": false },
+        { "title": "Safety & Health", "text": "We meet our commitments with fiduciary responsibility to safety, health and the environment.", "icon": "health_and_safety", "highlight": true },
+        { "title": "Great Performance", "text": "It takes sustained great performance to be a truly great company.", "icon": "trending_up", "highlight": false },
+        { "title": "People Growth", "text": "The growth and development of our people is the future of our company.", "icon": "groups", "highlight": false },
+        { "title": "Earned Profit", "text": "We believe we should earn a profit, and earn it as an outgrowth of performance.", "icon": "payments", "highlight": false }
+      ]
+    },
+    "solar": {
+      "enabled": true,
+      "title": "Sustainable Energy & Solar Solutions",
+      "text": "R&E is heavily involved in green energy, providing total solutions for energy saving and production enhancement.",
+      "image": "legacy:/images/slides/solar-18.jpg",
+      "cards": [
+        { "title": "EPC Contracting", "text": "Design, supply, installation and operation of solar energy systems." },
+        { "title": "Energy Audit", "text": "Reducing consumption through technical assessment and productivity efficiency." }
+      ],
+      "listTitle": "Energy audit scope",
+      "list": [
+        "Lighting consumption",
+        "Chillers",
+        "Equipment (rotating / static)",
+        "Water consumption",
+        "Boilers",
+        "Active power",
+        "Reactive power",
+        "Energy solutions"
+      ],
+      "cta": { "label": "Solar services", "url": "page:solar" }
+    },
+    "activities": {
+      "enabled": true,
+      "title": "Fields of Activity",
+      "intro": "Specialized engineering, procurement and contracting services for demanding environments.",
+      "items": [
+        { "title": "Engineering", "text": "Pre-construction reviews, design and technical planning for industrial systems.", "image": "legacy:/images/slides/civil-contractor-17.jpg", "url": "page:engineering" },
+        { "title": "Procurement", "text": "High-quality materials and equipment supplied for Oil & Gas and power projects.", "image": "legacy:/images/slides/fuel-stations-12.jpg", "url": "page:procurement-operations" },
+        { "title": "Contracting", "text": "Mechanical, electro-mechanical and general contracting for refineries and plants.", "image": "legacy:/images/slides/fire-fighting-skid-epc-16.jpg", "url": "page:contracting" },
+        { "title": "Facilities Management", "text": "Multi-discipline maintenance and operational support for industrial assets.", "image": "legacy:/images/slides/site-facilities-21.jpg", "url": "page:facilities-management" }
+      ]
+    },
+    "presence": {
+      "enabled": true,
+      "title": "Regional Presence",
+      "intro": "R&E work sites cover Oil, Gas, Petrochemicals and other industries in Kuwait, with a branch in Egypt and an office in Lebanon. India is opening soon.",
+      "image": ""
+    },
+    "contact": {
+      "enabled": true,
+      "title": "Connect with R&E Petroleum",
+      "intro": "Send us your requirements and our team will get back to you."
+    }
+  }
+}

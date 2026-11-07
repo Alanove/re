@@ -1,0 +1,41 @@
+<%- include('partials/page-hero') %>
+<div class="inner-layout">
+	<%- include('partials/sidebar') %>
+	<article class="inner-article">
+		<% if (page.content) { %>
+			<div class="prose">
+				<%- page.content %>
+			</div>
+		<% } %>
+
+		<% if (page.children.length) { %>
+			<section class="child-pages" aria-labelledby="child-pages-title">
+				<span class="divider" aria-hidden="true"></span>
+				<h2 class="section-title" id="child-pages-title">In this section</h2>
+				<ul class="link-cards">
+					<% page.children.forEach(function (child) { %>
+						<li>
+							<a class="link-card" href="<%= child.url %>">
+								<span class="link-card__icon material-symbols-outlined" aria-hidden="true"><%= child.icon || 'arrow_forward' %></span>
+								<span class="link-card__body">
+									<span class="link-card__title"><%= child.title %></span>
+									<% if (child.summary) { %><span class="link-card__text"><%= child.summary %></span><% } %>
+								</span>
+							</a>
+						</li>
+					<% }) %>
+				</ul>
+			</section>
+		<% } %>
+
+		<%- include('partials/gallery') %>
+
+		<section class="cta-band">
+			<div>
+				<p class="cta-band__eyebrow">Work with <%= settings.siteName %></p>
+				<p class="cta-band__title">Discuss your project requirements with our team.</p>
+			</div>
+			<a class="btn btn--light" href="<%= contactUrl %>#contact-form">Contact us</a>
+		</section>
+	</article>
+</div>

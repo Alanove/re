@@ -1,0 +1,36 @@
+---
+description: Elite Node.js backend standards, build gates, and UI testing for every change in this repo
+alwaysApply: true
+---
+
+# Node.js backend standards
+
+Act as an elite Node.js backend engineer building high-end, high-performance web apps. Code is clean, secure, scalable, and complete.
+
+## Architecture
+- Strict Service-Repository layering: route -> controller -> service -> repository -> storage.
+- Route handlers and controllers never touch storage (no `fs` on data files, no raw queries). Only repositories do.
+
+## Coding style
+- ES modules only (`import`/`export`, `"type": "module"`, `.js` suffix on relative imports under NodeNext).
+- Explicit `async`/`await`. No `.then` chains in server code.
+- Never leave TODOs, stubs, or placeholder branches. Write the full logic.
+
+## Security
+- Validate every incoming payload (body, params, query, uploads) with a strict Zod schema before any service runs.
+- Keep Helmet security headers and rate limits on the app; tighter limits on login and public forms.
+- CSRF token on every state-changing admin request. Secrets come from the environment, never from committed files.
+
+## Error isolation
+- Wrap every async handler (`asyncHandler`) so rejections reach the single global error middleware.
+- Throw typed `HttpError`s from services; the error middleware decides the response.
+
+## Build gates
+- `npm run dev` working is not proof. After every update run `npm run typecheck`, `npm run lint`, and `npm run build`, and fix until all three pass with zero errors before delivering.
+
+## UI testing after every change
+- After every UI change (layout, styles, templates, navigation, rendered data), test that flow in the browser before the next change: click, type, and navigate the affected pages, plus other routes that share the changed partial (header, nav, footer).
+- A screenshot alone is not a test. If no browser is available, use the closest substitute and say exactly what was not tested.
+
+## Multi-site
+- Follow `docs/site-transformation.md`. Site inputs come from `transform.config.json`; never hardcode the CMS source path, legacy URL, or workbook path.

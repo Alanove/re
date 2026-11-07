@@ -1,0 +1,27 @@
+<div class="panel panel-inverse">
+	<div class="panel-heading">
+		<h4 class="panel-title">Regional offices</h4>
+		<div class="panel-heading-btn"><a href="/admin/offices/create" class="btn btn-xs btn-success"><i class="fa fa-plus"></i> Add office</a></div>
+	</div>
+	<div class="panel-body p-0">
+		<table class="table table-hover align-middle mb-0">
+			<thead><tr><th>Country</th><th>Role</th><th>Phones</th><th>Email</th><th class="text-center">Order</th><th style="width:1%"></th></tr></thead>
+			<tbody>
+				<% offices.forEach(function (office) { %>
+					<tr>
+						<td><a href="/admin/offices/<%= office.id %>/edit" class="fw-bold"><%= office.country %></a> <% if (office.isPrimary) { %><span class="badge bg-primary ms-1">Primary</span><% } %></td>
+						<td><%= office.role %></td>
+						<td class="small"><%= office.phones.join(', ') %></td>
+						<td class="small"><%= office.emails.join(', ') %></td>
+						<td class="text-center"><%= office.sort %></td>
+						<td class="text-nowrap">
+							<a href="/admin/offices/<%= office.id %>/edit" class="btn btn-sm btn-primary" title="Edit"><i class="fa fa-edit"></i></a>
+							<button type="button" class="btn btn-sm btn-danger" title="Delete" data-delete-url="/admin/offices/<%= office.id %>" data-delete-title="Delete office" data-delete-message="Delete the <%= office.country %> office?"><i class="fa fa-trash"></i></button>
+						</td>
+					</tr>
+				<% }) %>
+				<% if (offices.length === 0) { %><tr><td colspan="6" class="text-center text-muted py-4">No offices yet.</td></tr><% } %>
+			</tbody>
+		</table>
+	</div>
+</div>

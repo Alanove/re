@@ -1,0 +1,67 @@
+<%
+	const telHref = function (value) { return 'tel:' + String(value || '').replace(/[^+\d]/g, ''); };
+	const phone = settings.contactPhone || (primaryOffice && primaryOffice.phones[0]) || '';
+%>
+<div class="topbar">
+	<div class="topbar__inner">
+		<ul class="topbar__contact">
+			<% if (settings.contactEmail) { %>
+				<li><span class="material-symbols-outlined" aria-hidden="true">mail</span><a href="mailto:<%= settings.contactEmail %>"><%= settings.contactEmail %></a></li>
+			<% } %>
+			<% if (phone) { %>
+				<li><span class="material-symbols-outlined" aria-hidden="true">call</span><a href="<%= telHref(phone) %>"><%= phone %></a></li>
+			<% } %>
+		</ul>
+		<% if (settings.brochureUrl) { %>
+			<a class="topbar__brochure" href="<%= settings.brochureUrl %>" target="_blank" rel="noopener">
+				<span class="material-symbols-outlined" aria-hidden="true">download</span> Download Brochure
+			</a>
+		<% } %>
+	</div>
+</div>
+<header class="site-header" data-site-header>
+	<div class="site-header__inner">
+		<a class="brand" href="/" aria-label="<%= settings.siteName %> home">
+			<% if (settings.logo) { %><img class="brand__mark" src="<%= settings.logo %>" alt="" width="49" height="45" /><% } %>
+			<span class="brand__text">
+				<span class="brand__name"><%= settings.siteName %></span>
+				<% if (settings.tagline) { %><span class="brand__tagline"><%= settings.tagline %></span><% } %>
+			</span>
+		</a>
+
+		<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+			<span class="material-symbols-outlined" aria-hidden="true" data-nav-icon>menu</span>
+			<span class="visually-hidden">Menu</span>
+		</button>
+
+		<nav class="site-nav" id="site-nav" aria-label="Main" data-site-nav>
+			<ul class="site-nav__list">
+				<% mainMenu.forEach(function (item) { %>
+					<li class="site-nav__item<%= item.children.length ? ' has-children' : '' %><%= item.active ? ' is-active' : '' %>">
+						<a class="site-nav__link" href="<%= item.url %>"<%- item.current ? ' aria-current="page"' : '' %>><%= item.title %></a>
+						<% if (item.children.length) { %>
+							<button class="site-nav__expand" type="button" aria-expanded="false" data-submenu-toggle>
+								<span class="material-symbols-outlined" aria-hidden="true">expand_more</span>
+								<span class="visually-hidden">Show <%= item.title %> pages</span>
+							</button>
+							<ul class="site-nav__submenu">
+								<% item.children.forEach(function (child) { %>
+									<li class="site-nav__subitem<%= child.active ? ' is-active' : '' %>">
+										<a href="<%= child.url %>"<%- child.current ? ' aria-current="page"' : '' %>><%= child.title %></a>
+										<% if (child.children.length) { %>
+											<ul class="site-nav__tertiary">
+												<% child.children.forEach(function (grand) { %>
+													<li><a href="<%= grand.url %>"<%- grand.current ? ' aria-current="page"' : '' %>><%= grand.title %></a></li>
+												<% }) %>
+											</ul>
+										<% } %>
+									</li>
+								<% }) %>
+							</ul>
+						<% } %>
+					</li>
+				<% }) %>
+			</ul>
+		</nav>
+	</div>
+</header>

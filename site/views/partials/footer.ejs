@@ -1,0 +1,50 @@
+<%
+	const telHref = function (value) { return 'tel:' + String(value || '').replace(/[^+\d]/g, ''); };
+	const copyright = (settings.copyright || ('© {year} ' + settings.siteName + '. All rights reserved.')).replace('{year}', year);
+%>
+<footer class="site-footer">
+	<div class="site-footer__inner">
+		<div class="site-footer__brand">
+			<a class="brand brand--inverse" href="/">
+				<% if (settings.logo) { %><img class="brand__mark" src="<%= settings.logo %>" alt="" width="49" height="45" loading="lazy" /><% } %>
+				<span class="brand__text"><span class="brand__name"><%= settings.siteName %></span></span>
+			</a>
+			<% if (settings.description) { %><p class="site-footer__text"><%= settings.description %></p><% } %>
+			<div class="site-footer__social">
+				<a href="mailto:<%= settings.contactEmail %>" aria-label="Email us"><span class="material-symbols-outlined" aria-hidden="true">mail</span></a>
+				<% if (settings.brochureUrl) { %><a href="<%= settings.brochureUrl %>" target="_blank" rel="noopener" aria-label="Download brochure"><span class="material-symbols-outlined" aria-hidden="true">description</span></a><% } %>
+				<a href="/" aria-label="Website"><span class="material-symbols-outlined" aria-hidden="true">public</span></a>
+			</div>
+		</div>
+
+		<div class="site-footer__offices">
+			<h2 class="site-footer__heading">Regional Presence</h2>
+			<ul class="footer-offices">
+				<% offices.forEach(function (office) { %>
+					<li class="footer-office">
+						<span class="footer-office__country"><%= office.country %></span>
+						<% if (office.role) { %><span class="footer-office__role"><%= office.role %></span><% } %>
+						<% if (office.phones[0]) { %><a class="footer-office__line" href="<%= telHref(office.phones[0]) %>"><%= office.phones[0] %></a><% } %>
+						<% if (office.emails[0]) { %><a class="footer-office__line" href="mailto:<%= office.emails[0] %>"><%= office.emails[0] %></a><% } %>
+					</li>
+				<% }) %>
+			</ul>
+		</div>
+
+		<div class="site-footer__links">
+			<h2 class="site-footer__heading">Explore</h2>
+			<ul class="footer-links">
+				<% (footerMenu.length ? footerMenu : mainMenu).forEach(function (item) { %>
+					<li><a href="<%= item.url %>"><%= item.title %></a></li>
+				<% }) %>
+			</ul>
+			<% if (settings.footerText) { %><p class="site-footer__note"><%= settings.footerText %></p><% } %>
+		</div>
+	</div>
+	<div class="site-footer__bottom">
+		<p>
+			<span><%= copyright %></span>
+			<span class="site-footer__credit">by <a href="https://www.liteweb.info" target="_blank" rel="noopener noreferrer">www.liteweb.info</a></span>
+		</p>
+	</div>
+</footer>

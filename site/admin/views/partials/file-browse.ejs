@@ -1,0 +1,11 @@
+<%
+	const currentValue = typeof fileCurrent === 'string' ? fileCurrent : '';
+	const currentFileName = currentValue ? decodeURIComponent(currentValue.split('/').filter(Boolean).pop() || currentValue) : '';
+%>
+<div class="admin-file-picker">
+	<div class="input-group">
+		<input type="text" class="form-control" id="<%= fileId %>Label" value="<%= currentFileName %>" placeholder="No file chosen" readonly tabindex="-1" aria-label="Selected <%= fileLabel %> file" />
+		<button type="button" class="btn btn-default" data-file-browse="<%= fileId %>" aria-label="Browse for <%= fileLabel %>">Browse</button>
+	</div>
+	<input type="file" class="admin-file-input" id="<%= fileId %>" name="<%= fileField %>" accept="<%= fileAccept %>" tabindex="-1" />
+</div>
