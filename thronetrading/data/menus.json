@@ -1,0 +1,115 @@
+[
+  {
+    "id": "main",
+    "name": "Main navigation",
+    "description": "Header navigation. Product categories are added to the Products menu automatically.",
+    "items": [
+      {
+        "id": "item-home",
+        "title": "Home",
+        "url": "/",
+        "pageId": null,
+        "sort": 10,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-about-us",
+        "title": "About Us",
+        "url": "/about-us",
+        "pageId": 2,
+        "sort": 20,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-products",
+        "title": "Products",
+        "url": "/products",
+        "pageId": null,
+        "sort": 30,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-brands",
+        "title": "Brands",
+        "url": "/brands",
+        "pageId": null,
+        "sort": 40,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-services",
+        "title": "Services",
+        "url": "/services",
+        "pageId": 4,
+        "sort": 50,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-contact-us",
+        "title": "Contact Us",
+        "url": "/contact-us",
+        "pageId": 7,
+        "sort": 60,
+        "active": true,
+        "children": []
+      }
+    ]
+  },
+  {
+    "id": "footer",
+    "name": "Footer links",
+    "description": "Quick links listed in the footer.",
+    "items": [
+      {
+        "id": "item-about-us",
+        "title": "About Us",
+        "url": "/about-us",
+        "pageId": 2,
+        "sort": 10,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-all-products",
+        "title": "All Products",
+        "url": "/products",
+        "pageId": null,
+        "sort": 20,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-our-brands",
+        "title": "Our Brands",
+        "url": "/brands",
+        "pageId": null,
+        "sort": 30,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-services",
+        "title": "Services",
+        "url": "/services",
+        "pageId": 4,
+        "sort": 40,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-contact-us",
+        "title": "Contact Us",
+        "url": "/contact-us",
+        "pageId": 7,
+        "sort": 50,
+        "active": true,
+        "children": []
+      }
+    ]
+  }
+]

@@ -1,0 +1,47 @@
+<%
+	const safeJson = function (value) { return JSON.stringify(value).replace(/</g, '\\u003c').replace(/>/g, '\\u003e').replace(/&/g, '\\u0026'); };
+%>
+<form method="POST" action="/admin/menus/<%= menu.id %>/edit" id="menu-form" novalidate>
+	<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+	<input type="hidden" name="items" id="menu-items-input" value="" />
+	<div class="row">
+		<div class="col-xl-8">
+			<div class="panel panel-inverse">
+				<div class="panel-heading">
+					<h4 class="panel-title">Menu items</h4>
+					<div class="panel-heading-btn"><button type="button" class="btn btn-xs btn-success" data-menu-add><i class="fa fa-plus"></i> Add item</button></div>
+				</div>
+				<div class="panel-body">
+					<p class="text-muted small">Link an item to a page to keep its address in sync, or enter a custom link. Items can be nested up to three levels.</p>
+					<%- include('../partials/field-error', { name: 'items' }) %>
+					<% Object.keys(errors).filter(function (key) { return key.indexOf('items.') === 0; }).slice(0, 5).forEach(function (key) { %>
+						<div class="invalid-feedback d-block"><%= key %>: <%= errors[key] %></div>
+					<% }) %>
+					<ol class="admin-menu-tree" id="menu-tree" aria-live="polite"></ol>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-4">
+			<div class="panel panel-inverse admin-sticky">
+				<div class="panel-heading"><h4 class="panel-title">Settings</h4></div>
+				<div class="panel-body">
+					<div class="mb-3">
+						<label class="form-label" for="name">Name</label>
+						<input type="text" class="form-control <%= errors.name ? 'is-invalid' : '' %>" id="name" name="name" value="<%= menu.name %>" required />
+						<%- include('../partials/field-error', { name: 'name' }) %>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="description">Description</label>
+						<input type="text" class="form-control" id="description" name="description" value="<%= menu.description %>" />
+					</div>
+					<div class="d-flex gap-2">
+						<button type="submit" class="btn btn-success flex-fill"><i class="fa fa-save me-1"></i> Save menu</button>
+						<a href="/admin/menus" class="btn btn-default">Back</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+<script type="application/json" id="menu-data"><%- safeJson(menu.items) %></script>
+<script type="application/json" id="menu-pages"><%- safeJson(pages) %></script>

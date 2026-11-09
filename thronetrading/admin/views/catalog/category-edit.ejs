@@ -1,0 +1,77 @@
+<%
+	const action = isCreate ? '/admin/categories/create' : '/admin/categories/' + category.id + '/edit';
+%>
+<form method="POST" action="<%= action %>?_csrf=<%= encodeURIComponent(csrfToken) %>" enctype="multipart/form-data" novalidate
+	data-catalog-slug-check="/admin/api/catalog/check-slug" data-catalog-type="category" data-catalog-id="<%= category.id || '' %>">
+	<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+	<div class="row">
+		<div class="col-xl-8">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Category</h4></div>
+				<div class="panel-body">
+					<div class="mb-3">
+						<label class="form-label" for="name">Name <span class="text-danger">*</span></label>
+						<input type="text" class="form-control <%= errors.name ? 'is-invalid' : '' %>" id="name" name="name" value="<%= category.name %>" maxlength="120" required data-slug-source="#slug" />
+						<%- include('../partials/field-error', { name: 'name' }) %>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="summary">Summary</label>
+						<textarea class="form-control <%= errors.summary ? 'is-invalid' : '' %>" id="summary" name="summary" rows="3" maxlength="600"><%= category.summary %></textarea>
+						<small class="text-muted">Shown on category cards and under the category heading.</small>
+						<%- include('../partials/field-error', { name: 'summary' }) %>
+					</div>
+					<div class="mb-1">
+						<label class="form-label" for="description">Description</label>
+						<textarea class="form-control rich-text" id="description" name="description" rows="10"><%= category.description %></textarea>
+						<%- include('../partials/field-error', { name: 'description' }) %>
+					</div>
+				</div>
+			</div>
+			<%- include('../partials/catalog-seo', { seo: category.seo }) %>
+		</div>
+
+		<div class="col-xl-4 admin-sticky-stack">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Publish</h4></div>
+				<div class="panel-body">
+					<div class="form-check form-switch mb-3">
+						<input class="form-check-input" type="checkbox" id="published" name="published" value="1" <%= category.status === 'published' ? 'checked' : '' %> />
+						<label class="form-check-label" for="published">Published</label>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="slug">URL slug</label>
+						<input type="text" class="form-control <%= errors.slug ? 'is-invalid' : '' %>" id="slug" name="slug" value="<%= category.slug %>" maxlength="80" pattern="[a-z0-9][a-z0-9\-]*" />
+						<div class="small mt-1" data-slug-status></div>
+						<small class="text-muted">Leave empty to build it from the name. Changing it redirects the old address automatically.</small>
+						<% if (publicUrl) { %><small class="text-muted d-block">Current address: <a href="<%= publicUrl %>" target="_blank" rel="noopener"><%= publicUrl %></a></small><% } %>
+						<%- include('../partials/field-error', { name: 'slug' }) %>
+					</div>
+					<div class="row g-2 mb-3">
+						<div class="col-6">
+							<label class="form-label" for="sort">Sort order</label>
+							<input type="number" class="form-control <%= errors.sort ? 'is-invalid' : '' %>" id="sort" name="sort" value="<%= category.sort %>" min="0" />
+							<%- include('../partials/field-error', { name: 'sort' }) %>
+						</div>
+						<div class="col-6">
+							<label class="form-label" for="icon">Icon</label>
+							<input type="text" class="form-control <%= errors.icon ? 'is-invalid' : '' %>" id="icon" name="icon" value="<%= category.icon %>" placeholder="lock" maxlength="60" />
+							<%- include('../partials/field-error', { name: 'icon' }) %>
+						</div>
+					</div>
+					<div class="d-flex gap-2">
+						<button type="submit" class="btn btn-success flex-fill"><i class="fa fa-save me-1"></i> <%= isCreate ? 'Create category' : 'Save changes' %></button>
+						<a href="/admin/categories" class="btn btn-default">Cancel</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Cover image</h4></div>
+				<div class="panel-body">
+					<%- include('../partials/media-picker', { id: 'imageFile', field: 'imageFile', kind: 'image', current: category.image, valueName: 'image', label: 'cover image', hint: 'JPEG, PNG, GIF or WebP up to 8 MB. Converted to WebP, max 800px. When empty, the first product image is used.' }) %>
+					<%- include('../partials/field-error', { name: 'image' }) %>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

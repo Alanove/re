@@ -1,0 +1,39 @@
+<%- include('../partials/catalog-hero', { hero: { title: 'Our Products', lead: 'Safes, vault doors, deposit lockers and filing cabinets from trusted manufacturers, supplied and serviced by Throne Trading.', image: '' } }) %>
+<section class="section section--tight">
+	<div class="container">
+		<% if (categories.length) { %>
+			<ul class="category-grid">
+				<% categories.forEach(function (category) { %>
+					<li><%- include('../partials/category-card', { category: category, withSummary: true }) %></li>
+				<% }) %>
+				<% if (categories.length % 4 !== 0) { %>
+					<li>
+						<a class="category-card category-card--all" href="<%= contactUrl %>#contact-form">
+							<span class="material-symbols-outlined" aria-hidden="true">support_agent</span>
+							<span class="category-card__title">Need help choosing?</span>
+							<span class="category-card__count">Tell us what you need to protect and we will recommend the right safe.</span>
+						</a>
+					</li>
+				<% } %>
+			</ul>
+		<% } else { %>
+			<p class="empty-state">Our product catalog is being updated. Please contact us for availability.</p>
+		<% } %>
+	</div>
+</section>
+<% const listedBrands = brands.filter(function (brand) { return brand.productCount > 0; }); %>
+<% if (listedBrands.length) { %>
+	<section class="section section--low section--tight">
+		<div class="container">
+			<div class="section-head section-head--row">
+				<div>
+					<span class="divider" aria-hidden="true"></span>
+					<h2 class="section-title">Shop by brand</h2>
+				</div>
+				<a class="text-link" href="/brands">All brands <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a>
+			</div>
+			<%- include('../partials/brand-strip', { brands: listedBrands }) %>
+		</div>
+	</section>
+<% } %>
+<%- include('../partials/cta-band-section') %>

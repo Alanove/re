@@ -1,0 +1,22 @@
+<%
+	const rowError = function (name) { return errors['items.' + i + '.' + name]; };
+	const rowClass = function (name) { return rowError(name) ? 'form-control form-control-sm is-invalid' : 'form-control form-control-sm'; };
+%>
+<div class="admin-spec-row" data-repeater-row>
+	<div class="row g-2 align-items-start">
+		<div class="col-md-4">
+			<input type="text" class="<%= rowClass('title') %>" id="items-<%= i %>-title" name="items[<%= i %>][title]" value="<%= item.title %>" placeholder="Title" maxlength="120" aria-label="Reason title" />
+			<% if (rowError('title')) { %><div class="invalid-feedback"><%= rowError('title') %></div><% } %>
+		</div>
+		<div class="col-md-5">
+			<textarea class="<%= rowClass('text') %>" id="items-<%= i %>-text" name="items[<%= i %>][text]" rows="2" placeholder="Short explanation" maxlength="400" aria-label="Reason text"><%= item.text %></textarea>
+		</div>
+		<div class="col-md-2">
+			<input type="text" class="<%= rowClass('icon') %>" id="items-<%= i %>-icon" name="items[<%= i %>][icon]" value="<%= item.icon %>" placeholder="verified_user" maxlength="60" aria-label="Reason icon" />
+			<% if (rowError('icon')) { %><div class="invalid-feedback"><%= rowError('icon') %></div><% } %>
+		</div>
+		<div class="col-md-1 text-end">
+			<button type="button" class="btn btn-sm btn-danger" data-repeater-remove title="Remove" aria-label="Remove reason"><i class="fa fa-trash" aria-hidden="true"></i></button>
+		</div>
+	</div>
+</div>

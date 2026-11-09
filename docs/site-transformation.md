@@ -2,7 +2,7 @@
 
 This playbook turns a legacy site of the "re-petroleum" family into a Node.js CMS site with a new design. Five more sites share the same legacy shape. Their designs differ; this pipeline does not.
 
-The first site built with it is R&E Petroleum (`site/` in this repo). Use it as the reference implementation.
+The first site built with it is R&E Petroleum (`site/` in this repo). Throne Trading (`thronetrading/`) is the second and the latest finished site: it adds the product catalog (products, categories, brands) and the WebP media pipeline. Start new sites from `thronetrading/`; use R&E Petroleum only as the reference for brochure-style sites without a catalog.
 
 ## Legacy shape this playbook expects
 
@@ -33,7 +33,8 @@ Every site has `site/transform.config.json`. Scripts read only this file for sit
 | `outputDir` | Site root, normally `.` |
 | `port` | Dev port (each site gets its own) |
 | `logo` | `url` to download, `localPath` to save, and a `note` on which part of the file is used |
-| `legacy` | Image path pattern, footer page key, contact page key, uploads mirror prefix |
+| `legacy` | Image path pattern, footer page key (`null` when the site has none), contact page key, uploads mirror prefix. Optional `localRoot`: a local copy of the legacy web root (relative to the site) that assets are read from before falling back to `legacySiteUrl`. Optional `hiddenPageKeys`: workbook pages that are imported as drafts and kept out of menus |
+| `catalog` | Optional. Present only on catalog sites; see "Catalog sites" below |
 | `cmsSync` | Admin static files and folders copied from `cmsSource` |
 
 Blank config for the next site:
@@ -68,7 +69,8 @@ Blank config for the next site:
 Shared core (copy from the latest finished site, do not rewrite):
 
 - `src/` server: Express 5, ESM TypeScript, Service-Repository layers, Zod schemas, Helmet, rate limits, CSRF, `asyncHandler`, one error middleware, scrypt passwords, session store.
-- Admin modules: login, users, profile, dashboard, pages (with gallery), home sections, menus, site settings, offices, inquiries, image upload and the rich-text editor APIs.
+- Admin modules: login, users, profile, dashboard, pages (with gallery), home sections, menus, site settings, offices, inquiries, image upload and the rich-text editor APIs. Catalog sites add Products (specs editor, gallery), Categories and Brands.
+- Media: `imageProcessingService.ts` (sharp, WebP, size presets), `mediaService.ts`, `mediaRepository.ts`, `src/middleware/upload.ts`, the picker partial `admin/views/partials/media-picker.ejs`, and `scripts/check-media.ts`. See "Media pipeline" below and `.cursor/rules/cms-media.mdc`.
 - `admin/views/` and `admin/public/js/re-admin.js`, `admin/public/js/editor-mount.js`, `admin/public/css/admin.scss`.
 - Rich text editor: the reusable package `packages/rich-text-editor` (copy the folder next to the new site). `npm run editor:build` bundles it into `admin/public/editor/` (`editor.js`, `editor.css`, `rte-content.css`, `templates.json`, icons); commit that output. Public pages load `/admin/editor/rte-content.css` for template, image and table styles. Swatches and template colours read the `--color-*` variables emitted from `$css-colors` in `_tokens.scss`, so keep those names. The server sanitizer (`sanitizeService.ts`) keeps author HTML and strips only scripts, styles blocks, forms, embeds, event handlers, script URLs and iframes other than YouTube / Vimeo.
 - `scripts/`: `sync-cms.ts`, `import-legacy.ts`, `download-assets.ts`, `seed-admin.ts`.
@@ -118,8 +120,58 @@ Never put site copy or colors in `src/`. Never put data access in `views/`.
    - Take colors, type scale, spacing, and radii from the mock's Tailwind config into `_tokens.scss`.
    - Rebuild sections as SCSS components with semantic class names. Do not ship the Tailwind CDN or utility class strings.
    - Do not ship mock placeholder images or mock brand names.
-9. Run `npm run typecheck`, `npm run lint`, `npm run build`. All must pass with zero errors.
-10. `npm run dev`, then in the browser: home, one page of each top-level section, a nested page, contact form (invalid and valid submit), admin login, a page edit, a home section edit, a menu edit. Check the logo on every page.
+9. Run `npm run typecheck`, `npm run lint`, `npm run build`. All must pass with zero errors. Run `npm run media:check`; it must report the native sharp backend.
+10. `npm run dev`, then in the browser: home, one page of each top-level section, a nested page, contact form (invalid and valid submit), admin login, a page edit, a home section edit, a menu edit. Check the logo on every page. On catalog sites also test: `/products`, a category with brand filter and page 2, a product (gallery, lightbox, enquiry form invalid and valid), `/brands` and one brand page, a few legacy URLs from `data/redirects.json` (expect 301 then 200), and in admin a product edit with an image upload (a `.webp` and `-thumb.webp` must appear) and image removal (both files must be deleted). Repeat the key pages at a 390px viewport and confirm there is no horizontal scroll.
+
+## Catalog sites (products, categories, brands)
+
+Use this when the legacy site is a product catalog: a `products` page whose children are categories, whose children are products, and a `PageType` column that marks each product's brand. Add a `catalog` block to `transform.config.json`:
+
+| Key | Meaning |
+| --- | --- |
+| `productsRootKey` | Workbook page URL of the catalog root (its children become categories) |
+| `brandPageTypes` | Map of workbook `PageType` value to brand name. Each entry becomes a brand; products with that `PageType` are linked to it |
+| `brandLogoPattern` | Legacy path of brand logos, with `{slug}` |
+| `sliderConfig` | Optional legacy slider config file (relative to `legacy.localRoot`) used for home hero slides |
+| `slideImagePattern` | Legacy path of slide images, with `{image}` |
+
+Add a `catalog` block to `content/seed.json`:
+
+- `orphanCategory`: category slug for product rows whose parent page no longer exists.
+- `draftCategories`: categories imported as drafts even when they have products.
+- `categoryOrder`: category slugs in display order; categories not listed sort after these.
+- `categoryOverrides.<slug>`: optional `name`, `summary`, and `icon` (a Material Symbols name).
+- `brands.<slug>`: optional `name`, `summary`, `website`, and `featured` (shown in the home brand strip, default `true`).
+- `featuredProducts`: product slugs flagged as featured on the home page.
+
+What `npm run import:legacy` does on a catalog site:
+
+- Pages outside the catalog root import as normal pages. Category and product rows write `data/categories.json`, `data/products.json`, and `data/brands.json`.
+- Product specs come from `scripts/lib/product-specs.ts`. Short `Label: value` lines become rows in the product's `specs` list, and a `Model:` line fills `model`. The remaining HTML is tidied into the description. A product whose content was all specs has an empty description, which is expected.
+- Two product rows in the same category with the same slug and the same text are imported once. The importer prints the skipped rows.
+- Product slugs drop the legacy `_123` suffix and are made unique within their category.
+- A category with no published products becomes a draft.
+- Every legacy category and product URL is written to `data/redirects.json`, and the server answers it with a 301. Admin slug or category changes add new redirects automatically.
+
+Public routes are `/products`, `/products/<category>`, `/products/<category>/<product>`, `/brands`, and `/brands/<brand>`. Category and brand listings have a brand or category filter and pagination (24 per page, with a canonical URL per page). The sitemap includes every published category, product, and brand. The product page enquiry form saves to Inquiries with the product attached.
+
+## Media pipeline (all sites)
+
+The rules are in `.cursor/rules/cms-media.mdc`. In short:
+
+- Every image or file field in admin uses `admin/views/partials/media-picker.ejs`. The picker shows the current file, a live preview of the new choice, accept and size hints, a clear button, and Remove. Galleries use the `multiple` mode.
+- Every raster image is converted to WebP by `imageProcessingService` and saved with a `-thumb.webp` sibling (400px). This covers admin uploads, editor uploads, `download:assets`, and the importer. The presets give the maximum box in pixels: `hero` 2000, `slide` 2000, `gallery` 1600, `content` 1600, `product` 1400, `social` 1200, `card` 800, `logo` 600, `thumb` 400. Images are never enlarged.
+- Favicons are saved as 512px PNG. SVG is rejected. Uploads are checked by MIME type and by magic bytes.
+- Width and height are stored with each image so views can set them.
+- Replacing or removing an admin-uploaded file deletes it and its thumbnail. Imported files under `/uploads/legacy/` and the seeded `/uploads/site/logo.webp` are never deleted by admin actions.
+- `sharp` is loaded lazily. If the native binary is missing, the site still boots and uploads return a 503 with a clear message. Tune with `SHARP_CONCURRENCY` (default 1) and `SHARP_CACHE_MB` (default 0).
+
+To deploy on Ubuntu:
+
+- Run `npm ci` on the server from the committed `package-lock.json`.
+- Never copy `node_modules` from Windows. Never use `--omit=optional`.
+- The lockfile must list `@img/sharp-linux-x64` and `@img/sharp-linux-arm64`.
+- After `npm run build`, run `npm run media:check:prod`. Deployment is done only when it passes.
 
 ## Enhancement sequence
 
@@ -143,3 +195,13 @@ Do not recopy `solu-new` for later sites and do not paste enhancements into site
 - `mechanical-contracting` has no content, children, or photos in the export, so it imports as a draft.
 - The Agencies page uses in-page `#anchors`; the sanitizer keeps `id` on headings, links, `div`, and `span` for that reason.
 - Procurement Operations used numbered bold paragraphs and `-` paragraphs; Agencies split one table in two and pointed several company links at the wrong domains. The legacy HTML normalizer fixes both.
+
+## Known Throne Trading specifics (reference)
+
+- Site folder `thronetrading/`, dev port `3042`. The workbook is `wwwroot/dbbackup.xls`, and `legacy.localRoot` is `wwwroot`. Remove both settings once `wwwroot` is deleted; assets already downloaded stay in `public/uploads/legacy/`.
+- Catalog: 8 categories (`used-safes` is a draft), 144 products, and 7 brands from `PageType` 3 to 9. Product rows whose parent page is missing go to `home-and-offices`. There are 149 legacy redirects.
+- Legacy page images are at `/PRV/Images/Pages/Page_{pageId}/{fileName}` (no `Large/` folder). Brand logos are at `/images/public/brands/{slug}.jpg`. Home slides come from `PRV/conf/Slider.config`.
+- There is no footer office page (`footerPageKey` is `null`). The single office comes from the seed. The legacy site has no favicon, so it is left empty; set one under Admin > Site Settings.
+- Logo: the blue THRONE TRADING S.A.R.L. wordmark (`images/throne-trading.png`). It has an opaque white background, so the footer shows it with an invert filter and `mix-blend-mode: screen`. Product, category, and brand images also have white backgrounds and use `mix-blend-mode: multiply` on tinted cards.
+- Tokens: navy `#0b2540`, accent `#1d6fa5`, gold `#c9a14f`, deep navy `#08182a`. Fonts are Outfit for headings and Inter for body text. Icons are Material Symbols.
+- Design snapshots (desktop at 1280px and mobile at 390px) for home, category, product, and brand pages are in `thronetrading/design/`.

@@ -1,0 +1,65 @@
+<div class="panel panel-inverse">
+	<div class="panel-heading">
+		<h4 class="panel-title">Brands</h4>
+		<div class="panel-heading-btn">
+			<a href="/admin/brands/create" class="btn btn-xs btn-success"><i class="fa fa-plus"></i> Add brand</a>
+		</div>
+	</div>
+	<div class="panel-body">
+		<div class="row g-2 mb-3">
+			<div class="col-md-6">
+				<div class="input-group">
+					<span class="input-group-text"><i class="fa fa-search"></i></span>
+					<input type="search" class="form-control" placeholder="Filter by name" data-table-filter="#brands-table" aria-label="Filter brands" />
+				</div>
+			</div>
+		</div>
+		<div class="table-responsive">
+			<table class="table table-striped table-bordered align-middle" id="brands-table">
+				<thead>
+					<tr>
+						<th style="width:96px">Logo</th>
+						<th>Name</th>
+						<th>URL</th>
+						<th class="text-center">Products</th>
+						<th>Status</th>
+						<th class="text-center">Home page</th>
+						<th class="text-center">Sort</th>
+						<th style="width:1%">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% brands.forEach(function (brand) { %>
+						<tr data-filter-text="<%= (brand.name + ' ' + brand.slug).toLowerCase() %>">
+							<td>
+								<% if (brand.logo) { %>
+									<img src="<%= thumbUrl(brand.logo) %>" alt="" class="admin-logo-thumb" loading="lazy" data-fallback-src="<%= brand.logo %>" />
+								<% } else { %>
+									<div class="admin-thumb admin-thumb-empty rounded"><i class="fa fa-tag text-muted"></i></div>
+								<% } %>
+							</td>
+							<td><a href="/admin/brands/<%= brand.id %>/edit" class="fw-bold"><%= brand.name %></a></td>
+							<td><a href="<%= brand.url %>" target="_blank" rel="noopener" class="small"><%= brand.url %></a></td>
+							<td class="text-center"><a href="/admin/products?brand=<%= brand.id %>"><%= brand.productCount %></a></td>
+							<td><% if (brand.status === 'published') { %><span class="badge bg-success">Published</span><% } else { %><span class="badge bg-secondary">Draft</span><% } %></td>
+							<td class="text-center"><% if (brand.featured) { %><i class="fa fa-check text-success" aria-label="Shown"></i><% } else { %><span class="text-muted">—</span><% } %></td>
+							<td class="text-center"><%= brand.sort %></td>
+							<td class="text-nowrap">
+								<a href="/admin/brands/<%= brand.id %>/edit" class="btn btn-sm btn-primary" title="Edit"><i class="fa fa-edit"></i></a>
+								<button type="button" class="btn btn-sm btn-danger" title="Delete"
+									data-delete-url="/admin/brands/<%= brand.id %>"
+									data-delete-title="Delete brand"
+									data-delete-message="Delete “<%= brand.name %>”? Its <%= brand.productCount %> product(s) stay in the catalog without a brand.">
+									<i class="fa fa-trash"></i>
+								</button>
+							</td>
+						</tr>
+					<% }) %>
+					<% if (brands.length === 0) { %>
+						<tr><td colspan="8" class="text-center text-muted py-4">No brands yet. <a href="/admin/brands/create">Add the first brand</a>.</td></tr>
+					<% } %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

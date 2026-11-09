@@ -1,0 +1,115 @@
+<%
+	const telHref = function (value) { return 'tel:' + String(value || '').replace(/[^+\d]/g, ''); };
+	const phones = primaryOffice && primaryOffice.phones.length ? primaryOffice.phones.slice(0, 2) : (settings.contactPhone ? [settings.contactPhone] : []);
+	const megaCategories = catalogNav.categories;
+	const megaBrands = catalogNav.brands.filter(function (brand) { return brand.productCount > 0; });
+	const isMega = function (item) { return item.url === '/products' && megaCategories.length > 0; };
+%>
+<div class="topbar">
+	<div class="topbar__inner">
+		<ul class="topbar__contact">
+			<% phones.forEach(function (phone, index) { %>
+				<li class="<%= index > 0 ? 'topbar__extra' : '' %>"><span class="material-symbols-outlined" aria-hidden="true">call</span><a href="<%= telHref(phone) %>"><%= phone %></a></li>
+			<% }) %>
+			<% if (settings.contactEmail) { %>
+				<li class="topbar__extra"><span class="material-symbols-outlined" aria-hidden="true">mail</span><a href="mailto:<%= settings.contactEmail %>"><%= settings.contactEmail %></a></li>
+			<% } %>
+		</ul>
+		<div class="topbar__actions">
+			<% if (settings.social.facebook) { %>
+				<a class="topbar__social" href="<%= settings.social.facebook %>" target="_blank" rel="noopener noreferrer" aria-label="<%= settings.siteName %> on Facebook">
+					<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.8c0-.9.3-1.5 1.6-1.5h1.7V4.4c-.3 0-1.3-.1-2.5-.1-2.4 0-4.1 1.5-4.1 4.2v2.3H7.5V14h2.7v8h3.3z"/></svg>
+				</a>
+			<% } %>
+			<a class="topbar__cta" href="<%= contactUrl %>#contact-form">
+				<span class="material-symbols-outlined" aria-hidden="true">request_quote</span> Request a quote
+			</a>
+		</div>
+	</div>
+</div>
+<header class="site-header" data-site-header>
+	<div class="site-header__inner">
+		<a class="brand" href="/" aria-label="<%= settings.siteName %> home">
+			<% if (settings.logo) { %>
+				<img class="brand__logo" src="<%= settings.logo %>" alt="<%= settings.siteName %>" width="201" height="60" />
+			<% } else { %>
+				<span class="brand__name"><%= settings.siteName %></span>
+			<% } %>
+		</a>
+
+		<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+			<span class="material-symbols-outlined" aria-hidden="true" data-nav-icon>menu</span>
+			<span class="visually-hidden">Menu</span>
+		</button>
+
+		<nav class="site-nav" id="site-nav" aria-label="Main" data-site-nav>
+			<ul class="site-nav__list">
+				<% mainMenu.forEach(function (item) { const mega = isMega(item); const productsActive = mega && /^\/products(\/|$)/.test(currentPath); %>
+					<li class="site-nav__item<%= item.children.length || mega ? ' has-children' : '' %><%= mega ? ' site-nav__item--mega' : '' %><%= item.active || productsActive ? ' is-active' : '' %>">
+						<a class="site-nav__link" href="<%= item.url %>"<%- item.current ? ' aria-current="page"' : '' %>><%= item.title %></a>
+						<% if (mega) { %>
+							<button class="site-nav__expand" type="button" aria-expanded="false" data-submenu-toggle>
+								<span class="material-symbols-outlined" aria-hidden="true">expand_more</span>
+								<span class="visually-hidden">Show product categories</span>
+							</button>
+							<div class="mega">
+								<div class="mega__inner">
+									<div class="mega__categories">
+										<p class="mega__heading">Product categories</p>
+										<ul class="mega__grid">
+											<% megaCategories.forEach(function (category) { %>
+												<li>
+													<a class="mega__link<%= currentPath.indexOf(category.url) === 0 ? ' is-current' : '' %>" href="<%= category.url %>">
+														<span class="mega__icon material-symbols-outlined" aria-hidden="true"><%= category.icon || 'lock' %></span>
+														<span class="mega__text">
+															<span class="mega__name"><%= category.name %></span>
+															<span class="mega__count"><%= category.productCount %> product<%= category.productCount === 1 ? '' : 's' %></span>
+														</span>
+													</a>
+												</li>
+											<% }) %>
+										</ul>
+										<a class="mega__all" href="/products">Browse all products <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a>
+									</div>
+									<% if (megaBrands.length) { %>
+										<div class="mega__brands">
+											<p class="mega__heading">Shop by brand</p>
+											<ul class="mega__brand-list">
+												<% megaBrands.forEach(function (brand) { %>
+													<li>
+														<a class="mega__brand" href="<%= brand.url %>">
+															<% if (brand.logo) { %><img src="<%= thumbUrl(brand.logo) %>" alt="" loading="lazy" /><% } %>
+															<span><%= brand.name %></span>
+														</a>
+													</li>
+												<% }) %>
+											</ul>
+										</div>
+									<% } %>
+								</div>
+							</div>
+						<% } else if (item.children.length) { %>
+							<button class="site-nav__expand" type="button" aria-expanded="false" data-submenu-toggle>
+								<span class="material-symbols-outlined" aria-hidden="true">expand_more</span>
+								<span class="visually-hidden">Show <%= item.title %> pages</span>
+							</button>
+							<ul class="site-nav__submenu">
+								<% item.children.forEach(function (child) { %>
+									<li class="site-nav__subitem<%= child.active ? ' is-active' : '' %>">
+										<a href="<%= child.url %>"<%- child.current ? ' aria-current="page"' : '' %>><%= child.title %></a>
+									</li>
+								<% }) %>
+							</ul>
+						<% } %>
+					</li>
+				<% }) %>
+			</ul>
+			<div class="site-nav__contact">
+				<% phones.forEach(function (phone) { %>
+					<a href="<%= telHref(phone) %>"><span class="material-symbols-outlined" aria-hidden="true">call</span><%= phone %></a>
+				<% }) %>
+				<a class="btn btn--primary btn--block" href="<%= contactUrl %>#contact-form">Request a quote</a>
+			</div>
+		</nav>
+	</div>
+</header>

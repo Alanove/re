@@ -1,0 +1,60 @@
+<%- include('../partials/catalog-hero', { hero: { eyebrow: 'Products', title: category.name, lead: category.summary, image: '' } }) %>
+<div class="catalog-layout">
+	<aside class="catalog-sidebar" aria-label="Product categories">
+		<div class="catalog-sidebar__panel">
+			<p class="catalog-sidebar__heading">Categories</p>
+			<ul class="catalog-sidebar__list">
+				<% categories.forEach(function (item) { const current = item.id === category.id; %>
+					<li>
+						<a class="catalog-sidebar__link<%= current ? ' is-current' : '' %>" href="<%= item.url %>"<%- current ? ' aria-current="page"' : '' %>>
+							<span class="material-symbols-outlined" aria-hidden="true"><%= item.icon || 'lock' %></span>
+							<span class="catalog-sidebar__name"><%= item.name %></span>
+							<span class="catalog-sidebar__count"><%= item.productCount %></span>
+						</a>
+					</li>
+				<% }) %>
+			</ul>
+		</div>
+		<div class="assist-card assist-card--catalog">
+			<p class="assist-card__eyebrow">Need help choosing?</p>
+			<p class="assist-card__text">Our team will recommend the right size, fire rating and lock.</p>
+			<% if (primaryOffice && primaryOffice.phones[0]) { %>
+				<a class="assist-card__link" href="tel:<%= primaryOffice.phones[0].replace(/[^+\d]/g, '') %>"><span class="material-symbols-outlined" aria-hidden="true">call</span><%= primaryOffice.phones[0] %></a>
+			<% } %>
+		</div>
+	</aside>
+
+	<div class="catalog-main">
+		<div class="catalog-toolbar">
+			<p class="catalog-toolbar__count">
+				<strong><%= listing.total %></strong> product<%= listing.total === 1 ? '' : 's' %><% if (activeBrand) { %> by <%= activeBrand.name %><% } %>
+			</p>
+			<% if (brands.length > 1) { %>
+				<nav class="filter-chips" aria-label="Filter by brand">
+					<a class="filter-chip<%= activeBrand ? '' : ' is-active' %>" href="<%= category.url %>"<%- activeBrand ? '' : ' aria-current="page"' %>>All brands</a>
+					<% brands.forEach(function (brand) { const active = activeBrand && activeBrand.id === brand.id; %>
+						<a class="filter-chip<%= active ? ' is-active' : '' %>" href="<%= category.url %>?brand=<%= brand.slug %>"<%- active ? ' aria-current="page"' : '' %>><%= brand.name %> <span class="filter-chip__count"><%= brand.productCount %></span></a>
+					<% }) %>
+				</nav>
+			<% } %>
+		</div>
+
+		<% if (listing.items.length) { %>
+			<ul class="product-grid">
+				<% listing.items.forEach(function (card) { %>
+					<li><%- include('../partials/product-card', { card: card, showCategory: false, headingTag: 'h2' }) %></li>
+				<% }) %>
+			</ul>
+			<%- include('../partials/pagination') %>
+		<% } else { %>
+			<p class="empty-state">No products are listed here yet. <a href="<%= contactUrl %>#contact-form">Contact us</a> for availability.</p>
+		<% } %>
+
+		<% if (category.description) { %>
+			<div class="prose catalog-description">
+				<%- category.description %>
+			</div>
+		<% } %>
+	</div>
+</div>
+<%- include('../partials/cta-band-section') %>

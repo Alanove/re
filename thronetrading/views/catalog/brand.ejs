@@ -1,0 +1,40 @@
+<div class="product-top product-top--brand">
+	<div class="container">
+		<div class="product-top__crumbs"><%- include('../partials/breadcrumbs') %></div>
+		<div class="brand-hero">
+			<div class="brand-hero__logo">
+				<% if (brand.logo) { %><img src="<%= brand.logo %>" alt="<%= brand.name %> logo" /><% } else { %><span class="brand-tile__wordmark"><%= brand.name %></span><% } %>
+			</div>
+			<div class="brand-hero__body">
+				<p class="page-hero__eyebrow">Brand</p>
+				<h1 class="brand-hero__title"><%= brand.name %></h1>
+				<% if (brand.summary) { %><p class="brand-hero__lead"><%= brand.summary %></p><% } %>
+				<% if (categories.length) { %>
+					<ul class="filter-chips filter-chips--static" aria-label="<%= brand.name %> categories">
+						<% categories.forEach(function (category) { %>
+							<li><a class="filter-chip" href="<%= category.url %>?brand=<%= brand.slug %>"><%= category.name %></a></li>
+						<% }) %>
+					</ul>
+				<% } %>
+				<% if (brand.website) { %><a class="text-link" href="<%= brand.website %>" target="_blank" rel="noopener noreferrer">Visit the <%= brand.name %> website <span class="material-symbols-outlined" aria-hidden="true">open_in_new</span></a><% } %>
+			</div>
+		</div>
+	</div>
+</div>
+<section class="section section--tight">
+	<div class="container">
+		<% if (listing.total) { %><p class="catalog-toolbar__count"><strong><%= listing.total %></strong> <%= brand.name %> product<%= listing.total === 1 ? '' : 's' %></p><% } %>
+		<% if (listing.items.length) { %>
+			<ul class="product-grid product-grid--wide">
+				<% listing.items.forEach(function (card) { %>
+					<li><%- include('../partials/product-card', { card: card, headingTag: 'h2' }) %></li>
+				<% }) %>
+			</ul>
+			<%- include('../partials/pagination') %>
+		<% } else { %>
+			<p class="empty-state"><%= brand.name %> products are available on request. <a href="<%= contactUrl %>#contact-form">Contact us</a> for details.</p>
+		<% } %>
+		<% if (brand.description) { %><div class="prose catalog-description"><%- brand.description %></div><% } %>
+	</div>
+</section>
+<%- include('../partials/cta-band-section') %>

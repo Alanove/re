@@ -1,0 +1,19 @@
+<div class="panel panel-inverse">
+	<div class="panel-heading"><h4 class="panel-title">SEO</h4></div>
+	<div class="panel-body">
+		<div class="mb-3">
+			<label class="form-label" for="seoTitle">Meta title</label>
+			<input type="text" class="form-control <%= errors.seoTitle ? 'is-invalid' : '' %>" id="seoTitle" name="seoTitle" value="<%= seo.title %>" maxlength="200" data-char-count="60" />
+			<%- include('field-error', { name: 'seoTitle' }) %>
+		</div>
+		<div class="mb-3">
+			<label class="form-label" for="seoDescription">Meta description</label>
+			<textarea class="form-control <%= errors.seoDescription ? 'is-invalid' : '' %>" id="seoDescription" name="seoDescription" rows="2" maxlength="400" data-char-count="160"><%= seo.description %></textarea>
+			<%- include('field-error', { name: 'seoDescription' }) %>
+		</div>
+		<div>
+			<label class="form-label" for="seoKeywords">Keywords</label>
+			<input type="text" class="form-control" id="seoKeywords" name="seoKeywords" value="<%= seo.keywords %>" maxlength="500" />
+		</div>
+	</div>
+</div>

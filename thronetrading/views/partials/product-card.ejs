@@ -1,0 +1,33 @@
+<%
+	const card = locals.card;
+	const showCategory = locals.showCategory !== false;
+	const headingTag = locals.headingTag || 'h3';
+%>
+<article class="product-card">
+	<a class="product-card__media" href="<%= card.url %>" tabindex="-1" aria-hidden="true">
+		<% if (card.image) { %>
+			<img src="<%= card.thumb || card.image.src %>" alt="" loading="lazy" width="400" height="400" />
+		<% } else { %>
+			<span class="product-card__placeholder material-symbols-outlined" aria-hidden="true">lock</span>
+		<% } %>
+		<% if (card.brand && card.brand.logo) { %>
+			<span class="product-card__brand-logo"><img src="<%= thumbUrl(card.brand.logo) %>" alt="" loading="lazy" /></span>
+		<% } %>
+	</a>
+	<div class="product-card__body">
+		<p class="product-card__meta">
+			<% if (card.brand) { %><span><%= card.brand.name %></span><% } %>
+			<% if (showCategory) { %><span><%= card.category.name %></span><% } %>
+		</p>
+		<<%= headingTag %> class="product-card__title"><a href="<%= card.url %>"><%= card.name %></a></<%= headingTag %>>
+		<% if (card.model && card.model.toLowerCase() !== card.name.toLowerCase()) { %><p class="product-card__model">Model <%= card.model %></p><% } %>
+		<% if (card.tagline) { %>
+			<p class="product-card__text"><%= card.tagline %></p>
+		<% } else if (card.keySpec) { %>
+			<p class="product-card__spec"><span><%= card.keySpec.label %></span> <%= card.keySpec.value %></p>
+		<% } else if (card.summary) { %>
+			<p class="product-card__text"><%= card.summary %></p>
+		<% } %>
+		<span class="product-card__more" aria-hidden="true">View details <span class="material-symbols-outlined">arrow_forward</span></span>
+	</div>
+</article>

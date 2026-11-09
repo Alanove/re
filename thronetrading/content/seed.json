@@ -1,0 +1,199 @@
+{
+  "settings": {
+    "tagline": "Our Business is Safeguarding Yours",
+    "description": "Throne Trading SARL supplies home, hotel, gun, jewelry and bank safes, vault doors and filing cabinets in Lebanon since 2002.",
+    "contactEmail": "info@thronetrading.com",
+    "contactPhone": "+961 1 252022",
+    "whatsappNumber": "+961 3 316551",
+    "brochureUrl": "",
+    "favicon": "",
+    "footerText": "Authorized distributor of leading safe and security brands, serving banks, hotels, businesses and homes across Lebanon since 2002.",
+    "copyright": "© {year} Throne Trading SARL. All rights reserved.",
+    "inquiryTopics": [
+      "Home & Office Safes",
+      "Hotel Safes",
+      "Jewelry & Bank Safes",
+      "Vault Doors",
+      "Gun Safes",
+      "Filing Cabinets",
+      "Safe Opening & Maintenance",
+      "General Inquiry"
+    ],
+    "themeColor": "#0b2540",
+    "social": {
+      "facebook": "https://www.facebook.com/ThroneTrading/",
+      "instagram": "",
+      "linkedin": "",
+      "youtube": ""
+    },
+    "ctaBand": {
+      "title": "Looking for the right safe?",
+      "text": "Tell us what you need to protect and our team will recommend the right size, fire rating and lock for you.",
+      "label": "Request a quote"
+    },
+    "thankYouMessage": "Thank you. Your request has been received and a Throne Trading specialist will contact you shortly.",
+    "seo": {
+      "defaultTitle": "Throne Trading | Safes, Vault Doors & Security Solutions in Lebanon",
+      "defaultDescription": "Throne Trading SARL supplies home, hotel, gun, jewelry and bank safes, vault doors and filing cabinets from leading brands, serving 50 banks in Lebanon since 2002.",
+      "defaultKeywords": "Throne Trading, safes Lebanon, bank safes, hotel safes, gun safes, vault doors, filing cabinets, Booil, Lifong, Megasafe, Rack, CEQ, Falcon",
+      "defaultImage": "legacy:/images/slides/throne-trading-1.jpg"
+    }
+  },
+  "extraAssets": [],
+  "pageIcons": {
+    "about-us": "verified_user",
+    "services": "build",
+    "contact-us": "mail"
+  },
+  "pageOverrides": {
+    "about-us": {
+      "summary": "Since 2002, Throne Trading SARL has supplied certified safes, vault doors and security equipment to 50 banks and countless homes and businesses in Lebanon."
+    },
+    "services": {
+      "summary": "Safe opening, lock maintenance, digital combination lock installation and safe relocation by experienced Throne Trading technicians."
+    },
+    "contact-us": {
+      "summary": "Visit our showroom in Sed El Bauchrieh or call us. Our team is just a phone call away."
+    }
+  },
+  "menus": {
+    "main": [
+      { "title": "Home", "url": "/" },
+      { "title": "About Us", "url": "page:about-us" },
+      { "title": "Products", "url": "/products" },
+      { "title": "Brands", "url": "/brands" },
+      { "title": "Services", "url": "page:services" },
+      { "title": "Contact Us", "url": "page:contact-us" }
+    ],
+    "footer": [
+      { "title": "About Us", "url": "page:about-us" },
+      { "title": "All Products", "url": "/products" },
+      { "title": "Our Brands", "url": "/brands" },
+      { "title": "Services", "url": "page:services" },
+      { "title": "Contact Us", "url": "page:contact-us" }
+    ]
+  },
+  "offices": [
+    {
+      "id": "lebanon",
+      "country": "Lebanon",
+      "role": "Head Office & Showroom",
+      "address": "Queen's Plaza Center, Ground Floor, Sed El Bauchrieh, Lebanon",
+      "poBox": "",
+      "phones": ["+961 1 252022", "+961 3 336459", "+961 3 316551"],
+      "fax": "",
+      "emails": ["info@thronetrading.com"],
+      "mapQuery": "Queen's Plaza Center, Sed El Bauchrieh, Lebanon",
+      "isPrimary": true,
+      "sort": 10
+    }
+  ],
+  "catalog": {
+    "orphanCategory": "home-and-offices",
+    "draftCategories": ["used-safes"],
+    "categoryOrder": ["home-and-offices", "hotel-safes", "jewelry-and-bank-safes", "vault-doors", "gun-safes", "filing-cabinet", "luxury-safe", "used-safes"],
+    "categoryOverrides": {
+      "home-and-offices": {
+        "name": "Home & Office Safes",
+        "summary": "Fire and burglary resistant safes sized for homes and offices, from compact electronic models to heavy duty units.",
+        "icon": "home"
+      },
+      "hotel-safes": {
+        "summary": "Slim in-room safes with programmable codes, audit trail and master override, built for hotels and furnished apartments.",
+        "icon": "hotel"
+      },
+      "jewelry-and-bank-safes": {
+        "name": "Jewelry & Bank Safes",
+        "summary": "High security safes, deposit lockers and cash handling solutions trusted by banks and jewelers across Lebanon.",
+        "icon": "diamond"
+      },
+      "filing-cabinet": {
+        "name": "Filing Cabinets",
+        "summary": "Fireproof filing cabinets that keep documents, deeds and media safe from fire and unauthorized access.",
+        "icon": "inventory_2"
+      },
+      "vault-doors": {
+        "summary": "Certified strong room and vault doors for banks, jewelers and private vaults, supplied and installed by our team.",
+        "icon": "door_front"
+      },
+      "gun-safes": {
+        "summary": "Secure gun cabinets and safes with fire protection and adjustable interiors for rifles and handguns.",
+        "icon": "my_location"
+      },
+      "luxury-safe": {
+        "name": "Luxury Safes",
+        "summary": "Handcrafted luxury safes with watch winders, leather interiors and premium finishes.",
+        "icon": "workspace_premium"
+      },
+      "used-safes": {
+        "name": "Used Safes",
+        "summary": "Inspected and serviced pre-owned safes at accessible prices.",
+        "icon": "recycling"
+      }
+    },
+    "brands": {
+      "megasafe": { "name": "Megasafe", "summary": "Megasafe safes combine certified fire and burglary protection with modern electronic locks." },
+      "lifong": { "name": "Lifong", "summary": "Lifong manufactures fire resistant safes, hotel safes and filing cabinets for homes and businesses." },
+      "booil": { "name": "Booil", "summary": "Booil is a Korean safe maker known for fire resistant home and office safes. Authorized distributor in North Lebanon: Ghanem Safe Box, Tel 71 423557." },
+      "rack": { "name": "Rack", "summary": "RACK produces Turkish security products, from bank safes and deposit lockers to vault doors." },
+      "falcon": { "name": "Falcon", "summary": "Falcon safes offer dependable burglary and fire protection for homes and offices." },
+      "throne": { "name": "Throne", "summary": "Throne branded safes, selected and specified by Throne Trading for the Lebanese market.", "featured": false },
+      "ceq": { "name": "CEQ", "summary": "CEQ Security Technology supplies bank security equipment, including deposit lockers and cash handling products." }
+    },
+    "featuredProducts": ["bst-610", "hs65", "30ek", "js-vault-door", "gun-safe-22", "bif300", "w-800", "hh-4524-diamond-safe"]
+  },
+  "home": {
+    "hero": {
+      "enabled": true,
+      "useLegacySlider": true,
+      "primaryCta": { "label": "Browse products", "url": "/products" },
+      "secondaryCta": { "label": "Contact us", "url": "page:contact-us" },
+      "slides": []
+    },
+    "about": {
+      "enabled": true,
+      "title": "Who We Are",
+      "lead": "Throne Trading SARL has been in the market since 2002 with a proven, consistent record of working with 50 banks in Lebanon.",
+      "text": "We supply UL certified safes, vault doors, deposit lockers and filing cabinets from leading international manufacturers, and back every installation with our own service team.",
+      "image": "legacy:/images/slides/throne-trading-2.jpg",
+      "statValue": "50",
+      "statLabel": "banks served in Lebanon",
+      "cta": { "label": "More about us", "url": "page:about-us" }
+    },
+    "categories": {
+      "enabled": true,
+      "title": "Product Categories",
+      "intro": "Safes and security equipment for every need, from a bedside safe to a bank vault.",
+      "categorySlugs": []
+    },
+    "brands": {
+      "enabled": true,
+      "title": "Our Brands",
+      "intro": "We are authorized distributors of trusted safe manufacturers from Korea, Turkey, China and beyond."
+    },
+    "featuredProducts": {
+      "enabled": true,
+      "title": "Featured Products",
+      "intro": "A selection of our most requested safes.",
+      "limit": 8,
+      "cta": { "label": "View all products", "url": "/products" }
+    },
+    "whyUs": {
+      "enabled": true,
+      "title": "Why Choose Throne Trading",
+      "intro": "More than two decades of protecting what matters to our clients.",
+      "image": "",
+      "items": [
+        { "title": "Since 2002", "text": "Over 20 years of experience supplying and servicing safes in Lebanon.", "icon": "history" },
+        { "title": "Trusted by 50 banks", "text": "A proven record with the banking sector, from deposit lockers to vault doors.", "icon": "account_balance" },
+        { "title": "Certified protection", "text": "UL certified products with tested fire and burglary ratings.", "icon": "verified" },
+        { "title": "After-sales service", "text": "Safe opening, lock maintenance, combination changes and relocation by our technicians.", "icon": "build" }
+      ]
+    },
+    "contact": {
+      "enabled": true,
+      "title": "Get in Touch",
+      "intro": "Call us, visit our showroom or send a request and we will get back to you within one business day."
+    }
+  }
+}

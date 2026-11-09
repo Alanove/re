@@ -1,0 +1,64 @@
+<div class="panel panel-inverse">
+	<div class="panel-heading">
+		<h4 class="panel-title">Product categories</h4>
+		<div class="panel-heading-btn">
+			<a href="/admin/categories/create" class="btn btn-xs btn-success"><i class="fa fa-plus"></i> Add category</a>
+		</div>
+	</div>
+	<div class="panel-body">
+		<div class="row g-2 mb-3">
+			<div class="col-md-6">
+				<div class="input-group">
+					<span class="input-group-text"><i class="fa fa-search"></i></span>
+					<input type="search" class="form-control" placeholder="Filter by name or URL" data-table-filter="#categories-table" aria-label="Filter categories" />
+				</div>
+			</div>
+		</div>
+		<div class="table-responsive">
+			<table class="table table-striped table-bordered align-middle" id="categories-table">
+				<thead>
+					<tr>
+						<th style="width:56px">Image</th>
+						<th>Name</th>
+						<th>URL</th>
+						<th class="text-center">Products</th>
+						<th>Status</th>
+						<th class="text-center">Sort</th>
+						<th style="width:1%">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% categories.forEach(function (category) { %>
+						<tr data-filter-text="<%= (category.name + ' ' + category.slug).toLowerCase() %>">
+							<td>
+								<% if (category.image) { %>
+									<img src="<%= thumbUrl(category.image) %>" alt="" class="rounded admin-thumb" loading="lazy" data-fallback-src="<%= category.image %>" />
+								<% } else { %>
+									<div class="admin-thumb admin-thumb-empty rounded"><i class="fa fa-image text-muted"></i></div>
+								<% } %>
+							</td>
+							<td><a href="/admin/categories/<%= category.id %>/edit" class="fw-bold"><%= category.name %></a></td>
+							<td><a href="/products/<%= category.slug %>" target="_blank" rel="noopener" class="small">/products/<%= category.slug %></a></td>
+							<td class="text-center"><a href="/admin/products?category=<%= category.id %>"><%= category.productCount %></a></td>
+							<td><% if (category.status === 'published') { %><span class="badge bg-success">Published</span><% } else { %><span class="badge bg-secondary">Draft</span><% } %></td>
+							<td class="text-center"><%= category.sort %></td>
+							<td class="text-nowrap">
+								<a href="/admin/categories/<%= category.id %>/edit" class="btn btn-sm btn-primary" title="Edit"><i class="fa fa-edit"></i></a>
+								<a href="/admin/products/create?category=<%= category.id %>" class="btn btn-sm btn-default" title="Add a product to this category"><i class="fa fa-plus"></i></a>
+								<button type="button" class="btn btn-sm btn-danger" title="Delete"
+									data-delete-url="/admin/categories/<%= category.id %>"
+									data-delete-title="Delete category"
+									data-delete-message="Delete “<%= category.name %>”? Categories that still contain products cannot be deleted.">
+									<i class="fa fa-trash"></i>
+								</button>
+							</td>
+						</tr>
+					<% }) %>
+					<% if (categories.length === 0) { %>
+						<tr><td colspan="7" class="text-center text-muted py-4">No categories yet. <a href="/admin/categories/create">Create the first category</a>.</td></tr>
+					<% } %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

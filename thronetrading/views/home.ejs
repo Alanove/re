@@ -1,0 +1,184 @@
+<%
+	const telHref = function (value) { return 'tel:' + String(value || '').replace(/[^+\d]/g, ''); };
+	const isExternal = function (url) { return /^https?:\/\//i.test(url) || /\.pdf($|\?)/i.test(url); };
+	const linkAttrs = function (url) { return isExternal(url) ? ' target="_blank" rel="noopener"' : ''; };
+	const hero = home.hero, about = home.about, categoriesSection = home.categories, brandsSection = home.brands, featured = home.featuredProducts, whyUs = home.whyUs, contact = home.contact;
+%>
+<% if (hero.enabled && hero.slides.length) { const slideCount = hero.slides.length; %>
+<section class="hero hero-slider" data-hero-slider aria-roledescription="carousel" aria-label="Highlights">
+	<div class="hero-slider__track" data-slider-track aria-live="off">
+		<% hero.slides.forEach(function (slide, i) { const first = i === 0; const zoom = slide.zoom === 'in' || slide.zoom === 'out' ? slide.zoom : ''; %>
+			<div class="hero-slide<%= first ? ' is-active' : '' %>" data-slide role="group" aria-roledescription="slide" aria-label="<%= i + 1 %> of <%= slideCount %>"<% if (zoom) { %> data-zoom="<%= zoom %>"<% } %><% if (!first) { %> aria-hidden="true" inert<% } %>>
+				<div class="hero__media<%= first && zoom ? ' is-zooming' : '' %>">
+					<% if (slide.image) { %><img src="<%= slide.image %>" alt=""<% if (first) { %> fetchpriority="high"<% } else { %> loading="lazy"<% } %> /><% } %>
+					<% if (slide.video) { %>
+						<video class="hero-video" src="<%= slide.video %>" muted playsinline preload="<%= first ? 'metadata' : 'none' %>" aria-hidden="true" data-hero-video<% if (slide.image) { %> poster="<%= slide.image %>"<% } %>></video>
+					<% } %>
+				</div>
+				<div class="hero__inner">
+					<div class="hero__content">
+						<p class="hero__eyebrow"><span class="material-symbols-outlined" aria-hidden="true">shield_lock</span> <%= settings.tagline || settings.siteName %></p>
+						<% if (first) { %><h1 class="hero__title"><%= slide.title %></h1><% } else { %><h2 class="hero__title"><%= slide.title %></h2><% } %>
+						<% if (slide.text) { %><p class="hero__text"><%= slide.text %></p><% } %>
+						<div class="hero__actions">
+							<% if (slide.primaryCta.label && slide.primaryCta.url) { %><a class="btn btn--accent btn--lg" href="<%= slide.primaryCta.url %>"<%- linkAttrs(slide.primaryCta.url) %>><%= slide.primaryCta.label %></a><% } %>
+							<% if (slide.secondaryCta.label && slide.secondaryCta.url) { %><a class="btn btn--ghost btn--lg" href="<%= slide.secondaryCta.url %>"<%- linkAttrs(slide.secondaryCta.url) %>><%= slide.secondaryCta.label %></a><% } %>
+						</div>
+					</div>
+				</div>
+			</div>
+		<% }) %>
+	</div>
+	<% if (slideCount > 1) { %>
+		<div class="hero-slider__controls">
+			<div class="hero-slider__controls-inner">
+				<button type="button" class="hero-slider__arrow" data-slider-prev hidden aria-label="Previous slide"><span class="material-symbols-outlined" aria-hidden="true">arrow_back</span></button>
+				<div class="hero-slider__dots">
+					<% hero.slides.forEach(function (slide, i) { %>
+						<button type="button" class="hero-slider__dot<%= i === 0 ? ' is-active' : '' %>" data-slide-dot="<%= i %>" aria-label="Show slide <%= i + 1 %>: <%= slide.title %>"<% if (i === 0) { %> aria-current="true"<% } %>></button>
+					<% }) %>
+				</div>
+				<button type="button" class="hero-slider__arrow" data-slider-next hidden aria-label="Next slide"><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></button>
+				<button type="button" class="hero-slider__arrow hero-slider__toggle" data-slider-toggle aria-pressed="false" aria-label="Pause slideshow"><span class="material-symbols-outlined" aria-hidden="true" data-slider-toggle-icon>pause</span></button>
+			</div>
+		</div>
+	<% } %>
+</section>
+<% } %>
+
+<% if (categoriesSection.enabled && homeCategories.length) { %>
+<section class="section section--surface section--tight" id="categories">
+	<div class="container">
+		<div class="section-head section-head--row">
+			<div>
+				<span class="divider" aria-hidden="true"></span>
+				<h2 class="section-title"><%= categoriesSection.title %></h2>
+				<% if (categoriesSection.intro) { %><p class="section-head__intro"><%= categoriesSection.intro %></p><% } %>
+			</div>
+			<a class="text-link" href="/products">All products <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a>
+		</div>
+		<ul class="category-grid">
+			<% homeCategories.forEach(function (category) { %>
+				<li><%- include('partials/category-card', { category: category, withSummary: false }) %></li>
+			<% }) %>
+			<% if (homeCategories.length % 4 !== 0) { %>
+				<li>
+					<a class="category-card category-card--all" href="/products">
+						<span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+						<span class="category-card__title">Browse all products</span>
+						<span class="category-card__count"><%= homeCategories.reduce(function (sum, category) { return sum + category.productCount; }, 0) %> products across all ranges</span>
+					</a>
+				</li>
+			<% } %>
+		</ul>
+	</div>
+</section>
+<% } %>
+
+<% if (about.enabled) { %>
+<section class="section section--white" id="about">
+	<div class="container split">
+		<div class="split__content">
+			<span class="divider" aria-hidden="true"></span>
+			<h2 class="section-title"><%= about.title %></h2>
+			<% if (about.lead) { %><p class="lead"><%= about.lead %></p><% } %>
+			<% if (about.text) { %><p class="muted"><%= about.text %></p><% } %>
+			<% if (about.cta.label && about.cta.url) { %><a class="btn btn--primary" href="<%= about.cta.url %>"><%= about.cta.label %></a><% } %>
+		</div>
+		<div class="split__media">
+			<div class="media-frame media-frame--landscape">
+				<% if (about.image) { %><img src="<%= about.image %>" alt="" loading="lazy" /><% } %>
+			</div>
+			<% if (about.statValue) { %>
+				<div class="stat-badge">
+					<span class="stat-badge__value"><%= about.statValue %></span>
+					<span class="stat-badge__label"><%= about.statLabel %></span>
+				</div>
+			<% } %>
+		</div>
+	</div>
+</section>
+<% } %>
+
+<% if (featured.enabled && homeProducts.length) { %>
+<section class="section section--low section--tight" id="featured">
+	<div class="container">
+		<div class="section-head section-head--row">
+			<div>
+				<span class="divider" aria-hidden="true"></span>
+				<h2 class="section-title"><%= featured.title %></h2>
+				<% if (featured.intro) { %><p class="section-head__intro"><%= featured.intro %></p><% } %>
+			</div>
+			<% if (featured.cta.label && featured.cta.url) { %><a class="text-link" href="<%= featured.cta.url %>"><%= featured.cta.label %> <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a><% } %>
+		</div>
+		<ul class="product-grid product-grid--wide">
+			<% homeProducts.forEach(function (card) { %>
+				<li><%- include('partials/product-card', { card: card }) %></li>
+			<% }) %>
+		</ul>
+	</div>
+</section>
+<% } %>
+
+<% if (brandsSection.enabled && homeBrands.length) { %>
+<section class="section section--white section--tight" id="brands">
+	<div class="container">
+		<div class="section-head section-head--center">
+			<span class="divider" aria-hidden="true"></span>
+			<h2 class="section-title"><%= brandsSection.title %></h2>
+			<% if (brandsSection.intro) { %><p class="section-head__intro"><%= brandsSection.intro %></p><% } %>
+		</div>
+		<%- include('partials/brand-strip', { brands: homeBrands }) %>
+	</div>
+</section>
+<% } %>
+
+<% if (whyUs.enabled && whyUs.items.length) { %>
+<section class="section section--dark why-us" id="why-us">
+	<% if (whyUs.image) { %><div class="why-us__backdrop" aria-hidden="true"><img src="<%= whyUs.image %>" alt="" loading="lazy" /></div><% } %>
+	<div class="container why-us__inner">
+		<div class="section-head section-head--center">
+			<span class="divider" aria-hidden="true"></span>
+			<h2 class="section-title section-title--inverse"><%= whyUs.title %></h2>
+			<% if (whyUs.intro) { %><p class="section-head__intro section-head__intro--inverse"><%= whyUs.intro %></p><% } %>
+		</div>
+		<ul class="why-grid">
+			<% whyUs.items.forEach(function (item) { %>
+				<li class="why-card">
+					<span class="why-card__icon material-symbols-outlined" aria-hidden="true"><%= item.icon || 'verified_user' %></span>
+					<h3 class="why-card__title"><%= item.title %></h3>
+					<% if (item.text) { %><p class="why-card__text"><%= item.text %></p><% } %>
+				</li>
+			<% }) %>
+		</ul>
+	</div>
+</section>
+<% } %>
+
+<% if (contact.enabled) { %>
+<section class="section section--surface" id="contact">
+	<div class="container contact-layout">
+		<div class="contact-layout__info">
+			<span class="divider" aria-hidden="true"></span>
+			<h2 class="section-title"><%= contact.title %></h2>
+			<% if (contact.intro) { %><p class="muted"><%= contact.intro %></p><% } %>
+			<% if (primaryOffice) { %>
+				<ul class="contact-lines contact-lines--large">
+					<% if (primaryOffice.address) { %><li><span class="material-symbols-outlined" aria-hidden="true">location_on</span><span><strong><%= primaryOffice.role || primaryOffice.country %></strong><br /><%= primaryOffice.address %></span></li><% } %>
+					<% primaryOffice.phones.forEach(function (phone) { %>
+						<li><span class="material-symbols-outlined" aria-hidden="true">call</span><a href="<%= telHref(phone) %>"><%= phone %></a></li>
+					<% }) %>
+					<% primaryOffice.emails.forEach(function (email) { %>
+						<li><span class="material-symbols-outlined" aria-hidden="true">mail</span><a href="mailto:<%= email %>"><%= email %></a></li>
+					<% }) %>
+				</ul>
+			<% } %>
+		</div>
+		<div class="contact-layout__form">
+			<div class="form-panel form-panel--elevated">
+				<%- include('partials/contact-form') %>
+			</div>
+		</div>
+	</div>
+</section>
+<% } %>

@@ -1,0 +1,53 @@
+{
+  "siteKey": "throne",
+  "siteName": "Throne Trading",
+  "legacySiteUrl": "https://www.thronetrading.com",
+  "cmsSource": "C:\\ai\\tests\\btb\\solu-new",
+  "contentWorkbook": "wwwroot/dbbackup.xls",
+  "contentSeed": "content/seed.json",
+  "designDir": "design",
+  "outputDir": ".",
+  "port": 3042,
+  "logo": {
+    "url": "https://www.thronetrading.com/images/throne-trading.png",
+    "localPath": "/uploads/site/logo.webp",
+    "note": "Blue THRONE TRADING S.A.R.L. wordmark (images/throne-trading.png). Used as-is, converted to WebP."
+  },
+  "legacy": {
+    "localRoot": "wwwroot",
+    "pageImagePattern": "/PRV/Images/Pages/Page_{pageId}/{fileName}",
+    "footerPageKey": null,
+    "contactPageKey": "contact-us",
+    "hiddenPageKeys": ["general"],
+    "uploadsMirrorPrefix": "/uploads/legacy"
+  },
+  "catalog": {
+    "productsRootKey": "products",
+    "brandPageTypes": {
+      "3": "Megasafe",
+      "4": "Lifong",
+      "5": "Booil",
+      "6": "Rack",
+      "7": "Falcon",
+      "8": "Throne",
+      "9": "CEQ"
+    },
+    "brandLogoPattern": "/images/public/brands/{slug}.jpg",
+    "sliderConfig": "PRV/conf/Slider.config",
+    "slideImagePattern": "/images/slides/{image}.jpg"
+  },
+  "cmsSync": {
+    "adminPublicFiles": [
+      "css/vendor.min.css",
+      "css/app.min.css",
+      "js/vendor.min.js",
+      "js/app.min.js",
+      "js/custom.js",
+      "js/theme.js"
+    ],
+    "adminPublicDirs": [
+      "css/images",
+      "webfonts"
+    ]
+  }
+}

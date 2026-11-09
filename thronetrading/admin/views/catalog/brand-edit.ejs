@@ -1,0 +1,79 @@
+<%
+	const action = isCreate ? '/admin/brands/create' : '/admin/brands/' + brand.id + '/edit';
+%>
+<form method="POST" action="<%= action %>?_csrf=<%= encodeURIComponent(csrfToken) %>" enctype="multipart/form-data" novalidate
+	data-catalog-slug-check="/admin/api/catalog/check-slug" data-catalog-type="brand" data-catalog-id="<%= brand.id || '' %>">
+	<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+	<div class="row">
+		<div class="col-xl-8">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Brand</h4></div>
+				<div class="panel-body">
+					<div class="mb-3">
+						<label class="form-label" for="name">Name <span class="text-danger">*</span></label>
+						<input type="text" class="form-control <%= errors.name ? 'is-invalid' : '' %>" id="name" name="name" value="<%= brand.name %>" maxlength="120" required data-slug-source="#slug" />
+						<%- include('../partials/field-error', { name: 'name' }) %>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="summary">Summary</label>
+						<textarea class="form-control <%= errors.summary ? 'is-invalid' : '' %>" id="summary" name="summary" rows="3" maxlength="600"><%= brand.summary %></textarea>
+						<small class="text-muted">One or two sentences shown on brand cards.</small>
+						<%- include('../partials/field-error', { name: 'summary' }) %>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="website">Manufacturer website</label>
+						<input type="url" class="form-control <%= errors.website ? 'is-invalid' : '' %>" id="website" name="website" value="<%= brand.website %>" placeholder="https://" maxlength="500" />
+						<%- include('../partials/field-error', { name: 'website' }) %>
+					</div>
+					<div class="mb-1">
+						<label class="form-label" for="description">Description</label>
+						<textarea class="form-control rich-text" id="description" name="description" rows="10"><%= brand.description %></textarea>
+						<%- include('../partials/field-error', { name: 'description' }) %>
+					</div>
+				</div>
+			</div>
+			<%- include('../partials/catalog-seo', { seo: brand.seo }) %>
+		</div>
+
+		<div class="col-xl-4 admin-sticky-stack">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Publish</h4></div>
+				<div class="panel-body">
+					<div class="form-check form-switch mb-2">
+						<input class="form-check-input" type="checkbox" id="published" name="published" value="1" <%= brand.status === 'published' ? 'checked' : '' %> />
+						<label class="form-check-label" for="published">Published</label>
+					</div>
+					<div class="form-check form-switch mb-3">
+						<input class="form-check-input" type="checkbox" id="featured" name="featured" value="1" <%= brand.featured ? 'checked' : '' %> />
+						<label class="form-check-label" for="featured">Show on home page</label>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="slug">URL slug</label>
+						<input type="text" class="form-control <%= errors.slug ? 'is-invalid' : '' %>" id="slug" name="slug" value="<%= brand.slug %>" maxlength="80" pattern="[a-z0-9][a-z0-9\-]*" />
+						<div class="small mt-1" data-slug-status></div>
+						<small class="text-muted">Changing it redirects the old address automatically.</small>
+						<% if (publicUrl) { %><small class="text-muted d-block">Current address: <a href="<%= publicUrl %>" target="_blank" rel="noopener"><%= publicUrl %></a></small><% } %>
+						<%- include('../partials/field-error', { name: 'slug' }) %>
+					</div>
+					<div class="mb-3" style="max-width:160px">
+						<label class="form-label" for="sort">Sort order</label>
+						<input type="number" class="form-control <%= errors.sort ? 'is-invalid' : '' %>" id="sort" name="sort" value="<%= brand.sort %>" min="0" />
+						<%- include('../partials/field-error', { name: 'sort' }) %>
+					</div>
+					<div class="d-flex gap-2">
+						<button type="submit" class="btn btn-success flex-fill"><i class="fa fa-save me-1"></i> <%= isCreate ? 'Create brand' : 'Save changes' %></button>
+						<a href="/admin/brands" class="btn btn-default">Cancel</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Logo</h4></div>
+				<div class="panel-body">
+					<%- include('../partials/media-picker', { id: 'logoFile', field: 'logoFile', kind: 'image', current: brand.logo, valueName: 'logo', label: 'logo', hint: 'JPEG, PNG, GIF or WebP up to 8 MB. Converted to WebP, max 600px. Use a transparent PNG for best results.' }) %>
+					<%- include('../partials/field-error', { name: 'logo' }) %>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

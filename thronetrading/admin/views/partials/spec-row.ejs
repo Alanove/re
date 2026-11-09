@@ -1,0 +1,23 @@
+<%
+	const specError = function (name) { return errors['specs.' + i + '.' + name]; };
+	const specClass = function (name) { return specError(name) ? 'form-control form-control-sm is-invalid' : 'form-control form-control-sm'; };
+%>
+<div class="admin-spec-row" data-repeater-row>
+	<div class="row g-2 align-items-start">
+		<div class="col-sm-4">
+			<input type="text" class="<%= specClass('label') %>" id="specs-<%= i %>-label" name="specs[<%= i %>][label]" value="<%= spec.label %>" placeholder="Label, e.g. Weight" maxlength="120" aria-label="Specification label" list="spec-labels" />
+			<% if (specError('label')) { %><div class="invalid-feedback"><%= specError('label') %></div><% } %>
+		</div>
+		<div class="col-sm-6">
+			<input type="text" class="<%= specClass('value') %>" id="specs-<%= i %>-value" name="specs[<%= i %>][value]" value="<%= spec.value %>" placeholder="Value, e.g. 45 kg" maxlength="400" aria-label="Specification value" />
+			<% if (specError('value')) { %><div class="invalid-feedback"><%= specError('value') %></div><% } %>
+		</div>
+		<div class="col-sm-2 text-end text-nowrap">
+			<div class="btn-group btn-group-sm">
+				<button type="button" class="btn btn-default" data-row-up title="Move up" aria-label="Move up"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+				<button type="button" class="btn btn-default" data-row-down title="Move down" aria-label="Move down"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+				<button type="button" class="btn btn-danger" data-repeater-remove title="Remove" aria-label="Remove specification"><i class="fa fa-trash" aria-hidden="true"></i></button>
+			</div>
+		</div>
+	</div>
+</div>

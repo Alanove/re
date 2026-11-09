@@ -1,0 +1,46 @@
+<%
+	const form = locals.enquiry || { values: {}, errors: {}, sent: false, message: '' };
+	const v = form.values || {};
+	const e = form.errors || {};
+	const invalid = function (name) { return e[name] ? ' is-invalid' : ''; };
+	const described = function (name) { return e[name] ? ' aria-invalid="true" aria-describedby="eq-' + name + '-error"' : ''; };
+	const defaultMessage = 'I would like a quotation for the ' + product.name + (product.model ? ' (' + product.model + ')' : '') + '.';
+%>
+<form class="contact-form enquiry-form" id="enquiry-form" method="POST" action="/products/enquiry" novalidate data-contact-form>
+	<input type="hidden" name="productId" value="<%= product.id %>" />
+	<div class="form-status<%= form.sent ? ' is-success' : (form.message ? ' is-error' : '') %>" role="status" aria-live="polite" data-form-status<%= form.sent || form.message ? '' : ' hidden' %>>
+		<%= form.sent ? settings.thankYouMessage : form.message %>
+	</div>
+	<div class="form-grid">
+		<div class="form-field<%= invalid('name') %>">
+			<label class="form-label" for="eq-name">Full name</label>
+			<input class="form-control" id="eq-name" name="name" type="text" autocomplete="name" maxlength="120" required value="<%= v.name || '' %>"<%- described('name') %> />
+			<p class="form-error" id="eq-name-error" data-error-for="name"><%= e.name || '' %></p>
+		</div>
+		<div class="form-field<%= invalid('phone') %>">
+			<label class="form-label" for="eq-phone">Phone <span class="form-optional">(optional)</span></label>
+			<input class="form-control" id="eq-phone" name="phone" type="tel" autocomplete="tel" maxlength="40" value="<%= v.phone || '' %>"<%- described('phone') %> />
+			<p class="form-error" id="eq-phone-error" data-error-for="phone"><%= e.phone || '' %></p>
+		</div>
+		<div class="form-field<%= invalid('email') %>">
+			<label class="form-label" for="eq-email">Email</label>
+			<input class="form-control" id="eq-email" name="email" type="email" autocomplete="email" maxlength="254" required placeholder="name@example.com" value="<%= v.email || '' %>"<%- described('email') %> />
+			<p class="form-error" id="eq-email-error" data-error-for="email"><%= e.email || '' %></p>
+		</div>
+		<div class="form-field<%= invalid('company') %>">
+			<label class="form-label" for="eq-company">Company <span class="form-optional">(optional)</span></label>
+			<input class="form-control" id="eq-company" name="company" type="text" autocomplete="organization" maxlength="160" value="<%= v.company || '' %>"<%- described('company') %> />
+			<p class="form-error" id="eq-company-error" data-error-for="company"><%= e.company || '' %></p>
+		</div>
+		<div class="form-field form-field--full<%= invalid('message') %>">
+			<label class="form-label" for="eq-message">Message</label>
+			<textarea class="form-control" id="eq-message" name="message" rows="4" minlength="10" maxlength="5000" required<%- described('message') %>><%= v.message || defaultMessage %></textarea>
+			<p class="form-error" id="eq-message-error" data-error-for="message"><%= e.message || '' %></p>
+		</div>
+		<div class="form-honeypot" aria-hidden="true">
+			<label for="eq-website">Leave this field empty</label>
+			<input id="eq-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+		</div>
+	</div>
+	<button class="btn btn--primary btn--block btn--caps" type="submit" data-submit-label="Send enquiry">Send enquiry</button>
+</form>

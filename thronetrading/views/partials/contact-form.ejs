@@ -1,0 +1,54 @@
+<%
+	const form = locals.contactForm || { values: {}, errors: {}, sent: false, message: '' };
+	const v = form.values || {};
+	const e = form.errors || {};
+	const invalid = function (name) { return e[name] ? ' is-invalid' : ''; };
+	const described = function (name) { return e[name] ? ' aria-invalid="true" aria-describedby="cf-' + name + '-error"' : ''; };
+%>
+<form class="contact-form" id="contact-form" method="POST" action="/contact" novalidate data-contact-form>
+	<div class="form-status<%= form.sent ? ' is-success' : (form.message ? ' is-error' : '') %>" role="status" aria-live="polite" data-form-status<%= form.sent || form.message ? '' : ' hidden' %>>
+		<%= form.sent ? settings.thankYouMessage : form.message %>
+	</div>
+	<div class="form-grid">
+		<div class="form-field<%= invalid('name') %>">
+			<label class="form-label" for="cf-name">Full name</label>
+			<input class="form-control" id="cf-name" name="name" type="text" autocomplete="name" maxlength="120" required value="<%= v.name || '' %>"<%- described('name') %> />
+			<p class="form-error" id="cf-name-error" data-error-for="name"><%= e.name || '' %></p>
+		</div>
+		<div class="form-field<%= invalid('email') %>">
+			<label class="form-label" for="cf-email">Email</label>
+			<input class="form-control" id="cf-email" name="email" type="email" autocomplete="email" maxlength="254" required placeholder="name@example.com" value="<%= v.email || '' %>"<%- described('email') %> />
+			<p class="form-error" id="cf-email-error" data-error-for="email"><%= e.email || '' %></p>
+		</div>
+		<div class="form-field<%= invalid('company') %>">
+			<label class="form-label" for="cf-company">Company <span class="form-optional">(optional)</span></label>
+			<input class="form-control" id="cf-company" name="company" type="text" autocomplete="organization" maxlength="160" value="<%= v.company || '' %>"<%- described('company') %> />
+			<p class="form-error" id="cf-company-error" data-error-for="company"><%= e.company || '' %></p>
+		</div>
+		<div class="form-field<%= invalid('phone') %>">
+			<label class="form-label" for="cf-phone">Phone <span class="form-optional">(optional)</span></label>
+			<input class="form-control" id="cf-phone" name="phone" type="tel" autocomplete="tel" maxlength="40" value="<%= v.phone || '' %>"<%- described('phone') %> />
+			<p class="form-error" id="cf-phone-error" data-error-for="phone"><%= e.phone || '' %></p>
+		</div>
+		<div class="form-field form-field--full<%= invalid('topic') %>">
+			<label class="form-label" for="cf-topic">I am interested in</label>
+			<select class="form-control" id="cf-topic" name="topic" required<%- described('topic') %>>
+				<option value="">Choose a topic</option>
+				<% settings.inquiryTopics.forEach(function (topic) { %>
+					<option value="<%= topic %>" <%= v.topic === topic ? 'selected' : '' %>><%= topic %></option>
+				<% }) %>
+			</select>
+			<p class="form-error" id="cf-topic-error" data-error-for="topic"><%= e.topic || '' %></p>
+		</div>
+		<div class="form-field form-field--full<%= invalid('message') %>">
+			<label class="form-label" for="cf-message">Message</label>
+			<textarea class="form-control" id="cf-message" name="message" rows="5" minlength="10" maxlength="5000" required<%- described('message') %>><%= v.message || '' %></textarea>
+			<p class="form-error" id="cf-message-error" data-error-for="message"><%= e.message || '' %></p>
+		</div>
+		<div class="form-honeypot" aria-hidden="true">
+			<label for="cf-website">Leave this field empty</label>
+			<input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+		</div>
+	</div>
+	<button class="btn btn--primary btn--block btn--caps" type="submit" data-submit-label="Submit Request">Submit Request</button>
+</form>

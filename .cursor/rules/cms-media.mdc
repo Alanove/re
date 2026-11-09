@@ -1,0 +1,29 @@
+---
+description: CMS media standards (file pickers and WebP image processing) for every site built on the shared CMS
+alwaysApply: true
+---
+
+# CMS media standards
+
+Applies to every site on the shared Node.js CMS and to every new admin field, module or import script.
+
+## File and image fields
+- Every admin field that holds an image or a file (logos, favicons, hero and slide images, section and card images, category images, brand logos, product galleries, share images, brochures and documents) renders the shared picker partial `admin/views/partials/media-picker.ejs`.
+- A path text box alone is never acceptable. The stored path travels in a hidden input next to the picker; editors only browse, preview, replace or remove.
+- The picker shows the current file (thumbnail for images, file name for documents), a live preview of the newly chosen file, accept and size hints, and a Remove option whenever a value exists. Galleries use the `multiple` mode.
+- Every upload route uses the multer helpers in `src/middleware/upload.ts` (memory storage, MIME allow-list, size and count limits) behind `asyncHandler`, CSRF and a Zod schema.
+
+## Images are always WebP
+- Every raster image that enters the site (admin upload, rich-text editor upload, legacy import, asset download) goes through `imageProcessingService` and is stored as `.webp`. Originals are not kept.
+- Callers pick a named size preset (`hero`, `slide`, `gallery`, `product`, `card`, `content`, `social`, `logo`, `thumb`). Images are only ever shrunk, never enlarged. EXIF orientation is applied and metadata is stripped. Animated GIFs become animated WebP.
+- Each processed image also gets a `-thumb.webp` sibling. Width and height are stored with the image so views can set `width`/`height` and avoid layout shift. Views use `thumbUrl()` for cards and lists.
+- Exceptions: favicons stay PNG (resized to 512px). SVG uploads are rejected. Uploads are validated by MIME type and by magic bytes before processing.
+- Deleting or replacing an owned image also deletes its thumbnail.
+
+## Runs on Ubuntu (Linux) servers
+- Image processing uses `sharp` (prebuilt libvips binaries). Production is Ubuntu, development is Windows: code and install steps must work on both.
+- Never copy `node_modules` between operating systems. Install on the server with `npm ci` from the committed `package-lock.json`, which must list the `@img/sharp-linux-x64` and `@img/sharp-linux-arm64` packages (check after every sharp upgrade). Do not install with `--omit=optional` or `--no-optional`, which skips the native binary.
+- If the lockfile was produced without the Linux packages, regenerate it on the server or add them with `npm install --os=linux --cpu=x64 --libc=glibc sharp`.
+- Load `sharp` lazily inside `imageProcessingService` (dynamic `import`), never at module top level in server code, so a missing native binary cannot stop the site from booting. A load failure is logged with platform, arch, libc and Node version, and uploads fail with a clear 503 message.
+- Keep `SHARP_CONCURRENCY` (default 1) and `SHARP_CACHE_MB` (default 0) env-tunable for small VPS memory. Only use file paths built with `path.join`, and treat file names as case-sensitive (legacy `.JPG` vs `.jpg`).
+- After every deploy or Node upgrade, run `npm run media:check:prod` (or `npm run media:check` where dev dependencies exist). It prints the runtime, fails if sharp is on its slow WebAssembly fallback instead of the native binary, converts a sample image to WebP and confirms the uploads folder is writable. Deployment is not done until it passes.

@@ -1,0 +1,62 @@
+<%
+	const val = function (v) { return v === undefined || v === null ? '' : v; };
+	const fieldClass = function (name) { return errors[name] ? 'form-control is-invalid' : 'form-control'; };
+	const zoom = slide.zoom === 'in' || slide.zoom === 'out' ? slide.zoom : '';
+	const p = 'slides[' + i + ']';
+	const e = 'slides.' + i + '.';
+	const primary = slide.primaryCta || {};
+	const secondary = slide.secondaryCta || {};
+	const selectClass = errors[e + 'zoom'] ? 'form-select form-select-sm is-invalid' : 'form-select form-select-sm';
+%>
+<fieldset class="admin-slide mb-3" data-hero-slide aria-labelledby="slide-<%= i %>-legend">
+	<div class="admin-slide__bar">
+		<button type="button" class="btn btn-default btn-sm admin-slide__handle" data-slide-handle title="Drag to reorder" aria-label="Drag to reorder slide <%= i + 1 %>">
+			<i class="fa fa-bars" aria-hidden="true"></i>
+		</button>
+		<span class="admin-slide__legend" id="slide-<%= i %>-legend" data-slide-label>Slide <%= i + 1 %></span>
+		<div class="btn-group btn-group-sm admin-slide__actions">
+			<button type="button" class="btn btn-default" data-slide-up title="Move up" aria-label="Move slide <%= i + 1 %> up"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+			<button type="button" class="btn btn-default" data-slide-down title="Move down" aria-label="Move slide <%= i + 1 %> down"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+			<button type="button" class="btn btn-danger" data-slide-remove title="Remove slide" aria-label="Remove slide <%= i + 1 %>"><i class="fa fa-trash" aria-hidden="true"></i></button>
+		</div>
+	</div>
+	<div class="row g-3">
+		<div class="col-lg-7">
+			<div class="mb-2">
+				<label class="form-label" for="slide-<%= i %>-title">Title</label>
+				<input type="text" class="<%= fieldClass(e + 'title') %>" id="slide-<%= i %>-title" name="<%= p %>[title]" value="<%= val(slide.title) %>" maxlength="200" />
+				<%- include('../partials/field-error', { name: e + 'title' }) %>
+			</div>
+			<div class="mb-2">
+				<label class="form-label" for="slide-<%= i %>-text">Text</label>
+				<textarea class="<%= fieldClass(e + 'text') %>" id="slide-<%= i %>-text" name="<%= p %>[text]" rows="2" maxlength="600"><%= val(slide.text) %></textarea>
+				<%- include('../partials/field-error', { name: e + 'text' }) %>
+			</div>
+			<div class="mb-2">
+				<label class="form-label" for="slide-<%= i %>-zoom">Zoom effect</label>
+				<select class="<%= selectClass %>" id="slide-<%= i %>-zoom" name="<%= p %>[zoom]">
+					<option value="" <%= zoom === '' ? 'selected' : '' %>>None</option>
+					<option value="in" <%= zoom === 'in' ? 'selected' : '' %>>Zoom in</option>
+					<option value="out" <%= zoom === 'out' ? 'selected' : '' %>>Zoom out</option>
+				</select>
+				<small class="text-muted">Optional. Slowly zooms the image or video while this slide is on screen.</small>
+				<%- include('../partials/field-error', { name: e + 'zoom' }) %>
+			</div>
+			<div class="row g-2">
+				<div class="col-md-6"><label class="form-label small" for="slide-<%= i %>-pl">Main button label</label><input type="text" class="<%= fieldClass(e + 'primaryLabel') %>" id="slide-<%= i %>-pl" name="<%= p %>[primaryLabel]" value="<%= val(primary.label) %>" /></div>
+				<div class="col-md-6"><label class="form-label small" for="slide-<%= i %>-pu">Main button link</label><input type="text" class="<%= fieldClass(e + 'primaryUrl') %>" id="slide-<%= i %>-pu" name="<%= p %>[primaryUrl]" value="<%= val(primary.url) %>" /><%- include('../partials/field-error', { name: e + 'primaryUrl' }) %></div>
+				<div class="col-md-6"><label class="form-label small" for="slide-<%= i %>-sl">Second button label</label><input type="text" class="<%= fieldClass(e + 'secondaryLabel') %>" id="slide-<%= i %>-sl" name="<%= p %>[secondaryLabel]" value="<%= val(secondary.label) %>" /></div>
+				<div class="col-md-6"><label class="form-label small" for="slide-<%= i %>-su">Second button link</label><input type="text" class="<%= fieldClass(e + 'secondaryUrl') %>" id="slide-<%= i %>-su" name="<%= p %>[secondaryUrl]" value="<%= val(secondary.url) %>" /><%- include('../partials/field-error', { name: e + 'secondaryUrl' }) %></div>
+			</div>
+		</div>
+		<div class="col-lg-5">
+			<label class="form-label" for="slideImageFile<%= i %>">Image</label>
+			<%- include('../partials/media-picker', { id: 'slideImageFile' + i, field: 'slideImageFile' + i, kind: 'image', current: slide.image || '', valueName: p + '[image]', label: 'slide image', small: true, hint: 'JPEG, PNG, GIF or WebP up to 8 MB. Converted to WebP, max 2000px.' }) %>
+			<%- include('../partials/field-error', { name: e + 'image' }) %>
+
+			<label class="form-label mt-3" for="slideVideoFile<%= i %>">Background video</label>
+			<%- include('../partials/media-picker', { id: 'slideVideoFile' + i, field: 'slideVideoFile' + i, kind: 'video', current: slide.video || '', valueName: p + '[video]', removeName: p + '[removeVideo]', label: 'video', small: true }) %>
+			<%- include('../partials/field-error', { name: e + 'video' }) %>
+		</div>
+	</div>
+</fieldset>

@@ -1,0 +1,158 @@
+<%
+	const action = isCreate ? '/admin/products/create' : '/admin/products/' + product.id + '/edit';
+	const specLabels = ['Model', 'Weight', 'Dimensions', 'External Dimensions (H×W×D)', 'Internal Dimensions (H×W×D)', 'Capacity', 'Shelves', 'Drawer', 'Bolts', 'Lock system', 'Body thickness', 'Door thickness', 'Fire rating', 'Colour', 'Warranty'];
+	const imageErrors = Object.keys(errors).filter(function (key) { return key.indexOf('images') === 0; });
+%>
+<form method="POST" action="<%= action %>?_csrf=<%= encodeURIComponent(csrfToken) %>" enctype="multipart/form-data" novalidate
+	data-catalog-slug-check="/admin/api/catalog/check-slug" data-catalog-type="product" data-catalog-id="<%= product.id || '' %>">
+	<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+	<div class="row">
+		<div class="col-xl-8">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Product</h4></div>
+				<div class="panel-body">
+					<div class="row g-3 mb-3">
+						<div class="col-md-8">
+							<label class="form-label" for="name">Name <span class="text-danger">*</span></label>
+							<input type="text" class="form-control <%= errors.name ? 'is-invalid' : '' %>" id="name" name="name" value="<%= product.name %>" maxlength="160" required data-slug-source="#slug" />
+							<%- include('../partials/field-error', { name: 'name' }) %>
+						</div>
+						<div class="col-md-4">
+							<label class="form-label" for="model">Model / reference</label>
+							<input type="text" class="form-control <%= errors.model ? 'is-invalid' : '' %>" id="model" name="model" value="<%= product.model %>" maxlength="80" placeholder="e.g. FSDL061010" />
+							<%- include('../partials/field-error', { name: 'model' }) %>
+						</div>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="tagline">Tagline</label>
+						<input type="text" class="form-control <%= errors.tagline ? 'is-invalid' : '' %>" id="tagline" name="tagline" value="<%= product.tagline %>" maxlength="300" />
+						<small class="text-muted">A short line shown under the product name.</small>
+						<%- include('../partials/field-error', { name: 'tagline' }) %>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="summary">Summary</label>
+						<textarea class="form-control <%= errors.summary ? 'is-invalid' : '' %>" id="summary" name="summary" rows="3" maxlength="1000"><%= product.summary %></textarea>
+						<small class="text-muted">Shown on product cards and as the default meta description.</small>
+						<%- include('../partials/field-error', { name: 'summary' }) %>
+					</div>
+					<div class="mb-1">
+						<label class="form-label" for="description">Description</label>
+						<textarea class="form-control rich-text" id="description" name="description" rows="10"><%= product.description %></textarea>
+						<%- include('../partials/field-error', { name: 'description' }) %>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Specifications</h4></div>
+				<div class="panel-body">
+					<p class="text-muted small">Shown as a table on the product page. Rows with both fields empty are ignored.</p>
+					<datalist id="spec-labels"><% specLabels.forEach(function (label) { %><option value="<%= label %>"></option><% }) %></datalist>
+					<div data-repeater data-max="<%= specsMax %>" data-repeater-name="specs">
+						<div data-repeater-list>
+							<% product.specs.forEach(function (spec, i) { %>
+								<%- include('../partials/spec-row', { spec: spec, i: i }) %>
+							<% }) %>
+						</div>
+						<template data-repeater-template><%- include('../partials/spec-row', { spec: { label: '', value: '' }, i: 999 }) %></template>
+						<div class="d-flex align-items-center gap-3 mt-2">
+							<button type="button" class="btn btn-default btn-sm" data-repeater-add><i class="fa fa-plus me-1" aria-hidden="true"></i> Add specification</button>
+							<span class="text-muted small" data-repeater-count></span>
+						</div>
+					</div>
+					<%- include('../partials/field-error', { name: 'specs' }) %>
+				</div>
+			</div>
+
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Images</h4></div>
+				<div class="panel-body">
+					<% if (product.images.length > 0) { %>
+						<p class="text-muted small">The first image is the main product image. Change the order numbers to reorder, and tick Remove to delete an image when you save.</p>
+						<div class="row g-3 mb-3">
+							<% product.images.forEach(function (image, index) { %>
+								<div class="col-6 col-md-4 col-xxl-3">
+									<div class="card h-100 admin-gallery-card">
+										<img src="<%= thumbUrl(image.src) %>" alt="" class="card-img-top" loading="lazy" data-fallback-src="<%= image.src %>" />
+										<div class="card-body p-2">
+											<input type="hidden" name="images[<%= index %>][src]" value="<%= image.src %>" />
+											<input type="text" class="form-control form-control-sm mb-1" name="images[<%= index %>][alt]" value="<%= image.alt %>" placeholder="Alt text" maxlength="200" aria-label="Image <%= index + 1 %> alt text" />
+											<div class="d-flex align-items-center gap-2">
+												<input type="number" class="form-control form-control-sm" name="images[<%= index %>][sort]" value="<%= (index + 1) * 10 %>" min="0" style="max-width:80px" aria-label="Image <%= index + 1 %> order" />
+												<div class="form-check mb-0">
+													<input class="form-check-input" type="checkbox" name="images[<%= index %>][remove]" value="1" id="image-remove-<%= index %>" />
+													<label class="form-check-label small text-danger" for="image-remove-<%= index %>">Remove</label>
+												</div>
+											</div>
+											<% if (image.width && image.height) { %><div class="small text-muted mt-1"><%= image.width %> × <%= image.height %></div><% } %>
+										</div>
+									</div>
+								</div>
+							<% }) %>
+						</div>
+					<% } else { %>
+						<p class="text-muted">No images yet.</p>
+					<% } %>
+					<label class="form-label" for="imageFiles">Add images</label>
+					<%- include('../partials/media-picker', { id: 'imageFiles', field: 'imageFiles', kind: 'image', multiple: true, label: 'product images', hint: 'Up to ' + imagesMax + ' images per product, 8 MB each. Converted to WebP, max 1400px, with thumbnails.' }) %>
+					<% imageErrors.forEach(function (key) { %><div class="invalid-feedback d-block"><%= errors[key] %></div><% }) %>
+				</div>
+			</div>
+
+			<%- include('../partials/catalog-seo', { seo: product.seo }) %>
+		</div>
+
+		<div class="col-xl-4 admin-sticky-stack">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Publish</h4></div>
+				<div class="panel-body">
+					<div class="form-check form-switch mb-2">
+						<input class="form-check-input" type="checkbox" id="published" name="published" value="1" <%= product.status === 'published' ? 'checked' : '' %> />
+						<label class="form-check-label" for="published">Published</label>
+					</div>
+					<div class="form-check form-switch mb-3">
+						<input class="form-check-input" type="checkbox" id="featured" name="featured" value="1" <%= product.featured ? 'checked' : '' %> />
+						<label class="form-check-label" for="featured">Featured on the home page</label>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="categoryId">Category <span class="text-danger">*</span></label>
+						<select class="form-select <%= errors.categoryId ? 'is-invalid' : '' %>" id="categoryId" name="categoryId" required data-slug-parent>
+							<option value="">Choose a category</option>
+							<% options.categories.forEach(function (option) { %>
+								<option value="<%= option.id %>" <%= product.categoryId === option.id ? 'selected' : '' %>><%= option.label %></option>
+							<% }) %>
+						</select>
+						<%- include('../partials/field-error', { name: 'categoryId' }) %>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="brandId">Brand</label>
+						<select class="form-select <%= errors.brandId ? 'is-invalid' : '' %>" id="brandId" name="brandId">
+							<option value="">No brand</option>
+							<% options.brands.forEach(function (option) { %>
+								<option value="<%= option.id %>" <%= product.brandId === option.id ? 'selected' : '' %>><%= option.label %></option>
+							<% }) %>
+						</select>
+						<%- include('../partials/field-error', { name: 'brandId' }) %>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="slug">URL slug</label>
+						<input type="text" class="form-control <%= errors.slug ? 'is-invalid' : '' %>" id="slug" name="slug" value="<%= product.slug %>" maxlength="80" pattern="[a-z0-9][a-z0-9\-]*" />
+						<div class="small mt-1" data-slug-status></div>
+						<small class="text-muted">Unique within the category. Changing the slug or category redirects the old address.</small>
+						<% if (publicUrl) { %><small class="text-muted d-block">Current address: <a href="<%= publicUrl %>" target="_blank" rel="noopener"><%= publicUrl %></a></small><% } %>
+						<%- include('../partials/field-error', { name: 'slug' }) %>
+					</div>
+					<div class="mb-3" style="max-width:160px">
+						<label class="form-label" for="sort">Sort order</label>
+						<input type="number" class="form-control <%= errors.sort ? 'is-invalid' : '' %>" id="sort" name="sort" value="<%= product.sort %>" min="0" />
+						<%- include('../partials/field-error', { name: 'sort' }) %>
+					</div>
+					<div class="d-flex gap-2">
+						<button type="submit" class="btn btn-success flex-fill"><i class="fa fa-save me-1"></i> <%= isCreate ? 'Create product' : 'Save changes' %></button>
+						<a href="/admin/products" class="btn btn-default">Cancel</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

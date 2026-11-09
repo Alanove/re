@@ -1,0 +1,235 @@
+@use 'tokens' as t;
+@use 'mixins' as m;
+
+.stat-badge {
+  display: none;
+
+  @include m.up(lg) {
+    display: block;
+    position: absolute;
+    left: -32px;
+    bottom: -32px;
+    background: t.$color-surface-lowest;
+    border: 1px solid t.$color-outline-variant;
+    border-radius: t.$radius-md;
+    box-shadow: t.$shadow-lg;
+    padding: t.$space-lg;
+  }
+
+  &__value {
+    display: block;
+    @include m.type(display-lg);
+    color: t.$color-primary;
+  }
+
+  &__label {
+    @include m.label-caps;
+    color: t.$color-slate-gray;
+  }
+}
+
+.checklist {
+  padding-top: t.$space-lg;
+
+  &__title {
+    @include m.label-caps;
+    letter-spacing: 0.15em;
+    color: t.$color-secondary-fixed;
+    margin-bottom: t.$space-md;
+  }
+
+  &__items {
+    list-style: none;
+    display: grid;
+    gap: t.$space-sm t.$space-lg;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    @include m.type(body-sm);
+    opacity: 0.9;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: t.$space-sm;
+    }
+
+    .material-symbols-outlined {
+      font-size: 14px;
+      color: t.$color-industrial-gold;
+    }
+  }
+}
+
+.presence {
+  display: grid;
+  gap: t.$gutter;
+
+  @include m.up(lg) {
+    grid-template-columns: 1fr 2fr;
+  }
+
+  &__visual {
+    min-height: 320px;
+    border-radius: t.$radius-md;
+    border: 1px solid t.$color-outline-variant;
+    overflow: hidden;
+    background: t.$color-surface-lowest;
+
+    @include m.up(lg) {
+      min-height: 500px;
+    }
+
+    > img {
+      @include m.cover-image;
+    }
+  }
+
+  &__placeholder {
+    height: 100%;
+    min-height: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: t.$gutter;
+    background:
+      radial-gradient(circle at 30% 40%, rgba(t.$color-primary, 0.06), transparent 45%),
+      radial-gradient(circle at 70% 60%, rgba(t.$color-industrial-gold, 0.08), transparent 45%),
+      t.$color-surface-lowest;
+
+    > .material-symbols-outlined {
+      font-size: 120px;
+      color: t.$color-surface-variant;
+    }
+  }
+
+  &__pins {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: t.$space-md;
+
+    li {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      @include m.label-caps;
+      color: t.$color-slate-gray;
+    }
+
+    .material-symbols-outlined {
+      color: t.$color-primary;
+      font-size: 20px;
+    }
+  }
+}
+
+.location-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-md;
+}
+
+.location-item {
+  @include m.card-surface;
+  display: flex;
+  align-items: center;
+  gap: t.$space-md;
+  padding: t.$space-md;
+
+  > .material-symbols-outlined {
+    color: t.$color-primary;
+  }
+
+  &__title {
+    font-size: 16px;
+    font-weight: 700;
+    color: t.$color-primary;
+  }
+
+  &__text {
+    @include m.type(body-sm);
+  }
+}
+
+.contact-layout {
+  display: grid;
+  gap: t.$space-xl;
+
+  @include m.up(lg) {
+    grid-template-columns: 1fr 1fr;
+    gap: t.$gutter * 3;
+    align-items: start;
+  }
+}
+
+.office-summary {
+  margin-bottom: t.$space-lg;
+
+  p {
+    margin-bottom: 4px;
+  }
+
+  &__phone {
+    font-weight: 700;
+  }
+
+  &--small p {
+    @include m.type(body-sm);
+  }
+}
+
+.office-summary-grid {
+  display: grid;
+  gap: t.$space-lg;
+
+  @include m.up(sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.error-page {
+  @include m.section-spacing;
+
+  &__inner {
+    max-width: 44rem;
+  }
+
+  &__code {
+    display: block;
+    @include m.type(display-lg);
+    font-size: 72px;
+    line-height: 1;
+    color: t.$color-surface-variant;
+    margin-bottom: t.$space-md;
+  }
+
+  &__title {
+    @include m.type(headline-lg);
+    color: t.$color-primary;
+    margin-bottom: t.$space-md;
+  }
+
+  &__text {
+    @include m.type(body-lg);
+    color: t.$color-slate-gray;
+    margin-bottom: t.$space-lg;
+  }
+
+  &__detail {
+    font-size: 12px;
+    white-space: pre-wrap;
+    background: t.$color-surface-low;
+    padding: t.$space-md;
+    border-radius: t.$radius-md;
+    margin-bottom: t.$space-lg;
+    overflow-x: auto;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: t.$space-md;
+  }
+}

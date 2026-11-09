@@ -1,0 +1,135 @@
+{
+  "hero": {
+    "enabled": true,
+    "slides": [
+      {
+        "title": "Booil Safes",
+        "text": "We are the authorized distributor of Booil safes in North Lebanon: Ghanem Safe Box Tel: 71423557",
+        "image": "/uploads/legacy/images/slides/boilsafe.webp",
+        "video": "",
+        "zoom": "out",
+        "primaryCta": {
+          "label": "Browse products",
+          "url": "/products"
+        },
+        "secondaryCta": {
+          "label": "Contact us",
+          "url": "/contact-us"
+        }
+      },
+      {
+        "title": "Throne Trading",
+        "text": "Our Business is Safeguarding Yours",
+        "image": "/uploads/legacy/images/slides/throne-trading-1.webp",
+        "video": "",
+        "zoom": "out",
+        "primaryCta": {
+          "label": "Browse products",
+          "url": "/products"
+        },
+        "secondaryCta": {
+          "label": "Contact us",
+          "url": "/contact-us"
+        }
+      },
+      {
+        "title": "Throne Trading",
+        "text": "Home Safes, Hotel Safes, Gun Safes, Jewelry Safes, Bank Safes",
+        "image": "/uploads/legacy/images/slides/throne-trading-2.webp",
+        "video": "",
+        "zoom": "out",
+        "primaryCta": {
+          "label": "Browse products",
+          "url": "/products"
+        },
+        "secondaryCta": {
+          "label": "Contact us",
+          "url": "/contact-us"
+        }
+      },
+      {
+        "title": "Throne Trading",
+        "text": "Just a phone call away, call us on: +961 1 252022 / +961 3 336459",
+        "image": "/uploads/legacy/images/slides/throne-trading-3.webp",
+        "video": "",
+        "zoom": "out",
+        "primaryCta": {
+          "label": "Browse products",
+          "url": "/products"
+        },
+        "secondaryCta": {
+          "label": "Contact us",
+          "url": "/contact-us"
+        }
+      }
+    ]
+  },
+  "about": {
+    "enabled": true,
+    "title": "Who We Are",
+    "lead": "Throne Trading SARL has been in the market since 2002 with a proven, consistent record of working with 50 banks in Lebanon.",
+    "text": "We supply UL certified safes, vault doors, deposit lockers and filing cabinets from leading international manufacturers, and back every installation with our own service team.",
+    "image": "/uploads/legacy/images/slides/throne-trading-2.webp",
+    "statValue": "50",
+    "statLabel": "banks served in Lebanon",
+    "cta": {
+      "label": "More about us",
+      "url": "/about-us"
+    }
+  },
+  "categories": {
+    "enabled": true,
+    "title": "Product Categories",
+    "intro": "Safes and security equipment for every need, from a bedside safe to a bank vault.",
+    "categoryIds": []
+  },
+  "brands": {
+    "enabled": true,
+    "title": "Our Brands",
+    "intro": "We are authorized distributors of trusted safe manufacturers from Korea, Turkey, China and beyond."
+  },
+  "featuredProducts": {
+    "enabled": true,
+    "title": "Featured Products",
+    "intro": "A selection of our most requested safes.",
+    "limit": 8,
+    "cta": {
+      "label": "View all products",
+      "url": "/products"
+    }
+  },
+  "whyUs": {
+    "enabled": true,
+    "title": "Why Choose Throne Trading",
+    "intro": "More than two decades of protecting what matters to our clients.",
+    "image": "",
+    "items": [
+      {
+        "title": "Since 2002",
+        "text": "Over 20 years of experience supplying and servicing safes in Lebanon.",
+        "icon": "history"
+      },
+      {
+        "title": "Trusted by 50 banks",
+        "text": "A proven record with the banking sector, from deposit lockers to vault doors.",
+        "icon": "account_balance"
+      },
+      {
+        "title": "Certified protection",
+        "text": "UL certified products with tested fire and burglary ratings.",
+        "icon": "verified"
+      },
+      {
+        "title": "After-sales service",
+        "text": "Safe opening, lock maintenance, combination changes and relocation by our technicians.",
+        "icon": "build"
+      }
+    ]
+  },
+  "contact": {
+    "enabled": true,
+    "title": "Get in Touch",
+    "intro": "Call us, visit our showroom or send a request and we will get back to you within one business day."
+  },
+  "updatedAt": "2026-11-09T06:50:36.714Z"
+}

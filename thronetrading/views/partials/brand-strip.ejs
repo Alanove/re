@@ -1,0 +1,16 @@
+<ul class="brand-strip">
+	<% brands.forEach(function (brand) { %>
+		<li>
+			<a class="brand-tile" href="<%= brand.url %>">
+				<span class="brand-tile__logo">
+					<% if (brand.logo) { %>
+						<img src="<%= brand.logo %>" alt="" loading="lazy" />
+					<% } else { %>
+						<span class="brand-tile__wordmark" aria-hidden="true"><%= brand.name %></span>
+					<% } %>
+				</span>
+				<span class="brand-tile__name"><%= brand.name %><% if (brand.productCount) { %> <span class="brand-tile__count"><%= brand.productCount %></span><% } %></span>
+			</a>
+		</li>
+	<% }) %>
+</ul>

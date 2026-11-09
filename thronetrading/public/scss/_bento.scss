@@ -1,0 +1,94 @@
+@use 'tokens' as t;
+@use 'mixins' as m;
+
+// 12-column bento grid. Each row is filled from the item order: a highlighted item takes 8 columns
+// next to a 4-column item; remaining pairs split 6/6, and a trailing single item spans the row.
+.bento {
+  list-style: none;
+  display: grid;
+  gap: t.$gutter;
+  grid-template-columns: 1fr;
+
+  @include m.up(md) {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+
+    > .bento__item {
+      grid-column: span 6;
+    }
+
+    > .bento__item:nth-child(1):not(.bento__item--highlight) {
+      grid-column: span 4;
+    }
+
+    > .bento__item:nth-child(2).bento__item--highlight,
+    > .bento__item:nth-child(1).bento__item--highlight {
+      grid-column: span 8;
+    }
+
+    > .bento__item:nth-child(1).bento__item--highlight + .bento__item {
+      grid-column: span 4;
+    }
+
+    > .bento__item:last-child:nth-child(odd):not(:first-child) {
+      grid-column: span 12;
+    }
+  }
+
+  &__item {
+    @include m.card-surface;
+    position: relative;
+    overflow: hidden;
+    padding: t.$space-lg;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: t.$space-md;
+    transition: box-shadow t.$transition-base;
+
+    &:hover {
+      box-shadow: t.$shadow-lg;
+    }
+
+    &--highlight {
+      background: t.$color-primary;
+      border-color: t.$color-primary;
+      color: t.$color-white;
+    }
+  }
+
+  &__body {
+    position: relative;
+    z-index: 1;
+    max-width: 28rem;
+  }
+
+  &__icon {
+    font-size: 40px;
+    color: t.$color-industrial-gold;
+    margin-bottom: t.$space-md;
+  }
+
+  &__title {
+    @include m.type(headline-md);
+    color: t.$color-primary;
+    margin-bottom: t.$space-sm;
+
+    .bento__item--highlight & {
+      color: t.$color-white;
+    }
+  }
+
+  &__text {
+    color: t.$color-slate-gray;
+
+    .bento__item--highlight & {
+      color: rgba(t.$color-white, 0.9);
+    }
+  }
+
+  &__watermark {
+    font-size: 72px;
+    opacity: 0.2;
+    flex-shrink: 0;
+  }
+}

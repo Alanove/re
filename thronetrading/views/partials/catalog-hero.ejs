@@ -1,0 +1,17 @@
+<%
+	const hero = locals.hero || {};
+%>
+<header class="page-hero page-hero--catalog<%= hero.image ? '' : ' page-hero--plain' %>">
+	<% if (hero.image) { %>
+		<div class="page-hero__media page-hero__media--still">
+			<img src="<%= hero.image %>" alt="" fetchpriority="high" />
+		</div>
+	<% } %>
+	<div class="page-hero__inner">
+		<%- include('breadcrumbs') %>
+		<span class="divider" aria-hidden="true"></span>
+		<% if (hero.eyebrow) { %><p class="page-hero__eyebrow"><%= hero.eyebrow %></p><% } %>
+		<h1 class="page-hero__title"><%= hero.title %></h1>
+		<% if (hero.lead) { %><p class="page-hero__lead"><%= hero.lead %></p><% } %>
+	</div>
+</header>

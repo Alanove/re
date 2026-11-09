@@ -1,0 +1,62 @@
+<%
+	/*
+	 * Shared file / image picker. Every admin field that stores a file uses this partial.
+	 * id        input id (required)          field      file input name (required)
+	 * kind      'image' | 'video' | 'document' (default 'image')
+	 * current   current stored path           valueName  hidden input name carrying the current path
+	 * removeName  checkbox name the server reads to remove the current file; when omitted the
+	 *             Remove option clears the hidden value instead
+	 * multiple  gallery mode (no current value) label  human label    hint  help text   small  compact preview
+	 */
+	const pickerKind = locals.kind || 'image';
+	const pickerCurrent = typeof locals.current === 'string' ? locals.current : '';
+	const pickerMultiple = Boolean(locals.multiple);
+	const pickerLabel = locals.label || (pickerKind === 'image' ? 'image' : pickerKind === 'video' ? 'video' : 'file');
+	const defaultAccept = {
+		image: 'image/jpeg,image/png,image/gif,image/webp',
+		video: 'video/mp4,video/webm',
+		document: '.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,application/pdf'
+	}[pickerKind];
+	const defaultHint = {
+		image: 'JPEG, PNG, GIF or WebP up to 8 MB. Converted to WebP and resized automatically.',
+		video: 'MP4 or WebM up to 25 MB.',
+		document: 'PDF, Word, Excel or PowerPoint up to 20 MB.'
+	}[pickerKind];
+	const pickerAccept = locals.accept || defaultAccept;
+	const pickerHint = locals.hint === undefined ? defaultHint : locals.hint;
+	const currentName = pickerCurrent ? decodeURIComponent(pickerCurrent.split('/').filter(Boolean).pop() || pickerCurrent) : '';
+	const thumbOf = function (url) {
+		return /^\/uploads\/.+\.webp$/i.test(url) && !/-thumb\.webp$/i.test(url) ? url.replace(/\.webp$/i, '-thumb.webp') : url;
+	};
+	const previewClass = 'admin-image-preview' + (locals.small ? ' admin-image-preview-sm' : '') + (pickerMultiple ? ' admin-image-preview-grid' : '');
+%>
+<div class="admin-media-picker" data-media-picker data-kind="<%= pickerKind %>"<% if (pickerMultiple) { %> data-multiple<% } %>>
+	<% if (pickerKind === 'image') { %>
+		<div class="<%= previewClass %>" data-image-preview="#<%= id %>" data-empty-text="<%= pickerMultiple ? 'No new images chosen' : 'No ' + pickerLabel %>">
+			<% if (pickerCurrent && !pickerMultiple) { %>
+				<img src="<%= thumbOf(pickerCurrent) %>" alt="Current <%= pickerLabel %>" data-fallback-src="<%= pickerCurrent %>" />
+			<% } else { %>
+				<span class="text-muted small"><%= pickerMultiple ? 'No new images chosen' : 'No ' + pickerLabel %></span>
+			<% } %>
+		</div>
+	<% } else if (pickerKind === 'video' && pickerCurrent) { %>
+		<div class="admin-video-preview mb-2"><video src="<%= pickerCurrent %>" muted loop playsinline controls preload="metadata"></video></div>
+	<% } %>
+	<% if (locals.valueName) { %><input type="hidden" name="<%= valueName %>" value="<%= pickerCurrent %>" data-media-value /><% } %>
+	<div class="input-group input-group-sm admin-media-picker__bar">
+		<input type="text" class="form-control" id="<%= id %>Label" value="<%= pickerMultiple ? '' : currentName %>" placeholder="<%= pickerMultiple ? 'No files chosen' : 'No file chosen' %>" readonly tabindex="-1" aria-label="Selected <%= pickerLabel %>" data-current-name="<%= pickerMultiple ? '' : currentName %>" />
+		<button type="button" class="btn btn-default" data-file-browse="<%= id %>"><i class="fa fa-folder-open me-1" aria-hidden="true"></i><%= pickerCurrent && !pickerMultiple ? 'Replace' : 'Browse' %></button>
+		<button type="button" class="btn btn-default" data-file-clear="<%= id %>" hidden title="Clear the new selection" aria-label="Clear the new <%= pickerLabel %> selection"><i class="fa fa-times" aria-hidden="true"></i></button>
+	</div>
+	<input type="file" class="admin-file-input" id="<%= id %>" name="<%= field %>" accept="<%= pickerAccept %>"<% if (pickerMultiple) { %> multiple<% } %> tabindex="-1" />
+	<% if (pickerCurrent && !pickerMultiple) { %>
+		<div class="d-flex flex-wrap align-items-center gap-3 mt-1">
+			<a class="small" href="<%= pickerCurrent %>" target="_blank" rel="noopener">Open current <%= pickerLabel %></a>
+			<div class="form-check mb-0">
+				<input class="form-check-input" type="checkbox" id="<%= id %>Remove" value="1"<% if (locals.removeName) { %> name="<%= removeName %>"<% } %> data-media-remove />
+				<label class="form-check-label small text-danger" for="<%= id %>Remove">Remove <%= pickerLabel %></label>
+			</div>
+		</div>
+	<% } %>
+	<% if (pickerHint) { %><small class="text-muted d-block mt-1"><%= pickerHint %></small><% } %>
+</div>

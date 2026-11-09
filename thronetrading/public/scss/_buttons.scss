@@ -1,0 +1,102 @@
+@use 'tokens' as t;
+@use 'mixins' as m;
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: t.$space-sm;
+  @include m.type(button);
+  padding: 12px 32px;
+  border-radius: t.$radius-md;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color t.$transition-base, color t.$transition-base, border-color t.$transition-base, box-shadow t.$transition-base;
+
+  &:disabled,
+  &[aria-busy='true'] {
+    opacity: 0.65;
+    cursor: progress;
+  }
+
+  &--lg {
+    padding: 16px 32px;
+  }
+
+  &--block {
+    width: 100%;
+  }
+
+  &--caps {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding-block: 16px;
+    box-shadow: t.$shadow-md;
+  }
+
+  &--primary {
+    background: t.$color-primary;
+    color: t.$color-white;
+
+    &:hover {
+      background: t.$color-accent;
+      color: t.$color-white;
+    }
+  }
+
+  &--accent {
+    background: t.$color-industrial-gold;
+    color: t.$color-tertiary;
+
+    &:hover {
+      background: t.$color-secondary-fixed;
+      color: t.$color-tertiary;
+    }
+  }
+
+  &--sm {
+    padding: 8px 18px;
+  }
+
+  &--ghost {
+    border-color: t.$color-white;
+    color: t.$color-white;
+
+    &:hover {
+      background: t.$color-white;
+      color: t.$color-primary;
+    }
+  }
+
+  &--outline {
+    border-color: t.$color-primary;
+    color: t.$color-primary;
+
+    &:hover {
+      background: t.$color-primary;
+      color: t.$color-white;
+    }
+  }
+
+  &--light {
+    background: t.$color-white;
+    color: t.$color-primary;
+
+    &:hover {
+      background: t.$color-secondary-fixed;
+      color: t.$color-primary;
+    }
+  }
+
+  &--gold {
+    background: t.$color-industrial-gold;
+    color: t.$color-white;
+    margin-top: t.$space-lg;
+
+    &:hover {
+      background: t.$color-secondary;
+      color: t.$color-white;
+    }
+  }
+}

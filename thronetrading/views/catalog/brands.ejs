@@ -1,0 +1,26 @@
+<%- include('../partials/catalog-hero', { hero: { title: 'Our Brands', lead: 'Throne Trading is the authorized distributor of trusted safe and security manufacturers in Lebanon.', image: '' } }) %>
+<section class="section section--tight">
+	<div class="container">
+		<% if (brands.length) { %>
+			<ul class="brand-cards">
+				<% brands.forEach(function (brand) { %>
+					<li>
+						<a class="brand-card" href="<%= brand.url %>">
+							<span class="brand-card__logo">
+								<% if (brand.logo) { %><img src="<%= brand.logo %>" alt="" loading="lazy" /><% } else { %><span class="brand-tile__wordmark" aria-hidden="true"><%= brand.name %></span><% } %>
+							</span>
+							<span class="brand-card__body">
+								<span class="brand-card__name"><%= brand.name %></span>
+								<% if (brand.summary) { %><span class="brand-card__text"><%= brand.summary %></span><% } %>
+								<span class="brand-card__more"><% if (brand.productCount) { %><%= brand.productCount %> product<%= brand.productCount === 1 ? '' : 's' %><% } else { %>Available on request<% } %> <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></span>
+							</span>
+						</a>
+					</li>
+				<% }) %>
+			</ul>
+		<% } else { %>
+			<p class="empty-state">Brand information is being updated.</p>
+		<% } %>
+	</div>
+</section>
+<%- include('../partials/cta-band-section') %>
