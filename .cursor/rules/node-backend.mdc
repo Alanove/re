@@ -32,5 +32,18 @@ Act as an elite Node.js backend engineer building high-end, high-performance web
 - After every UI change (layout, styles, templates, navigation, rendered data), test that flow in the browser before the next change: click, type, and navigate the affected pages, plus other routes that share the changed partial (header, nav, footer).
 - A screenshot alone is not a test. If no browser is available, use the closest substitute and say exactly what was not tested.
 
+## Repository layout
+- `websites/<domain>/` holds one complete site each (for example `websites/re-petroleum.com/`, `websites/thronetrading.com/`), with its own `package.json`, `package-lock.json`, `transform.config.json`, `.env`, `src/`, `admin/`, `views/`, `public/`, `data/`, `content/` and `scripts/`. New sites go here, named by their domain.
+- `packages/<name>/` holds code shared by several sites (for example `packages/rich-text-editor/`). Shared code lives only here; never copy it into a site folder by hand. Sites consume a package through a site npm script that builds it into the site (for example `editor:build` bundles `packages/rich-text-editor` into the site's `admin/public/editor/`), and that build output is committed with the site.
+- `docs/` and `scripts/` at the repo root hold cross-site documentation and tooling only. Nothing site-specific goes at the repo root.
+- Paths inside a site (`src/...`, `admin/...`, `views/...`) are relative to that site's folder. Reach shared packages from a site with relative paths (`../../packages/<name>`), never absolute ones.
+- Run every site command (`npm ci`, `npm run dev`, `npm run typecheck`, `npm run lint`, `npm run build`, media checks) from inside `websites/<domain>/`, and run package commands (`npm run build`, `npm run check`, `npm test`) from inside `packages/<name>/`. After changing a shared package, rebuild and run the build gates on it and on every site that uses it.
+
+## Which site to change
+- Every change request must name its target: one or more sites under `websites/` (for example `thronetrading.com`), all sites, or a shared package under `packages/`.
+- If the request does not name a target, stop and ask before changing any file. Ask with a multiple-choice question listing every current folder in `websites/` plus "All sites". Never guess from the open file, recent work, or the previous request.
+- Apply the change only to the named targets. If it fits better in a shared package or would affect other sites, say so and ask instead of widening the scope.
+- When the answer is "All sites", list the sites that were changed in the final summary, and mention any site where the change did not apply.
+
 ## Multi-site
-- Follow `docs/site-transformation.md`. Site inputs come from `transform.config.json`; never hardcode the CMS source path, legacy URL, or workbook path.
+- Follow `docs/site-transformation.md`. Site inputs come from each site's `websites/<domain>/transform.config.json`; never hardcode the CMS source path, legacy URL, or workbook path.

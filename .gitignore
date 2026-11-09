@@ -4,4 +4,4 @@ node_modules/
 !.env.example
 
 # Local snapshot of the site tree. It duplicates tracked files and is near GitHub's 100MB limit.
-site/src.zip
+websites/*/src.zip

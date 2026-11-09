@@ -5,7 +5,7 @@ alwaysApply: true
 
 # CMS media standards
 
-Applies to every site on the shared Node.js CMS and to every new admin field, module or import script.
+Applies to every site on the shared Node.js CMS and to every new admin field, module or import script. Sites live in `websites/<domain>/`, and the paths below are relative to that site folder. Shared code such as the rich-text editor lives in `packages/` at the repo root.
 
 ## File and image fields
 - Every admin field that holds an image or a file (logos, favicons, hero and slide images, section and card images, category images, brand logos, product galleries, share images, brochures and documents) renders the shared picker partial `admin/views/partials/media-picker.ejs`.

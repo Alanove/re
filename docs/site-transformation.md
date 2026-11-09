@@ -2,7 +2,15 @@
 
 This playbook turns a legacy site of the "re-petroleum" family into a Node.js CMS site with a new design. Five more sites share the same legacy shape. Their designs differ; this pipeline does not.
 
-The first site built with it is R&E Petroleum (`site/` in this repo). Throne Trading (`thronetrading/`) is the second and the latest finished site: it adds the product catalog (products, categories, brands) and the WebP media pipeline. Start new sites from `thronetrading/`; use R&E Petroleum only as the reference for brochure-style sites without a catalog.
+The first site built with it is R&E Petroleum (`websites/re-petroleum.com/` in this repo). Throne Trading (`websites/thronetrading.com/`) is the second and the latest finished site: it adds the product catalog (products, categories, brands) and the WebP media pipeline. Start new sites from `websites/thronetrading.com/`; use R&E Petroleum only as the reference for brochure-style sites without a catalog.
+
+## Repository layout
+
+- `websites/<domain>/`: one complete site per folder, named by its domain. Each has its own `package.json`, lockfile, `.env`, `transform.config.json`, and source tree. Run site commands from inside this folder.
+- `packages/<name>/`: code shared by several sites, such as `packages/rich-text-editor/`. Sites build from it through a site npm script; never copy a package into a site.
+- `docs/` and `scripts/` at the root: cross-site documentation and tooling only.
+
+Paths in this playbook (`src/...`, `admin/...`, `data/...`) are relative to the site folder unless they start with `websites/`, `packages/`, or `docs/`.
 
 ## Legacy shape this playbook expects
 
@@ -19,7 +27,7 @@ If a new site differs from this shape, change the importer for that site and rec
 
 ## Inputs (all variables, never hardcoded)
 
-Every site has `site/transform.config.json`. Scripts read only this file for site-specific paths.
+Every site has `websites/<domain>/transform.config.json`. Scripts read only this file for site-specific paths.
 
 | Key | Meaning |
 | --- | --- |
@@ -27,9 +35,9 @@ Every site has `site/transform.config.json`. Scripts read only this file for sit
 | `siteName` | Public brand name |
 | `legacySiteUrl` | Live legacy site; the only host images are downloaded from |
 | `cmsSource` | Path of the CMS tree the admin assets are synced from |
-| `contentWorkbook` | Path to the `.xls` export, relative to `site/` |
-| `contentSeed` | Site copy the workbook does not hold (home sections, office overrides, settings, page icons, title fixes, asset aliases), relative to `site/` |
-| `designDir` | Folder with the HTML design mocks, relative to `site/` |
+| `contentWorkbook` | Path to the `.xls` export, relative to the site folder |
+| `contentSeed` | Site copy the workbook does not hold (home sections, office overrides, settings, page icons, title fixes, asset aliases), relative to the site folder |
+| `designDir` | Folder with the HTML design mocks, relative to the site folder |
 | `outputDir` | Site root, normally `.` |
 | `port` | Dev port (each site gets its own) |
 | `logo` | `url` to download, `localPath` to save, and a `note` on which part of the file is used |
@@ -72,7 +80,7 @@ Shared core (copy from the latest finished site, do not rewrite):
 - Admin modules: login, users, profile, dashboard, pages (with gallery), home sections, menus, site settings, offices, inquiries, image upload and the rich-text editor APIs. Catalog sites add Products (specs editor, gallery), Categories and Brands.
 - Media: `imageProcessingService.ts` (sharp, WebP, size presets), `mediaService.ts`, `mediaRepository.ts`, `src/middleware/upload.ts`, the picker partial `admin/views/partials/media-picker.ejs`, and `scripts/check-media.ts`. See "Media pipeline" below and `.cursor/rules/cms-media.mdc`.
 - `admin/views/` and `admin/public/js/re-admin.js`, `admin/public/js/editor-mount.js`, `admin/public/css/admin.scss`.
-- Rich text editor: the reusable package `packages/rich-text-editor` (copy the folder next to the new site). `npm run editor:build` bundles it into `admin/public/editor/` (`editor.js`, `editor.css`, `rte-content.css`, `templates.json`, icons); commit that output. Public pages load `/admin/editor/rte-content.css` for template, image and table styles. Swatches and template colours read the `--color-*` variables emitted from `$css-colors` in `_tokens.scss`, so keep those names. The server sanitizer (`sanitizeService.ts`) keeps author HTML and strips only scripts, styles blocks, forms, embeds, event handlers, script URLs and iframes other than YouTube / Vimeo.
+- Rich text editor: the shared package `packages/rich-text-editor` at the repo root (do not copy it into the site). The site's `editor:build` script runs `node ../../packages/rich-text-editor/esbuild.config.mjs --out admin/public/editor`, so `npm run editor:build` bundles it into `admin/public/editor/` (`editor.js`, `editor.css`, `rte-content.css`, `templates.json`, icons); commit that output. Public pages load `/admin/editor/rte-content.css` for template, image and table styles. Swatches and template colours read the `--color-*` variables emitted from `$css-colors` in `_tokens.scss`, so keep those names. The server sanitizer (`sanitizeService.ts`) keeps author HTML and strips only scripts, styles blocks, forms, embeds, event handlers, script URLs and iframes other than YouTube / Vimeo.
 - `scripts/`: `sync-cms.ts`, `import-legacy.ts`, `download-assets.ts`, `seed-admin.ts`.
 - `public/scss/` partial layout (`_tokens`, `_base`, `_layout`, `_header`, `_footer`, `_buttons`, `_cards`, `_bento`, `_forms`, `_hero`, `_inner-page`, `_gallery`, `_home`, `main.scss`).
 - Build gates and the browser check after every UI change (`.cursor/rules/node-backend.mdc`).
@@ -98,7 +106,7 @@ Never put site copy or colors in `src/`. Never put data access in `views/`.
 
 ## Steps for a new site
 
-1. Create `<site-folder>/site/` by copying the latest finished site, then delete its `data/*.json`, `public/uploads/`, `dist/`, and `node_modules/`.
+1. Create `websites/<domain>/` by copying the latest finished site, then delete its `data/*.json`, `public/uploads/`, `dist/`, and `node_modules/`.
 2. Fill in `transform.config.json`.
 3. `npm install`, then `npm run cms:sync` to copy admin theme assets from `cmsSource`.
 4. Write `content/seed.json` for the site. Values prefixed `legacy:/path` become downloaded assets under `/uploads/legacy/path`; values prefixed `page:key` become that page's URL. `assetAliases` maps a dead legacy path to the path that works on the live server. Each `offices.<id>` override can set `mapQuery` (an address or place name); the Contact page shows a tabbed Google Map embed (`https://www.google.com/maps?q=...&output=embed`, no API key) for offices that have one, and editors can change it under Admin > Offices. `https://www.google.com` is in the CSP `frame-src` for this.
@@ -198,10 +206,10 @@ Do not recopy `solu-new` for later sites and do not paste enhancements into site
 
 ## Known Throne Trading specifics (reference)
 
-- Site folder `thronetrading/`, dev port `3042`. The workbook is `wwwroot/dbbackup.xls`, and `legacy.localRoot` is `wwwroot`. Remove both settings once `wwwroot` is deleted; assets already downloaded stay in `public/uploads/legacy/`.
+- Site folder `websites/thronetrading.com/`, dev port `3042`. The workbook is `wwwroot/dbbackup.xls`, and `legacy.localRoot` is `wwwroot`. Remove both settings once `wwwroot` is deleted; assets already downloaded stay in `public/uploads/legacy/`.
 - Catalog: 8 categories (`used-safes` is a draft), 144 products, and 7 brands from `PageType` 3 to 9. Product rows whose parent page is missing go to `home-and-offices`. There are 149 legacy redirects.
 - Legacy page images are at `/PRV/Images/Pages/Page_{pageId}/{fileName}` (no `Large/` folder). Brand logos are at `/images/public/brands/{slug}.jpg`. Home slides come from `PRV/conf/Slider.config`.
 - There is no footer office page (`footerPageKey` is `null`). The single office comes from the seed. The legacy site has no favicon, so it is left empty; set one under Admin > Site Settings.
 - Logo: the blue THRONE TRADING S.A.R.L. wordmark (`images/throne-trading.png`). It has an opaque white background, so the footer shows it with an invert filter and `mix-blend-mode: screen`. Product, category, and brand images also have white backgrounds and use `mix-blend-mode: multiply` on tinted cards.
 - Tokens: navy `#0b2540`, accent `#1d6fa5`, gold `#c9a14f`, deep navy `#08182a`. Fonts are Outfit for headings and Inter for body text. Icons are Material Symbols.
-- Design snapshots (desktop at 1280px and mobile at 390px) for home, category, product, and brand pages are in `thronetrading/design/`.
+- Design snapshots (desktop at 1280px and mobile at 390px) for home, category, product, and brand pages are in `websites/thronetrading.com/design/`.
