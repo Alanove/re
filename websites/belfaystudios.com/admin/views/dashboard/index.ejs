@@ -10,7 +10,7 @@
 		</div>
 	</div>
 	<div class="col-xl-3 col-md-6">
-		<a class="widget widget-stats bg-blue d-block text-decoration-none" href="/admin/pages">
+		<a class="widget widget-stats bg-blue d-block text-decoration-none" href="/admin/blog">
 			<div class="stats-icon stats-icon-lg"><i class="fa fa-newspaper fa-fw"></i></div>
 			<div class="stats-content">
 				<div class="stats-title">BLOG POSTS</div>
@@ -53,7 +53,7 @@
 					<tbody>
 						<% summary.recentPages.forEach(function (page) { %>
 							<tr>
-								<td><a href="/admin/pages/<%= page.id %>/edit" class="fw-bold"><%= page.title %></a><div class="small text-muted"><%= page.url %></div></td>
+								<td><a href="<%= page.editUrl %>" class="fw-bold"><%= page.title %></a><div class="small text-muted"><%= page.url %></div></td>
 								<td class="text-end text-nowrap small text-muted"><%= new Date(page.updatedAt).toLocaleDateString('en-GB') %></td>
 							</tr>
 						<% }) %>
@@ -92,7 +92,7 @@
 <div class="panel panel-inverse quick-actions-panel">
 	<div class="panel-heading"><h4 class="panel-title">Quick actions</h4></div>
 	<div class="panel-body d-flex flex-wrap gap-2">
-		<% if (summary.blog.listingId) { %><a href="/admin/pages/create?parentId=<%= summary.blog.listingId %>" class="btn btn-success"><i class="fa fa-plus me-1"></i> New blog post</a><% } %>
+		<% if (summary.blog.listingId) { %><a href="/admin/blog/create" class="btn btn-success"><i class="fa fa-plus me-1"></i> New blog post</a><% } %>
 		<a href="/admin/pages/create" class="btn btn-default"><i class="fa fa-plus me-1"></i> New page</a>
 		<a href="/admin/home" class="btn btn-primary"><i class="fa fa-home me-1"></i> Edit home page</a>
 		<a href="/admin/menus/main/edit" class="btn btn-default"><i class="fa fa-bars me-1"></i> Main menu</a>

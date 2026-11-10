@@ -118,6 +118,14 @@ main() {
     project_script="$(find_project_script "$project" "$server_path" || true)"
     [[ -n "$project_script" ]] || die "No aaPanel Node project found for $server_path in $NODE_ROOT/vhost/scripts. Set aapanelProject or restartCommand in deploy.json."
     log "aaPanel project script: $project_script"
+    local project_log project_log_dir
+    project_log="$(grep -oE '>>[[:space:]]*/[^[:space:]]+' "$project_script" | head -n 1 | sed -E 's/^>>[[:space:]]*//' || true)"
+    if [[ -n "$project_log" ]]; then
+      project_log_dir="$(dirname "$project_log")"
+      if [[ -e "$project_log" && ! -w "$project_log" ]] || [[ ! -e "$project_log" && ! -w "$project_log_dir" ]]; then
+        die "The aaPanel start script logs to $project_log, which $REQUIRED_USER cannot write, so the site could not start. In aaPanel set the project's run user to $REQUIRED_USER (aaPanel then logs to a folder $REQUIRED_USER can write), or set restartCommand in deploy.json."
+      fi
+    fi
   fi
 
   local node_bin

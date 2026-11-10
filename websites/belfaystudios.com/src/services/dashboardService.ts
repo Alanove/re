@@ -11,7 +11,7 @@ export interface DashboardSummary {
   offices: number;
   users: number;
   inquiries: { total: number; unread: number; latest: Submission[] };
-  recentPages: { id: number; title: string; url: string; updatedAt: string }[];
+  recentPages: { id: number; title: string; url: string; updatedAt: string; editUrl: string }[];
 }
 
 export class DashboardService {
@@ -23,14 +23,15 @@ export class DashboardService {
       usersService.list(),
       contactService.list()
     ]);
-    const routable = pages.filter((page) => page.kind !== 'footer');
     const blogIds = new Set(pages.filter((page) => page.kind === 'blog').map((page) => page.id));
     const posts = pages.filter((page) => page.parentId !== null && blogIds.has(page.parentId));
+    const routable = pages.filter((page) => page.kind !== 'footer');
+    const contentPages = routable.filter((page) => !blogIds.has(page.id) && !page.ancestors.some((ancestor) => blogIds.has(ancestor.id)));
     return {
       pages: {
-        total: routable.length,
-        published: routable.filter((page) => page.status === 'published').length,
-        drafts: routable.filter((page) => page.status === 'draft').length
+        total: contentPages.length,
+        published: contentPages.filter((page) => page.status === 'published').length,
+        drafts: contentPages.filter((page) => page.status === 'draft').length
       },
       galleryImages: [...imageCounts.values()].reduce((sum, count) => sum + count, 0),
       blog: {
@@ -49,7 +50,13 @@ export class DashboardService {
       recentPages: [...routable]
         .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
         .slice(0, 6)
-        .map((page) => ({ id: page.id, title: page.title, url: page.url, updatedAt: page.updatedAt }))
+        .map((page) => ({
+          id: page.id,
+          title: page.title,
+          url: page.url,
+          updatedAt: page.updatedAt,
+          editUrl: page.kind === 'blog' || blogIds.has(page.parentId ?? 0) ? `/admin/blog/${page.id}/edit` : `/admin/pages/${page.id}/edit`
+        }))
     };
   }
 }

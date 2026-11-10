@@ -53,7 +53,7 @@
     font-size: clamp(44px, 8vw, 64px);
     line-height: 1;
     font-weight: 900;
-    color: t.$color-accent;
+    color: t.$color-accent-on-dark;
   }
 
   &__label {
@@ -140,7 +140,7 @@
       font-size: 72px;
       line-height: 0.6;
       font-weight: 900;
-      color: t.$color-accent;
+      color: t.$color-accent-on-dark;
       margin-bottom: t.$space-md;
     }
 
@@ -193,7 +193,7 @@
     height: 56px;
     border-radius: t.$radius-full;
     background: t.$color-tertiary;
-    color: t.$color-accent;
+    color: t.$color-accent-on-dark;
     font-size: 28px;
   }
 
@@ -273,7 +273,7 @@
     gap: 8px;
     padding: t.$gutter;
     background: rgba(t.$color-accent, 0.95);
-    color: t.$color-tertiary;
+    color: t.$color-white;
     font-size: 15px;
     line-height: 1.5;
     font-weight: 500;
@@ -329,7 +329,7 @@
   }
 
   &__role {
-    color: t.$color-accent;
+    color: t.$color-accent-on-dark;
     font-weight: 500;
   }
 
@@ -359,8 +359,8 @@
     }
 
     &:hover {
-      border-color: t.$color-accent;
-      color: t.$color-accent;
+      border-color: t.$color-accent-on-dark;
+      color: t.$color-accent-on-dark;
     }
   }
 }
@@ -453,7 +453,7 @@
       display: block;
       @include m.label-caps;
       letter-spacing: 0.14em;
-      color: t.$color-accent;
+      color: t.$color-accent-on-dark;
       margin-bottom: 2px;
     }
 
@@ -466,7 +466,7 @@
       overflow-wrap: anywhere;
 
       &:hover {
-        color: t.$color-accent;
+        color: t.$color-accent-on-dark;
       }
     }
   }
@@ -479,7 +479,7 @@
     flex-shrink: 0;
     border-radius: t.$radius-full;
     background: rgba(t.$color-accent, 0.15);
-    color: t.$color-accent;
+    color: t.$color-accent-on-dark;
   }
 
   &__map {
@@ -508,7 +508,7 @@
     align-self: flex-start;
     min-height: t.$tap-target;
     margin-top: -12px;
-    color: t.$color-accent;
+    color: t.$color-accent-on-dark;
     font-weight: 500;
 
     .material-symbols-outlined {

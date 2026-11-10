@@ -43,11 +43,11 @@
   &--primary,
   &--accent {
     background: t.$color-accent;
-    color: t.$color-tertiary;
+    color: t.$color-white;
 
     &:hover {
       background: t.$color-accent-dark;
-      color: t.$color-tertiary;
+      color: t.$color-white;
     }
   }
 

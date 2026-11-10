@@ -179,7 +179,89 @@ export class PagesService {
     return pageImagesRepository.countByPage();
   }
 
-  public async create(input: PageFormInput, uploads: PageUploads): Promise<PageNode> {
+  public async getBlogRoot(): Promise<PageNode | null> {
+    return (await this.getFlatList()).find((node) => node.kind === 'blog') ?? null;
+  }
+
+  public isPost(page: Pick<Page, 'parentId'>, blogRoot: Pick<Page, 'id'> | null): boolean {
+    return blogRoot !== null && page.parentId === blogRoot.id;
+  }
+
+  public async getPagesList(): Promise<PageNode[]> {
+    const list = await this.getFlatList();
+    const blogIds = new Set(list.filter((node) => node.kind === 'blog').map((node) => node.id));
+    return list.filter((node) => !blogIds.has(node.id) && !node.ancestors.some((ancestor) => blogIds.has(ancestor.id)));
+  }
+
+  public async getBlogOverview(): Promise<{ root: PageNode | null; posts: PageNode[] }> {
+    const root = await this.getBlogRoot();
+    if (!root) {
+      return { root: null, posts: [] };
+    }
+    const posts = [...root.children].sort((a, b) => b.createdAt.localeCompare(a.createdAt) || b.id - a.id);
+    return { root, posts };
+  }
+
+  public async createPage(input: PageFormInput, uploads: PageUploads): Promise<PageNode> {
+    const pages = await pagesRepository.findAll();
+    this.assertOutsideBlog(pages, input, null);
+    return this.create(input, uploads);
+  }
+
+  public async updatePage(id: number, input: PageFormInput, uploads: PageUploads): Promise<PageNode> {
+    const pages = await pagesRepository.findAll();
+    const existing = pages.find((page) => page.id === id);
+    const blogRoot = pages.find((page) => page.kind === 'blog') ?? null;
+    if (!existing || this.isPost(existing, blogRoot)) {
+      throw new NotFoundError('Page not found.');
+    }
+    if (existing.kind === 'blog') {
+      return this.update(id, { ...input, kind: 'blog', parentId: existing.parentId }, uploads);
+    }
+    this.assertOutsideBlog(pages, input, id);
+    return this.update(id, input, uploads);
+  }
+
+  public async createPost(input: PageFormInput, uploads: PageUploads): Promise<PageNode> {
+    const blogRoot = await this.requireBlogRoot();
+    return this.create({ ...input, kind: 'page', parentId: blogRoot.id }, uploads);
+  }
+
+  public async updatePost(id: number, input: PageFormInput, uploads: PageUploads): Promise<PageNode> {
+    const blogRoot = await this.requireBlogRoot();
+    const existing = await pagesRepository.findById(id);
+    if (!existing || !this.isPost(existing, blogRoot)) {
+      throw new NotFoundError('Post not found.');
+    }
+    return this.update(id, { ...input, kind: 'page', parentId: blogRoot.id }, uploads);
+  }
+
+  private async requireBlogRoot(): Promise<Page> {
+    const blogRoot = (await pagesRepository.findAll()).find((page) => page.kind === 'blog');
+    if (!blogRoot) {
+      throw new NotFoundError('The blog page does not exist.');
+    }
+    return blogRoot;
+  }
+
+  private assertOutsideBlog(pages: Page[], input: PageFormInput, selfId: number | null): void {
+    if (input.kind === 'blog' && pages.some((page) => page.kind === 'blog' && page.id !== selfId)) {
+      throw new BadRequestError('Please correct the highlighted fields.', { kind: 'The site already has a blog page' });
+    }
+    const byId = new Map(pages.map((page) => [page.id, page]));
+    let cursor = input.parentId;
+    const seen = new Set<number>();
+    while (cursor !== null && !seen.has(cursor)) {
+      seen.add(cursor);
+      const parent = byId.get(cursor);
+      if (parent?.kind === 'blog') {
+        throw new BadRequestError('Please correct the highlighted fields.', { parentId: 'Write blog posts from the Blog screen' });
+      }
+      cursor = parent?.parentId ?? null;
+    }
+  }
+
+  private async create(input: PageFormInput, uploads: PageUploads): Promise<PageNode> {
     const pages = await pagesRepository.findAll();
     const slug = input.slug || slugify(input.title);
     if (!slug) {
@@ -211,7 +293,7 @@ export class PagesService {
     return this.getById(created.id);
   }
 
-  public async update(id: number, input: PageFormInput, uploads: PageUploads): Promise<PageNode> {
+  private async update(id: number, input: PageFormInput, uploads: PageUploads): Promise<PageNode> {
     const pages = await pagesRepository.findAll();
     const existing = pages.find((page) => page.id === id);
     if (!existing) {
@@ -277,6 +359,9 @@ export class PagesService {
     const target = pages.find((page) => page.id === id);
     if (!target) {
       throw new NotFoundError('Page not found.');
+    }
+    if (target.kind === 'blog') {
+      throw new ConflictError('The blog page cannot be deleted.');
     }
     if (pages.some((page) => page.parentId === id)) {
       throw new ConflictError('Move or delete the child pages first.');

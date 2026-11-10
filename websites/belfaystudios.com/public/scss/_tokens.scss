@@ -2,18 +2,20 @@
 @use 'sass:list';
 @use 'sass:map';
 
-// Brand: the legacy studio charcoal and signal orange, with the logo's red and navy as accents.
+// Brand: the legacy studio charcoal with the logo's red as the accent and navy as a secondary tone.
 $color-primary: #212529;
 $color-primary-dark: #16181c;
 $color-primary-container: #2c3137;
 $color-on-primary-container: #c9ced4;
-$color-deep-burgundy: #c8262c;
+$color-deep-burgundy: #dc3545;
 $color-navy: #1f4e8c;
-$color-accent: #f2791c;
-$color-accent-dark: #d9650c;
-$color-secondary: #b4530a;
-$color-secondary-fixed: #ffe2c9;
-$color-industrial-gold: #f2791c;
+$color-accent: #dc3545;
+$color-accent-dark: #b02a37;
+// Accent for text and icons on charcoal surfaces; $color-accent is below 4.5:1 there.
+$color-accent-on-dark: #e8606c;
+$color-secondary: #8a1c27;
+$color-secondary-fixed: #f8d7da;
+$color-industrial-gold: $color-accent;
 
 // Neutrals and surfaces
 $color-background: #ffffff;

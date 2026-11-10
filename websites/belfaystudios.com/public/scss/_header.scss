@@ -121,8 +121,8 @@
   cursor: pointer;
 
   &:hover {
-    border-color: t.$color-accent;
-    color: t.$color-accent;
+    border-color: t.$color-accent-on-dark;
+    color: t.$color-accent-on-dark;
   }
 
   @include m.up(lg) {
@@ -193,7 +193,7 @@
 
   &__title {
     @include m.label-caps;
-    color: t.$color-accent;
+    color: t.$color-accent-on-dark;
   }
 
   &__close {
@@ -208,7 +208,7 @@
     cursor: pointer;
 
     &:hover {
-      color: t.$color-accent;
+      color: t.$color-accent-on-dark;
     }
   }
 
@@ -259,7 +259,7 @@
 
     &:hover,
     &.is-current {
-      color: t.$color-accent;
+      color: t.$color-accent-on-dark;
 
       &::after {
         transform: scaleX(1);
@@ -267,7 +267,7 @@
     }
 
     .is-active > & {
-      color: t.$color-accent;
+      color: t.$color-accent-on-dark;
 
       &::after {
         transform: scaleX(1);
@@ -298,7 +298,7 @@
 
     .material-symbols-outlined {
       font-size: 20px;
-      color: t.$color-accent;
+      color: t.$color-accent-on-dark;
     }
 
     &:hover {
@@ -342,7 +342,7 @@
       color: rgba(t.$color-white, 0.8);
 
       &:hover {
-        color: t.$color-accent;
+        color: t.$color-accent-on-dark;
         background: transparent;
       }
     }
@@ -386,7 +386,7 @@
 
   &:hover {
     background: t.$color-accent;
-    color: t.$color-tertiary;
+    color: t.$color-white;
   }
 
   &--whatsapp:hover {

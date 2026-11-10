@@ -54,7 +54,7 @@
     @include m.label-caps;
     font-size: 13px;
     letter-spacing: 0.24em;
-    color: t.$color-accent;
+    color: t.$color-accent-on-dark;
     margin-bottom: t.$space-md;
   }
 
@@ -124,8 +124,8 @@
     animation: hero-bounce 2.4s ease-in-out infinite;
 
     &:hover {
-      color: t.$color-accent;
-      border-color: t.$color-accent;
+      color: t.$color-accent-on-dark;
+      border-color: t.$color-accent-on-dark;
     }
   }
 }
@@ -274,12 +274,12 @@
     color: rgba(t.$color-white, 0.8);
 
     &:hover {
-      color: t.$color-accent;
+      color: t.$color-accent-on-dark;
     }
   }
 
   [aria-current='page'] {
-    color: t.$color-accent;
+    color: t.$color-accent-on-dark;
     font-weight: 500;
     overflow-wrap: anywhere;
   }

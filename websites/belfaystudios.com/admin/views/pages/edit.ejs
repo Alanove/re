@@ -1,5 +1,8 @@
 <%
-	const action = isCreate ? '/admin/pages/create' : '/admin/pages/' + page.id + '/edit';
+	const formMode = locals.mode || 'page';
+	const basePath = formMode === 'page' ? '/admin/pages' : '/admin/blog';
+	const action = isCreate ? basePath + '/create' : basePath + '/' + page.id + '/edit';
+	const blogUrl = locals.blogRoot ? locals.blogRoot.url : '/blog';
 	const seo = page.seo || { title: '', description: '', keywords: '' };
 %>
 <form method="POST" action="<%= action %>?_csrf=<%= encodeURIComponent(csrfToken) %>" enctype="multipart/form-data" id="page-form" novalidate
@@ -98,16 +101,30 @@
 						<input class="form-check-input" type="checkbox" id="published" name="published" value="1" <%= page.status === 'published' ? 'checked' : '' %> />
 						<label class="form-check-label" for="published">Published</label>
 					</div>
-					<div class="mb-3">
-						<label class="form-label" for="parentId">Parent page</label>
-						<select class="form-select <%= errors.parentId ? 'is-invalid' : '' %>" id="parentId" name="parentId">
-							<option value="">— Top level —</option>
-							<% parents.forEach(function (option) { %>
-								<option value="<%= option.id %>" <%= page.parentId === option.id ? 'selected' : '' %>><%= option.label %></option>
-							<% }) %>
-						</select>
-						<%- include('../partials/field-error', { name: 'parentId' }) %>
-					</div>
+					<% if (formMode === 'page') { %>
+						<div class="mb-3">
+							<label class="form-label" for="parentId">Parent page</label>
+							<select class="form-select <%= errors.parentId ? 'is-invalid' : '' %>" id="parentId" name="parentId">
+								<option value="">— Top level —</option>
+								<% parents.forEach(function (option) { %>
+									<option value="<%= option.id %>" <%= page.parentId === option.id ? 'selected' : '' %>><%= option.label %></option>
+								<% }) %>
+							</select>
+							<%- include('../partials/field-error', { name: 'parentId' }) %>
+						</div>
+					<% } else { %>
+						<input type="hidden" id="parentId" name="parentId" value="<%= page.parentId === null || page.parentId === undefined ? '' : page.parentId %>" />
+						<input type="hidden" name="kind" value="<%= formMode === 'blogRoot' ? 'blog' : 'page' %>" />
+						<div class="alert alert-light border small mb-3">
+							<% if (formMode === 'post') { %>
+								Published under the blog: <a href="<%= blogUrl %>" target="_blank" rel="noopener"><%= blogUrl %></a>
+							<% } else { %>
+								This is the blog listing page. Its posts are listed newest first. It cannot be deleted or moved.
+							<% } %>
+							<%- include('../partials/field-error', { name: 'parentId' }) %>
+							<%- include('../partials/field-error', { name: 'kind' }) %>
+						</div>
+					<% } %>
 					<div class="mb-3">
 						<label class="form-label" for="slug">URL slug</label>
 						<input type="text" class="form-control <%= errors.slug ? 'is-invalid' : '' %>" id="slug" name="slug" value="<%= page.slug %>" maxlength="80" pattern="[a-z0-9][a-z0-9_\-]*" />
@@ -115,15 +132,17 @@
 						<% if (!isCreate) { %><small class="text-muted">Current address: <a href="<%= page.url %>" target="_blank" rel="noopener"><%= page.url %></a></small><% } %>
 						<%- include('../partials/field-error', { name: 'slug' }) %>
 					</div>
-					<div class="mb-3">
-						<label class="form-label" for="kind">Page type</label>
-						<select class="form-select" id="kind" name="kind">
-							<% kinds.forEach(function (kind) { %>
-								<option value="<%= kind.value %>" <%= page.kind === kind.value ? 'selected' : '' %>><%= kind.label %></option>
-							<% }) %>
-						</select>
-						<%- include('../partials/field-error', { name: 'kind' }) %>
-					</div>
+					<% if (formMode === 'page') { %>
+						<div class="mb-3">
+							<label class="form-label" for="kind">Page type</label>
+							<select class="form-select" id="kind" name="kind">
+								<% kinds.forEach(function (kind) { %>
+									<option value="<%= kind.value %>" <%= page.kind === kind.value ? 'selected' : '' %>><%= kind.label %></option>
+								<% }) %>
+							</select>
+							<%- include('../partials/field-error', { name: 'kind' }) %>
+						</div>
+					<% } %>
 					<div class="row g-2 mb-3">
 						<div class="col-6">
 							<label class="form-label" for="sort">Sort order</label>
@@ -138,8 +157,8 @@
 					</div>
 					<small class="text-muted d-block mb-3">Icons use <a href="https://fonts.google.com/icons" target="_blank" rel="noopener">Material Symbols</a> names.</small>
 					<div class="d-flex gap-2">
-						<button type="submit" class="btn btn-success flex-fill"><i class="fa fa-save me-1"></i> <%= isCreate ? 'Create page' : 'Save changes' %></button>
-						<a href="/admin/pages" class="btn btn-default">Cancel</a>
+						<button type="submit" class="btn btn-success flex-fill"><i class="fa fa-save me-1"></i> <%= isCreate ? (formMode === 'post' ? 'Create post' : 'Create page') : 'Save changes' %></button>
+						<a href="<%= basePath %>" class="btn btn-default">Cancel</a>
 					</div>
 				</div>
 			</div>

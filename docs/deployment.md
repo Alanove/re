@@ -194,6 +194,7 @@ Run these as root, or as a user with sudo.
 | --- | --- |
 | `sudo: a password is required` | The sudoers rule from server setup step 2 is missing. |
 | `git fetch failed` | The deploy key is not on GitHub, or `/www/deploy/.ssh` is not owned by `www`. |
+| `The aaPanel start script logs to ... which www cannot write` | The project is set to run as root. In aaPanel, edit the project, set the run user to `www` and the start command to `npm start`, and save. aaPanel then rewrites the start script. |
 | `No aaPanel Node project found` | Set `aapanelProject` to the project name shown in `/www/server/nodejs/vhost/scripts`. |
 | `Port ... held by a process www cannot stop` | The site was started as root. Stop it once in aaPanel, set the run user to `www`, and deploy again. |
 | `Health check failed` | Read the aaPanel project log. The path is on the `nohup` line of `/www/server/nodejs/vhost/scripts/<project>.sh`, usually `/www/server/nodejs/vhost/logs/<project>.log` or `/www/wwwlogs/nodejs/<project>.log`. The previous build is already back online. |

@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { devLoginCredentials } from '../config/env.js';
 import { AuthController } from '../controllers/admin/authController.js';
+import { BlogAdminController } from '../controllers/admin/blogAdminController.js';
 import { DashboardController } from '../controllers/admin/dashboardController.js';
 import { HomeAdminController } from '../controllers/admin/homeAdminController.js';
 import { InquiriesAdminController } from '../controllers/admin/inquiriesAdminController.js';
@@ -63,6 +64,12 @@ export function createAdminRouter(): Router {
   router.delete('/pages/:id/hero-image', asyncHandler(PagesAdminController.removeHeroImage));
   router.delete('/pages/:id', asyncHandler(PagesAdminController.remove));
   router.post('/pages/:key/upload-file', uploadDocument('file'), asyncHandler(MediaApiController.uploadFile));
+
+  router.get('/blog', asyncHandler(BlogAdminController.list));
+  router.get('/blog/create', asyncHandler(BlogAdminController.createForm));
+  router.post('/blog/create', pageUploads, asyncHandler(BlogAdminController.create));
+  router.get('/blog/:id/edit', asyncHandler(BlogAdminController.editForm));
+  router.post('/blog/:id/edit', pageUploads, asyncHandler(BlogAdminController.update));
 
   router.get('/home', asyncHandler(HomeAdminController.list));
   router.get('/home/:key/edit', asyncHandler(HomeAdminController.editForm));
