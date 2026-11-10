@@ -1,0 +1,485 @@
+@use 'sass:color';
+@use 'sass:list';
+@use 'tokens' as t;
+@use 'mixins' as m;
+
+// About: text beside the legacy "Who are we?" photo.
+.home-about {
+  &__grid {
+    display: grid;
+    gap: t.$space-xl;
+    align-items: center;
+
+    @include m.up(lg) {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 72px;
+    }
+  }
+
+  &__heading {
+    font-size: 20px;
+    font-weight: 700;
+    color: t.$color-accent;
+    margin: t.$space-lg 0 t.$space-md;
+  }
+
+  &__cta {
+    margin-top: t.$space-lg;
+
+    .material-symbols-outlined {
+      font-size: 20px;
+    }
+  }
+
+  &__media {
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 24px -16px -16px 24px;
+      border-radius: t.$radius-lg;
+      background: linear-gradient(135deg, t.$color-accent 0%, t.$color-primary 100%);
+      transform: skewX(-6deg);
+      opacity: 0.9;
+    }
+
+    img {
+      position: relative;
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-radius: t.$radius-lg;
+      box-shadow: t.$shadow-xl;
+    }
+  }
+}
+
+// Fuel prices: the legacy coloured circles, one per product.
+.price-list {
+  --price-gap: #{t.$space-md};
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--price-gap);
+  max-width: 1080px;
+  margin-inline: auto;
+
+  @include m.up(md) {
+    --price-gap: #{t.$gutter};
+  }
+}
+
+.price-circle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex: 0 1 calc((100% - var(--price-gap)) / 2);
+  max-width: 240px;
+
+  @include m.up(md) {
+    flex: 1 1 200px;
+  }
+  aspect-ratio: 1 / 1;
+  padding: t.$space-md;
+  border-radius: t.$radius-full;
+  color: t.$color-white;
+  text-align: center;
+  box-shadow: t.$shadow-lg, inset 0 0 0 6px rgba(t.$color-white, 0.16);
+  transition: transform t.$transition-slow;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+
+  @for $i from 1 through list.length(t.$price-colors) {
+    &--#{$i} {
+      $color: list.nth(t.$price-colors, $i);
+      background: radial-gradient(circle at 30% 25%, color.adjust($color, $lightness: 8%), $color 70%);
+    }
+  }
+
+  &__label {
+    font-family: t.$font-family-heading;
+    font-size: clamp(14px, 3.6vw, 19px);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  &__value {
+    font-family: t.$font-family-heading;
+    font-size: clamp(20px, 5.4vw, 30px);
+    font-weight: 800;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__unit {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    opacity: 0.92;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
+  }
+}
+
+.home-prices__meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: t.$space-sm;
+  margin-top: t.$space-xl;
+  font-size: 14px;
+  color: t.$color-on-surface-variant;
+  text-align: center;
+
+  .material-symbols-outlined {
+    font-size: 20px;
+    color: t.$color-accent;
+  }
+}
+
+// Testimonials over the legacy ocean video.
+.home-testimonials {
+  position: relative;
+  overflow: hidden;
+  background: t.$color-tertiary;
+  color: t.$color-white;
+  @include m.section-spacing;
+
+  &__media {
+    position: absolute;
+    inset: 0;
+
+    img,
+    video {
+      @include m.cover-image;
+      position: absolute;
+      inset: 0;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(t.$color-primary-dark, 0.82) 0%, rgba(t.$color-tertiary, 0.9) 100%);
+    }
+  }
+
+  &__inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  &__title::after {
+    margin-inline: auto;
+  }
+}
+
+.quote-slider {
+  width: 100%;
+  max-width: 50rem;
+
+  &__track {
+    display: grid;
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: t.$space-md;
+    margin-top: t.$space-lg;
+  }
+
+  &__button {
+    display: inline-grid;
+    place-items: center;
+    width: t.$tap-target;
+    height: t.$tap-target;
+    border: 1px solid rgba(t.$color-white, 0.4);
+    border-radius: t.$radius-full;
+    background: transparent;
+    color: t.$color-white;
+    cursor: pointer;
+
+    &:hover {
+      background: t.$color-white;
+      color: t.$color-primary;
+    }
+  }
+
+  &__dots {
+    display: flex;
+    gap: 4px;
+  }
+
+  &__dot {
+    position: relative;
+    width: t.$tap-target;
+    height: t.$tap-target;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 50% auto auto 50%;
+      width: 10px;
+      height: 10px;
+      margin: -5px 0 0 -5px;
+      border-radius: t.$radius-full;
+      background: rgba(t.$color-white, 0.45);
+      transition: background-color t.$transition-base, transform t.$transition-base;
+    }
+
+    &.is-active::before {
+      background: t.$color-accent-on-dark;
+      transform: scale(1.3);
+    }
+  }
+}
+
+.quote {
+  grid-area: 1 / 1;
+  align-self: center;
+  visibility: hidden;
+  opacity: 0;
+
+  &.is-active {
+    visibility: visible;
+    opacity: 1;
+    animation: quote-in 500ms ease;
+  }
+
+  &__mark {
+    font-size: 48px;
+    color: t.$color-accent-on-dark;
+  }
+
+  &__text {
+    margin: t.$space-sm 0 t.$gutter;
+
+    p {
+      font-size: clamp(17px, 2.4vw, 22px);
+      line-height: 1.6;
+      font-style: italic;
+    }
+  }
+
+  &__author {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+
+    strong {
+      display: block;
+      font-family: t.$font-family-heading;
+      font-size: 16px;
+    }
+  }
+
+  &__role {
+    display: block;
+    font-size: 14px;
+    color: rgba(t.$color-white, 0.8);
+  }
+
+  &__image {
+    display: block;
+    width: 100%;
+    max-width: 32rem;
+    height: auto;
+    margin: 0 auto t.$gutter;
+    border-radius: t.$radius-md;
+    border: 4px solid rgba(t.$color-white, 0.85);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &.is-active {
+      animation: none;
+    }
+  }
+}
+
+@keyframes quote-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+// Services: photo cards from the legacy home page.
+.service-grid {
+  list-style: none;
+  display: grid;
+  gap: t.$gutter;
+
+  @include m.up(md) {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+}
+
+.service-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  @include m.card-surface;
+  border-radius: t.$radius-lg;
+  box-shadow: t.$shadow-sm;
+  transition: box-shadow t.$transition-base, transform t.$transition-base;
+
+  &:hover {
+    box-shadow: t.$shadow-lg;
+    transform: translateY(-3px);
+  }
+
+  &__media {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 3;
+    background: t.$color-surface-container;
+    color: t.$color-primary;
+    overflow: hidden;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 64px;
+      height: 4px;
+      background: t.$color-brand-red;
+    }
+
+    img {
+      @include m.cover-image;
+    }
+
+    .material-symbols-outlined {
+      font-size: 48px;
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: t.$space-sm;
+    flex: 1;
+    padding: t.$gutter;
+  }
+
+  &__title {
+    font-size: 20px;
+    font-weight: 700;
+    color: t.$color-primary;
+  }
+
+  &__text {
+    color: t.$color-on-surface-variant;
+  }
+
+  &__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    min-height: t.$tap-target;
+    margin-top: auto;
+    font-weight: 700;
+    color: t.$color-accent;
+
+    .material-symbols-outlined {
+      font-size: 20px;
+      transition: transform t.$transition-base;
+    }
+
+    &:hover {
+      color: t.$color-accent-dark;
+
+      .material-symbols-outlined {
+        transform: translateX(3px);
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
+  }
+}
+
+.error-page {
+  @include m.section-spacing;
+
+  &__inner {
+    max-width: 44rem;
+  }
+
+  &__code {
+    display: block;
+    font-size: 72px;
+    line-height: 1;
+    font-weight: 900;
+    color: t.$color-accent;
+    margin-bottom: t.$space-md;
+  }
+
+  &__title {
+    @include m.type(headline-lg-mobile);
+    color: t.$color-primary;
+    margin-bottom: t.$space-md;
+
+    @include m.up(md) {
+      @include m.type(headline-lg);
+    }
+  }
+
+  &__text {
+    @include m.type(body-lg);
+    color: t.$color-slate-gray;
+    margin-bottom: t.$space-lg;
+  }
+
+  &__detail {
+    font-size: 12px;
+    white-space: pre-wrap;
+    background: t.$color-surface-low;
+    padding: t.$space-md;
+    border-radius: t.$radius-md;
+    margin-bottom: t.$space-lg;
+    overflow-x: auto;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: t.$space-md;
+  }
+}

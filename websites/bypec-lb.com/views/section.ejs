@@ -1,0 +1,31 @@
+<%- include('partials/page-hero') %>
+<section class="section">
+	<div class="container">
+		<% if (page.content) { %>
+			<div class="prose prose--intro"><%- page.content %></div>
+		<% } %>
+		<ul class="section-cards">
+			<% page.children.forEach(function (child) { %>
+				<li>
+					<a class="activity-card" href="<%= child.url %>">
+						<div class="activity-card__media">
+							<% if (child.heroImage) { %>
+								<img src="<%= child.heroImage %>" alt="" loading="lazy" />
+							<% } else if (child.heroVideo) { %>
+								<video src="<%= child.heroVideo %>" muted loop playsinline autoplay preload="metadata" aria-hidden="true"></video>
+							<% } else { %>
+								<span class="activity-card__placeholder material-symbols-outlined" aria-hidden="true"><%= child.icon || 'factory' %></span>
+							<% } %>
+						</div>
+						<div class="activity-card__body">
+							<h2 class="activity-card__title"><%= child.title %></h2>
+							<% if (child.summary) { %><p class="activity-card__text"><%= child.summary %></p><% } %>
+							<span class="activity-card__more">Learn more <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></span>
+						</div>
+					</a>
+				</li>
+			<% }) %>
+		</ul>
+		<%- include('partials/gallery') %>
+	</div>
+</section>

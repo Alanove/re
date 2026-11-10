@@ -1,0 +1,410 @@
+@use 'tokens' as t;
+@use 'mixins' as m;
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(t.$color-white, 0.97);
+  color: t.$color-primary;
+  border-top: 4px solid t.$color-primary;
+  box-shadow: 0 1px 0 t.$color-outline-variant;
+  transition: box-shadow t.$transition-slow;
+
+  @supports (backdrop-filter: blur(8px)) {
+    background: rgba(t.$color-white, 0.9);
+    backdrop-filter: blur(8px);
+  }
+
+  &.is-scrolled {
+    box-shadow: t.$shadow-md;
+  }
+
+  &__inner {
+    @include m.container;
+    height: t.$header-height-mobile;
+    display: flex;
+    align-items: center;
+    gap: t.$space-md;
+
+    @include m.up(lg) {
+      height: t.$header-height;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: t.$space-sm;
+    margin-left: auto;
+
+    @include m.up(lg) {
+      margin-left: 0;
+      gap: t.$space-md;
+    }
+  }
+
+  &__cta {
+    display: none;
+
+    .material-symbols-outlined {
+      font-size: 20px;
+    }
+
+    @include m.up(sm) {
+      display: inline-flex;
+    }
+  }
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  min-height: t.$tap-target;
+  flex-shrink: 1;
+  min-width: 0;
+  color: t.$color-primary;
+
+  &:hover {
+    color: t.$color-primary;
+  }
+
+  &__logo {
+    display: block;
+    width: auto;
+    height: 30px;
+    max-width: 100%;
+
+    @include m.up(lg) {
+      height: 40px;
+    }
+  }
+
+  &__name {
+    font-family: t.$font-family-heading;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  &--inverse {
+    color: t.$color-white;
+
+    &:hover {
+      color: t.$color-white;
+    }
+  }
+}
+
+.nav-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: t.$tap-target;
+  height: t.$tap-target;
+  border: 1px solid t.$color-outline-variant;
+  border-radius: t.$radius-md;
+  background: transparent;
+  color: t.$color-primary;
+  cursor: pointer;
+
+  &:hover {
+    border-color: t.$color-primary;
+  }
+
+  @include m.up(lg) {
+    display: none;
+  }
+}
+
+.site-nav {
+  // Mobile: off-canvas drawer from the right.
+  position: fixed;
+  inset: 0 0 0 auto;
+  z-index: 70;
+  width: min(86vw, 360px);
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: t.$color-white;
+  box-shadow: t.$shadow-xl;
+  transform: translateX(100%);
+  visibility: hidden;
+  transition: transform 300ms ease, visibility 0s linear 300ms;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-bottom: env(safe-area-inset-bottom);
+
+  &.is-open {
+    transform: translateX(0);
+    visibility: visible;
+    transition: transform 300ms ease, visibility 0s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+
+    &.is-open {
+      transition: none;
+    }
+  }
+
+  @include m.up(lg) {
+    position: static;
+    width: auto;
+    height: auto;
+    flex-direction: row;
+    align-items: center;
+    margin-left: auto;
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+    visibility: visible;
+    overflow: visible;
+    transition: none;
+    padding-bottom: 0;
+  }
+
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px t.$space-md 10px t.$gutter;
+    border-top: 4px solid t.$color-primary;
+    border-bottom: 1px solid t.$color-outline-variant;
+
+    @include m.up(lg) {
+      display: none;
+    }
+  }
+
+  &__title {
+    @include m.label-caps;
+    color: t.$color-primary;
+  }
+
+  &__close {
+    display: inline-grid;
+    place-items: center;
+    width: t.$tap-target;
+    height: t.$tap-target;
+    border: 0;
+    border-radius: t.$radius-md;
+    background: t.$color-surface;
+    color: t.$color-primary;
+    cursor: pointer;
+
+    &:hover {
+      background: t.$color-surface-container;
+    }
+  }
+
+  &__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    padding: t.$space-sm 0;
+
+    @include m.up(lg) {
+      flex-direction: row;
+      align-items: center;
+      gap: 2px;
+      padding: 0;
+    }
+  }
+
+  &__link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 52px;
+    padding: 0 t.$gutter;
+    font-family: t.$font-family-heading;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: t.$color-primary;
+
+    @include m.up(lg) {
+      min-height: t.$tap-target;
+      padding: 0 14px;
+      font-size: 13px;
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 14px;
+        right: 14px;
+        bottom: 4px;
+        height: 3px;
+        border-radius: 2px;
+        background: t.$color-brand-red;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform t.$transition-base;
+      }
+    }
+
+    &:hover,
+    &.is-current {
+      color: t.$color-primary-dark;
+      background: t.$color-surface;
+
+      @include m.up(lg) {
+        background: transparent;
+      }
+
+      &::after {
+        transform: scaleX(1);
+      }
+    }
+
+    .is-active > & {
+      color: t.$color-primary-dark;
+      box-shadow: inset 4px 0 0 t.$color-brand-red;
+
+      @include m.up(lg) {
+        box-shadow: none;
+      }
+
+      &::after {
+        transform: scaleX(1);
+      }
+    }
+  }
+
+  &__contact {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: auto;
+    padding: t.$gutter;
+    border-top: 1px solid t.$color-outline-variant;
+    background: t.$color-surface;
+
+    @include m.up(lg) {
+      display: none;
+    }
+  }
+
+  &__line {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: t.$tap-target;
+    color: t.$color-on-surface;
+    overflow-wrap: break-word;
+
+    .material-symbols-outlined {
+      font-size: 20px;
+      color: t.$color-accent;
+    }
+
+    &:hover {
+      color: t.$color-primary;
+    }
+  }
+}
+
+.nav-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 65;
+  background: rgba(t.$color-tertiary, 0.55);
+  backdrop-filter: blur(2px);
+
+  @include m.up(lg) {
+    display: none;
+  }
+}
+
+// Shared social icon list (header, drawer, footer, contact section).
+.social-links {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: t.$space-sm;
+
+  &--header {
+    display: none;
+
+    @include m.up(lg) {
+      display: flex;
+      gap: 2px;
+    }
+
+    .social-link {
+      background: transparent;
+      color: t.$color-primary;
+
+      &:hover {
+        color: t.$color-white;
+      }
+    }
+  }
+
+  &--drawer {
+    margin-top: t.$space-sm;
+
+    .social-link {
+      background: t.$color-white;
+      color: t.$color-primary;
+    }
+  }
+
+  &--buttons {
+    gap: 10px;
+
+    .social-link {
+      width: auto;
+      height: t.$tap-target;
+      padding: 0 16px 0 12px;
+      gap: 8px;
+      border-radius: t.$radius-full;
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: t.$tap-target;
+  height: t.$tap-target;
+  border-radius: t.$radius-full;
+  background: rgba(t.$color-white, 0.1);
+  color: t.$color-white;
+  transition: background-color t.$transition-base, color t.$transition-base;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    background: t.$color-accent;
+    color: t.$color-white;
+  }
+
+  &--whatsapp:hover {
+    background: #25d366;
+    color: t.$color-white;
+  }
+
+  &--instagram:hover {
+    background: #e1306c;
+    color: t.$color-white;
+  }
+
+  &--facebook:hover {
+    background: #1877f2;
+    color: t.$color-white;
+  }
+}

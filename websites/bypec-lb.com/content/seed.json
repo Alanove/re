@@ -1,0 +1,180 @@
+{
+  "settings": {
+    "tagline": "Fuel, lubricants and car care in Byblos and Amchit",
+    "description": "Byblos Petroleum Company (BYPEC) S.A.R.L distributes and stores petroleum products and lubricants, and runs service stations in Byblos and Amchit, Lebanon.",
+    "contactEmail": "byblospetroleum@hotmail.com",
+    "contactPhone": "+961 9 943111",
+    "whatsappNumber": "",
+    "brochureUrl": "",
+    "favicon": "legacy:/images/bypec-logo.svg",
+    "faviconCrop": { "left": 0, "top": 0, "width": 0.34, "height": 1 },
+    "footerText": "Byblos Petroleum Company (BYPEC) S.A.R.L distributes and stores petroleum products and lubricants for residential and commercial customers, with service stations in Byblos and Amchit.",
+    "copyright": "Copyright {year} © Bypec - Byblos Petroleum Company S.A.R.L. All rights reserved.",
+    "inquiryTopics": [
+      "Fuel delivery",
+      "Wholesale diesel and fuel",
+      "Lubricants and lube change",
+      "Car wash",
+      "Stations",
+      "General inquiry"
+    ],
+    "themeColor": "#2e3192",
+    "social": {
+      "facebook": "",
+      "instagram": "",
+      "linkedin": "",
+      "youtube": ""
+    },
+    "ctaBand": {
+      "title": "Need fuel delivered?",
+      "text": "Our distribution trucks reach homes, businesses and remote sites across the region. Tell us what you need and we will get back to you.",
+      "label": "Contact us"
+    },
+    "thankYouMessage": "Thank you. Your message has been received and the Bypec team will get back to you shortly.",
+    "seo": {
+      "defaultTitle": "Bypec | Byblos Petroleum Company - Fuel Stations, Distribution & Lubricants",
+      "defaultDescription": "Byblos Petroleum Company (BYPEC) distributes petroleum products and lubricants and runs fuel and service stations in Byblos and Amchit, Lebanon. Today's official fuel prices included.",
+      "defaultKeywords": "Bypec, Byblos Petroleum Company, fuel station Byblos, gas station Amchit, petroleum distribution Lebanon, diesel delivery, lubricants, car wash, Lebanon fuel prices",
+      "defaultImage": "legacy:/img/intro.jpg"
+    }
+  },
+  "extraAssets": [],
+  "pageIcons": {},
+  "pageOverrides": {
+    "byblos-station": {
+      "slug": "byblos",
+      "header": "Byblos Station"
+    },
+    "amchit": {
+      "header": "Amchit Station"
+    },
+    "stations": {
+      "summary": "Fuel, car wash, lube change and friendly service at our stations in Byblos and Amchit.",
+      "heroImage": "legacy:/img/subheader.jpg"
+    }
+  },
+  "galleryFromContent": ["amchit", "byblos-station", "jeita"],
+  "redirects": [
+    { "from": "/who-are-we", "to": "/about-us" },
+    { "from": "/not-in-menu/who-are-we", "to": "/about-us" },
+    { "from": "/default.aspx", "to": "/" }
+  ],
+  "menus": {
+    "main": [
+      { "title": "About Us", "url": "page:about-us" },
+      { "title": "Stations", "url": "page:stations" },
+      { "title": "Services", "url": "page:services" },
+      { "title": "Contact Us", "url": "page:contact-us" }
+    ],
+    "footer": [
+      { "title": "About Us", "url": "page:about-us" },
+      { "title": "Amchit Station", "url": "page:amchit" },
+      { "title": "Byblos Station", "url": "page:byblos-station" },
+      { "title": "Services", "url": "page:services" },
+      { "title": "Contact Us", "url": "page:contact-us" }
+    ]
+  },
+  "offices": [
+    {
+      "id": "head-office",
+      "country": "Byblos Petroleum Company",
+      "role": "Head office",
+      "address": "Byblos - Saint Georges Road, above Bypec Station",
+      "poBox": "",
+      "phones": ["+961 9 943111", "+961 9 942111", "+961 9 944824"],
+      "fax": "+961 71 943111",
+      "emails": ["byblospetroleum@hotmail.com"],
+      "mapQuery": "Bypec Station, Saint Georges Road, Byblos, Lebanon",
+      "isPrimary": true,
+      "sort": 10
+    },
+    {
+      "id": "amchit-station",
+      "country": "Amchit Station",
+      "role": "Fuel and service station",
+      "address": "Amchit - Main road, facing McDonald's",
+      "poBox": "",
+      "phones": ["+961 9 622714", "+961 9 622715"],
+      "fax": "",
+      "emails": [],
+      "mapQuery": "Bypec Station, Amchit, Lebanon",
+      "isPrimary": false,
+      "sort": 20
+    },
+    {
+      "id": "byblos-station",
+      "country": "Byblos Station",
+      "role": "Fuel and service station",
+      "address": "Byblos - Saint Georges Road",
+      "poBox": "",
+      "phones": ["+961 9 944940"],
+      "fax": "",
+      "emails": [],
+      "mapQuery": "Bypec Station, Saint Georges Road, Byblos, Lebanon",
+      "isPrimary": false,
+      "sort": 30
+    }
+  ],
+  "home": {
+    "hero": {
+      "enabled": true,
+      "eyebrow": "Byblos Petroleum Company",
+      "title": "Fuel, care and service you can count on",
+      "intro": "Visit our stations in Amchit and Byblos for fuel, car wash and lube change, or have petroleum products delivered to your door.",
+      "image": "legacy:/img/intro.jpg",
+      "tiles": [
+        { "title": "Amchit", "url": "page:amchit", "image": "legacy:/img/subheader/amchit.jpg" },
+        { "title": "Byblos", "url": "page:byblos-station", "image": "legacy:/img/subheader/byblos.jpg" }
+      ]
+    },
+    "about": {
+      "enabled": true,
+      "title": "About Us",
+      "source": "who-are-we",
+      "cta": { "label": "Continue", "url": "page:about-us" }
+    },
+    "prices": {
+      "enabled": true,
+      "title": "Today's fuel prices",
+      "intro": "Official maximum retail prices set by the Ministry of Energy and Water, per 20 litres."
+    },
+    "testimonials": {
+      "enabled": true,
+      "title": "Testimonials",
+      "video": "legacy:/video/ocean.mp4",
+      "image": "legacy:/video/ocean.jpg",
+      "items": [
+        {
+          "name": "Youssef Ziade",
+          "role": "",
+          "quote": "I had my car serviced (wash, general service) at Bypec - Amchit branch. The service was exceptional; the staff was extremely friendly and accommodating. Meanwhile, I waited for my car at the Cake & Bake adjacent to the station, where the staff was also excellent and the food was great. It is safe to say I have become a regular at Bypec. Their service, in my eyes, is unmatched!",
+          "photo": ""
+        },
+        {
+          "name": "Nohad Sleiman",
+          "role": "",
+          "quote": "People change, locations change. But some habits don't.",
+          "photo": "legacy:/images/public/testimonials-nohad.jpg"
+        }
+      ]
+    },
+    "services": {
+      "enabled": true,
+      "title": "Our Services",
+      "intro": "From the pump to your doorstep.",
+      "sources": ["services-home", "petroleum-distribution", "lube-change"],
+      "url": "page:services"
+    }
+  },
+  "fuelPrices": {
+    "unit": "L.L. / 20 L",
+    "labels": {
+      "unleaded98": "Unleaded 98",
+      "unleaded95": "Unleaded 95",
+      "dieselVehicle": "Diesel Oil",
+      "mazout": "Gas Oil",
+      "kerosene": "Kerosene"
+    },
+    "hidden": ["kerosene"]
+  }
+}

@@ -1,0 +1,165 @@
+<%
+	const basePath = '/admin/pages';
+	const action = isCreate ? basePath + '/create' : basePath + '/' + page.id + '/edit';
+	const seo = page.seo || { title: '', description: '', keywords: '' };
+%>
+<form method="POST" action="<%= action %>?_csrf=<%= encodeURIComponent(csrfToken) %>" enctype="multipart/form-data" id="page-form" novalidate
+	data-slug-check="/admin/api/pages/check-slug" data-page-id="<%= page.id || '' %>">
+	<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+	<input type="hidden" name="key" value="<%= page.key || 'new-page' %>" />
+	<div class="row">
+		<div class="col-xl-8">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Content</h4></div>
+				<div class="panel-body">
+					<div class="mb-3">
+						<label class="form-label" for="title">Title <span class="text-danger">*</span></label>
+						<input type="text" class="form-control <%= errors.title ? 'is-invalid' : '' %>" id="title" name="title" value="<%= page.title %>" maxlength="200" required data-slug-source="#slug" />
+						<%- include('../partials/field-error', { name: 'title' }) %>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="header">Page heading</label>
+						<input type="text" class="form-control <%= errors.header ? 'is-invalid' : '' %>" id="header" name="header" value="<%= page.header %>" maxlength="200" />
+						<small class="text-muted">Shown in the page hero. Leave empty to use the title.</small>
+						<%- include('../partials/field-error', { name: 'header' }) %>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="summary">Summary</label>
+						<textarea class="form-control <%= errors.summary ? 'is-invalid' : '' %>" id="summary" name="summary" rows="3" maxlength="2000"><%= page.summary %></textarea>
+						<small class="text-muted">Used on section landing cards and as the default meta description.</small>
+						<%- include('../partials/field-error', { name: 'summary' }) %>
+					</div>
+					<div class="mb-1">
+						<label class="form-label" for="content">Body</label>
+						<textarea class="form-control rich-text" id="content" name="content" rows="14"><%= page.content %></textarea>
+						<%- include('../partials/field-error', { name: 'content' }) %>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Gallery</h4></div>
+				<div class="panel-body">
+					<% if (gallery.length > 0) { %>
+						<div class="row g-3 mb-3" data-gallery-list>
+							<% gallery.forEach(function (image, index) { %>
+								<div class="col-6 col-md-4 col-xxl-3">
+									<div class="card h-100 admin-gallery-card">
+										<img src="<%= thumbUrl(image.src) %>" alt="" class="card-img-top" loading="lazy" data-fallback-src="<%= image.src %>" />
+										<div class="card-body p-2">
+											<input type="hidden" name="gallery[<%= index %>][id]" value="<%= image.id %>" />
+											<input type="text" class="form-control form-control-sm mb-1" name="gallery[<%= index %>][caption]" value="<%= image.caption %>" placeholder="Caption" maxlength="300" aria-label="Caption" />
+											<div class="d-flex align-items-center gap-2">
+												<input type="number" class="form-control form-control-sm" name="gallery[<%= index %>][sort]" value="<%= image.sort %>" min="0" style="max-width:80px" aria-label="Sort order" />
+												<div class="form-check mb-0">
+													<input class="form-check-input" type="checkbox" name="gallery[<%= index %>][remove]" value="1" id="remove-<%= image.id %>" />
+													<label class="form-check-label small text-danger" for="remove-<%= image.id %>">Remove</label>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							<% }) %>
+						</div>
+					<% } else { %>
+						<p class="text-muted">No gallery images yet.</p>
+					<% } %>
+					<label class="form-label" for="galleryFiles">Add images</label>
+					<%- include('../partials/media-picker', { id: 'galleryFiles', field: 'galleryFiles', kind: 'image', multiple: true, label: 'gallery images', hint: 'Up to 25 images per save, 8 MB each. Converted to WebP and resized to 1600px.' }) %>
+					<% Object.keys(errors).filter(function (key) { return key.indexOf('gallery') === 0; }).forEach(function (key) { %>
+						<div class="invalid-feedback d-block"><%= errors[key] %></div>
+					<% }) %>
+				</div>
+			</div>
+
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">SEO</h4></div>
+				<div class="panel-body">
+					<div class="mb-3">
+						<label class="form-label" for="seoTitle">Meta title</label>
+						<input type="text" class="form-control" id="seoTitle" name="seoTitle" value="<%= seo.title %>" maxlength="200" data-char-count="60" />
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="seoDescription">Meta description</label>
+						<textarea class="form-control" id="seoDescription" name="seoDescription" rows="2" maxlength="400" data-char-count="160"><%= seo.description %></textarea>
+					</div>
+					<div>
+						<label class="form-label" for="seoKeywords">Keywords</label>
+						<input type="text" class="form-control" id="seoKeywords" name="seoKeywords" value="<%= seo.keywords %>" maxlength="500" />
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xl-4 admin-sticky-stack">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Publish</h4></div>
+				<div class="panel-body">
+					<div class="form-check form-switch mb-3">
+						<input class="form-check-input" type="checkbox" id="published" name="published" value="1" <%= page.status === 'published' ? 'checked' : '' %> />
+						<label class="form-check-label" for="published">Published</label>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="parentId">Parent page</label>
+						<select class="form-select <%= errors.parentId ? 'is-invalid' : '' %>" id="parentId" name="parentId">
+							<option value="">— Top level —</option>
+							<% parents.forEach(function (option) { %>
+								<option value="<%= option.id %>" <%= page.parentId === option.id ? 'selected' : '' %>><%= option.label %></option>
+							<% }) %>
+						</select>
+						<%- include('../partials/field-error', { name: 'parentId' }) %>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="slug">URL slug</label>
+						<input type="text" class="form-control <%= errors.slug ? 'is-invalid' : '' %>" id="slug" name="slug" value="<%= page.slug %>" maxlength="80" pattern="[a-z0-9][a-z0-9_\-]*" />
+						<div class="small mt-1" data-slug-status></div>
+						<% if (!isCreate) { %><small class="text-muted">Current address: <a href="<%= page.url %>" target="_blank" rel="noopener"><%= page.url %></a></small><% } %>
+						<%- include('../partials/field-error', { name: 'slug' }) %>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="kind">Page type</label>
+						<select class="form-select" id="kind" name="kind">
+							<% kinds.forEach(function (kind) { %>
+								<option value="<%= kind.value %>" <%= page.kind === kind.value ? 'selected' : '' %>><%= kind.label %></option>
+							<% }) %>
+						</select>
+						<%- include('../partials/field-error', { name: 'kind' }) %>
+					</div>
+					<div class="row g-2 mb-3">
+						<div class="col-6">
+							<label class="form-label" for="sort">Sort order</label>
+							<input type="number" class="form-control <%= errors.sort ? 'is-invalid' : '' %>" id="sort" name="sort" value="<%= page.sort %>" min="0" />
+							<%- include('../partials/field-error', { name: 'sort' }) %>
+						</div>
+						<div class="col-6">
+							<label class="form-label" for="icon">Icon</label>
+							<input type="text" class="form-control <%= errors.icon ? 'is-invalid' : '' %>" id="icon" name="icon" value="<%= page.icon %>" placeholder="engineering" maxlength="60" />
+							<%- include('../partials/field-error', { name: 'icon' }) %>
+						</div>
+					</div>
+					<small class="text-muted d-block mb-3">Icons use <a href="https://fonts.google.com/icons" target="_blank" rel="noopener">Material Symbols</a> names.</small>
+					<div class="d-flex gap-2">
+						<button type="submit" class="btn btn-success flex-fill"><i class="fa fa-save me-1"></i> <%= isCreate ? 'Create page' : 'Save changes' %></button>
+						<a href="<%= basePath %>" class="btn btn-default">Cancel</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Header image</h4></div>
+				<div class="panel-body">
+					<%- include('../partials/media-picker', { id: 'heroImageFile', field: 'heroImageFile', kind: 'image', current: page.heroImage, valueName: 'heroImage', removeName: 'removeHeroImage', label: 'header image', hint: 'JPEG, PNG, GIF or WebP up to 8 MB. Converted to WebP and resized to 2000px.' }) %>
+					<%- include('../partials/field-error', { name: 'heroImage' }) %>
+				</div>
+			</div>
+
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Header video</h4></div>
+				<div class="panel-body">
+					<%- include('../partials/media-picker', { id: 'heroVideoFile', field: 'heroVideoFile', kind: 'video', current: page.heroVideo, valueName: 'heroVideo', removeName: 'removeHeroVideo', label: 'header video', hint: 'MP4 or WebM up to 25 MB. Plays muted and looping behind the page heading; the header image shows while it loads.' }) %>
+					<%- include('../partials/field-error', { name: 'heroVideo' }) %>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

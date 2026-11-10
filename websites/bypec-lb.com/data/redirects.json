@@ -1,0 +1,18 @@
+[
+  {
+    "from": "/stations/byblos-station",
+    "to": "/stations/byblos"
+  },
+  {
+    "from": "/who-are-we",
+    "to": "/about-us"
+  },
+  {
+    "from": "/not-in-menu/who-are-we",
+    "to": "/about-us"
+  },
+  {
+    "from": "/default.aspx",
+    "to": "/"
+  }
+]

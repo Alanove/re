@@ -1,0 +1,101 @@
+<div class="row">
+	<div class="col-xl-3 col-md-6">
+		<div class="widget widget-stats bg-teal">
+			<div class="stats-icon stats-icon-lg"><i class="fa fa-file-alt fa-fw"></i></div>
+			<div class="stats-content">
+				<div class="stats-title">PAGES</div>
+				<div class="stats-number"><%= summary.pages.total %></div>
+				<div class="stats-desc"><%= summary.pages.published %> published · <%= summary.pages.drafts %> drafts</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-3 col-md-6">
+		<a class="widget widget-stats <%= summary.fuelPrices.healthy ? 'bg-blue' : 'bg-orange' %> d-block text-decoration-none" href="/admin/fuel-prices">
+			<div class="stats-icon stats-icon-lg"><i class="fa fa-gas-pump fa-fw"></i></div>
+			<div class="stats-content">
+				<div class="stats-title">FUEL PRICES</div>
+				<div class="stats-number"><%= summary.fuelPrices.officialDateLabel || 'No official date' %></div>
+				<div class="stats-desc"><%= summary.fuelPrices.summary %></div>
+			</div>
+		</a>
+	</div>
+	<div class="col-xl-3 col-md-6">
+		<div class="widget widget-stats bg-indigo">
+			<div class="stats-icon stats-icon-lg"><i class="fa fa-envelope fa-fw"></i></div>
+			<div class="stats-content">
+				<div class="stats-title">INQUIRIES</div>
+				<div class="stats-number"><%= summary.inquiries.total %></div>
+				<div class="stats-desc"><%= summary.inquiries.unread %> unread</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-3 col-md-6">
+		<div class="widget widget-stats bg-dark">
+			<div class="stats-icon stats-icon-lg"><i class="fa fa-users fa-fw"></i></div>
+			<div class="stats-content">
+				<div class="stats-title">USERS · OFFICES</div>
+				<div class="stats-number"><%= summary.users %> · <%= summary.offices %></div>
+				<div class="stats-desc"><%= summary.users %> CMS user<%= summary.users === 1 ? '' : 's' %> · <%= summary.offices %> office<%= summary.offices === 1 ? '' : 's' %></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xl-6">
+		<div class="panel panel-inverse">
+			<div class="panel-heading">
+				<h4 class="panel-title">Recently updated pages</h4>
+				<div class="panel-heading-btn"><a href="/admin/pages" class="btn btn-xs btn-default">All pages</a></div>
+			</div>
+			<div class="panel-body p-0">
+				<table class="table table-hover mb-0 recent-items-table">
+					<tbody>
+						<% summary.recentPages.forEach(function (page) { %>
+							<tr>
+								<td><a href="<%= page.editUrl %>" class="fw-bold"><%= page.title %></a><div class="small text-muted"><%= page.url %></div></td>
+								<td class="text-end text-nowrap small text-muted"><%= new Date(page.updatedAt).toLocaleDateString('en-GB') %></td>
+							</tr>
+						<% }) %>
+						<% if (summary.recentPages.length === 0) { %><tr><td class="text-muted p-3">No pages yet.</td></tr><% } %>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-6">
+		<div class="panel panel-inverse">
+			<div class="panel-heading">
+				<h4 class="panel-title">Latest inquiries</h4>
+				<div class="panel-heading-btn"><a href="/admin/inquiries" class="btn btn-xs btn-default">All inquiries</a></div>
+			</div>
+			<div class="panel-body p-0">
+				<table class="table table-hover mb-0 recent-items-table">
+					<tbody>
+						<% summary.inquiries.latest.forEach(function (item) { %>
+							<tr>
+								<td>
+									<a href="/admin/inquiries/<%= item.id %>" class="<%= item.read ? '' : 'fw-bold' %>"><%= item.name %></a>
+									<div class="small text-muted"><%= item.topic %> · <%= item.email %></div>
+								</td>
+								<td class="text-end text-nowrap small text-muted"><%= new Date(item.createdAt).toLocaleString('en-GB') %></td>
+							</tr>
+						<% }) %>
+						<% if (summary.inquiries.latest.length === 0) { %><tr><td class="text-muted p-3">No inquiries yet.</td></tr><% } %>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-inverse quick-actions-panel">
+	<div class="panel-heading"><h4 class="panel-title">Quick actions</h4></div>
+	<div class="panel-body d-flex flex-wrap gap-2">
+		<a href="/admin/fuel-prices" class="btn btn-success"><i class="fa fa-gas-pump me-1"></i> Fuel prices</a>
+		<a href="/admin/pages/create" class="btn btn-default"><i class="fa fa-plus me-1"></i> New page</a>
+		<a href="/admin/home" class="btn btn-primary"><i class="fa fa-home me-1"></i> Edit home page</a>
+		<a href="/admin/menus/main/edit" class="btn btn-default"><i class="fa fa-bars me-1"></i> Main menu</a>
+		<a href="/admin/offices" class="btn btn-default"><i class="fa fa-map-marker-alt me-1"></i> Offices</a>
+	</div>
+</div>

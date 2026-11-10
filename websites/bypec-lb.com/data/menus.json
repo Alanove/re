@@ -1,0 +1,97 @@
+[
+  {
+    "id": "main",
+    "name": "Main navigation",
+    "description": "Header navigation. Links starting with /# scroll to a home page section.",
+    "items": [
+      {
+        "id": "item-about-us",
+        "title": "About Us",
+        "url": "/about-us",
+        "pageId": 1,
+        "sort": 10,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-stations",
+        "title": "Stations",
+        "url": "/stations",
+        "pageId": 2,
+        "sort": 20,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-services",
+        "title": "Services",
+        "url": "/services",
+        "pageId": 3,
+        "sort": 30,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-contact-us",
+        "title": "Contact Us",
+        "url": "/contact-us",
+        "pageId": 8,
+        "sort": 40,
+        "active": true,
+        "children": []
+      }
+    ]
+  },
+  {
+    "id": "footer",
+    "name": "Footer links",
+    "description": "Quick links listed in the footer.",
+    "items": [
+      {
+        "id": "item-about-us",
+        "title": "About Us",
+        "url": "/about-us",
+        "pageId": 1,
+        "sort": 10,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-amchit-station",
+        "title": "Amchit Station",
+        "url": "/stations/amchit",
+        "pageId": 5,
+        "sort": 20,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-byblos-station",
+        "title": "Byblos Station",
+        "url": "/stations/byblos",
+        "pageId": 6,
+        "sort": 30,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-services",
+        "title": "Services",
+        "url": "/services",
+        "pageId": 3,
+        "sort": 40,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-contact-us",
+        "title": "Contact Us",
+        "url": "/contact-us",
+        "pageId": 8,
+        "sort": 50,
+        "active": true,
+        "children": []
+      }
+    ]
+  }
+]

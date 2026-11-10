@@ -1,0 +1,51 @@
+<%
+	const telHref = function (value) { return 'tel:' + String(value || '').replace(/[^+\d]/g, ''); };
+	const copyright = (settings.copyright || ('© {year} ' + settings.siteName + '. All rights reserved.')).replace('{year}', year);
+	const mapHref = function (query) { return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(query); };
+%>
+<footer class="site-footer">
+	<div class="site-footer__inner">
+		<div class="site-footer__brand">
+			<a class="site-footer__logo" href="/" aria-label="<%= settings.siteName %> home">
+				<% if (settings.logo) { %><img src="<%= settings.logo %>" alt="<%= settings.siteName %>" width="200" height="33" loading="lazy" /><% } else { %><span class="brand__name"><%= settings.siteName %></span><% } %>
+			</a>
+			<% if (settings.footerText || settings.description) { %><p class="site-footer__text"><%= settings.footerText || settings.description %></p><% } %>
+			<h2 class="site-footer__heading">Explore</h2>
+			<ul class="footer-links">
+				<% (footerMenu.length ? footerMenu : mainMenu).forEach(function (item) { %>
+					<li><a href="<%= item.url %>"><%= item.title %></a></li>
+				<% }) %>
+			</ul>
+			<%- include('social-links', { socialClass: 'social-links social-links--footer' }) %>
+		</div>
+
+		<div class="site-footer__offices">
+			<h2 class="site-footer__heading">Get in touch</h2>
+			<ul class="footer-offices">
+				<% offices.forEach(function (office) { %>
+					<li class="footer-office">
+						<h3 class="footer-office__name"><%= office.country %></h3>
+						<% if (office.role) { %><p class="footer-office__role"><%= office.role %></p><% } %>
+						<ul class="footer-contact">
+							<% if (office.address) { %>
+								<li>
+									<span class="material-symbols-outlined" aria-hidden="true">location_on</span>
+									<% if (office.mapQuery) { %><a href="<%= mapHref(office.mapQuery) %>" target="_blank" rel="noopener noreferrer"><%= office.address %><span class="visually-hidden"> (opens Google Maps)</span></a><% } else { %><span><%= office.address %></span><% } %>
+								</li>
+							<% } %>
+							<% office.phones.forEach(function (phone) { %><li><span class="material-symbols-outlined" aria-hidden="true">call</span><a href="<%= telHref(phone) %>"><%= phone %></a></li><% }) %>
+							<% if (office.fax) { %><li><span class="material-symbols-outlined" aria-hidden="true">fax</span><span class="footer-contact__group"><span class="footer-contact__label">Fax / mobile</span><a href="<%= telHref(office.fax) %>"><%= office.fax %></a></span></li><% } %>
+							<% office.emails.forEach(function (email) { %><li><span class="material-symbols-outlined" aria-hidden="true">mail</span><a href="mailto:<%= email %>"><%- include('email-text', { email: email }) %></a></li><% }) %>
+						</ul>
+					</li>
+				<% }) %>
+			</ul>
+		</div>
+	</div>
+	<div class="site-footer__bottom">
+		<p>
+			<span><%= copyright %></span>
+			<span class="site-footer__credit">by <a href="https://www.liteweb.info" target="_blank" rel="noopener noreferrer">www.liteweb.info</a></span>
+		</p>
+	</div>
+</footer>

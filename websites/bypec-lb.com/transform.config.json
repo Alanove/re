@@ -1,0 +1,54 @@
+{
+  "siteKey": "bypec",
+  "siteName": "Bypec - Byblos Petroleum Company",
+  "legacySiteUrl": "https://www.bypec-lb.com",
+  "cmsSource": "C:\\ai\\tests\\btb\\solu-new",
+  "contentWorkbook": "wwwroot/wwwroot/data.xls",
+  "contentSeed": "content/seed.json",
+  "designDir": "design",
+  "outputDir": ".",
+  "port": 3046,
+  "logo": {
+    "url": "https://www.bypec-lb.com/images/bypec-logo.svg",
+    "localPath": "/uploads/site/logo.webp",
+    "note": "Blue, green and red BYPEC wordmark (images/bypec-logo.svg). The legacy SVG is rasterized once at import time and stored as WebP; the favicon is the same mark as a 512px PNG."
+  },
+  "legacy": {
+    "localRoot": "wwwroot/wwwroot",
+    "pageImagePattern": "/PRV/Images/Pages/Page_{pageId}/{fileName}",
+    "bannerPattern": "/img/subheader/{url}.jpg",
+    "footerPageKey": null,
+    "contactPageKey": "contact-us",
+    "hiddenPageKeys": [
+      "not-in-menu",
+      "who-are-we",
+      "services-home",
+      "petroleum-distribution",
+      "lube-change"
+    ],
+    "uploadsMirrorPrefix": "/uploads/legacy",
+    "fuelPrices": {
+      "configFile": "PRV/conf/Parameters.Config",
+      "keys": {
+        "unleaded98": "Unlead98",
+        "unleaded95": "Unlead95",
+        "dieselVehicle": "DieselOil",
+        "mazout": "GasOil"
+      }
+    }
+  },
+  "cmsSync": {
+    "adminPublicFiles": [
+      "css/vendor.min.css",
+      "css/app.min.css",
+      "js/vendor.min.js",
+      "js/app.min.js",
+      "js/custom.js",
+      "js/theme.js"
+    ],
+    "adminPublicDirs": [
+      "css/images",
+      "webfonts"
+    ]
+  }
+}

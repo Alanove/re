@@ -1,0 +1,24 @@
+<div class="panel panel-inverse">
+	<div class="panel-heading"><h4 class="panel-title">Contact form inquiries</h4></div>
+	<div class="panel-body p-0">
+		<table class="table table-hover align-middle mb-0">
+			<thead><tr><th>From</th><th>Topic</th><th>Company</th><th>Received</th><th>Email sent</th><th style="width:1%"></th></tr></thead>
+			<tbody>
+				<% inquiries.forEach(function (item) { %>
+					<tr class="<%= item.read ? '' : 'fw-bold' %>">
+						<td><a href="/admin/inquiries/<%= item.id %>"><%= item.name %></a><div class="small text-muted fw-normal"><%= item.email %></div></td>
+						<td><%= item.topic %><% if (item.productName) { %><div class="small text-muted"><%= item.productName %></div><% } %></td>
+						<td><%= item.company %></td>
+						<td class="text-nowrap small"><%= new Date(item.createdAt).toLocaleString('en-GB') %></td>
+						<td><% if (item.emailed) { %><span class="badge bg-success">Yes</span><% } else { %><span class="badge bg-light text-dark">Stored only</span><% } %></td>
+						<td class="text-nowrap">
+							<a href="/admin/inquiries/<%= item.id %>" class="btn btn-sm btn-primary" title="Open"><i class="fa fa-eye"></i></a>
+							<button type="button" class="btn btn-sm btn-danger" title="Delete" data-delete-url="/admin/inquiries/<%= item.id %>" data-delete-title="Delete inquiry" data-delete-message="Delete the inquiry from <%= item.name %>?"><i class="fa fa-trash"></i></button>
+						</td>
+					</tr>
+				<% }) %>
+				<% if (inquiries.length === 0) { %><tr><td colspan="6" class="text-center text-muted py-4">No inquiries yet.</td></tr><% } %>
+			</tbody>
+		</table>
+	</div>
+</div>

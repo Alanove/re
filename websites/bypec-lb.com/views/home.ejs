@@ -1,0 +1,156 @@
+<%
+	const hero = home.hero, about = home.about, prices = home.prices, testimonials = home.testimonials, services = home.services;
+	const heroTitle = hero.title || settings.tagline || settings.siteName;
+%>
+<% if (hero.enabled) { %>
+<section class="hero" id="top" aria-labelledby="hero-title">
+	<div class="hero__media">
+		<% if (hero.image) { %><img src="<%= hero.image %>" alt="" fetchpriority="high" /><% } %>
+	</div>
+	<div class="hero__inner">
+		<div class="hero__copy">
+			<% if (hero.eyebrow) { %><p class="hero__eyebrow"><%= hero.eyebrow %></p><% } %>
+			<h1 class="hero__title" id="hero-title"><%= heroTitle %></h1>
+			<% if (hero.intro) { %><p class="hero__intro"><%= hero.intro %></p><% } %>
+			<div class="hero__actions">
+				<% if (prices.enabled && fuelPrices.show) { %>
+					<a class="btn btn--primary btn--lg" href="#prices"><span class="material-symbols-outlined" aria-hidden="true">local_gas_station</span>Today's fuel prices</a>
+				<% } %>
+				<a class="btn btn--ghost btn--lg" href="<%= contactUrl %>">Contact us</a>
+			</div>
+		</div>
+		<% if (hero.tiles.length) { %>
+			<ul class="station-tiles" aria-label="Our stations">
+				<% hero.tiles.forEach(function (tile) { %>
+					<li>
+						<a class="station-tile" href="<%= tile.url || '#' %>">
+							<% if (tile.image) { %><img src="<%= tile.image %>" alt="" loading="lazy" width="800" height="600" /><% } %>
+							<span class="station-tile__body">
+								<span>
+									<span class="station-tile__label">Station</span>
+									<span class="station-tile__title"><%= tile.title %></span>
+								</span>
+								<span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+							</span>
+						</a>
+					</li>
+				<% }) %>
+			</ul>
+		<% } %>
+	</div>
+</section>
+<% } %>
+
+<% if (about.enabled) { %>
+<section class="section home-about" id="about" aria-labelledby="about-title">
+	<div class="container home-about__grid">
+		<div class="home-about__text">
+			<h2 class="section-title" id="about-title"><%= about.title %></h2>
+			<% if (about.heading) { %><h3 class="home-about__heading"><%= about.heading %></h3><% } %>
+			<div class="prose"><%- about.content %></div>
+			<% if (about.cta.label && about.cta.url) { %>
+				<p class="home-about__cta"><a class="btn btn--outline" href="<%= about.cta.url %>"><%= about.cta.label %> <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a></p>
+			<% } %>
+		</div>
+		<% if (about.image) { %>
+			<div class="home-about__media">
+				<img src="<%= about.image %>" alt="" loading="lazy" />
+			</div>
+		<% } %>
+	</div>
+</section>
+<% } %>
+
+<% if (prices.enabled && fuelPrices.show) { %>
+<section class="section section--surface home-prices" id="prices" aria-labelledby="prices-title">
+	<div class="container">
+		<div class="section-head section-head--center">
+			<h2 class="section-title" id="prices-title"><%= prices.title %></h2>
+			<% if (prices.intro) { %><p class="section-head__intro"><%= prices.intro %></p><% } %>
+		</div>
+		<ul class="price-list">
+			<% fuelPrices.items.forEach(function (item, index) { %>
+				<li class="price-circle price-circle--<%= (index % 4) + 1 %>">
+					<span class="price-circle__label"><%= item.label %></span>
+					<span class="price-circle__value"><%= item.formatted %></span>
+					<span class="price-circle__unit"><%= fuelPrices.unit %></span>
+				</li>
+			<% }) %>
+		</ul>
+		<p class="home-prices__meta">
+			<span class="material-symbols-outlined" aria-hidden="true">event</span>
+			<% if (fuelPrices.officialDate) { %>
+				<span>Official prices of <time datetime="<%= fuelPrices.officialDate %>"><%= fuelPrices.officialDateLabel %></time>, Ministry of Energy and Water.</span>
+			<% } else { %>
+				<span>Prices set by the Ministry of Energy and Water.</span>
+			<% } %>
+		</p>
+	</div>
+</section>
+<% } %>
+
+<% if (testimonials.enabled && testimonials.items.length) { %>
+<section class="home-testimonials" id="testimonials" aria-labelledby="testimonials-title" data-testimonials>
+	<div class="home-testimonials__media" aria-hidden="true">
+		<% if (testimonials.image) { %><img src="<%= testimonials.image %>" alt="" loading="lazy" /><% } %>
+		<% if (testimonials.video) { %>
+			<video src="<%= testimonials.video %>" muted loop playsinline preload="none" data-testimonials-video<% if (testimonials.image) { %> poster="<%= testimonials.image %>"<% } %>></video>
+		<% } %>
+	</div>
+	<div class="container home-testimonials__inner">
+		<h2 class="section-title section-title--inverse home-testimonials__title" id="testimonials-title"><%= testimonials.title %></h2>
+		<div class="quote-slider" role="region" aria-roledescription="carousel" aria-label="<%= testimonials.title %>">
+			<div class="quote-slider__track" aria-live="polite">
+				<% testimonials.items.forEach(function (item, index) { %>
+					<figure class="quote<%= index === 0 ? ' is-active' : '' %>" role="group" aria-roledescription="slide" aria-label="<%= index + 1 %> of <%= testimonials.items.length %>" data-quote<%- index === 0 ? '' : ' aria-hidden="true" inert' %>>
+						<span class="quote__mark material-symbols-outlined" aria-hidden="true">format_quote</span>
+						<blockquote class="quote__text"><p><%= item.quote %></p></blockquote>
+						<% if (item.photo) { %><img class="quote__image" src="<%= item.photo %>" alt="Shared by <%= item.name %>" loading="lazy" /><% } %>
+						<figcaption class="quote__author">
+							<span><strong><%= item.name %></strong><% if (item.role) { %><span class="quote__role"><%= item.role %></span><% } %></span>
+						</figcaption>
+					</figure>
+				<% }) %>
+			</div>
+			<% if (testimonials.items.length > 1) { %>
+				<div class="quote-slider__controls">
+					<button class="quote-slider__button" type="button" data-quote-prev><span class="material-symbols-outlined" aria-hidden="true">chevron_left</span><span class="visually-hidden">Previous testimonial</span></button>
+					<div class="quote-slider__dots">
+						<% testimonials.items.forEach(function (item, index) { %>
+							<button class="quote-slider__dot<%= index === 0 ? ' is-active' : '' %>" type="button" aria-label="Show testimonial <%= index + 1 %>"<%- index === 0 ? ' aria-current="true"' : '' %> data-quote-dot="<%= index %>"></button>
+						<% }) %>
+					</div>
+					<button class="quote-slider__button" type="button" data-quote-next><span class="material-symbols-outlined" aria-hidden="true">chevron_right</span><span class="visually-hidden">Next testimonial</span></button>
+				</div>
+			<% } %>
+		</div>
+	</div>
+</section>
+<% } %>
+
+<% if (services.enabled && services.items.length) { %>
+<section class="section home-services" id="services" aria-labelledby="services-title">
+	<div class="container">
+		<div class="section-head section-head--center">
+			<h2 class="section-title" id="services-title"><%= services.title %></h2>
+			<% if (services.intro) { %><p class="section-head__intro"><%= services.intro %></p><% } %>
+		</div>
+		<ul class="service-grid">
+			<% services.items.forEach(function (item) { %>
+				<li class="service-card">
+					<div class="service-card__media">
+						<% if (item.image) { %><img src="<%= thumbUrl(item.image) %>" alt="" loading="lazy" width="400" height="300" /><% } else { %><span class="material-symbols-outlined" aria-hidden="true">local_gas_station</span><% } %>
+					</div>
+					<div class="service-card__body">
+						<h3 class="service-card__title"><%= item.title %></h3>
+						<% if (item.text) { %><p class="service-card__text"><%= item.text %></p><% } %>
+						<% if (item.url) { %><a class="service-card__more" href="<%= item.url %>">Read more<span class="visually-hidden"> about <%= item.title %></span> <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a><% } %>
+					</div>
+				</li>
+			<% }) %>
+		</ul>
+	</div>
+</section>
+<% } %>
+
+<%- include('partials/cta-band-section') %>

@@ -1,0 +1,341 @@
+@use 'tokens' as t;
+@use 'mixins' as m;
+
+// Home hero: the legacy intro photo with the station squares, now as photo tiles under a heading.
+.hero {
+  position: relative;
+  min-height: min(88vh, 860px);
+  min-height: min(88svh, 860px);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: t.$color-tertiary;
+  color: t.$color-white;
+
+  &__media {
+    position: absolute;
+    inset: 0;
+
+    img {
+      @include m.cover-image;
+      transform-origin: center;
+      animation: hero-drift 22s ease-in-out infinite alternate;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(100deg, rgba(t.$color-tertiary, 0.92) 0%, rgba(t.$color-primary-dark, 0.78) 45%, rgba(t.$color-primary-dark, 0.35) 100%),
+        linear-gradient(0deg, rgba(t.$color-tertiary, 0.6) 0%, transparent 40%);
+    }
+  }
+
+  &__inner {
+    @include m.container;
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: t.$space-xl;
+    padding-block: 56px 72px;
+
+    @include m.up(lg) {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      align-items: center;
+      gap: 56px;
+      padding-block: 96px;
+    }
+  }
+
+  &__eyebrow {
+    @include m.label-caps;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    color: t.$color-accent-on-dark;
+    margin-bottom: t.$space-md;
+
+    &::before {
+      content: '';
+      width: 28px;
+      height: 3px;
+      border-radius: 2px;
+      background: t.$color-brand-red;
+    }
+  }
+
+  &__title {
+    font-weight: 800;
+    font-size: clamp(32px, 6vw, 58px);
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  &__intro {
+    @include m.type(body-lg);
+    max-width: 34rem;
+    margin-top: t.$gutter;
+    color: rgba(t.$color-white, 0.88);
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: t.$space-lg;
+  }
+}
+
+// Station tiles over the hero photo (legacy "squares").
+.station-tiles {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: t.$space-md;
+
+  @include m.up(md) {
+    gap: t.$gutter;
+  }
+}
+
+.station-tile {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: t.$radius-lg;
+  background: t.$color-primary;
+  color: t.$color-white;
+  box-shadow: t.$shadow-xl;
+  isolation: isolate;
+
+  @include m.up(lg) {
+    aspect-ratio: 1 / 1;
+  }
+
+  img {
+    @include m.cover-image;
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    transition: transform t.$transition-slow;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg, transparent 30%, rgba(t.$color-tertiary, 0.88) 100%);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 4px;
+    background: t.$color-accent;
+    transform: scaleX(0.25);
+    transform-origin: left;
+    transition: transform t.$transition-slow;
+  }
+
+  &__body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: t.$space-sm;
+    width: 100%;
+    padding: t.$space-md t.$gutter t.$gutter;
+  }
+
+  &__label {
+    display: block;
+    @include m.label-caps;
+    font-size: 11px;
+    color: t.$color-accent-on-dark;
+  }
+
+  &__title {
+    display: block;
+    font-family: t.$font-family-heading;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .material-symbols-outlined {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: t.$radius-full;
+    background: rgba(t.$color-white, 0.16);
+    transition: background-color t.$transition-base, transform t.$transition-base;
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: t.$color-white;
+
+    img {
+      transform: scale(1.06);
+    }
+
+    &::after {
+      transform: scaleX(1);
+    }
+
+    .material-symbols-outlined {
+      background: t.$color-accent;
+      transform: translateX(3px);
+    }
+  }
+}
+
+@keyframes hero-drift {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.06);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__media img,
+  .station-tile img,
+  .station-tile::after {
+    animation: none;
+    transition: none;
+  }
+}
+
+// Inner pages.
+.page-hero {
+  position: relative;
+  min-height: 280px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background: t.$color-tertiary;
+  color: t.$color-white;
+
+  @include m.up(md) {
+    min-height: 360px;
+  }
+
+  &__media {
+    position: absolute;
+    inset: 0;
+
+    img,
+    video {
+      @include m.cover-image;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(t.$color-tertiary, 0.85) 0%, rgba(t.$color-primary-dark, 0.45) 70%, rgba(t.$color-primary-dark, 0.25) 100%),
+        linear-gradient(0deg, rgba(t.$color-tertiary, 0.7) 0%, transparent 60%);
+    }
+  }
+
+  &--plain {
+    min-height: 240px;
+    background:
+      radial-gradient(circle at 85% 20%, rgba(t.$color-accent, 0.35), transparent 45%),
+      linear-gradient(135deg, t.$color-tertiary 0%, t.$color-primary 100%);
+
+    @include m.up(md) {
+      min-height: 300px;
+    }
+  }
+
+  &__inner {
+    @include m.container;
+    position: relative;
+    z-index: 1;
+    padding-block: t.$space-xl 40px;
+
+    .divider {
+      margin-bottom: t.$space-md;
+    }
+  }
+
+  &__title {
+    max-width: 52rem;
+    font-size: clamp(28px, 5.4vw, 48px);
+    line-height: 1.12;
+    font-weight: 800;
+    text-wrap: balance;
+    margin-bottom: t.$space-sm;
+    overflow-wrap: break-word;
+  }
+
+  &__lead {
+    @include m.type(body-lg);
+    color: rgba(t.$color-white, 0.88);
+    max-width: 40rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+  }
+}
+
+.breadcrumbs {
+  margin-bottom: t.$space-md;
+  font-size: 13px;
+
+  ol {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 6px;
+  }
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+  }
+
+  li + li::before {
+    content: '/';
+    margin-right: 6px;
+    opacity: 0.6;
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: t.$tap-target;
+    min-width: t.$tap-target;
+    color: rgba(t.$color-white, 0.85);
+
+    &:hover {
+      color: t.$color-accent-on-dark;
+    }
+  }
+
+  [aria-current='page'] {
+    color: t.$color-accent-on-dark;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+}

@@ -1,0 +1,14 @@
+<% if (settings.ctaBand.title) { %>
+	<section class="section section--tight">
+		<div class="container">
+			<div class="cta-band">
+				<div>
+					<p class="cta-band__eyebrow"><%= settings.siteName %></p>
+					<p class="cta-band__title"><%= settings.ctaBand.title %></p>
+					<% if (settings.ctaBand.text) { %><p class="cta-band__text"><%= settings.ctaBand.text %></p><% } %>
+				</div>
+				<a class="btn btn--accent" href="<%= contactUrl.indexOf('#') === -1 ? contactUrl + '#contact-form' : contactUrl %>"><%= settings.ctaBand.label || 'Contact us' %></a>
+			</div>
+		</div>
+	</section>
+<% } %>

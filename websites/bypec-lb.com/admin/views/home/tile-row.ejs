@@ -1,0 +1,26 @@
+<%
+	const rowError = function (name) { return errors['tiles.' + i + '.' + name]; };
+	const rowClass = function (name) { return rowError(name) ? 'form-control form-control-sm is-invalid' : 'form-control form-control-sm'; };
+%>
+<div class="admin-spec-row" data-repeater-row>
+	<div class="row g-2 align-items-start">
+		<div class="col-md-5">
+			<label class="form-label small mb-1" for="tiles-<%= i %>-title">Title</label>
+			<input type="text" class="<%= rowClass('title') %>" id="tiles-<%= i %>-title" name="tiles[<%= i %>][title]" value="<%= tile.title %>" maxlength="80" />
+			<% if (rowError('title')) { %><div class="invalid-feedback"><%= rowError('title') %></div><% } %>
+			<label class="form-label small mb-1 mt-2" for="tiles-<%= i %>-url">Link</label>
+			<input type="text" class="<%= rowClass('url') %>" id="tiles-<%= i %>-url" name="tiles[<%= i %>][url]" value="<%= tile.url %>" placeholder="/stations/amchit" maxlength="500" />
+			<% if (rowError('url')) { %><div class="invalid-feedback"><%= rowError('url') %></div><% } %>
+		</div>
+		<div class="col-md-6">
+			<label class="form-label small mb-1" for="tiles-<%= i %>-imageFile">Photo</label>
+			<%- include('../partials/media-picker', { id: 'tiles-' + i + '-imageFile', field: 'tiles[' + i + '][imageFile]', kind: 'image', current: tile.image || '', valueName: 'tiles[' + i + '][image]', label: 'tile photo', small: true, hint: 'Converted to WebP, max 800px.' }) %>
+			<% if (rowError('image')) { %><div class="invalid-feedback d-block"><%= rowError('image') %></div><% } %>
+		</div>
+		<div class="col-md-1 d-flex flex-md-column gap-1 justify-content-end">
+			<button type="button" class="btn btn-sm btn-default" data-row-up title="Move up" aria-label="Move tile up"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+			<button type="button" class="btn btn-sm btn-default" data-row-down title="Move down" aria-label="Move tile down"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+			<button type="button" class="btn btn-sm btn-danger" data-repeater-remove title="Remove" aria-label="Remove tile"><i class="fa fa-trash" aria-hidden="true"></i></button>
+		</div>
+	</div>
+</div>

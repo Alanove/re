@@ -1,0 +1,52 @@
+[
+  {
+    "id": "head-office",
+    "country": "Byblos Petroleum Company",
+    "role": "Head office",
+    "address": "Byblos - Saint Georges Road, above Bypec Station",
+    "poBox": "",
+    "phones": [
+      "+961 9 943111",
+      "+961 9 942111",
+      "+961 9 944824"
+    ],
+    "fax": "+961 71 943111",
+    "emails": [
+      "byblospetroleum@hotmail.com"
+    ],
+    "mapQuery": "Bypec Station, Saint Georges Road, Byblos, Lebanon",
+    "isPrimary": true,
+    "sort": 10
+  },
+  {
+    "id": "amchit-station",
+    "country": "Amchit Station",
+    "role": "Fuel and service station",
+    "address": "Amchit - Main road, facing McDonald's",
+    "poBox": "",
+    "phones": [
+      "+961 9 622714",
+      "+961 9 622715"
+    ],
+    "fax": "",
+    "emails": [],
+    "mapQuery": "Bypec Station, Amchit, Lebanon",
+    "isPrimary": false,
+    "sort": 20
+  },
+  {
+    "id": "byblos-station",
+    "country": "Byblos Station",
+    "role": "Fuel and service station",
+    "address": "Byblos - Saint Georges Road",
+    "poBox": "",
+    "phones": [
+      "+961 9 944940"
+    ],
+    "fax": "",
+    "emails": [],
+    "mapQuery": "Bypec Station, Saint Georges Road, Byblos, Lebanon",
+    "isPrimary": false,
+    "sort": 30
+  }
+]

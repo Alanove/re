@@ -41,7 +41,7 @@ Every site has `websites/<domain>/transform.config.json`. Scripts read only this
 | `outputDir` | Site root, normally `.` |
 | `port` | Dev port (each site gets its own) |
 | `logo` | `url` to download, `localPath` to save, and a `note` on which part of the file is used |
-| `legacy` | Image path pattern, footer page key (`null` when the site has none), contact page key, uploads mirror prefix. Optional `localRoot`: a local copy of the legacy web root (relative to the site) that assets are read from before falling back to `legacySiteUrl`. Optional `hiddenPageKeys`: workbook pages that are imported as drafts and kept out of menus |
+| `legacy` | Image path pattern, footer page key (`null` when the site has none), contact page key, uploads mirror prefix. Optional `localRoot`: a local copy of the legacy web root (relative to the site) that assets are read from before falling back to `legacySiteUrl`. Optional `hiddenPageKeys`: workbook pages that are imported as drafts and kept out of menus. Optional `bannerPattern`: legacy page banner path (`{url}` is the page URL). Optional `fuelPrices`: legacy config file and keys that seed the first fuel prices (Bypec only) |
 | `catalog` | Optional. Present only on catalog sites; see "Catalog sites" below |
 | `cmsSync` | Admin static files and folders copied from `cmsSource` |
 
@@ -224,3 +224,20 @@ Do not recopy `solu-new` for later sites and do not paste enhancements into site
 - Logo: the circular red and navy mark (`images/logo-large.png`), shown on a white badge in the dark header and footer. The favicon is the same mark as PNG.
 - Tokens: charcoal `#212529` and `#16181c`, orange accent `#f2791c` (text on light backgrounds uses `#b4530a` for contrast), font Roboto, header 64px on mobile and 72px from `lg`, 44px minimum tap targets.
 - Design snapshots (1440, 1024, 768, 390 and 360px, the mobile menu, the open team bio and the admin at 390px) are in `websites/belfaystudios.com/design/`.
+
+## Known Bypec specifics (reference)
+
+- Site folder `websites/bypec-lb.com/`, dev port `3046`. Built from the Belfay Studios core with the blog layer removed. The workbook is `wwwroot/wwwroot/data.xls`, and `legacy.localRoot` is `wwwroot/wwwroot`. Remove both once `wwwroot` is deleted.
+- Pages: Status 3 rows are the public routes. Stations are children of `/stations` (index page with cards); the legacy `byblos-station` slug became `byblos`. The Jeita station is imported as a draft. The pages that fed the home sections (`not-in-menu`, `who-are-we`, `services-home`, `petroleum-distribution`, `lube-change`) are in `legacy.hiddenPageKeys`. Legacy URLs (`/default.aspx`, `/who-are-we`, `/stations/byblos-station`) are in `data/redirects.json`.
+- Home sections in Admin > Home Page: hero tiles, about, fuel price circles, testimonials over the ocean video band (each quote can carry an optional image shown under it), services and a call to action. There is no footer office page (`footerPageKey` is `null`); offices and their map queries come from the seed.
+- Fuel prices are stored in `data/fuel-prices.json`. The server fetches the Ministry of Energy and Water page (`#tabFuelsPrice`), validates the parsed table with Zod and saves the prices with the ministry's official date. A failed fetch or an unreadable page keeps the last good prices and shows the error in admin. Admin > Fuel Prices sets per-product overrides, labels, visibility and order, pauses automatic sync, and has a "Check the ministry now" button (CSRF protected). A product with neither an official price nor an override is hidden; the ministry currently publishes 0 for mazout (Gas Oil).
+- Fuel sync env keys (in `.env` and `.env.production`):
+
+| Key | Meaning |
+| --- | --- |
+| `FUEL_PRICES_SYNC_ENABLED` | `false` stops all automatic fetching (admin overrides and "Check the ministry now" still work). Default `true` |
+| `FUEL_PRICES_SOURCE_URL` | Ministry page that holds the price table; must be `https`. Default `https://energyandwater.gov.lb/ar/home` |
+| `FUEL_PRICES_SYNC_MINUTES` | Minutes between automatic checks, 15 to 1440. Default `180` |
+
+- Logo: the blue, green and red BYPEC wordmark (`images/bypec-logo.svg`), rasterized once at import time to WebP; the favicon is the same mark as a 512px PNG.
+- Tokens: logo blue `#2e3192`, green accent `#0e7b3e`, red `#c8151c` (brand red `#ed1c24`), price circle colours `#11759b`, `#a85a00`, `#2e7d32`, `#c0261f`. Fonts are Montserrat for headings and Open Sans for body text; icons are Material Symbols. Header 64px on mobile and 80px on desktop, 44px minimum tap targets.

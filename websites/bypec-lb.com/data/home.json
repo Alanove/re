@@ -1,0 +1,83 @@
+{
+  "hero": {
+    "enabled": true,
+    "eyebrow": "Byblos Petroleum Company",
+    "title": "Fuel, care and service you can count on",
+    "intro": "Visit our stations in Amchit and Byblos for fuel, car wash and lube change, or have petroleum products delivered to your door.",
+    "image": "/uploads/legacy/img/intro.webp",
+    "tiles": [
+      {
+        "title": "Amchit",
+        "url": "/stations/amchit",
+        "image": "/uploads/legacy/img/subheader/amchit.webp"
+      },
+      {
+        "title": "Byblos",
+        "url": "/stations/byblos",
+        "image": "/uploads/legacy/img/subheader/byblos.webp"
+      }
+    ]
+  },
+  "about": {
+    "enabled": true,
+    "title": "About Us",
+    "heading": "Who are we?",
+    "content": "<p>Byblos Petroleum Company (BYPEC) S.A.R.L is a leading trading company, distributing and storing various petroleum lubricants products. We offer wholesale Diesel, fuel, oil and other petroleum products to both residential and commercial establishments.<br /><br /></p>",
+    "image": "/uploads/legacy/prv/images/pages/page_9/who-are-we65325193.webp",
+    "cta": {
+      "label": "Continue",
+      "url": "/about-us"
+    }
+  },
+  "prices": {
+    "enabled": true,
+    "title": "Today's fuel prices",
+    "intro": "Official maximum retail prices set by the Ministry of Energy and Water, per 20 litres."
+  },
+  "testimonials": {
+    "enabled": true,
+    "title": "Testimonials",
+    "video": "/uploads/legacy/video/ocean.mp4",
+    "image": "/uploads/legacy/video/ocean.webp",
+    "items": [
+      {
+        "name": "Youssef Ziade",
+        "role": "",
+        "quote": "I had my car serviced (wash, general service) at Bypec - Amchit branch. The service was exceptional; the staff was extremely friendly and accommodating. Meanwhile, I waited for my car at the Cake & Bake adjacent to the station, where the staff was also excellent and the food was great. It is safe to say I have become a regular at Bypec. Their service, in my eyes, is unmatched!",
+        "photo": ""
+      },
+      {
+        "name": "Nohad Sleiman",
+        "role": "",
+        "quote": "People change, locations change. But some habits don't.",
+        "photo": "/uploads/legacy/images/public/testimonials-nohad.webp"
+      }
+    ]
+  },
+  "services": {
+    "enabled": true,
+    "title": "Our Services",
+    "intro": "From the pump to your doorstep.",
+    "items": [
+      {
+        "title": "Car wash",
+        "text": "All of our stations are equipped with quality washing products and skilled staff to ensure efficiency and satisfaction of our customers.",
+        "image": "/uploads/legacy/prv/images/pages/page_11/services-home73703864.webp",
+        "url": "/services"
+      },
+      {
+        "title": "Petroleum Distribution",
+        "text": "Our company has six distribution trucks of various sizes that cover different terrains and are able to reach almost all remote destinations.",
+        "image": "/uploads/legacy/prv/images/pages/page_12/petroleum-distribution51413346.webp",
+        "url": "/services"
+      },
+      {
+        "title": "Lube Change",
+        "text": "Bypec offers high quality British Petroleum Oils (BP) of different grades and functionalities.",
+        "image": "/uploads/legacy/prv/images/pages/page_13/lube-change82674540.webp",
+        "url": "/services"
+      }
+    ]
+  },
+  "updatedAt": "2026-11-10T10:13:48.983Z"
+}

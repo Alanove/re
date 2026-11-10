@@ -1,0 +1,42 @@
+<%
+	const linkClass = function (node) {
+		if (node.id === page.id) { return 'side-nav__link is-current'; }
+		if (page.ancestors.some(function (a) { return a.id === node.id; })) { return 'side-nav__link is-open'; }
+		return 'side-nav__link';
+	};
+	const renderChildren = function (nodes) { return nodes.filter(function (n) { return n.kind !== 'footer'; }); };
+%>
+<aside class="page-sidebar">
+	<div class="page-sidebar__panel">
+		<div class="page-sidebar__head">
+			<p class="page-sidebar__eyebrow">In this section</p>
+			<h2 class="page-sidebar__title"><a href="<%= sectionRoot.url %>"><%= sectionRoot.title %></a></h2>
+		</div>
+		<% if (sectionRoot.children.length) { %>
+			<nav class="side-nav" aria-label="<%= sectionRoot.title %>">
+				<ul>
+					<% renderChildren(sectionRoot.children).forEach(function (node) { %>
+						<li>
+							<a class="<%= linkClass(node) %>" href="<%= node.url %>"<%- node.id === page.id ? ' aria-current="page"' : '' %>>
+								<span class="material-symbols-outlined<%= node.id === page.id ? ' is-filled' : '' %>" aria-hidden="true"><%= node.icon || 'chevron_right' %></span>
+								<span><%= node.title %></span>
+							</a>
+							<% if (node.children.length && (node.id === page.id || page.ancestors.some(function (a) { return a.id === node.id; }))) { %>
+								<ul class="side-nav__sub">
+									<% renderChildren(node.children).forEach(function (child) { %>
+										<li><a class="<%= linkClass(child) %>" href="<%= child.url %>"<%- child.id === page.id ? ' aria-current="page"' : '' %>><%= child.title %></a></li>
+									<% }) %>
+								</ul>
+							<% } %>
+						</li>
+					<% }) %>
+				</ul>
+			</nav>
+		<% } %>
+		<div class="assist-card">
+			<p class="assist-card__eyebrow">Need assistance?</p>
+			<p class="assist-card__text">Ask our team about fuel delivery, wholesale diesel, lubricants or our stations.</p>
+			<a class="assist-card__link" href="mailto:<%= settings.contactEmail %>"><span class="material-symbols-outlined" aria-hidden="true">mail</span><span><%- include('email-text', { email: settings.contactEmail }) %></span></a>
+		</div>
+	</div>
+</aside>

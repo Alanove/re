@@ -1,0 +1,70 @@
+{
+  "unit": "L.L. / 20 L",
+  "sync": {
+    "enabled": true,
+    "officialDate": "2026-10-02",
+    "lastAttemptAt": "2026-11-10T10:17:50.120Z",
+    "lastSuccessAt": "2026-11-10T10:17:50.120Z",
+    "lastChangeAt": "2026-11-10T09:48:07.706Z",
+    "lastError": ""
+  },
+  "products": [
+    {
+      "key": "unleaded98",
+      "label": "Unleaded 98",
+      "officialPrice": 2854000,
+      "override": null,
+      "overrideUpdatedAt": null,
+      "visible": true,
+      "sort": 10
+    },
+    {
+      "key": "unleaded95",
+      "label": "Unleaded 95",
+      "officialPrice": 2837000,
+      "override": null,
+      "overrideUpdatedAt": null,
+      "visible": true,
+      "sort": 20
+    },
+    {
+      "key": "dieselVehicle",
+      "label": "Diesel Oil",
+      "officialPrice": 2726000,
+      "override": null,
+      "overrideUpdatedAt": null,
+      "visible": true,
+      "sort": 30
+    },
+    {
+      "key": "mazout",
+      "label": "Gas Oil",
+      "officialPrice": null,
+      "override": null,
+      "overrideUpdatedAt": null,
+      "visible": true,
+      "sort": 40
+    },
+    {
+      "key": "kerosene",
+      "label": "Kerosene",
+      "officialPrice": null,
+      "override": null,
+      "overrideUpdatedAt": null,
+      "visible": false,
+      "sort": 50
+    }
+  ],
+  "history": [
+    {
+      "officialDate": "2026-10-02",
+      "fetchedAt": "2026-11-10T09:48:07.706Z",
+      "prices": {
+        "unleaded95": 2837000,
+        "unleaded98": 2854000,
+        "dieselVehicle": 2726000
+      }
+    }
+  ],
+  "updatedAt": "2026-11-10T10:15:25.523Z"
+}

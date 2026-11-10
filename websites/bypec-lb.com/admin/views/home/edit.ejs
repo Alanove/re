@@ -1,0 +1,150 @@
+<%
+	const s = section;
+	const val = function (v) { return v === undefined || v === null ? '' : v; };
+	const fieldClass = function (name) { return errors[name] ? 'form-control is-invalid' : 'form-control'; };
+	const hasIntro = ['hero', 'prices', 'services'].indexOf(sectionKey) !== -1;
+	const items = s.items || [];
+	const tiles = s.tiles || [];
+%>
+<form method="POST" action="/admin/home/<%= sectionKey %>/edit?_csrf=<%= encodeURIComponent(csrfToken) %>" enctype="multipart/form-data" novalidate>
+	<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+	<input type="hidden" name="key" value="home" />
+	<div class="row">
+		<div class="col-xl-8">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title"><%= sectionLabel %></h4></div>
+				<div class="panel-body">
+					<div class="form-check form-switch mb-3">
+						<input class="form-check-input" type="checkbox" id="enabled" name="enabled" value="1" <%= s.enabled ? 'checked' : '' %> />
+						<label class="form-check-label" for="enabled">Show this section on the home page</label>
+					</div>
+
+					<% if (sectionKey === 'hero') { %>
+						<div class="mb-3">
+							<label class="form-label" for="eyebrow">Small line above the heading</label>
+							<input type="text" class="<%= fieldClass('eyebrow') %>" id="eyebrow" name="eyebrow" value="<%= val(s.eyebrow) %>" maxlength="120" placeholder="Byblos Petroleum Company" />
+							<%- include('../partials/field-error', { name: 'eyebrow' }) %>
+						</div>
+						<div class="mb-3">
+							<label class="form-label" for="title">Heading</label>
+							<input type="text" class="<%= fieldClass('title') %>" id="title" name="title" value="<%= val(s.title) %>" maxlength="160" />
+							<small class="text-muted">The main heading of the page for visitors and search engines.</small>
+							<%- include('../partials/field-error', { name: 'title' }) %>
+						</div>
+					<% } else { %>
+						<div class="mb-3">
+							<label class="form-label" for="title">Heading <span class="text-danger">*</span></label>
+							<input type="text" class="<%= fieldClass('title') %>" id="title" name="title" value="<%= val(s.title) %>" maxlength="120" required />
+							<%- include('../partials/field-error', { name: 'title' }) %>
+						</div>
+					<% } %>
+
+					<% if (hasIntro) { %>
+						<div class="mb-3">
+							<label class="form-label" for="intro">Introduction</label>
+							<textarea class="<%= fieldClass('intro') %>" id="intro" name="intro" rows="3" maxlength="400"><%= val(s.intro) %></textarea>
+							<%- include('../partials/field-error', { name: 'intro' }) %>
+						</div>
+					<% } %>
+
+					<% if (sectionKey === 'about') { %>
+						<div class="mb-3">
+							<label class="form-label" for="heading">Sub-heading</label>
+							<input type="text" class="<%= fieldClass('heading') %>" id="heading" name="heading" value="<%= val(s.heading) %>" maxlength="160" placeholder="Who are we?" />
+							<%- include('../partials/field-error', { name: 'heading' }) %>
+						</div>
+						<div class="mb-3">
+							<label class="form-label" for="content">Text</label>
+							<textarea class="form-control rich-text" id="content" name="content" rows="10" data-editor-height="300px"><%= val(s.content) %></textarea>
+							<%- include('../partials/field-error', { name: 'content' }) %>
+						</div>
+						<div class="row g-2 mb-3">
+							<div class="col-md-6">
+								<label class="form-label" for="ctaLabel">Button label</label>
+								<input type="text" class="<%= fieldClass('ctaLabel') %>" id="ctaLabel" name="ctaLabel" value="<%= val(s.cta && s.cta.label) %>" maxlength="80" placeholder="Continue" />
+							</div>
+							<div class="col-md-6">
+								<label class="form-label" for="ctaUrl">Button link</label>
+								<input type="text" class="<%= fieldClass('ctaUrl') %>" id="ctaUrl" name="ctaUrl" value="<%= val(s.cta && s.cta.url) %>" placeholder="/about-us" />
+								<%- include('../partials/field-error', { name: 'ctaUrl' }) %>
+							</div>
+						</div>
+					<% } %>
+
+					<% if (sectionKey === 'prices') { %>
+						<p class="text-muted small mb-0">The prices, labels, order and automatic ministry updates are managed under <a href="/admin/fuel-prices">Fuel Prices</a>.</p>
+					<% } %>
+
+					<% if (sectionKey === 'hero') { %>
+						<h5 class="mt-4">Station tiles</h5>
+						<p class="text-muted small">Up to <%= tilesMax %> tiles over the hero photo, each linking to a station page. Use the arrows to change the order.</p>
+						<div data-repeater data-max="<%= tilesMax %>" data-repeater-name="tiles">
+							<div data-repeater-list>
+								<% tiles.forEach(function (tile, i) { %>
+									<%- include('tile-row', { tile: tile, i: i }) %>
+								<% }) %>
+							</div>
+							<template data-repeater-template><%- include('tile-row', { tile: { title: '', url: '', image: '' }, i: 99 }) %></template>
+							<button type="button" class="btn btn-default btn-sm" data-repeater-add><i class="fa fa-plus me-1" aria-hidden="true"></i> Add tile</button>
+							<span class="text-muted small ms-2" data-repeater-count></span>
+						</div>
+					<% } %>
+
+					<% if (sectionKey === 'testimonials') { %>
+						<h5 class="mt-4">Quotes</h5>
+						<p class="text-muted small">Up to <%= testimonialsMax %>. They rotate on the home page; visitors can also move between them.</p>
+						<div data-repeater data-max="<%= testimonialsMax %>" data-repeater-name="items">
+							<div data-repeater-list>
+								<% items.forEach(function (item, i) { %>
+									<%- include('testimonial-row', { item: item, i: i }) %>
+								<% }) %>
+							</div>
+							<template data-repeater-template><%- include('testimonial-row', { item: { name: '', role: '', quote: '', photo: '' }, i: 99 }) %></template>
+							<button type="button" class="btn btn-default btn-sm" data-repeater-add><i class="fa fa-plus me-1" aria-hidden="true"></i> Add quote</button>
+							<span class="text-muted small ms-2" data-repeater-count></span>
+						</div>
+					<% } %>
+
+					<% if (sectionKey === 'services') { %>
+						<h5 class="mt-4">Services</h5>
+						<p class="text-muted small">Up to <%= servicesMax %> cards, each with a photo and an optional link.</p>
+						<div data-repeater data-max="<%= servicesMax %>" data-repeater-name="items">
+							<div data-repeater-list>
+								<% items.forEach(function (item, i) { %>
+									<%- include('service-row', { item: item, i: i }) %>
+								<% }) %>
+							</div>
+							<template data-repeater-template><%- include('service-row', { item: { title: '', text: '', image: '', url: '' }, i: 99 }) %></template>
+							<button type="button" class="btn btn-default btn-sm" data-repeater-add><i class="fa fa-plus me-1" aria-hidden="true"></i> Add service</button>
+							<span class="text-muted small ms-2" data-repeater-count></span>
+						</div>
+					<% } %>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xl-4">
+			<div class="panel panel-inverse admin-sticky">
+				<div class="panel-heading"><h4 class="panel-title">Save</h4></div>
+				<div class="panel-body">
+					<% if (sectionImage) { %>
+						<label class="form-label" for="imageFile"><%= sectionImage.label %></label>
+						<%- include('../partials/media-picker', { id: 'imageFile', field: 'imageFile', kind: 'image', current: s.image || '', valueName: 'image', label: sectionImage.label.toLowerCase(), hint: sectionImage.hint }) %>
+						<%- include('../partials/field-error', { name: 'image' }) %>
+						<div class="mb-3"></div>
+					<% } %>
+					<% if (sectionVideo) { %>
+						<label class="form-label" for="videoFile"><%= sectionVideo.label %></label>
+						<%- include('../partials/media-picker', { id: 'videoFile', field: 'videoFile', kind: 'video', current: s.video || '', valueName: 'video', label: 'video', hint: sectionVideo.hint }) %>
+						<%- include('../partials/field-error', { name: 'video' }) %>
+						<div class="mb-3"></div>
+					<% } %>
+					<div class="d-flex gap-2">
+						<button type="submit" class="btn btn-success flex-fill"><i class="fa fa-save me-1"></i> Save section</button>
+						<a href="/admin/home" class="btn btn-default">Back</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

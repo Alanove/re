@@ -1,0 +1,132 @@
+<%
+	const fieldClass = function (name, extra) { return (errors[name] ? 'form-control is-invalid' : 'form-control') + (extra ? ' ' + extra : ''); };
+	const lbp = function (value) { return value === null || value === undefined ? '' : Number(value).toLocaleString('en-US'); };
+	const when = function (iso) { return iso ? new Date(iso).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Beirut' }) : 'Never'; };
+%>
+<div class="row">
+	<div class="col-xl-8">
+		<form method="POST" action="/admin/fuel-prices?_csrf=<%= encodeURIComponent(csrfToken) %>" novalidate>
+			<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Prices shown on the home page</h4></div>
+				<div class="panel-body">
+					<p class="text-muted">
+						Official prices come from the Ministry of Energy and Water. To show a different price, type it in <strong>Your price</strong>;
+						it replaces the official price on the website until you clear it. Products without any price are not shown.
+					</p>
+					<div class="table-responsive">
+						<table class="table align-middle mb-3">
+							<thead>
+								<tr><th>Label on the website</th><th class="text-end">Official price</th><th style="min-width:150px">Your price (L.L.)</th><th class="text-center">Show</th><th style="width:90px">Order</th></tr>
+							</thead>
+							<tbody>
+								<% form.products.forEach(function (product, i) { %>
+									<tr>
+										<td>
+											<input type="hidden" name="products[<%= i %>][key]" value="<%= product.key %>" />
+											<label class="visually-hidden" for="products-<%= i %>-label">Label for <%= product.key %></label>
+											<input type="text" class="<%= fieldClass('products.' + i + '.label', 'form-control-sm') %>" id="products-<%= i %>-label" name="products[<%= i %>][label]" value="<%= product.label %>" maxlength="60" required />
+											<%- include('../partials/field-error', { name: 'products.' + i + '.label' }) %>
+										</td>
+										<td class="text-end text-nowrap">
+											<% if (product.officialPrice) { %><%= lbp(product.officialPrice) %><% } else { %><span class="text-muted" title="The ministry did not publish this product">Not published</span><% } %>
+										</td>
+										<td>
+											<label class="visually-hidden" for="products-<%= i %>-override">Your price for <%= product.label %></label>
+											<input type="text" inputmode="numeric" class="<%= fieldClass('products.' + i + '.override', 'form-control-sm') %>" id="products-<%= i %>-override" name="products[<%= i %>][override]" value="<%= product.override %>" placeholder="Use official" maxlength="20" />
+											<%- include('../partials/field-error', { name: 'products.' + i + '.override' }) %>
+											<% if (product.override && product.overrideUpdatedAt) { %><small class="text-muted">Set <%= when(product.overrideUpdatedAt) %></small><% } %>
+										</td>
+										<td class="text-center">
+											<input class="form-check-input" type="checkbox" id="products-<%= i %>-visible" name="products[<%= i %>][visible]" value="1" <%= product.visible ? 'checked' : '' %> aria-label="Show <%= product.label %>" />
+										</td>
+										<td>
+											<label class="visually-hidden" for="products-<%= i %>-sort">Order for <%= product.label %></label>
+											<input type="number" class="<%= fieldClass('products.' + i + '.sort', 'form-control-sm') %>" id="products-<%= i %>-sort" name="products[<%= i %>][sort]" value="<%= product.sort %>" min="0" max="10000" />
+										</td>
+									</tr>
+								<% }) %>
+							</tbody>
+						</table>
+					</div>
+					<div class="row g-3">
+						<div class="col-md-6">
+							<label class="form-label" for="unit">Unit shown under the prices <span class="text-danger">*</span></label>
+							<input type="text" class="<%= fieldClass('unit') %>" id="unit" name="unit" value="<%= form.unit %>" maxlength="40" required />
+							<%- include('../partials/field-error', { name: 'unit' }) %>
+							<small class="text-muted">The ministry publishes prices per 20 litres.</small>
+						</div>
+						<div class="col-md-6 d-flex align-items-end">
+							<div class="form-check form-switch mb-2">
+								<input class="form-check-input" type="checkbox" id="syncEnabled" name="syncEnabled" value="1" <%= form.syncEnabled ? 'checked' : '' %> />
+								<label class="form-check-label" for="syncEnabled">Update official prices automatically</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel-footer d-flex gap-2">
+					<button type="submit" class="btn btn-success"><i class="fa fa-save me-1" aria-hidden="true"></i> Save</button>
+					<a href="/" target="_blank" rel="noopener" class="btn btn-default"><i class="fa fa-external-link-alt me-1" aria-hidden="true"></i> View home page</a>
+				</div>
+			</div>
+		</form>
+
+		<div class="panel panel-inverse">
+			<div class="panel-heading"><h4 class="panel-title">Recent official price changes</h4></div>
+			<div class="panel-body p-0">
+				<% if (history.length === 0) { %>
+					<p class="text-muted p-3 mb-0">No official prices have been received yet.</p>
+				<% } else { %>
+					<div class="table-responsive">
+						<table class="table table-sm table-striped mb-0">
+							<thead><tr><th>Official date</th><th>Received</th><th>Prices (L.L.)</th></tr></thead>
+							<tbody>
+								<% history.forEach(function (entry) { %>
+									<tr>
+										<td class="text-nowrap"><%= entry.officialDateLabel || 'Not stated' %></td>
+										<td class="text-nowrap"><%= when(entry.fetchedAt) %></td>
+										<td>
+											<% Object.keys(entry.prices).forEach(function (key, index) { %><%= index ? ' · ' : '' %><%= productLabels[key] || key %>: <%= lbp(entry.prices[key]) %><% }) %>
+										</td>
+									</tr>
+								<% }) %>
+							</tbody>
+						</table>
+					</div>
+				<% } %>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-xl-4">
+		<div class="panel panel-inverse admin-sticky">
+			<div class="panel-heading"><h4 class="panel-title">Ministry sync</h4></div>
+			<div class="panel-body">
+				<div class="d-flex align-items-center gap-2 mb-3">
+					<span class="badge <%= status.healthy ? 'bg-success' : 'bg-warning text-dark' %>"><%= status.healthy ? 'OK' : 'Needs attention' %></span>
+					<span><%= status.summary %></span>
+				</div>
+				<dl class="row small mb-3">
+					<dt class="col-5">Official date</dt><dd class="col-7"><%= status.officialDateLabel || 'Not received yet' %></dd>
+					<dt class="col-5">Last check</dt><dd class="col-7"><%= when(status.lastAttemptAt) %></dd>
+					<dt class="col-5">Last success</dt><dd class="col-7"><%= when(status.lastSuccessAt) %></dd>
+					<dt class="col-5">Last change</dt><dd class="col-7"><%= when(status.lastChangeAt) %></dd>
+					<dt class="col-5">Schedule</dt>
+					<dd class="col-7"><%= status.schedulerEnabled ? (status.syncEnabled ? 'Every ' + status.intervalMinutes + ' minutes' : 'Paused') : 'Off on this server' %></dd>
+					<dt class="col-5">Source</dt><dd class="col-7 text-break"><a href="<%= status.sourceUrl %>" target="_blank" rel="noopener noreferrer">Ministry of Energy and Water</a></dd>
+				</dl>
+				<% if (status.lastError) { %>
+					<div class="alert alert-warning small" role="alert">
+						<strong>Last sync failed:</strong> <%= status.lastError %><br />
+						The website keeps showing the last known prices.
+					</div>
+				<% } %>
+				<form method="POST" action="/admin/fuel-prices/sync?_csrf=<%= encodeURIComponent(csrfToken) %>">
+					<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+					<button type="submit" class="btn btn-primary w-100"><i class="fa fa-sync me-1" aria-hidden="true"></i> Check the ministry now</button>
+				</form>
+				<small class="text-muted d-block mt-2">Checking now works even while automatic updates are paused.</small>
+			</div>
+		</div>
+	</div>
+</div>

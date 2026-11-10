@@ -1,0 +1,15 @@
+// Entry point. Order: tokens and mixins are consumed via @use inside each partial;
+// partials are layered from base elements to page-specific compositions.
+@use 'base';
+@use 'layout';
+@use 'buttons';
+@use 'header';
+@use 'footer';
+@use 'hero';
+@use 'cards';
+@use 'forms';
+@use 'contact';
+@use 'inner-page';
+@use 'page-bar';
+@use 'gallery';
+@use 'home';
