@@ -1,0 +1,52 @@
+<%
+	const telHref = function (value) { return 'tel:' + String(value || '').replace(/[^+\d]/g, ''); };
+	const headerPhone = primaryOffice && primaryOffice.phones.length ? primaryOffice.phones[0] : settings.contactPhone;
+	const isHomePage = currentPath === '/';
+	const sectionId = function (url) { const match = /^\/#([A-Za-z][\w-]*)$/.exec(url); return match ? match[1] : ''; };
+%>
+<header class="site-header<%= isHomePage ? ' site-header--overlay' : '' %>" data-site-header>
+	<div class="site-header__inner">
+		<a class="brand" href="/" aria-label="<%= settings.siteName %> home">
+			<% if (settings.logo) { %>
+				<span class="brand__badge"><img class="brand__logo" src="<%= settings.logo %>" alt="" width="56" height="48" /></span>
+			<% } %>
+			<span class="brand__name"><%= settings.siteName %></span>
+		</a>
+
+		<nav class="site-nav" id="site-nav" aria-label="Main" data-site-nav>
+			<div class="site-nav__head">
+				<p class="site-nav__title">Menu</p>
+				<button class="site-nav__close" type="button" data-nav-close>
+					<span class="material-symbols-outlined" aria-hidden="true">close</span>
+					<span class="visually-hidden">Close menu</span>
+				</button>
+			</div>
+			<ul class="site-nav__list">
+				<% mainMenu.forEach(function (item) { const section = sectionId(item.url); %>
+					<li class="site-nav__item<%= item.active && !section ? ' is-active' : '' %>">
+						<a class="site-nav__link" href="<%= item.url %>"<%- section ? ' data-section-link="' + section + '"' : '' %><%- item.current && !section ? ' aria-current="page"' : '' %>><%= item.title %></a>
+					</li>
+				<% }) %>
+			</ul>
+			<div class="site-nav__contact">
+				<% if (headerPhone) { %>
+					<a class="site-nav__line" href="<%= telHref(headerPhone) %>"><span class="material-symbols-outlined" aria-hidden="true">call</span><%= headerPhone %></a>
+				<% } %>
+				<% if (settings.contactEmail) { %>
+					<a class="site-nav__line" href="mailto:<%= settings.contactEmail %>"><span class="material-symbols-outlined" aria-hidden="true">mail</span><%= settings.contactEmail %></a>
+				<% } %>
+				<%- include('social-links', { socialClass: 'social-links social-links--drawer' }) %>
+			</div>
+		</nav>
+
+		<div class="site-header__actions">
+			<%- include('social-links', { socialClass: 'social-links social-links--header' }) %>
+			<a class="btn btn--primary btn--sm site-header__cta" href="<%= contactUrl %>">Start a project</a>
+			<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+				<span class="material-symbols-outlined" aria-hidden="true">menu</span>
+				<span class="visually-hidden">Open menu</span>
+			</button>
+		</div>
+	</div>
+	<div class="nav-backdrop" data-nav-backdrop hidden></div>
+</header>

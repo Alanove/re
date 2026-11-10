@@ -1,0 +1,129 @@
+// Design tokens. A new site theme changes this file first; components read only from here.
+@use 'sass:list';
+@use 'sass:map';
+
+// Brand: the legacy studio charcoal and signal orange, with the logo's red and navy as accents.
+$color-primary: #212529;
+$color-primary-dark: #16181c;
+$color-primary-container: #2c3137;
+$color-on-primary-container: #c9ced4;
+$color-deep-burgundy: #c8262c;
+$color-navy: #1f4e8c;
+$color-accent: #f2791c;
+$color-accent-dark: #d9650c;
+$color-secondary: #b4530a;
+$color-secondary-fixed: #ffe2c9;
+$color-industrial-gold: #f2791c;
+
+// Neutrals and surfaces
+$color-background: #ffffff;
+$color-surface: #f7f6f4;
+$color-surface-bright: #fbfaf9;
+$color-surface-lowest: #ffffff;
+$color-surface-low: #f3f2ef;
+$color-surface-container: #ebe9e5;
+$color-surface-high: #e2e0db;
+$color-surface-variant: #d6d3cd;
+$color-on-surface: #1b1d21;
+$color-on-surface-variant: #4f5359;
+$color-slate-gray: #5a5f66;
+$color-outline: #8a8f96;
+$color-outline-variant: #dcdad5;
+$color-tertiary: #16181c;
+$color-tertiary-container: #23262b;
+$color-tertiary-fixed-dim: #b9bdc3;
+$color-white: #ffffff;
+
+// Feedback
+$color-error: #ba1a1a;
+$color-error-container: #ffdad6;
+$color-success: #1e6b3a;
+$color-success-container: #d7f2df;
+
+// Typography
+$font-family-base: 'Roboto', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+$font-family-heading: 'Roboto', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+$font-family-icons: 'Material Symbols Outlined';
+
+// name: (size, line-height, weight, letter-spacing)
+$type-scale: (
+  display-lg: (52px, 60px, 900, -0.01em),
+  headline-lg: (34px, 42px, 700, 0.02em),
+  headline-lg-mobile: (26px, 34px, 700, 0.02em),
+  headline-md: (22px, 30px, 700, 0),
+  body-lg: (18px, 28px, 400, 0),
+  body-md: (16px, 24px, 400, 0),
+  body-sm: (14px, 20px, 400, 0),
+  label-caps: (12px, 16px, 700, 0.05em),
+  button: (14px, 20px, 600, 0)
+);
+
+// Spacing
+$space-xs: 4px;
+$space-sm: 8px;
+$space-md: 16px;
+$space-lg: 32px;
+$space-xl: 48px;
+$gutter: 24px;
+$margin-mobile: 20px;
+$margin-desktop: 64px;
+$section-gap: 120px;
+$section-gap-mobile: 72px;
+$container-max: 1280px;
+$header-height: 72px;
+$header-height-mobile: 64px;
+$tap-target: 44px;
+$page-bar-height: 52px;
+
+// Shape and depth
+$radius-sm: 0.25rem;
+$radius-md: 0.5rem;
+$radius-lg: 0.75rem;
+$radius-full: 9999px;
+$shadow-sm: 0 1px 2px rgba(22, 24, 28, 0.06);
+$shadow-md: 0 8px 24px rgba(22, 24, 28, 0.1);
+$shadow-lg: 0 18px 40px rgba(22, 24, 28, 0.14);
+$shadow-xl: 0 25px 50px -12px rgba(22, 24, 28, 0.35);
+
+// Motion
+$transition-fast: 150ms ease;
+$transition-base: 200ms ease;
+$transition-slow: 500ms ease;
+
+// Breakpoints (min-width)
+$breakpoints: (
+  sm: 640px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px
+);
+
+@function type-value($name, $index) {
+  @return list.nth(map.get($type-scale, $name), $index);
+}
+
+// Colours published as CSS custom properties (--color-*). The rich text editor reads
+// these for its swatches and content templates, so keep names stable across sites.
+$css-colors: (
+  'primary': $color-primary,
+  'primary-dark': $color-primary-dark,
+  'primary-container': $color-primary-container,
+  'accent': $color-accent,
+  'secondary': $color-secondary,
+  'secondary-fixed': $color-secondary-fixed,
+  'industrial-gold': $color-industrial-gold,
+  'on-surface': $color-on-surface,
+  'on-surface-variant': $color-on-surface-variant,
+  'surface': $color-surface,
+  'surface-low': $color-surface-low,
+  'surface-high': $color-surface-high,
+  'slate-gray': $color-slate-gray,
+  'tertiary': $color-tertiary,
+  'white': $color-white
+);
+
+@mixin color-vars {
+  @each $name, $value in $css-colors {
+    --color-#{$name}: #{$value};
+  }
+}

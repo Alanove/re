@@ -213,3 +213,14 @@ Do not recopy `solu-new` for later sites and do not paste enhancements into site
 - Logo: the blue THRONE TRADING S.A.R.L. wordmark (`images/throne-trading.png`). It has an opaque white background, so the footer shows it with an invert filter and `mix-blend-mode: screen`. Product, category, and brand images also have white backgrounds and use `mix-blend-mode: multiply` on tinted cards.
 - Tokens: navy `#0b2540`, accent `#1d6fa5`, gold `#c9a14f`, deep navy `#08182a`. Fonts are Outfit for headings and Inter for body text. Icons are Material Symbols.
 - Design snapshots (desktop at 1280px and mobile at 390px) for home, category, product, and brand pages are in `websites/thronetrading.com/design/`.
+
+## Known Belfay Studios specifics (reference)
+
+- Site folder `websites/belfaystudios.com/`, dev port `3044`. Built from the Throne Trading core with the catalog layer removed. The workbook is `wwwroot/data.xls`, and `legacy.localRoot` is `wwwroot`. Remove both once `wwwroot` is deleted.
+- Structure: a one-page home with anchored sections (`#AboutUs`, `#OurStudios`, `#OurServices`, `#OurTeam`, `#ContactUs`, the same anchors as the legacy site) plus `/blog` and `/blog/<post>`. The blog root is a page of kind `blog` (`blog.rootKey` in `transform.config.json`), and its published children are the posts.
+- The legacy pages that fed the home sections (`slogans`, `who-we-are`, `our-studios`, `our-services`, `our-team-and-talents`, `contact-us`, `services`, `how`, and a duplicate post) are listed in `legacy.hiddenPageKeys`. They are imported into `data/home.json` and redirect to their anchors or to `/blog`. Legacy `Blog` and `blog/{PageURL}` URLs redirect to the new slugs.
+- Home sections in Admin > Home Page: hero slogans (rotating), about with a stat card, studios quote band, services (up to 12), team (photo, role and a bio shown over the photo on hover, focus or tap), latest posts, and contact (details, map, form).
+- Contact: one office (Hazmieh, Beirut) with a map query from the seed. WhatsApp `+961 76 073 760` is a floating button plus links in the drawer, Contact section, footer and post share bar. Change the number under Admin > Site Settings. Instagram and Facebook links come from the seed's `social` settings.
+- Logo: the circular red and navy mark (`images/logo-large.png`), shown on a white badge in the dark header and footer. The favicon is the same mark as PNG.
+- Tokens: charcoal `#212529` and `#16181c`, orange accent `#f2791c` (text on light backgrounds uses `#b4530a` for contrast), font Roboto, header 64px on mobile and 72px from `lg`, 44px minimum tap targets.
+- Design snapshots (1440, 1024, 768, 390 and 360px, the mobile menu, the open team bio and the admin at 390px) are in `websites/belfaystudios.com/design/`.

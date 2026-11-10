@@ -1,0 +1,406 @@
+@use 'tokens' as t;
+@use 'mixins' as m;
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(t.$color-tertiary, 0.97);
+  color: t.$color-white;
+  box-shadow: 0 1px 0 rgba(t.$color-white, 0.06);
+  transition: background-color t.$transition-slow, box-shadow t.$transition-slow;
+
+  // On the home page the header floats over the hero and turns solid once the page scrolls.
+  &--overlay {
+    position: fixed;
+    inset: 0 0 auto;
+    background: transparent;
+    box-shadow: none;
+
+    &.is-scrolled {
+      background: rgba(t.$color-tertiary, 0.97);
+      box-shadow: t.$shadow-md;
+    }
+  }
+
+  &__inner {
+    @include m.container;
+    height: t.$header-height-mobile;
+    display: flex;
+    align-items: center;
+    gap: t.$space-md;
+
+    @include m.up(lg) {
+      height: t.$header-height;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: t.$space-sm;
+    margin-left: auto;
+
+    @include m.up(lg) {
+      margin-left: 0;
+      gap: t.$space-md;
+    }
+  }
+
+  &__cta {
+    display: none;
+
+    @include m.up(sm) {
+      display: inline-flex;
+    }
+  }
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: t.$tap-target;
+  color: t.$color-white;
+  flex-shrink: 0;
+
+  &:hover {
+    color: t.$color-white;
+  }
+
+  &__badge {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: t.$radius-full;
+    background: t.$color-white;
+    box-shadow: 0 0 0 2px rgba(t.$color-white, 0.15);
+    overflow: hidden;
+    flex-shrink: 0;
+
+    @include m.up(lg) {
+      width: 52px;
+      height: 52px;
+    }
+
+    &--lg {
+      width: 64px;
+      height: 64px;
+    }
+  }
+
+  &__logo {
+    width: 88%;
+    height: auto;
+    display: block;
+  }
+
+  &__name {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+
+    @include m.up(lg) {
+      font-size: 18px;
+    }
+  }
+}
+
+.nav-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: t.$tap-target;
+  height: t.$tap-target;
+  border: 1px solid rgba(t.$color-white, 0.25);
+  border-radius: t.$radius-md;
+  background: transparent;
+  color: t.$color-white;
+  cursor: pointer;
+
+  &:hover {
+    border-color: t.$color-accent;
+    color: t.$color-accent;
+  }
+
+  @include m.up(lg) {
+    display: none;
+  }
+}
+
+.site-nav {
+  // Mobile: off-canvas drawer from the right.
+  position: fixed;
+  inset: 0 0 0 auto;
+  z-index: 70;
+  width: min(86vw, 360px);
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: t.$color-tertiary;
+  box-shadow: t.$shadow-xl;
+  transform: translateX(100%);
+  visibility: hidden;
+  transition: transform 300ms ease, visibility 0s linear 300ms;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-bottom: env(safe-area-inset-bottom);
+
+  &.is-open {
+    transform: translateX(0);
+    visibility: visible;
+    transition: transform 300ms ease, visibility 0s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+
+    &.is-open {
+      transition: none;
+    }
+  }
+
+  @include m.up(lg) {
+    position: static;
+    width: auto;
+    height: auto;
+    flex-direction: row;
+    align-items: center;
+    margin-left: auto;
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+    visibility: visible;
+    overflow: visible;
+    transition: none;
+    padding-bottom: 0;
+  }
+
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px t.$space-md 10px t.$gutter;
+    border-bottom: 1px solid rgba(t.$color-white, 0.08);
+
+    @include m.up(lg) {
+      display: none;
+    }
+  }
+
+  &__title {
+    @include m.label-caps;
+    color: t.$color-accent;
+  }
+
+  &__close {
+    display: inline-grid;
+    place-items: center;
+    width: t.$tap-target;
+    height: t.$tap-target;
+    border: 0;
+    border-radius: t.$radius-md;
+    background: rgba(t.$color-white, 0.06);
+    color: t.$color-white;
+    cursor: pointer;
+
+    &:hover {
+      color: t.$color-accent;
+    }
+  }
+
+  &__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    padding: t.$space-sm 0;
+
+    @include m.up(lg) {
+      flex-direction: row;
+      align-items: center;
+      gap: 2px;
+      padding: 0;
+    }
+  }
+
+  &__link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 52px;
+    padding: 0 t.$gutter;
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(t.$color-white, 0.88);
+
+    @include m.up(lg) {
+      min-height: t.$tap-target;
+      padding: 0 12px;
+      font-size: 14px;
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 12px;
+        right: 12px;
+        bottom: 6px;
+        height: 2px;
+        background: t.$color-accent;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform t.$transition-base;
+      }
+    }
+
+    &:hover,
+    &.is-current {
+      color: t.$color-accent;
+
+      &::after {
+        transform: scaleX(1);
+      }
+    }
+
+    .is-active > & {
+      color: t.$color-accent;
+
+      &::after {
+        transform: scaleX(1);
+      }
+    }
+  }
+
+  &__contact {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: auto;
+    padding: t.$gutter;
+    border-top: 1px solid rgba(t.$color-white, 0.08);
+
+    @include m.up(lg) {
+      display: none;
+    }
+  }
+
+  &__line {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: t.$tap-target;
+    color: rgba(t.$color-white, 0.85);
+    overflow-wrap: anywhere;
+
+    .material-symbols-outlined {
+      font-size: 20px;
+      color: t.$color-accent;
+    }
+
+    &:hover {
+      color: t.$color-white;
+    }
+  }
+}
+
+.nav-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 65;
+  background: rgba(t.$color-tertiary, 0.6);
+  backdrop-filter: blur(2px);
+
+  @include m.up(lg) {
+    display: none;
+  }
+}
+
+// Shared social icon list (header, drawer, footer, contact section).
+.social-links {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: t.$space-sm;
+
+  &--header {
+    display: none;
+
+    @include m.up(lg) {
+      display: flex;
+      gap: 2px;
+    }
+
+    .social-link {
+      width: t.$tap-target;
+      height: t.$tap-target;
+      background: transparent;
+      color: rgba(t.$color-white, 0.8);
+
+      &:hover {
+        color: t.$color-accent;
+        background: transparent;
+      }
+    }
+  }
+
+  &--drawer {
+    margin-top: t.$space-sm;
+  }
+
+  &--buttons {
+    gap: 10px;
+
+    .social-link {
+      width: auto;
+      height: t.$tap-target;
+      padding: 0 16px 0 12px;
+      gap: 8px;
+      border-radius: t.$radius-full;
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: t.$tap-target;
+  height: t.$tap-target;
+  border-radius: t.$radius-full;
+  background: rgba(t.$color-white, 0.08);
+  color: t.$color-white;
+  transition: background-color t.$transition-base, color t.$transition-base;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    background: t.$color-accent;
+    color: t.$color-tertiary;
+  }
+
+  &--whatsapp:hover {
+    background: #25d366;
+    color: t.$color-white;
+  }
+
+  &--instagram:hover {
+    background: #e1306c;
+    color: t.$color-white;
+  }
+
+  &--facebook:hover {
+    background: #1877f2;
+    color: t.$color-white;
+  }
+}

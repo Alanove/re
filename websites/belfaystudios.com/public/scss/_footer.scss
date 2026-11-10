@@ -1,0 +1,229 @@
+@use 'tokens' as t;
+@use 'mixins' as m;
+
+.site-footer {
+  position: relative;
+  background: t.$color-tertiary;
+  color: t.$color-tertiary-fixed-dim;
+  border-top: 4px solid t.$color-accent;
+
+  &__inner {
+    @include m.container;
+    display: grid;
+    gap: t.$space-xl;
+    padding-block: 56px t.$space-xl;
+
+    @include m.up(md) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: t.$space-xl t.$gutter;
+    }
+
+    @include m.up(lg) {
+      grid-template-columns: 1.4fr 0.8fr 1.2fr;
+      padding-block: 72px 56px;
+    }
+  }
+
+  &__brand {
+    display: flex;
+    flex-direction: column;
+    gap: t.$space-md;
+
+    @include m.up(md) {
+      grid-column: 1 / -1;
+    }
+
+    @include m.up(lg) {
+      grid-column: auto;
+    }
+  }
+
+  &__text {
+    font-size: 15px;
+    line-height: 1.7;
+    max-width: 26rem;
+  }
+
+  &__heading {
+    @include m.label-caps;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    color: t.$color-white;
+    margin-bottom: t.$space-md;
+
+    &::after {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 3px;
+      margin-top: 10px;
+      background: t.$color-accent;
+    }
+  }
+
+  &__contact .social-links {
+    margin-top: t.$space-md;
+  }
+
+  &__bottom {
+    border-top: 1px solid rgba(t.$color-white, 0.06);
+
+    p {
+      @include m.container;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 0.35rem 0.75rem;
+      padding-block: t.$gutter;
+      text-align: center;
+      font-size: 13px;
+      color: rgba(t.$color-tertiary-fixed-dim, 0.85);
+    }
+  }
+
+  &__credit a {
+    color: t.$color-accent;
+
+    &:hover {
+      color: t.$color-white;
+    }
+  }
+}
+
+.footer-links {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 t.$space-md;
+
+  @include m.up(md) {
+    grid-template-columns: 1fr;
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: t.$tap-target;
+    min-width: t.$tap-target;
+    color: t.$color-tertiary-fixed-dim;
+    font-size: 15px;
+
+    &:hover {
+      color: t.$color-accent;
+    }
+  }
+}
+
+.footer-contact {
+  list-style: none;
+  display: grid;
+  gap: 4px;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: t.$tap-target;
+    font-size: 15px;
+    overflow-wrap: anywhere;
+  }
+
+  .material-symbols-outlined {
+    font-size: 20px;
+    color: t.$color-accent;
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: t.$tap-target;
+    color: t.$color-tertiary-fixed-dim;
+
+    &:hover {
+      color: t.$color-white;
+    }
+  }
+}
+
+.floating-actions {
+  position: fixed;
+  right: max(16px, env(safe-area-inset-right));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+
+  @include m.up(md) {
+    right: max(24px, env(safe-area-inset-right));
+    bottom: max(24px, env(safe-area-inset-bottom));
+  }
+}
+
+.whatsapp-fab {
+  width: 56px;
+  height: 56px;
+  border-radius: t.$radius-full;
+  background: #25d366;
+  color: t.$color-white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 24px rgba(37, 211, 102, 0.35), t.$shadow-md;
+  transition: transform t.$transition-base, background-color t.$transition-base;
+
+  &:hover {
+    background: #1ebe5d;
+    color: t.$color-white;
+    transform: translateY(-2px);
+  }
+
+  &:focus-visible {
+    outline: 3px solid t.$color-accent;
+    outline-offset: 3px;
+  }
+
+  svg {
+    width: 30px;
+    height: 30px;
+    display: block;
+  }
+}
+
+.back-to-top {
+  display: inline-grid;
+  place-items: center;
+  width: t.$tap-target;
+  height: t.$tap-target;
+  border-radius: t.$radius-full;
+  background: t.$color-tertiary;
+  color: t.$color-white;
+  border: 1px solid rgba(t.$color-white, 0.2);
+  box-shadow: t.$shadow-md;
+
+  &:hover {
+    background: t.$color-accent;
+    color: t.$color-tertiary;
+  }
+}
+
+body.nav-open .floating-actions {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+// Keep the floating buttons clear of the footer's last line on small screens.
+.site-footer__bottom p {
+  padding-right: 84px;
+  padding-bottom: 40px;
+  min-height: 128px;
+  align-content: flex-start;
+
+  @include m.up(md) {
+    min-height: 0;
+    padding-bottom: t.$gutter;
+    padding-inline: t.$margin-desktop + 72px;
+  }
+}

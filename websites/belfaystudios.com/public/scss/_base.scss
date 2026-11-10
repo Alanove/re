@@ -1,0 +1,144 @@
+@use 'tokens' as t;
+@use 'mixins' as m;
+
+:root {
+  @include t.color-vars;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: t.$header-height-mobile + 8px;
+
+  @include m.up(lg) {
+    scroll-padding-top: t.$header-height + 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: t.$font-family-base;
+  @include m.type(body-md);
+  color: t.$color-on-surface;
+  background: t.$color-background;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.nav-open {
+  overflow: hidden;
+
+  @include m.up(lg) {
+    overflow: auto;
+  }
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: t.$font-family-heading;
+}
+
+a {
+  color: t.$color-primary;
+  text-decoration: none;
+  transition: color t.$transition-base;
+
+  &:hover {
+    color: t.$color-secondary;
+  }
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
+  @include m.focus-ring(t.$color-accent);
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  font: inherit;
+}
+
+.material-symbols-outlined {
+  font-family: t.$font-family-icons;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  direction: ltr;
+  vertical-align: middle;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  user-select: none;
+
+  &.is-filled {
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+}
+
+.visually-hidden {
+  @include m.visually-hidden;
+}
+
+.skip-link {
+  position: absolute;
+  left: t.$space-md;
+  top: -100px;
+  z-index: 100;
+  background: t.$color-primary;
+  color: t.$color-white;
+  padding: t.$space-sm t.$space-md;
+  border-radius: t.$radius-md;
+
+  &:focus {
+    top: t.$space-md;
+    color: t.$color-white;
+  }
+}

@@ -1,0 +1,20 @@
+<%- include('../partials/page-hero') %>
+<section class="section blog-listing">
+	<div class="container">
+		<% if (page.content) { %><div class="prose prose--intro"><%- page.content %></div><% } %>
+		<% if (listing.posts.length) { %>
+			<ul class="post-grid">
+				<% listing.posts.forEach(function (card) { %>
+					<li><%- include('../partials/post-card', { card: card, headingTag: 'h2' }) %></li>
+				<% }) %>
+			</ul>
+			<%- include('../partials/pagination', {
+				listing: { page: listing.page, pages: listing.totalPages },
+				pageUrl: function (n) { return n === 1 ? page.url : page.url + '?page=' + n; }
+			}) %>
+		<% } else { %>
+			<p class="blog-listing__empty">New articles are on their way. Check back soon.</p>
+		<% } %>
+	</div>
+</section>
+<%- include('../partials/cta-band-section') %>

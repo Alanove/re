@@ -1,0 +1,66 @@
+<%
+	const postDate = new Date(post.publishedAt);
+	const postDateLabel = postDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+	const shareUrl = seo.canonical;
+	const shareLinks = [
+		{ label: 'WhatsApp', icon: 'chat', href: 'https://wa.me/?text=' + encodeURIComponent(page.title + ' ' + shareUrl) },
+		{ label: 'Facebook', icon: 'thumb_up', href: 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(shareUrl) },
+		{ label: 'LinkedIn', icon: 'work', href: 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(shareUrl) }
+	];
+%>
+<%- include('../partials/page-hero') %>
+<div class="post-layout">
+	<article class="post-article">
+		<p class="post-article__meta">
+			<span class="material-symbols-outlined" aria-hidden="true">calendar_today</span>
+			<time datetime="<%= postDate.toISOString() %>"><%= postDateLabel %></time>
+			<span aria-hidden="true">·</span>
+			<span><%= post.readingMinutes %> min read</span>
+		</p>
+		<% if (page.content) { %><div class="prose post-article__content"><%- page.content %></div><% } %>
+		<%- include('../partials/gallery') %>
+
+		<div class="post-share">
+			<p class="post-share__label">Share this article</p>
+			<ul class="post-share__list">
+				<% shareLinks.forEach(function (link) { %>
+					<li><a class="post-share__link" href="<%= link.href %>" target="_blank" rel="noopener noreferrer"><span class="material-symbols-outlined" aria-hidden="true"><%= link.icon %></span><%= link.label %></a></li>
+				<% }) %>
+			</ul>
+		</div>
+
+		<% if (newer || older) { %>
+			<nav class="post-nav" aria-label="More articles">
+				<% if (older) { %>
+					<a class="post-nav__link post-nav__link--prev" href="<%= older.url %>" rel="prev">
+						<span class="post-nav__dir"><span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>Previous</span>
+						<span class="post-nav__title"><%= older.title %></span>
+					</a>
+				<% } %>
+				<% if (newer) { %>
+					<a class="post-nav__link post-nav__link--next" href="<%= newer.url %>" rel="next">
+						<span class="post-nav__dir">Next<span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></span>
+						<span class="post-nav__title"><%= newer.title %></span>
+					</a>
+				<% } %>
+			</nav>
+		<% } %>
+	</article>
+</div>
+
+<% if (related.length) { %>
+<section class="section section--surface post-related" aria-labelledby="related-title">
+	<div class="container">
+		<div class="section-head section-head--center">
+			<h2 class="section-title" id="related-title">More from the blog</h2>
+		</div>
+		<ul class="post-grid">
+			<% related.forEach(function (card) { %>
+				<li><%- include('../partials/post-card', { card: card, headingTag: 'h3' }) %></li>
+			<% }) %>
+		</ul>
+		<p class="home-posts__more"><a class="btn btn--outline" href="<%= blogRoot.url %>">All articles</a></p>
+	</div>
+</section>
+<% } %>
+<%- include('../partials/cta-band-section') %>

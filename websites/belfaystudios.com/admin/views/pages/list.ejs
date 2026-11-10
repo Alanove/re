@@ -1,0 +1,76 @@
+<div class="panel panel-inverse">
+	<div class="panel-heading">
+		<h4 class="panel-title">Site pages</h4>
+		<div class="panel-heading-btn">
+			<a href="/admin/pages/create" class="btn btn-xs btn-success"><i class="fa fa-plus"></i> Add page</a>
+		</div>
+	</div>
+	<div class="panel-body">
+		<div class="row g-2 mb-3">
+			<div class="col-md-6">
+				<div class="input-group">
+					<span class="input-group-text"><i class="fa fa-search"></i></span>
+					<input type="search" class="form-control" placeholder="Filter by title or URL" data-table-filter="#pages-table" aria-label="Filter pages" />
+				</div>
+			</div>
+		</div>
+		<div class="table-responsive">
+			<table class="table table-striped table-bordered align-middle" id="pages-table">
+				<thead>
+					<tr>
+						<th style="width:56px">Image</th>
+						<th>Title</th>
+						<th>URL</th>
+						<th>Type</th>
+						<th>Status</th>
+						<th class="text-center">Gallery</th>
+						<th>Updated</th>
+						<th style="width:1%">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% pages.forEach(function (page) { %>
+						<tr data-filter-text="<%= (page.title + ' ' + page.url).toLowerCase() %>">
+							<td>
+								<% if (page.heroImage) { %>
+									<img src="<%= thumbUrl(page.heroImage) %>" alt="" class="rounded admin-thumb" loading="lazy" data-fallback-src="<%= page.heroImage %>" />
+								<% } else { %>
+									<div class="admin-thumb admin-thumb-empty rounded"><i class="fa fa-image text-muted"></i></div>
+								<% } %>
+							</td>
+							<td>
+								<span class="admin-tree-indent" style="--depth: <%= page.depth %>"></span>
+								<a href="/admin/pages/<%= page.id %>/edit" class="fw-bold"><%= page.title %></a>
+							</td>
+							<td>
+								<% if (page.kind === 'footer') { %>
+									<span class="text-muted small">Not routed</span>
+								<% } else { %>
+									<a href="<%= page.url %>" target="_blank" rel="noopener" class="small"><%= page.url %></a>
+								<% } %>
+							</td>
+							<td><span class="badge bg-light text-dark"><%= page.kind %></span></td>
+							<td>
+								<% if (page.status === 'published') { %><span class="badge bg-success">Published</span><% } else { %><span class="badge bg-secondary">Draft</span><% } %>
+							</td>
+							<td class="text-center"><%= page.imageCount %></td>
+							<td class="text-nowrap small"><%= new Date(page.updatedAt).toLocaleDateString('en-GB') %></td>
+							<td class="text-nowrap">
+								<a href="/admin/pages/<%= page.id %>/edit" class="btn btn-sm btn-primary" title="Edit"><i class="fa fa-edit"></i></a>
+								<button type="button" class="btn btn-sm btn-danger" title="Delete"
+									data-delete-url="/admin/pages/<%= page.id %>"
+									data-delete-title="Delete page"
+									data-delete-message="Delete “<%= page.title %>” and its gallery? Pages with child pages cannot be deleted.">
+									<i class="fa fa-trash"></i>
+								</button>
+							</td>
+						</tr>
+					<% }) %>
+					<% if (pages.length === 0) { %>
+						<tr><td colspan="8" class="text-center text-muted py-4">No pages yet. <a href="/admin/pages/create">Create the first page</a>.</td></tr>
+					<% } %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

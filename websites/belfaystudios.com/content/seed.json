@@ -1,0 +1,161 @@
+{
+  "settings": {
+    "tagline": "Giving the entertainment world an Arabic voice",
+    "description": "Belfay Studios is a Beirut dubbing house specialized in Arabic dubbing, voiceover, subtitling and localization for film, TV, games and e-learning.",
+    "contactEmail": "info@belfaystudios.com",
+    "contactPhone": "+961 76 073 760",
+    "whatsappNumber": "+961 76 073 760",
+    "brochureUrl": "",
+    "favicon": "legacy:/images/logo-large.png",
+    "footerText": "Arabic dubbing, voiceover, subtitling and localization recorded in our Beirut studios by actors, translators and sound editors with more than 25 years of experience.",
+    "copyright": "© {year} Belfay Studios. All rights reserved.",
+    "inquiryTopics": [
+      "Dubbing",
+      "Voiceover",
+      "Subtitling",
+      "Translation / Localization",
+      "Voice talent application",
+      "General inquiry"
+    ],
+    "themeColor": "#16181c",
+    "social": {
+      "facebook": "https://www.facebook.com/belfaystudios/",
+      "instagram": "https://www.instagram.com/belfaystudios/",
+      "linkedin": "",
+      "youtube": ""
+    },
+    "ctaBand": {
+      "title": "Ready to give your project an Arabic voice?",
+      "text": "Send us your script or brief and we will come back with talent options, timing and a quote.",
+      "label": "Start a project"
+    },
+    "thankYouMessage": "Thank you. Your message has been received and the Belfay Studios team will get back to you shortly.",
+    "seo": {
+      "defaultTitle": "Belfay Studios | Arabic Dubbing, Voiceover & Subtitling in Beirut",
+      "defaultDescription": "Belfay Studios records Arabic dubbing, voiceover, subtitling and localization in Beirut, Lebanon, for movies, TV series, cartoons, video games and e-learning.",
+      "defaultKeywords": "Belfay Studios, Arabic dubbing, Arabic voiceover, Arabic subtitling, localization, dubbing studio Lebanon, Beirut recording studio, voice actors",
+      "defaultImage": "legacy:/Content/images/background-header.jpg"
+    }
+  },
+  "extraAssets": [],
+  "pageIcons": {},
+  "pageOverrides": {
+    "blog": {
+      "title": "Blog",
+      "header": "Blog",
+      "summary": "Notes from the dubbing booth: Arabic dubbing, voiceover, localization and life at Belfay Studios.",
+      "content": ""
+    },
+    "importance-of-arabic-dubbing": {
+      "title": "Importance of Arabic dubbing",
+      "header": "Importance of Arabic dubbing"
+    },
+    "why-arabic-dubbing-is-better-in-modern-standard-arabic": {
+      "status": "published",
+      "heroImage": "legacy:/PRV/Images/Pages/Page_39/blog36685684.jpg"
+    },
+    "how-arabic-dubbing-is-still-running-amidst-the-coronavi_1": {
+      "title": "How Arabic dubbing is still running amidst the Coronavirus lockdown",
+      "header": "How Arabic dubbing is still running amidst the Coronavirus lockdown"
+    }
+  },
+  "redirects": [
+    { "from": "/who-we-are", "to": "/#AboutUs" },
+    { "from": "/our-studios", "to": "/#OurStudios" },
+    { "from": "/our-services", "to": "/#OurServices" },
+    { "from": "/services", "to": "/#OurServices" },
+    { "from": "/our-team-and-talents", "to": "/#OurTeam" },
+    { "from": "/contact-us", "to": "/#ContactUs" },
+    { "from": "/slogans", "to": "/" },
+    { "from": "/how", "to": "/blog" },
+    { "from": "/how-arabic-dubbing-is-still-running-amidst-the-coronavi", "to": "/blog" },
+    { "from": "/how-arabic-dubbing-is-still-running-amidst-the-coronavi_3", "to": "/blog" }
+  ],
+  "menus": {
+    "main": [
+      { "title": "Who We Are", "url": "/#AboutUs" },
+      { "title": "Studios", "url": "/#OurStudios" },
+      { "title": "Services", "url": "/#OurServices" },
+      { "title": "Team", "url": "/#OurTeam" },
+      { "title": "Blog", "url": "page:blog" },
+      { "title": "Contact", "url": "/#ContactUs" }
+    ],
+    "footer": [
+      { "title": "Who We Are", "url": "/#AboutUs" },
+      { "title": "Our Studios", "url": "/#OurStudios" },
+      { "title": "Our Services", "url": "/#OurServices" },
+      { "title": "Team & Talents", "url": "/#OurTeam" },
+      { "title": "Blog", "url": "page:blog" },
+      { "title": "Contact Us", "url": "/#ContactUs" }
+    ]
+  },
+  "offices": [
+    {
+      "id": "lebanon",
+      "country": "Lebanon",
+      "role": "Recording studios",
+      "address": "Hazmieh, Beirut, Lebanon",
+      "poBox": "",
+      "phones": ["+961 76 073 760"],
+      "fax": "",
+      "emails": ["info@belfaystudios.com"],
+      "mapQuery": "33.860027,35.5403496",
+      "isPrimary": true,
+      "sort": 10
+    }
+  ],
+  "home": {
+    "sources": {
+      "slogans": "slogans",
+      "about": "who-we-are",
+      "studios": "our-studios",
+      "services": "our-services",
+      "team": "our-team-and-talents"
+    },
+    "hero": {
+      "enabled": true,
+      "eyebrow": "Arabic dubbing studio · Beirut",
+      "image": "legacy:/Content/images/background-header.jpg",
+      "primaryCta": { "label": "Our services", "url": "/#OurServices" },
+      "secondaryCta": { "label": "Contact us", "url": "/#ContactUs" }
+    },
+    "about": {
+      "enabled": true,
+      "title": "Who We Are",
+      "statValue": "25+",
+      "statLabel": "years of Arabic dubbing"
+    },
+    "studios": {
+      "enabled": true,
+      "title": "Our Studios",
+      "image": "legacy:/Content/images/our-studios.jpg"
+    },
+    "services": {
+      "enabled": true,
+      "title": "Our Services",
+      "intro": "From the script to the final mix, everything your project needs to speak Arabic.",
+      "icons": {
+        "Dubbing": "mic",
+        "Voiceover": "record_voice_over",
+        "Subtitling": "subtitles",
+        "Translation/Localization": "translate"
+      }
+    },
+    "team": {
+      "enabled": true,
+      "title": "Our Team & Talents"
+    },
+    "latestPosts": {
+      "enabled": true,
+      "title": "From the Blog",
+      "intro": "News and insights on Arabic dubbing and voiceover.",
+      "limit": 3
+    },
+    "contact": {
+      "enabled": true,
+      "title": "Contact Us",
+      "intro": "Tell us about your project, ask for a voice sample or apply as a voice talent. We usually reply within one business day.",
+      "image": "legacy:/Content/images/contact-us.jpg"
+    }
+  }
+}

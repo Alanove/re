@@ -1,0 +1,286 @@
+@use 'tokens' as t;
+@use 'mixins' as m;
+
+// Home hero: full-height grayscale studio photo with rotating slogans, as on the legacy site.
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: t.$color-tertiary;
+  color: t.$color-white;
+  text-align: center;
+
+  &__media {
+    position: absolute;
+    inset: 0;
+
+    img {
+      @include m.cover-image;
+      filter: grayscale(1) contrast(1.05);
+      transform-origin: center;
+      animation: hero-drift 18s ease-in-out infinite alternate;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 50% 40%, rgba(t.$color-tertiary, 0.35) 0%, rgba(t.$color-tertiary, 0.8) 75%),
+        linear-gradient(180deg, rgba(t.$color-tertiary, 0.55) 0%, rgba(t.$color-tertiary, 0.2) 40%, rgba(t.$color-tertiary, 0.9) 100%);
+    }
+  }
+
+  &__inner {
+    @include m.container;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: t.$header-height-mobile + 24px;
+    padding-bottom: 96px;
+
+    @include m.up(lg) {
+      padding-top: t.$header-height + 32px;
+    }
+  }
+
+  &__eyebrow {
+    @include m.label-caps;
+    font-size: 13px;
+    letter-spacing: 0.24em;
+    color: t.$color-accent;
+    margin-bottom: t.$space-md;
+  }
+
+  &__title {
+    width: 100%;
+    max-width: 58rem;
+    font-weight: 900;
+    font-size: clamp(30px, 7.4vw, 64px);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  // Slogans stack in one grid cell so the tallest sets the height and the swap never shifts layout.
+  &__slogans {
+    display: grid;
+  }
+
+  &__slogan {
+    grid-area: 1 / 1;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 700ms ease, transform 700ms ease;
+
+    &.is-active {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  &__bar {
+    display: block;
+    width: 72px;
+    height: 4px;
+    margin: t.$gutter auto 0;
+    background: t.$color-accent;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: t.$space-lg;
+    width: 100%;
+
+    .btn {
+      flex: 1 1 200px;
+      max-width: 260px;
+    }
+  }
+
+  &__scroll {
+    position: absolute;
+    left: 50%;
+    bottom: max(20px, env(safe-area-inset-bottom));
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: t.$tap-target;
+    height: t.$tap-target;
+    margin-left: -(t.$tap-target * 0.5);
+    border: 1px solid rgba(t.$color-white, 0.35);
+    border-radius: t.$radius-full;
+    color: t.$color-white;
+    animation: hero-bounce 2.4s ease-in-out infinite;
+
+    &:hover {
+      color: t.$color-accent;
+      border-color: t.$color-accent;
+    }
+  }
+}
+
+@keyframes hero-drift {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes hero-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__media img,
+  .hero__scroll {
+    animation: none;
+  }
+
+  .hero__slogan {
+    transition: none;
+  }
+}
+
+// Inner pages and blog.
+.page-hero {
+  position: relative;
+  min-height: 300px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background: t.$color-tertiary;
+  color: t.$color-white;
+
+  @include m.up(md) {
+    min-height: 380px;
+  }
+
+  &__media {
+    position: absolute;
+    inset: 0;
+
+    img,
+    video {
+      @include m.cover-image;
+    }
+
+    &--still img {
+      filter: grayscale(0.6);
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(t.$color-tertiary, 0.55) 0%, rgba(t.$color-tertiary, 0.92) 100%);
+    }
+  }
+
+  &--plain {
+    min-height: 260px;
+    background:
+      radial-gradient(circle at 85% 20%, rgba(t.$color-accent, 0.22), transparent 45%),
+      linear-gradient(135deg, t.$color-tertiary 0%, t.$color-primary-container 100%);
+
+    @include m.up(md) {
+      min-height: 320px;
+    }
+  }
+
+  &__inner {
+    @include m.container;
+    position: relative;
+    z-index: 1;
+    padding-block: t.$space-xl 40px;
+
+    .divider {
+      margin-bottom: t.$space-md;
+    }
+  }
+
+  &__title {
+    max-width: 52rem;
+    font-size: clamp(26px, 5.4vw, 46px);
+    line-height: 1.15;
+    font-weight: 900;
+    text-transform: uppercase;
+    text-wrap: balance;
+    margin-bottom: t.$space-sm;
+    overflow-wrap: break-word;
+  }
+
+  &__lead {
+    @include m.type(body-lg);
+    color: rgba(t.$color-white, 0.85);
+    max-width: 40rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+  }
+}
+
+.breadcrumbs {
+  margin-bottom: t.$space-md;
+  font-size: 13px;
+
+  ol {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 6px;
+  }
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+  }
+
+  li + li::before {
+    content: '/';
+    margin-right: 6px;
+    opacity: 0.6;
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: t.$tap-target;
+    min-width: t.$tap-target;
+    color: rgba(t.$color-white, 0.8);
+
+    &:hover {
+      color: t.$color-accent;
+    }
+  }
+
+  [aria-current='page'] {
+    color: t.$color-accent;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+  }
+}

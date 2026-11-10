@@ -1,0 +1,124 @@
+[
+  {
+    "id": "main",
+    "name": "Main navigation",
+    "description": "Header navigation. Links starting with /# scroll to a home page section.",
+    "items": [
+      {
+        "id": "item-who-we-are",
+        "title": "Who We Are",
+        "url": "/#AboutUs",
+        "pageId": null,
+        "sort": 10,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-studios",
+        "title": "Studios",
+        "url": "/#OurStudios",
+        "pageId": null,
+        "sort": 20,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-services",
+        "title": "Services",
+        "url": "/#OurServices",
+        "pageId": null,
+        "sort": 30,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-team",
+        "title": "Team",
+        "url": "/#OurTeam",
+        "pageId": null,
+        "sort": 40,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-blog",
+        "title": "Blog",
+        "url": "/blog",
+        "pageId": 39,
+        "sort": 50,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-contact",
+        "title": "Contact",
+        "url": "/#ContactUs",
+        "pageId": null,
+        "sort": 60,
+        "active": true,
+        "children": []
+      }
+    ]
+  },
+  {
+    "id": "footer",
+    "name": "Footer links",
+    "description": "Quick links listed in the footer.",
+    "items": [
+      {
+        "id": "item-who-we-are",
+        "title": "Who We Are",
+        "url": "/#AboutUs",
+        "pageId": null,
+        "sort": 10,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-our-studios",
+        "title": "Our Studios",
+        "url": "/#OurStudios",
+        "pageId": null,
+        "sort": 20,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-our-services",
+        "title": "Our Services",
+        "url": "/#OurServices",
+        "pageId": null,
+        "sort": 30,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-team-and-talents",
+        "title": "Team & Talents",
+        "url": "/#OurTeam",
+        "pageId": null,
+        "sort": 40,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-blog",
+        "title": "Blog",
+        "url": "/blog",
+        "pageId": 39,
+        "sort": 50,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-contact-us",
+        "title": "Contact Us",
+        "url": "/#ContactUs",
+        "pageId": null,
+        "sort": 60,
+        "active": true,
+        "children": []
+      }
+    ]
+  }
+]

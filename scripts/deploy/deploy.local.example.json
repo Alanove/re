@@ -1,0 +1,9 @@
+{
+  "host": "ubuntu.liteweb.info",
+  "user": "litewebchatlb",
+  "port": 22,
+  "identityFile": "%USERPROFILE%\\.ssh\\id_ed25519",
+  "runAs": "www",
+  "branch": "main",
+  "repoUrl": "git@github.com:Alanove/re.git"
+}

@@ -19,7 +19,12 @@ Act as an elite Node.js backend engineer building high-end, high-performance web
 ## Security
 - Validate every incoming payload (body, params, query, uploads) with a strict Zod schema before any service runs.
 - Keep Helmet security headers and rate limits on the app; tighter limits on login and public forms.
-- CSRF token on every state-changing admin request. Secrets come from the environment, never from committed files.
+- CSRF token on every state-changing admin request. Code reads secrets only from environment variables, never from hardcoded values.
+- Each site's `.env` (development) and `.env.production` (server) are intentionally committed to this private repo so every laptop has them. Do not add them back to `.gitignore`. The deploy writes the server `.env` from `.env.production`.
+
+## Deployment
+- Deploy one site at a time with `scripts/deploy/deploy.ps1 -Site <domain>`, following `docs/deployment.md`. Never deploy all sites in one run.
+- Each site has a committed `deploy.json` (server folder, port, health path, aaPanel restart settings). A new site needs one before it can be deployed.
 
 ## Error isolation
 - Wrap every async handler (`asyncHandler`) so rejections reach the single global error middleware.
