@@ -1,0 +1,15 @@
+<% const rowError = errors['instagramPosts.' + i + '.url']; %>
+<div class="admin-spec-row" data-repeater-row>
+	<div class="row g-2 align-items-start">
+		<div class="col">
+			<label class="visually-hidden" for="instagramPosts-<%= i %>-url">Post link</label>
+			<input type="url" class="form-control form-control-sm <%= rowError ? 'is-invalid' : '' %>" id="instagramPosts-<%= i %>-url" name="instagramPosts[<%= i %>][url]" value="<%= post.url %>" maxlength="500" placeholder="https://www.instagram.com/p/…/" />
+			<% if (rowError) { %><div class="invalid-feedback"><%= rowError %></div><% } %>
+		</div>
+		<div class="col-auto d-flex gap-1">
+			<button type="button" class="btn btn-sm btn-default" data-row-up title="Move up" aria-label="Move post up"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+			<button type="button" class="btn btn-sm btn-default" data-row-down title="Move down" aria-label="Move post down"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+			<button type="button" class="btn btn-sm btn-danger" data-repeater-remove title="Remove" aria-label="Remove post"><i class="fa fa-trash" aria-hidden="true"></i></button>
+		</div>
+	</div>
+</div>

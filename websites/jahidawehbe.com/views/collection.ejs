@@ -1,0 +1,55 @@
+<%
+	const isEvents = kind === 'events';
+	const pageUrl = function (n) { return n <= 1 ? root.url : root.url + '?page=' + n; };
+%>
+<%- include('partials/page-hero', { title: root.header || root.title, image: root.heroImage, video: root.heroVideo, direction: root.direction, lead: root.summary }) %>
+<div class="container page-body">
+	<% if (root.content) { %>
+		<div class="prose collection-intro" dir="<%= root.direction %>"><%- root.content %></div>
+	<% } %>
+
+	<% if (isEvents) { %>
+		<% if (listing.page === 1) { %>
+			<section class="collection-block" aria-labelledby="upcoming-title">
+				<h2 class="block-title" id="upcoming-title">Upcoming</h2>
+				<% if (listing.upcoming.length > 0) { %>
+					<ul class="gig-list<%= listing.upcoming.length === 1 ? ' gig-list--single' : '' %>">
+						<% listing.upcoming.forEach(function (entry) { %><%- include('partials/gig-card', { entry: entry }) %><% }) %>
+					</ul>
+				<% } else { %>
+					<p class="empty-note">No upcoming dates are announced yet. Follow Jahida on social media to hear first.</p>
+				<% } %>
+			</section>
+		<% } %>
+		<% if (listing.entries.length > 0) { %>
+			<section class="collection-block" aria-labelledby="past-title">
+				<h2 class="block-title" id="past-title">Past performances</h2>
+				<ul class="event-list event-list--past">
+					<% listing.entries.forEach(function (entry) { %><%- include('partials/event-row', { entry: entry }) %><% }) %>
+				</ul>
+			</section>
+		<% } %>
+	<% } else { %>
+		<% if (listing.entries.length > 0) { %>
+			<div class="news-grid news-grid--listing">
+				<% listing.entries.forEach(function (entry, index) { %>
+					<%- include('partials/news-card', { entry: entry }) %>
+				<% }) %>
+			</div>
+		<% } else { %>
+			<p class="empty-note">No news yet.</p>
+		<% } %>
+	<% } %>
+
+	<% if (listing.totalPages > 1) { %>
+		<nav class="pagination" aria-label="Pages">
+			<% if (listing.page > 1) { %><a class="pagination__step" href="<%= pageUrl(listing.page - 1) %>" rel="prev"><%- include('partials/icon', { name: 'chevron', cls: 'icon-mirror' }) %> Newer</a><% } %>
+			<ol class="pagination__list">
+				<% for (let n = 1; n <= listing.totalPages; n += 1) { %>
+					<li><a href="<%= pageUrl(n) %>"<% if (n === listing.page) { %> aria-current="page"<% } %>><%= n %></a></li>
+				<% } %>
+			</ol>
+			<% if (listing.page < listing.totalPages) { %><a class="pagination__step" href="<%= pageUrl(listing.page + 1) %>" rel="next">Older <%- include('partials/icon', { name: 'chevron' }) %></a><% } %>
+		</nav>
+	<% } %>
+</div>

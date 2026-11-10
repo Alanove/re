@@ -1,0 +1,38 @@
+<%
+	const rowError = function (name) { return errors['slides.' + i + '.' + name]; };
+	const rowClass = function (name) { return rowError(name) ? 'form-control form-control-sm is-invalid' : 'form-control form-control-sm'; };
+	const p = 'slides[' + i + ']';
+	const idp = 'slides-' + i + '-';
+	const focus = slide.focus || 'center';
+%>
+<div class="admin-spec-row" data-repeater-row>
+	<div class="row g-3 align-items-start">
+		<div class="col-md-4">
+			<label class="form-label small mb-1" for="<%= idp %>imageFile">Photo</label>
+			<%- include('../partials/media-picker', { id: idp + 'imageFile', field: p + '[imageFile]', kind: 'image', current: slide.image || '', valueName: p + '[image]', label: 'photo', small: true, hint: 'Wide photo, at least 1920px. Converted to WebP, max 2000px. For a video slide it is the still shown before playback.' }) %>
+			<% if (rowError('image')) { %><div class="invalid-feedback d-block"><%= rowError('image') %></div><% } %>
+		</div>
+		<div class="col-md-4">
+			<label class="form-label small mb-1" for="<%= idp %>videoFile">Video (optional)</label>
+			<%- include('../partials/media-picker', { id: idp + 'videoFile', field: p + '[videoFile]', kind: 'video', current: slide.video || '', valueName: p + '[video]', label: 'video', hint: 'MP4 or WebM up to 25 MB, ideally 10 to 30 seconds without important sound. It plays muted.' }) %>
+			<% if (rowError('video')) { %><div class="invalid-feedback d-block"><%= rowError('video') %></div><% } %>
+		</div>
+		<div class="col-md-3">
+			<label class="form-label small mb-1" for="<%= idp %>focus">Where she is in the frame</label>
+			<select class="form-select form-select-sm" id="<%= idp %>focus" name="<%= p %>[focus]">
+				<option value="left" <%= focus === 'left' ? 'selected' : '' %>>Left side</option>
+				<option value="center" <%= focus === 'center' ? 'selected' : '' %>>Centre</option>
+				<option value="right" <%= focus === 'right' ? 'selected' : '' %>>Right side</option>
+			</select>
+			<small class="text-muted d-block mb-2">Phones show a narrow slice; this keeps her in view.</small>
+			<label class="form-label small mb-1" for="<%= idp %>caption">Caption (optional)</label>
+			<input type="text" class="<%= rowClass('caption') %>" id="<%= idp %>caption" name="<%= p %>[caption]" value="<%= slide.caption || '' %>" maxlength="160" placeholder="Live at the Cairo Opera House" dir="auto" />
+			<% if (rowError('caption')) { %><div class="invalid-feedback"><%= rowError('caption') %></div><% } %>
+		</div>
+		<div class="col-md-1 d-flex flex-md-column gap-1 justify-content-end">
+			<button type="button" class="btn btn-sm btn-default" data-row-up title="Move up" aria-label="Move slide up"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+			<button type="button" class="btn btn-sm btn-default" data-row-down title="Move down" aria-label="Move slide down"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+			<button type="button" class="btn btn-sm btn-danger" data-repeater-remove title="Remove" aria-label="Remove slide"><i class="fa fa-trash" aria-hidden="true"></i></button>
+		</div>
+	</div>
+</div>

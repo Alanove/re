@@ -1,0 +1,170 @@
+<%
+	const s = section;
+	const val = function (v) { return v === undefined || v === null ? '' : v; };
+	const fieldClass = function (name) { return errors[name] ? 'form-control is-invalid' : 'form-control'; };
+	const isList = ['upcoming', 'videos', 'events', 'news'].indexOf(sectionKey) !== -1;
+	const items = s.items || [];
+	const slides = s.slides || [];
+	const listHelp = {
+		upcoming: 'Appears right under the hero only while at least one event is dated today or later, soonest first, with its poster, venue and ticket link. The day after its date an event moves to the past performances by itself. Add events under <a href="/admin/events">Events</a>.',
+		videos: 'Shows the featured video large, then the newest videos from the library. Manage the videos under <a href="/admin/videos">Videos</a>.',
+		events: 'Shows the most recent past events. While the Upcoming Events section is switched on, future events are listed there instead. Add events under <a href="/admin/events">Events</a>.',
+		news: 'Shows the newest stories. Write stories under <a href="/admin/news">News</a>.'
+	};
+%>
+<form method="POST" action="/admin/home/<%= sectionKey %>/edit?_csrf=<%= encodeURIComponent(csrfToken) %>" enctype="multipart/form-data" novalidate>
+	<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+	<input type="hidden" name="key" value="home" />
+	<div class="row">
+		<div class="col-xl-8">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title"><%= sectionLabel %></h4></div>
+				<div class="panel-body">
+					<div class="form-check form-switch mb-3">
+						<input class="form-check-input" type="checkbox" id="enabled" name="enabled" value="1" <%= s.enabled ? 'checked' : '' %> />
+						<label class="form-check-label" for="enabled">Show this section on the home page</label>
+					</div>
+
+					<% if (sectionKey === 'hero') { %>
+						<div class="mb-3">
+							<label class="form-label" for="eyebrow">Small line above the name</label>
+							<input type="text" class="<%= fieldClass('eyebrow') %>" id="eyebrow" name="eyebrow" value="<%= val(s.eyebrow) %>" maxlength="120" placeholder="Singer · Composer · Poet" dir="auto" />
+							<%- include('../partials/field-error', { name: 'eyebrow' }) %>
+						</div>
+						<div class="mb-3">
+							<label class="form-label" for="title">Name or heading</label>
+							<input type="text" class="<%= fieldClass('title') %>" id="title" name="title" value="<%= val(s.title) %>" maxlength="160" placeholder="Jahida Wehbe" dir="auto" />
+							<small class="text-muted">Displayed very large. The main heading of the site for visitors and search engines.</small>
+							<%- include('../partials/field-error', { name: 'title' }) %>
+						</div>
+					<% } else if (sectionKey === 'quotes') { %>
+						<div class="mb-3">
+							<label class="form-label" for="title">Small heading (optional)</label>
+							<input type="text" class="<%= fieldClass('title') %>" id="title" name="title" value="<%= val(s.title) %>" maxlength="120" placeholder="They said" dir="auto" />
+							<%- include('../partials/field-error', { name: 'title' }) %>
+						</div>
+					<% } else { %>
+						<div class="mb-3">
+							<label class="form-label" for="title">Heading <span class="text-danger">*</span></label>
+							<input type="text" class="<%= fieldClass('title') %>" id="title" name="title" value="<%= val(s.title) %>" maxlength="120" required dir="auto" />
+							<%- include('../partials/field-error', { name: 'title' }) %>
+						</div>
+					<% } %>
+
+					<% if (sectionKey === 'hero' || isList) { %>
+						<div class="mb-3">
+							<label class="form-label" for="intro"><%= sectionKey === 'hero' ? 'Short line under the name' : 'Introduction (optional)' %></label>
+							<textarea class="<%= fieldClass('intro') %>" id="intro" name="intro" rows="3" maxlength="400" dir="auto"><%= val(s.intro) %></textarea>
+							<%- include('../partials/field-error', { name: 'intro' }) %>
+						</div>
+					<% } %>
+
+					<% if (isList) { %>
+						<div class="mb-3" style="max-width:220px">
+							<label class="form-label" for="count">How many to show</label>
+							<input type="number" class="<%= fieldClass('count') %>" id="count" name="count" value="<%= val(s.count) %>" min="1" max="12" />
+							<%- include('../partials/field-error', { name: 'count' }) %>
+						</div>
+						<p class="text-muted small mb-0"><%- listHelp[sectionKey] %></p>
+					<% } %>
+
+					<% if (sectionKey === 'hero') { %>
+						<div class="row g-2 mb-3">
+							<div class="col-md-7">
+								<label class="form-label" for="textSide">Where the name sits on large screens</label>
+								<select class="form-select" id="textSide" name="textSide">
+									<option value="right" <%= s.textSide === 'right' ? 'selected' : '' %>>Right side (photos with her on the left)</option>
+									<option value="left" <%= s.textSide === 'left' ? 'selected' : '' %>>Left side (photos with her on the right)</option>
+									<option value="bottom" <%= !s.textSide || s.textSide === 'bottom' ? 'selected' : '' %>>Bottom</option>
+								</select>
+								<small class="text-muted">Phones always show it at the bottom.</small>
+							</div>
+							<div class="col-md-5">
+								<label class="form-label" for="interval">Seconds per photo</label>
+								<input type="number" class="<%= fieldClass('interval') %>" id="interval" name="interval" value="<%= val(s.interval) %>" min="3" max="30" />
+								<small class="text-muted">Video slides play to the end before moving on.</small>
+								<%- include('../partials/field-error', { name: 'interval' }) %>
+							</div>
+						</div>
+					<% } %>
+
+					<% if (sectionKey === 'about') { %>
+						<div class="mb-3">
+							<label class="form-label" for="heading">Large line</label>
+							<input type="text" class="<%= fieldClass('heading') %>" id="heading" name="heading" value="<%= val(s.heading) %>" maxlength="160" placeholder="A voice between poetry and song" dir="auto" />
+							<%- include('../partials/field-error', { name: 'heading' }) %>
+						</div>
+						<div class="mb-3">
+							<label class="form-label" for="content">Text</label>
+							<textarea class="form-control rich-text" id="content" name="content" rows="10" data-editor-height="300px"><%= val(s.content) %></textarea>
+							<%- include('../partials/field-error', { name: 'content' }) %>
+						</div>
+					<% } %>
+
+					<% if (sectionKey === 'hero' || sectionKey === 'about') { %>
+						<div class="row g-2 mb-3">
+							<div class="col-md-6">
+								<label class="form-label" for="ctaLabel">Button label</label>
+								<input type="text" class="<%= fieldClass('ctaLabel') %>" id="ctaLabel" name="ctaLabel" value="<%= val(s.cta && s.cta.label) %>" maxlength="80" placeholder="<%= sectionKey === 'hero' ? 'Watch the videos' : 'Read the biography' %>" dir="auto" />
+							</div>
+							<div class="col-md-6">
+								<label class="form-label" for="ctaUrl">Button link</label>
+								<input type="text" class="<%= fieldClass('ctaUrl') %>" id="ctaUrl" name="ctaUrl" value="<%= val(s.cta && s.cta.url) %>" placeholder="<%= sectionKey === 'hero' ? '/videos' : '/biography' %>" />
+								<%- include('../partials/field-error', { name: 'ctaUrl' }) %>
+							</div>
+						</div>
+					<% } %>
+
+					<% if (sectionKey === 'hero') { %>
+						<h5 class="mt-4">Slides</h5>
+						<p class="text-muted small">Up to <%= slidesMax %> slides fade one into the next behind the name. Each slide is a photo, or a short muted video (MP4 or WebM up to 25 MB) with a photo shown while it loads and to visitors who prefer less motion. Use the arrows to change the order.</p>
+						<% if (errors.slides) { %><div class="alert alert-danger py-2 small"><%= errors.slides %></div><% } %>
+						<div data-repeater data-max="<%= slidesMax %>" data-repeater-name="slides">
+							<div data-repeater-list>
+								<% slides.forEach(function (slide, i) { %>
+									<%- include('slide-row', { slide: slide, i: i }) %>
+								<% }) %>
+							</div>
+							<template data-repeater-template><%- include('slide-row', { slide: { image: '', video: '', focus: 'center', caption: '' }, i: 99 }) %></template>
+							<button type="button" class="btn btn-default btn-sm" data-repeater-add><i class="fa fa-plus me-1" aria-hidden="true"></i> Add slide</button>
+							<span class="text-muted small ms-2" data-repeater-count></span>
+						</div>
+					<% } %>
+
+					<% if (sectionKey === 'quotes') { %>
+						<h5 class="mt-4">Quotes</h5>
+						<p class="text-muted small">Up to <%= quotesMax %> press quotes or words from fellow artists. They rotate on the home page. Use the arrows to change the order.</p>
+						<div data-repeater data-max="<%= quotesMax %>" data-repeater-name="items">
+							<div data-repeater-list>
+								<% items.forEach(function (item, i) { %>
+									<%- include('quote-row', { item: item, i: i }) %>
+								<% }) %>
+							</div>
+							<template data-repeater-template><%- include('quote-row', { item: { author: '', role: '', quote: '' }, i: 99 }) %></template>
+							<button type="button" class="btn btn-default btn-sm" data-repeater-add><i class="fa fa-plus me-1" aria-hidden="true"></i> Add quote</button>
+							<span class="text-muted small ms-2" data-repeater-count></span>
+						</div>
+					<% } %>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xl-4">
+			<div class="panel panel-inverse admin-sticky">
+				<div class="panel-heading"><h4 class="panel-title">Save</h4></div>
+				<div class="panel-body">
+					<% if (sectionImage) { %>
+						<label class="form-label" for="imageFile"><%= sectionImage.label %></label>
+						<%- include('../partials/media-picker', { id: 'imageFile', field: 'imageFile', kind: 'image', current: s.image || '', valueName: 'image', label: sectionImage.label.toLowerCase(), hint: sectionImage.hint }) %>
+						<%- include('../partials/field-error', { name: 'image' }) %>
+						<div class="mb-3"></div>
+					<% } %>
+					<div class="d-flex gap-2">
+						<button type="submit" class="btn btn-success flex-fill"><i class="fa fa-save me-1"></i> Save section</button>
+						<a href="/admin/home" class="btn btn-default">Back</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

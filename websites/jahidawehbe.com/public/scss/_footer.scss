@@ -1,0 +1,133 @@
+@use 'tokens' as *;
+
+.site-footer {
+	padding-block: var(--section) 2rem;
+	border-top: 1px solid var(--line);
+	background:
+		radial-gradient(ellipse at 15% 0%, rgba(201, 162, 107, 0.08), transparent 50%),
+		var(--bg-raised);
+
+	&__kicker {
+		margin-bottom: 2rem;
+		font-family: var(--font-display);
+		font-size: clamp(2rem, 5vw, 3.4rem);
+		font-style: italic;
+		line-height: 1.15;
+	}
+
+	&__bottom {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 1.2rem 2.5rem;
+		margin-top: clamp(3.5rem, 8vw, 6rem);
+		padding-top: 2rem;
+		border-top: 1px solid var(--line);
+		color: var(--faint);
+		font-size: 0.85rem;
+	}
+
+	&__brand {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.8rem;
+		color: var(--text);
+		font-family: var(--font-display);
+		font-size: 1.3rem;
+		text-decoration: none;
+
+		img {
+			width: 40px;
+			height: 40px;
+			object-fit: contain;
+		}
+	}
+
+	&__menu {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem 1.6rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+
+		a {
+			text-decoration: none;
+		}
+	}
+
+	&__copy {
+		margin-inline-start: auto;
+
+		@include down(md) {
+			flex-basis: 100%;
+			margin-inline-start: 0;
+		}
+	}
+}
+
+.social-wall {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(min(15rem, 100%), 1fr));
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	border-top: 1px solid var(--line);
+
+	li {
+		border-bottom: 1px solid var(--line);
+	}
+
+	&__link {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr) auto;
+		grid-template-rows: auto auto;
+		align-items: center;
+		column-gap: 1rem;
+		height: 100%;
+		padding: 1.3rem 0.8rem;
+		text-decoration: none;
+		transition: background 0.3s var(--ease);
+
+		&:hover {
+			background: var(--gold-soft);
+			color: var(--text);
+		}
+	}
+
+	&__icon {
+		grid-row: 1 / span 2;
+		width: 1.6rem;
+		height: 1.6rem;
+		color: var(--gold);
+	}
+
+	&__label {
+		font-family: var(--font-display);
+		font-size: 1.35rem;
+		line-height: 1.2;
+	}
+
+	&__handle {
+		grid-column: 2;
+		overflow: hidden;
+		color: var(--faint);
+		font-size: 0.82rem;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	&__arrow {
+		grid-column: 3;
+		grid-row: 1 / span 2;
+		color: var(--faint);
+		transition:
+			color 0.25s var(--ease),
+			translate 0.25s var(--ease);
+	}
+
+	&__link:hover &__arrow {
+		color: var(--gold);
+		translate: 4px 0;
+	}
+}

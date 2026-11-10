@@ -32,6 +32,15 @@ function Fail([string]$Message) {
   exit 1
 }
 
+function Confirm-YesNo([string]$Question) {
+  while ($true) {
+    $answer = (Read-Host "$Question [y/n]").Trim().ToLowerInvariant()
+    if ($answer -in @('y', 'yes')) { return $true }
+    if ($answer -in @('n', 'no')) { return $false }
+    Write-Host 'Please answer y or n.' -ForegroundColor Yellow
+  }
+}
+
 function Step([string]$Message) {
   Write-Host "==> $Message" -ForegroundColor Cyan
 }
@@ -226,11 +235,9 @@ if ($overwriteSpec -eq '-') {
 }
 Write-Host ''
 if (-not $Yes) {
-  $answer = Read-Host "Deploy $Site now? Type the site name to confirm"
-  if ($answer -ne $Site) { Fail 'Cancelled.' }
+  if (-not (Confirm-YesNo "Deploy $Site now?")) { Fail 'Cancelled.' }
   if ($overwriteSpec -ne '-') {
-    $answer = Read-Host 'Live edits made in the admin panel to these files will be lost. Type OVERWRITE to confirm'
-    if ($answer -cne 'OVERWRITE') { Fail 'Cancelled.' }
+    if (-not (Confirm-YesNo 'Live edits made in the admin panel to these files will be lost. Overwrite them?')) { Fail 'Cancelled.' }
   }
 }
 

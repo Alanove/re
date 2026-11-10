@@ -1,0 +1,228 @@
+<%
+	const hero = home.hero;
+	const slides = hero.slides;
+	const nextEvent = upcoming.entries[0];
+	const stage = videos[0];
+	const moreVideos = videos.slice(1);
+	const eventsRoot = events.root;
+	const newsRoot = news.root;
+%>
+<% if (hero.enabled) { %>
+	<section class="hero hero--text-<%= hero.textSide %><%= slides.length ? '' : ' hero--plain' %>" aria-labelledby="hero-title"<% if (slides.length > 1) { %> data-hero-slider data-interval="<%= hero.interval %>"<% } %>>
+		<% if (slides.length > 0) { %>
+			<div class="hero__slides"<% if (slides.length > 1) { %> aria-roledescription="carousel" aria-label="Photos and videos of <%= settings.siteName %>"<% } %>>
+				<% slides.forEach(function (slide, index) { %>
+					<figure class="hero-slide hero-slide--focus-<%= slide.focus %><%= index === 0 ? ' is-active' : '' %>" data-hero-slide data-caption="<%= slide.caption %>"<% if (slides.length > 1) { %> role="group" aria-roledescription="slide" aria-label="<%= index + 1 %> of <%= slides.length %>"<% } %><% if (index > 0) { %> aria-hidden="true"<% } %>>
+						<% if (slide.image) { %>
+							<img class="hero-slide__image" src="<%= slide.image %>" alt="" decoding="async"<% if (index === 0) { %> fetchpriority="high"<% } else { %> loading="lazy"<% } %> />
+						<% } %>
+						<% if (slide.video) { %>
+							<video class="hero-slide__video" muted playsinline disablepictureinpicture preload="<%= index === 0 ? 'auto' : 'none' %>"<% if (slide.image) { %> poster="<%= slide.image %>"<% } %><% if (slides.length === 1) { %> loop<% } %> data-hero-video>
+								<source src="<%= slide.video %>" type="<%= /\.webm$/i.test(slide.video) ? 'video/webm' : 'video/mp4' %>" />
+							</video>
+						<% } %>
+						<% if (slide.caption) { %><figcaption class="visually-hidden"><%= slide.caption %></figcaption><% } %>
+					</figure>
+				<% }) %>
+			</div>
+		<% } %>
+		<div class="hero__content">
+			<% if (hero.eyebrow) { %><p class="eyebrow hero__eyebrow" dir="auto"><%= hero.eyebrow %></p><% } %>
+			<h1 class="hero__title" id="hero-title" dir="auto"><%= hero.title || settings.siteName %></h1>
+			<p class="hero__native" lang="ar" dir="rtl">جاهدة وهبه</p>
+			<% if (hero.intro) { %><p class="hero__intro" dir="auto"><%= hero.intro %></p><% } %>
+			<div class="hero__actions">
+				<% if (hero.cta.label && hero.cta.url) { %>
+					<a class="btn btn--primary" href="<%= hero.cta.url %>"><%- include('partials/icon', { name: 'play' }) %><span><%= hero.cta.label %></span></a>
+				<% } %>
+				<% if (nextEvent) { %>
+					<a class="hero__next" href="<%= nextEvent.url %>">
+						<span class="hero__next-label">Next concert</span>
+						<span class="hero__next-when"><%= nextEvent.day %> <%= nextEvent.month %> <%= nextEvent.year %></span>
+						<% if (nextEvent.venue) { %><span class="hero__next-where" dir="auto"><%= nextEvent.venue %></span><% } %>
+					</a>
+				<% } %>
+			</div>
+		</div>
+		<% if (slides.some(function (slide) { return slide.caption; })) { %>
+			<p class="hero__caption" dir="auto" aria-hidden="true" data-hero-caption><%= slides[0].caption %></p>
+		<% } %>
+		<% if (slides.length > 1) { %>
+			<div class="hero__controls" data-hero-controls hidden>
+				<button class="hero__toggle" type="button" data-hero-toggle aria-label="Pause the slideshow">
+					<%- include('partials/icon', { name: 'pause', cls: 'hero__toggle-pause' }) %>
+					<%- include('partials/icon', { name: 'play', cls: 'hero__toggle-play' }) %>
+				</button>
+				<div class="hero__dots" role="group" aria-label="Choose a slide">
+					<% slides.forEach(function (slide, index) { %>
+						<button type="button" class="hero__dot" data-hero-dot="<%= index %>" aria-label="Show slide <%= index + 1 %><%= slide.caption ? ': ' + slide.caption : '' %>"><span></span></button>
+					<% }) %>
+				</div>
+			</div>
+		<% } %>
+		<a class="hero__scroll" href="#home-after-hero" aria-label="Scroll down"><span></span></a>
+	</section>
+<% } %>
+<div id="home-after-hero"></div>
+
+<% if (home.upcoming.enabled && upcoming.root && upcoming.entries.length > 0) { %>
+	<section class="section section--upcoming" aria-labelledby="home-upcoming-title">
+		<div class="container">
+			<div class="section-head">
+				<p class="eyebrow"><%= upcoming.total === 1 ? 'Coming up' : upcoming.total + ' dates coming up' %></p>
+				<h2 class="section-title" id="home-upcoming-title" dir="auto"><%= home.upcoming.title %></h2>
+				<% if (home.upcoming.intro) { %><p class="section-intro" dir="auto"><%= home.upcoming.intro %></p><% } %>
+				<a class="text-link section-head__link" href="<%= upcoming.root.url %>">All events <%- include('partials/icon', { name: 'arrow', cls: 'icon-flip' }) %></a>
+			</div>
+			<ul class="gig-list<%= upcoming.entries.length === 1 ? ' gig-list--single' : '' %>">
+				<% upcoming.entries.forEach(function (entry) { %>
+					<%- include('partials/gig-card', { entry: entry }) %>
+				<% }) %>
+			</ul>
+		</div>
+	</section>
+<% } %>
+
+<% if (home.videos.enabled && stage) { %>
+	<section class="section section--videos" aria-labelledby="home-videos-title">
+		<div class="container">
+			<div class="section-head">
+				<h2 class="section-title" id="home-videos-title" dir="auto"><%= home.videos.title %></h2>
+				<% if (home.videos.intro) { %><p class="section-intro" dir="auto"><%= home.videos.intro %></p><% } %>
+				<% if (videosUrl) { %><a class="text-link section-head__link" href="<%= videosUrl %>">All videos <%- include('partials/icon', { name: 'arrow', cls: 'icon-flip' }) %></a><% } %>
+			</div>
+			<div class="video-showcase" data-video-player>
+				<%- include('partials/video-stage', { video: stage }) %>
+				<% if (moreVideos.length > 0) { %>
+					<ul class="video-rail" aria-label="More videos">
+						<%- include('partials/video-card', { video: stage, current: true }) %>
+						<% moreVideos.forEach(function (video) { %>
+							<%- include('partials/video-card', { video: video }) %>
+						<% }) %>
+					</ul>
+				<% } %>
+			</div>
+		</div>
+	</section>
+<% } %>
+
+<% if (home.about.enabled) { %>
+	<section class="section section--about" aria-labelledby="home-about-title">
+		<div class="container about">
+			<% if (home.about.image) { %>
+				<figure class="about__figure">
+					<img src="<%= home.about.image %>" alt="<%= settings.siteName %> on stage" loading="lazy" decoding="async" />
+				</figure>
+			<% } %>
+			<div class="about__body">
+				<p class="eyebrow" id="home-about-title"><%= home.about.title %></p>
+				<% if (home.about.heading) { %><h2 class="about__heading" dir="auto"><%= home.about.heading %></h2><% } %>
+				<div class="prose about__text" dir="auto"><%- home.about.content %></div>
+				<% if (home.about.cta.label && home.about.cta.url) { %>
+					<a class="btn btn--ghost" href="<%= home.about.cta.url %>"><span><%= home.about.cta.label %></span><%- include('partials/icon', { name: 'arrow', cls: 'icon-flip' }) %></a>
+				<% } %>
+			</div>
+		</div>
+	</section>
+<% } %>
+
+<% if (home.quotes.enabled && home.quotes.items.length > 0) { %>
+	<section class="section section--quotes" aria-label="<%= home.quotes.title || 'Quotes' %>">
+		<% if (home.quotes.image) { %><div class="quotes__bg" aria-hidden="true"><img src="<%= home.quotes.image %>" alt="" loading="lazy" decoding="async" /></div><% } %>
+		<div class="container quotes" data-quotes>
+			<% if (home.quotes.title) { %><p class="eyebrow quotes__title" dir="auto"><%= home.quotes.title %></p><% } %>
+			<div class="quotes__track" aria-live="polite">
+				<% home.quotes.items.forEach(function (item) { %>
+					<figure class="quote" data-quote>
+						<blockquote class="quote__text" dir="auto"><p><%= item.quote %></p></blockquote>
+						<figcaption class="quote__by" dir="auto">
+							<span class="quote__author"><%= item.author %></span>
+							<% if (item.role) { %><span class="quote__role"><%= item.role %></span><% } %>
+						</figcaption>
+					</figure>
+				<% }) %>
+			</div>
+			<% if (home.quotes.items.length > 1) { %>
+				<div class="quotes__nav" data-quotes-nav hidden>
+					<button class="round-btn" type="button" data-quotes-prev aria-label="Previous quote"><%- include('partials/icon', { name: 'chevron', cls: 'icon-mirror' }) %></button>
+					<div class="quotes__dots" role="group" aria-label="Choose a quote">
+						<% home.quotes.items.forEach(function (item, index) { %>
+							<button type="button" class="quotes__dot" data-quotes-dot="<%= index %>" aria-label="Quote <%= index + 1 %>: <%= item.author %>"></button>
+						<% }) %>
+					</div>
+					<button class="round-btn" type="button" data-quotes-next aria-label="Next quote"><%- include('partials/icon', { name: 'chevron' }) %></button>
+				</div>
+			<% } %>
+		</div>
+	</section>
+<% } %>
+
+<% if (home.events.enabled && eventsRoot && events.entries.length > 0) { %>
+	<section class="section section--events" aria-labelledby="home-events-title">
+		<div class="container">
+			<div class="section-head">
+				<h2 class="section-title" id="home-events-title" dir="auto"><%= home.events.title %></h2>
+				<p class="section-intro" dir="auto"><%= home.events.intro || (events.hasUpcoming ? 'Upcoming concerts and appearances.' : 'Recent concerts and appearances.') %></p>
+				<a class="text-link section-head__link" href="<%= eventsRoot.url %>">All events <%- include('partials/icon', { name: 'arrow', cls: 'icon-flip' }) %></a>
+			</div>
+			<ul class="event-list">
+				<% events.entries.forEach(function (entry) { %>
+					<%- include('partials/event-row', { entry: entry }) %>
+				<% }) %>
+			</ul>
+		</div>
+	</section>
+<% } %>
+
+<% if (home.news.enabled && newsRoot && news.entries.length > 0) { %>
+	<section class="section section--news" aria-labelledby="home-news-title">
+		<div class="container">
+			<div class="section-head">
+				<h2 class="section-title" id="home-news-title" dir="auto"><%= home.news.title %></h2>
+				<% if (home.news.intro) { %><p class="section-intro" dir="auto"><%= home.news.intro %></p><% } %>
+				<a class="text-link section-head__link" href="<%= newsRoot.url %>">All news <%- include('partials/icon', { name: 'arrow', cls: 'icon-flip' }) %></a>
+			</div>
+			<div class="news-grid">
+				<% news.entries.forEach(function (entry) { %>
+					<%- include('partials/news-card', { entry: entry }) %>
+				<% }) %>
+			</div>
+		</div>
+	</section>
+<% } %>
+
+<% if (instagram && instagram.embeds.length > 0) { %>
+	<section class="section section--instagram" aria-labelledby="home-instagram-title">
+		<div class="container">
+			<div class="section-head">
+				<h2 class="section-title" id="home-instagram-title" dir="auto"><%= instagram.title %></h2>
+				<% if (instagram.intro) { %><p class="section-intro" dir="auto"><%= instagram.intro %></p><% } %>
+				<% if (instagram.profile) { %><a class="text-link section-head__link" href="<%= instagram.profile %>" target="_blank" rel="noopener">Follow on Instagram <%- include('partials/icon', { name: 'external' }) %></a><% } %>
+			</div>
+			<ul class="insta-grid">
+				<% instagram.embeds.forEach(function (post) { %>
+					<li class="insta-grid__item">
+						<iframe class="insta-grid__frame" src="<%= post.embedUrl %>" title="Instagram <%= post.kind === 'reel' ? 'reel' : 'post' %>" loading="lazy" scrolling="no" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+						<a class="insta-grid__open" href="<%= post.url %>" target="_blank" rel="noopener">Open on Instagram</a>
+					</li>
+				<% }) %>
+			</ul>
+		</div>
+	</section>
+<% } %>
+
+<% if (facebook) { %>
+	<section class="section section--facebook" aria-labelledby="home-facebook-title">
+		<div class="container facebook">
+			<div class="facebook__text">
+				<p class="eyebrow">Facebook</p>
+				<h2 class="section-title" id="home-facebook-title" dir="auto"><%= facebook.title %></h2>
+				<% if (facebook.intro) { %><p class="section-intro" dir="auto"><%= facebook.intro %></p><% } %>
+				<a class="btn btn--ghost" href="<%= facebook.profile %>" target="_blank" rel="noopener"><%- include('partials/icon', { name: 'facebook' }) %><span>Follow the page</span></a>
+			</div>
+			<div class="facebook__frame">
+				<iframe src="<%= facebook.src %>" title="<%= settings.siteName %> on Facebook" width="500" height="720" loading="lazy" scrolling="no" allow="encrypted-media; picture-in-picture; web-share"></iframe>
+			</div>
+		</div>
+	</section>
+<% } %>

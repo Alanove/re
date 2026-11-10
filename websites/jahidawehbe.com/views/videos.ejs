@@ -1,0 +1,21 @@
+<%- include('partials/page-hero', { title: page.header || page.title, image: page.heroImage, video: page.heroVideo, direction: page.direction, lead: page.summary }) %>
+<div class="container page-body">
+	<% if (page.content) { %>
+		<div class="prose collection-intro" dir="<%= page.direction %>"><%- page.content %></div>
+	<% } %>
+	<% if (videos.length > 0) { %>
+		<div class="video-library" data-video-player>
+			<%- include('partials/video-stage', { video: videos[0], eager: true }) %>
+			<ul class="video-grid" aria-label="All videos">
+				<% videos.forEach(function (video, index) { %>
+					<%- include('partials/video-card', { video: video, current: index === 0 }) %>
+				<% }) %>
+			</ul>
+		</div>
+	<% } else { %>
+		<p class="empty-note">Videos are on their way.</p>
+	<% } %>
+	<% if (channelUrl) { %>
+		<p class="channel-cta"><a class="btn btn--primary" href="<%= channelUrl %>" target="_blank" rel="noopener"><%- include('partials/icon', { name: 'youtube' }) %><span>Subscribe on YouTube</span></a></p>
+	<% } %>
+</div>

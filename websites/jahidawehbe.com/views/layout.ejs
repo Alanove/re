@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+	<title><%= seo.title %></title>
+	<% if (seo.description) { %><meta name="description" content="<%= seo.description %>" /><% } %>
+	<% if (seo.keywords) { %><meta name="keywords" content="<%= seo.keywords %>" /><% } %>
+	<link rel="canonical" href="<%= seo.canonical %>" />
+	<meta name="theme-color" content="<%= settings.themeColor || '#0d0b0a' %>" />
+	<meta name="color-scheme" content="dark" />
+	<meta property="og:site_name" content="<%= settings.siteName %>" />
+	<meta property="og:type" content="<%= seo.type || 'website' %>" />
+	<meta property="og:title" content="<%= seo.title %>" />
+	<% if (seo.description) { %><meta property="og:description" content="<%= seo.description %>" /><% } %>
+	<meta property="og:url" content="<%= seo.canonical %>" />
+	<% if (seo.image) { %><meta property="og:image" content="<%= /^https?:/.test(seo.image) ? seo.image : baseUrl + seo.image %>" /><% } %>
+	<meta name="twitter:card" content="summary_large_image" />
+	<% if (settings.favicon) { %>
+		<link rel="icon" type="image/png" href="<%= settings.favicon %>" />
+		<link rel="apple-touch-icon" href="<%= settings.favicon %>" />
+	<% } %>
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" />
+	<link rel="stylesheet" href="/css/main.css?v=<%= assetVersion %>" />
+	<% if (locals.jsonLd) { %><script type="application/ld+json"><%- jsonLd %></script><% } %>
+	<script src="/js/site.js?v=<%= assetVersion %>" defer></script>
+</head>
+<body class="<%= locals.bodyClass || '' %>">
+	<a class="skip-link" href="#main">Skip to content</a>
+	<%- include('partials/icons') %>
+	<%- include('partials/header') %>
+	<main id="main" tabindex="-1">
+		<%- body %>
+	</main>
+	<%- include('partials/footer') %>
+	<%- include('partials/lightbox') %>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<%
+	const children = (page.children || []).filter(function (child) { return child.status === 'published'; });
+	const crumbs = breadcrumbs.slice(0, -1);
+%>
+<%- include('partials/page-hero', { title: page.header || page.title, image: page.heroImage, video: page.heroVideo, direction: page.direction, lead: page.summary && page.kind === 'section' ? page.summary : '' }) %>
+<div class="container page-body">
+	<% if (crumbs.length > 1) { %>
+		<nav class="breadcrumbs" aria-label="Breadcrumb">
+			<ol>
+				<% crumbs.forEach(function (crumb) { %><li><a href="<%= crumb.url %>" dir="auto"><%= crumb.title %></a></li><% }) %>
+				<li aria-current="page" dir="auto"><%= page.title %></li>
+			</ol>
+		</nav>
+	<% } %>
+	<% if (page.content) { %>
+		<article class="prose prose--page<%= page.direction === 'rtl' ? ' prose--rtl' : '' %>" dir="<%= page.direction %>"<% if (page.direction === 'rtl') { %> lang="ar"<% } %>>
+			<%- page.content %>
+		</article>
+	<% } %>
+	<%- include('partials/gallery', { gallery: gallery }) %>
+	<% if (children.length > 0) { %>
+		<ul class="child-list">
+			<% children.forEach(function (child) { %>
+				<li>
+					<a class="child-list__link" href="<%= child.url %>">
+						<span class="child-list__title" dir="<%= child.direction %>"><%= child.title %></span>
+						<% if (child.summary) { %><span class="child-list__summary" dir="<%= child.direction %>"><%= child.summary %></span><% } %>
+						<%- include('partials/icon', { name: 'arrow', cls: 'icon-flip' }) %>
+					</a>
+				</li>
+			<% }) %>
+		</ul>
+	<% } %>
+</div>

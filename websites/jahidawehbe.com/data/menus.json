@@ -1,0 +1,97 @@
+[
+  {
+    "id": "main",
+    "name": "Main navigation",
+    "description": "Header navigation.",
+    "items": [
+      {
+        "id": "main-videos",
+        "title": "Videos",
+        "url": "/videos",
+        "pageId": 48,
+        "sort": 10,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "main-biography",
+        "title": "Biography",
+        "url": "/biography",
+        "pageId": 53,
+        "sort": 20,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "main-events",
+        "title": "On Stage",
+        "url": "/events",
+        "pageId": 47,
+        "sort": 30,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "main-news",
+        "title": "News",
+        "url": "/news",
+        "pageId": 39,
+        "sort": 40,
+        "active": true,
+        "children": []
+      }
+    ]
+  },
+  {
+    "id": "footer",
+    "name": "Footer links",
+    "description": "Links listed in the footer above the social media links.",
+    "items": [
+      {
+        "id": "footer-biography",
+        "title": "Biography",
+        "url": "/biography",
+        "pageId": 53,
+        "sort": 10,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "footer-biography-arabic",
+        "title": "السيرة الذاتية",
+        "url": "/biography-arabic",
+        "pageId": 54,
+        "sort": 20,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "footer-videos",
+        "title": "Videos",
+        "url": "/videos",
+        "pageId": 48,
+        "sort": 30,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "footer-events",
+        "title": "On Stage",
+        "url": "/events",
+        "pageId": 47,
+        "sort": 40,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "footer-news",
+        "title": "News",
+        "url": "/news",
+        "pageId": 39,
+        "sort": 50,
+        "active": true,
+        "children": []
+      }
+    ]
+  }
+]

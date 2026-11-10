@@ -1,0 +1,25 @@
+<%
+	const rowError = function (name) { return errors['items.' + i + '.' + name]; };
+	const rowClass = function (name) { return rowError(name) ? 'form-control form-control-sm is-invalid' : 'form-control form-control-sm'; };
+%>
+<div class="admin-spec-row" data-repeater-row>
+	<div class="row g-2 align-items-start">
+		<div class="col-md-4">
+			<label class="form-label small mb-1" for="items-<%= i %>-author">Who said it</label>
+			<input type="text" class="<%= rowClass('author') %>" id="items-<%= i %>-author" name="items[<%= i %>][author]" value="<%= item.author %>" maxlength="120" dir="auto" />
+			<% if (rowError('author')) { %><div class="invalid-feedback"><%= rowError('author') %></div><% } %>
+			<label class="form-label small mb-1 mt-2" for="items-<%= i %>-role">Publication or role (optional)</label>
+			<input type="text" class="<%= rowClass('role') %>" id="items-<%= i %>-role" name="items[<%= i %>][role]" value="<%= item.role %>" maxlength="160" placeholder="Al Akhbar newspaper" dir="auto" />
+		</div>
+		<div class="col-md-7">
+			<label class="form-label small mb-1" for="items-<%= i %>-quote">Quote</label>
+			<textarea class="<%= rowClass('quote') %>" id="items-<%= i %>-quote" name="items[<%= i %>][quote]" rows="5" maxlength="1200" dir="auto"><%= item.quote %></textarea>
+			<% if (rowError('quote')) { %><div class="invalid-feedback"><%= rowError('quote') %></div><% } %>
+		</div>
+		<div class="col-md-1 d-flex flex-md-column gap-1 justify-content-end">
+			<button type="button" class="btn btn-sm btn-default" data-row-up title="Move up" aria-label="Move quote up"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+			<button type="button" class="btn btn-sm btn-default" data-row-down title="Move down" aria-label="Move quote down"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+			<button type="button" class="btn btn-sm btn-danger" data-repeater-remove title="Remove" aria-label="Remove quote"><i class="fa fa-trash" aria-hidden="true"></i></button>
+		</div>
+	</div>
+</div>

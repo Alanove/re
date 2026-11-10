@@ -1,0 +1,55 @@
+@use 'sass:map';
+
+$breakpoints: (
+	sm: 600px,
+	md: 900px,
+	lg: 1200px
+);
+
+@mixin up($name) {
+	@media (min-width: map.get($breakpoints, $name)) {
+		@content;
+	}
+}
+
+@mixin down($name) {
+	@media (max-width: (map.get($breakpoints, $name) - 0.02px)) {
+		@content;
+	}
+}
+
+$color-primary: #c9a26b;
+$color-primary-dark: #a8834f;
+
+/* Brand colours shared with the admin theme. */
+@mixin color-vars {
+	--color-primary: #{$color-primary};
+	--color-primary-dark: #{$color-primary-dark};
+}
+
+@mixin site-vars {
+	@include color-vars;
+	--bg: #0d0b0a;
+	--bg-raised: #15110f;
+	--surface: #1c1714;
+	--surface-2: #251e1a;
+	--line: rgba(243, 236, 226, 0.12);
+	--line-strong: rgba(243, 236, 226, 0.24);
+	--text: #f3ece2;
+	--muted: #b5a898;
+	--faint: #8a7e71;
+	--gold: #{$color-primary};
+	--gold-soft: rgba(201, 162, 107, 0.16);
+	--wine: #6e2a2a;
+
+	--font-display: 'Cormorant Garamond', 'Amiri', Georgia, serif;
+	--font-body: 'Jost', 'Amiri', system-ui, -apple-system, 'Segoe UI', sans-serif;
+	--font-arabic: 'Amiri', 'Cormorant Garamond', serif;
+
+	--container: 1240px;
+	--gutter: clamp(1.25rem, 4vw, 2.5rem);
+	--section: clamp(4.5rem, 10vw, 8.5rem);
+	--header-h: 76px;
+	--radius: 2px;
+	--ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}

@@ -1,0 +1,10 @@
+<dialog class="lightbox" data-lightbox aria-label="Photo viewer">
+	<figure class="lightbox__figure">
+		<img class="lightbox__image" alt="" data-lightbox-image />
+		<figcaption class="lightbox__caption" dir="auto" data-lightbox-caption></figcaption>
+	</figure>
+	<button class="lightbox__btn lightbox__btn--close" type="button" data-lightbox-close aria-label="Close"><%- include('icon', { name: 'close' }) %></button>
+	<button class="lightbox__btn lightbox__btn--prev" type="button" data-lightbox-prev aria-label="Previous photo"><%- include('icon', { name: 'chevron', cls: 'icon-mirror' }) %></button>
+	<button class="lightbox__btn lightbox__btn--next" type="button" data-lightbox-next aria-label="Next photo"><%- include('icon', { name: 'chevron' }) %></button>
+	<p class="lightbox__count" data-lightbox-count aria-live="polite"></p>
+</dialog>

@@ -1,0 +1,92 @@
+<%
+	const v = values;
+	const fieldClass = function (name) { return errors[name] ? 'form-control is-invalid' : 'form-control'; };
+	const icons = { instagram: 'fab fa-instagram', facebook: 'fab fa-facebook', youtube: 'fab fa-youtube', tiktok: 'fab fa-tiktok', x: 'fab fa-x-twitter', spotify: 'fab fa-spotify', anghami: 'fa fa-music', appleMusic: 'fab fa-apple', deezer: 'fab fa-deezer' };
+%>
+<form method="POST" action="/admin/social" novalidate>
+	<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+	<div class="row">
+		<div class="col-xl-8">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Profile links</h4></div>
+				<div class="panel-body">
+					<p class="text-muted">Shown as icons in the header and as large links in the footer of every page. Leave a network empty to hide it.</p>
+					<div class="row g-3">
+						<% networks.forEach(function (network) { %>
+							<div class="col-md-6">
+								<label class="form-label" for="profile-<%= network.key %>"><i class="<%= icons[network.key] %> me-1" aria-hidden="true"></i><%= network.label %></label>
+								<input type="url" class="<%= fieldClass('profiles.' + network.key) %>" id="profile-<%= network.key %>" name="profiles[<%= network.key %>]" value="<%= v.profiles[network.key] %>" maxlength="500" placeholder="https://<%= network.host %>/…" />
+								<%- include('../partials/field-error', { name: 'profiles.' + network.key }) %>
+							</div>
+						<% }) %>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title"><i class="fab fa-instagram me-1"></i> Instagram on the home page</h4></div>
+				<div class="panel-body">
+					<div class="form-check form-switch mb-3">
+						<input class="form-check-input" type="checkbox" id="instagramEnabled" name="instagramEnabled" value="1" <%= v.instagramEnabled ? 'checked' : '' %> />
+						<label class="form-check-label" for="instagramEnabled">Show the Instagram section</label>
+					</div>
+					<div class="row g-3 mb-3">
+						<div class="col-md-5">
+							<label class="form-label" for="instagramTitle">Heading <span class="text-danger">*</span></label>
+							<input type="text" class="<%= fieldClass('instagramTitle') %>" id="instagramTitle" name="instagramTitle" value="<%= v.instagramTitle %>" maxlength="120" dir="auto" />
+							<%- include('../partials/field-error', { name: 'instagramTitle' }) %>
+						</div>
+						<div class="col-md-7">
+							<label class="form-label" for="instagramIntro">Introduction (optional)</label>
+							<input type="text" class="<%= fieldClass('instagramIntro') %>" id="instagramIntro" name="instagramIntro" value="<%= v.instagramIntro %>" maxlength="400" dir="auto" />
+						</div>
+					</div>
+					<h5>Posts to show</h5>
+					<p class="text-muted small">Open a post or reel on Instagram, copy its link (Share, then Copy link) and paste it here. Up to <%= postsMax %> posts; Instagram shows each one with its own player. No Instagram login or token is needed.</p>
+					<div data-repeater data-max="<%= postsMax %>" data-repeater-name="instagramPosts">
+						<div data-repeater-list>
+							<% v.instagramPosts.forEach(function (post, i) { %>
+								<%- include('instagram-row', { post: post, i: i }) %>
+							<% }) %>
+						</div>
+						<template data-repeater-template><%- include('instagram-row', { post: { url: '' }, i: 99 }) %></template>
+						<button type="button" class="btn btn-default btn-sm" data-repeater-add><i class="fa fa-plus me-1" aria-hidden="true"></i> Add post</button>
+						<span class="text-muted small ms-2" data-repeater-count></span>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title"><i class="fab fa-facebook me-1"></i> Facebook on the home page</h4></div>
+				<div class="panel-body">
+					<div class="form-check form-switch mb-3">
+						<input class="form-check-input" type="checkbox" id="facebookEnabled" name="facebookEnabled" value="1" <%= v.facebookEnabled ? 'checked' : '' %> />
+						<label class="form-check-label" for="facebookEnabled">Show the Facebook page timeline</label>
+					</div>
+					<div class="row g-3">
+						<div class="col-md-5">
+							<label class="form-label" for="facebookTitle">Heading <span class="text-danger">*</span></label>
+							<input type="text" class="<%= fieldClass('facebookTitle') %>" id="facebookTitle" name="facebookTitle" value="<%= v.facebookTitle %>" maxlength="120" dir="auto" />
+							<%- include('../partials/field-error', { name: 'facebookTitle' }) %>
+						</div>
+						<div class="col-md-7">
+							<label class="form-label" for="facebookIntro">Introduction (optional)</label>
+							<input type="text" class="<%= fieldClass('facebookIntro') %>" id="facebookIntro" name="facebookIntro" value="<%= v.facebookIntro %>" maxlength="400" dir="auto" />
+						</div>
+					</div>
+					<p class="text-muted small mt-3 mb-0">The timeline is Facebook's official page plugin and always shows the latest posts of the Facebook link above. The page must be public.</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xl-4">
+			<div class="panel panel-inverse admin-sticky">
+				<div class="panel-heading"><h4 class="panel-title">Save</h4></div>
+				<div class="panel-body">
+					<p class="small text-muted">Changes appear on the website immediately.</p>
+					<button type="submit" class="btn btn-success w-100"><i class="fa fa-save me-1"></i> Save social media</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

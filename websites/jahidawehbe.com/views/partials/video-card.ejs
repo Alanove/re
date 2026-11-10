@@ -1,0 +1,12 @@
+<li class="video-card<%= locals.current ? ' is-current' : '' %>">
+	<a class="video-card__link" href="<%= video.watchUrl %>" target="_blank" rel="noopener"
+		data-video-select data-embed="<%= video.embedUrl %>" data-title="<%= video.title %>" data-date="<%= video.dateLabel %>"
+		data-poster="<%= video.thumbnailLarge %>" data-poster-fallback="<%= video.thumbnail %>" data-watch="<%= video.watchUrl %>">
+		<span class="video-card__thumb">
+			<img src="<%= video.thumbnail %>" alt="" width="480" height="360" loading="lazy" decoding="async" />
+			<span class="video-card__play"><%- include('icon', { name: 'play' }) %></span>
+		</span>
+		<span class="video-card__title" dir="auto"><%= video.title %></span>
+		<% if (video.dateLabel) { %><span class="video-card__date"><%= video.dateLabel %></span><% } %>
+	</a>
+</li>

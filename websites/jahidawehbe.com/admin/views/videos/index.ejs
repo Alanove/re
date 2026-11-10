@@ -1,0 +1,135 @@
+<%
+	const fieldClass = function (name, extra) { return (extra || 'form-control') + (errors[name] ? ' is-invalid' : ''); };
+	const when = function (iso) { return iso ? new Date(iso).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' }) : '—'; };
+	const featured = items.find(function (item) { return item.pinned; });
+%>
+<div class="row">
+	<div class="col-xl-5">
+		<div class="panel panel-inverse">
+			<div class="panel-heading"><h4 class="panel-title"><i class="fab fa-youtube me-1"></i> YouTube channel</h4></div>
+			<div class="panel-body">
+				<p class="mb-2">
+					<span class="badge <%= status.healthy ? 'bg-success' : 'bg-warning text-dark' %>"><%= status.healthy ? 'OK' : 'Needs attention' %></span>
+					<%= status.summary %>
+				</p>
+				<% if (status.lastError) { %><div class="alert alert-warning small py-2"><%= status.lastError %></div><% } %>
+				<dl class="row small mb-3">
+					<dt class="col-5 fw-normal text-muted">Last check</dt><dd class="col-7 mb-1"><%= when(status.lastAttemptAt) %></dd>
+					<dt class="col-5 fw-normal text-muted">Last new video</dt><dd class="col-7 mb-1"><%= when(status.lastChangeAt) %></dd>
+					<dt class="col-5 fw-normal text-muted">Videos in feed</dt><dd class="col-7 mb-1"><%= status.lastCount %></dd>
+					<dt class="col-5 fw-normal text-muted">Checks</dt><dd class="col-7 mb-1"><%= status.schedulerEnabled ? 'every ' + status.intervalMinutes + ' minutes' : 'switched off on this server' %></dd>
+				</dl>
+				<form method="POST" action="/admin/videos/channel" novalidate>
+					<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+					<div class="mb-3">
+						<label class="form-label" for="channel">Channel link or ID</label>
+						<input type="text" class="<%= fieldClass('channel') %>" id="channel" name="channel" value="<%= channelValues.channel %>" maxlength="300" placeholder="https://www.youtube.com/@JahidaWehbe or UC…" />
+						<%- include('../partials/field-error', { name: 'channel' }) %>
+						<small class="text-muted">Paste the channel address; it is converted to the channel ID automatically. YouTube's public feed lists the 15 newest videos, which are added here as they appear.</small>
+					</div>
+					<div class="form-check form-switch mb-3">
+						<input class="form-check-input" type="checkbox" id="syncEnabled" name="syncEnabled" value="1" <%= channelValues.syncEnabled ? 'checked' : '' %> />
+						<label class="form-check-label" for="syncEnabled">Add new videos automatically</label>
+					</div>
+					<div class="d-flex flex-wrap gap-2">
+						<button type="submit" class="btn btn-success"><i class="fa fa-save me-1"></i> Save channel</button>
+					</div>
+				</form>
+				<form method="POST" action="/admin/videos/sync" class="mt-2">
+					<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+					<button type="submit" class="btn btn-default" <%= status.channelId ? '' : 'disabled' %>><i class="fa fa-sync me-1"></i> Check YouTube now</button>
+				</form>
+			</div>
+		</div>
+
+		<div class="panel panel-inverse">
+			<div class="panel-heading"><h4 class="panel-title">Add an older video</h4></div>
+			<div class="panel-body">
+				<form method="POST" action="/admin/videos/add" novalidate>
+					<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+					<div class="mb-3">
+						<label class="form-label" for="url">YouTube link <span class="text-danger">*</span></label>
+						<input type="url" class="<%= fieldClass('url') %>" id="url" name="url" value="<%= addValues.url %>" maxlength="500" placeholder="https://www.youtube.com/watch?v=…" required />
+						<%- include('../partials/field-error', { name: 'url' }) %>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="videoTitle">Title (optional)</label>
+						<input type="text" class="<%= fieldClass('title') %>" id="videoTitle" name="title" value="<%= addValues.title %>" maxlength="300" dir="auto" />
+						<%- include('../partials/field-error', { name: 'title' }) %>
+						<small class="text-muted">Leave empty to use the title from YouTube.</small>
+					</div>
+					<button type="submit" class="btn btn-primary"><i class="fa fa-plus me-1"></i> Add video</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-xl-7">
+		<form method="POST" action="/admin/videos/library" novalidate>
+			<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+			<div class="panel panel-inverse">
+				<div class="panel-heading">
+					<h4 class="panel-title">Library (<%= items.length %>)</h4>
+					<div class="panel-heading-btn">
+						<% if (videosPageUrl) { %><a href="<%= videosPageUrl %>" target="_blank" rel="noopener" class="btn btn-xs btn-default me-1"><i class="fa fa-external-link-alt"></i> View page</a><% } %>
+						<button type="submit" class="btn btn-xs btn-success"><i class="fa fa-save"></i> Save library</button>
+					</div>
+				</div>
+				<div class="panel-body">
+					<p class="text-muted small">The <strong>featured</strong> video plays large on the home page. The others follow by order number (lower first), then newest first. Hidden videos stay in the library but not on the website. Removing a channel video only hides it, so the next sync does not bring it back.</p>
+					<div class="form-check mb-3">
+						<input class="form-check-input" type="radio" name="featured" id="featured-none" value="" <%= featured ? '' : 'checked' %> />
+						<label class="form-check-label" for="featured-none">No featured video (newest first)</label>
+					</div>
+					<% if (items.length === 0) { %>
+						<p class="text-muted mb-0">No videos yet. Save the channel or add a video by link.</p>
+					<% } %>
+					<div class="admin-video-list">
+						<% items.forEach(function (item, i) { const rowError = function (name) { return errors['items.' + i + '.' + name]; }; %>
+							<div class="admin-spec-row <%= item.hidden ? 'opacity-75' : '' %>">
+								<input type="hidden" name="items[<%= i %>][id]" value="<%= item.id %>" />
+								<div class="row g-2 align-items-center">
+									<div class="col-auto">
+										<a href="https://www.youtube.com/watch?v=<%= item.id %>" target="_blank" rel="noopener" title="Open on YouTube">
+											<img src="https://i.ytimg.com/vi/<%= item.id %>/mqdefault.jpg" alt="" width="128" height="72" class="rounded" loading="lazy" style="object-fit:cover" />
+										</a>
+									</div>
+									<div class="col">
+										<label class="visually-hidden" for="items-<%= i %>-title">Title</label>
+										<input type="text" class="form-control form-control-sm <%= rowError('title') ? 'is-invalid' : '' %>" id="items-<%= i %>-title" name="items[<%= i %>][title]" value="<%= item.title %>" maxlength="300" dir="auto" />
+										<% if (rowError('title')) { %><div class="invalid-feedback"><%= rowError('title') %></div><% } %>
+										<div class="small text-muted mt-1">
+											<span class="badge <%= item.source === 'feed' ? 'bg-light text-dark' : 'bg-info' %>"><%= item.source === 'feed' ? 'From channel' : 'Added by hand' %></span>
+											<%= item.publishedAt ? new Date(item.publishedAt).toLocaleDateString('en-GB') : '' %>
+										</div>
+										<div class="d-flex flex-wrap align-items-center gap-3 mt-1 small">
+											<div class="form-check mb-0">
+												<input class="form-check-input" type="radio" name="featured" id="items-<%= i %>-featured" value="<%= item.id %>" <%= item.pinned ? 'checked' : '' %> />
+												<label class="form-check-label" for="items-<%= i %>-featured">Featured</label>
+											</div>
+											<div class="form-check mb-0">
+												<input class="form-check-input" type="checkbox" name="items[<%= i %>][hidden]" id="items-<%= i %>-hidden" value="1" <%= item.hidden ? 'checked' : '' %> />
+												<label class="form-check-label" for="items-<%= i %>-hidden">Hidden</label>
+											</div>
+											<div class="form-check mb-0">
+												<input class="form-check-input" type="checkbox" name="items[<%= i %>][remove]" id="items-<%= i %>-remove" value="1" <%= item.remove ? 'checked' : '' %> />
+												<label class="form-check-label text-danger" for="items-<%= i %>-remove"><%= item.source === 'feed' ? 'Remove (hide for good)' : 'Remove' %></label>
+											</div>
+											<div class="d-flex align-items-center gap-1">
+												<label class="text-muted" for="items-<%= i %>-sort">Order</label>
+												<input type="number" class="form-control form-control-sm <%= rowError('sort') ? 'is-invalid' : '' %>" id="items-<%= i %>-sort" name="items[<%= i %>][sort]" value="<%= item.sort %>" min="0" max="100000" style="width:80px" />
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						<% }) %>
+					</div>
+					<% if (items.length > 0) { %>
+						<button type="submit" class="btn btn-success mt-2"><i class="fa fa-save me-1"></i> Save library</button>
+					<% } %>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,99 @@
+<%
+	const v = values;
+	const seo = v.seo || {};
+	const fieldClass = function (name) { return errors[name] ? 'form-control is-invalid' : 'form-control'; };
+%>
+<form method="POST" action="/admin/site-settings?_csrf=<%= encodeURIComponent(csrfToken) %>" enctype="multipart/form-data" novalidate>
+	<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+	<div class="row">
+		<div class="col-xl-8">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Identity</h4></div>
+				<div class="panel-body">
+					<div class="row g-3">
+						<div class="col-md-6">
+							<label class="form-label" for="siteName">Site name <span class="text-danger">*</span></label>
+							<input type="text" class="<%= fieldClass('siteName') %>" id="siteName" name="siteName" value="<%= v.siteName %>" required />
+							<%- include('../partials/field-error', { name: 'siteName' }) %>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label" for="tagline">Tagline</label>
+							<input type="text" class="<%= fieldClass('tagline') %>" id="tagline" name="tagline" value="<%= v.tagline %>" />
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="description">Short description</label>
+							<textarea class="<%= fieldClass('description') %>" id="description" name="description" rows="2"><%= v.description %></textarea>
+							<small class="text-muted">Shown in the footer under the logo.</small>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Footer</h4></div>
+				<div class="panel-body">
+					<div class="row g-3">
+						<div class="col-12">
+							<label class="form-label" for="footerText">Footer line</label>
+							<textarea class="<%= fieldClass('footerText') %>" id="footerText" name="footerText" rows="2" maxlength="400" dir="auto"><%= v.footerText %></textarea>
+							<small class="text-muted">A short line above the social links, for example "Follow Jahida".</small>
+						</div>
+						<div class="col-md-8">
+							<label class="form-label" for="copyright">Copyright line</label>
+							<input type="text" class="<%= fieldClass('copyright') %>" id="copyright" name="copyright" value="<%= v.copyright %>" maxlength="200" />
+							<small class="text-muted">Use {year} for the current year.</small>
+						</div>
+						<div class="col-md-4">
+							<label class="form-label" for="themeColor">Browser theme colour</label>
+							<input type="color" class="form-control form-control-color <%= errors.themeColor ? 'is-invalid' : '' %>" id="themeColor" name="themeColor" value="<%= v.themeColor || '#0d0b0a' %>" />
+							<%- include('../partials/field-error', { name: 'themeColor' }) %>
+						</div>
+					</div>
+					<p class="small text-muted mt-3 mb-0"><i class="fa fa-info-circle me-1"></i>Social media links are managed under <a href="/admin/social">Social Media</a>.</p>
+				</div>
+			</div>
+
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Search engines</h4></div>
+				<div class="panel-body">
+					<div class="mb-3">
+						<label class="form-label" for="seoDefaultTitle">Default title</label>
+						<input type="text" class="form-control" id="seoDefaultTitle" name="seoDefaultTitle" value="<%= seo.defaultTitle %>" data-char-count="60" />
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="seoDefaultDescription">Default description</label>
+						<textarea class="form-control" id="seoDefaultDescription" name="seoDefaultDescription" rows="2" data-char-count="160"><%= seo.defaultDescription %></textarea>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="seoDefaultKeywords">Default keywords</label>
+						<input type="text" class="form-control" id="seoDefaultKeywords" name="seoDefaultKeywords" value="<%= seo.defaultKeywords %>" />
+					</div>
+					<div>
+						<label class="form-label" for="seoImageFile">Default share image</label>
+						<%- include('../partials/media-picker', { id: 'seoImageFile', field: 'seoImageFile', valueName: 'seoDefaultImage', current: seo.defaultImage, label: 'share image', small: true, hint: 'JPEG, PNG, GIF or WebP up to 8 MB, saved as WebP (1200px). Used when a page has no image of its own.' }) %>
+						<%- include('../partials/field-error', { name: 'seoDefaultImage' }) %>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xl-4">
+			<div class="panel panel-inverse admin-sticky">
+				<div class="panel-heading"><h4 class="panel-title">Branding</h4></div>
+				<div class="panel-body">
+					<label class="form-label" for="logoFile">Logo</label>
+					<%- include('../partials/media-picker', { id: 'logoFile', field: 'logoFile', valueName: 'logo', current: v.logo, label: 'logo', small: true, hint: 'PNG, WebP, JPEG or GIF up to 8 MB. Saved as WebP, at most 600px wide.' }) %>
+					<div class="mb-3"></div>
+
+					<label class="form-label" for="faviconFile">Favicon</label>
+					<%- include('../partials/media-picker', { id: 'faviconFile', field: 'faviconFile', valueName: 'favicon', current: v.favicon, label: 'favicon', small: true, hint: 'Square PNG, WebP, JPEG or GIF. Saved as a 512px PNG so every browser can use it.' }) %>
+					<div class="mb-3"></div>
+					<%- include('../partials/field-error', { name: 'logo' }) %>
+					<%- include('../partials/field-error', { name: 'favicon' }) %>
+
+					<button type="submit" class="btn btn-success w-100"><i class="fa fa-save me-1"></i> Save settings</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

@@ -1,0 +1,101 @@
+{
+  "settings": {
+    "tagline": "Singer, composer and poet",
+    "description": "The official website of Lebanese singer, composer and poet Jahida Wehbe.",
+    "favicon": "legacy:/docs/Jahida.jpg",
+    "faviconCrop": { "left": 0.27, "top": 0.25, "width": 0.29, "height": 0.44 },
+    "footerText": "Follow Jahida",
+    "copyright": "© {year} Jahida Wehbe. All rights reserved.",
+    "themeColor": "#0d0b0a",
+    "seo": {
+      "defaultTitle": "Jahida Wehbe | جاهدة وهبه - Official website",
+      "defaultDescription": "Jahida Wehbe, the Lebanese singer, composer and poet called the Priestess of the Stage: videos, concerts, news and biography.",
+      "defaultKeywords": "Jahida Wehbe, جاهدة وهبه, Lebanese singer, Arabic music, composer, poet, concerts",
+      "defaultImage": "legacy:/docs/Jahida.jpg"
+    }
+  },
+  "videoPages": [51, 52, 61, 63],
+  "pages": {
+    "39": { "title": "News", "header": "News", "summary": "Press, interviews and words written about Jahida." },
+    "47": { "title": "On Stage", "header": "On Stage", "slug": "events", "summary": "Concerts, festivals and appearances." },
+    "48": { "title": "Videos", "header": "Videos", "summary": "Songs, live performances and lyric videos from the official YouTube channel." },
+    "53": { "slug": "biography", "direction": "ltr" },
+    "54": { "slug": "biography-arabic", "title": "السيرة الذاتية", "header": "جاهدة وهبه - نبذة عن السيرة الذاتية", "direction": "rtl" },
+    "46": { "slug": "ard-al-ghajar", "direction": "rtl" },
+    "49": { "direction": "auto" },
+    "55": { "slug": "jahida-wehbe-sings-scheherazade", "direction": "rtl" },
+    "56": { "slug": "brussels-jazz-orchestra-night-352", "direction": "ltr", "linkLabel": "Brussels Jazz Orchestra" },
+    "58": { "slug": "a-creative-artist-shines", "direction": "rtl" },
+    "59": { "slug": "a-voice-flowing-from-the-depths-of-the-poem", "direction": "rtl" },
+    "60": { "slug": "a-song-embroidered-on-wonder", "direction": "rtl" },
+    "62": { "slug": "they-said-about-jahida", "title": "قالوا في جاهدة", "header": "قالوا في جاهدة", "direction": "rtl" },
+    "64": { "slug": "brussels-jazz-orchestra-review", "direction": "ltr" },
+    "65": { "slug": "guest-of-the-culture-summit-abu-dhabi", "direction": "rtl", "linkLabel": "View on Facebook" }
+  },
+  "redirects": [
+    { "from": "/contact", "to": "/" },
+    { "from": "/home", "to": "/" },
+    { "from": "/default.aspx", "to": "/" }
+  ],
+  "menus": {
+    "main": [
+      { "title": "Videos", "url": "page:48" },
+      { "title": "Biography", "url": "page:53" },
+      { "title": "On Stage", "url": "page:47" },
+      { "title": "News", "url": "page:39" }
+    ],
+    "footer": [
+      { "title": "Biography", "url": "page:53" },
+      { "title": "السيرة الذاتية", "url": "page:54" },
+      { "title": "Videos", "url": "page:48" },
+      { "title": "On Stage", "url": "page:47" },
+      { "title": "News", "url": "page:39" }
+    ]
+  },
+  "home": {
+    "hero": {
+      "enabled": true,
+      "eyebrow": "Singer · Composer · Poet",
+      "title": "Jahida Wehbe",
+      "intro": "“Priestess of the Stage”, the voice that sets poetry to music.",
+      "textSide": "right",
+      "interval": 7,
+      "slides": [
+        { "image": "legacy:/images/slides/jahida-wehbe-1.jpg", "focus": "left", "caption": "" },
+        { "image": "legacy:/images/slides/jahida-wehbe-2.jpg", "focus": "center", "caption": "" },
+        { "image": "legacy:/images/slides/jahida-wehbe-3.jpg", "focus": "left", "caption": "" },
+        { "image": "legacy:/Content/images/Jahida-Wehbe-1.jpg", "focus": "center", "caption": "" },
+        { "image": "legacy:/Content/images/Jahida-Wehbe-4.jpg", "focus": "center", "caption": "" },
+        { "image": "legacy:/Content/images/Jahida-Wehbe-5.jpg", "focus": "left", "caption": "" }
+      ],
+      "cta": { "label": "Watch the videos", "url": "page:48" }
+    },
+    "upcoming": { "enabled": true, "title": "Upcoming concerts", "intro": "", "count": 3 },
+    "videos": { "enabled": true, "title": "Latest videos", "intro": "", "count": 6 },
+    "about": {
+      "enabled": true,
+      "title": "Biography",
+      "heading": "Named “Priestess of the Stage” by the Arab and Western press",
+      "source": 53,
+      "image": "legacy:/docs/jahida wehbe hi res.png",
+      "cta": { "label": "Read the biography", "url": "page:53" }
+    },
+    "quotes": { "enabled": true, "title": "قالوا في جاهدة", "source": 62, "image": "legacy:/Content/images/Jahida-Wehbe-3.jpg" },
+    "events": { "enabled": true, "title": "On stage", "intro": "Recent concerts and appearances.", "count": 3 },
+    "news": { "enabled": true, "title": "News", "intro": "", "count": 3 }
+  },
+  "social": {
+    "profiles": {
+      "instagram": "https://www.instagram.com/jahidawehbe/",
+      "facebook": "https://www.facebook.com/wehbejahida/",
+      "youtube": "https://www.youtube.com/c/JahidaWehbe",
+      "x": "https://twitter.com/jahidawehbenews",
+      "spotify": "https://open.spotify.com/artist/2U92f3cPxz8z2UCiJAipVf",
+      "anghami": "https://play.anghami.com/artist/159406",
+      "appleMusic": "https://music.apple.com/lb/artist/jahida-wehbe/540843510",
+      "deezer": "https://www.deezer.com/en/artist/4588820"
+    },
+    "instagram": { "enabled": false, "title": "On Instagram", "intro": "", "posts": [] },
+    "facebook": { "enabled": true, "title": "On Facebook", "intro": "" }
+  }
+}

@@ -15,7 +15,7 @@ If PowerShell blocks the script, run it as
    - checks that the site folder and `packages/` have no uncommitted changes and that local `HEAD` equals `origin/main`
    - checks that `.env.production` is committed, sets `NODE_ENV=production` and uses the same `PORT` as `deploy.json`
    - runs `npm run typecheck`, `npm run lint` and `npm run build`
-   - asks you to type the site name to confirm
+   - asks you to confirm with `y` or `n` (any other answer asks again)
 2. Connects over SSH and runs [scripts/deploy/deploy-site.sh](../scripts/deploy/deploy-site.sh) on the server as `www`. The script is sent each time, so nothing has to be updated on the server.
 3. On the server:
    - fetches the commit from GitHub into `/www/deploy/repo`
@@ -42,7 +42,7 @@ By default the server's `data/` and `content/` win. To push the committed versio
 .\scripts\deploy\deploy.ps1 -Site thronetrading.com -OverwriteData
 ```
 
-- **Confirmation:** the summary shows the files in yellow, and you must type `OVERWRITE` after the site name. `-Yes` skips both prompts.
+- **Confirmation:** the summary shows the files in yellow, and you get a second `y`/`n` question after the deploy confirmation. `-Yes` skips both prompts.
 - **What's never overwritten:** `data/users.json` and `data/submissions.json` are not in git, so they are never touched. `public/uploads/` is never overwritten or cleaned either. Server data files that are not in git are kept.
 - **Backup:** the server's `data/` and `content/` are saved to `/www/deploy/state/<domain>/data-backups/data-<time>.tar.gz` before anything changes. The last 10 backups are kept.
 - **Logging:** each file that actually changed is listed in the deploy output.

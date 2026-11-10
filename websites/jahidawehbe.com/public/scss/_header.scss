@@ -1,0 +1,258 @@
+@use 'tokens' as *;
+
+.site-header {
+	position: fixed;
+	inset: 0 0 auto;
+	z-index: 50;
+	height: var(--header-h);
+	background: rgba(13, 11, 10, 0.92);
+	border-bottom: 1px solid var(--line);
+	backdrop-filter: blur(14px);
+	transition:
+		background 0.35s var(--ease),
+		border-color 0.35s var(--ease);
+
+	.is-home &:not(.is-scrolled) {
+		background: linear-gradient(to bottom, rgba(13, 11, 10, 0.65), rgba(13, 11, 10, 0));
+		border-bottom-color: transparent;
+		backdrop-filter: none;
+	}
+
+	.menu-open & {
+		background: transparent;
+		border-bottom-color: transparent;
+		backdrop-filter: none;
+	}
+
+	&__inner {
+		display: flex;
+		align-items: center;
+		gap: 1.5rem;
+		height: 100%;
+		max-width: calc(var(--container) + 2 * var(--gutter));
+		margin-inline: auto;
+		padding-inline: var(--gutter);
+	}
+}
+
+.brand {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.8rem;
+	margin-inline-end: auto;
+	text-decoration: none;
+
+	&:hover {
+		color: var(--text);
+	}
+
+	&__mark {
+		width: 44px;
+		height: 44px;
+		object-fit: contain;
+	}
+
+	&__text {
+		display: flex;
+		flex-direction: column;
+		line-height: 1.05;
+	}
+
+	&__name {
+		font-family: var(--font-display);
+		font-size: 1.45rem;
+		font-weight: 500;
+		letter-spacing: 0.04em;
+	}
+
+	&__native {
+		color: var(--gold);
+		font-size: 0.95rem;
+	}
+}
+
+.site-nav {
+	@include down(md) {
+		display: none;
+	}
+
+	&__list {
+		display: flex;
+		gap: 2.1rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	&__link {
+		position: relative;
+		padding-block: 0.4rem;
+		font-size: 0.8rem;
+		font-weight: 400;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		text-decoration: none;
+
+		&::after {
+			content: '';
+			position: absolute;
+			inset: auto 0 0;
+			height: 1px;
+			background: var(--gold);
+			transform: scaleX(0);
+			transform-origin: left;
+			transition: transform 0.3s var(--ease);
+		}
+
+		&:hover::after,
+		&.is-active::after,
+		&[aria-current='page']::after {
+			transform: scaleX(1);
+		}
+
+		&.is-active,
+		&[aria-current='page'] {
+			color: var(--gold);
+		}
+	}
+}
+
+.header-social {
+	display: flex;
+	gap: 0.35rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	@include down(sm) {
+		display: none;
+	}
+}
+
+.icon-link {
+	display: inline-grid;
+	place-items: center;
+	width: 2.4rem;
+	height: 2.4rem;
+	border-radius: 50%;
+	text-decoration: none;
+	transition:
+		background 0.2s var(--ease),
+		color 0.2s var(--ease);
+
+	&:hover {
+		background: var(--gold-soft);
+		color: var(--gold);
+	}
+
+	.icon {
+		width: 1.15rem;
+		height: 1.15rem;
+	}
+}
+
+.nav-toggle {
+	display: none;
+	align-items: center;
+	gap: 0.6rem;
+	min-height: 2.75rem;
+	padding: 0.4rem 0.2rem 0.4rem 0.8rem;
+	border: 0;
+	background: none;
+	cursor: pointer;
+
+	@include down(md) {
+		display: inline-flex;
+	}
+
+	&__label {
+		font-size: 0.75rem;
+		letter-spacing: 0.22em;
+		text-transform: uppercase;
+	}
+
+	.icon {
+		width: 1.6rem;
+		height: 1.6rem;
+	}
+
+	&__close {
+		display: none;
+	}
+
+	&[aria-expanded='true'] {
+		.nav-toggle__open {
+			display: none;
+		}
+
+		.nav-toggle__close {
+			display: block;
+		}
+	}
+}
+
+.menu-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 40;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 3rem;
+	padding: calc(var(--header-h) + 2rem) var(--gutter) 3rem;
+	background:
+		radial-gradient(ellipse at 80% 10%, rgba(110, 42, 42, 0.35), transparent 55%),
+		var(--bg);
+	overflow-y: auto;
+	animation: overlay-in 0.35s var(--ease);
+
+	&[hidden] {
+		display: none;
+	}
+
+	&__nav ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	&__nav li + li {
+		margin-top: 0.4rem;
+	}
+
+	&__nav a {
+		display: inline-block;
+		font-family: var(--font-display);
+		font-size: clamp(2.3rem, 10vw, 3.4rem);
+		font-weight: 400;
+		line-height: 1.2;
+		text-decoration: none;
+
+		&[aria-current='page'] {
+			color: var(--gold);
+			font-style: italic;
+		}
+	}
+
+	&__social {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin: 0;
+		padding: 1.5rem 0 0;
+		list-style: none;
+		border-top: 1px solid var(--line);
+
+		.icon-link {
+			width: 2.9rem;
+			height: 2.9rem;
+			border: 1px solid var(--line);
+		}
+	}
+}
+
+@keyframes overlay-in {
+	from {
+		opacity: 0;
+	}
+}

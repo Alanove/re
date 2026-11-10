@@ -1,0 +1,18 @@
+<li class="event-row<%= entry.upcoming ? ' is-upcoming' : '' %>">
+	<a class="event-row__link" href="<%= entry.url %>">
+		<span class="event-row__date" aria-hidden="true">
+			<span class="event-row__day"><%= entry.day %></span>
+			<span class="event-row__month"><%= entry.month %> <%= entry.year %></span>
+		</span>
+		<span class="event-row__body">
+			<% if (entry.upcoming) { %><span class="badge">Upcoming</span><% } %>
+			<span class="event-row__title" dir="<%= entry.direction %>"><%= entry.title %></span>
+			<span class="visually-hidden"><%= entry.dateLabel %></span>
+			<% if (entry.venue) { %><span class="event-row__venue" dir="auto"><%- include('icon', { name: 'pin' }) %> <%= entry.venue %></span><% } %>
+		</span>
+		<% if (entry.image) { %>
+			<span class="event-row__image"><img src="<%= thumbUrl(entry.image) %>" alt="" loading="lazy" decoding="async" /></span>
+		<% } %>
+		<span class="event-row__arrow"><%- include('icon', { name: 'arrow', cls: 'icon-flip' }) %></span>
+	</a>
+</li>

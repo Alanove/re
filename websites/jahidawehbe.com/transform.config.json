@@ -1,0 +1,49 @@
+{
+  "siteKey": "jahida",
+  "siteName": "Jahida Wehbe",
+  "legacySiteUrl": "https://www.jahidawehbe.com",
+  "cmsSource": "C:\\ai\\tests\\btb\\solu-new",
+  "contentWorkbook": "wwwroot/wwwroot/data.xls",
+  "contentSeed": "content/seed.json",
+  "designDir": "design",
+  "outputDir": ".",
+  "port": 3048,
+  "logo": {
+    "url": "https://www.jahidawehbe.com/Content/images/jahida-logo.png",
+    "localPath": "/uploads/site/logo.webp",
+    "note": "White JW monogram cropped from the large wordmark (Content/images/jahida-logo.png, white on transparent). Shown as-is on the dark header and footer.",
+    "crop": { "left": 0.28, "top": 0.1, "width": 0.4, "height": 0.6 }
+  },
+  "legacy": {
+    "localRoot": "wwwroot/wwwroot",
+    "pageImagePattern": "/PRV/Images/Pages/Page_{pageId}/{fileName}",
+    "galleryImagePattern": "/PRV/Images/Pages/Page_{pageId}/Original/{fileName}",
+    "bannerPattern": null,
+    "footerPageKey": null,
+    "contactPageKey": null,
+    "hiddenPageKeys": ["contact"],
+    "uploadsMirrorPrefix": "/uploads/legacy"
+  },
+  "collections": {
+    "newsRootKey": "news",
+    "eventsRootKey": "events"
+  },
+  "videos": {
+    "rootKey": "videos",
+    "channelHandleUrl": "https://www.youtube.com/c/JahidaWehbe"
+  },
+  "cmsSync": {
+    "adminPublicFiles": [
+      "css/vendor.min.css",
+      "css/app.min.css",
+      "js/vendor.min.js",
+      "js/app.min.js",
+      "js/custom.js",
+      "js/theme.js"
+    ],
+    "adminPublicDirs": [
+      "css/images",
+      "webfonts"
+    ]
+  }
+}

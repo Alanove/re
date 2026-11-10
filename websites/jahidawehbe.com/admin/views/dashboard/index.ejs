@@ -1,0 +1,91 @@
+<div class="row">
+	<div class="col-xl-3 col-md-6">
+		<a class="widget widget-stats <%= summary.videos.status.healthy ? 'bg-red' : 'bg-orange' %> d-block text-decoration-none" href="/admin/videos">
+			<div class="stats-icon stats-icon-lg"><i class="fab fa-youtube fa-fw"></i></div>
+			<div class="stats-content">
+				<div class="stats-title">VIDEOS</div>
+				<div class="stats-number"><%= summary.videos.visible %></div>
+				<div class="stats-desc"><%= summary.videos.status.summary %></div>
+			</div>
+		</a>
+	</div>
+	<div class="col-xl-3 col-md-6">
+		<a class="widget widget-stats bg-indigo d-block text-decoration-none" href="/admin/events">
+			<div class="stats-icon stats-icon-lg"><i class="fa fa-calendar-alt fa-fw"></i></div>
+			<div class="stats-content">
+				<div class="stats-title">EVENTS</div>
+				<div class="stats-number"><%= summary.events.upcoming %></div>
+				<div class="stats-desc">upcoming · <%= summary.events.total %> in total</div>
+			</div>
+		</a>
+	</div>
+	<div class="col-xl-3 col-md-6">
+		<a class="widget widget-stats bg-teal d-block text-decoration-none" href="/admin/news">
+			<div class="stats-icon stats-icon-lg"><i class="fa fa-newspaper fa-fw"></i></div>
+			<div class="stats-content">
+				<div class="stats-title">NEWS · PAGES</div>
+				<div class="stats-number"><%= summary.news %> · <%= summary.pages.total %></div>
+				<div class="stats-desc"><%= summary.news %> stor<%= summary.news === 1 ? 'y' : 'ies' %> · <%= summary.pages.drafts %> draft<%= summary.pages.drafts === 1 ? '' : 's' %></div>
+			</div>
+		</a>
+	</div>
+	<div class="col-xl-3 col-md-6">
+		<a class="widget widget-stats bg-dark d-block text-decoration-none" href="/admin/social">
+			<div class="stats-icon stats-icon-lg"><i class="fa fa-share-alt fa-fw"></i></div>
+			<div class="stats-content">
+				<div class="stats-title">SOCIAL</div>
+				<div class="stats-number"><%= summary.social.profiles %></div>
+				<div class="stats-desc"><%= summary.social.instagramPosts %> Instagram post<%= summary.social.instagramPosts === 1 ? '' : 's' %> · Facebook timeline <%= summary.social.facebookTimeline ? 'on' : 'off' %></div>
+			</div>
+		</a>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xl-7">
+		<div class="panel panel-inverse">
+			<div class="panel-heading">
+				<h4 class="panel-title">Recently updated</h4>
+				<div class="panel-heading-btn"><a href="/admin/pages" class="btn btn-xs btn-default">All pages</a></div>
+			</div>
+			<div class="panel-body p-0">
+				<table class="table table-hover mb-0 recent-items-table">
+					<tbody>
+						<% summary.recentPages.forEach(function (page) { %>
+							<tr>
+								<td><a href="<%= page.editUrl %>" class="fw-bold" dir="auto"><%= page.title %></a><div class="small text-muted"><%= page.url %></div></td>
+								<td class="text-end text-nowrap small text-muted"><%= new Date(page.updatedAt).toLocaleDateString('en-GB') %></td>
+							</tr>
+						<% }) %>
+						<% if (summary.recentPages.length === 0) { %><tr><td class="text-muted p-3">No pages yet.</td></tr><% } %>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-5">
+		<div class="panel panel-inverse">
+			<div class="panel-heading"><h4 class="panel-title">YouTube sync</h4></div>
+			<div class="panel-body">
+				<p class="mb-2"><span class="badge <%= summary.videos.status.healthy ? 'bg-success' : 'bg-warning text-dark' %>"><%= summary.videos.status.healthy ? 'OK' : 'Needs attention' %></span> <%= summary.videos.status.summary %></p>
+				<% if (summary.videos.status.lastError) { %><p class="small text-danger mb-2"><%= summary.videos.status.lastError %></p><% } %>
+				<p class="small text-muted mb-3"><%= summary.videos.total %> videos in the library, <%= summary.videos.visible %> shown on the website.</p>
+				<form method="POST" action="/admin/videos/sync" class="d-inline">
+					<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+					<button type="submit" class="btn btn-sm btn-default" <%= summary.videos.status.channelId ? '' : 'disabled' %>><i class="fa fa-sync me-1"></i> Check YouTube now</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-inverse quick-actions-panel">
+	<div class="panel-heading"><h4 class="panel-title">Quick actions</h4></div>
+	<div class="panel-body d-flex flex-wrap gap-2">
+		<a href="/admin/events/create" class="btn btn-success"><i class="fa fa-calendar-plus me-1"></i> Add an event</a>
+		<a href="/admin/news/create" class="btn btn-default"><i class="fa fa-pen me-1"></i> Write a news story</a>
+		<a href="/admin/videos" class="btn btn-default"><i class="fab fa-youtube me-1"></i> Videos</a>
+		<a href="/admin/social" class="btn btn-default"><i class="fab fa-instagram me-1"></i> Instagram posts</a>
+		<a href="/admin/home" class="btn btn-primary"><i class="fa fa-home me-1"></i> Edit home page</a>
+	</div>
+</div>

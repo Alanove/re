@@ -1,0 +1,35 @@
+<footer class="site-footer">
+	<div class="container">
+		<% if (socialLinks.length > 0) { %>
+			<p class="site-footer__kicker"><%= settings.footerText || 'Follow' %></p>
+			<ul class="social-wall">
+				<% socialLinks.forEach(function (link) { %>
+					<li>
+						<a class="social-wall__link social-wall__link--<%= link.key %>" href="<%= link.url %>" target="_blank" rel="noopener">
+							<%- include('icon', { name: link.key, cls: 'social-wall__icon' }) %>
+							<span class="social-wall__label"><%= link.label %></span>
+							<% if (link.handle && ['instagram', 'x', 'tiktok', 'facebook', 'youtube'].indexOf(link.key) !== -1) { %><span class="social-wall__handle"><%= link.handle %></span><% } %>
+							<%- include('icon', { name: 'arrow', cls: 'social-wall__arrow icon-flip' }) %>
+						</a>
+					</li>
+				<% }) %>
+			</ul>
+		<% } %>
+		<div class="site-footer__bottom">
+			<a class="site-footer__brand" href="/">
+				<% if (settings.logo) { %><img src="<%= settings.logo %>" alt="" width="56" height="56" loading="lazy" /><% } %>
+				<span><%= settings.siteName %></span>
+			</a>
+			<% if (footerMenu.length > 0) { %>
+				<nav aria-label="Footer">
+					<ul class="site-footer__menu">
+						<% footerMenu.forEach(function (item) { %>
+							<li><a href="<%= item.url %>" dir="auto"><%= item.title %></a></li>
+						<% }) %>
+					</ul>
+				</nav>
+			<% } %>
+			<p class="site-footer__copy"><%= (settings.copyright || '').replace('{year}', year) %></p>
+		</div>
+	</div>
+</footer>

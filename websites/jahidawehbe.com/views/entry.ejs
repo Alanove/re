@@ -1,0 +1,59 @@
+<%
+	const isEvent = kind === 'events';
+	const metaHtml = isEvent
+		? '<span class="page-hero__date">' + card.dateLabel + '</span>' + (card.upcoming ? ' <span class="badge">Upcoming</span>' : '')
+		: '<time datetime="' + card.date.slice(0, 10) + '">' + card.dateLabel + '</time> · ' + card.readingMinutes + ' min read';
+%>
+<%- include('partials/page-hero', { title: page.header || page.title, direction: page.direction, kicker: root.title, meta: metaHtml }) %>
+<div class="container page-body entry">
+	<nav class="breadcrumbs" aria-label="Breadcrumb">
+		<ol>
+			<li><a href="/">Home</a></li>
+			<li><a href="<%= root.url %>"><%= root.title %></a></li>
+			<li aria-current="page" dir="auto"><%= page.title %></li>
+		</ol>
+	</nav>
+	<div class="entry__layout<%= poster ? ' entry__layout--poster' : '' %>">
+		<div class="entry__main">
+			<% if (isEvent && page.venue) { %>
+				<p class="entry-facts__venue" dir="auto"><%- include('partials/icon', { name: 'pin' }) %> <%= page.venue %></p>
+			<% } %>
+			<% if (page.content) { %>
+				<article class="prose prose--page<%= page.direction === 'rtl' ? ' prose--rtl' : '' %>" dir="<%= page.direction %>"<% if (page.direction === 'rtl') { %> lang="ar"<% } %>>
+					<%- page.content %>
+				</article>
+			<% } else if (page.summary) { %>
+				<p class="prose prose--page" dir="<%= page.direction %>"><%= page.summary %></p>
+			<% } %>
+			<% if (page.linkUrl) { %>
+				<p class="entry-link"><a class="btn btn--ghost" href="<%= page.linkUrl %>" target="_blank" rel="noopener" dir="auto"><span><%= page.linkLabel || 'More details' %></span><%- include('partials/icon', { name: 'external' }) %></a></p>
+			<% } %>
+		</div>
+		<% if (poster) { %>
+			<figure class="entry__poster" data-lightbox-group>
+				<a class="entry__poster-link" href="<%= poster %>" data-lightbox-item data-caption="<%= page.title %>">
+					<img src="<%= poster %>" alt="<%= page.title %>" decoding="async" />
+				</a>
+			</figure>
+		<% } %>
+	</div>
+	<%- include('partials/gallery', { gallery: gallery }) %>
+
+	<% if (neighbours.newer || neighbours.older) { %>
+		<nav class="entry-nav" aria-label="<%= isEvent ? 'More events' : 'More stories' %>">
+			<% if (neighbours.newer) { %>
+				<a class="entry-nav__link entry-nav__link--newer" href="<%= neighbours.newer.url %>">
+					<span class="entry-nav__label"><%- include('partials/icon', { name: 'chevron', cls: 'icon-mirror' }) %> Newer</span>
+					<span class="entry-nav__title" dir="<%= neighbours.newer.direction %>"><%= neighbours.newer.title %></span>
+				</a>
+			<% } else { %><span></span><% } %>
+			<% if (neighbours.older) { %>
+				<a class="entry-nav__link entry-nav__link--older" href="<%= neighbours.older.url %>">
+					<span class="entry-nav__label">Older <%- include('partials/icon', { name: 'chevron' }) %></span>
+					<span class="entry-nav__title" dir="<%= neighbours.older.direction %>"><%= neighbours.older.title %></span>
+				</a>
+			<% } %>
+		</nav>
+	<% } %>
+	<p class="entry-back"><a class="text-link" href="<%= root.url %>"><%- include('partials/icon', { name: 'arrow', cls: 'icon-mirror' }) %> All <%= root.title.toLowerCase() %></a></p>
+</div>

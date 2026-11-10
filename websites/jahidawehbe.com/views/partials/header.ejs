@@ -1,0 +1,48 @@
+<%
+	const headerSocial = socialLinks.filter(function (link) { return ['instagram', 'facebook', 'youtube'].indexOf(link.key) !== -1; });
+%>
+<header class="site-header" data-header>
+	<div class="site-header__inner">
+		<a class="brand" href="/" aria-label="<%= settings.siteName %>, home">
+			<% if (settings.logo) { %><img class="brand__mark" src="<%= settings.logo %>" alt="" width="44" height="44" /><% } %>
+			<span class="brand__text">
+				<span class="brand__name"><%= settings.siteName %></span>
+				<span class="brand__native" lang="ar" dir="rtl">جاهدة وهبه</span>
+			</span>
+		</a>
+		<nav class="site-nav" aria-label="Main">
+			<ul class="site-nav__list">
+				<% mainMenu.forEach(function (item) { %>
+					<li><a class="site-nav__link<%= item.active ? ' is-active' : '' %>" href="<%= item.url %>"<% if (item.current) { %> aria-current="page"<% } %>><%= item.title %></a></li>
+				<% }) %>
+			</ul>
+		</nav>
+		<ul class="header-social" aria-label="Social media">
+			<% headerSocial.forEach(function (link) { %>
+				<li><a class="icon-link" href="<%= link.url %>" target="_blank" rel="noopener" aria-label="<%= link.label %>"><%- include('icon', { name: link.key }) %></a></li>
+			<% }) %>
+		</ul>
+		<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menu-overlay" data-nav-toggle>
+			<span class="nav-toggle__label">Menu</span>
+			<%- include('icon', { name: 'menu', cls: 'nav-toggle__open' }) %>
+			<%- include('icon', { name: 'close', cls: 'nav-toggle__close' }) %>
+		</button>
+	</div>
+</header>
+<div class="menu-overlay" id="menu-overlay" data-menu-overlay hidden>
+	<nav class="menu-overlay__nav" aria-label="Main">
+		<ul>
+			<li><a href="/"<% if (currentPath === '/') { %> aria-current="page"<% } %>>Home</a></li>
+			<% mainMenu.forEach(function (item) { %>
+				<li><a href="<%= item.url %>"<% if (item.current) { %> aria-current="page"<% } %>><%= item.title %></a></li>
+			<% }) %>
+		</ul>
+	</nav>
+	<% if (socialLinks.length > 0) { %>
+		<ul class="menu-overlay__social" aria-label="Social media">
+			<% socialLinks.forEach(function (link) { %>
+				<li><a class="icon-link" href="<%= link.url %>" target="_blank" rel="noopener" aria-label="<%= link.label %>"><%- include('icon', { name: link.key }) %></a></li>
+			<% }) %>
+		</ul>
+	<% } %>
+</div>

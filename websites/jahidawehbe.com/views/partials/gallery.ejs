@@ -1,0 +1,14 @@
+<% if (gallery.length > 0) { %>
+	<section class="gallery" aria-label="Photos">
+		<ul class="gallery__grid<%= gallery.length === 1 ? ' gallery__grid--single' : '' %>" data-lightbox-group>
+			<% gallery.forEach(function (image, index) { %>
+				<li class="gallery__item">
+					<a class="gallery__link" href="<%= image.src %>" data-lightbox-item data-caption="<%= image.caption %>">
+						<img src="<%= thumbUrl(image.src) %>" data-fallback-src="<%= image.src %>" alt="<%= image.caption || 'Photo ' + (index + 1) %>" loading="lazy" decoding="async"<% if (image.width && image.height) { %> width="<%= image.width %>" height="<%= image.height %>"<% } %> />
+					</a>
+					<% if (image.caption) { %><p class="gallery__caption" dir="auto"><%= image.caption %></p><% } %>
+				</li>
+			<% }) %>
+		</ul>
+	</section>
+<% } %>

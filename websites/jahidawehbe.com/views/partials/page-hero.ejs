@@ -1,0 +1,22 @@
+<%
+	const heroImage = locals.image || '';
+	const heroVideo = locals.video || '';
+	const heroDir = locals.direction || 'auto';
+%>
+<header class="page-hero<%= heroImage || heroVideo ? ' page-hero--media' : '' %>">
+	<% if (heroImage || heroVideo) { %>
+		<div class="page-hero__media" aria-hidden="true">
+			<% if (heroVideo) { %>
+				<video class="page-hero__video" src="<%= heroVideo %>" <% if (heroImage) { %>poster="<%= heroImage %>"<% } %> autoplay muted loop playsinline preload="metadata" data-motion-video></video>
+			<% } else { %>
+				<img src="<%= heroImage %>" alt="" decoding="async" fetchpriority="high" />
+			<% } %>
+		</div>
+	<% } %>
+	<div class="container page-hero__inner">
+		<% if (locals.kicker) { %><p class="eyebrow"><%= kicker %></p><% } %>
+		<h1 class="page-hero__title" dir="<%= heroDir %>"<% if (heroDir === 'rtl') { %> lang="ar"<% } %>><%= title %></h1>
+		<% if (locals.lead) { %><p class="page-hero__lead" dir="<%= heroDir %>"><%= lead %></p><% } %>
+		<% if (locals.meta) { %><div class="page-hero__meta"><%- meta %></div><% } %>
+	</div>
+</header>
