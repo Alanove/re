@@ -132,8 +132,7 @@ const seedSchema = z.object({
   }),
   social: z.object({
     profiles: z.partialRecord(socialNetworkKeySchema, z.url()),
-    instagram: z.object({ enabled: z.boolean(), title: z.string(), intro: z.string(), posts: z.array(z.url()) }),
-    facebook: z.object({ enabled: z.boolean(), title: z.string(), intro: z.string() })
+    instagram: z.object({ enabled: z.boolean(), title: z.string(), intro: z.string(), posts: z.array(z.url()) })
   })
 });
 type Seed = z.infer<typeof seedSchema>;
@@ -570,7 +569,6 @@ function buildSocial(seed: Seed, now: string): Social | null {
   return socialSchema.parse({
     profiles: { ...emptySocialProfiles(), ...seed.social.profiles },
     instagram: { ...seed.social.instagram, enabled: seed.social.instagram.enabled && posts.length > 0, posts },
-    facebook: seed.social.facebook,
     updatedAt: now
   });
 }

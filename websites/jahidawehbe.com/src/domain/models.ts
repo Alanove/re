@@ -224,11 +224,6 @@ export const socialSchema = z.object({
     intro: z.string().max(400),
     posts: z.array(instagramPostSchema).max(INSTAGRAM_POSTS_MAX)
   }),
-  facebook: z.object({
-    enabled: z.boolean(),
-    title: z.string().max(120),
-    intro: z.string().max(400)
-  }),
   updatedAt: isoDate
 });
 export type Social = z.infer<typeof socialSchema>;

@@ -9,7 +9,7 @@ export interface DashboardSummary {
   news: number;
   events: { total: number; upcoming: number };
   videos: { total: number; visible: number; status: VideoSyncStatus };
-  social: { profiles: number; instagramPosts: number; facebookTimeline: boolean };
+  social: { profiles: number; instagramPosts: number };
   users: number;
   recentPages: { id: number; title: string; url: string; updatedAt: string; editUrl: string }[];
 }
@@ -39,8 +39,7 @@ export class DashboardService {
       videos: { total: library.items.length, visible: library.items.filter((item) => !item.hidden).length, status },
       social: {
         profiles: socialService.links(social).length,
-        instagramPosts: social.instagram.posts.length,
-        facebookTimeline: socialService.facebookTimeline(social) !== ''
+        instagramPosts: social.instagram.posts.length
       },
       users: users.length,
       recentPages: [...pages]

@@ -11,9 +11,6 @@ interface SocialFormValues {
   instagramTitle: string;
   instagramIntro: string;
   instagramPosts: { url: string }[];
-  facebookEnabled: boolean;
-  facebookTitle: string;
-  facebookIntro: string;
 }
 
 function valuesFromSocial(social: Social): SocialFormValues {
@@ -22,10 +19,7 @@ function valuesFromSocial(social: Social): SocialFormValues {
     instagramEnabled: social.instagram.enabled,
     instagramTitle: social.instagram.title,
     instagramIntro: social.instagram.intro,
-    instagramPosts: social.instagram.posts.map((post) => ({ url: instagramPostUrl(post) })),
-    facebookEnabled: social.facebook.enabled,
-    facebookTitle: social.facebook.title,
-    facebookIntro: social.facebook.intro
+    instagramPosts: social.instagram.posts.map((post) => ({ url: instagramPostUrl(post) }))
   };
 }
 
@@ -39,10 +33,7 @@ function valuesFromBody(body: Record<string, unknown>): SocialFormValues {
     instagramEnabled: Boolean(body.instagramEnabled),
     instagramTitle: text(body.instagramTitle),
     instagramIntro: text(body.instagramIntro),
-    instagramPosts: postRows.map((row) => ({ url: text((row as Record<string, unknown> | null)?.url) })),
-    facebookEnabled: Boolean(body.facebookEnabled),
-    facebookTitle: text(body.facebookTitle),
-    facebookIntro: text(body.facebookIntro)
+    instagramPosts: postRows.map((row) => ({ url: text((row as Record<string, unknown> | null)?.url) }))
   };
 }
 

@@ -203,10 +203,7 @@ export const socialFormSchema = z.object({
   instagramEnabled: checkbox,
   instagramTitle: requiredTrimmed(120, 'Instagram heading'),
   instagramIntro: optionalTrimmed(400),
-  instagramPosts: rows(z.object({ url: requiredTrimmed(500, 'Post link') }), INSTAGRAM_POSTS_MAX),
-  facebookEnabled: checkbox,
-  facebookTitle: requiredTrimmed(120, 'Facebook heading'),
-  facebookIntro: optionalTrimmed(400)
+  instagramPosts: rows(z.object({ url: requiredTrimmed(500, 'Post link') }), INSTAGRAM_POSTS_MAX)
 });
 export type SocialFormInput = z.infer<typeof socialFormSchema>;
 

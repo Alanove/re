@@ -56,27 +56,6 @@
 				</div>
 			</div>
 
-			<div class="panel panel-inverse">
-				<div class="panel-heading"><h4 class="panel-title"><i class="fab fa-facebook me-1"></i> Facebook on the home page</h4></div>
-				<div class="panel-body">
-					<div class="form-check form-switch mb-3">
-						<input class="form-check-input" type="checkbox" id="facebookEnabled" name="facebookEnabled" value="1" <%= v.facebookEnabled ? 'checked' : '' %> />
-						<label class="form-check-label" for="facebookEnabled">Show the Facebook page timeline</label>
-					</div>
-					<div class="row g-3">
-						<div class="col-md-5">
-							<label class="form-label" for="facebookTitle">Heading <span class="text-danger">*</span></label>
-							<input type="text" class="<%= fieldClass('facebookTitle') %>" id="facebookTitle" name="facebookTitle" value="<%= v.facebookTitle %>" maxlength="120" dir="auto" />
-							<%- include('../partials/field-error', { name: 'facebookTitle' }) %>
-						</div>
-						<div class="col-md-7">
-							<label class="form-label" for="facebookIntro">Introduction (optional)</label>
-							<input type="text" class="<%= fieldClass('facebookIntro') %>" id="facebookIntro" name="facebookIntro" value="<%= v.facebookIntro %>" maxlength="400" dir="auto" />
-						</div>
-					</div>
-					<p class="text-muted small mt-3 mb-0">The timeline is Facebook's official page plugin and always shows the latest posts of the Facebook link above. The page must be public.</p>
-				</div>
-			</div>
 		</div>
 
 		<div class="col-xl-4">

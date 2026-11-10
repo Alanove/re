@@ -210,19 +210,3 @@
 		</div>
 	</section>
 <% } %>
-
-<% if (facebook) { %>
-	<section class="section section--facebook" aria-labelledby="home-facebook-title">
-		<div class="container facebook">
-			<div class="facebook__text">
-				<p class="eyebrow">Facebook</p>
-				<h2 class="section-title" id="home-facebook-title" dir="auto"><%= facebook.title %></h2>
-				<% if (facebook.intro) { %><p class="section-intro" dir="auto"><%= facebook.intro %></p><% } %>
-				<a class="btn btn--ghost" href="<%= facebook.profile %>" target="_blank" rel="noopener"><%- include('partials/icon', { name: 'facebook' }) %><span>Follow the page</span></a>
-			</div>
-			<div class="facebook__frame">
-				<iframe src="<%= facebook.src %>" title="<%= settings.siteName %> on Facebook" width="500" height="720" loading="lazy" scrolling="no" allow="encrypted-media; picture-in-picture; web-share"></iframe>
-			</div>
-		</div>
-	</section>
-<% } %>

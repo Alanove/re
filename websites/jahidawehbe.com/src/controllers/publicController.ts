@@ -58,9 +58,7 @@ export class PublicController {
       videosUrl: videosPage?.url ?? null,
       events,
       news,
-      instagram: social.instagram.enabled ? { ...social.instagram, embeds: socialService.instagramEmbeds(social), profile: social.profiles.instagram ?? '' } : null,
-      facebook: socialService.facebookTimeline(social) ? { ...social.facebook, src: socialService.facebookTimeline(social), profile: social.profiles.facebook ?? '' } : null,
-      bodyClass: 'is-home',
+      instagram: social.instagram.enabled ? { ...social.instagram, embeds: socialService.instagramEmbeds(social), profile: social.profiles.instagram ?? '' } : null,      bodyClass: 'is-home',
       jsonLd: jsonLd({
         '@context': 'https://schema.org',
         '@type': 'Person',

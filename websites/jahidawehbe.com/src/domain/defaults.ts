@@ -39,7 +39,6 @@ export function defaultSocial(): Social {
   return {
     profiles: emptySocialProfiles(),
     instagram: { enabled: false, title: 'On Instagram', intro: '', posts: [] },
-    facebook: { enabled: false, title: 'On Facebook', intro: '' },
     updatedAt: EPOCH
   };
 }

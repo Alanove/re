@@ -21,8 +21,7 @@ export function securityHeaders(): RequestHandler {
           'https://www.youtube.com',
           'https://www.youtube-nocookie.com',
           'https://player.vimeo.com',
-          'https://www.instagram.com',
-          'https://www.facebook.com'
+          'https://www.instagram.com'
         ],
         formAction: ["'self'"],
         frameAncestors: ["'self'"],

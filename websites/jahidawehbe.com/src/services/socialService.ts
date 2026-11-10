@@ -21,9 +21,6 @@ export interface SocialInput {
   instagramTitle: string;
   instagramIntro: string;
   instagramPosts: { url: string }[];
-  facebookEnabled: boolean;
-  facebookTitle: string;
-  facebookIntro: string;
 }
 
 export const SOCIAL_LABELS: Record<SocialNetworkKey, string> = {
@@ -96,20 +93,6 @@ export function instagramPostUrl(post: Pick<InstagramPost, 'code' | 'kind'>): st
   return `https://www.instagram.com/${post.kind}/${post.code}/`;
 }
 
-export function facebookPluginUrl(pageUrl: string): string {
-  const params = new URLSearchParams({
-    href: pageUrl,
-    tabs: 'timeline',
-    width: '500',
-    height: '720',
-    small_header: 'true',
-    adapt_container_width: 'true',
-    hide_cover: 'false',
-    show_facepile: 'false'
-  });
-  return `https://www.facebook.com/plugins/page.php?${params.toString()}`;
-}
-
 export class SocialService {
   public async get(): Promise<Social> {
     return socialRepository.get();
@@ -128,11 +111,6 @@ export class SocialService {
       url: instagramPostUrl(post),
       embedUrl: `https://www.instagram.com/${post.kind}/${post.code}/embed/`
     }));
-  }
-
-  public facebookTimeline(social: Social): string {
-    const page = social.profiles.facebook ?? '';
-    return social.facebook.enabled && page ? facebookPluginUrl(page) : '';
   }
 
   public async update(input: SocialInput): Promise<Social> {
@@ -158,16 +136,12 @@ export class SocialService {
       }
       posts.push({ ...parsed, addedAt: previous.get(parsed.code)?.addedAt ?? now });
     });
-    if (input.facebookEnabled && !input.profiles.facebook) {
-      fields['profiles.facebook'] = 'Add the Facebook page link to show the timeline';
-    }
     if (Object.keys(fields).length > 0) {
       throw new BadRequestError('Please correct the highlighted fields.', fields);
     }
     return socialRepository.update(() => ({
       profiles: { ...emptySocialProfiles(), ...input.profiles },
       instagram: { enabled: input.instagramEnabled, title: input.instagramTitle, intro: input.instagramIntro, posts },
-      facebook: { enabled: input.facebookEnabled, title: input.facebookTitle, intro: input.facebookIntro },
       updatedAt: now
     }));
   }
