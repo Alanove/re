@@ -1,0 +1,117 @@
+<!-- BEGIN content area -->
+<div class="row">
+	<div class="col-xl-12">
+		<!-- BEGIN panel -->
+		<div class="panel panel-inverse">
+			<div class="panel-heading">
+				<h4 class="panel-title">Careers Management</h4>
+				<div class="panel-heading-btn">
+					<a href="/admin/careers/create" class="btn btn-xs btn-success">
+						<i class="fa fa-plus"></i> Add New Career
+					</a>
+				</div>
+			</div>
+			<div class="panel-body">
+				<% if (typeof success !== 'undefined' && success) { %>
+					<div class="alert alert-success alert-dismissible fade show" role="alert">
+						<strong>Success!</strong> <%= success %>
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>
+				<% } %>
+				<% if (typeof error !== 'undefined' && error) { %>
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<strong>Error!</strong> <%= error %>
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>
+				<% } %>
+				
+				<div class="mb-3">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="input-group">
+								<span class="input-group-text"><i class="fa fa-search"></i></span>
+								<input type="text" class="form-control" id="careerSearch" placeholder="Search careers..." />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-striped table-bordered align-middle">
+						<thead>
+							<tr>
+								<th>Title</th>
+								<th>Status</th>
+								<th>Last Updated</th>
+								<th width="1%">Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% if (typeof careers !== 'undefined' && careers && careers.length > 0) { %>
+								<% careers.forEach(function(career) { %>
+								<tr data-career-id="<%= career.id %>">
+									<td>
+										<div class="fw-bold"><%= career.title %></div>
+										<small class="text-muted"><%= career.content ? career.content.substring(0, 100) + (career.content.length > 100 ? '...' : '') : '' %></small>
+									</td>
+									<td>
+										<% if (career.status === 'published') { %>
+											<span class="badge bg-success">Published</span>
+										<% } else { %>
+											<span class="badge bg-secondary">Draft</span>
+										<% } %>
+									</td>
+									<td>
+										<% if (career.lastUpdated) { %>
+											<%= new Date(career.lastUpdated).toLocaleDateString() %>
+										<% } else { %>
+											-
+										<% } %>
+									</td>
+									<td>
+										<div class="btn-group">
+											<a href="/admin/careers/<%= career.id %>/edit" class="btn btn-sm btn-primary">
+												<i class="fa fa-edit"></i>
+											</a>
+											<button type="button" class="btn btn-sm btn-danger" onclick="deleteItem('/admin/careers/<%= career.id %>', this)">
+												<i class="fa fa-trash"></i>
+											</button>
+										</div>
+									</td>
+								</tr>
+								<% }); %>
+							<% } else { %>
+								<tr>
+									<td colspan="4" class="text-center text-muted py-4">
+										<i class="fa fa-briefcase fa-3x mb-3"></i>
+										<h5>No Careers Found</h5>
+										<p>Get started by creating your first career listing.</p>
+										<a href="/admin/careers/create" class="btn btn-success">
+											<i class="fa fa-plus"></i> Add New Career
+										</a>
+									</td>
+								</tr>
+							<% } %>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END content area -->
+<script>
+	(function(){
+		const input = document.getElementById('careerSearch');
+		if(!input) return;
+		input.addEventListener('input', function(){
+			const term = this.value.toLowerCase();
+			document.querySelectorAll('table tbody tr').forEach(tr => {
+				const titleCell = tr.querySelector('td:first-child');
+				if(!titleCell) return;
+				const txt = titleCell.textContent.toLowerCase();
+				tr.style.display = !term || txt.includes(term) ? '' : 'none';
+			});
+		});
+	})();
+</script>
+

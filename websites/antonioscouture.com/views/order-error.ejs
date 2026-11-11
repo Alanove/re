@@ -1,0 +1,42 @@
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark" href="/"><%= typeof t !== 'undefined' ? t('ecommerce.common.home') : 'Home' %></a>
+                <a class="breadcrumb-item text-dark" href="/shop"><%= typeof t !== 'undefined' ? t('ecommerce.common.shop') : 'Shop' %></a>
+                <span class="breadcrumb-item active"><%= typeof t !== 'undefined' ? t('ecommerce.checkout.orderError') : 'Order Error' %></span>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid pb-5">
+    <div class="row px-xl-5">
+        <div class="col-lg-8 offset-lg-2 text-center">
+            <div class="bg-light p-5 mb-5">
+                <div class="mb-4">
+                    <i class="fa fa-exclamation-circle text-danger" style="font-size: 80px;"></i>
+                </div>
+                <h2 class="section-title position-relative text-uppercase mb-4"><span class="bg-light pr-3"><%= typeof t !== 'undefined' ? t('ecommerce.checkout.paymentError') : 'Payment Could Not Be Completed' %></span></h2>
+                <p class="mb-4">
+                    <%= typeof t !== 'undefined' ? t('ecommerce.checkout.paymentErrorGeneric') : 'We were unable to complete your payment. Your order was not charged.' %>
+                </p>
+                
+                <% if (typeof orderNumber !== 'undefined' && orderNumber) { %>
+                <div class="alert alert-secondary d-inline-block px-5 py-3 mb-4">
+                    <span class="h5 m-0"><%= typeof t !== 'undefined' ? t('ecommerce.checkout.orderNumber') : 'Order #' %>: <strong><%= orderNumber %></strong></span>
+                </div>
+                <% } %>
+                
+                <p class="mb-4">
+                    <%= typeof t !== 'undefined' ? t('ecommerce.checkout.paymentErrorContact') : 'If you have any questions or would like to try again, please contact us or return to checkout.' %>
+                </p>
+                
+                <div class="mt-5">
+                    <a href="/checkout" class="btn btn-outline-primary py-2 px-4 me-2"><%= typeof t !== 'undefined' ? t('ecommerce.checkout.tryAgain') : 'Try Again' %></a>
+                    <a href="/shop" class="btn btn-primary py-2 px-4"><%= typeof t !== 'undefined' ? t('ecommerce.cart.continueShopping') : 'Continue Shopping' %></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

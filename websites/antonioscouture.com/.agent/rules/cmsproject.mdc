@@ -1,0 +1,117 @@
+---
+alwaysApply: true
+---
+All readme files under readme folder
+CMS Project with seperation of concerns admin and public
+ALl Data files are json location in folder data
+All data files locations are in constants data-paths
+put all tests in tests directory
+
+For admin all css to be in admin/public/css/custom.css and all js to be in admin/public/js/custom.js
+For all the project Follow the MVC paterns all business in service all presentation in controllers and all design and presentation in views
+
+## UI/UX Guidelines
+
+### Modal Usage
+- **ALWAYS use Bootstrap modals instead of window.confirm() or window.alert()**
+- Create custom modals for confirmations, forms, and user interactions
+- Use consistent modal styling with Bootstrap classes
+- Include proper loading states and feedback in modals
+- Reset modal state when closed
+
+### Form Validation
+- Use client-side validation with visual feedback
+- Show validation errors inline with form fields
+- Use Bootstrap alert classes for success/error messages
+
+### User Feedback
+- Replace all alert() calls with Bootstrap modals
+- Replace all confirm() calls with confirmation modals
+- Use loading spinners for async operations
+- Provide clear success/error messages
+
+## Code Structure
+
+### MVC Pattern
+- **Controllers**: Handle HTTP requests and responses
+- **Services**: Business logic and data operations
+- **Views**: Presentation layer with EJS templates
+
+### Translation and Internationalization
+- **ALWAYS use translation keys when modifying any section of the admin site**
+- Never hardcode text strings in admin views, controllers, or JavaScript
+- Use the pattern: `<%= typeof t !== 'undefined' ? t('key.path') : 'Fallback text' %>` in EJS templates
+- Translation files are located in `data/locales/` (en.json, ru.json, ar.json)
+- When adding new text, **MUST** add corresponding translations in ALL language files:
+  - `data/locales/en.json` (English)
+  - `data/locales/ru.json` (Russian)
+  - `data/locales/ar.json` (Arabic)
+- Use descriptive, hierarchical keys (e.g., `pages.pageTitle`, `users.editUser`)
+- Follow existing translation key naming patterns and structure
+- For JavaScript strings displayed to users, use the same translation pattern with EJS template rendering
+- Test all languages after adding new translations to ensure consistency
+
+### Data Management (MySQL)
+- All data is stored in MySQL database
+- Use parameterized queries to prevent SQL injection
+- Implement proper connection pooling via `src/config/database.ts`
+- Use transactions for operations that modify multiple tables
+- Implement proper error handling in database operations
+- Follow database schema conventions (snake_case for columns)
+
+### Database Migration Management
+- **IMPORTANT**: All data migration scripts MUST be placed in `data-migration/` directory
+- Name migration scripts with timestamp prefix (e.g., `2025-10-09-migration-name.ts`)
+- Include rollback instructions or scripts when applicable
+- Document migrations with clear comments about what they do
+- Test migrations on a backup database before production
+- Keep migration scripts in version control
+
+### File Organization
+- Admin CSS: `admin/public/css/custom.css`
+- Admin JS: `admin/public/js/custom.js`
+- **Tests**: All test scripts and test files MUST be placed in `tests/` directory
+- **Data Migration Scripts**: `data-migration/` directory
+- Follow separation of concerns
+
+## Payment System Rules
+
+### Apartment Payments
+- Use apartment registration date for payment calculations
+- Generate payments only for apartments without existing payments for that year
+- Show detailed feedback in modals for payment generation
+- Track payment status (Paid/Partial/Unpaid)
+
+### User Experience
+- Always provide clear feedback for user actions
+- Use modals for confirmations and complex interactions
+- Implement proper loading states
+- Show success/error messages in modals, not alerts
+
+## Development Guidelines
+
+### Build Process
+- **NEVER build the `dist` directory during development** - This is a separate task for production deployment
+- Use `npm run dev` for development (uses ts-node-dev for direct TypeScript execution)
+- Only use `npm run build` when preparing for production deployment
+- The `dist` directory should be ignored during development to avoid conflicts
+
+## Color Management
+
+### Color Variables - CRITICAL RULE
+- **NEVER use hardcoded CSS colors (hex codes, rgb, named colors) in any CSS, SCSS, or inline styles**
+- **ALWAYS use SCSS color variables defined in `public/css/_variables.scss`**
+- For color variations, use SCSS functions: `darken($color, %)`, `lighten($color, %)`, `rgba($color, opacity)`
+- All styles must be in SCSS files using variables, never inline styles with hardcoded colors
+- If you need a new color, add it as a variable in `_variables.scss` first
+- Bootstrap classes like `btn-primary` are overridden to use `$primary-color` (green), not blue
+
+## General Guidelines
+- Follow TypeScript best practices
+- Use consistent naming conventions
+- Implement proper error handling
+- Use Bootstrap components for UI consistency
+- Always test functionality after changes
+
+### Authentication
+- **Dev Login**: When accessing the admin panel locally (`/admin`), use the **Dev Login** option for quick access during development.

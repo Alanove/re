@@ -1,0 +1,106 @@
+<!-- SUBJECT: New live chat message - {{siteTitle}} -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Live Chat Message</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            line-height: 1.6;
+            color: {{textColor}};
+            margin: 0;
+            padding: 0;
+            background-color: {{secondaryColor}};
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            padding: 20px 0;
+        }
+        .header img {
+            max-height: 50px;
+            width: auto;
+        }
+        .card {
+            background-color: {{lightColor}};
+            border-radius: 4px;
+            padding: 40px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.05);
+        }
+        h2 {
+            color: {{darkColor}};
+            margin-top: 0;
+            text-align: center;
+        }
+        .visitor-info {
+            background-color: {{secondaryColor}};
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .message-box {
+            background-color: {{secondaryColor}};
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            border-left: 4px solid {{primaryColor}};
+        }
+        .btn {
+            display: inline-block;
+            background-color: {{primaryColor}};
+            color: #ffffff !important;
+            text-decoration: none;
+            padding: 12px 30px;
+            font-weight: bold;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: #999999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="{{logoUrl}}" alt="{{siteTitle}}">
+        </div>
+
+        <div class="card">
+            <h2>New Live Chat Message</h2>
+            <p>A visitor sent the first message in live chat. Reply from the admin console.</p>
+
+            <div class="visitor-info">
+                <p style="margin: 0 0 5px;"><strong>Visitor:</strong> {{visitorName}}</p>
+                <% if (hasVisitorEmail) { %>
+                <p style="margin: 0 0 5px;"><strong>Email:</strong> {{visitorEmail}}</p>
+                <% } %>
+                <% if (hasVisitorPhone) { %>
+                <p style="margin: 0;"><strong>Phone:</strong> {{visitorPhone}}</p>
+                <% } %>
+            </div>
+
+            <h3 style="font-size: 1.1em; margin-bottom: 10px;">Message</h3>
+            <div class="message-box">{{messagePreview}}</div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="{{adminChatUrl}}" class="btn">Open Live Chat</a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>&copy; {{currentYear}} {{siteTitle}}. All rights reserved.</p>
+            <p>{{siteUrl}}</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<div class="footer-contact-block">
+  <%- include('footer-contact-body') %>
+</div>
+<footer class="footer">
+  <div class="footer-cont container row">
+    <div class="foot-col col-md-2">
+      <ul class="footer-column">
+        <% const footerItems = typeof footerMenu !== 'undefined' ? footerMenu : []; %>
+        <% footerItems.slice(0, 6).forEach(function(item) { %>
+          <% if (item.active) { %>
+            <li class="footer-content"><a href="<%= item.url %>"><%= item.title %></a></li>
+          <% } %>
+        <% }); %>
+      </ul>
+    </div>
+    <div class="foot-col col-md-2 separator separator1">
+      <ul class="footer-column">
+        <li class="footer-title">Member Companies</li>
+        <li class="footer-title sub_title">UAE</li>
+        <li class="footer-content"><a href="/member_company/bluefield-agriculture-uae">BlueField Agriculture UAE</a></li>
+        <li class="footer-title sub_title">Jordan</li>
+        <li class="footer-content"><a href="/member_company/bluefield-agriculture-jordan">BlueField Agriculture Jordan</a></li>
+      </ul>
+    </div>
+    <div class="foot-col col-md-3 align-center">
+      <ul class="footer-column">
+        <li class="footer-title sub_title">Lebanon</li>
+        <li class="footer-content"><a href="/member_company/bluefield-agriculture-lebanon">BlueField Agriculture Lebanon</a></li>
+        <li class="footer-content"><a href="/member_company/bluefield-public-health-lebanon">BlueField Public Health Lebanon</a></li>
+        <li class="footer-content"><a href="/member_company/albizia-landscape-services-lebanon">ALBIZIA Landscape Services Lebanon</a></li>
+        <li class="footer-content"><a href="/member_company/bf-core-cleaning-services-lebanon">BF CORE Cleaning Services Lebanon</a></li>
+      </ul>
+    </div>
+    <div class="foot-col col-md-3 separator separator2">
+      <ul class="footer-column">
+        <li class="footer-title sub_title">Iraq</li>
+        <li class="footer-content"><a href="/member_company/bf-core-cleaning-services-iraq">BF CORE Cleaning Services Iraq</a></li>
+        <li class="footer-content"><a href="/member_company/bluefield-agriculture-iraq">BlueField Agriculture Iraq</a></li>
+        <li class="footer-content"><a href="/member_company/bluefield-public-health-iraq">BlueField Public Health Iraq</a></li>
+        <li class="footer-content"><a href="/member_company/albizia-landscape-services-iraq">ALBIZIA Landscape Services Iraq</a></li>
+      </ul>
+    </div>
+    <div class="foot-col align-left col-md-2">
+      <ul class="footer-column">
+        <li class="footer-title">Sectors</li>
+        <li class="footer-content"><a href="/sector/agriculture">Agriculture</a></li>
+        <li class="footer-content"><a href="/sector/pest-management">Pest Control &amp; Management</a></li>
+        <li class="footer-content"><a href="/sector/landscaping">Landscaping</a></li>
+        <li class="footer-content"><a href="/sector/cleaning-services">Cleaning Services</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+<div class="lower">
+  <div class="container">
+    <p class="lower-legal">
+      &copy; <%= new Date().getFullYear() %> BlueField Group. All rights reserved.
+      <a href="/privacy-policy">Privacy Policy</a> |
+      <a href="/terms-of-use">Terms of Use</a> |
+      <a href="https://www.liteweb.info/" target="_blank" rel="noopener">www.liteweb.info</a>
+    </p>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<%
+  const rateNum = Number(typeof yearlyInterestRate !== 'undefined' ? yearlyInterestRate : 5);
+  const rateLabel = String(parseFloat(rateNum.toFixed(2)));
+%>
+<div class="account-interest-note">
+  <p>
+    Unpaid invoices accumulate <strong><%= rateLabel %>%</strong> interest per year.
+  </p>
+  <p class="account-interest-note__download">
+    To download a digital copy of this receipt, please login to
+    <a href="https://www.santamariabouar.com">https://www.santamariabouar.com</a>
+  </p>
+</div>

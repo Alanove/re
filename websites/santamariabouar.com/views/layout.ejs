@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title><%= typeof pageTitle !== 'undefined' ? pageTitle : '' %></title>
+  <meta name="description" content="<%= typeof pageDescription !== 'undefined' ? pageDescription : '' %>">
+  <meta name="keywords" content="<%= typeof pageKeywords !== 'undefined' ? pageKeywords : '' %>">
+  <meta name="author" content="<%= typeof siteData !== 'undefined' && siteData.name ? siteData.name : '' %>">
+  <meta name="robots" content="<%= typeof pageRobots !== 'undefined' ? pageRobots : 'index, follow' %>">
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="<%= typeof pageTitle !== 'undefined' ? pageTitle : '' %>">
+  <meta property="og:description" content="<%= typeof pageDescription !== 'undefined' ? pageDescription : '' %>">
+  <meta property="og:type" content="<%= typeof pageType !== 'undefined' ? pageType : 'website' %>">
+  <meta property="og:url" content="<%= typeof pageUrl !== 'undefined' ? pageUrl : '' %>">
+  <meta property="og:image" content="<%= typeof pageImage !== 'undefined' ? pageImage : '' %>">
+  <meta property="og:site_name" content="<%= typeof siteData !== 'undefined' && siteData.name ? siteData.name : '' %>">
+  <meta property="og:locale" content="en_US">
+  
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<%= typeof pageTitle !== 'undefined' ? pageTitle : '' %>">
+  <meta name="twitter:description" content="<%= typeof pageDescription !== 'undefined' ? pageDescription : '' %>">
+  <meta name="twitter:image" content="<%= typeof pageImage !== 'undefined' ? pageImage : '' %>">
+  
+  <!-- Additional SEO Meta Tags -->
+  <meta name="language" content="English">
+  <meta name="revisit-after" content="7 days">
+  <meta name="distribution" content="global">
+  <meta name="rating" content="general">
+  <meta name="theme-color" content="#C87E2F">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="<%= typeof pageUrl !== 'undefined' ? pageUrl : '' %>">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="<%= typeof siteData !== 'undefined' && siteData.favicon ? siteData.favicon : '/images/favicon.ico' %>">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  
+  <!-- Preconnect to external domains -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  
+  <!-- Stylesheets -->
+  <% if (typeof includeBootstrap !== 'undefined' && includeBootstrap) { %>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <% } %>
+  <link rel="stylesheet" href="/css/styles.css">
+  <% if (typeof includeSlideshowAssets !== 'undefined' && includeSlideshowAssets) { %>
+    <link rel="stylesheet" href="/css/slideshow.css">
+  <% } %>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+  
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  <%- typeof structuredData !== 'undefined' ? structuredData : (function() {
+    const siteName = typeof siteData !== 'undefined' && siteData.name ? siteData.name : '';
+    const siteUrl = typeof siteData !== 'undefined' && siteData.domain ? siteData.domain : '';
+    const siteLogo = typeof siteData !== 'undefined' && siteData.logo ? siteData.domain + siteData.logo : '';
+    const siteDescription = typeof siteData !== 'undefined' && siteData.description ? siteData.description : '';
+    const linkedinUrl = typeof siteData !== 'undefined' && siteData.social && siteData.social.linkedin ? siteData.social.linkedin : '';
+    const facebookUrl = typeof siteData !== 'undefined' && siteData.social && siteData.social.facebook ? siteData.social.facebook : '';
+    
+    return JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": siteName,
+      "url": siteUrl,
+      "logo": siteLogo,
+      "description": siteDescription,
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "Lebanon"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service"
+      },
+      "sameAs": [
+        linkedinUrl,
+        facebookUrl
+      ]
+    });
+  })() %>
+  </script>
+</head>
+<body<%- typeof bodyClass !== 'undefined' ? ' class="' + bodyClass + '"' : '' %>>
+  <!-- Page Loader -->
+  <div class="loader" id="pageLoader">
+    <div class="loader-content">
+      <div class="loader-title">
+        <%= typeof siteData !== 'undefined' && siteData.siteTitle ? siteData.siteTitle : 'Santa Maria Bouar' %>
+      </div>
+    </div>
+  </div>
+
+  <%- include('partials/impersonation-banner') %>
+  
+  <div class="main">
+    <%- include('partials/header') %>
+    <%- body %>
+    <%- include('partials/footer') %>
+  </div>
+
+  <%- include('partials/menu') %>
+  <% if (typeof member !== 'undefined' && member) { %>
+    <div id="memberMenu" class="slide-menu-panel">
+      <button type="button" class="slide-menu-panel__close" id="memberMenuCloseBtn" aria-label="Close member menu">
+        <i class="bi bi-x-lg" aria-hidden="true"></i>
+      </button>
+      <%- include('partials/member-menu') %>
+    </div>
+    <div class="slide-menu-panel__backdrop" id="memberMenuBackdrop"></div>
+  <% } %>
+  <%- include('partials/cookie-banner') %>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <% if (typeof includeBootstrap !== 'undefined' && includeBootstrap) { %>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <% } %>
+  <script src="/js/cookie-consent.js"></script>
+  <script src="/js/script.js"></script>
+  <% if (typeof includeRecaptcha !== 'undefined' && includeRecaptcha && typeof recaptchaSiteKey !== 'undefined' && recaptchaSiteKey) { %>
+    <script>window.__RECAPTCHA_SITE_KEY__ = <%- JSON.stringify(recaptchaSiteKey) %>;</script>
+    <script src="/js/recaptcha-invisible.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=__onRecaptchaApiLoad&render=explicit" async defer></script>
+  <% } %>
+  <% if (typeof pageScript !== 'undefined' && pageScript) { %>
+    <script src="<%= pageScript %>"></script>
+  <% } %>
+  <% if (typeof includeSlideshowAssets !== 'undefined' && includeSlideshowAssets) { %>
+    <script src="/js/slideshow.js"></script>
+    <script src="/js/reveal-animation.js"></script>
+  <% } %>
+  <% if (typeof siteSettings !== 'undefined' && siteSettings.analytics) { %>
+  <script type="application/json" id="smb-analytics-snippet"><%- JSON.stringify(siteSettings.analytics).replace(/</g, '\\u003c') %></script>
+  <script>
+  (function () {
+    var el = document.getElementById('smb-analytics-snippet');
+    if (!el) return;
+    var html = '';
+    try {
+      html = JSON.parse(el.textContent || '');
+    } catch (err) {
+      console.error('Invalid analytics snippet', err);
+      return;
+    }
+    if (!html || !String(html).trim()) return;
+
+    function injectAnalytics() {
+      if (window.__SMB_ANALYTICS_LOADED__) return;
+      window.__SMB_ANALYTICS_LOADED__ = true;
+      try {
+        var fragment = document.createRange().createContextualFragment(html);
+        document.head.appendChild(fragment);
+      } catch (err) {
+        console.error('Failed to load analytics snippet', err);
+      }
+    }
+
+    window.onCookieConsentAccepted = function () {
+      injectAnalytics();
+    };
+
+    if (window.SantaMariaCookieConsent && window.SantaMariaCookieConsent.hasAnalyticsConsent()) {
+      injectAnalytics();
+    }
+  })();
+  </script>
+  <% } %>
+</body>
+</html> 

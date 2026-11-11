@@ -7,6 +7,7 @@
   .\scripts\deploy\deploy.ps1 -Site thronetrading.com -Ref 1a2b3c4d
   .\scripts\deploy\deploy.ps1 -Site thronetrading.com -OverwriteData
   .\scripts\deploy\deploy.ps1 -Site thronetrading.com -DataFiles settings.json,menus.json
+  .\scripts\deploy\deploy.ps1 -Site santamariabouar.com -ForceMigrations
 #>
 [CmdletBinding()]
 param(
@@ -20,6 +21,8 @@ param(
   [string[]]$DataFiles,
 
   [switch]$SkipChecks,
+
+  [switch]$ForceMigrations,
 
   [switch]$Yes
 )
@@ -72,13 +75,16 @@ if (-not (Test-Path (Join-Path $script:RepoRoot 'websites'))) {
   Fail 'Could not find the repository root (expected scripts/deploy inside it).'
 }
 
-if ($Site -notmatch '^[a-z0-9][a-z0-9.-]*\.[a-z]{2,}$') {
-  Fail "'$Site' is not a site domain. Deploys take exactly one site, for example: -Site thronetrading.com"
+if ($Site -notmatch '^[a-z0-9][a-z0-9._-]*$' -or $Site -match '\.\.') {
+  Fail "'$Site' is not a site folder name. Deploys take exactly one folder from websites/, for example: -Site thronetrading.com"
 }
 $siteDir = Join-Path $script:RepoRoot "websites/$Site"
 if (-not (Test-Path (Join-Path $siteDir 'package.json'))) {
   $known = (Get-ChildItem (Join-Path $script:RepoRoot 'websites') -Directory | ForEach-Object Name) -join ', '
   Fail "No site folder websites/$Site. Known sites: $known"
+}
+if (Test-Path (Join-Path $siteDir 'NOT_READY.md')) {
+  Fail "websites/$Site is marked not ready (see websites/$Site/NOT_READY.md). Delete the file once the site is fixed."
 }
 
 $deployJsonPath = Join-Path $siteDir 'deploy.json'
@@ -92,7 +98,10 @@ if ($serverPath -notmatch '^/[A-Za-z0-9._/-]+$' -or $serverPath -match '\.\.' -o
   Fail "deploy.json serverPath must be an absolute Linux path such as /www/wwwroot/$Site"
 }
 $port = Get-OptionalProperty $deploy 'port'
-if ($null -eq $port -or "$port" -notmatch '^\d+$' -or [int]$port -lt 1 -or [int]$port -gt 65535) {
+if ($null -eq $port) {
+  Fail "deploy.json port is not set yet for $Site. Set it to the port of the site's aaPanel Node project."
+}
+if ("$port" -notmatch '^\d+$' -or [int]$port -lt 1 -or [int]$port -gt 65535) {
   Fail 'deploy.json port must be a number between 1 and 65535.'
 }
 $healthPath = Get-OptionalProperty $deploy 'healthPath'
@@ -114,6 +123,28 @@ foreach ($item in $protect) {
   if ($item -notmatch '^[A-Za-z0-9._-][A-Za-z0-9._/-]*$' -or $item -match '\.\.') {
     Fail "deploy.json protect entry '$item' must be a relative path inside the site folder."
   }
+}
+$migrations = Get-OptionalProperty $deploy 'migrations'
+$migrationsDir = $null
+$migrationsScript = $null
+if ($null -ne $migrations) {
+  $migrationsDir = [string](Get-OptionalProperty $migrations 'dir')
+  $migrationsScript = [string](Get-OptionalProperty $migrations 'script')
+  if ($migrationsDir -notmatch '^[A-Za-z0-9._-][A-Za-z0-9._/-]*$' -or $migrationsDir -match '\.\.') {
+    Fail 'deploy.json migrations.dir must be a relative folder inside the site, for example data-migration.'
+  }
+  if (-not (Test-Path (Join-Path $siteDir $migrationsDir) -PathType Container)) {
+    Fail "deploy.json migrations.dir '$migrationsDir' does not exist in websites/$Site."
+  }
+  if ($migrationsScript -notmatch '^[A-Za-z0-9][A-Za-z0-9:._-]*$') {
+    Fail 'deploy.json migrations.script must be an npm script name, for example migrate:production.'
+  }
+  $siteScripts = (Get-Content -Raw (Join-Path $siteDir 'package.json') | ConvertFrom-Json).scripts
+  if ($null -eq $siteScripts -or $siteScripts.PSObject.Properties.Name -notcontains $migrationsScript) {
+    Fail "deploy.json migrations.script '$migrationsScript' is not a script in websites/$Site/package.json."
+  }
+} elseif ($ForceMigrations) {
+  Fail "-ForceMigrations was given but websites/$Site/deploy.json has no migrations setting."
 }
 
 $localJsonPath = Join-Path $PSScriptRoot 'deploy.local.json'
@@ -233,6 +264,13 @@ if ($overwriteSpec -eq '-') {
   Write-Host "Data:    $overwriteText" -ForegroundColor Yellow
   Write-Host '         The server copy is backed up first and restored if the deploy fails.' -ForegroundColor Yellow
 }
+if (-not $migrationsScript) {
+  Write-Host 'Migrations: none'
+} elseif ($ForceMigrations) {
+  Write-Host "Migrations: FORCED (database backup, then npm run $migrationsScript)" -ForegroundColor Yellow
+} else {
+  Write-Host "Migrations: run if $migrationsDir changed since the last deploy (database backup, then npm run $migrationsScript)"
+}
 Write-Host ''
 if (-not $Yes) {
   if (-not (Confirm-YesNo "Deploy $Site now?")) { Fail 'Cancelled.' }
@@ -248,7 +286,10 @@ $remoteArgs = @(
   $(if ($restartCommand) { [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes([string]$restartCommand)) } else { '-' }),
   $(if ($protect.Count -gt 0) { $protect -join ':' } else { '-' }),
   $repoUrl,
-  $overwriteSpec
+  $overwriteSpec,
+  $(if ($migrationsDir) { $migrationsDir } else { '-' }),
+  $(if ($migrationsScript) { $migrationsScript } else { '-' }),
+  $(if ($ForceMigrations) { 'force' } else { 'auto' })
 )
 $quoted = ($remoteArgs | ForEach-Object { "'$_'" }) -join ' '
 if ($sshUser -eq $runAs) {

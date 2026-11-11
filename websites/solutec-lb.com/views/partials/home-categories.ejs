@@ -1,0 +1,11 @@
+<%
+  // Rows reuse the original Elementor row ids so post-1470.css still applies (first row: z-index, others: zero margins).
+  const list = typeof categories !== 'undefined' ? categories : [];
+  const rowIds = ['28a71b5', '785e316'];
+  const rows = [];
+  for (let i = 0; i < list.length; i += 3) rows.push(list.slice(i, i + 3));
+  function cssUrl(value) {
+    return String(value || '').replace(/["'()\s\\]/g, function (c) { return encodeURIComponent(c); });
+  }
+%>
+<% rows.forEach(function (row, rowIndex) { const rowId = rowIds[rowIndex === 0 ? 0 : 1]; %><section class="elementor-section elementor-top-section elementor-element elementor-element-<%= rowId %> elementor-section-boxed elementor-section-height-default" data-id="<%= rowId %>" data-element_type="section"><div class="elementor-container elementor-column-gap-extended"><% row.forEach(function (category) { const img = cssUrl(category.image); %><div class="elementor-column elementor-col-33 elementor-top-column elementor-element" data-element_type="column"><div class="elementor-widget-wrap elementor-element-populated"><div class="elementor-element elementor-widget elementor-widget-sm-service-block-II" data-element_type="widget" data-widget_type="sm-service-block-II.default"><div class="elementor-widget-container"><div class="man_woo_cat_item man_service_block_II man_woo_cat_item_centered"><a href="/product-category/<%= category.slug %>" class="man_image_bck"<% if (img) { %> data-image="<%= img %>" style="background-image:url('<%= img %>')"<% } %>><span class="man_woo_cat_item_over"></span><div class="man_woo_cat_item_cont"><i class=" man_icon"></i><h3 class="man_woo_cat_item_cont_name"><%= category.name %></h3></div><div class="man_woo_cat_item_cont man_woo_cat_item_cont_2"><h3 class="man_woo_cat_item_cont_name"><%= category.name %></h3><div class="man_woo_cat_item_cont_an"><div></div><span class="btn btn_transparent">View<i class="ti ti-arrow-right"></i></span></div></div></a></div></div></div></div></div><% }); %></div></section><% }); %>

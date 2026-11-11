@@ -1,0 +1,146 @@
+<div class="row mb-3">
+    <div class="col-sm-6">
+        <h1 class="page-header">Pay Invoice</h1>
+    </div>
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-end">
+            <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="/admin/invoices">Invoices</a></li>
+            <li class="breadcrumb-item active">Pay</li>
+        </ol>
+    </div>
+</div>
+
+<%- include('invoices/payment-receipt-modal') %>
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Invoice #<%= invoice.id %></h3>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <strong>Apartment:</strong> 
+                    <% if (apartment) { %>
+                        Block <%= apartment.block %> <%= apartment.unitNumberOfficial %>
+                        <a href="/admin/wallets/<%= apartment.id %>" class="btn btn-xs btn-outline-success ms-2">
+                            <i class="fa fa-wallet"></i> Wallet
+                        </a>
+                    <% } else { %>
+                        Apartment <%= invoice.apartmentId %>
+                    <% } %>
+                </div>
+                <div class="mb-3">
+                    <strong>Category:</strong> 
+                    <% if (category) { %>
+                        <span class="badge" style="background-color: <%= category.color %>">
+                            <%= category.name %>
+                        </span>
+                    <% } else { %>
+                        Category <%= invoice.categoryId %>
+                    <% } %>
+                </div>
+                <div class="mb-3">
+                    <strong>Description:</strong> <%= invoice.description %>
+                </div>
+                <div class="mb-3">
+                    <strong>Invoice Amount:</strong> $<%= invoice.amount.toFixed(2) %>
+                </div>
+                <div class="mb-3">
+                    <strong>Amount Paid:</strong> $<%= invoice.amountPaid.toFixed(2) %>
+                </div>
+                <div class="mb-3">
+                    <strong>Balance:</strong> 
+                    <span class="<%= balance > 0 ? 'text-danger' : 'text-success' %>">
+                        $<%= balance.toFixed(2) %>
+                    </span>
+                </div>
+                <div class="mb-3">
+                    <strong>Due Date:</strong> <%= invoice.dueDate ? new Date(invoice.dueDate).toLocaleDateString() : 'Not set' %>
+                </div>
+
+                <% if (walletBalance > 0.001) { %>
+                <div class="alert alert-success mb-3">
+                    <i class="fa fa-wallet"></i>
+                    <strong>Wallet available:</strong> $<%= walletBalance.toFixed(2) %>
+                    <span class="text-muted">— can be applied toward this invoice</span>
+                </div>
+                <% } %>
+
+                <% if (invoice.amountPaid > 0.001) { %>
+                <div class="alert alert-secondary d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <i class="fa fa-receipt"></i>
+                        <strong>$<%= invoice.amountPaid.toFixed(2) %> already paid</strong> on this invoice
+                    </div>
+                    <button type="button" class="btn btn-sm btn-info invoice-receipt-btn" data-invoice-id="<%= invoice.id %>">
+                        <i class="fa fa-receipt"></i> Generate Receipt
+                    </button>
+                </div>
+                <% } %>
+                
+                <hr>
+                
+                <form id="payInvoiceForm"
+                    data-invoice-id="<%= invoice.id %>"
+                    data-balance="<%= balance %>"
+                    data-wallet-balance="<%= walletBalance %>">
+                    <% 
+                    const maxWalletApply = Math.min(walletBalance, balance);
+                    const defaultWallet = (walletBalance > 0.001 && balance > 0.001) ? maxWalletApply : 0;
+                    const defaultCash = Math.max(0, balance - defaultWallet);
+                    %>
+                    <% if (walletBalance > 0.001 && balance > 0.001) { %>
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fa fa-wallet text-success"></i> From Wallet</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" name="walletAmount" id="payInvoiceWalletAmount" class="form-control" step="0.01" min="0" max="<%= maxWalletApply %>" value="<%= defaultWallet.toFixed(2) %>">
+                        </div>
+                        <small class="text-muted">Max: $<%= maxWalletApply.toFixed(2) %></small>
+                    </div>
+                    <% } %>
+
+                    <div class="mb-3">
+                        <label class="form-label">Cash Payment Amount</label>
+                        <input type="number" name="amount" id="payInvoiceCashAmount" class="form-control" step="0.01" min="0" max="<%= balance %>" value="<%= defaultCash.toFixed(2) %>">
+                        <small class="text-muted">Amount received into a bank account (leave 0 if paying fully from wallet)</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Payment Date <span class="text-danger">*</span></label>
+                        <input type="date" name="date" id="payInvoiceDate" class="form-control" value="<%= new Date().toISOString().split('T')[0] %>" required>
+                        <small class="text-muted">Shown on the payment receipt</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Account <span id="payInvoiceAccountRequired" class="text-danger">*</span></label>
+                        <select name="accountId" id="payInvoiceAccount" class="form-select">
+                            <option value="">Select Account</option>
+                            <% accounts.filter(acc => acc.isActive).forEach(acc => { %>
+                                <option value="<%= acc.id %>">
+                                    <%= acc.name %> - $<%= (acc.balance != null ? acc.balance.toFixed(2) : '0.00') %>
+                                </option>
+                            <% }); %>
+                        </select>
+                        <small class="text-muted">Required only when recording a cash payment</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea name="description" class="form-control" rows="2"><%= invoice.description %></textarea>
+                    </div>
+
+                    <div class="alert alert-info py-2 mb-3" id="payInvoiceSummary">
+                        <strong>Total payment:</strong> $<span id="payInvoiceTotal"><%= (defaultWallet + defaultCash).toFixed(2) %></span>
+                        <span class="text-muted"> / $<%= balance.toFixed(2) %> balance</span>
+                    </div>
+
+                    <div id="payInvoiceFeedback" class="alert alert-danger d-none" role="alert"></div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="/admin/invoices" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-success" id="payInvoiceSubmitBtn">Record Payment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

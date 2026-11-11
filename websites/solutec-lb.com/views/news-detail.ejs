@@ -1,0 +1,63 @@
+<div class="container man_news_single">
+  <div class="row">
+    <div class="col-md-12 man_main_sidebar">
+      <div id="primary" class="content-area">
+        <main id="main" class="site-main">
+          <a class="man_news_back" href="/category/news"><i class="ti ti-arrow-left"></i>Back to News</a>
+          <article id="post-<%= article.key %>" class="post type-post status-publish format-standard<%= article.image ? ' has-post-thumbnail' : '' %>">
+            <header class="man_news_single_header">
+              <h1 class="entry-title"><%= article.title %></h1>
+              <% if (article.date) { %>
+              <div class="man_news_item_date">
+                <span class="posted-on"><i class="ti ti-time"></i><time class="entry-date published" datetime="<%= article.dateIso %>"><%= article.date %></time></span>
+              </div>
+              <% } %>
+            </header>
+            <div class="man_single_page">
+              <% if (article.image) { %><img src="<%= article.image %>" class="attachment-manufacturer_single wp-post-image" alt="<%= article.title %>"><% } %>
+              <% if (article.body) { %><div class="man_news_single_body"><%- article.body %></div><% } %>
+            </div>
+            <% if (article.category) { %>
+            <footer class="entry-footer man_single_page_footer">
+              <span class="cat-links"><a href="/category/<%= article.category %>" rel="category tag"><%= article.category === 'news' ? 'News' : article.category %></a></span>
+            </footer>
+            <% } %>
+          </article>
+        </main>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="man_nearby_posts row">
+  <% if (olderNews) { %>
+  <div class="nav-box man_nav_previous man_image_bck col-md-6"<% if (olderNews.image) { %> data-image="<%= olderNews.image %>"<% } %> data-color="#292929">
+    <a href="<%= olderNews.url %>" aria-label="<%= olderNews.title %>"></a>
+    <div class="man_nav_over"></div>
+    <div class="man_nav_txt">
+      <span><i class="ti ti-angle-left"></i>Previous</span>
+      <h3><%= olderNews.title %></h3>
+    </div>
+  </div>
+  <% } else { %>
+  <div class="nav-box man_nav_previous man_image_bck col-md-6" data-color="#333">
+    <div class="man_nav_over"></div>
+    <div class="man_nav_txt"><h3><%= article.title %></h3></div>
+  </div>
+  <% } %>
+  <% if (newerNews) { %>
+  <div class="nav-box man_nav_next man_image_bck col-md-6"<% if (newerNews.image) { %> data-image="<%= newerNews.image %>"<% } %> data-color="#292929">
+    <a href="<%= newerNews.url %>" aria-label="<%= newerNews.title %>"></a>
+    <div class="man_nav_over"></div>
+    <div class="man_nav_txt">
+      <span>Next <i class="ti ti-angle-right"></i></span>
+      <h3><%= newerNews.title %></h3>
+    </div>
+  </div>
+  <% } else { %>
+  <div class="nav-box man_nav_next man_image_bck col-md-6" data-color="#333">
+    <div class="man_nav_over"></div>
+    <div class="man_nav_txt"><h3><%= article.title %></h3></div>
+  </div>
+  <% } %>
+</div>

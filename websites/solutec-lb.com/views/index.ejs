@@ -1,0 +1,41 @@
+<% const html = typeof pageContent !== 'undefined' ? pageContent : ''; %>
+<% const news = typeof latestNews !== 'undefined' ? latestNews : []; %>
+<% const sectionsData = typeof homeSections !== 'undefined' ? homeSections : null; %>
+<% const slides = typeof heroSlides !== 'undefined' ? heroSlides : []; %>
+<%
+  function esc(value) {
+    return String(value || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function withNews(value) {
+    if (value.indexOf('<!--SOLU_NEWS-->') === -1) return value;
+    const cards = news.map(function(item) {
+      const style = item.pageImage ? ' style="background-image:url(' + esc(item.pageImage) + ')"' : '';
+      const date = item.lastUpdated ? new Date(item.lastUpdated) : null;
+      const dateText = date && !isNaN(date.getTime()) ? date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '';
+      return '<div class="man_news_grid_item"><a href="' + esc(item.url) + '" class="man_news_item_link"></a>' +
+        '<div class="man_news_item_img"' + style + '><div class="man_news_item_over"></div>' +
+        '<div class="man_news_item_cont"><div class="man_news_item_title">' + esc(item.title) + '</div>' +
+        '<div class="man_news_item_date"><i class="ti ti-time"></i> ' + esc(dateText) + '</div></div></div></div>';
+    }).join('');
+    return value.split('<!--SOLU_NEWS-->').join(cards);
+  }
+  function withCategories(value) {
+    if (value.indexOf('<!--SOLU_CATEGORIES-->') === -1) return value;
+    const cards = include('partials/home-categories', { categories: typeof homeCategories !== 'undefined' ? homeCategories : [] }).trim();
+    return value.split('<!--SOLU_CATEGORIES-->').join(cards);
+  }
+  function renderSections(data) {
+    const body = data.sections
+      .filter(function(section) { return section.enabled !== false; })
+      .map(function(section) {
+        if (section.key === 'hero' && slides.length) {
+          return include('partials/home-slider', { slides: slides }).trim();
+        }
+        return section.html || '';
+      })
+      .join('');
+    return data.wrapperStart + body + data.wrapperEnd;
+  }
+  const output = sectionsData && sectionsData.sections.length ? renderSections(sectionsData) : html;
+%>
+<%- include('partials/shortcodes', { content: withNews(withCategories(output)) }) %>

@@ -1,0 +1,28 @@
+<%
+  const hasImage = typeof pageImage !== 'undefined' && pageImage;
+  const title = typeof pageTitle !== 'undefined' && pageTitle ? pageTitle : '';
+  const selectedClass = typeof selected !== 'undefined' && selected ? selected : 'page';
+%>
+<article class="inner-page <%= selectedClass %>">
+  <header class="inner-page__banner<%= hasImage ? ' has-image' : '' %>"<% if (hasImage) { %> style="background-image: url('<%= pageImage %>');"<% } %>>
+    <div class="inner-page__banner-overlay"></div>
+    <div class="container">
+      <% if (title) { %>
+        <h1 class="inner-page__title"><%= title %></h1>
+      <% } %>
+    </div>
+  </header>
+
+  <div class="inner-page__body">
+    <div class="container">
+      <div class="inner-page__content">
+        <% if (typeof pageContent !== 'undefined' && pageContent) { %>
+          <%- pageContent %>
+        <% } else { %>
+          <h2>Page Content</h2>
+          <p>This page is under construction.</p>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</article>

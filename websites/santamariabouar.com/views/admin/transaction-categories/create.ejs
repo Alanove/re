@@ -1,0 +1,181 @@
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Create Transaction Category</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="/admin/transaction-categories">Transaction Categories</a></li>
+                        <li class="breadcrumb-item active">Create</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Category Information</h3>
+                        </div>
+                        <form id="categoryForm" action="/admin/transaction-categories/create" method="POST">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="name">Category Name *</label>
+                                    <input type="text" class="form-control" id="name" name="name" required 
+                                           placeholder="e.g., Office Supplies, Electricity">
+                                    <small class="form-text text-muted">Choose a clear, descriptive name for this category</small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="type">Category Type *</label>
+                                    <select class="form-control" id="type" name="type" required>
+                                        <option value="">Select category type</option>
+                                        <option value="income">Income (Money coming in)</option>
+                                        <option value="expense">Expense (Money going out)</option>
+                                        <option value="both">Both (Can be used for income or expense)</option>
+                                    </select>
+                                    <small class="form-text text-muted">
+                                        <strong>Income:</strong> Money added to account | 
+                                        <strong>Expense:</strong> Money removed from account | 
+                                        <strong>Both:</strong> Flexible usage
+                                    </small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="color">Category Color</label>
+                                    <div class="input-group">
+                                        <input type="color" class="form-control-color" id="color" name="color" 
+                                               value="#3498db" style="width: 60px; height: 40px;">
+                                        <input type="text" class="form-control ml-2" id="colorHex" 
+                                               value="#3498db" readonly>
+                                    </div>
+                                    <small class="form-text text-muted">Choose a color to help identify this category in reports</small>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="isActive" name="isActive" checked>
+                                        <label class="custom-control-label" for="isActive">Active</label>
+                                    </div>
+                                    <small class="form-text text-muted">Only active categories will appear in transaction forms</small>
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-save"></i> Create Category
+                                </button>
+                                <a href="/admin/transaction-categories" class="btn btn-secondary ml-2">
+                                    <i class="fa fa-arrow-left"></i> Cancel
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card card-info">
+                        <div class="card-header">
+                            <h3 class="card-title">Predefined Categories</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Common categories you might want to create:</p>
+                            <div class="category-suggestions">
+                                <button type="button" class="btn btn-outline-success btn-sm mb-1" onclick="fillCategory('George', 'both', '#3498db')">
+                                    George
+                                </button>
+                                <button type="button" class="btn btn-outline-danger btn-sm mb-1" onclick="fillCategory('Electricity', 'expense', '#f39c12')">
+                                    Electricity
+                                </button>
+                                <button type="button" class="btn btn-outline-danger btn-sm mb-1" onclick="fillCategory('Office Supplies', 'expense', '#9b59b6')">
+                                    Office Supplies
+                                </button>
+                                <button type="button" class="btn btn-outline-danger btn-sm mb-1" onclick="fillCategory('Common Expenses', 'expense', '#2ecc71')">
+                                    Common Expenses
+                                </button>
+                                <button type="button" class="btn btn-outline-info btn-sm mb-1" onclick="fillCategory('Transfer', 'both', '#95a5a6')">
+                                    Transfer
+                                </button>
+                                <button type="button" class="btn btn-outline-danger btn-sm mb-1" onclick="fillCategory('Maintenance', 'expense', '#e74c3c')">
+                                    Maintenance
+                                </button>
+                            </div>
+                            <small class="text-muted">Click any suggestion to auto-fill the form</small>
+                        </div>
+                    </div>
+
+                    <div class="card card-warning">
+                        <div class="card-header">
+                            <h3 class="card-title">Special Categories</h3>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Transfer:</strong> Used for moving money between accounts. Creates two transactions automatically.</p>
+                            <p><strong>Common Expenses:</strong> Used for apartment building expenses. Allows selecting multiple apartments and generates receipts.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<%- contentFor('scripts') %>
+<script>
+// Update color preview when color changes
+document.getElementById('color').addEventListener('input', function() {
+    document.getElementById('colorPreview').style.backgroundColor = this.value;
+});
+
+// Fill category form with predefined values
+function fillCategory(name, type, color) {
+    document.getElementById('name').value = name;
+    document.getElementById('type').value = type;
+    document.getElementById('color').value = color;
+    document.getElementById('colorPreview').style.backgroundColor = color;
+}
+
+document.getElementById('categoryForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    
+    // Show loading state
+    submitBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Creating...';
+    submitBtn.disabled = true;
+    
+    try {
+        const response = await fetch('/admin/transaction-categories/create', {
+            method: 'POST',
+            body: formData
+        });
+        
+        if (response.ok) {
+            window.location.href = '/admin/transaction-categories';
+        } else {
+            const result = await response.json();
+            alert('Error: ' + (result.message || 'Failed to create category'));
+        }
+    } catch (error) {
+        console.error('Error creating category:', error);
+        alert('Error creating category. Please try again.');
+    } finally {
+        // Restore button state
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    }
+});
+
+// Color picker functionality
+document.getElementById('color').addEventListener('change', function() {
+    document.getElementById('colorHex').value = this.value;
+});
+</script>

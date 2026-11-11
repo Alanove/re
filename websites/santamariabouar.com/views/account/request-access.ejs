@@ -1,0 +1,349 @@
+<div class="account-page">
+  <div class="account-container account-container--wide">
+    <div class="account-card">
+      <h1>Request Access</h1>
+      <p class="account-subtitle">
+        Submit your details and the apartment you own or rent. An administrator will review your request
+        and email you login instructions.
+      </p>
+
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="account-alert account-alert--error"><%= error %></div>
+      <% } %>
+      <% if (typeof success !== 'undefined' && success) { %>
+        <div class="account-alert account-alert--success"><%= success %></div>
+        <p><a href="/account/login">Back to login</a></p>
+      <% } else { %>
+        <form method="POST" action="/account/request-access" class="account-form" id="requestAccessForm">
+          <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>" />
+          <div class="account-field">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" name="fullName" required
+                   value="<%= form && form.fullName ? form.fullName : '' %>" />
+          </div>
+          <div class="account-field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required
+                   value="<%= form && form.email ? form.email : '' %>" />
+            <small>Use this same email for Google login after approval.</small>
+          </div>
+          <div class="account-field">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" name="phone" required
+                   value="<%= form && form.phone ? form.phone : '' %>" />
+          </div>
+
+          <div class="account-field">
+            <label>Your apartment</label>
+            <small>Select your block and apartment number, and whether you are the owner or tenant. Use &ldquo;Add another apartment&rdquo; only if you need access to more than one.</small>
+
+            <%
+              var apartmentsData = (typeof apartments !== 'undefined' && apartments) ? apartments.map(function(apt) {
+                return {
+                  id: apt.id,
+                  block: apt.block || '',
+                  unitNumberOfficial: apt.unitNumberOfficial || '',
+                  unitNumberUnofficial: apt.unitNumberUnofficial || ''
+                };
+              }) : [];
+              var selectedIds = (form && form.apartmentIds) ? form.apartmentIds : [];
+              var roleById = (form && form.apartmentRoles) ? form.apartmentRoles : {};
+              var blocks = [];
+              apartmentsData.forEach(function(apt) {
+                if (apt.block && blocks.indexOf(apt.block) === -1) blocks.push(apt.block);
+              });
+              blocks.sort(function(a, b) {
+                return String(a).localeCompare(String(b), undefined, { numeric: true, sensitivity: 'base' });
+              });
+            %>
+
+            <div class="account-apartment-picker">
+              <div id="apartmentRows" class="account-apartment-picker__rows"></div>
+
+              <button type="button" class="account-btn account-btn--link account-apartment-picker__add-btn" id="addApartmentRowBtn">
+                + Add another apartment
+              </button>
+
+              <div id="apartmentIdsContainer"></div>
+              <div id="apartmentRolesContainer"></div>
+            </div>
+
+            <script>
+              (function () {
+                var apartmentsData = <%- JSON.stringify(apartmentsData) %>;
+                var blocks = <%- JSON.stringify(blocks) %>;
+                var initialIds = (<%- JSON.stringify(selectedIds) %> || [])
+                  .map(function (id) { return parseInt(id, 10); })
+                  .filter(function (id) { return !isNaN(id); });
+                var initialRoles = <%- JSON.stringify(roleById) %> || {};
+
+                function normalizeRole(role) {
+                  return String(role || '').toLowerCase() === 'tenant' ? 'tenant' : 'owner';
+                }
+
+                function numberLabel(apt) {
+                  var official = apt.unitNumberOfficial || '—';
+                  var unofficial = apt.unitNumberUnofficial || '';
+                  return unofficial ? official + ' (' + unofficial + ')' : official;
+                }
+
+                function sortByOfficial(a, b) {
+                  var aNum = parseInt(a.unitNumberOfficial, 10);
+                  var bNum = parseInt(b.unitNumberOfficial, 10);
+                  if (!isNaN(aNum) && !isNaN(bNum) && aNum !== bNum) return aNum - bNum;
+                  return String(a.unitNumberOfficial || '').localeCompare(String(b.unitNumberOfficial || ''), undefined, {
+                    numeric: true,
+                    sensitivity: 'base'
+                  });
+                }
+
+                function getApt(id) {
+                  return apartmentsData.find(function (a) { return String(a.id) === String(id); });
+                }
+
+                var rowsContainer = document.getElementById('apartmentRows');
+                var addBtn = document.getElementById('addApartmentRowBtn');
+                var idsContainer = document.getElementById('apartmentIdsContainer');
+                var rolesContainer = document.getElementById('apartmentRolesContainer');
+                var form = document.getElementById('requestAccessForm');
+                var rowSeq = 0;
+
+                function getRows() {
+                  return Array.prototype.slice.call(rowsContainer.querySelectorAll('.account-apartment-picker__row'));
+                }
+
+                function selectedIdsExcluding(excludeRow) {
+                  return getRows()
+                    .filter(function (row) { return row !== excludeRow; })
+                    .map(function (row) {
+                      return parseInt(row.querySelector('.js-apartment-select').value, 10);
+                    })
+                    .filter(function (id) { return !isNaN(id); });
+                }
+
+                function syncHiddenInputs() {
+                  idsContainer.innerHTML = '';
+                  rolesContainer.innerHTML = '';
+                  var seen = {};
+
+                  getRows().forEach(function (row) {
+                    var id = parseInt(row.querySelector('.js-apartment-select').value, 10);
+                    if (isNaN(id) || seen[id]) return;
+                    seen[id] = true;
+
+                    var role = normalizeRole(row.querySelector('.js-role-select').value);
+
+                    var idInput = document.createElement('input');
+                    idInput.type = 'hidden';
+                    idInput.name = 'apartmentIds';
+                    idInput.value = String(id);
+                    idsContainer.appendChild(idInput);
+
+                    var roleInput = document.createElement('input');
+                    roleInput.type = 'hidden';
+                    // Parallel to apartmentIds (same order). Do not use apartmentRoles[id] —
+                    // Express 5 qs collapses numeric keys and drops the apartment id.
+                    roleInput.name = 'apartmentRoles';
+                    roleInput.value = role;
+                    rolesContainer.appendChild(roleInput);
+                  });
+                }
+
+                function populateNumbers(row) {
+                  var blockSelect = row.querySelector('.js-block-select');
+                  var apartmentSelect = row.querySelector('.js-apartment-select');
+                  var block = blockSelect.value;
+                  var currentId = parseInt(apartmentSelect.value, 10);
+                  if (isNaN(currentId)) currentId = null;
+
+                  apartmentSelect.innerHTML = '';
+
+                  if (!block) {
+                    apartmentSelect.disabled = true;
+                    var placeholder = document.createElement('option');
+                    placeholder.value = '';
+                    placeholder.textContent = 'Select block first';
+                    apartmentSelect.appendChild(placeholder);
+                    return;
+                  }
+
+                  apartmentSelect.disabled = false;
+                  var choose = document.createElement('option');
+                  choose.value = '';
+                  choose.textContent = 'Select apartment number';
+                  apartmentSelect.appendChild(choose);
+
+                  var taken = selectedIdsExcluding(row);
+                  apartmentsData
+                    .filter(function (apt) {
+                      if (apt.block !== block) return false;
+                      if (currentId !== null && String(apt.id) === String(currentId)) return true;
+                      return taken.indexOf(parseInt(apt.id, 10)) === -1;
+                    })
+                    .sort(sortByOfficial)
+                    .forEach(function (apt) {
+                      var option = document.createElement('option');
+                      option.value = String(apt.id);
+                      option.textContent = numberLabel(apt);
+                      apartmentSelect.appendChild(option);
+                    });
+
+                  if (currentId !== null) {
+                    apartmentSelect.value = String(currentId);
+                  }
+                }
+
+                function refreshAllApartmentOptions() {
+                  getRows().forEach(populateNumbers);
+                }
+
+                function updateRemoveButtons() {
+                  var rows = getRows();
+                  rows.forEach(function (row) {
+                    var removeBtn = row.querySelector('.js-remove-row');
+                    if (!removeBtn) return;
+                    removeBtn.hidden = rows.length <= 1;
+                  });
+                }
+
+                function createRow(preset) {
+                  preset = preset || {};
+                  var id = ++rowSeq;
+                  var row = document.createElement('div');
+                  row.className = 'account-apartment-picker__row';
+                  if (id > 1) row.className += ' account-apartment-picker__row--extra';
+
+                  var blockField = document.createElement('div');
+                  blockField.className = 'account-field';
+                  blockField.innerHTML =
+                    '<label for="blockSelect' + id + '">Block</label>' +
+                    '<select id="blockSelect' + id + '" class="js-block-select">' +
+                    '<option value="">Select block</option>' +
+                    blocks.map(function (block) {
+                      return '<option value="' + block + '">' + block + '</option>';
+                    }).join('') +
+                    '</select>';
+
+                  var aptField = document.createElement('div');
+                  aptField.className = 'account-field';
+                  aptField.innerHTML =
+                    '<label for="apartmentSelect' + id + '">Apartment number</label>' +
+                    '<select id="apartmentSelect' + id + '" class="js-apartment-select" disabled>' +
+                    '<option value="">Select block first</option>' +
+                    '</select>';
+
+                  var roleField = document.createElement('div');
+                  roleField.className = 'account-field account-field--role';
+                  roleField.innerHTML =
+                    '<label for="roleSelect' + id + '">Your role</label>' +
+                    '<select id="roleSelect' + id + '" class="js-role-select">' +
+                    '<option value="owner">Owner</option>' +
+                    '<option value="tenant">Tenant</option>' +
+                    '</select>';
+
+                  var removeBtn = document.createElement('button');
+                  removeBtn.type = 'button';
+                  removeBtn.className = 'account-btn account-btn--link js-remove-row';
+                  removeBtn.textContent = 'Remove';
+                  removeBtn.setAttribute('aria-label', 'Remove this apartment');
+
+                  row.appendChild(blockField);
+                  row.appendChild(aptField);
+                  row.appendChild(roleField);
+                  row.appendChild(removeBtn);
+
+                  var blockSelect = row.querySelector('.js-block-select');
+                  var apartmentSelect = row.querySelector('.js-apartment-select');
+                  var roleSelect = row.querySelector('.js-role-select');
+
+                  blockSelect.addEventListener('change', function () {
+                    populateNumbers(row);
+                    syncHiddenInputs();
+                    refreshAllApartmentOptions();
+                  });
+
+                  apartmentSelect.addEventListener('change', function () {
+                    syncHiddenInputs();
+                    refreshAllApartmentOptions();
+                  });
+
+                  roleSelect.addEventListener('change', syncHiddenInputs);
+
+                  removeBtn.addEventListener('click', function () {
+                    if (getRows().length <= 1) return;
+                    row.remove();
+                    updateRemoveButtons();
+                    refreshAllApartmentOptions();
+                    syncHiddenInputs();
+                  });
+
+                  rowsContainer.appendChild(row);
+
+                  if (preset.apartmentId) {
+                    var apt = getApt(preset.apartmentId);
+                    if (apt) {
+                      blockSelect.value = apt.block;
+                      populateNumbers(row);
+                      apartmentSelect.value = String(apt.id);
+                      roleSelect.value = normalizeRole(preset.role || 'owner');
+                    }
+                  } else {
+                    populateNumbers(row);
+                  }
+
+                  updateRemoveButtons();
+                  syncHiddenInputs();
+                  return row;
+                }
+
+                addBtn.addEventListener('click', function () {
+                  createRow();
+                  refreshAllApartmentOptions();
+                });
+
+                form.addEventListener('submit', syncHiddenInputs);
+
+                if (initialIds.length > 0) {
+                  initialIds.forEach(function (apartmentId) {
+                    createRow({
+                      apartmentId: apartmentId,
+                      role: initialRoles[apartmentId] || initialRoles[String(apartmentId)] || 'owner'
+                    });
+                  });
+                } else {
+                  createRow();
+                }
+
+                refreshAllApartmentOptions();
+                syncHiddenInputs();
+              })();
+            </script>
+          </div>
+
+          <div class="account-field">
+            <label class="account-checkbox" for="acceptTerms">
+              <input type="checkbox" id="acceptTerms" name="acceptTerms" value="1" required
+                     <%= form && form.acceptTerms ? 'checked' : '' %> />
+              <span>
+                I agree to the
+                <a href="/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+                and
+                <a href="/terms-and-conditions" target="_blank" rel="noopener noreferrer">Terms &amp; Conditions</a>.
+              </span>
+            </label>
+          </div>
+
+          <button type="submit" class="account-btn account-btn--primary">Submit Request</button>
+          <a href="/account/login" class="account-btn account-btn--link">Back to login</a>
+        </form>
+        <script>
+          document.addEventListener('DOMContentLoaded', function () {
+            if (typeof bindInvisibleRecaptcha === 'function') {
+              bindInvisibleRecaptcha('#requestAccessForm');
+            }
+          });
+        </script>
+      <% } %>
+    </div>
+  </div>
+</div>

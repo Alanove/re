@@ -1,0 +1,20 @@
+---
+description: guerrasports - run npm run build after adding or changing code
+globs: websites/guerrasports/**
+alwaysApply: false
+---
+
+# guerrasports: verify build after code changes
+
+Site rule for `websites/guerrasports/`. It applies in addition to the global rules in `.cursor/rules/`; where they conflict, the global rules win. Paths are relative to the site folder.
+
+When you add or modify code in this site:
+
+1. **After making changes** that affect TypeScript/JavaScript (controllers, services, routes, scripts, etc.), run the build from inside `websites/guerrasports/` to ensure there are no compile errors:
+   ```bash
+   npm run build
+   ```
+
+2. **Prefer running the build** before considering a task complete, so type errors and build failures are caught early.
+
+3. If the build fails, fix the reported errors (e.g. TS2454 "used before assigned", missing types, wrong imports) and run `npm run build` again until it succeeds.

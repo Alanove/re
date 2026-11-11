@@ -1,0 +1,31 @@
+{
+  "name": "aramex-shipping-service",
+  "version": "1.0.0",
+  "description": "Complete Node.js service for Aramex shipping: Rate calculation, shipment creation, tracking, and label printing",
+  "main": "api-server.js",
+  "scripts": {
+    "start": "node api-server.js",
+    "dev": "nodemon api-server.js"
+  },
+  "keywords": [
+    "aramex",
+    "shipping",
+    "woocommerce",
+    "soap",
+    "api",
+    "tracking",
+    "shipment"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "soap": "^1.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

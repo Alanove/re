@@ -1,0 +1,791 @@
+// Luxury header (centered logo, split nav, full-bleed mega menu)
+
+.luxury-header {
+    position: relative;
+    background: $lux-header-bg;
+    border-bottom: 1px solid $lux-header-border-color;
+    transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+    z-index: 1030;
+    --lux-pin-threshold: #{$lux-header-pin-scroll-px};
+
+    a {
+        text-decoration: none;
+    }
+
+    .lux-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 14px $lux-bar-padding-x-desktop;
+    }
+
+    .lux-bar-section {
+        display: flex;
+        align-items: center;
+        gap: 1.75rem;
+        flex: 1 1 0;
+    }
+
+    .lux-bar-section--left {
+        justify-content: flex-start;
+    }
+
+    .lux-bar-section--center {
+        justify-content: center;
+        flex: 0 0 auto;
+    }
+
+    .lux-bar-section--right {
+        justify-content: flex-end;
+    }
+
+    // Responsive columns (Bootstrap `lg` is 992px; luxury chrome uses `$lux-header-desktop-min`).
+    .lux-nav-desktop-only {
+        display: none !important;
+
+        @media (min-width: $lux-header-desktop-min) {
+            display: flex !important;
+        }
+    }
+
+    .lux-nav-mobile-only {
+        display: flex !important;
+        flex: 0 0 auto;
+        gap: 12px;
+
+        @media (min-width: $lux-header-desktop-min) {
+            display: none !important;
+        }
+    }
+
+    // Top bar utilities: Roboto (body font)
+    .lux-bar .lux-util {
+        font-family: $font-family-sans-serif;
+        font-weight: 400;
+    }
+
+    // Logo (tier sizes via --lux-logo-* on `.luxury-header`; see scale-step media queries below)
+    --lux-logo-height: #{$lux-logo-height-desktop};
+    --lux-logo-max-width: #{$lux-logo-max-width-desktop};
+
+    .lux-logo {
+        display: inline-flex;
+        align-items: center;
+        min-width: 0;
+        max-width: 100%;
+
+        img {
+            display: block;
+            height: var(--lux-logo-height);
+            width: auto;
+            max-width: var(--lux-logo-max-width);
+            object-fit: contain;
+        }
+    }
+
+    // Top-level nav links: Roboto
+    .lux-nav-link {
+        position: relative;
+        font-family: $font-family-sans-serif;
+        font-weight: 400;
+        font-size: 0.82rem;
+        letter-spacing: 0.08em;
+        text-transform: capitalize;
+        color: $lux-header-text;
+        padding: 6px 0;
+        cursor: pointer;
+        background: transparent;
+        border: 0;
+
+        &:hover,
+        &:focus,
+        &.is-active {
+            color: $lux-header-link-hover;
+            background-color: transparent;
+        }
+    }
+
+    // Compact dropdown (Customer Care) — anchored under nav item, not full-bleed mega
+    .lux-nav-item--dropdown {
+        position: relative;
+    }
+
+    .lux-nav-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        min-width: 220px;
+        margin-top: 6px;
+        padding: 10px 0;
+        background: $lux-megamenu-bg;
+        color: $lux-megamenu-text;
+        box-shadow: $lux-megamenu-shadow;
+        border: 1px solid $lux-megamenu-rule;
+        display: none;
+        z-index: 1040;
+
+        &.is-open {
+            display: block;
+        }
+    }
+
+    .lux-bar-section--right .lux-nav-item--dropdown .lux-nav-dropdown {
+        left: auto;
+        right: 0;
+    }
+
+    .lux-nav-dropdown-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+            margin: 0;
+        }
+
+        a {
+            display: block;
+            padding: 8px 20px;
+            color: $lux-megamenu-text;
+            font-family: $font-family-sans-serif;
+            font-size: 0.82rem;
+            letter-spacing: 0.04em;
+            text-decoration: none;
+            white-space: nowrap;
+
+            &:hover,
+            &:focus-visible {
+                color: $lux-megamenu-link-hover;
+                background-color: transparent;
+                text-decoration: none;
+            }
+        }
+    }
+
+    // Right utilities
+    .lux-utilities {
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+
+        .lux-util {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.82rem;
+            color: $lux-header-text;
+            background: transparent;
+            border: 0;
+            box-shadow: none;
+            outline: none;
+            cursor: pointer;
+            padding: 0;
+
+            i {
+                font-size: 1rem;
+            }
+
+            &:focus-visible {
+                outline: 2px solid rgba($black, 0.2);
+                outline-offset: 2px;
+            }
+
+            &:hover {
+                color: $lux-header-link-hover;
+            }
+        }
+
+        .lux-bag-count {
+            font-variant-numeric: tabular-nums;
+        }
+    }
+
+    // ===========
+    // Mega menu (default panels: light chrome)
+    // ===========
+    .lux-megamenu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: $lux-megamenu-bg;
+        color: $lux-megamenu-text;
+        padding: 28px 40px 32px;
+        display: none;
+        box-shadow: $lux-megamenu-shadow;
+        max-height: calc(100vh - 120px);
+        overflow-y: auto;
+        border-bottom: 1px solid $lux-megamenu-rule;
+    }
+
+    .lux-megamenu.is-open {
+        display: block;
+    }
+
+    .lux-megamenu-grid {
+        display: flex;
+        justify-content: space-between;
+        align-items: stretch;
+        gap: 48px;
+        max-width: none;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .lux-megamenu--no-visual .lux-megamenu-grid {
+        justify-content: flex-start;
+    }
+
+    .lux-megamenu-cols {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 24px;
+        align-content: start;
+        flex: 0 1 auto;
+        min-width: 0;
+    }
+
+    .lux-megamenu-col {
+        h4 {
+            font-family: $headings-font-family;
+            font-size: 0.78rem;
+            font-weight: 400;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: $lux-megamenu-heading-muted;
+            margin: 0 0 14px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid $lux-megamenu-rule;
+            display: inline-block;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        a {
+            color: $lux-megamenu-text;
+            font-size: 0.82rem;
+            letter-spacing: 0.04em;
+
+            &:hover {
+                color: $lux-megamenu-link-hover;
+                opacity: 1;
+                text-decoration: none;
+            }
+        }
+    }
+
+    // Submenu column links: left→right 1px underline (::before); not mega visual strip
+    .lux-megamenu .lux-megamenu-col a {
+        position: relative;
+        display: inline-block;
+        vertical-align: bottom;
+
+        &::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 1px;
+            background-color: currentColor;
+            transition: width 0.28s ease;
+            pointer-events: none;
+        }
+
+        &:hover::before,
+        &:focus-visible::before {
+            width: 100%;
+        }
+    }
+
+    // Category panels (Haute Couture, Bridal…): seasons grouped by year, no item cap
+    .lux-megamenu--category .lux-megamenu-cols {
+        display: block;
+        flex: 1 1 auto;
+        max-width: $lux-megamenu-archive-max-width;
+    }
+
+    .lux-megamenu-archive-foot {
+        margin-top: 22px;
+    }
+
+    .lux-megamenu-viewall {
+        color: $lux-megamenu-text;
+        font-size: 0.7rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        border-bottom: 1px solid currentColor;
+        padding-bottom: 2px;
+        transition: opacity 0.2s ease;
+
+        &:hover,
+        &:focus-visible {
+            color: $lux-megamenu-link-hover;
+            opacity: 0.7;
+        }
+    }
+
+    .lux-archive-years,
+    .lux-archive-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        column-width: 300px;
+        column-count: 2;
+        column-gap: 48px;
+    }
+
+    .lux-archive-year {
+        display: grid;
+        grid-template-columns: 4.5rem 1fr;
+        align-items: baseline;
+        padding: 9px 0;
+        border-bottom: 1px solid $lux-megamenu-archive-rule;
+        break-inside: avoid;
+    }
+
+    .lux-archive-year-num {
+        font-family: $headings-font-family;
+        font-size: 0.74rem;
+        letter-spacing: 0.16em;
+        color: $lux-megamenu-year-text;
+        font-variant-numeric: tabular-nums;
+    }
+
+    a.lux-archive-year-link {
+        font-family: $headings-font-family;
+        font-size: 0.82rem;
+        letter-spacing: 0.16em;
+        color: $lux-megamenu-text;
+        font-variant-numeric: tabular-nums;
+        border-bottom: 1px solid transparent;
+        transition: border-color 0.2s ease;
+
+        &:hover,
+        &:focus-visible {
+            color: $lux-megamenu-link-hover;
+            border-bottom-color: currentColor;
+        }
+    }
+
+    // Collections named by year only (e.g. Bridal): compact grid of year links
+    .lux-archive-years--compact {
+        column-width: auto;
+        column-count: auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+        gap: 0 24px;
+
+        li {
+            padding: 10px 0;
+            border-bottom: 1px solid $lux-megamenu-archive-rule;
+        }
+    }
+
+    .lux-archive-sep {
+        margin: 0 0.55em;
+        color: $lux-megamenu-archive-sep;
+    }
+
+    .lux-archive-list li {
+        padding: 6px 0;
+        break-inside: avoid;
+    }
+
+    .lux-archive-seasons a,
+    .lux-archive-list a {
+        position: relative;
+        display: inline-block;
+        color: $lux-megamenu-text;
+        font-size: 0.82rem;
+        letter-spacing: 0.04em;
+
+        &::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -1px;
+            width: 0;
+            height: 1px;
+            background-color: currentColor;
+            transition: width 0.28s ease;
+            pointer-events: none;
+        }
+
+        &:hover,
+        &:focus-visible {
+            color: $lux-megamenu-link-hover;
+        }
+
+        &:hover::before,
+        &:focus-visible::before {
+            width: 100%;
+        }
+    }
+
+    // Portrait editorial strip — sized for vertical category imagery
+    .lux-megamenu-visual {
+        display: flex;
+        flex: 0 0 auto;
+        align-items: stretch;
+        gap: 14px;
+        align-self: flex-start;
+        max-height: 400px;
+    }
+
+    .lux-megamenu-visual-card {
+        position: relative;
+        flex: 0 0 auto;
+        width: clamp(132px, 11vw, 168px);
+        max-height: 400px;
+        aspect-ratio: 3 / 4;
+        overflow: hidden;
+        background: $lux-megamenu-image-bg;
+        text-decoration: none;
+        color: inherit;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+            transition: transform 0.45s ease;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                180deg,
+                rgba($white, 0) 52%,
+                rgba($white, 0.55) 78%,
+                rgba($white, 0.92) 100%
+            );
+            pointer-events: none;
+        }
+
+        .lux-megamenu-visual-label {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+            padding: 28px 10px 12px;
+            color: $lux-megamenu-text;
+            font-family: $headings-font-family;
+            font-size: 0.68rem;
+            font-weight: 400;
+            letter-spacing: 0.14em;
+            line-height: 1.35;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        &:hover,
+        &:focus-visible {
+            img {
+                transform: scale(1.04);
+            }
+
+            .lux-megamenu-visual-label {
+                color: $lux-megamenu-link-hover;
+            }
+        }
+    }
+
+    // Open state — white bar + dark type (paired with mega + promo strip hooks below)
+    &.is-menu-open {
+        background: $lux-header-bg;
+        color: $lux-header-text;
+        border-bottom-color: $lux-header-border-color-open;
+
+        .lux-nav-link {
+            color: $lux-header-text;
+
+            &:hover,
+            &:focus,
+            &.is-active {
+                color: $lux-header-link-hover;
+                background-color: transparent;
+            }
+        }
+
+        .lux-utilities .lux-util {
+            color: $lux-header-text;
+
+            &:hover,
+            &:focus {
+                color: $lux-header-link-hover;
+            }
+        }
+
+        .lux-logo img {
+            filter: none;
+        }
+    }
+
+    .lux-cart-badge {
+        position: absolute;
+        top: -0.35rem;
+        right: -0.55rem;
+        min-width: 1rem;
+        height: 1rem;
+        padding: 0 0.28rem;
+        font-size: 0.62rem;
+        line-height: 1rem;
+        font-weight: 600;
+        text-align: center;
+        border-radius: 999px;
+        background: $black;
+        color: $lux-header-bg;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .lux-util--icon {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        margin: 0;
+        border: 0;
+        background: transparent;
+        box-shadow: none;
+        color: inherit;
+        text-decoration: none;
+        outline: none;
+        appearance: none;
+        -webkit-tap-highlight-color: transparent;
+
+        &:focus-visible {
+            outline: 2px solid rgba($black, 0.25);
+            outline-offset: 2px;
+            border-radius: 2px;
+        }
+    }
+}
+
+// Wordmark scale steps: desktop → −25% (≤1200) → −25% (≤800) → −25% (≤400)
+@media (max-width: #{$lux-logo-bp-xl - 0.02px}) {
+    .luxury-header {
+        --lux-logo-height: #{$lux-logo-height-lg};
+        --lux-logo-max-width: #{$lux-logo-max-width-lg};
+    }
+}
+
+@media (max-width: #{$lux-logo-bp-md - 0.02px}) {
+    .luxury-header {
+        --lux-logo-height: #{$lux-logo-height-md};
+        --lux-logo-max-width: #{$lux-logo-max-width-md};
+    }
+}
+
+@media (max-width: #{$lux-logo-bp-sm - 0.02px}) {
+    .luxury-header {
+        --lux-logo-height: #{$lux-logo-height-sm};
+        --lux-logo-max-width: #{$lux-logo-max-width-sm};
+    }
+}
+
+// Promo strip when the megamenu is open — match light chrome
+.luxury-header.is-menu-open + .home-promo-strip,
+.home-promo-strip.is-menu-open {
+    background: $lux-header-bg;
+    color: $lux-header-text;
+    border-bottom-color: $lux-header-border-color-open;
+}
+
+// Internal pages — solid chrome + sticky desktop bar (except hero-overlay pages)
+@media (min-width: $lux-header-desktop-min) {
+    body:not(.home):not(.lux-hero-overlay) .luxury-header {
+        position: sticky;
+        top: 0;
+        z-index: 1030;
+        background: $lux-header-bg;
+        border-bottom: 1px solid $lux-header-border-color;
+
+        .lux-nav-link,
+        .lux-utilities .lux-util {
+            color: $lux-header-text;
+            text-shadow: none;
+        }
+
+        .lux-logo img {
+            filter: none;
+        }
+    }
+}
+
+body.home .luxury-header.lux-header--pinned,
+body.lux-hero-overlay .luxury-header.lux-header--pinned {
+    position: fixed !important;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 1045;
+    background: $lux-header-bg !important;
+    border-bottom: 1px solid $lux-header-border-color;
+
+    .lux-nav-link,
+    .lux-utilities .lux-util {
+        color: $lux-header-text;
+        text-shadow: none;
+
+        &:hover,
+        &:focus,
+        &.is-active {
+            color: $lux-header-link-hover;
+            background-color: transparent;
+        }
+    }
+
+    .lux-nav-mobile-only .lux-toolbar-mobile {
+        color: $black;
+        text-shadow: none;
+
+        &:hover,
+        &:focus,
+        &.is-active {
+            color: $lux-header-link-hover;
+            background-color: transparent;
+        }
+    }
+
+    .lux-logo img {
+        filter: none !important;
+    }
+}
+
+@media (max-width: $lux-header-breakpoint-max) {
+    .luxury-header {
+        --lux-logo-height: #{$lux-logo-height-tablet};
+        --lux-logo-max-width: #{$lux-logo-max-width-tablet};
+        background: $lux-header-bg !important;
+        border-bottom: 1px solid $lux-header-border-color;
+        overflow-x: clip;
+
+        @media (max-width: $lux-logo-bp-phone-max) {
+            --lux-logo-height: #{$lux-logo-height-phone};
+            --lux-logo-max-width: #{$lux-logo-max-width-phone};
+        }
+
+        .lux-bar {
+            display: grid;
+            // Side clusters size to icons; center flexes and can shrink (Safari iOS ignores
+            // max-width on `auto` grid tracks when a wide wordmark img has intrinsic min-width).
+            grid-template-columns: auto minmax(0, 1fr) auto;
+            align-items: center;
+            padding: 10px $lux-bar-padding-x-mobile;
+            min-width: 0;
+            gap: 0.5rem;
+        }
+
+        .lux-utilities .lux-util-label {
+            display: none;
+        }
+
+        .lux-bar-section--left.lux-nav-mobile-only {
+            justify-self: start;
+        }
+
+        .lux-bar-section--right.lux-nav-mobile-only {
+            justify-self: end;
+        }
+
+        .lux-bar-section--center {
+            grid-column: 2;
+            justify-self: center;
+            flex: none;
+            min-width: 0;
+            width: 100%;
+            max-width: var(--lux-logo-max-width);
+            overflow: hidden;
+        }
+
+        .lux-logo {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            max-width: 100%;
+
+            img {
+                height: auto;
+                max-height: var(--lux-logo-height);
+                max-width: 100%;
+                width: auto;
+                min-width: 0;
+                object-fit: contain;
+                filter: none !important;
+            }
+        }
+
+        .lux-logo span {
+            color: $black;
+            text-shadow: none;
+        }
+
+        .lux-megamenu {
+            display: none !important; // mobile uses the drawer instead
+        }
+
+        .lux-nav-mobile-only .lux-toolbar-mobile {
+            color: $black;
+            font-size: 1rem;
+            opacity: 1;
+            filter: none;
+            text-shadow: none;
+            padding: 0;
+            margin: 0;
+            border: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+
+            &:focus-visible {
+                outline: 2px solid rgba($black, 0.22);
+                outline-offset: 2px;
+                border-radius: 2px;
+            }
+
+            .bi {
+                display: block;
+                font-size: $lux-toolbar-bi-size;
+                line-height: 1;
+                font-weight: 400;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                filter: none;
+                text-shadow: none;
+                box-shadow: none;
+            }
+
+            &:hover .bi {
+                color: inherit;
+            }
+
+            &:hover {
+                color: $lux-header-link-hover;
+            }
+        }
+
+        &.is-menu-open {
+            .lux-nav-mobile-only .lux-toolbar-mobile {
+                color: $black;
+            }
+        }
+    }
+}

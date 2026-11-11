@@ -1,0 +1,354 @@
+<style>
+        .summary-cards { display: flex; gap: 10px; margin-bottom: 20px; }
+        .summary-card { flex: 1; text-align: center; border: 1px solid #ddd; padding: 15px; background: white; border-radius: 5px; }
+        .summary-card h5 { font-size: 18px; margin: 0 0 5px 0; font-weight: bold; }
+        .summary-card p { font-size: 12px; margin: 0; color: #666; }
+        .report-header { text-align: center; margin-bottom: 30px; }
+        .block-section { margin-bottom: 40px; }
+        .block-header {
+            background-color: #198754; color: white; padding: 15px;
+            border-radius: 5px; margin-bottom: 20px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .block-header h3 { margin: 0; font-size: 1.1rem; }
+        .apartment-section { border: 1px solid #dee2e6; border-radius: 5px; margin-bottom: 20px; overflow: hidden; }
+        .apartment-header { background-color: #f8f9fa; padding: 15px; border-bottom: 1px solid #dee2e6; }
+        .apartment-info { display: flex; justify-content: space-between; align-items: center; }
+        .apartment-total { font-weight: bold; color: #198754; font-size: 1rem; }
+        .credit-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 1px solid #eee; }
+        .credit-row:last-child { border-bottom: none; }
+        .cr-date { flex: 1.1; min-width: 120px; color: #666; font-size: 0.9em; }
+        .cr-txn  { flex: 1; min-width: 90px; color: #666; font-size: 0.85em; }
+        .cr-amount { flex: 0.9; min-width: 88px; text-align: right; font-weight: bold; color: #198754; }
+        .cr-actions { flex: 1.2; min-width: 140px; text-align: right; }
+        .cr-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+        .summary-section { background-color: #f8f9fa; padding: 20px; border-radius: 5px; margin-top: 10px; margin-bottom: 30px; }
+
+        @media print {
+            @page { size: A4; margin: 0.1in 0.2in 0.2in 0.2in; }
+            * { -webkit-print-color-adjust: exact !important; color-adjust: exact !important; }
+            .no-print { display: none !important; }
+            .navbar, .sidebar, .app-header, .app-sidebar { display: none !important; }
+            html, body { font-family: Arial, sans-serif; font-size: 10px; color: #000 !important; background: white !important; }
+            .container-fluid { margin: 0 !important; padding: 0 !important; max-width: 100% !important; }
+            .block-header { background: #d1e7dd !important; color: #000 !important; border: 1px solid #000; }
+            .credit-row { font-size: 8px; }
+        }
+
+        /* When nested in admin layout: hide chrome only while printing */
+        @media print {
+            #loader,
+            #header,
+            #sidebar,
+            .app-header,
+            .app-sidebar,
+            .breadcrumb,
+            .page-header,
+            .btn-scroll-to-top,
+            .no-print {
+                display: none !important;
+            }
+            #app {
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+            }
+            #content.app-content {
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+                margin-left: 0 !important;
+            }
+        }
+
+    </style>
+
+<div id="credits-report-page">
+
+    <!-- Report Header -->
+    <div class="report-header">
+        <h1><i class="fas fa-wallet text-success"></i> <%= pageTitle %></h1>
+        <h4 class="text-muted"><%= pageSubtitle %></h4>
+        <p class="text-muted small">Generated on: <%= reportDate %></p>
+    </div>
+
+    <!-- Actions -->
+    <div class="no-print mb-3 d-flex gap-2">
+        <button onclick="window.print()" class="btn btn-success">
+            <i class="fas fa-print"></i> Print Report
+        </button>
+        <a href="/admin/wallets" class="btn btn-outline-success">
+            <i class="fas fa-wallet"></i> Manage Wallets
+        </a>
+        <a href="/admin/reports/unpaid-report" class="btn btn-outline-danger" target="_blank" rel="noopener noreferrer">
+            <i class="fas fa-exclamation-circle"></i> View Unpaid Report
+        </a>
+    </div>
+
+    <!-- Filters -->
+    <div class="no-print card mb-4">
+        <div class="card-body">
+            <form method="GET" class="row g-3 align-items-end">
+                <div class="col-md-2">
+                    <label class="form-label">Block</label>
+                    <input type="text" name="block" class="form-control" placeholder="e.g. A" value="<%= filters.block || '' %>">
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Search (owner or apartment)</label>
+                    <input type="text" name="search" class="form-control" placeholder="Owner name, apartment..." value="<%= filters.searchTerm || '' %>">
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-success w-100"><i class="fas fa-filter"></i> Filter</button>
+                </div>
+                <div class="col-md-2">
+                    <a href="/admin/reports/credits-report" class="btn btn-outline-secondary w-100"><i class="fas fa-times"></i> Clear</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="summary-section">
+        <h4><i class="fas fa-chart-bar"></i> Report Summary</h4>
+        <div class="summary-cards">
+            <div class="summary-card">
+                <h5 class="text-success">$<%= summary.totalCombined.toFixed(2) %></h5>
+                <p>Total Wallet Balance</p>
+                <div class="small text-muted">
+                    $<%= summary.totalCredit.toFixed(2) %> Wallet + 
+                    $<%= summary.totalCreditOwner.toFixed(2) %> Owner Credits
+                </div>
+            </div>
+            <div class="summary-card">
+                <h5><%= summary.totalApartments %></h5>
+                <p>Apartments with Wallet Balance</p>
+            </div>
+            <div class="summary-card">
+                <h5><%= summary.totalBlocks %></h5>
+                <p>Blocks/Sections</p>
+            </div>
+            <div class="summary-card">
+                <h5><%= summary.creditsCount + summary.creditOwnerCount %></h5>
+                <p>Total Credit Records</p>
+                <div class="small text-muted">
+                    <%= summary.creditsCount %> Unallocated + <%= summary.creditOwnerCount %> Owner TX
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report Content -->
+    <% if (Object.keys(groupedData).length > 0) { %>
+        <% Object.keys(groupedData).sort().forEach(function(block) { %>
+            <div class="block-section">
+                <div class="block-header" style="<%= block === 'Unassigned' ? 'background-color: #6c757d !important;' : '' %>">
+                    <h3><i class="fas <%= block === 'Unassigned' ? 'fa-question-circle' : 'fa-building' %>"></i> <%= block === 'Unassigned' ? 'Unassigned Credits' : 'Block ' + block %></h3>
+                    <span>
+                        <%= blockTotals[block]?.apartmentCount || 0 %> entry(ies) &nbsp;|&nbsp;
+                        <strong>Total: $<%= (blockTotals[block]?.totalCombined || 0).toFixed(2) %></strong>
+                    </span>
+                </div>
+
+                <% Object.keys(groupedData[block]).forEach(function(aptId) { %>
+                    <% const aptData = groupedData[block][aptId]; %>
+                    <div class="apartment-section">
+                        <div class="apartment-header">
+                            <div class="apartment-info">
+                                <div>
+                                    <% if (aptId !== 'unassigned') { %>
+                                        <i class="fas fa-home"></i>
+                                        <strong>Block <%= aptData.apartment?.block || block %></strong> –
+                                        <%= aptData.apartment?.unitNumberOfficial || aptId %>
+                                        <% if (aptData.apartment?.unitNumberUnofficial) { %>
+                                            (<%= aptData.apartment.unitNumberUnofficial %>)
+                                        <% } %>
+                                        &nbsp;|&nbsp; <%= aptData.apartment?.areaInM2 || '?' %> m²
+                                        &nbsp;|&nbsp; <strong><%= aptData.owner?.name || aptData.apartment?.ownerName || 'Unknown' %></strong>
+                                        <% if (aptData.owner?.phone) { %> &nbsp;|&nbsp; <i class="fas fa-phone"></i> <%= aptData.owner.phone %><% } %>
+                                    <% } else { %>
+                                        <i class="fas fa-user-tag"></i>
+                                        <strong>General / Unassigned Credits</strong>
+                                    <% } %>
+                                </div>
+                                <div class="apartment-total">
+                                    Combined: $<%= (aptData.totalCredit + aptData.totalCreditOwner).toFixed(2) %>
+                                </div>
+                            </div>
+                        </div>
+
+                        <% if (aptData.credits && aptData.credits.length > 0) { %>
+                            <!-- Unallocated Invoice Payment Credits -->
+                            <div class="p-2 bg-light border-bottom small font-weight-bold text-muted text-uppercase">
+                                <i class="fas fa-file-invoice-dollar"></i> Unallocated Invoice Payments
+                            </div>
+                            <div>
+                                <div class="cr-head" style="padding:6px 12px; background:#f1f3f5; font-size:0.7rem; font-weight:bold; color:#6c757d; text-transform:uppercase; border-bottom:1px solid #dee2e6;">
+                                    <div class="cr-date">Date</div>
+                                    <div class="cr-txn">Transaction ID</div>
+                                    <div class="cr-amount">Amount</div>
+                                    <div class="cr-actions no-print text-end">Apply to invoice</div>
+                                </div>
+                                <% aptData.credits.forEach(function(credit) { %>
+                                    <div class="credit-row">
+                                        <div class="cr-date">
+                                            <i class="fas fa-calendar-alt"></i>
+                                            <%= credit.createdAt ? new Date(credit.createdAt).toLocaleDateString() : '—' %>
+                                        </div>
+                                        <div class="cr-txn">
+                                            <% if (credit.transactionId) { %>
+                                                <a href="/admin/transactions/<%= credit.transactionId %>" class="no-print text-muted small">Txn #<%= credit.transactionId %></a>
+                                                <span class="d-none d-print-inline text-muted small">Txn #<%= credit.transactionId %></span>
+                                            <% } else { %>
+                                                <span class="text-muted small">—</span>
+                                            <% } %>
+                                        </div>
+                                        <div class="cr-amount" style="<%= credit.amount < 0 ? 'color:#dc3545;' : '' %>">
+                                            <%= credit.amount < 0 ? '-' : '+' %>$<%= Math.abs(credit.amount).toFixed(2) %>
+                                        </div>
+                                        <div class="cr-actions no-print">
+                                            <% if (typeof canEditAdmin !== 'undefined' && canEditAdmin && credit.amount > 0) { %>
+                                                <button type="button" class="btn btn-sm btn-outline-success"
+                                                    data-credits-allocate
+                                                    data-credit-id="<%= credit.id %>"
+                                                    data-apartment-id="<%= credit.apartmentId %>"
+                                                    data-credit-amount="<%= credit.amount %>"
+                                                    title="Apply this credit toward a common-expense invoice for this apartment">
+                                                    <i class="fas fa-link"></i> Apply
+                                                </button>
+                                            <% } else if (credit.amount <= 0) { %>
+                                                <span class="text-muted small">Wallet deduction</span>
+                                            <% } else { %>
+                                                <span class="text-muted small">—</span>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                <% }); %>
+                            </div>
+                        <% } %>
+
+                        <% if (aptData.creditOwnerTxns && aptData.creditOwnerTxns.length > 0) { %>
+                            <!-- Credit - Owner Transactions -->
+                            <div class="p-2 bg-light border-bottom small font-weight-bold text-muted text-uppercase mt-2">
+                                <i class="fas fa-user-check"></i> Credit - Owner Transactions
+                            </div>
+                            <div>
+                                <div class="cr-head" style="padding:6px 12px; background:#f1f3f5; font-size:0.7rem; font-weight:bold; color:#6c757d; text-transform:uppercase; border-bottom:1px solid #dee2e6;">
+                                    <div class="cr-date">Date / Description</div>
+                                    <div class="cr-txn">Transaction ID</div>
+                                    <div class="cr-amount">Amount</div>
+                                    <div class="cr-actions no-print text-end"><%= aptId === 'unassigned' ? 'Assign apartment' : 'Apply to invoice' %></div>
+                                </div>
+                                <% aptData.creditOwnerTxns.forEach(function(txn) { %>
+                                    <% var alloc = typeof txn.allocatableAmount === 'number' ? txn.allocatableAmount : txn.amount; %>
+                                    <div class="credit-row">
+                                        <div class="cr-date">
+                                            <i class="fas fa-calendar-alt"></i>
+                                            <%= txn.date %>
+                                            <br>
+                                            <span class="small text-muted"><%= txn.description %></span>
+                                        </div>
+                                        <div class="cr-txn">
+                                            <a href="/admin/transactions/<%= txn.id %>" class="no-print text-muted small">Txn #<%= txn.id %></a>
+                                            <span class="d-none d-print-inline text-muted small">Txn #<%= txn.id %></span>
+                                        </div>
+                                        <div class="cr-amount text-primary">
+                                            +$<%= txn.amount.toFixed(2) %>
+                                            <% if (aptId !== 'unassigned' && alloc < txn.amount - 0.009) { %>
+                                                <br><span class="small text-muted fw-normal">Remaining to apply: $<%= alloc.toFixed(2) %></span>
+                                            <% } %>
+                                        </div>
+                                        <div class="cr-actions no-print">
+                                            <% if (typeof canEditAdmin !== 'undefined' && canEditAdmin && aptId === 'unassigned') { %>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                data-credits-assign-owner
+                                                data-txn-id="<%= txn.id %>"
+                                                title="Link this credit to the correct apartment">
+                                                <i class="fas fa-home"></i> Assign
+                                            </button>
+                                            <% } else if (typeof canEditAdmin !== 'undefined' && canEditAdmin && alloc > 0.001) { %>
+                                            <button type="button" class="btn btn-sm btn-outline-success"
+                                                data-credits-allocate-owner
+                                                data-txn-id="<%= txn.id %>"
+                                                data-apartment-id="<%= txn.apartmentId %>"
+                                                data-allocatable-amount="<%= alloc %>"
+                                                title="Apply this Credit - Owner amount toward a common-expense invoice">
+                                                <i class="fas fa-link"></i> Apply
+                                            </button>
+                                            <% } else { %>
+                                            <span class="small text-muted" title="Fully applied to invoices or unallocated credit lines">—</span>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                <% }); %>
+                            </div>
+                        <% } %>
+                    </div>
+                <% }); %>
+            </div>
+        <% }); %>
+    <% } else { %>
+        <div class="alert alert-info text-center mt-4">
+            <i class="fas fa-info-circle fa-3x mb-3"></i>
+            <h4>No Credits Found</h4>
+            <p>There are no credits or owner credit transactions matching the current filters.</p>
+        </div>
+    <% } %>
+
+</div>
+
+<!-- Apply unallocated credit to invoice -->
+<div class="modal fade no-print" id="creditsReportAllocateModal" tabindex="-1" aria-labelledby="creditsReportAllocateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="creditsReportAllocateModalLabel"><i class="fas fa-file-invoice-dollar"></i> <span id="creditsAllocateModalTitleText">Apply credit to invoice</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="small text-muted mb-2"><span id="creditsAllocateHelpIntro">Credit balance for this line:</span> <strong>$<span id="creditsAllocateCreditAmount">0.00</span></strong>. The amount applied is limited by the invoice outstanding balance (and your optional cap below).</p>
+                <div class="mb-3">
+                    <label class="form-label">Invoice (unpaid / partial only)</label>
+                    <select id="creditsAllocateInvoiceSelect" class="form-select"></select>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Amount to apply <span class="text-muted small">(optional — leave blank to apply the maximum allowed)</span></label>
+                    <input type="number" step="0.01" min="0.01" class="form-control" id="creditsAllocateAmountInput" placeholder="e.g. 38.00">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" id="creditsAllocateSubmitBtn"><i class="fas fa-check"></i> Apply</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Assign Credit - Owner to apartment -->
+<div class="modal fade no-print" id="creditsReportAssignOwnerModal" tabindex="-1" aria-labelledby="creditsReportAssignOwnerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="creditsReportAssignOwnerModalLabel"><i class="fas fa-home"></i> Assign apartment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="creditsAssignTxnId" value="">
+                <p class="small text-muted">Choose the apartment this <strong>Credit - Owner</strong> entry belongs to. After saving, it will appear under that block on this report.</p>
+                <label class="form-label">Apartment</label>
+                <select id="creditsAssignApartmentSelect" class="form-select">
+                    <option value="">— Select —</option>
+                    <% (typeof apartmentsForSelect !== 'undefined' && apartmentsForSelect) && apartmentsForSelect.forEach(function(a) { %>
+                        <option value="<%= a.id %>"><%= a.label %></option>
+                    <% }); %>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="creditsAssignSubmitBtn"><i class="fas fa-save"></i> Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

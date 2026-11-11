@@ -1,0 +1,273 @@
+<%- include('../partials/header') %>
+
+<!-- BEGIN content area -->
+<div class="row">
+	<div class="col-xl-12">
+		<!-- BEGIN panel -->
+		<div class="panel panel-inverse">
+			<div class="panel-heading">
+				<h4 class="panel-title"><%= typeof t !== 'undefined' ? t('ecommerce.reports.title') : 'Reports & Analytics' %></h4>
+			</div>
+			<div class="panel-body">
+				<!-- Date Filter -->
+				<form method="GET" action="/admin/reports" class="mb-4">
+					<div class="row">
+						<div class="col-md-4">
+							<label for="date_from" class="form-label">From Date</label>
+							<input type="date" class="form-control" id="date_from" name="date_from" 
+							       value="<%= filters.dateFrom || '' %>" />
+						</div>
+						<div class="col-md-4">
+							<label for="date_to" class="form-label">To Date</label>
+							<input type="date" class="form-control" id="date_to" name="date_to" 
+							       value="<%= filters.dateTo || '' %>" />
+						</div>
+						<div class="col-md-4 d-flex align-items-end">
+							<button type="submit" class="btn btn-primary me-2">
+								<i class="fa fa-filter"></i> Filter
+							</button>
+							<a href="/admin/reports" class="btn btn-secondary">
+								<i class="fa fa-times"></i> Clear
+							</a>
+						</div>
+					</div>
+				</form>
+
+				<!-- Sales Report -->
+				<div class="card mb-3">
+					<div class="card-header">
+						<h5 class="mb-0">Sales Report - <%= salesReport.period %></h5>
+					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-md-3">
+								<div class="text-center p-3 bg-light rounded">
+									<h3 class="mb-0"><%= salesReport.totalOrders %></h3>
+									<small class="text-muted">Total Orders</small>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="text-center p-3 bg-light rounded">
+									<h3 class="mb-0">$<%= salesReport.totalRevenue.toFixed(2) %></h3>
+									<small class="text-muted">Total Revenue</small>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="text-center p-3 bg-light rounded">
+									<h3 class="mb-0">$<%= salesReport.averageOrderValue.toFixed(2) %></h3>
+									<small class="text-muted">Average Order Value</small>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="text-center p-3 bg-light rounded">
+									<h3 class="mb-0"><%= Object.keys(salesReport.ordersByStatus).length %></h3>
+									<small class="text-muted">Status Types</small>
+								</div>
+							</div>
+						</div>
+						<div class="mt-3">
+							<h6>Orders by Status</h6>
+							<table class="table table-sm">
+								<thead>
+									<tr>
+										<th>Status</th>
+										<th>Count</th>
+									</tr>
+								</thead>
+								<tbody>
+									<% Object.entries(salesReport.ordersByStatus).forEach(function([status, count]) { %>
+										<tr>
+											<td><%= status %></td>
+											<td><%= count %></td>
+										</tr>
+									<% }); %>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<!-- Best Selling Products -->
+				<div class="card mb-3">
+					<div class="card-header">
+						<h5 class="mb-0">Best Selling Products</h5>
+					</div>
+					<div class="card-body">
+						<% if (bestSelling && bestSelling.length > 0) { %>
+							<div class="table-responsive">
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											<th>Product</th>
+											<th>Units Sold</th>
+											<th>Total Revenue</th>
+											<th>Orders</th>
+										</tr>
+									</thead>
+									<tbody>
+										<% bestSelling.forEach(function(product) { %>
+											<tr>
+												<td>
+													<a href="/admin/products/<%= product.product_id %>/edit">
+														<%= product.product_name %>
+													</a>
+												</td>
+												<td><%= product.total_sold %></td>
+												<td>$<%= product.total_revenue.toFixed(2) %></td>
+												<td><%= product.order_count %></td>
+											</tr>
+										<% }); %>
+									</tbody>
+								</table>
+							</div>
+						<% } else { %>
+							<p class="text-muted text-center py-4">No sales data available</p>
+						<% } %>
+					</div>
+				</div>
+
+				<div class="row">
+					<!-- Customer Analytics -->
+					<div class="col-md-6 mb-3">
+						<div class="card h-100">
+							<div class="card-header">
+								<h5 class="mb-0">Customer Analytics</h5>
+							</div>
+							<div class="card-body">
+								<div class="mb-3">
+									<strong>Total Customers:</strong> <%= customerAnalytics.totalCustomers %>
+								</div>
+								<div class="mb-3">
+									<strong>New Customers:</strong> <%= customerAnalytics.newCustomers %>
+								</div>
+								<div class="mb-3">
+									<strong>Returning Customers:</strong> <%= customerAnalytics.returningCustomers %>
+								</div>
+								<div class="mb-3">
+									<strong>Average Order Value:</strong> $<%= customerAnalytics.averageOrderValue.toFixed(2) %>
+								</div>
+								<% if (customerAnalytics.topCustomers && customerAnalytics.topCustomers.length > 0) { %>
+									<h6 class="mt-3">Top Customers</h6>
+									<table class="table table-sm">
+										<thead>
+											<tr>
+												<th>Email</th>
+												<th>Orders</th>
+												<th>Total Spent</th>
+											</tr>
+										</thead>
+										<tbody>
+											<% customerAnalytics.topCustomers.forEach(function(customer) { %>
+												<tr>
+													<td>
+														<a href="/admin/customers/<%= customer.customer_id %>">
+															<%= customer.email %>
+														</a>
+													</td>
+													<td><%= customer.total_orders %></td>
+													<td>$<%= customer.total_spent.toFixed(2) %></td>
+												</tr>
+											<% }); %>
+										</tbody>
+									</table>
+								<% } %>
+							</div>
+						</div>
+					</div>
+
+					<!-- Low Stock Products -->
+					<div class="col-md-6 mb-3">
+						<div class="card h-100">
+							<div class="card-header d-flex justify-content-between align-items-center">
+								<h5 class="mb-0"><%= typeof t !== 'undefined' ? t('ecommerce.reports.lowStock') : 'Low Stock Alert' %></h5>
+								<a href="/admin/reports/low-stock" class="btn btn-sm btn-outline-primary">
+									<%= typeof t !== 'undefined' ? t('ecommerce.reports.viewLowStockReport') : 'View full report' %>
+								</a>
+							</div>
+							<div class="card-body">
+								<% if (lowStock && lowStock.length > 0) { %>
+									<div class="table-responsive">
+										<table class="table table-sm">
+											<thead>
+												<tr>
+													<th>Product</th>
+													<th>SKU</th>
+													<th>Stock</th>
+													<th>Category</th>
+												</tr>
+											</thead>
+											<tbody>
+												<% lowStock.forEach(function(product) { %>
+													<tr>
+														<td>
+															<a href="/admin/products/<%= product.id %>/edit">
+																<%= product.name %>
+															</a>
+														</td>
+														<td><%= product.sku || 'N/A' %></td>
+														<td>
+															<span class="badge bg-danger"><%= product.stock_quantity %></span>
+														</td>
+														<td><%= product.category_name || 'N/A' %></td>
+													</tr>
+												<% }); %>
+											</tbody>
+										</table>
+									</div>
+								<% } else { %>
+									<p class="text-muted text-center py-4">No low stock products</p>
+								<% } %>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Discount Usage -->
+				<div class="card">
+					<div class="card-header">
+						<h5 class="mb-0">Discount Usage Report</h5>
+					</div>
+					<div class="card-body">
+						<% if (discountUsage && discountUsage.length > 0) { %>
+							<div class="table-responsive">
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											<th>Discount Code</th>
+											<th>Name</th>
+											<th>Type</th>
+											<th>Value</th>
+											<th>Usage Count</th>
+											<th>Total Discount</th>
+										</tr>
+									</thead>
+									<tbody>
+										<% discountUsage.forEach(function(discount) { %>
+											<tr>
+												<td><%= discount.code %></td>
+												<td><%= discount.name %></td>
+												<td><%= discount.type %></td>
+												<td>
+													<%= discount.type === 'percentage' ? discount.value + '%' : '$' + discount.value %>
+												</td>
+												<td><%= discount.usage_count %></td>
+												<td>$<%= discount.total_discount_amount.toFixed(2) %></td>
+											</tr>
+										<% }); %>
+									</tbody>
+								</table>
+							</div>
+						<% } else { %>
+							<p class="text-muted text-center py-4">No discount usage data available</p>
+						<% } %>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END panel -->
+	</div>
+</div>
+<!-- END content area -->
+
+<%- include('../partials/footer') %>
+

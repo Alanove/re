@@ -1,0 +1,48 @@
+<%
+    function homeContentMediaUrl(u) {
+        if (!u) return '';
+        var s = String(u).trim();
+        if (s.indexOf('http') === 0 || s.indexOf('https') === 0 || s.indexOf('/') === 0) return s;
+        return '/images/home-content/' + s;
+    }
+    function stripHtml(html) {
+        if (!html) return '';
+        return String(html).replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
+    }
+%>
+<% var videoSrc = block ? homeContentMediaUrl(block.videoUrl) : ''; %>
+<% var posterSrc = block ? homeContentMediaUrl(block.videoPosterUrl) : ''; %>
+<% var introHtml = block && block.config ? block.config.introHtml : ''; %>
+<% var category = block && block.category ? block.category : null; %>
+<% if (videoSrc || introHtml || category) { %>
+<section class="home-bridal-feature">
+    <div class="home-bridal-feature-grid">
+        <% if (videoSrc) { %>
+        <div class="home-bridal-feature-video">
+            <video muted loop playsinline autoplay preload="metadata"<% if (posterSrc) { %> poster="<%= posterSrc %>"<% } %>>
+                <source src="<%= videoSrc %>" type="video/mp4" />
+            </video>
+        </div>
+        <% } %>
+        <div class="home-bridal-feature-intro">
+            <% if (category) { %>
+                <div class="home-bridal-feature-header">
+                    <h3 class="home-bridal-feature-title">
+                        <span class="home-bridal-feature-title-category"><%= category.name %></span>
+                    </h3>
+                    <% if (category.description) { %>
+                        <p class="home-bridal-feature-description"><%= stripHtml(category.description).slice(0, 320) %></p>
+                    <% } %>
+                </div>
+            <% } %>
+            <% if (introHtml) { %>
+                <div class="home-bridal-feature-copy"><%- introHtml %></div>
+            <% } else if (category) { %>
+                <div class="home-bridal-feature-copy">
+                    <div class="luxury-hero-tagline-shop"><a class="home-section-link" href="/shop/category/<%= category.slug %>">Discover</a></div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</section>
+<% } %>

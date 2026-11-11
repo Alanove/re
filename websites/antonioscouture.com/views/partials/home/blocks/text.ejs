@@ -1,0 +1,12 @@
+<% if (block && block.config && block.config.html) { %>
+<% var textStyle = block.config.style || 'default'; %>
+<% if (textStyle === 'la_maison') { %>
+<section class="home-la-maison">
+    <div class="home-la-maison-inner"><%- block.config.html %></div>
+</section>
+<% } else { %>
+<div class="luxury-hero-tagline">
+    <div class="luxury-hero-tagline-body"><%- block.config.html %></div>
+</div>
+<% } %>
+<% } %>

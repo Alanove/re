@@ -1,0 +1,95 @@
+<div class="side-bar">
+  <div class="mobile-download">
+    <% if (typeof siteSettings !== 'undefined' && siteSettings.downloadLinks && siteSettings.downloadLinks.portfolio) { %>
+      <a href="<%= siteSettings.downloadLinks.portfolio %>" class="sidebar-link" download>
+        <i class="bi bi-download"></i> Download portfolio
+      </a>
+    <% } %>
+  </div>
+  
+  <div class="mobile-filter-toggle">
+    <div class="filter-text">
+      <i class="bi bi-funnel"></i>
+      <span>Filter Projects</span>
+    </div>
+    <i class="bi bi-chevron-down filter-icon"></i>
+  </div>
+  
+  <div class="mobile-filter-content">
+    <div class="sidebar-section">
+      <a href="/projects" class="sidebar-link <%= typeof selectedCategory !== 'undefined' && typeof selectedRegion !== 'undefined' && typeof selectedCountry !== 'undefined' && !selectedCategory && !selectedRegion && !selectedCountry ? 'active' : '' %>">All Projects</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">CATEGORIES</div>
+      <ul class="sidebar-list">
+        <% if (typeof categories !== 'undefined' && categories && categories.length > 0) { %>
+          <% categories.forEach(category => { %>
+            <% const url = '/projects/categories/' + category.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''); %>
+            <li>
+              <a href="<%= url %>" class="<%= typeof selectedCategory !== 'undefined' && selectedCategory === url.split('/').pop() ? 'active' : '' %>"><%= category %></a>
+            </li>
+          <% }); %>
+        <% } else { %>
+          <li><span class="text-muted">No categories available</span></li>
+        <% } %>
+      </ul>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">LOCATIONS</div>
+      <ul class="sidebar-list">
+        <% if (typeof regions !== 'undefined' && regions && regions.length > 0) { %>
+          <% regions.forEach(region => { %>
+            <% const url = '/projects/regions/' + region.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''); %>
+            <li>
+              <a href="<%= url %>" class="<%= typeof selectedRegion !== 'undefined' && selectedRegion === url.split('/').pop() ? 'active' : '' %>"><%= region %></a>
+            </li>
+          <% }); %>
+        <% } else { %>
+          <li><span class="text-muted">No locations available</span></li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+  
+  <!-- Desktop sidebar content -->
+  <div class="sidebar-section desktop-only">
+    <% if (typeof siteSettings !== 'undefined' && siteSettings.downloadLinks && siteSettings.downloadLinks.portfolio) { %>
+      <a href="<%= siteSettings.downloadLinks.portfolio %>" class="sidebar-link" download>
+        <i class="bi bi-download"></i> Download portfolio
+      </a>
+    <% } %>
+  </div>
+  <div class="sidebar-section desktop-only">
+    <a href="/projects" class="sidebar-link <%= typeof selectedCategory !== 'undefined' && typeof selectedRegion !== 'undefined' && typeof selectedCountry !== 'undefined' && !selectedCategory && !selectedRegion && !selectedCountry ? 'active' : '' %>">All Projects</a>
+  </div>
+  <div class="sidebar-section desktop-only">
+    <div class="sidebar-title">CATEGORIES</div>
+    <ul class="sidebar-list">
+      <% if (typeof categories !== 'undefined' && categories && categories.length > 0) { %>
+        <% categories.forEach(category => { %>
+          <% const url = '/projects/categories/' + category.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''); %>
+          <li>
+            <a href="<%= url %>" class="<%= typeof selectedCategory !== 'undefined' && selectedCategory === url.split('/').pop() ? 'active' : '' %>"><%= category %></a>
+          </li>
+        <% }); %>
+      <% } else { %>
+        <li><span class="text-muted">No categories available</span></li>
+      <% } %>
+    </ul>
+  </div>
+  <div class="sidebar-section desktop-only">
+    <div class="sidebar-title">LOCATIONS</div>
+    <ul class="sidebar-list">
+      <% if (typeof regions !== 'undefined' && regions && regions.length > 0) { %>
+        <% regions.forEach(region => { %>
+          <% const url = '/projects/regions/' + region.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''); %>
+          <li>
+            <a href="<%= url %>" class="<%= typeof selectedRegion !== 'undefined' && selectedRegion === url.split('/').pop() ? 'active' : '' %>"><%= region %></a>
+          </li>
+        <% }); %>
+      <% } else { %>
+        <li><span class="text-muted">No locations available</span></li>
+      <% } %>
+    </ul>
+  </div>
+</div> 

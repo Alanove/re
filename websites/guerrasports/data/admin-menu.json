@@ -1,0 +1,276 @@
+{
+  "menu": [
+    {
+      "id": 1,
+      "title": "Dashboard",
+      "text": "Dashboard",
+      "icon": "fa fa-laptop",
+      "url": "/admin/dashboard",
+      "order": 0,
+      "roles": [],
+      "isVisible": true
+    },
+    {
+      "id": 20,
+      "title": "Catalog",
+      "text": "Catalog",
+      "icon": "fa fa-boxes",
+      "url": null,
+      "order": 1,
+      "roles": ["Super Admin", "Admin"],
+      "isVisible": true,
+      "children": [
+        {
+          "id": 7,
+          "title": "Products",
+          "text": "Products",
+          "icon": "fa fa-box",
+          "url": "/admin/products",
+          "order": 1.1,
+          "roles": ["Super Admin", "Admin"],
+          "isVisible": true
+        },
+        {
+          "id": 8,
+          "title": "Categories",
+          "text": "Categories",
+          "icon": "fa fa-folder",
+          "url": "/admin/categories",
+          "order": 1.2,
+          "roles": ["Super Admin", "Admin"],
+          "isVisible": true
+        },
+        {
+          "id": 21,
+          "title": "Brands",
+          "text": "Brands",
+          "icon": "fa fa-certificate",
+          "url": "/admin/brands",
+          "order": 1.3,
+          "roles": ["Super Admin", "Admin"],
+          "isVisible": true
+        },
+        {
+          "id": 15,
+          "title": "Product Attributes",
+          "text": "Product Attributes",
+          "icon": "fa fa-tags",
+          "url": "/admin/product-attributes",
+          "order": 1.4,
+          "roles": ["Super Admin", "Admin"],
+          "isVisible": true
+        },
+        {
+          "id": 28,
+          "title": "Reviews",
+          "text": "Reviews",
+          "icon": "fa fa-star",
+          "url": "/admin/reviews",
+          "order": 1.5,
+          "roles": ["Super Admin", "Admin"],
+          "isVisible": true
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "title": "Sales",
+      "text": "Sales",
+      "icon": "fa fa-shopping-cart",
+      "url": null,
+      "order": 2,
+      "roles": ["Super Admin", "Admin"],
+      "isVisible": true,
+      "children": [
+        {
+          "id": 9,
+          "title": "Orders",
+          "text": "Orders",
+          "icon": "fa fa-shopping-cart",
+          "url": "/admin/orders",
+          "order": 2.1,
+          "roles": ["Super Admin", "Admin"],
+          "isVisible": true
+        },
+        {
+          "id": 29,
+          "title": "Shipments",
+          "text": "Shipments",
+          "icon": "fa fa-truck",
+          "url": "/admin/shipments",
+          "order": 2.15,
+          "roles": ["Super Admin", "Admin", "Accounting"],
+          "isVisible": true
+        },
+        {
+          "id": 10,
+          "title": "Discounts",
+          "text": "Discounts",
+          "icon": "fa fa-tag",
+          "url": "/admin/discounts",
+          "order": 2.2,
+          "roles": ["Super Admin", "Admin"],
+          "isVisible": true
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "title": "Content Management",
+      "text": "Content Management",
+      "icon": "fa fa-file-alt",
+      "url": null,
+      "order": 3,
+      "roles": ["Super Admin", "Admin", "Content Manager"],
+      "isVisible": true,
+      "children": [
+        {
+          "id": 2,
+          "title": "Pages",
+          "text": "Pages",
+          "icon": "fa fa-file-alt",
+          "url": "/admin/pages",
+          "order": 3.1,
+          "roles": ["Super Admin", "Admin", "Content Manager"],
+          "isVisible": true
+        },
+        {
+          "id": 5,
+          "title": "Menus",
+          "text": "Menus",
+          "icon": "fa fa-bars",
+          "url": "/admin/menus",
+          "order": 3.2,
+          "roles": ["Super Admin", "Admin", "Content Manager"],
+          "isVisible": true
+        },
+        {
+          "id": 3,
+          "title": "Home Page Slider",
+          "text": "Home Page Slider",
+          "icon": "fa fa-images",
+          "url": "/admin/slider",
+          "order": 3.3,
+          "roles": ["Super Admin", "Admin", "Content Manager"],
+          "isVisible": true
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "title": "Users",
+      "text": "Users",
+      "icon": "fa fa-users",
+      "url": null,
+      "order": 4,
+      "roles": ["Super Admin", "Admin"],
+      "isVisible": true,
+      "children": [
+        {
+          "id": 6,
+          "title": "Users",
+          "text": "Users",
+          "icon": "fa fa-users",
+          "url": "/admin/users",
+          "order": 4.1,
+          "roles": ["Super Admin", "Admin"],
+          "isVisible": true
+        },
+        {
+          "id": 12,
+          "title": "Customers",
+          "text": "Customers",
+          "icon": "fa fa-user-friends",
+          "url": "/admin/customers",
+          "order": 4.2,
+          "roles": ["Super Admin", "Admin"],
+          "isVisible": true
+        },
+        {
+          "id": 27,
+          "title": "Newsletter",
+          "text": "Newsletter",
+          "icon": "fa fa-envelope",
+          "url": "/admin/newsletter",
+          "order": 5.4,
+          "roles": ["Super Admin", "Admin", "Content Manager"],
+          "isVisible": true
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "title": "Reports",
+      "text": "Reports",
+      "icon": "fa fa-chart-line",
+      "url": null,
+      "order": 5,
+      "roles": ["Super Admin", "Admin"],
+      "isVisible": true,
+      "children": [
+        {
+          "id": 14,
+          "title": "Reports",
+          "text": "Reports",
+          "icon": "fa fa-chart-line",
+          "url": "/admin/reports",
+          "order": 5.1,
+          "roles": ["Super Admin", "Admin"],
+          "isVisible": true
+        },
+        {
+          "id": 28,
+          "title": "Low Stock",
+          "text": "Low Stock",
+          "icon": "fa fa-boxes-stacked",
+          "url": "/admin/reports/low-stock",
+          "order": 5.2,
+          "roles": ["Super Admin", "Admin"],
+          "isVisible": true
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "title": "Settings",
+      "text": "Settings",
+      "icon": "fa fa-cog",
+      "url": null,
+      "order": 6,
+      "roles": ["Super Admin", "Admin"],
+      "isVisible": true,
+      "children": [
+        {
+          "id": 13,
+          "title": "E-commerce Settings",
+          "text": "E-commerce Settings",
+          "icon": "fa fa-shopping-bag",
+          "url": "/admin/ecommerce-settings",
+          "order": 6.1,
+          "roles": ["Super Admin", "Admin"],
+          "isVisible": true
+        },
+        {
+          "id": 11,
+          "title": "Site Settings",
+          "text": "Site Settings",
+          "icon": "fa fa-cog",
+          "url": "/admin/site-settings",
+          "order": 6.2,
+          "roles": ["Super Admin", "Admin"],
+          "isVisible": true
+        },
+        {
+          "id": 16,
+          "title": "Email Templates",
+          "text": "Email Templates",
+          "icon": "fa fa-envelope",
+          "url": "/admin/email-templates",
+          "order": 6.3,
+          "roles": ["Super Admin", "Admin"],
+          "isVisible": true
+        }
+      ]
+    }
+  ]
+}

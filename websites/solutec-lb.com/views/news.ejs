@@ -1,0 +1,57 @@
+<div class="container man_news_archive">
+  <div class="row">
+    <div class="col-md-12 man_main_sidebar">
+      <div id="primary" class="content-area">
+        <main id="main" class="site-main">
+          <h1 class="man_archive_title"><%= heading %></h1>
+
+          <% if (news.length) { %>
+          <div class="man_blog_archive">
+            <% news.forEach(function (item) { %>
+            <article id="post-<%= item.key %>" class="post type-post status-publish format-standard<%= item.image ? ' has-post-thumbnail' : '' %>">
+              <div class="man_news_item_list row">
+                <% if (item.image) { %>
+                <div class="col-md-5 col-lg-5 man_news_item_photo_col">
+                  <div class="man_news_item_photo">
+                    <a href="<%= item.url %>" class="man_image_bck" data-image="<%= item.image %>" data-size="cover" data-position="center" aria-label="<%= item.title %>"></a>
+                  </div>
+                </div>
+                <% } %>
+                <div class="col-md-7 col-lg-7 man_news_item_cont_col<%= item.image ? '' : ' man_news_item_cont_list_full' %>">
+                  <div class="man_news_item_cont_list">
+                    <div class="man_news_item_title">
+                      <h3 class="entry-title"><a href="<%= item.url %>" rel="bookmark"><%= item.title %></a></h3>
+                    </div>
+                    <% if (item.excerpt) { %>
+                    <div class="man_news_item_txt"><p><%= item.excerpt %></p></div>
+                    <% } %>
+                    <div class="man_news_item_tech">
+                      <div class="man_news_item_date">
+                        <a href="<%= item.url %>"><i class="ti ti-arrow-circle-right"></i>Read More</a>
+                        <% if (item.date) { %><span class="posted-on"><i class="ti ti-time"></i><time class="entry-date published" datetime="<%= item.dateIso %>"><%= item.date %></time></span><% } %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <% }); %>
+          </div>
+
+          <% if (totalPages > 1) { %>
+          <div class="man_navigation">
+            <% if (hasPrevPage) { %><a class="prev page-numbers" href="<%= basePath %>?page=<%= currentPage - 1 %>"><i class="ti ti-arrow-left"></i>Prev</a><% } %>
+            <% for (let p = 1; p <= totalPages; p++) { %>
+              <% if (p === currentPage) { %><span aria-current="page" class="page-numbers current"><%= p %></span><% } else { %><a class="page-numbers" href="<%= basePath %>?page=<%= p %>"><%= p %></a><% } %>
+            <% } %>
+            <% if (hasNextPage) { %><a class="next page-numbers" href="<%= basePath %>?page=<%= currentPage + 1 %>">Next<i class="ti ti-arrow-right"></i></a><% } %>
+          </div>
+          <% } %>
+          <% } else { %>
+          <p>No news available yet.</p>
+          <% } %>
+        </main>
+      </div>
+    </div>
+  </div>
+</div>

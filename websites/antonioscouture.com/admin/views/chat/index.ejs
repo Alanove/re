@@ -1,0 +1,59 @@
+<%- include('../partials/header') %>
+
+<div class="row chat-admin-page align-items-stretch">
+	<div class="col-lg-4 border-lg-right pr-lg-3 mb-3 mb-lg-0 d-flex flex-column">
+		<div class="panel panel-inverse mb-0 flex-grow-1 d-flex flex-column">
+			<div class="panel-heading">
+				<h4 class="panel-title mb-0">
+					<%= typeof t !== 'undefined' ? t('menu.liveChat') : 'Live Chat' %>
+				</h4>
+			</div>
+			<div class="panel-body p-0 flex-grow-1 d-flex flex-column">
+				<div class="list-group list-group-flush flex-grow-1" id="adminChatList">
+					<% if (conversations && conversations.length) { %>
+						<% conversations.forEach(function (c) { %>
+							<a href="#" class="list-group-item list-group-item-action" data-public-key="<%= c.public_key %>">
+								<div class="d-flex justify-content-between align-items-start">
+									<strong class="d-block text-truncate" style="max-width: 70%;">
+										<%= (c.visitor_first_name || c.visitor_email || c.visitor_phone) ? [c.visitor_first_name, c.visitor_email].filter(Boolean).join(' · ') : 'Anonymous' %>
+									</strong>
+									<span class="d-flex align-items-center flex-shrink-0 gap-1">
+										<% if (c.unread_count && c.unread_count > 0) { %>
+										<span class="badge rounded-pill bg-danger chat-conv-unread-badge"><%= c.unread_count > 99 ? '99+' : c.unread_count %></span>
+										<% } %>
+										<small class="text-muted text-nowrap">
+											<%= c.last_message_at ? new Date(c.last_message_at).toLocaleString() : '' %>
+										</small>
+									</span>
+								</div>
+								<% if (c.visitor_phone) { %>
+									<small class="text-muted d-block"><%= c.visitor_phone %></small>
+								<% } %>
+							</a>
+						<% }); %>
+					<% } else { %>
+						<div class="p-4 text-center text-muted">No conversations yet.</div>
+					<% } %>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-8 d-flex flex-column">
+		<div class="panel panel-inverse flex-grow-1 mb-0 d-flex flex-column">
+			<div class="panel-heading">
+				<h4 class="panel-title mb-0">Conversation</h4>
+			</div>
+			<div class="panel-body flex-grow-1 d-flex flex-column chat-admin-conversation-inner p-0">
+				<div id="adminChatThread" class="chat-admin-thread flex-grow-1" role="log" aria-live="polite">
+					<div class="chat-admin-thread-empty text-muted">Select a conversation to view messages.</div>
+				</div>
+				<div class="chat-admin-composer">
+					<textarea id="adminChatInput" class="form-control chat-admin-composer__input" rows="2" placeholder="Type a reply…" maxlength="4000"></textarea>
+					<button type="button" class="btn btn-primary chat-admin-composer__send" id="adminChatSend">Send</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- include('../partials/footer') %>

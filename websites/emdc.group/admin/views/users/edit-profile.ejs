@@ -1,0 +1,163 @@
+<!-- BEGIN breadcrumb -->
+<ol class="breadcrumb">
+	<li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+	<li class="breadcrumb-item active">Edit Profile</li>
+</ol>
+<!-- END breadcrumb -->
+
+<form method="POST" action="/admin/profile/edit" id="editProfileForm">
+	<div class="row">
+		<!-- BEGIN col-9 -->
+		<div class="col-xl-9">
+			<div class="panel panel-inverse">
+				<div class="panel-heading">
+					<h4 class="panel-title">Profile Information</h4>
+				</div>
+				<div class="panel-body">
+					<% if (typeof error !== 'undefined' && error) { %>
+						<div class="alert alert-danger">
+							<i class="fa fa-exclamation-triangle"></i> <%= error %>
+						</div>
+					<% } %>
+					<% if (typeof success !== 'undefined' && success) { %>
+						<div class="alert alert-success">
+							<i class="fa fa-check-circle"></i> <%= success %>
+						</div>
+					<% } %>
+
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3">Full Name <span class="text-danger">*</span></label>
+						<div class="col-md-9">
+							<input type="text" class="form-control" id="name" name="name" value="<%= typeof profileUser !== 'undefined' && profileUser ? profileUser.name : '' %>" required />
+							<small class="fs-12px text-gray-500-darker">Your full name as it appears in the system.</small>
+						</div>
+					</div>
+
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3">Email Address</label>
+						<div class="col-md-9">
+							<input type="email" class="form-control" id="email" value="<%= typeof profileUser !== 'undefined' && profileUser ? profileUser.email : '' %>" readonly />
+							<small class="fs-12px text-gray-500-darker">Email address cannot be changed. Contact an administrator if needed.</small>
+						</div>
+					</div>
+
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3">New Password</label>
+						<div class="col-md-9">
+							<input type="password" class="form-control" id="password" name="password" placeholder="Leave blank to keep current password" />
+							<small class="fs-12px text-gray-500-darker">Minimum 6 characters. Leave blank to keep current password.</small>
+						</div>
+					</div>
+
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3">Confirm New Password</label>
+						<div class="col-md-9">
+							<input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm new password" />
+							<small class="fs-12px text-gray-500-darker">Re-enter the password to confirm.</small>
+						</div>
+					</div>
+
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3">Personal Notes</label>
+						<div class="col-md-9">
+							<textarea class="form-control" id="notes" name="notes" rows="3" placeholder="Any personal notes or information"><%= typeof profileUser !== 'undefined' && profileUser && profileUser.notes ? profileUser.notes : '' %></textarea>
+							<small class="fs-12px text-gray-500-darker">Optional personal notes or information about yourself.</small>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END col-9 -->
+
+		<!-- BEGIN col-3 -->
+		<div class="col-xl-3">
+			<div class="panel panel-inverse">
+				<div class="panel-heading">
+					<h4 class="panel-title">Account Status</h4>
+				</div>
+				<div class="panel-body">
+					<div class="mb-15px">
+						<label class="form-label">Status</label>
+						<input type="text" class="form-control" value="<%= typeof profileUser !== 'undefined' && profileUser ? profileUser.status : 'Unknown' %>" readonly />
+						<small class="fs-12px text-gray-500-darker">Your account status (read-only)</small>
+					</div>
+					
+					<div class="mb-15px">
+						<label class="form-label">User ID</label>
+						<input type="text" class="form-control" value="<%= typeof profileUser !== 'undefined' && profileUser ? profileUser.id : '' %>" readonly />
+						<small class="fs-12px text-gray-500-darker">Your unique user identifier</small>
+					</div>
+					
+					<div class="mb-15px">
+						<label class="form-label">Created</label>
+						<input type="text" class="form-control" value="<%= typeof profileUser !== 'undefined' && profileUser && profileUser.createdAt ? new Date(profileUser.createdAt).toLocaleDateString() : 'N/A' %>" readonly />
+						<small class="fs-12px text-gray-500-darker">When your account was created</small>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END col-3 -->
+	</div>
+	<!-- END row -->
+
+	<div class="d-flex justify-content-between mt-4">
+		<a href="/admin/dashboard" class="btn btn-secondary">
+			<i class="fa fa-arrow-left me-1"></i> Back to Dashboard
+		</a>
+		<button type="submit" class="btn btn-primary">
+			<i class="fa fa-save me-1"></i> Update Profile
+		</button>
+	</div>
+</form>
+
+<script>
+	// Form validation
+	document.addEventListener('DOMContentLoaded', function() {
+		const form = document.getElementById('editProfileForm');
+		const password = document.getElementById('password');
+		const confirmPassword = document.getElementById('confirmPassword');
+		
+		form.addEventListener('submit', function(e) {
+			let isValid = true;
+			
+			// Clear previous errors
+			document.querySelectorAll('.help-block').forEach(el => el.textContent = '');
+			document.querySelectorAll('.form-group').forEach(el => el.classList.remove('has-error'));
+			
+			// Validate name
+			const name = document.getElementById('name').value.trim();
+			if (!name) {
+				document.getElementById('name-error').textContent = 'Name is required';
+				document.getElementById('name').parentElement.classList.add('has-error');
+				isValid = false;
+			}
+			
+			// Validate password confirmation
+			if (password.value && password.value !== confirmPassword.value) {
+				document.getElementById('confirmPassword-error').textContent = 'Passwords do not match';
+				document.getElementById('confirmPassword').parentElement.classList.add('has-error');
+				isValid = false;
+			}
+			
+			// Validate password length
+			if (password.value && password.value.length < 6) {
+				document.getElementById('password-error').textContent = 'Password must be at least 6 characters long';
+				document.getElementById('password').parentElement.classList.add('has-error');
+				isValid = false;
+			}
+			
+			if (!isValid) {
+				e.preventDefault();
+			}
+		});
+		
+		// Auto-hide alerts after 5 seconds
+		const alerts = document.querySelectorAll('.alert');
+		alerts.forEach(alert => {
+			setTimeout(() => {
+				const bsAlert = new bootstrap.Alert(alert);
+				bsAlert.close();
+			}, 5000);
+		});
+	});
+</script> 

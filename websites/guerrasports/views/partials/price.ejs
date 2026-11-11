@@ -1,0 +1,32 @@
+<% 
+    // Expects:
+    // price: number | string
+    // compare_at_price?: number | string | null
+    // currency?: string (default '$')
+    // customClass?: string
+    
+    const currentPrice = typeof price !== 'undefined' ? parseFloat(price) : 0;
+    const oldPrice = typeof compare_at_price !== 'undefined' && compare_at_price ? parseFloat(compare_at_price) : null;
+    const symbol = typeof currency !== 'undefined' ? currency : '$';
+    const fmtMoney = typeof formatMoneyAmount === 'function'
+        ? formatMoneyAmount
+        : function (v) {
+            const x = parseFloat(String(v));
+            if (!Number.isFinite(x)) return '0';
+            const s = x.toFixed(2);
+            return s.endsWith('.00') ? s.slice(0, -3) : s;
+          };
+%>
+
+<% if (oldPrice && oldPrice > currentPrice) { %>
+    <span class="<%= typeof customClass !== 'undefined' ? customClass : '' %>">
+        <%= symbol %><%= fmtMoney(currentPrice) %>
+    </span>
+    <span class="text-muted ml-2 product-price-compare">
+        <del><%= symbol %><%= fmtMoney(oldPrice) %></del>
+    </span>
+<% } else { %>
+    <span class="<%= typeof customClass !== 'undefined' ? customClass : '' %>">
+        <%= symbol %><%= fmtMoney(currentPrice) %>
+    </span>
+<% } %>

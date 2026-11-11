@@ -1,0 +1,276 @@
+// Home shell — design tokens and global home page rules
+// All selectors here should be scoped under body.home so global pages stay unchanged.
+
+$home-cream: #f6f1ea;
+$home-beige: #ede4d6;
+$home-text-light: #ffffff;
+$home-text-muted: rgba(255, 255, 255, 0.75);
+$home-display-font: $title-font-family;
+
+body.home {
+    background: $white;
+
+    // Larger logo over homepage hero — desktop only; mobile uses compact bar sizing from _header.scss
+    @media (min-width: $lux-header-desktop-min) {
+        .luxury-header {
+            --lux-logo-height: 54px;
+            --lux-logo-max-width: 420px;
+
+            @media (max-width: 1200px) {
+                --lux-logo-height: 40.5px;
+                --lux-logo-max-width: 315px;
+            }
+
+            @media (max-width: 800px) {
+                --lux-logo-height: 33.75px;
+                --lux-logo-max-width: 262.5px;
+            }
+        }
+    }
+
+    .home-display,
+    .luxury-hero-caption h1,
+    .luxury-hero-caption h2,
+    .home-shop-look-row h2,
+    .home-shop-look-row h3,
+    .home-shop-look-card h3 {
+        font-family: $home-display-font;
+        font-weight: $title-font-weight;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+    }
+
+    .home-section-title,
+    .home-new-arrivals .home-section-title {
+        font-family: $font-family-sans-serif;
+        font-weight: 400;
+        font-size: clamp(1rem, 1.2vw + 0.5rem, 1.35rem);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin: 0;
+    }
+
+    .home-section-subtitle {
+        font-family: $font-family-sans-serif;
+        font-weight: 400;
+        font-size: 0.75rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(0, 0, 0, 0.6);
+    }
+
+    .home-section-link {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        color: $dark;
+        border-bottom: 1px solid currentColor;
+        padding-bottom: 2px;
+
+        &:hover {
+            color: $link-hover-text;
+            text-decoration: none;
+        }
+    }
+}
+
+// Olive promo strip can render before the header on every page that uses it.
+.home-promo-strip {
+    background: $white;
+    color: $dark;
+    text-align: right;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    padding: 6px 24px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+// Homepage column: cap site chrome + sections at 1400px on large viewports; hero stays edge-to-edge.
+$home-site-max-width: 1400px;
+
+@media (min-width: 992px) {
+    body.home .main > *:not(.luxury-hero):not(.lux-mobile-drawer):not(.lux-mobile-search):not(.modal):not(.variant-selection-drawer):not(.luxury-header):not(.home-shop-banner):not(.home-service-strip):not(.home-customer-care-strip):not(.home-pre-footer-faq-brand):not(.site-footer) {
+        max-width: $home-site-max-width;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    body.home .main > .luxury-hero {
+        max-width: none;
+        width: 100%;
+    }
+}
+
+// Full-viewport hero: promo + main nav sit over the video (transparent chrome)
+body.home .main {
+    position: relative;
+}
+
+body.home .main:has(> .home-promo-strip) {
+    --lux-promo-offset: 2.875rem;
+}
+
+body.home .home-promo-strip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1040;
+    background: $lux-home-promo-glass-bg;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid $lux-home-promo-glass-border;
+    color: $lux-header-text;
+}
+
+body.home .luxury-header:not(.lux-header--pinned) {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: var(--lux-promo-offset, 0);
+    z-index: 1030;
+    border-bottom: none;
+}
+
+body.home .luxury-header:not(.lux-header--pinned):not(.is-menu-open) {
+    background: transparent;
+}
+
+// Light nav + inverted logo — desktop home only over the hero. Narrow viewports keep solid bar chrome from _header.scss.
+@media (min-width: $lux-header-desktop-min) {
+    body.home .luxury-header:not(.lux-header--pinned):not(.is-menu-open) {
+        .lux-nav-link,
+        .lux-utilities .lux-util {
+            color: $lux-home-overlay-nav;
+            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+
+            &:hover,
+            &:focus,
+            &.is-active {
+                color: $lux-home-overlay-nav;
+                opacity: 0.9;
+                background-color: transparent;
+            }
+        }
+
+        .lux-nav-dropdown-list a {
+            color: $lux-megamenu-text;
+            text-shadow: none;
+
+            &:hover,
+            &:focus-visible {
+                color: $lux-megamenu-link-hover;
+            }
+        }
+
+        .lux-logo img {
+            filter: brightness(0) invert(1) drop-shadow(0 2px 10px rgba(0, 0, 0, 0.35));
+        }
+    }
+}
+@media (max-width: $lux-header-breakpoint-max) {
+    body.home .main:has(> .home-promo-strip) {
+        --lux-promo-offset: 0;
+    }
+
+    body.home .home-promo-strip {
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+        z-index: 1;
+        background: $lux-header-bg;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border-bottom: 1px solid $lux-header-border-color;
+        color: $lux-header-text;
+    }
+
+    body.home .luxury-header {
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+        z-index: 2;
+    }
+}
+
+@media (min-width: $lux-header-desktop-min) {
+    body.home .luxury-header:not(.lux-header--pinned) {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: var(--lux-promo-offset, 0);
+    }
+}
+
+// Category pages with hero video/image — transparent header over media (desktop), pinned on scroll
+body.lux-hero-overlay {
+    .main {
+        position: relative;
+    }
+
+    .luxury-header:not(.lux-header--pinned) {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        z-index: 1030;
+        border-bottom: none;
+    }
+
+    .luxury-header:not(.lux-header--pinned):not(.is-menu-open) {
+        background: transparent;
+    }
+}
+
+@media (min-width: $lux-header-desktop-min) {
+    body.lux-hero-overlay .luxury-header:not(.lux-header--pinned):not(.is-menu-open) {
+        .lux-nav-link,
+        .lux-utilities .lux-util {
+            color: $lux-home-overlay-nav;
+            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+
+            &:hover,
+            &:focus,
+            &.is-active {
+                color: $lux-home-overlay-nav;
+                opacity: 0.9;
+                background-color: transparent;
+            }
+        }
+
+        .lux-nav-dropdown-list a {
+            color: $lux-megamenu-text;
+            text-shadow: none;
+
+            &:hover,
+            &:focus-visible {
+                color: $lux-megamenu-link-hover;
+            }
+        }
+
+        .lux-logo img {
+            filter: brightness(0) invert(1) drop-shadow(0 2px 10px rgba(0, 0, 0, 0.35));
+        }
+    }
+
+    body.lux-hero-overlay .luxury-header:not(.lux-header--pinned) {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+    }
+}
+
+@media (max-width: $lux-header-breakpoint-max) {
+    body.lux-hero-overlay .luxury-header {
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+        z-index: 2;
+    }
+}

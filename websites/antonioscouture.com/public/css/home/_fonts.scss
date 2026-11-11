@@ -1,0 +1,20 @@
+// Square 721 BT — Bold Extended (public/fonts/square-721bt)
+// Used for headings / titles only (body & UI use Roboto from Google Fonts in styles.scss).
+// 400 + 700: same file so lighter heading weights still resolve (e.g. mega menu column labels).
+@font-face {
+    font-family: 'Square721 BT';
+    src: url('../fonts/square-721bt/Square721BT-BoldExtended.woff2') format('woff2'),
+        url('../fonts/square-721bt/Square721BT-BoldExtended.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Square721 BT';
+    src: url('../fonts/square-721bt/Square721BT-BoldExtended.woff2') format('woff2'),
+        url('../fonts/square-721bt/Square721BT-BoldExtended.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}

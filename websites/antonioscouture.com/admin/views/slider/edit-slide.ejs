@@ -1,0 +1,348 @@
+<!-- BEGIN content area -->
+<div class="row">
+	<div class="col-xl-12">
+		<!-- BEGIN panel -->
+		<div class="panel panel-inverse">
+			<div class="panel-heading">
+				<h4 class="panel-title"><%= isEdit ? (typeof t !== 'undefined' ? t('slider.editSlide') : 'Edit Slide') : (typeof t !== 'undefined' ? t('slider.addNewSlide') : 'Add New Slide') %></h4>
+				<div class="panel-heading-btn">
+					<a href="/admin/slider" class="btn btn-xs btn-secondary">
+						<i class="fa fa-arrow-left"></i> <%= typeof t !== 'undefined' ? t('slider.backToSlider') : 'Back to Slider' %>
+					</a>
+				</div>
+			</div>
+			<div class="panel-body">
+				<% if (typeof error !== 'undefined' && error) { %>
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<strong>Error!</strong> <%= error %>
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>
+				<% } %>
+				
+				<form method="POST" enctype="multipart/form-data" id="slideForm" action="<%= isEdit ? '/admin/slider/' + slide.id + '/edit' : '/admin/slider/create' %>">
+					<input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+					<div class="row">
+						<div class="col-md-8">
+							<!-- Basic Information -->
+							<div class="card">
+								<div class="card-header">
+									<h5 class="card-title mb-0"><%= typeof t !== 'undefined' ? t('slider.slideInformation') : 'Slide Information' %></h5>
+								</div>
+								<div class="card-body">
+									<div class="mb-3">
+										<label for="alt" class="form-label"><%= typeof t !== 'undefined' ? t('slider.altText') : 'Alt Text (Description)' %> <span class="text-danger">*</span></label>
+										<input type="text" class="form-control" id="alt" name="alt" value="<%= slide.alt || '' %>" required maxlength="255" />
+										<div class="form-text"><%= typeof t !== 'undefined' ? t('slider.altTextDescription') : 'This text will be used as the alt attribute for the image and for accessibility.' %></div>
+									</div>
+									
+									<div class="mb-3">
+										<label for="order" class="form-label"><%= typeof t !== 'undefined' ? t('slider.displayOrder') : 'Display Order' %></label>
+										<input type="number" class="form-control" id="order" name="order" value="<%= slide.order || '' %>" />
+										<div class="form-text"><%= typeof t !== 'undefined' ? t('slider.orderDescription') : 'Order determines the display sequence. Lower numbers appear first.' %></div>
+									</div>
+									
+									<div class="mb-3">
+										<label for="durationSeconds" class="form-label"><%= typeof t !== 'undefined' ? t('slider.durationSecondsLabel') : 'Display time (seconds)' %></label>
+										<input type="hidden" name="duration_seconds_backup" id="duration_seconds_backup" value="" autocomplete="off" />
+										<input type="number" class="form-control" id="durationSeconds" name="duration_seconds" value="<%= (slide.durationSeconds != null && slide.durationSeconds > 0) ? slide.durationSeconds : 5 %>" min="1" max="600" step="1" />
+										<div class="form-text"><%= typeof t !== 'undefined' ? t('slider.durationSecondsDescription') : 'How long this slide stays on the home page before switching. Default 5, maximum 600.' %></div>
+									</div>
+									
+									<div class="mb-3">
+										<label for="title" class="form-label"><%= typeof t !== 'undefined' ? t('slider.slideTitle') : 'Slide Title (Optional)' %></label>
+										<input type="text" class="form-control" id="title" name="title" value="<%= slide.title || '' %>" placeholder="Enter slide title" maxlength="255" />
+										<div class="form-text"><%= typeof t !== 'undefined' ? t('slider.slideTitleDescription') : 'This title will be displayed on the slide overlay. If empty, no title will be shown.' %></div>
+									</div>
+									
+									<div class="mb-3">
+										<label for="link" class="form-label"><%= typeof t !== 'undefined' ? t('slider.linkUrl') : 'Link URL (Optional)' %></label>
+										<input type="url" class="form-control" id="link" name="link" value="<%= slide.link || '' %>" placeholder="https://example.com" />
+										<div class="form-text"><%= typeof t !== 'undefined' ? t('slider.linkUrlDescription') : 'If provided, the slide will have a clickable button linking to this URL.' %></div>
+									</div>
+									
+									<div class="mb-3">
+										<label for="buttonText" class="form-label"><%= typeof t !== 'undefined' ? t('slider.buttonText') : 'Button Text (Optional)' %></label>
+										<input type="text" class="form-control" id="buttonText" name="buttonText" value="<%= slide.buttonText || '' %>" placeholder="See More" maxlength="100" />
+										<div class="form-text"><%= typeof t !== 'undefined' ? t('slider.buttonTextDescription') : 'Text to display on the button. If empty, will default to "See More" or "Check More".' %></div>
+									</div>
+									
+									<div class="mb-3">
+										<label for="image" class="form-label">
+											<%= isEdit ? (typeof t !== 'undefined' ? t('slider.updateImage') : 'Update Image') : (typeof t !== 'undefined' ? t('slider.uploadImage') : 'Upload Image') %>
+											<% if (!isEdit) { %><span class="text-danger">*</span><% } %>
+										</label>
+										<input type="file" class="form-control" id="image" name="image" accept="image/*" <%= isEdit ? '' : 'required' %> />
+										<div class="form-text">
+											<%= isEdit ? (typeof t !== 'undefined' ? t('slider.imageDescription') : 'Leave empty to keep the current image. On video slides, a new image updates the poster only and does not remove the video. ') : '' %>
+											<%= typeof t !== 'undefined' ? (isEdit ? '' : t('slider.imageDescriptionCreate')) : (isEdit ? '' : 'Recommended size: 1920x1080 pixels. Max 10MB. This image is required for non-video slides.') %>
+											<%= !isEdit && typeof t === 'undefined' ? 'Recommended size: 1920x1080 pixels. Max 10MB.' : '' %>
+										</div>
+									</div>
+									
+									<div class="mb-3">
+										<label for="video" class="form-label">
+											<%= isEdit ? (typeof t !== 'undefined' ? t('slider.updateVideo') : 'Update Video') : (typeof t !== 'undefined' ? t('slider.uploadVideo') : 'Upload Video') %> <span class="text-muted">(<%= typeof t !== 'undefined' ? t('slider.optional') : 'Optional' %>)</span>
+										</label>
+										<input type="file" class="form-control" id="video" name="video" accept="video/*" />
+										<div class="form-text">
+											<%= isEdit ? (typeof t !== 'undefined' ? t('slider.videoDescription') : 'Leave empty to keep the current video. A new file replaces only the video; the poster image is kept unless you upload a new image. ') : '' %>
+											<%= typeof t !== 'undefined' ? (isEdit ? '' : t('slider.videoDescriptionCreate')) : (isEdit ? '' : 'Supported formats: MP4, WebM, OGG. Max 100MB.') %>
+											<%= !isEdit && typeof t === 'undefined' ? 'Supported formats: MP4, WebM, OGG. Max 100MB.' : '' %>
+											<strong><%= typeof t !== 'undefined' ? t('slider.note') : 'Note' %>:</strong> <%= typeof t !== 'undefined' ? t('slider.videoNote') : 'If both image and video are uploaded, the image will be used as a poster/fallback.' %>
+										</div>
+									</div>
+									<div class="mb-3">
+										<label for="videoMobile" class="form-label">
+											<%= isEdit ? (typeof t !== 'undefined' ? t('slider.updateMobileVideo') : 'Update mobile video') : (typeof t !== 'undefined' ? t('slider.uploadMobileVideo') : 'Upload mobile video') %> <span class="text-muted">(<%= typeof t !== 'undefined' ? t('slider.optional') : 'Optional' %>)</span>
+										</label>
+										<input type="file" class="form-control" id="videoMobile" name="videoMobile" accept="video/*" />
+										<div class="form-text">
+											<%= isEdit ? (typeof t !== 'undefined' ? t('slider.mobileVideoDescription') : 'Portrait video for phones (shown below 800px). Requires a desktop video on this slide. Leave empty to keep the current file.') : '' %>
+											<%= typeof t !== 'undefined' ? (isEdit ? '' : t('slider.mobileVideoDescriptionCreate')) : (isEdit ? '' : 'Portrait recommended (e.g. 9:16). Only used when a main video is uploaded. Same formats, max 100MB.') %>
+											<%= !isEdit && typeof t === 'undefined' ? 'Portrait recommended. Requires main video.' : '' %>
+											<span id="videoMobileFileHint" class="d-block mt-1 text-secondary small"></span>
+										</div>
+									</div>
+
+									<% if (isEdit) { %>
+										<% 
+											var fname = slide.image ? String(slide.image) : '';
+											var slideHasDesktopUrl = !!(slide.videoUrl ||
+												(fname && /\.(mp4|webm|ogg|mov)$/i.test(fname)));
+											var posterRemovable =
+												isEdit &&
+												slideHasDesktopUrl &&
+												(slide.posterImage ||
+													(slide.videoUrl && slide.image && slide.image !== slide.videoUrl));
+											var showSlideRemoveMedia =
+												isEdit &&
+												slideHasDesktopUrl &&
+												(posterRemovable || slide.videoUrlMobile);
+											if (showSlideRemoveMedia) { %>
+									<div class="mb-3 border rounded p-3 bg-light">
+										<label class="form-label fw-semibold mb-2"><%= typeof t !== 'undefined' ? t('slider.removeMediaSection') : 'Remove existing media' %></label>
+											<% if (posterRemovable) { %>
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox" id="removePoster" name="removePoster" value="on" />
+											<label class="form-check-label" for="removePoster"><%= typeof t !== 'undefined' ? t('slider.removePoster') : 'Remove poster image only' %></label>
+										</div>
+											<% } %>
+											<% if (slide.videoUrlMobile) { %>
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox" id="removeMobileVideo" name="removeMobileVideo" value="on" />
+											<label class="form-check-label" for="removeMobileVideo"><%= typeof t !== 'undefined' ? t('slider.removeMobileVideo') : 'Remove mobile video file' %></label>
+										</div>
+											<% } %>
+										<div class="form-text text-muted mb-0"><%= typeof t !== 'undefined' ? t('slider.removeMediaHint') : 'Leaving these unchecked keeps current files. Only tick a box to clear that asset, or upload a file to replace it.' %></div>
+									</div>
+										<% } %>
+									<% } %>
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-md-4">
+							<!-- Media Preview -->
+							<div class="card">
+								<div class="card-header">
+									<h5 class="card-title mb-0"><%= typeof t !== 'undefined' ? t('slider.mediaPreview') : 'Media Preview' %></h5>
+								</div>
+								<div class="card-body">
+									<% 
+										var posterFile = null;
+										if (isEdit && slide.mediaType === 'video' && slide.videoUrl) {
+											if (slide.posterImage) posterFile = slide.posterImage;
+											else if (slide.image && slide.image !== slide.videoUrl) posterFile = slide.image;
+										}
+									%>
+									<div id="imagePreview" class="text-center">
+											<% if (isEdit && slide.image) { %>
+												<% if (slide.mediaType === 'video') { %>
+													<video controls class="img-fluid rounded" style="max-height: 200px; width: 100%;">
+														<source src="/images/slide/<%= slide.videoUrl || slide.image %>" type="video/mp4">
+														Your browser does not support the video tag.
+													</video>
+													<div class="mt-2">
+														<small class="text-muted"><%= typeof t !== 'undefined' ? t('slider.currentVideo') : 'Current Video' %></small>
+													</div>
+													<% if (slide.videoUrlMobile) { %>
+														<div class="mt-3 pt-3 border-top">
+															<video controls class="img-fluid rounded" style="max-height: 200px; width: 100%;">
+																<source src="/images/slide/<%= slide.videoUrlMobile %>" type="video/mp4">
+																Your browser does not support the video tag.
+															</video>
+															<div class="mt-2">
+																<small class="text-muted"><%= typeof t !== 'undefined' ? t('slider.currentMobileVideo') : 'Current mobile video' %></small>
+															</div>
+														</div>
+													<% } %>
+													<% if (posterFile) { %>
+														<div class="mt-3 pt-3 border-top text-center">
+															<img src="/images/slide/<%= posterFile %>" alt="" class="img-fluid rounded border" style="max-height: 120px; object-fit: cover; width: auto; max-width: 100%;" />
+															<div class="mt-2">
+																<span class="badge bg-success"><i class="fa fa-image me-1"></i><%= typeof t !== 'undefined' ? t('slider.posterBadge') : 'Poster' %></span>
+															</div>
+															<div class="mt-1">
+																<small class="text-muted"><%= typeof t !== 'undefined' ? t('slider.currentPoster') : 'Current poster image' %></small>
+															</div>
+														</div>
+													<% } %>
+												<% } else { %>
+													<img src="/images/slide/<%= slide.image %>" alt="<%= slide.alt %>" class="img-fluid rounded" style="max-height: 200px; object-fit: cover;" />
+													<div class="mt-2">
+														<small class="text-muted"><%= typeof t !== 'undefined' ? t('slider.currentImage') : 'Current Image' %></small>
+													</div>
+												<% } %>
+											<% } else { %>
+												<div class="border rounded p-4 text-muted">
+													<i class="fa fa-image fa-3x mb-2"></i>
+													<p class="mb-0"><%= typeof t !== 'undefined' ? t('slider.noMediaSelected') : 'No media selected' %></p>
+												</div>
+											<% } %>
+									</div>
+								</div>
+							</div>
+							
+							<!-- Slide Status -->
+							<div class="card mt-3">
+								<div class="card-header">
+									<h5 class="card-title mb-0"><%= typeof t !== 'undefined' ? t('slider.slideStatus') : 'Slide Status' %></h5>
+								</div>
+								<div class="card-body">
+									<div class="form-check form-switch">
+										<input class="form-check-input" type="checkbox" id="active" name="active" <%= slide.active ? 'checked' : '' %> />
+										<label class="form-check-label" for="active">
+											<%= typeof t !== 'undefined' ? t('common.active') : 'Active' %>
+										</label>
+									</div>
+									<div class="form-text"><%= typeof t !== 'undefined' ? t('slider.inactiveSlidesNote') : 'Inactive slides will not appear in the slider.' %></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<!-- Form Actions -->
+					<div class="row mt-3">
+						<div class="col-12">
+							<div class="d-flex justify-content-between">
+								<a href="/admin/slider" class="btn btn-secondary">
+									<i class="fa fa-times me-1"></i> <%= typeof t !== 'undefined' ? t('common.cancel') : 'Cancel' %>
+								</a>
+								<button type="submit" class="btn btn-primary">
+									<i class="fa fa-save me-1"></i> <%= isEdit ? (typeof t !== 'undefined' ? t('slider.updateSlide') : 'Update Slide') : (typeof t !== 'undefined' ? t('slider.createSlide') : 'Create Slide') %>
+								</button>
+							</div>
+						</div>
+					</div>
+				</form>
+				
+				<!-- Validation Error Modal -->
+				<div class="modal fade" id="validationErrorModal" tabindex="-1" aria-labelledby="validationErrorModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header bg-danger text-white">
+								<h5 class="modal-title" id="validationErrorModalLabel">
+									<i class="fa fa-exclamation-triangle me-2"></i><%= typeof t !== 'undefined' ? t('slider.validationError') : 'Validation Error' %>
+								</h5>
+								<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="<%= typeof t !== 'undefined' ? t('common.close') : 'Close' %>"></button>
+							</div>
+							<div class="modal-body">
+								<p id="validationErrorMessage"></p>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<script>
+					// Client-side validation for link fields and file requirements
+					document.getElementById('slideForm').addEventListener('submit', function(e) {
+						const durIn = document.getElementById('durationSeconds');
+						const durBk = document.getElementById('duration_seconds_backup');
+						if (durIn && durBk) {
+							const dv = durIn.value.trim();
+							durBk.value = dv === '' ? '5' : dv;
+						}
+						const linkText = document.getElementById('buttonText').value.trim();
+						const link = document.getElementById('link').value.trim();
+						const imageInput = document.getElementById('image');
+						const videoInput = document.getElementById('video');
+						const isEdit = <%= isEdit ? 'true' : 'false' %>;
+						
+						// Validate link requirement
+						if (linkText && !link) {
+							e.preventDefault();
+							document.getElementById('validationErrorMessage').textContent = 
+								'<%= typeof t !== 'undefined' ? t('slider.linkRequiredWhenButtonText') : 'Link URL is required when button text is provided.' %>';
+							const validationModal = new bootstrap.Modal(document.getElementById('validationErrorModal'));
+							validationModal.show();
+							document.getElementById('validationErrorModal').addEventListener('hidden.bs.modal', function() {
+								document.getElementById('link').focus();
+							}, { once: true });
+							return false;
+						}
+						
+						// Validate file requirement for new slides
+						if (!isEdit && !imageInput.files[0] && !videoInput.files[0]) {
+							e.preventDefault();
+							document.getElementById('validationErrorMessage').textContent = 
+								'<%= typeof t !== 'undefined' ? t('slider.uploadImageOrVideo') : 'Please upload at least an image or video.' %>';
+							const validationModal = new bootstrap.Modal(document.getElementById('validationErrorModal'));
+							validationModal.show();
+							return false;
+						}
+					});
+					
+					// Image preview
+					document.getElementById('image').addEventListener('change', function(e) {
+						const file = e.target.files[0];
+						if (file) {
+							const preview = document.getElementById('imagePreview');
+							const reader = new FileReader();
+							reader.onload = function(e) {
+								preview.innerHTML = `
+									<img src="${e.target.result}" alt="Preview" class="img-fluid rounded" style="max-height: 200px; object-fit: cover;" />
+									<div class="mt-2">
+										<small class="text-muted"><%= typeof t !== 'undefined' ? t('slider.newImagePreview') : 'New Image Preview' %></small>
+									</div>
+								`;
+							};
+							reader.readAsDataURL(file);
+						}
+					});
+					
+					// Video preview
+					document.getElementById('video').addEventListener('change', function(e) {
+						const file = e.target.files[0];
+						if (file) {
+							const preview = document.getElementById('imagePreview');
+							const videoUrl = URL.createObjectURL(file);
+								preview.innerHTML = `
+									<video controls class="img-fluid rounded" style="max-height: 200px; width: 100%;">
+										<source src="${videoUrl}" type="${file.type}">
+										Your browser does not support the video tag.
+									</video>
+									<div class="mt-2">
+										<small class="text-muted"><%= typeof t !== 'undefined' ? t('slider.newVideoPreview') : 'New Video Preview' %></small>
+									</div>
+								`;
+						}
+					});
+
+					const videoMobileInput = document.getElementById('videoMobile');
+					const videoMobileHint = document.getElementById('videoMobileFileHint');
+					if (videoMobileInput && videoMobileHint) {
+						videoMobileInput.addEventListener('change', function(e) {
+							const f = e.target.files[0];
+							videoMobileHint.textContent = f ? f.name : '';
+						});
+					}
+				</script>
+			</div>
+		</div>
+		<!-- END panel -->
+	</div>
+</div>
+<!-- END content area --> 

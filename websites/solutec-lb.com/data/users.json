@@ -1,0 +1,14 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Solutec Admin",
+      "email": "admin@solutec.local",
+      "password": "6c6382048add4fb04118ab70d2d108fe2df9fdf8703d3c0e1f222065d20c5ada",
+      "salt": "61a9b8fe36d15aab17033d81fc35f6de",
+      "status": "Active",
+      "createdAt": "2026-10-14T13:56:56.933Z",
+      "notes": "Local CMS administrator"
+    }
+  ]
+}

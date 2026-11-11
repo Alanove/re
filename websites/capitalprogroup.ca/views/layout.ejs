@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title><%= typeof pageTitle !== 'undefined' ? pageTitle : (typeof siteSettings !== 'undefined' && siteSettings.siteTitle ? siteSettings.siteTitle : 'Capital Pro Group') %></title>
+  <meta name="description" content="<%= typeof pageDescription !== 'undefined' ? pageDescription : '' %>">
+  <meta name="keywords" content="<%= typeof pageKeywords !== 'undefined' ? pageKeywords : '' %>">
+  <meta name="robots" content="<%= typeof pageRobots !== 'undefined' ? pageRobots : 'index, follow' %>">
+  <meta name="copyright" content="Capital Pro Group">
+  <meta property="og:site_name" content="Capital Pro Group">
+  <meta property="og:title" content="<%= typeof pageTitle !== 'undefined' ? pageTitle : 'Capital Pro Group' %>">
+  <meta property="og:description" content="<%= typeof pageDescription !== 'undefined' ? pageDescription : '' %>">
+  <meta property="og:type" content="<%= typeof pageType !== 'undefined' ? pageType : 'website' %>">
+  <meta property="og:url" content="<%= typeof pageUrl !== 'undefined' ? pageUrl : '' %>">
+  <meta property="og:image" content="<%= typeof pageImage !== 'undefined' && pageImage ? pageImage : '/images/capitalprogroup.png' %>">
+  <link rel="canonical" href="<%= typeof pageUrl !== 'undefined' ? pageUrl : '' %>">
+  <link rel="shortcut icon" href="<%= typeof siteData !== 'undefined' && siteData.favicon ? siteData.favicon : '/images/apple-touch-icon.png' %>">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+  <link href="/css/plugins.min.css" rel="stylesheet">
+  <link href="/css/styles.min.css?v=1" rel="stylesheet">
+  <link href="/css/cms-overrides.css?v=64720381" rel="stylesheet">
+  <% const isHomePage = typeof bodyClass !== 'undefined' && String(bodyClass).includes('home'); %>
+  <% const companyPage = (typeof currentPage !== 'undefined' && currentPage && currentPage.kind === 'company') ? currentPage : null; %>
+  <% if (typeof pageImage !== 'undefined' && pageImage && pageImage.trim() !== '' && !isHomePage) { %>
+  <style>
+    .page-title-section {
+      background-image: url('<%= pageImage %>');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  </style>
+  <% } %>
+</head>
+<body class="<%= typeof bodyClass !== 'undefined' ? bodyClass : '' %><%= companyPage ? ' company-page' : '' %>"<% if (companyPage && companyPage.brandColor) { %> style="--company-color: <%= companyPage.brandColor %>"<% } %>>
+  <div id="preloader"></div>
+  <div class="main-wrapper">
+    <%- include('partials/header') %>
+    <%- body %>
+    <%- include('partials/footer') %>
+  </div>
+  <a href="#!" class="scroll-to-top"><i class="fas fa-angle-up" aria-hidden="true"></i></a>
+
+  <script src="/js/capital/jquery-3.4.1.min.js"></script>
+  <script src="/js/capital/popper.min.js"></script>
+  <script src="/js/capital/bootstrap.min.js"></script>
+  <script src="/js/capital/core.min.js"></script>
+  <script src="/js/capital/owl.carousel.js"></script>
+  <script src="/js/capital/main.js"></script>
+  <script src="/js/capital/site.js"></script>
+  <% if (typeof isHome !== 'undefined' && isHome) { %>
+  <script>
+    $(document).ready(function () {
+      if ($(".home-slider").length) {
+        $(".home-slider").owlCarousel({
+          items: 1,
+          loop: true,
+          autoplay: true,
+          autoplayTimeout: 4000,
+          autoplayHoverPause: true,
+          nav: true,
+          dots: false,
+          smartSpeed: 600
+        });
+      }
+    });
+  </script>
+  <% } %>
+</body>
+</html>

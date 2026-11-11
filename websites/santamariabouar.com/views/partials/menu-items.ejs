@@ -1,0 +1,35 @@
+<ul>
+    <% if (typeof items !== 'undefined' && items && items.length > 0) { %>
+      <% items.forEach(function(item) { %> 
+        <% if (item.active) { %>
+          <li class="menu-item<%= item.children && item.children.length > 0 ? ' has-submenu' : '' %>">
+            <a
+              href="<%= item.url %>"
+              class="<%= selected === item.key ? 'active' : '' %>"
+              <% if (item.children && item.children.length > 0) { %>
+                data-submenu="<%= item.id %>"
+              <% } %>
+            >
+              <%= item.title %>
+            </a>
+            <% if (item.children && item.children.length > 0) { %>
+              <ul class="submenu">
+                <% item.children.forEach(function(subItem) { %>
+                  <% if (subItem.active) { %>
+                    <li>
+                      <a
+                        href="<%= subItem.url %>"
+                        class="<%= selected === subItem.key ? 'active' : '' %>"
+                      >
+                        <%= subItem.title %>
+                      </a>
+                    </li>
+                  <% } %>
+                <% }); %>
+              </ul>
+            <% } %>
+          </li>
+        <% } %>
+      <% }); %>
+    <% }  %>
+  </ul>

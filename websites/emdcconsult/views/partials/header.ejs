@@ -1,0 +1,19 @@
+<header class="header">
+  <a class="logo" href="/">
+    <img
+      src="<%= typeof siteData !== 'undefined' && siteData.logo ? siteData.logo : '/images/logo.jpg' %>"
+      alt="<%= typeof siteData !== 'undefined' && siteData.name ? siteData.name : 'Logo' %>"
+    />
+  </a>
+  <nav><%- include('menu-items') %></nav>
+  <button
+    class="burger-menu"
+    type="button"
+    id="burgerMenu"
+    aria-label="Toggle navigation"
+  >
+    <span class="burger-line"></span>
+    <span class="burger-line"></span>
+    <span class="burger-line"></span>
+  </button>
+</header>

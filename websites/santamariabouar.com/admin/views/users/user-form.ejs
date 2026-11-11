@@ -1,0 +1,232 @@
+<!-- BEGIN breadcrumb -->
+<ol class="breadcrumb">
+	<li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+	<li class="breadcrumb-item"><a href="/admin/users">Users</a></li>
+	<li class="breadcrumb-item active"><%= isCreateMode ? 'Create User' : (typeof canEditAdmin !== 'undefined' && canEditAdmin ? 'Edit User' : 'View User') %></li>
+</ol>
+<!-- END breadcrumb -->
+
+<% const readOnly = typeof canEditAdmin === 'undefined' || !canEditAdmin; %>
+<form method="POST" action="<%= isCreateMode ? '/admin/users/create' : '/admin/users/' + user.id + '/edit' %>" id="userForm" data-create-mode="<%= isCreateMode %>" <%= readOnly ? 'onsubmit="return false;"' : '' %>>
+	<div class="row">
+		<!-- BEGIN col-9 -->
+		<div class="col-xl-9">
+			<div class="panel panel-inverse">
+				<div class="panel-heading">
+					<h4 class="panel-title"><%= readOnly ? 'User Details (read-only)' : 'User Information' %></h4>
+				</div>
+				<div class="panel-body">
+					<% if (typeof error !== 'undefined' && error) { %>
+						<div class="alert alert-danger">
+							<i class="fa fa-exclamation-triangle"></i> <%= error %>
+						</div>
+					<% } %>
+					<% if (typeof success !== 'undefined' && success) { %>
+						<div class="alert alert-success">
+							<i class="fa fa-check-circle"></i> <%= success %>
+						</div>
+					<% } %>
+
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3">Full Name <span class="text-danger">*</span></label>
+						<div class="col-md-9">
+							<input type="text" class="form-control" id="name" name="name" value="<%= user && user.name ? user.name : '' %>" required <%= readOnly ? 'disabled' : '' %> />
+							<small class="fs-12px text-gray-500-darker">Enter the user's full name as it should appear in the system.</small>
+						</div>
+					</div>
+
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3">Email Address</label>
+						<div class="col-md-9">
+							<input type="email" class="form-control" id="email" name="email" value="<%= user && user.email ? user.email : '' %>" <%= readOnly ? 'disabled' : '' %> />
+							<small class="fs-12px text-gray-500-darker">Optional. This will be used for login and notifications if provided.</small>
+						</div>
+					</div>
+
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3">Phone Number</label>
+						<div class="col-md-9">
+							<input type="tel" class="form-control" id="phone" name="phone" value="<%= user && user.phone ? user.phone : '' %>" <%= readOnly ? 'disabled' : '' %> />
+							<small class="fs-12px text-gray-500-darker">Optional. Contact phone number for this user.</small>
+						</div>
+					</div>
+
+					<% if (!readOnly) { %>
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3">Password</label>
+						<div class="col-md-9">
+							<input type="password" class="form-control" id="password" name="password" placeholder="<%= isCreateMode ? 'Optional password' : 'Leave blank to keep current password' %>" />
+							<small class="fs-12px text-gray-500-darker">Optional. Minimum 6 characters if provided. <%= isCreateMode ? 'Users without password cannot login.' : 'Leave blank to keep current password.' %></small>
+						</div>
+					</div>
+
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3">Confirm Password</label>
+						<div class="col-md-9">
+							<input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="<%= isCreateMode ? 'Confirm password if provided' : 'Leave blank to keep current password' %>" />
+							<small class="fs-12px text-gray-500-darker">Re-enter the password to confirm (only if password is provided).</small>
+						</div>
+					</div>
+					<% } %>
+
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3">Notes</label>
+						<div class="col-md-9">
+							<textarea class="form-control" id="notes" name="notes" rows="3" placeholder="Optional notes about this user" <%= readOnly ? 'disabled' : '' %>><%= user && user.notes ? user.notes : '' %></textarea>
+							<small class="fs-12px text-gray-500-darker">Any additional information about this user.</small>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END col-9 -->
+
+		<!-- BEGIN col-3 -->
+		<div class="col-xl-3">
+			<div class="panel panel-inverse">
+				<div class="panel-heading">
+					<h4 class="panel-title">User Permissions</h4>
+				</div>
+				<div class="panel-body">
+					<div class="mb-15px">
+						<label class="form-label">Status</label>
+						<select class="form-select" id="status" name="status" required <%= readOnly ? 'disabled' : '' %>>
+							<option value="Active" <%= user && user.status === 'Active' ? 'selected' : '' %>>Active</option>
+							<option value="Inactive" <%= user && user.status === 'Inactive' ? 'selected' : '' %>>Inactive</option>
+						</select>
+						<small class="fs-12px text-gray-500-darker">Set the user's account status.</small>
+					</div>
+					<div class="mb-15px">
+						<label class="form-label">Role</label>
+						<select class="form-select" id="role" name="role" required <%= readOnly ? 'disabled' : '' %>>
+							<option value="Super Admin" <%= user && user.role === 'Super Admin' ? 'selected' : '' %>>Super Admin</option>
+							<option value="Admin" <%= user && user.role === 'Admin' ? 'selected' : '' %>>Admin</option>
+							<option value="Content Manager" <%= user && user.role === 'Content Manager' ? 'selected' : '' %>>Content Manager</option>
+							<option value="Accounting" <%= user && user.role === 'Accounting' ? 'selected' : '' %>>Accounting</option>
+							<option value="Member" <%= !user || !user.role || user.role === 'Member' ? 'selected' : '' %>>Member</option>
+						</select>
+						<small class="fs-12px text-gray-500-darker">Set the user's access permissions.</small>
+					</div>
+					<div class="mb-15px">
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" id="walletEnabled" name="walletEnabled" value="1"
+								<%= user && user.walletEnabled ? 'checked' : '' %> <%= readOnly ? 'disabled' : '' %> />
+							<label class="form-check-label" for="walletEnabled">Wallet enabled</label>
+						</div>
+						<small class="fs-12px text-gray-500-darker">When enabled, the member can see Wallet under My Account.</small>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END col-3 -->
+	</div>
+	<!-- END row -->
+
+	<div class="d-flex justify-content-between mt-4">
+		<a href="/admin/users" class="btn btn-secondary">
+			<i class="fa fa-arrow-left me-1"></i> Back to Users
+		</a>
+		<% if (!readOnly) { %>
+		<button type="submit" class="btn btn-primary">
+			<i class="fa fa-save me-1"></i> <%= isCreateMode ? 'Create User' : 'Update User' %>
+		</button>
+		<% } %>
+	</div>
+</form>
+
+<script>
+// Add validation for optional email/password
+document.addEventListener('DOMContentLoaded', function() {
+	const form = document.getElementById('userForm');
+	if (!form || form.querySelectorAll('[disabled]').length > 0 && !document.getElementById('password')) {
+		return;
+	}
+
+	const emailField = document.getElementById('email');
+	const passwordField = document.getElementById('password');
+	const confirmPasswordField = document.getElementById('confirmPassword');
+	if (!passwordField || !confirmPasswordField) {
+		return;
+	}
+	const isCreateMode = form.dataset.createMode === 'true';
+
+	form.addEventListener('submit', function(e) {
+		let isValid = true;
+		
+		// Clear previous validation states
+		document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+		
+		// Validate name (always required)
+		const nameField = document.getElementById('name');
+		if (!nameField.value.trim()) {
+			nameField.classList.add('is-invalid');
+			isValid = false;
+		}
+		
+		// Validate email format if provided
+		if (emailField.value && !emailField.value.includes('@')) {
+			emailField.classList.add('is-invalid');
+			isValid = false;
+		}
+		
+		// Validate password if provided
+		if (passwordField.value) {
+			if (passwordField.value.length < 8) {
+				passwordField.classList.add('is-invalid');
+				isValid = false;
+			}
+			
+			// Check password confirmation if password is provided
+			if (passwordField.value !== confirmPasswordField.value) {
+				confirmPasswordField.classList.add('is-invalid');
+				isValid = false;
+			}
+		} else if (confirmPasswordField.value) {
+			// If confirm password is provided but password is not
+			passwordField.classList.add('is-invalid');
+			isValid = false;
+		}
+		
+		if (!isValid) {
+			e.preventDefault();
+		}
+	});
+	
+	// Real-time validation
+	passwordField.addEventListener('input', function() {
+		if (this.value && this.value.length >= 8) {
+			this.classList.remove('is-invalid');
+			this.classList.add('is-valid');
+		} else if (this.value && this.value.length < 8) {
+			this.classList.remove('is-valid');
+			this.classList.add('is-invalid');
+		} else {
+			this.classList.remove('is-valid', 'is-invalid');
+		}
+	});
+	
+	confirmPasswordField.addEventListener('input', function() {
+		if (passwordField.value && this.value === passwordField.value) {
+			this.classList.remove('is-invalid');
+			this.classList.add('is-valid');
+		} else if (passwordField.value && this.value !== passwordField.value) {
+			this.classList.remove('is-valid');
+			this.classList.add('is-invalid');
+		} else if (!passwordField.value && !this.value) {
+			this.classList.remove('is-valid', 'is-invalid');
+		}
+	});
+	
+	emailField.addEventListener('input', function() {
+		if (this.value && this.value.includes('@')) {
+			this.classList.remove('is-invalid');
+			this.classList.add('is-valid');
+		} else if (this.value && !this.value.includes('@')) {
+			this.classList.remove('is-valid');
+			this.classList.add('is-invalid');
+		} else {
+			this.classList.remove('is-valid', 'is-invalid');
+		}
+	});
+});
+</script> 

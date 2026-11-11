@@ -1,0 +1,606 @@
+// Project Modal Styles - Modern Fullscreen
+.project-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(20px);
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.project-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh; // Fallback for older browsers
+  height: 100dvh; // Dynamic viewport height for mobile
+  background: white;
+  transform: scale(0.9);
+  opacity: 0;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  
+  .project-modal-overlay.active & {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.project-modal-header {
+  position: relative;
+  width: 100%;
+  height: 80px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 30px;
+  border-bottom: 1px solid #e9ecef;
+  flex-shrink: 0; // Prevent header from shrinking
+  z-index: 10;
+}
+
+.project-modal-close {
+  width: 50px;
+  height: 50px;
+  background: transparent;
+  border: none;
+  color: $dark;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  
+  &:hover {
+    transform: rotate(90deg);
+    
+    &::before,
+    &::after {
+      background: $primary;
+    }
+  }
+  
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: 28px;
+    height: 3px;
+    background: $dark;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  &::before {
+    transform: rotate(45deg);
+  }
+  
+  &::after {
+    transform: rotate(-45deg);
+  }
+}
+
+.project-modal-content {
+  display: flex;
+  flex: 1; // Take remaining space
+  overflow: hidden;
+  
+  @media (max-width: 968px) {
+    flex-direction: column;
+    overflow-y: auto; // Make entire content scrollable on mobile
+    
+    // Modern minimal scrollbar for mobile
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.2);
+      
+      &:hover {
+        background: rgba(0, 0, 0, 0.4);
+      }
+    }
+  }
+}
+
+.project-modal-left {
+  flex: 1;
+  padding: 60px;
+  overflow-y: auto;
+  background: white;
+  
+  @media (max-width: 968px) {
+    padding: 30px 20px;
+    order: 2;
+    overflow-y: visible; // Let parent handle scrolling on mobile
+    flex-shrink: 0; // Prevent content from shrinking
+  }
+  
+  // Modern minimal scrollbar (desktop only)
+  @media (min-width: 969px) {
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.2);
+      
+      &:hover {
+        background: rgba(0, 0, 0, 0.4);
+      }
+    }
+  }
+}
+
+.project-modal-right {
+  flex: 1;
+  position: relative;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  
+  @media (max-width: 968px) {
+    min-height: 350px;
+    order: 1;
+    padding: 20px; // Add padding around image on mobile
+    flex-shrink: 0; // Prevent image area from shrinking
+  }
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent);
+  }
+}
+
+.project-modal-title {
+  font-size: 3rem;
+  font-weight: 300;
+  color: $dark;
+  margin-bottom: 30px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  animation: slideInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+  
+  @media (max-width: 968px) {
+    font-size: 2.25rem;
+  }
+  
+  @media (max-width: 640px) {
+    font-size: 1.75rem;
+  }
+}
+
+.project-modal-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 40px;
+  animation: slideInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+  
+  .category-tag {
+    background: $dark;
+    color: white;
+    padding: 10px 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    
+    &:hover {
+      background: lighten($dark, 10%);
+      transform: translateY(-2px);
+    }
+  }
+}
+
+.project-modal-details {
+  animation: slideInUp 0.6s ease 0.4s both;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.project-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.detail-item {
+  background: transparent;
+  padding: 20px 0;
+  border-bottom: 1px solid #e9ecef;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  
+  &:last-child {
+    border-bottom: none;
+  }
+  
+  &:hover {
+    padding-left: 10px;
+    
+    strong {
+      color: $primary;
+    }
+  }
+  
+  strong {
+    color: #6c757d;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+  }
+  
+  span {
+    color: $dark;
+    font-size: 1.125rem;
+    font-weight: 400;
+    display: block;
+  }
+}
+
+.project-scope-section {
+  background: #f8f9fa;
+  padding: 30px;
+  margin-top: 40px;
+  border-left: 3px solid $dark;
+  animation: slideInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+  
+  h4 {
+    color: $dark;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  p {
+    color: #495057;
+    line-height: 1.8;
+    margin: 0;
+    font-size: 1rem;
+  }
+}
+
+.project-modal-image {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  
+  &.loading {
+    opacity: 0.3;
+    transform: scale(0.98);
+  }
+}
+
+.work-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 2px;
+  margin-top: 30px;
+  animation: slideInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+  
+  a {
+    overflow: hidden;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0);
+      transition: background 0.3s ease;
+    }
+    
+    &:hover {
+      transform: scale(1.02);
+      z-index: 1;
+      
+      &::after {
+        background: rgba(0, 0, 0, 0.1);
+      }
+      
+      img {
+        transform: scale(1.05);
+      }
+    }
+  }
+  
+  img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display: block;
+  }
+}
+
+.project-work-item {
+  margin-bottom: 40px;
+  padding: 30px 0;
+  background: transparent;
+  border-top: 1px solid #e9ecef;
+  animation: slideInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
+  
+  .work-details {
+    margin-bottom: 20px;
+  }
+  
+  .work-detail-line {
+    margin-bottom: 10px;
+    
+    strong {
+      color: $dark;
+      font-weight: 600;
+      margin-right: 10px;
+    }
+  }
+  
+  h4 {
+    color: $dark;
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 20px 0 15px 0;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    
+    li {
+      position: relative;
+      padding-left: 25px;
+      margin-bottom: 8px;
+      color: #6c757d;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 8px;
+        width: 6px;
+        height: 6px;
+        background: $primary;
+        border-radius: 50%;
+      }
+    }
+  }
+}
+
+.project-separator {
+  border: none;
+  height: 1px;
+  background: #e9ecef;
+  margin: 40px 0;
+  animation: slideInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both;
+}
+
+// Animations
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Loading state
+.project-modal-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid $primary;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Project Modal Footer Navigation
+.project-modal-footer {
+  position: relative;
+  width: 100%;
+  height: 60px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 40px;
+  border-top: 1px solid #e9ecef;
+  flex-shrink: 0; // Prevent footer from shrinking
+  z-index: 10;
+  
+  // Account for mobile safe areas
+  @media (max-width: 968px) {
+    padding: 0 20px calc(env(safe-area-inset-bottom, 0px) + 10px) 20px;
+    height: calc(60px + env(safe-area-inset-bottom, 0px));
+    justify-content: center; // Center buttons on mobile
+    gap: 20px; // More space between buttons on mobile
+  }
+  
+  .project-nav-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: $dark;
+    font-size: 1.2rem;
+    position: relative;
+    opacity: 0.7;
+    
+    &:hover {
+      opacity: 1;
+      transform: scale(1.1);
+      color: $primary;
+    }
+    
+    &:active {
+      transform: scale(0.95);
+    }
+    
+    &:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      transform: none;
+      
+      &:hover {
+        opacity: 0.3;
+        color: $dark;
+      }
+    }
+    
+    i {
+      font-size: 1.2rem;
+      font-weight: 600;
+      transform: translateY(4px); // Move arrows down by 4px total for better vertical centering
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    // Ensure Bootstrap Icons are visible
+    i.bi {
+      display: inline-block;
+      line-height: 1;
+      vertical-align: middle;
+    }
+    
+    // Fallback arrows (always hidden by default)
+    .fallback-arrow {
+      font-size: 1.5rem;
+      font-weight: bold;
+      line-height: 1;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: none; // Hide by default
+    }
+    
+    // Show fallback only if Bootstrap Icons are not working
+    &:not(.has-icon) .fallback-arrow {
+      display: inline;
+    }
+    
+    // Hide Bootstrap Icons when fallback is needed
+    &:not(.has-icon) i.bi {
+      display: none;
+    }
+  }
+  
+  // Hide the counter since we're simplifying
+  .project-nav-info {
+    display: none;
+  }
+}
+
+// Mobile responsive adjustments
+@media (max-width: 640px) {
+  .project-modal-header {
+    height: 70px;
+    padding: 0 20px;
+  }
+  
+  .project-modal-close {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .project-modal-left {
+    padding: 20px 16px;
+  }
+  
+  .project-modal-right {
+    min-height: 280px;
+    padding: 16px;
+  }
+  
+  .project-details-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  
+  .work-images {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    
+    img {
+      height: 120px;
+    }
+  }
+  
+  .project-modal-footer {
+    height: calc(50px + env(safe-area-inset-bottom, 0px));
+    padding: 0 16px calc(env(safe-area-inset-bottom, 0px) + 8px) 16px;
+    
+    .project-nav-btn {
+      width: 40px;
+      height: 40px;
+      
+      i {
+        font-size: 1rem;
+      }
+      
+      .fallback-arrow {
+        font-size: 1.2rem;
+      }
+    }
+  }
+}
+

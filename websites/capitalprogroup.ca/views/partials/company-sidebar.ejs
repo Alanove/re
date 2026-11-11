@@ -1,0 +1,37 @@
+<% const currentCompany = typeof selected !== 'undefined' ? selected : ''; %>
+<% const companies = typeof companyPages !== 'undefined' ? companyPages : []; %>
+<% const settings = typeof siteSettings !== 'undefined' ? siteSettings : {}; %>
+<% const page = typeof currentPage !== 'undefined' ? currentPage : {}; %>
+<div class="sidebar pe-xl-4">
+  <div class="widget mb-1-9 p-4">
+    <div class="list-style3">
+      <ul class="list-unstyled mb-0">
+        <% companies.forEach(function(company) { %>
+          <li class="<%= currentCompany === company.key ? 'active' : '' %>"><a href="<%= company.url %>"><%= company.title %></a></li>
+        <% }); %>
+      </ul>
+    </div>
+  </div>
+  <% if (page.portalUrl) { %>
+  <div class="widget mb-1-9 p-4 company-portal text-center">
+    <a href="<%= page.portalUrl %>" class="text-white fw-bold" target="_blank" rel="noopener">
+      <%= settings.portalCtaCaption || 'Please click here to access your secure portal' %>
+    </a>
+  </div>
+  <% } %>
+  <div class="bg-img theme-overlay cover-background rounded" data-overlay-dark="8" data-background="/images/bg/bg-03.jpg">
+    <div class="position-relative z-index-9 text-center py-5">
+      <i class="fas fa-headset text-white mb-4 display-14"></i>
+      <h5 class="text-white mb-4">How can we help?</h5>
+      <div class="separator-line-horrizontal-full bg-white opacity4 mb-4"></div>
+      <ul class="text-center list-unstyled mb-0 ps-0">
+        <% const helpPhone = page.helpPhone || settings.contactPhone; %>
+        <% const helpFax = page.helpFax || settings.fax; %>
+        <% const helpEmail = page.helpEmail || settings.contactEmail; %>
+        <% if (helpPhone) { %><li class="text-white mb-2"><i class="fa fa-phone small text-white me-2"></i><a href="tel:<%= String(helpPhone).replace(/[^\d+]/g, '') %>" class="text-white"><%= helpPhone %></a></li><% } %>
+        <% if (helpFax) { %><li class="text-white mb-2"><i class="fal fa-fax small text-white me-2"></i><span class="text-white"><%= helpFax %></span></li><% } %>
+        <% if (helpEmail) { %><li class="text-white"><i class="fa fa-envelope-open small text-white me-2"></i><a href="mailto:<%= helpEmail %>" class="text-white"><%= helpEmail %></a></li><% } %>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,567 @@
+<!-- BEGIN breadcrumb -->
+<ol class="breadcrumb">
+	<li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+	<li class="breadcrumb-item"><a href="/admin/projects">Projects</a></li>
+	<li class="breadcrumb-item active">
+		<%= isCreateMode ? 'Create Project' : 'Edit Project' %>
+	</li>
+</ol>
+<!-- END breadcrumb -->
+
+<form method="POST" action="<%= isCreateMode ? '/admin/projects/create' : '/admin/projects/' + projectId + '/edit' %>"
+	enctype="multipart/form-data" id="projectForm" data-create-mode="<%= isCreateMode %>">
+	<!-- BEGIN row -->
+	<div class="row">
+		<!-- BEGIN col-9 -->
+		<div class="col-9">
+			<!-- BEGIN panel -->
+			<div class="panel panel-inverse" data-sortable-id="form-stuff-1">
+				<!-- BEGIN panel-heading -->
+				<div class="panel-heading">
+					<h4 class="panel-title">Project Information</h4>
+					<div class="panel-heading-btn">
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i
+								class="fa fa-expand"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i
+								class="fa fa-redo"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i
+								class="fa fa-minus"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-danger" data-toggle="panel-remove"><i
+								class="fa fa-times"></i></a>
+					</div>
+				</div>
+				<!-- END panel-heading -->
+				<!-- BEGIN panel-body -->
+				<div class="panel-body">
+					<% if (typeof error !=='undefined' && error) { %>
+						<div class="alert alert-danger">
+							<i class="fa fa-exclamation-triangle"></i>
+							<%= error %>
+						</div>
+					<% } %>
+						<% if (typeof success !=='undefined' && success) { %>
+							<div class="alert alert-success">
+								<i class="fa fa-check-circle"></i>
+								<%= success %>
+							</div>
+							<% } %>
+
+								<!-- Basic Information -->
+								<div class="row mb-15px">
+									<label class="form-label col-form-label col-md-3">Project Title <span
+											class="text-danger">*</span></label>
+									<div class="col-md-9">
+										<input type="text" class="form-control" id="title" name="title"
+											value="<%= project.title || '' %>" required />
+										<small class="fs-12px text-gray-500-darker">Display title for the
+											project</small>
+									</div>
+								</div>
+
+								<div class="row mb-15px">
+									<label class="form-label col-form-label col-md-3">Folder Name</label>
+									<div class="col-md-9">
+										<input type="text" class="form-control" id="folderName" name="folder_name"
+											value="<%= project.folder_name || '' %>" readonly />
+										<small class="fs-12px text-gray-500-darker">Auto-generated from title (URL-friendly)</small>
+									</div>
+								</div>
+
+								<div class="row mb-15px">
+									<label class="form-label col-form-label col-md-3">Project URL</label>
+									<div class="col-md-9">
+										<input type="text" class="form-control" id="projectUrl" name="url"
+											value="<%= project.url || '' %>" readonly />
+										<small class="fs-12px text-gray-500-darker">Auto-generated URL for the project</small>
+									</div>
+								</div>
+
+								<div class="row mb-15px">
+									<label class="form-label col-form-label col-md-3">Priority</label>
+									<div class="col-md-9">
+										<input type="number" class="form-control" id="priority" name="priority"
+											value="<%= (typeof project.priority !== 'undefined') ? project.priority : 1000 %>" />
+										<small class="fs-12px text-gray-500-darker">Sort priority (Higher number displays first, default 1000)</small>
+									</div>
+								</div>
+
+
+
+								<!-- Project Details -->
+								<div class="row mb-15px">
+									<div class="col-md-6">
+										<label class="form-label col-form-label">BUA (Built Up Area)</label>
+										<input type="text" class="form-control" id="bau" name="bau"
+											value="<%= project.bau || '' %>" />
+										<small class="fs-12px text-gray-500-darker">Built Up Area (e.g., 300,000 m²)</small>
+									</div>
+									<div class="col-md-6">
+										<label class="form-label col-form-label">Area</label>
+										<input type="text" class="form-control" id="area" name="area"
+											value="<%= project.area || '' %>" />
+										<small class="fs-12px text-gray-500-darker">Project area (e.g., 250 Berths)</small>
+									</div>
+								</div>
+
+								<div class="row mb-15px">
+									<div class="col-md-6">
+										<label class="form-label col-form-label">Size</label>
+										<input type="text" class="form-control" id="size" name="size"
+											value="<%= project.size || '' %>" />
+										<small class="fs-12px text-gray-500-darker">Project size</small>
+									</div>
+									<div class="col-md-6">
+										<label class="form-label col-form-label">Quantity</label>
+										<input type="text" class="form-control" id="quantity" name="quantity"
+											value="<%= project.quantity || '' %>" />
+										<small class="fs-12px text-gray-500-darker">Quantity (e.g., 3 Stations)</small>
+									</div>
+								</div>
+
+								<div class="row mb-15px">
+									<div class="col-md-6">
+										<label class="form-label col-form-label">Contractor</label>
+										<input type="text" class="form-control" id="contractor" name="contractor"
+											value="<%= project.contractor || '' %>" />
+										<small class="fs-12px text-gray-500-darker">Main contractor</small>
+									</div>
+									<div class="col-md-6">
+										<label class="form-label col-form-label">Architect</label>
+										<input type="text" class="form-control" id="architect" name="architect"
+											value="<%= project.architect || '' %>" />
+										<small class="fs-12px text-gray-500-darker">Project architect</small>
+									</div>
+								</div>
+
+								<div class="row mb-15px">
+									<div class="col-md-6">
+										<label class="form-label col-form-label">Client</label>
+										<input type="text" class="form-control" id="client" name="client"
+											value="<%= project.client || '' %>" />
+										<small class="fs-12px text-gray-500-darker">Project client</small>
+									</div>
+									<div class="col-md-6">
+										<label class="form-label col-form-label">Country</label>
+										<input type="text" class="form-control" id="country" name="country"
+											value="<%= project.country || '' %>" />
+										<small class="fs-12px text-gray-500-darker">Project location</small>
+									</div>
+								</div>
+
+								<div class="row mb-15px">
+									<div class="col-md-6">
+										<label class="form-label col-form-label">Map Location</label>
+										<select class="form-select" id="mapLocation" name="mapLocation">
+											<option value="">-- Select Region --</option>
+											<option value="Americas" <%= project.mapLocation === 'Americas' ? 'selected' : '' %>>Americas (Canada & Latin America)</option>
+											<option value="Africa" <%= project.mapLocation === 'Africa' ? 'selected' : '' %>>Africa (Benin, Congo, Cote d'Ivoire, Egypt, Nigeria, Tanzania)</option>
+											<option value="Gulf and Middle East" <%= project.mapLocation === 'Gulf and Middle East' ? 'selected' : '' %>>Gulf and Middle East (Iraq, Lebanon, UAE)</option>
+											<option value="Saudi Arabia" <%= project.mapLocation === 'Saudi Arabia' ? 'selected' : '' %>>Saudi Arabia</option>
+										</select>
+										<small class="fs-12px text-gray-500-darker">Region for map grouping (used for filtering on projects page)</small>
+									</div>
+								</div>
+
+								<div class="row mb-15px">
+									<div class="col-md-6">
+										<label class="form-label col-form-label">Land</label>
+										<input type="text" class="form-control" id="land" name="land"
+											value="<%= project.land || '' %>" />
+										<small class="fs-12px text-gray-500-darker">Land area or description</small>
+									</div>
+									<div class="col-md-6">
+										<label class="form-label col-form-label">Capacity</label>
+										<input type="text" class="form-control" id="capacity" name="capacity"
+											value="<%= project.capacity || '' %>" />
+										<small class="fs-12px text-gray-500-darker">Project capacity</small>
+									</div>
+								</div>
+
+								<div class="row mb-15px">
+									<div class="col-md-6">
+										<label class="form-label col-form-label">Districts</label>
+										<input type="text" class="form-control" id="districts" name="districts"
+											value="<%= project.districts || '' %>" />
+										<small class="fs-12px text-gray-500-darker">Districts or regions</small>
+									</div>
+									<div class="col-md-6">
+										<label class="form-label col-form-label">Owner</label>
+										<input type="text" class="form-control" id="owner" name="owner"
+											value="<%= project.owner || '' %>" />
+										<small class="fs-12px text-gray-500-darker">Project owner</small>
+									</div>
+								</div>
+
+								<div class="row mb-15px">
+									<div class="col-md-6">
+										<label class="form-label col-form-label">Consultant</label>
+										<input type="text" class="form-control" id="consultant" name="consultant"
+											value="<%= project.consultant || '' %>" />
+										<small class="fs-12px text-gray-500-darker">Project consultant</small>
+									</div>
+								</div>
+
+								<div class="row mb-15px">
+									<label class="form-label col-form-label col-md-3">All Text</label>
+									<div class="col-md-9">
+										<textarea class="form-control" id="all_text" name="all_text" rows="5"
+											placeholder="Enter additional text information..."><%= project.all_text || '' %></textarea>
+										<small class="fs-12px text-gray-500-darker">Additional text information about the project</small>
+									</div>
+								</div>
+
+								<div class="row mb-15px">
+									<label class="form-label col-form-label col-md-3">Scope</label>
+									<div class="col-md-9">
+										<textarea class="form-control" id="scope" name="scope" rows="3"
+											placeholder="Enter project scope..."><%= project.scope || '' %></textarea>
+										<small class="fs-12px text-gray-500-darker">Project scope of work</small>
+									</div>
+								</div>
+
+								<div class="row mb-15px">
+									<label class="form-label col-form-label col-md-3">Categories</label>
+									<div class="col-md-9">
+										<!-- Hidden input to store selected categories -->
+										<input type="hidden" id="categoriesInput" name="categories"
+											value="<%= project.categories ? project.categories.join(',') : '' %>" />
+
+										<!-- Categories display area -->
+										<div id="categoriesContainer" class="mb-2">
+											<% if (project.categories && project.categories.length> 0) { %>
+												<% project.categories.forEach(category=> { %>
+													<span class="badge bg-primary me-1 mb-1 category-tag"
+														data-category="<%= category %>">
+														<%= category %>
+															<button type="button"
+																class="btn-close btn-close-white ms-1"
+																onclick="removeCategory('<%= category %>')"
+																style="font-size: 0.5em;"></button>
+													</span>
+													<% }) %>
+														<% } %>
+										</div>
+
+										<!-- Add category input -->
+										<div class="input-group">
+											<input type="text" class="form-control" id="categoryInput"
+												placeholder="Type a category and press Enter or click Add"
+												onkeydown="if(event.key === 'Enter') { event.preventDefault(); event.stopPropagation(); const value = this.value.trim(); if(value) { addCategoryDirect(value); } return false; }">
+											<button type="button" class="btn btn-outline-secondary"
+												onclick="addCategory()">
+												<i class="fa fa-plus"></i> Add
+											</button>
+										</div>
+										<small class="fs-12px text-gray-500-darker">Type a category name and press
+											Enter or click Add to include it</small>
+									</div>
+								</div>
+			</div>
+			<!-- END panel-body -->
+		</div>
+		<!-- END panel -->
+	</div>
+
+	<!-- END col-9 -->
+
+	<!-- BEGIN col-3 -->
+	<div class="col-3">
+		<!-- BEGIN panel -->
+		<div class="panel panel-inverse" data-sortable-id="form-stuff-2">
+			<!-- BEGIN panel-heading -->
+			<div class="panel-heading">
+				<h4 class="panel-title">Project Details</h4>
+				<div class="panel-heading-btn">
+					<a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i
+							class="fa fa-expand"></i></a>
+					<a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i
+							class="fa fa-redo"></i></a>
+					<a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i
+							class="fa fa-minus"></i></a>
+					<a href="javascript:;" class="btn btn-xs btn-icon btn-danger" data-toggle="panel-remove"><i
+							class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<!-- END panel-heading -->
+			<!-- BEGIN panel-body -->
+			<div class="panel-body">
+				<!-- Project Image Section -->
+				<div class="mb-15px">
+					<label class="form-label">Project Image</label>
+
+					<!-- Hidden input for existing image URL -->
+					<input type="hidden" id="projectImage" name="projectImage"
+						value="<%= project.project_image || '' %>">
+
+					<!-- Image Display -->
+					<div id="currentImageContainer" class="mb-3">
+						<% if (project.project_image) { %>
+							<div class="text-center">
+								<img id="currentImage"
+									src="<%= projectsService.getProjectImagePath(project) %>"
+									alt="Current project image" class="img-fluid rounded"
+									style="max-width: 100%; max-height: 200px; cursor: pointer;"
+									onclick="openImageInNewTab('<%= projectsService.getProjectImagePath(project) %>')" />
+								<div class="mt-2">
+									<button type="button" class="btn btn-sm btn-danger"
+										onclick="deleteProjectImage()">
+										<i class="fa fa-trash me-1"></i> Delete Image
+									</button>
+								</div>
+							</div>
+							<% } else { %>
+								<div class="text-center p-4 border rounded bg-light">
+									<i class="fa fa-image fa-3x text-muted mb-2"></i>
+									<p class="text-muted mb-0">No image uploaded</p>
+								</div>
+								<% } %>
+					</div>
+
+					<!-- Image Upload -->
+					<div class="mb-3">
+						<label for="projectPicture" class="form-label">Upload New Image</label>
+						<input type="file" class="form-control" id="projectPicture" name="projectPicture"
+							accept="image/*" />
+						<small class="fs-12px text-gray-500-darker">Upload a new image to replace the current
+							one</small>
+					</div>
+
+					<!-- Image Preview -->
+					<div id="imagePreview" class="mb-3" style="display: none;">
+						<label class="form-label">Preview</label>
+						<div class="text-center">
+							<img id="previewImg" src="" alt="Preview" class="img-fluid rounded"
+								style="max-width: 100%; max-height: 150px;" />
+							<div class="mt-2">
+								<button type="button" class="btn btn-sm btn-secondary"
+									onclick="removeImagePreview()">
+									<i class="fa fa-times me-1"></i> Remove Preview
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END panel-body -->
+		</div>
+		<!-- END panel -->
+	</div>
+	<!-- END col-3 -->
+</div>
+<!-- END row -->
+
+
+
+<!-- Form Actions -->
+<div class="d-flex justify-content-between mt-4">
+	<a href="/admin/projects" class="btn btn-secondary">
+		<i class="fa fa-arrow-left me-1"></i> Back to Projects
+	</a>
+	<button type="submit" class="btn btn-primary">
+		<i class="fa fa-save me-1"></i>
+		<%= isCreateMode ? 'Create Project' : 'Update Project' %>
+	</button>
+</div>
+</form>
+
+<script>
+	// Category management functionality
+	let selectedCategories = [];
+
+	// Auto-generate folder name and URL from title
+	const titleInput = document.getElementById('title');
+	if (titleInput) {
+		titleInput.addEventListener('input', function() {
+			const title = this.value.trim();
+			const folderName = title
+				.toLowerCase()
+				.replace(/[^a-z0-9\s-]/g, '')
+				.replace(/\s+/g, '-')
+				.replace(/-+/g, '-')
+				.trim();
+			
+			const folderNameInput = document.getElementById('folderName');
+			const urlInput = document.getElementById('projectUrl');
+			
+			if (folderNameInput) {
+				folderNameInput.value = folderName;
+			}
+			if (urlInput) {
+				urlInput.value = folderName;
+			}
+		});
+	}
+
+	// Initialize categories on page load
+	document.addEventListener('DOMContentLoaded', function () {
+				// Main project form is now separate from work form, so no conflicts
+		const projectForm = document.getElementById('projectForm');
+		if (projectForm) {
+			console.log('Main project form found');
+		} else {
+			console.log('Main project form not found');
+		}
+		const categoriesInput = document.getElementById('categoriesInput');
+		if (categoriesInput && categoriesInput.value) {
+			selectedCategories = categoriesInput.value.split(',').filter(cat => cat.trim() !== '');
+		}
+
+		// Add Enter key support for category input
+		const categoryInput = document.getElementById('categoryInput');
+		if (categoryInput) {
+			categoryInput.addEventListener('keypress', function (e) {
+				if (e.key === 'Enter') {
+					e.preventDefault();
+					e.stopPropagation();
+					const value = this.value.trim();
+					if (value) {
+						addCategoryDirect(value);
+					}
+				}
+			});
+		}
+	});
+
+	// Add category function (for button click)
+	function addCategory() {
+		const categoryInput = document.getElementById('categoryInput');
+		const newCategory = categoryInput.value.trim();
+
+		if (!newCategory) {
+			alert('Please enter a category name');
+			return;
+		}
+
+		addCategoryDirect(newCategory);
+	}
+	
+	// Add category function (for Enter key - accepts value as parameter)
+	function addCategoryDirect(newCategory) {
+		// Check if category already exists (case-insensitive)
+		if (selectedCategories.some(cat => cat.toLowerCase() === newCategory.toLowerCase())) {
+			alert('This category is already added');
+			return;
+		}
+
+		// Add to selected categories
+		selectedCategories.push(newCategory);
+
+		// Update display
+		updateCategoriesDisplay();
+
+		// Update hidden input
+		updateCategoriesInput();
+
+		// Clear input
+		const categoryInput = document.getElementById('categoryInput');
+		if (categoryInput) {
+			categoryInput.value = '';
+		}
+	}
+
+	// Remove category function
+	function removeCategory(category) {
+		selectedCategories = selectedCategories.filter(cat => cat !== category);
+		updateCategoriesDisplay();
+		updateCategoriesInput();
+	}
+
+	// Update categories display
+	function updateCategoriesDisplay() {
+		const container = document.getElementById('categoriesContainer');
+		container.innerHTML = '';
+
+		selectedCategories.forEach(category => {
+			const tag = document.createElement('span');
+			tag.className = 'badge bg-primary me-1 mb-1 category-tag';
+			tag.setAttribute('data-category', category);
+			tag.innerHTML = `
+			${category}
+			<button type="button" class="btn-close btn-close-white ms-1" onclick="removeCategory('${category}')" style="font-size: 0.5em;"></button>
+		`;
+			container.appendChild(tag);
+		});
+	}
+
+	// Update hidden input with selected categories
+	function updateCategoriesInput() {
+		const categoriesInput = document.getElementById('categoriesInput');
+		categoriesInput.value = selectedCategories.join(',');
+	}
+
+	// Image preview functionality
+	const projectPictureInput = document.getElementById('projectPicture');
+	if (projectPictureInput) {
+		projectPictureInput.addEventListener('change', function () {
+			const preview = document.getElementById('imagePreview');
+			const previewImg = document.getElementById('previewImg');
+			const file = this.files[0];
+
+			if (file) {
+				const reader = new FileReader();
+				reader.onload = function (e) {
+					previewImg.src = e.target.result;
+					preview.style.display = 'block';
+				}
+				reader.readAsDataURL(file);
+			} else {
+				preview.style.display = 'none';
+			}
+		});
+	}
+
+	// Remove image preview
+	function removeImagePreview() {
+		const preview = document.getElementById('imagePreview');
+		const fileInput = document.getElementById('projectPicture');
+		preview.style.display = 'none';
+		fileInput.value = '';
+	}
+
+	// Delete project image
+	function deleteProjectImage() {
+		showActionModal({
+			title: 'Delete Project Image',
+			message: 'Are you sure you want to delete this project image? This action cannot be undone.',
+			endpoint: `/admin/projects/<%= projectId %>/delete-image`,
+			method: 'DELETE',
+			onSuccess: function(data) {
+				if (data.success) {
+					// Clear the hidden input
+					document.getElementById('projectImage').value = '';
+					
+					// Update the display to show "no image" state
+					document.getElementById('currentImageContainer').innerHTML = `
+						<div class="text-center p-4 border rounded bg-light">
+							<i class="fa fa-image fa-3x text-muted mb-2"></i>
+							<p class="text-muted mb-0">No image uploaded</p>
+						</div>
+					`;
+					
+					// Also clear any file input
+					const fileInput = document.getElementById('projectPicture');
+					if (fileInput) {
+						fileInput.value = '';
+					}
+					
+					// Hide any preview
+					const preview = document.getElementById('imagePreview');
+					if (preview) {
+						preview.style.display = 'none';
+					}
+					
+					// Show success toast
+					showSuccessToast(data.message || 'Project image deleted successfully');
+				} else {
+					// Show error toast
+					showErrorToast(data.message || 'Failed to delete project image');
+				}
+			}
+		});
+	}
+
+	// Open image in new tab
+	function openImageInNewTab(imageUrl) {
+		window.open(imageUrl, '_blank');
+	}
+</script>

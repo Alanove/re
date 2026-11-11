@@ -29,12 +29,12 @@
 				<table class="table table-striped table-bordered align-middle" id="collection-table">
 					<thead>
 						<tr>
-							<th style="width:56px">Photo</th>
+							<th style="width:56px" data-sort="off">Photo</th>
 							<th>Title</th>
 							<% if (isEvents) { %><th>Date</th><th>Venue</th><% } else { %><th>Published</th><% } %>
 							<th>Status</th>
 							<th class="text-center">Gallery</th>
-							<th style="width:1%">Actions</th>
+							<th style="width:1%" data-sort="off">Actions</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -47,18 +47,18 @@
 										<div class="admin-thumb admin-thumb-empty rounded"><i class="fa fa-image text-muted"></i></div>
 									<% } %>
 								</td>
-								<td>
+								<td data-sort-value="<%= entry.title %>">
 									<a href="<%= collection.basePath %>/<%= entry.id %>/edit" class="fw-bold" dir="auto"><%= entry.title %></a>
 									<div class="small"><a href="<%= entry.url %>" target="_blank" rel="noopener" class="text-muted"><%= entry.url %></a></div>
 								</td>
 								<% if (isEvents) { %>
-									<td class="text-nowrap">
+									<td class="text-nowrap" data-sort-value="<%= entry.eventDate || '' %>">
 										<%= entry.eventDate ? new Date(entry.eventDate + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }) : '—' %>
 										<% if (entry.upcoming) { %><span class="badge bg-info ms-1">Upcoming</span><% } %>
 									</td>
 									<td class="small" dir="auto"><%= entry.venue || '—' %></td>
 								<% } else { %>
-									<td class="text-nowrap small"><%= new Date(entry.createdAt).toLocaleDateString('en-GB') %></td>
+									<td class="text-nowrap small" data-sort-value="<%= entry.createdAt %>"><%= new Date(entry.createdAt).toLocaleDateString('en-GB') %></td>
 								<% } %>
 								<td>
 									<% if (entry.status === 'published') { %><span class="badge bg-success">Published</span><% } else { %><span class="badge bg-secondary">Draft</span><% } %>

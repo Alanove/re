@@ -1,0 +1,444 @@
+<!-- BEGIN content area -->
+<div class="row">
+	<div class="col-xl-12">
+		<!-- BEGIN panel -->
+		<div class="panel panel-inverse">
+			<div class="panel-heading">
+				<h4 class="panel-title"><%= typeof t !== 'undefined' ? t('ecommerce.categories.editCategory') : 'Edit Category' %></h4>
+				<div class="panel-heading-btn">
+					<a href="/admin/categories" class="btn btn-xs btn-secondary">
+						<i class="fa fa-arrow-left"></i> <%= typeof t !== 'undefined' ? t('common.back') : 'Back' %>
+					</a>
+				</div>
+			</div>
+			<div class="panel-body">
+				<% if (typeof error !== 'undefined' && error) { %>
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<strong>Error!</strong> <%= error %>
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>
+				<% } %>
+
+				<form method="POST" action="/admin/categories/<%= category.id %>/edit" enctype="multipart/form-data" id="categoryForm">
+					<div class="row">
+						<div class="col-md-8">
+							<div class="mb-3">
+								<label for="categoryName" class="form-label"><%= typeof t !== 'undefined' ? t('ecommerce.categories.categoryName') : 'Category Name' %> <span class="text-danger">*</span></label>
+								<input type="text" class="form-control" id="categoryName" name="name" required 
+								       value="<%= category.name %>">
+							</div>
+
+							<div class="mb-3">
+								<label for="categorySlug" class="form-label">Slug <span class="text-danger">*</span></label>
+								<input type="text" class="form-control" id="categorySlug" name="slug" required 
+								       value="<%= category.slug %>">
+								<small class="form-text text-muted">URL-friendly version of the name (e.g., "men-shoes")</small>
+							</div>
+
+							<div class="mb-3">
+								<label for="categoryDescription" class="form-label">Description</label>
+								<textarea class="form-control" id="categoryDescription" name="description" rows="5"><%= category.description || '' %></textarea>
+							</div>
+
+							<div class="mb-3">
+								<label for="categoryParent" class="form-label"><%= typeof t !== 'undefined' ? t('ecommerce.categories.parentCategory') : 'Parent Category' %></label>
+								<select class="form-select" id="categoryParent" name="parent_id">
+									<option value=""><%= typeof t !== 'undefined' ? t('ecommerce.categories.noParentCategory') : 'No Parent Category' %></option>
+									<% if (typeof categories !== 'undefined' && categories) { %>
+										<% categories.forEach(function(cat) { %>
+											<% if (cat.id !== category.id) { %>
+												<option value="<%= cat.id %>" <%= category.parent_id == cat.id ? 'selected' : '' %>>
+													<%= cat.name %>
+												</option>
+											<% } %>
+										<% }); %>
+									<% } %>
+								</select>
+							</div>
+						</div>
+
+						<div class="col-md-4">
+							<div class="mb-3">
+								<label for="categoryImage" class="form-label"><%= typeof t !== 'undefined' ? t('ecommerce.categories.categoryImage') : 'Category Image' %></label>
+
+								<!-- Image Display -->
+								<div id="currentImageContainer" class="mb-3">
+									<% 
+									let hasImage = category.image_url && category.image_url.trim() !== '';
+									if (hasImage) {
+										let imageUrl = category.image_url.trim();
+										// Normalize backslashes to forward slashes (handles Windows paths)
+										imageUrl = imageUrl.replace(/\\/g, '/');
+										// Remove duplicate slashes at the start
+										imageUrl = imageUrl.replace(/^\/+/, '/');
+										// Ensure it starts with /
+										if (!imageUrl.startsWith('/')) {
+											imageUrl = '/' + imageUrl;
+										}
+										// Normalize multiple slashes throughout
+										imageUrl = imageUrl.replace(/\/+/g, '/');
+									%>
+										<div class="text-center">
+											<img id="currentImage" src="<%= imageUrl %>" data-image-url="<%= imageUrl %>" alt="<%= typeof t !== 'undefined' ? t('ecommerce.categories.categoryImage') : 'Current category image' %>"
+												class="img-fluid rounded"
+												style="max-width: 100%; max-height: 200px; cursor: pointer;" />
+											<div class="mt-2">
+												<button type="button" class="btn btn-sm btn-danger" id="deleteImageBtn">
+													<i class="fa fa-trash me-1"></i> <%= typeof t !== 'undefined' ? t('common.delete') : 'Delete Image' %>
+												</button>
+											</div>
+										</div>
+									<% } else { %>
+										<div class="text-center p-4 border rounded bg-light">
+											<i class="fa fa-image fa-3x text-muted mb-2"></i>
+											<p class="text-muted mb-0"><%= typeof t !== 'undefined' ? t('ecommerce.categories.noImageUploaded') : 'No image uploaded' %></p>
+										</div>
+									<% } %>
+								</div>
+
+								<!-- Image Upload -->
+								<div class="mb-3">
+									<label for="categoryImage" class="form-label"><%= typeof t !== 'undefined' ? t('ecommerce.categories.uploadNewImage') : 'Upload New Image' %></label>
+									<input type="file" class="form-control" id="categoryImage" name="image"
+										accept="image/*" />
+									<small class="form-text text-muted"><%= typeof t !== 'undefined' ? t('ecommerce.categories.replaceCurrentImage') : 'Upload a new image to replace the current one' %></small>
+								</div>
+
+								<!-- Image Preview -->
+								<div id="imagePreview" class="mb-3" style="display: none;">
+									<label class="form-label"><%= typeof t !== 'undefined' ? t('common.preview') : 'Preview' %></label>
+									<div class="text-center">
+										<img id="previewImg" src="" alt="<%= typeof t !== 'undefined' ? t('common.preview') : 'Preview' %>" class="img-fluid rounded"
+											style="max-width: 100%; max-height: 150px;" />
+										<div class="mt-2">
+											<button type="button" class="btn btn-sm btn-secondary" id="removePreviewBtn">
+												<i class="fa fa-times me-1"></i> <%= typeof t !== 'undefined' ? t('common.removePreview') : 'Remove Preview' %>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="mb-3">
+								<label for="categoryVideo" class="form-label"><%= typeof t !== 'undefined' ? t('ecommerce.categories.categoryVideo') : 'Category Video' %></label>
+
+								<div id="currentVideoContainer" class="mb-3">
+									<% 
+									let hasVideo = category.video_url && category.video_url.trim() !== '';
+									if (hasVideo) {
+										let videoUrl = category.video_url.trim();
+										videoUrl = videoUrl.replace(/\\/g, '/');
+										videoUrl = videoUrl.replace(/^\/+/, '/');
+										if (!videoUrl.startsWith('/')) {
+											videoUrl = '/' + videoUrl;
+										}
+										videoUrl = videoUrl.replace(/\/+/g, '/');
+									%>
+										<div class="text-center">
+											<video id="currentVideo" src="<%= videoUrl %>" data-video-url="<%= videoUrl %>" controls
+												class="rounded"
+												style="max-width: 100%; max-height: 200px;"<% if (category.image_url) { %> poster="<%= category.image_url %>"<% } %>></video>
+											<div class="mt-2">
+												<button type="button" class="btn btn-sm btn-danger" id="deleteVideoBtn">
+													<i class="fa fa-trash me-1"></i> <%= typeof t !== 'undefined' ? t('common.delete') : 'Delete Video' %>
+												</button>
+											</div>
+										</div>
+									<% } else { %>
+										<div class="text-center p-4 border rounded bg-light">
+											<i class="fa fa-video fa-3x text-muted mb-2"></i>
+											<p class="text-muted mb-0"><%= typeof t !== 'undefined' ? t('ecommerce.categories.noVideoUploaded') : 'No video uploaded' %></p>
+										</div>
+									<% } %>
+								</div>
+
+								<label for="categoryVideoUpload" class="form-label"><%= typeof t !== 'undefined' ? t('ecommerce.categories.uploadNewVideo') : 'Upload New Video' %></label>
+								<input type="file" class="form-control" id="categoryVideoUpload" name="video" accept="video/*" />
+								<small class="form-text text-muted"><%= typeof t !== 'undefined' ? t('ecommerce.categories.replaceCurrentVideo') : 'Upload a new video to replace the current one. Supported formats: MP4, WebM, OGG. Max 100MB.' %></small>
+								<small class="form-text text-muted d-block"><%= typeof t !== 'undefined' ? t('ecommerce.categories.videoPosterNote') : 'The category image is used as the video poster on the shop page.' %></small>
+							</div>
+
+							<div class="mb-3">
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" id="categoryFeatured" name="is_featured" value="true"
+									       <%= category.is_featured ? 'checked' : '' %>>
+									<label class="form-check-label" for="categoryFeatured">
+										<%= typeof t !== 'undefined' ? t('ecommerce.categories.featured') : 'Featured' %>
+									</label>
+								</div>
+							</div>
+
+							<div class="mb-3">
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" id="categoryActive" name="is_active" value="true"
+									       <%= category.is_active !== false ? 'checked' : '' %>>
+									<label class="form-check-label" for="categoryActive">
+										<%= typeof t !== 'undefined' ? t('common.active') : 'Active' %>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-actions">
+						<button type="submit" class="btn btn-primary">
+							<i class="fa fa-save"></i> <%= typeof t !== 'undefined' ? t('common.save') : 'Save' %>
+						</button>
+						<a href="/admin/categories" class="btn btn-secondary">
+							<%= typeof t !== 'undefined' ? t('common.cancel') : 'Cancel' %>
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- END panel -->
+
+		<!-- BEGIN category products panel -->
+		<div class="panel panel-inverse" id="categoryProducts">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<%= typeof t !== 'undefined' ? t('ecommerce.categories.productsInCategory') : 'Products in this category' %>
+					(<%= typeof pagination !== 'undefined' && pagination ? pagination.total : 0 %>)
+				</h4>
+				<div class="panel-heading-btn">
+					<a href="/admin/products/create?category_id=<%= category.id %>" class="btn btn-xs btn-success me-1">
+						<i class="fa fa-plus"></i> <%= typeof t !== 'undefined' ? t('ecommerce.products.addNewProduct') : 'Add New Product' %>
+					</a>
+					<a href="/admin/products?category_id=<%= category.id %>" class="btn btn-xs btn-secondary me-1">
+						<i class="fa fa-list"></i> <%= typeof t !== 'undefined' ? t('ecommerce.categories.openInProductList') : 'Open in product list' %>
+					</a>
+					<a href="/shop/category/<%= category.slug %>" target="_blank" rel="noopener" class="btn btn-xs btn-info">
+						<i class="fa fa-external-link-alt"></i> <%= typeof t !== 'undefined' ? t('ecommerce.categories.viewOnSite') : 'View on site' %>
+					</a>
+				</div>
+			</div>
+			<div class="panel-body">
+				<%- include('../products/products-table', {
+					products: typeof products !== 'undefined' ? products : [],
+					pagination: typeof pagination !== 'undefined' ? pagination : null,
+					paginationQuery: {},
+					createUrl: '/admin/products/create?category_id=' + category.id
+				}) %>
+			</div>
+		</div>
+		<!-- END category products panel -->
+	</div>
+</div>
+<!-- END content area -->
+
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		// Image preview functionality
+		const categoryImageInput = document.getElementById('categoryImage');
+		if (categoryImageInput) {
+			categoryImageInput.addEventListener('change', function () {
+				const preview = document.getElementById('imagePreview');
+				const previewImg = document.getElementById('previewImg');
+				const file = this.files[0];
+
+				if (file) {
+					const reader = new FileReader();
+					reader.onload = function (e) {
+						previewImg.src = e.target.result;
+						preview.style.display = 'block';
+					}
+					reader.readAsDataURL(file);
+				} else {
+					preview.style.display = 'none';
+				}
+			});
+		}
+
+		// Remove preview button
+		const removePreviewBtn = document.getElementById('removePreviewBtn');
+		if (removePreviewBtn) {
+			removePreviewBtn.addEventListener('click', function() {
+				document.getElementById('categoryImage').value = '';
+				document.getElementById('imagePreview').style.display = 'none';
+				document.getElementById('previewImg').src = '';
+			});
+		}
+
+		// Current image click (open in new tab)
+		const currentImage = document.getElementById('currentImage');
+		if (currentImage) {
+			currentImage.addEventListener('click', function() {
+				const imageUrl = this.getAttribute('data-image-url');
+				if (imageUrl) {
+					window.open(imageUrl, '_blank');
+				}
+			});
+		}
+
+		// Delete image button
+		const deleteImageBtn = document.getElementById('deleteImageBtn');
+		if (deleteImageBtn) {
+			deleteImageBtn.addEventListener('click', deleteCategoryImage);
+		}
+
+		// Delete video button
+		const deleteVideoBtn = document.getElementById('deleteVideoBtn');
+		if (deleteVideoBtn) {
+			deleteVideoBtn.addEventListener('click', deleteCategoryVideo);
+		}
+
+		// Products table quick actions
+		document.querySelectorAll('#categoryProducts .delete-product-btn').forEach(function(btn) {
+			btn.addEventListener('click', function() {
+				const productId = this.getAttribute('data-product-id');
+				deleteItem(`/admin/products/${productId}`, this, '<%= typeof t !== 'undefined' ? t('ecommerce.products.deleteProduct') : 'Delete Product' %>');
+			});
+		});
+	});
+
+	function deleteCategoryImage() {
+		const categoryId = '<%= category.id %>';
+		const currentImage = '<%= category.image_url || "" %>';
+		const deleteImageTitle = '<%= typeof t !== "undefined" ? t("common.confirmDelete") : "Delete Image" %>';
+		const deleteImageMessage = '<%= typeof t !== "undefined" ? t("ecommerce.categories.deleteImageMessage") : "Are you sure you want to delete the category image? This action cannot be undone." %>';
+		const noImageToDelete = '<%= typeof t !== "undefined" ? t("ecommerce.categories.noImageToDelete") : "No image to delete" %>';
+		const imageDeletedSuccess = '<%= typeof t !== "undefined" ? t("ecommerce.categories.imageDeletedSuccess") : "Image deleted successfully" %>';
+		const failedToDeleteImage = '<%= typeof t !== "undefined" ? t("ecommerce.categories.failedToDeleteImage") : "Failed to delete image" %>';
+
+		if (!currentImage) {
+			if (typeof showWarningToast === 'function') {
+				showWarningToast(noImageToDelete);
+			} else {
+				alert(noImageToDelete);
+			}
+			return;
+		}
+
+		if (typeof showActionModal === 'function') {
+			showActionModal({
+				title: deleteImageTitle,
+				message: deleteImageMessage,
+				endpoint: `/admin/categories/${categoryId}/delete-image`,
+				method: 'DELETE',
+				onSuccess: function (data) {
+					if (data.success) {
+						// Update the image container to show placeholder
+						const container = document.getElementById('currentImageContainer');
+						const noImageUploaded = '<%= typeof t !== "undefined" ? t("ecommerce.categories.noImageUploaded") : "No image uploaded" %>';
+						container.innerHTML = `
+							<div class="text-center p-4 border rounded bg-light">
+								<i class="fa fa-image fa-3x text-muted mb-2"></i>
+								<p class="text-muted mb-0">${noImageUploaded}</p>
+							</div>
+						`;
+
+						if (typeof showSuccessToast === 'function') {
+							showSuccessToast(imageDeletedSuccess);
+						} else {
+							alert(imageDeletedSuccess);
+						}
+					} else {
+						if (typeof showErrorToast === 'function') {
+							showErrorToast(failedToDeleteImage + ': ' + (data.message || 'Unknown error'));
+						} else {
+							alert(failedToDeleteImage + ': ' + (data.message || 'Unknown error'));
+						}
+					}
+				}
+			});
+		} else {
+			// Fallback to confirm if modal function not available
+			if (confirm(deleteImageMessage)) {
+				fetch(`/admin/categories/${categoryId}/delete-image`, {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json',
+					}
+				})
+				.then(response => response.json())
+				.then(data => {
+					if (data.success) {
+						const container = document.getElementById('currentImageContainer');
+						const noImageUploaded = '<%= typeof t !== "undefined" ? t("ecommerce.categories.noImageUploaded") : "No image uploaded" %>';
+						container.innerHTML = `
+							<div class="text-center p-4 border rounded bg-light">
+								<i class="fa fa-image fa-3x text-muted mb-2"></i>
+								<p class="text-muted mb-0">${noImageUploaded}</p>
+							</div>
+						`;
+						alert(imageDeletedSuccess);
+					} else {
+						alert(failedToDeleteImage + ': ' + (data.message || 'Unknown error'));
+					}
+				})
+				.catch(error => {
+					console.error('Error:', error);
+					alert(failedToDeleteImage);
+				});
+			}
+		}
+	}
+
+	function deleteCategoryVideo() {
+		const categoryId = '<%= category.id %>';
+		const currentVideo = '<%= category.video_url || "" %>';
+		const deleteVideoTitle = '<%= typeof t !== "undefined" ? t("common.confirmDelete") : "Delete Video" %>';
+		const deleteVideoMessage = '<%= typeof t !== "undefined" ? t("ecommerce.categories.deleteVideoMessage") : "Are you sure you want to delete the category video? This action cannot be undone." %>';
+		const noVideoToDelete = '<%= typeof t !== "undefined" ? t("ecommerce.categories.noVideoToDelete") : "No video to delete" %>';
+		const videoDeletedSuccess = '<%= typeof t !== "undefined" ? t("ecommerce.categories.videoDeletedSuccess") : "Video deleted successfully" %>';
+		const failedToDeleteVideo = '<%= typeof t !== "undefined" ? t("ecommerce.categories.failedToDeleteVideo") : "Failed to delete video" %>';
+
+		if (!currentVideo) {
+			if (typeof showWarningToast === 'function') {
+				showWarningToast(noVideoToDelete);
+			} else {
+				alert(noVideoToDelete);
+			}
+			return;
+		}
+
+		const onSuccess = function (data) {
+			if (data.success) {
+				const container = document.getElementById('currentVideoContainer');
+				const noVideoUploaded = '<%= typeof t !== "undefined" ? t("ecommerce.categories.noVideoUploaded") : "No video uploaded" %>';
+				container.innerHTML = `
+					<div class="text-center p-4 border rounded bg-light">
+						<i class="fa fa-video fa-3x text-muted mb-2"></i>
+						<p class="text-muted mb-0">${noVideoUploaded}</p>
+					</div>
+				`;
+
+				if (typeof showSuccessToast === 'function') {
+					showSuccessToast(videoDeletedSuccess);
+				} else {
+					alert(videoDeletedSuccess);
+				}
+			} else {
+				if (typeof showErrorToast === 'function') {
+					showErrorToast(failedToDeleteVideo + ': ' + (data.message || 'Unknown error'));
+				} else {
+					alert(failedToDeleteVideo + ': ' + (data.message || 'Unknown error'));
+				}
+			}
+		};
+
+		if (typeof showActionModal === 'function') {
+			showActionModal({
+				title: deleteVideoTitle,
+				message: deleteVideoMessage,
+				endpoint: `/admin/categories/${categoryId}/delete-video`,
+				method: 'DELETE',
+				onSuccess: onSuccess
+			});
+		} else if (confirm(deleteVideoMessage)) {
+			fetch(`/admin/categories/${categoryId}/delete-video`, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+				}
+			})
+			.then(response => response.json())
+			.then(onSuccess)
+			.catch(error => {
+				console.error('Error:', error);
+				alert(failedToDeleteVideo);
+			});
+		}
+	}
+</script>
+

@@ -1,0 +1,230 @@
+{
+  "ClientInfo": {
+    "UserName": "info@guerrasports.com",
+    "Password": "Aramexguerra25#",
+    "Version": "v1.0",
+    "AccountNumber": "72478367",
+    "AccountPin": "316198",
+    "AccountEntity": "BEY",
+    "AccountCountryCode": "LB"
+  },
+  "LabelInfo": {
+    "ReportID": 9729,
+    "ReportType": "URL"
+  },
+  "Shipments": [
+    {
+      "Reference1": "ORDER-TEST-JSON-001",
+      "Reference2": "JSON-API-TEST",
+      "Reference3": "2026-02-11T09:27:36.980Z",
+      "Shipper": {
+        "Reference1": "TEST-SENDER-001",
+        "Reference2": "JSON-API-TEST",
+        "AccountNumber": "72478367",
+        "PartyAddress": {
+          "Line1": "Okaibe Highway",
+          "Line2": "",
+          "Line3": "",
+          "City": "Tabarja",
+          "StateOrProvinceCode": "Keserwan",
+          "PostCode": "0000",
+          "CountryCode": "LB",
+          "Longitude": 0,
+          "Latitude": 0,
+          "BuildingNumber": "",
+          "BuildingName": "",
+          "Floor": "",
+          "Apartment": "",
+          "POBox": "",
+          "Description": ""
+        },
+        "Contact": {
+          "Department": "",
+          "PersonName": "Guerra Sports",
+          "Title": "",
+          "CompanyName": "Skyline Group LLC",
+          "PhoneNumber1": "+961 3446411",
+          "PhoneNumber1Ext": "",
+          "PhoneNumber2": "",
+          "PhoneNumber2Ext": "",
+          "FaxNumber": "",
+          "CellPhone": "+961 3446411",
+          "EmailAddress": "info@guerrasports.com",
+          "Type": ""
+        }
+      },
+      "Consignee": {
+        "Reference1": "TEST-RECEIVER-001",
+        "Reference2": "",
+        "AccountNumber": "",
+        "PartyAddress": {
+          "Line1": "123 Test Street",
+          "Line2": "Apartment 4B",
+          "Line3": "",
+          "City": "Beirut",
+          "StateOrProvinceCode": "Beirut",
+          "PostCode": "1100",
+          "CountryCode": "LB",
+          "Longitude": 0,
+          "Latitude": 0,
+          "BuildingNumber": "",
+          "BuildingName": "",
+          "Floor": "",
+          "Apartment": "",
+          "POBox": "",
+          "Description": ""
+        },
+        "Contact": {
+          "Department": "",
+          "PersonName": "John Doe",
+          "Title": "",
+          "CompanyName": "Test Company",
+          "PhoneNumber1": "+9611234567",
+          "PhoneNumber1Ext": "",
+          "PhoneNumber2": "",
+          "PhoneNumber2Ext": "",
+          "FaxNumber": "",
+          "CellPhone": "+9611234567",
+          "EmailAddress": "test@example.com",
+          "Type": ""
+        }
+      },
+      "ThirdParty": {
+        "Reference1": "",
+        "Reference2": "",
+        "AccountNumber": "",
+        "PartyAddress": {
+          "Line1": "",
+          "Line2": "",
+          "Line3": "",
+          "City": "",
+          "StateOrProvinceCode": "",
+          "PostCode": "",
+          "CountryCode": "",
+          "Longitude": 0,
+          "Latitude": 0,
+          "BuildingNumber": "",
+          "BuildingName": "",
+          "Floor": "",
+          "Apartment": "",
+          "POBox": "",
+          "Description": ""
+        },
+        "Contact": {
+          "Department": "",
+          "PersonName": "",
+          "Title": "",
+          "CompanyName": "",
+          "PhoneNumber1": "",
+          "PhoneNumber1Ext": "",
+          "PhoneNumber2": "",
+          "PhoneNumber2Ext": "",
+          "FaxNumber": "",
+          "CellPhone": "",
+          "EmailAddress": "",
+          "Type": ""
+        }
+      },
+      "ShippingDateTime": "2026-02-11T09:27:36.981Z",
+      "DueDate": "2026-02-12T09:27:36.981Z",
+      "Comments": "Test shipment via JSON API",
+      "PickupLocation": "Reception",
+      "OperationsInstructions": "",
+      "AccountingInstrcutions": "",
+      "Details": {
+        "Dimensions": {
+          "Length": 30,
+          "Width": 20,
+          "Height": 15,
+          "Unit": "cm"
+        },
+        "ActualWeight": {
+          "Unit": "Kg",
+          "Value": 2.5
+        },
+        "ChargeableWeight": {
+          "Unit": "Kg",
+          "Value": 2.5
+        },
+        "DescriptionOfGoods": "Test products for JSON API verification",
+        "GoodsOriginCountry": "LB",
+        "NumberOfPieces": 3,
+        "ProductGroup": "DOM",
+        "ProductType": "OND",
+        "PaymentType": "C",
+        "PaymentOptions": "CASH",
+        "CustomsValueAmount": {
+          "CurrencyCode": "USD",
+          "Value": 100
+        },
+        "Insurance_Value": {
+          "CurrencyCode": "USD",
+          "Value": 100
+        },
+        "CashOnDeliveryAmount": {
+          "CurrencyCode": "USD",
+          "Value": 0
+        },
+        "InsuranceAmount": null,
+        "CashAdditionalAmount": null,
+        "CashAdditionalAmountDescription": "",
+        "CollectAmount": null,
+        "Services": "",
+        "Items": [
+          {
+            "PackageType": "Box",
+            "Quantity": 1,
+            "Weight": {
+              "Unit": "Kg",
+              "Value": 1.5
+            },
+            "CustomsValue": {
+              "CurrencyCode": "USD",
+              "Value": 50
+            },
+            "Comments": "Test Product 1",
+            "GoodsDescription": "Test Product 1",
+            "CountryOfOrigin": "LB",
+            "Reference": "TEST001",
+            "Reference1": "",
+            "Reference2": "",
+            "CommodityCode": ""
+          },
+          {
+            "PackageType": "Box",
+            "Quantity": 2,
+            "Weight": {
+              "Unit": "Kg",
+              "Value": 0.5
+            },
+            "CustomsValue": {
+              "CurrencyCode": "USD",
+              "Value": 25
+            },
+            "Comments": "Test Product 2",
+            "GoodsDescription": "Test Product 2",
+            "CountryOfOrigin": "LB",
+            "Reference": "TEST002",
+            "Reference1": "",
+            "Reference2": "",
+            "CommodityCode": ""
+          }
+        ],
+        "ContainsDangerousGoods": false
+      },
+      "Attachments": [],
+      "ForeignHAWB": "ORDER-TEST-JSON-001",
+      "TransportType": 0,
+      "PickupGUID": "",
+      "Number": "",
+      "ScheduledDelivery": null
+    }
+  ],
+  "Transaction": {
+    "Reference1": "001",
+    "Reference2": "",
+    "Reference3": "",
+    "Reference4": "",
+    "Reference5": ""
+  }
+}

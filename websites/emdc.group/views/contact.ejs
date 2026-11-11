@@ -1,0 +1,177 @@
+<!-- Contact Map Section -->
+<section id="contact-map" class="inverted">
+  <div class="container">
+    <h2>Our Global Presence</h2>
+    <div class="section-content">
+      <p>Find us across the Middle East. We have offices strategically located to serve our clients better.</p>
+    </div>
+    <div class="map-wrapper">
+      <div class="world-map-container">
+        <div id="contactMapContainer" class="world-map-svg"
+          data-offices='<%= typeof contactInfo !== "undefined" ? JSON.stringify(contactInfo) : "[]" %>'>
+          <div class="map-loading">
+            <p></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Information Section -->
+<section id="contact-info">
+  <div class="container">
+    <h2>Get In Touch</h2>
+    <div class="section-content">
+      <p>Ready to discuss your next engineering project? Our team is here to help.</p>
+    </div>
+    
+    <div class="boxes-grid">
+      <% if (typeof contactInfo !== 'undefined' && contactInfo && contactInfo.length > 0) { %>
+        <% contactInfo.forEach(function(office, index) { %>
+          <div class="box-card">
+            <div class="box-header">
+              <div class="box-icon">
+                <% if (office.country === 'Lebanon') { %>🇱🇧<% } %>
+                <% if (office.country === 'UAE') { %>🇦🇪<% } %>
+                <% if (office.country === 'Egypt') { %>🇪🇬<% } %>
+                <% if (office.country === 'Saudi Arabia') { %>🇸🇦<% } %>
+              </div>
+              <div class="box-details">
+                <h3 class="box-title"><%= office.city %> Office</h3>
+                <p class="box-subtitle"><%= office.address.replace(/\n/g, '<br>') %></p>
+              </div>
+            </div>
+            <div class="box-footer">
+              <div class="box-item">
+                <strong>Phone:</strong>
+                <a href="tel:<%= office.phone.replace(/\s/g, '') %>"><%= office.phone %></a>
+              </div>
+              <% if (office.whatsappNumber && office.whatsappNumber.trim() !== '') { %>
+                <div class="box-item">
+                  <strong>WhatsApp:</strong>
+                  <a href="https://wa.me/<%= office.whatsappNumber.replace(/[^\d]/g, '') %>" target="_blank" rel="noopener"><%= office.whatsappNumber %></a>
+                </div>
+              <% } %>
+              <% if (office.email && office.email.trim() !== '') { %>
+                <div class="box-item">
+                  <strong>Email:</strong>
+                  <a href="mailto:<%= office.email %>"><%= office.email %></a>
+                </div>
+              <% } %>
+            </div>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <!-- Fallback if no contact info -->
+        <div class="box-card">
+          <div class="box-header">
+            <div class="box-icon">🇱🇧</div>
+            <div class="box-details">
+              <h3 class="box-title">Lebanon Office</h3>
+              <p class="box-subtitle">Al Moudir Center, Jal el Dib<br>El Metn, Lebanon</p>
+            </div>
+          </div>
+          <div class="box-footer">
+            <div class="box-item">
+              <strong>Phone:</strong>
+              <a href="tel:+9614710253">+961 4 710 253</a>
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Form Section -->
+<section id="contact-form" class="inverted">
+  <div class="container">
+    <h2>Contact Us</h2>
+    <div class="section-content">
+      <p>Tell us about your engineering needs and let's create something amazing together.</p>
+    </div>
+    
+    <form class="contact-form" id="contactForm">
+      <div class="form-field">
+        <label for="name">Name *</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      
+      <div class="form-field">
+        <label for="email">Email *</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      
+      <div class="form-field">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" name="phone">
+      </div>
+      
+      <div class="form-field">
+        <label for="message">Message *</label>
+        <textarea id="message" name="message" rows="6" required placeholder="Your message..."></textarea>
+      </div>
+      
+      <div class="form-actions">
+        <button type="submit" class="btn-submit">
+          <span>Send Message</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- Other Contact Methods Section -->
+<section id="contact-methods">
+  <div class="container">
+    <h2>Prefer Other Ways to Connect?</h2>
+    <div class="contact-methods-grid">
+      <a href="mailto:<%= typeof siteSettings !== 'undefined' && siteSettings.contactEmail ? siteSettings.contactEmail : 'info@emdc.group' %>" class="contact-method-card email">
+        <h3>Email Us</h3>
+        <p class="method-value"><%= typeof siteSettings !== 'undefined' && siteSettings.contactEmail ? siteSettings.contactEmail : 'info@emdc.group' %></p>
+        <p class="method-description">We typically respond within 2-4 hours during business days</p>
+      </a>
+      <% if (typeof siteSettings !== 'undefined' && siteSettings.careersEmail && siteSettings.careersEmail.trim() !== '') { %>
+        <a href="mailto:<%= siteSettings.careersEmail %>" class="contact-method-card careers">
+          <h3>Careers</h3>
+          <p class="method-value"><%= siteSettings.careersEmail %></p>
+          <p class="method-description">Interested in joining our team? Send us your resume</p>
+        </a>
+      <% } %>
+    </div>
+    
+    <!-- Social Media Links -->
+    <% if (typeof siteData !== 'undefined' && siteData.social) { %>
+      <div class="contact-social-links">
+        <h3>Follow Us</h3>
+        <div class="social-links-container">
+          <% if (siteData.social.facebook && siteData.social.facebook.trim() !== '') { %>
+            <a href="<%= siteData.social.facebook %>" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook">
+              <i class="bi bi-facebook"></i>
+              <span>Facebook</span>
+            </a>
+          <% } %>
+          <% if (siteData.social.twitter && siteData.social.twitter.trim() !== '') { %>
+            <a href="<%= siteData.social.twitter %>" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Twitter">
+              <i class="bi bi-twitter"></i>
+              <span>Twitter</span>
+            </a>
+          <% } %>
+          <% if (siteData.social.instagram && siteData.social.instagram.trim() !== '') { %>
+            <a href="<%= siteData.social.instagram %>" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
+              <i class="bi bi-instagram"></i>
+              <span>Instagram</span>
+            </a>
+          <% } %>
+          <% if (siteData.social.linkedin && siteData.social.linkedin.trim() !== '') { %>
+            <a href="<%= siteData.social.linkedin %>" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
+              <i class="bi bi-linkedin"></i>
+              <span>LinkedIn</span>
+            </a>
+          <% } %>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</section>

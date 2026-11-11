@@ -1,0 +1,45 @@
+<%- include('partials/page-title', { heading: 'News and Events' }) %>
+
+<section>
+  <div class="container">
+    <div class="content news my-2">
+      <% if (typeof news !== 'undefined' && news && news.length > 0) { %>
+      <div class="row">
+        <% news.forEach(function(item, index) { %>
+          <% const pub = item.lastUpdated ? new Date(item.lastUpdated) : null; %>
+          <div class="col-md-6 col-lg-4 mb-4" data-aos="zoom-in">
+            <div class="news-img">
+              <a href="/news/<%= item.key %>">
+                <img src="<%= item.pageImage || '/images/blog/blog-01.jpg' %>" class="img-fluid rounded" alt="<%= item.title %>">
+              </a>
+            </div>
+            <div class="news-info">
+              <div class="news-date">
+                <div class="news-date-day"><%= pub ? pub.getDate().toString().padStart(2, '0') : '' %></div>
+                <div class="news-date-month"><%= pub ? pub.toLocaleString('en', { month: 'short' }) : '' %></div>
+              </div>
+              <div class="news-text">
+                <h3><%= item.title %></h3>
+                <p><%= item.seo && item.seo.pageDescription ? item.seo.pageDescription : '' %></p>
+                <a href="/news/<%= item.key %>" class="text-dark text-primary-hover font-weight-600">Read more <i class="ti-arrow-right ms-2 align-middle display-30"></i></a>
+              </div>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+      <% } else { %>
+        <p>No news available.</p>
+      <% } %>
+
+      <% if (typeof totalPages !== 'undefined' && totalPages > 1) { %>
+      <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+          <% if (hasPrevPage) { %><li><a href="/news?page=<%= currentPage - 1 %>" class="page-link">&laquo;</a></li><% } %>
+          <li><span class="page-link"><%= currentPage %> / <%= totalPages %></span></li>
+          <% if (hasNextPage) { %><li><a href="/news?page=<%= currentPage + 1 %>" class="page-link">&raquo;</a></li><% } %>
+        </ul>
+      </nav>
+      <% } %>
+    </div>
+  </div>
+</section>

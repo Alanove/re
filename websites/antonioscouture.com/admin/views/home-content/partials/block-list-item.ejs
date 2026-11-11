@@ -1,0 +1,15 @@
+<li class="list-group-item<%= block.isEnabled ? '' : ' block-disabled' %>" data-block-id="<%= block.id %>" data-block-type="<%= block.type %>">
+	<span class="block-drag-handle" title="Drag to reorder"><i class="fa fa-grip-vertical"></i></span>
+	<span class="block-label"><%= block.label %></span>
+	<div class="block-actions">
+		<% if (!block.isEnabled) { %>
+			<span class="badge bg-secondary">Hidden</span>
+		<% } %>
+		<button type="button" class="btn btn-xs btn-outline-primary edit-block-btn" data-block-id="<%= block.id %>">
+			<i class="fa fa-edit"></i> Edit
+		</button>
+		<button type="button" class="btn btn-xs btn-outline-danger delete-block-btn" data-block-id="<%= block.id %>">
+			<i class="fa fa-trash"></i>
+		</button>
+	</div>
+</li>

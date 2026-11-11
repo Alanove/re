@@ -1,0 +1,75 @@
+<!-- Breadcrumb -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark" href="/">
+                    <%= typeof t !=='undefined' ? t('ecommerce.common.home') : 'Home' %>
+                </a>
+                <a class="breadcrumb-item text-dark" href="/shop">
+                    <%= typeof t !=='undefined' ? t('ecommerce.common.shop') : 'Shop' %>
+                </a>
+                <a class="breadcrumb-item text-dark" href="/checkout">
+                    <%= typeof t !=='undefined' ? t('ecommerce.checkout.title') : 'Checkout' %>
+                </a>
+                <span class="breadcrumb-item active">Pay with card</span>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- Step 2 per bank Hosted Checkout Ver.100: load bank JS and show payment page -->
+<div class="container-fluid pb-5">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="bg-light p-5 mb-5">
+                <h2 class="section-title position-relative text-uppercase mb-4">
+                    <span class="bg-light pr-3">Secure payment</span>
+                </h2>
+                <p class="mb-4">You will be redirected to the bank's secure payment page. If you were not redirected
+                    automatically <br /> <br /> <button type="button" class="btn btn-primary btn-sm" id="pay-with-bank-btn">click
+                        here</button></p>
+                <p id="ErrMsg" class="text-danger small mb-3" style="min-height: 1.5em;"></p>
+                <p><a href="<%= cancelUrl %>">Cancel and return to
+                        checkout</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bank Hosted Checkout script (Step 2 – Credit Libanais Ver.100) -->
+<script src="<%= gatewayScriptBaseUrl %>/static/checkout/checkout.min.js" data-error="errorCallback"
+    data-cancel="cancelCallback" data-complete="<%= completeUrl %>"></script>
+<script>
+    (function () {
+        var sessionId = <%- JSON.stringify(sessionId) %>;
+        var cancelUrl = <%- JSON.stringify(cancelUrl) %>;
+        function errorCallback(error) {
+            console.error('Checkout error:', error);
+            var el = document.getElementById('ErrMsg');
+            if (el) el.textContent = typeof error === 'string' ? error : (error.message || JSON.stringify(error));
+        }
+        function cancelCallback() {
+            console.log('Payment cancelled');
+            window.location.href = cancelUrl;
+        }
+        window.errorCallback = errorCallback;
+        window.cancelCallback = cancelCallback;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            if (typeof Checkout !== 'undefined') {
+                Checkout.configure({ session: { id: sessionId } });
+                var payBtn = document.getElementById('pay-with-bank-btn');
+                payBtn.addEventListener('click', function () {
+                    this.disabled = true;
+                    this.textContent = 'Opening...';
+                    Checkout.showPaymentPage();
+                });
+                // Auto-submit: redirect to bank payment page immediately (button remains as fallback)
+                Checkout.showPaymentPage();
+            } else {
+                document.getElementById('ErrMsg').textContent = 'Payment script failed to load. Please check your connection and try again.';
+            }
+        });
+    })();
+</script>

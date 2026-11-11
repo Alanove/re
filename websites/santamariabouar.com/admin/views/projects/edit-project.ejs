@@ -1,0 +1,1317 @@
+<!-- BEGIN breadcrumb -->
+<ol class="breadcrumb">
+	<li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+	<li class="breadcrumb-item"><a href="/admin/projects">Projects</a></li>
+	<li class="breadcrumb-item active">
+		<%= isCreateMode ? 'Create Project' : 'Edit Project' %>
+	</li>
+</ol>
+<!-- END breadcrumb -->
+
+<form method="POST" action="<%= isCreateMode ? '/admin/projects/create' : '/admin/projects/' + projectId + '/edit' %>"
+	enctype="multipart/form-data" id="projectForm" data-create-mode="<%= isCreateMode %>">
+	<!-- BEGIN row -->
+	<div class="row">
+		<!-- BEGIN col-9 -->
+		<div class="col-9">
+			<!-- BEGIN panel -->
+			<div class="panel panel-inverse" data-sortable-id="form-stuff-1">
+				<!-- BEGIN panel-heading -->
+				<div class="panel-heading">
+					<h4 class="panel-title">Project Information</h4>
+					<div class="panel-heading-btn">
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i
+								class="fa fa-expand"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i
+								class="fa fa-redo"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i
+								class="fa fa-minus"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-danger" data-toggle="panel-remove"><i
+								class="fa fa-times"></i></a>
+					</div>
+				</div>
+				<!-- END panel-heading -->
+				<!-- BEGIN panel-body -->
+				<div class="panel-body">
+					<% if (typeof error !=='undefined' && error) { %>
+						<div class="alert alert-danger">
+							<i class="fa fa-exclamation-triangle"></i>
+							<%= error %>
+						</div>
+						<% } %>
+							<% if (typeof success !=='undefined' && success) { %>
+								<div class="alert alert-success">
+									<i class="fa fa-check-circle"></i>
+									<%= success %>
+								</div>
+								<% } %>
+
+									<!-- Basic Information -->
+									<div class="row mb-15px">
+										<label class="form-label col-form-label col-md-3">Project Title <span
+												class="text-danger">*</span></label>
+										<div class="col-md-9">
+											<input type="text" class="form-control" id="title" name="title"
+												value="<%= project.title || '' %>" required />
+											<small class="fs-12px text-gray-500-darker">Display title for the
+												project</small>
+										</div>
+									</div>
+
+									<div class="row mb-15px">
+										<label class="form-label col-form-label col-md-3">Folder Name</label>
+										<div class="col-md-9">
+											<input type="text" class="form-control" id="folderName" name="folder_name"
+												value="<%= project.folder_name || '' %>" readonly />
+											<small class="fs-12px text-gray-500-darker">Auto-generated from title (URL-friendly)</small>
+										</div>
+									</div>
+
+									<div class="row mb-15px">
+										<label class="form-label col-form-label col-md-3">Project URL</label>
+										<div class="col-md-9">
+											<input type="text" class="form-control" id="projectUrl" name="url"
+												value="<%= project.url || '' %>" readonly />
+											<small class="fs-12px text-gray-500-darker">Auto-generated URL for the project</small>
+										</div>
+									</div>
+
+									<!-- Project Details -->
+									<div class="row mb-15px">
+										<div class="col-md-6">
+											<label class="form-label col-form-label">BUA (Built Up Area)</label>
+											<input type="text" class="form-control" id="bau" name="bau"
+												value="<%= project.bau || '' %>" />
+											<small class="fs-12px text-gray-500-darker">Built Up Area (e.g., 300,000 m²)</small>
+										</div>
+										<div class="col-md-6">
+											<label class="form-label col-form-label">Area</label>
+											<input type="text" class="form-control" id="area" name="area"
+												value="<%= project.area || '' %>" />
+											<small class="fs-12px text-gray-500-darker">Project area (e.g., 250 Berths)</small>
+										</div>
+									</div>
+
+									<div class="row mb-15px">
+										<div class="col-md-6">
+											<label class="form-label col-form-label">Size</label>
+											<input type="text" class="form-control" id="size" name="size"
+												value="<%= project.size || '' %>" />
+											<small class="fs-12px text-gray-500-darker">Project size</small>
+										</div>
+										<div class="col-md-6">
+											<label class="form-label col-form-label">Quantity</label>
+											<input type="text" class="form-control" id="quantity" name="quantity"
+												value="<%= project.quantity || '' %>" />
+											<small class="fs-12px text-gray-500-darker">Quantity (e.g., 3 Stations)</small>
+										</div>
+									</div>
+
+									<div class="row mb-15px">
+										<div class="col-md-6">
+											<label class="form-label col-form-label">Contractor</label>
+											<input type="text" class="form-control" id="contractor" name="contractor"
+												value="<%= project.contractor || '' %>" />
+											<small class="fs-12px text-gray-500-darker">Main contractor</small>
+										</div>
+										<div class="col-md-6">
+											<label class="form-label col-form-label">Architect</label>
+											<input type="text" class="form-control" id="architect" name="architect"
+												value="<%= project.architect || '' %>" />
+											<small class="fs-12px text-gray-500-darker">Project architect</small>
+										</div>
+									</div>
+
+									<div class="row mb-15px">
+										<div class="col-md-6">
+											<label class="form-label col-form-label">Client</label>
+											<input type="text" class="form-control" id="client" name="client"
+												value="<%= project.client || '' %>" />
+											<small class="fs-12px text-gray-500-darker">Project client</small>
+										</div>
+										<div class="col-md-6">
+											<label class="form-label col-form-label">Country</label>
+											<input type="text" class="form-control" id="country" name="country"
+												value="<%= project.country || '' %>" />
+											<small class="fs-12px text-gray-500-darker">Project location</small>
+										</div>
+									</div>
+
+									<div class="row mb-15px">
+										<label class="form-label col-form-label col-md-3">Scope</label>
+										<div class="col-md-9">
+											<textarea class="form-control" id="scope" name="scope" rows="3"
+												placeholder="Enter project scope..."><%= project.scope || '' %></textarea>
+											<small class="fs-12px text-gray-500-darker">Project scope of work</small>
+										</div>
+									</div>
+
+									<div class="row mb-15px">
+										<label class="form-label col-form-label col-md-3">Categories</label>
+										<div class="col-md-9">
+											<!-- Hidden input to store selected categories -->
+											<input type="hidden" id="categoriesInput" name="categories"
+												value="<%= project.categories ? project.categories.join(',') : '' %>" />
+
+											<!-- Categories display area -->
+											<div id="categoriesContainer" class="mb-2">
+												<% if (project.categories && project.categories.length> 0) { %>
+													<% project.categories.forEach(category=> { %>
+														<span class="badge bg-primary me-1 mb-1 category-tag"
+															data-category="<%= category %>">
+															<%= category %>
+																<button type="button"
+																	class="btn-close btn-close-white ms-1"
+																	onclick="removeCategory('<%= category %>')"
+																	style="font-size: 0.5em;"></button>
+														</span>
+														<% }) %>
+															<% } %>
+											</div>
+
+											<!-- Add category input -->
+											<div class="input-group">
+												<input type="text" class="form-control" id="categoryInput"
+													placeholder="Type a category and press Enter or click Add"
+													onkeydown="if(event.key === 'Enter') { event.preventDefault(); event.stopPropagation(); const value = this.value.trim(); if(value) { addCategoryDirect(value); } return false; }">
+												<button type="button" class="btn btn-outline-secondary"
+													onclick="addCategory()">
+													<i class="fa fa-plus"></i> Add
+												</button>
+											</div>
+											<small class="fs-12px text-gray-500-darker">Type a category name and press
+												Enter or click Add to include it</small>
+										</div>
+									</div>
+				</div>
+				<!-- END panel-body -->
+			</div>
+			<!-- END panel -->
+
+			<!-- BEGIN Works Panel (Edit Mode Only) -->
+			<% if (!isCreateMode) { %>
+
+				<!-- BEGIN panel -->
+				<div class="panel panel-inverse" data-sortable-id="works-panel">
+					<!-- BEGIN panel-heading -->
+					<div class="panel-heading">
+						<h4 class="panel-title">Works</h4>
+						<div class="panel-heading-btn">
+							<a href="javascript:;" class="btn btn-xs btn-success" onclick="addNewWork();">
+								<i class="fa fa-plus"></i> Add Work
+							</a>
+							<a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i
+									class="fa fa-expand"></i></a>
+							<a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i
+									class="fa fa-redo"></i></a>
+							<a href="javascript:;" class="btn btn-xs btn-icon btn-warning"
+								data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
+							<a href="javascript:;" class="btn btn-xs btn-icon btn-danger" data-toggle="panel-remove"><i
+									class="fa fa-times"></i></a>
+						</div>
+					</div>
+					<!-- END panel-heading -->
+					<!-- BEGIN panel-body -->
+					<div class="panel-body">
+						<div class="table-responsive">
+							<table class="table table-striped table-bordered align-middle">
+								<thead>
+									<tr>
+										<th>Image</th>
+										<th>Description</th>
+										<th>Categories</th>
+										<th>Details</th>
+										<th width="1%">Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									<% if (project.works && project.works.length> 0) { %>
+										<% project.works.forEach((work, workIndex)=> { %>
+											<tr data-work-id="<%= workIndex %>">
+												<td>
+													<% if (work.images && work.images.length > 0) { %>
+														<img src="<%= projectsService.getWorkImagePath(project, work, work.images[0]) %>"
+															alt="Work Image" class="rounded" width="40" height="40"
+															style="object-fit:cover;" />
+													<% } else { %>
+														<div class="bg-light rounded d-flex align-items-center justify-content-center"
+															style="width: 40px; height: 40px;">
+															<i class="fa fa-image text-muted"></i>
+														</div>
+													<% } %>
+												</td>
+												<td>
+													<div class="d-flex align-items-center">
+														<div class="flex-grow-1">
+															<div class="fw-bold">
+																<%= work.description %>
+															</div>
+															<div class="fs-12px text-gray-500-darker">
+																<%= work.folder_name %>
+															</div>
+														</div>
+													</div>
+												</td>
+												<td>
+													<% if (work.categories && work.categories.length> 0) { %>
+														<% work.categories.forEach(category=> { %>
+															<span class="badge bg-secondary me-1">
+																<%= category %>
+															</span>
+															<% }) %>
+																<% } else { %>
+																	<span class="text-muted">No categories</span>
+																	<% } %>
+												</td>
+												<td>
+													<% if (work.details) { %>
+														<div class="fs-12px">
+															<% if (work.details.project) { %>
+																<div><strong>Project:</strong>
+																	<%= work.details.project %>
+																</div>
+																<% } %>
+																	<% if (work.details.architect) { %>
+																		<div><strong>Architect:</strong>
+																			<%= work.details.architect %>
+																		</div>
+																		<% } %>
+																			<% if (work.details.location) { %>
+																				<div><strong>Location:</strong>
+																					<%= work.details.location %>
+																				</div>
+																				<% } %>
+																					<% if (work.details.year) { %>
+																						<div><strong>Year:</strong>
+																							<%= work.details.year %>
+																						</div>
+																						<% } %>
+														</div>
+														<% } else { %>
+															<span class="text-muted">No details</span>
+															<% } %>
+												</td>
+												<td>
+													<div class="btn-group">
+														<button type="button" class="btn btn-sm btn-primary"
+															onclick="editWork(<%= workIndex %>)">
+															<i class="fa fa-edit"></i>
+														</button>
+														<button type="button" class="btn btn-sm btn-danger"
+															onclick="deleteWork(<%= workIndex %>)">
+															<i class="fa fa-trash"></i>
+														</button>
+													</div>
+												</td>
+											</tr>
+											<% }) %>
+												<% } else { %>
+													<tr>
+														<td colspan="5" class="text-center text-muted py-4">
+															<i class="fa fa-briefcase fa-3x mb-3"></i>
+															<h5>No Works Found</h5>
+															<p>Get started by adding your first work to this project.
+															</p>
+																						<button type="button" class="btn btn-success"
+								onclick="addNewWork();">
+								<i class="fa fa-plus"></i> Add New Work
+							</button>
+														</td>
+													</tr>
+													<% } %>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<!-- END panel-body -->
+				</div>
+				<!-- END panel -->
+
+				<% } %>
+					<!-- END Works Panel -->
+		</div>
+
+		<!-- END col-9 -->
+
+		<!-- BEGIN col-3 -->
+		<div class="col-3">
+			<!-- BEGIN panel -->
+			<div class="panel panel-inverse" data-sortable-id="form-stuff-2">
+				<!-- BEGIN panel-heading -->
+				<div class="panel-heading">
+					<h4 class="panel-title">Project Details</h4>
+					<div class="panel-heading-btn">
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i
+								class="fa fa-expand"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i
+								class="fa fa-redo"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i
+								class="fa fa-minus"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-danger" data-toggle="panel-remove"><i
+								class="fa fa-times"></i></a>
+					</div>
+				</div>
+				<!-- END panel-heading -->
+				<!-- BEGIN panel-body -->
+				<div class="panel-body">
+					<!-- Project Image Section -->
+					<div class="mb-15px">
+						<label class="form-label">Project Image</label>
+
+						<!-- Hidden input for existing image URL -->
+						<input type="hidden" id="projectImage" name="projectImage"
+							value="<%= project.project_image || '' %>">
+
+						<!-- Image Display -->
+						<div id="currentImageContainer" class="mb-3">
+							<% if (project.project_image) { %>
+								<div class="text-center">
+									<img id="currentImage"
+										src="<%= projectsService.getProjectImagePath(project) %>"
+										alt="Current project image" class="img-fluid rounded"
+										style="max-width: 100%; max-height: 200px; cursor: pointer;"
+										onclick="openImageInNewTab('<%= projectsService.getProjectImagePath(project) %>')" />
+									<div class="mt-2">
+										<button type="button" class="btn btn-sm btn-danger"
+											onclick="deleteProjectImage()">
+											<i class="fa fa-trash me-1"></i> Delete Image
+										</button>
+									</div>
+								</div>
+								<% } else { %>
+									<div class="text-center p-4 border rounded bg-light">
+										<i class="fa fa-image fa-3x text-muted mb-2"></i>
+										<p class="text-muted mb-0">No image uploaded</p>
+									</div>
+									<% } %>
+						</div>
+
+						<!-- Image Upload -->
+						<div class="mb-3">
+							<label for="projectPicture" class="form-label">Upload New Image</label>
+							<input type="file" class="form-control" id="projectPicture" name="projectPicture"
+								accept="image/*" />
+							<small class="fs-12px text-gray-500-darker">Upload a new image to replace the current
+								one</small>
+						</div>
+
+						<!-- Image Preview -->
+						<div id="imagePreview" class="mb-3" style="display: none;">
+							<label class="form-label">Preview</label>
+							<div class="text-center">
+								<img id="previewImg" src="" alt="Preview" class="img-fluid rounded"
+									style="max-width: 100%; max-height: 150px;" />
+								<div class="mt-2">
+									<button type="button" class="btn btn-sm btn-secondary"
+										onclick="removeImagePreview()">
+										<i class="fa fa-times me-1"></i> Remove Preview
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- END panel-body -->
+			</div>
+			<!-- END panel -->
+		</div>
+		<!-- END col-3 -->
+	</div>
+	<!-- END row -->
+	
+
+
+
+
+	<!-- Form Actions -->
+	<div class="d-flex justify-content-between mt-4">
+		<a href="/admin/projects" class="btn btn-secondary">
+			<i class="fa fa-arrow-left me-1"></i> Back to Projects
+		</a>
+		<button type="submit" class="btn btn-primary">
+			<i class="fa fa-save me-1"></i>
+			<%= isCreateMode ? 'Create Project' : 'Update Project' %>
+		</button>
+	</div>
+</form>
+
+<!-- BEGIN Work Modal (Add/Edit) -->
+<div class="modal fade" id="workModal" tabindex="-1" aria-labelledby="workModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="workModalLabel">
+					<i class="fa fa-plus me-2"></i>Add New Work
+				</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<form id="workForm" action="javascript:void(0);">
+				<!-- Hidden fields for edit mode -->
+				<input type="hidden" id="workIndex" name="workIndex" />
+				<input type="hidden" id="workMode" name="mode" value="create" />
+				
+				<div class="modal-body">
+					<!-- Basic Information -->
+					<div class="row mb-3">
+						<div class="col-md-6">
+							<label for="workDescription" class="form-label">Work Description <span class="text-danger">*</span></label>
+							<input type="text" class="form-control" id="workDescription" name="description" required />
+						</div>
+						<div class="col-md-6">
+							<label for="workFolderName" class="form-label">Folder Name</label>
+							<input type="text" class="form-control" id="workFolderName" name="folder_name" readonly />
+							<small class="fs-12px text-gray-500-darker">Auto-generated from description</small>
+						</div>
+					</div>
+					
+					<!-- Categories -->
+					<div class="row mb-3">
+						<div class="col-12">
+							<label class="form-label">Categories</label>
+							<!-- Hidden input to store selected categories -->
+							<input type="hidden" id="workCategoriesInput" name="categories" />
+							
+							<!-- Categories display area -->
+							<div id="workCategoriesContainer" class="mb-2">
+								<!-- Categories will be added here -->
+							</div>
+							
+							<!-- Add category input -->
+							<div class="input-group">
+																	<input type="text" class="form-control" id="workCategoryInput" placeholder="Type a category and press Enter or click Add"
+										onkeydown="if(event.key === 'Enter') { event.preventDefault(); event.stopPropagation(); const value = this.value.trim(); if(value) { addWorkCategoryDirect(value); } return false; }">
+								<button type="button" class="btn btn-outline-secondary" onclick="addWorkCategory()">
+									<i class="fa fa-plus"></i> Add
+								</button>
+							</div>
+							<small class="fs-12px text-gray-500-darker">Type a category name and press Enter or click Add to include it</small>
+						</div>
+					</div>
+					
+					<!-- Project Details -->
+					<div class="row mb-3">
+						<div class="col-md-6">
+							<label for="workProject" class="form-label">Project</label>
+							<input type="text" class="form-control" id="workProject" name="details[project]" />
+						</div>
+						<div class="col-md-6">
+							<label for="workArchitect" class="form-label">Architect</label>
+							<input type="text" class="form-control" id="workArchitect" name="details[architect]" />
+						</div>
+					</div>
+					
+					<div class="row mb-3">
+						<div class="col-md-6">
+							<label for="workLocation" class="form-label">Location</label>
+							<input type="text" class="form-control" id="workLocation" name="details[location]" />
+						</div>
+						<div class="col-md-6">
+							<label for="workYear" class="form-label">Year</label>
+							<input type="text" class="form-control" id="workYear" name="details[year]" />
+						</div>
+					</div>
+					
+					<!-- Scope of Work -->
+					<div class="row mb-3">
+						<div class="col-12">
+							<label for="workScope" class="form-label">Scope of Work</label>
+							<textarea class="form-control" id="workScope" name="scope_of_work" rows="3" placeholder="Enter scope of work details..."></textarea>
+							<small class="fs-12px text-gray-500-darker">Enter the scope of work for this project</small>
+						</div>
+					</div>
+					
+					<!-- Images Upload -->
+					<div class="row mb-3">
+						<div class="col-12">
+							<label for="workImages" class="form-label">Work Images</label>
+							<input type="file" class="form-control" id="workImages" name="workImages" accept="image/*" multiple />
+							<small class="fs-12px text-gray-500-darker">Select multiple images for this work (max 5MB each)</small>
+							
+							<!-- Existing Images Container (for edit mode) -->
+							<div id="existingImagesContainer" class="mt-3" style="display: none;">
+								<label class="form-label">Existing Images</label>
+								<div id="existingImagesList" class="d-flex flex-wrap gap-2">
+									<!-- Existing images will be displayed here -->
+								</div>
+							</div>
+							
+							<!-- New Image Preview Container -->
+							<div id="workImagePreviewContainer" class="mt-3"></div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+						<i class="fa fa-times me-1"></i> Cancel
+					</button>
+					<button type="submit" class="btn btn-primary">
+						<i class="fa fa-save me-1"></i> <span id="workSubmitText">Add Work</span>
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- END Work Modal -->
+
+<script>
+	// Category management functionality
+	let selectedCategories = [];
+
+	// Auto-generate folder name and URL from title
+	const titleInput = document.getElementById('title');
+	if (titleInput) {
+		titleInput.addEventListener('input', function() {
+			const title = this.value.trim();
+			const folderName = title
+				.toLowerCase()
+				.replace(/[^a-z0-9\s-]/g, '')
+				.replace(/\s+/g, '-')
+				.replace(/-+/g, '-')
+				.trim();
+			
+			const folderNameInput = document.getElementById('folderName');
+			const urlInput = document.getElementById('projectUrl');
+			
+			if (folderNameInput) {
+				folderNameInput.value = folderName;
+			}
+			if (urlInput) {
+				urlInput.value = folderName;
+			}
+		});
+	}
+
+	// Initialize categories on page load
+	document.addEventListener('DOMContentLoaded', function () {
+				// Main project form is now separate from work form, so no conflicts
+		const projectForm = document.getElementById('projectForm');
+		if (projectForm) {
+			console.log('Main project form found');
+		} else {
+			console.log('Main project form not found');
+		}
+		const categoriesInput = document.getElementById('categoriesInput');
+		if (categoriesInput && categoriesInput.value) {
+			selectedCategories = categoriesInput.value.split(',').filter(cat => cat.trim() !== '');
+		}
+
+		// Add Enter key support for category input
+		const categoryInput = document.getElementById('categoryInput');
+		if (categoryInput) {
+			categoryInput.addEventListener('keypress', function (e) {
+				if (e.key === 'Enter') {
+					e.preventDefault();
+					e.stopPropagation();
+					const value = this.value.trim();
+					if (value) {
+						addCategoryDirect(value);
+					}
+				}
+			});
+		}
+	});
+
+	// Add category function (for button click)
+	function addCategory() {
+		const categoryInput = document.getElementById('categoryInput');
+		const newCategory = categoryInput.value.trim();
+
+		if (!newCategory) {
+			alert('Please enter a category name');
+			return;
+		}
+
+		addCategoryDirect(newCategory);
+	}
+	
+	// Add category function (for Enter key - accepts value as parameter)
+	function addCategoryDirect(newCategory) {
+		// Check if category already exists (case-insensitive)
+		if (selectedCategories.some(cat => cat.toLowerCase() === newCategory.toLowerCase())) {
+			alert('This category is already added');
+			return;
+		}
+
+		// Add to selected categories
+		selectedCategories.push(newCategory);
+
+		// Update display
+		updateCategoriesDisplay();
+
+		// Update hidden input
+		updateCategoriesInput();
+
+		// Clear input
+		const categoryInput = document.getElementById('categoryInput');
+		if (categoryInput) {
+			categoryInput.value = '';
+		}
+	}
+
+	// Remove category function
+	function removeCategory(category) {
+		selectedCategories = selectedCategories.filter(cat => cat !== category);
+		updateCategoriesDisplay();
+		updateCategoriesInput();
+	}
+
+	// Update categories display
+	function updateCategoriesDisplay() {
+		const container = document.getElementById('categoriesContainer');
+		container.innerHTML = '';
+
+		selectedCategories.forEach(category => {
+			const tag = document.createElement('span');
+			tag.className = 'badge bg-primary me-1 mb-1 category-tag';
+			tag.setAttribute('data-category', category);
+			tag.innerHTML = `
+			${category}
+			<button type="button" class="btn-close btn-close-white ms-1" onclick="removeCategory('${category}')" style="font-size: 0.5em;"></button>
+		`;
+			container.appendChild(tag);
+		});
+	}
+
+	// Update hidden input with selected categories
+	function updateCategoriesInput() {
+		const categoriesInput = document.getElementById('categoriesInput');
+		categoriesInput.value = selectedCategories.join(',');
+	}
+
+	// Image preview functionality
+	const projectPictureInput = document.getElementById('projectPicture');
+	if (projectPictureInput) {
+		projectPictureInput.addEventListener('change', function () {
+			const preview = document.getElementById('imagePreview');
+			const previewImg = document.getElementById('previewImg');
+			const file = this.files[0];
+
+			if (file) {
+				const reader = new FileReader();
+				reader.onload = function (e) {
+					previewImg.src = e.target.result;
+					preview.style.display = 'block';
+				}
+				reader.readAsDataURL(file);
+			} else {
+				preview.style.display = 'none';
+			}
+		});
+	}
+
+	// Remove image preview
+	function removeImagePreview() {
+		const preview = document.getElementById('imagePreview');
+		const fileInput = document.getElementById('projectPicture');
+		preview.style.display = 'none';
+		fileInput.value = '';
+	}
+
+	// Delete project image
+	function deleteProjectImage() {
+		showActionModal({
+			title: 'Delete Project Image',
+			message: 'Are you sure you want to delete this project image? This action cannot be undone.',
+			endpoint: `/admin/projects/<%= projectId %>/delete-image`,
+			method: 'DELETE',
+			onSuccess: function(data) {
+				if (data.success) {
+					// Clear the hidden input
+					document.getElementById('projectImage').value = '';
+					
+					// Update the display to show "no image" state
+					document.getElementById('currentImageContainer').innerHTML = `
+						<div class="text-center p-4 border rounded bg-light">
+							<i class="fa fa-image fa-3x text-muted mb-2"></i>
+							<p class="text-muted mb-0">No image uploaded</p>
+						</div>
+					`;
+					
+					// Also clear any file input
+					const fileInput = document.getElementById('projectPicture');
+					if (fileInput) {
+						fileInput.value = '';
+					}
+					
+					// Hide any preview
+					const preview = document.getElementById('imagePreview');
+					if (preview) {
+						preview.style.display = 'none';
+					}
+					
+					// Show success toast
+					showSuccessToast(data.message || 'Project image deleted successfully');
+				} else {
+					// Show error toast
+					showErrorToast(data.message || 'Failed to delete project image');
+				}
+			}
+		});
+	}
+
+	// Open image in new tab
+	function openImageInNewTab(imageUrl) {
+		window.open(imageUrl, '_blank');
+	}
+
+	// Work management functions (Edit mode only)
+	function addNewWork() {
+		// Reset modal for create mode
+		resetWorkModal();
+		
+		// Show modal
+		const modalElement = document.getElementById('workModal');
+		if (modalElement) {
+			try {
+				// Try Bootstrap 5 method first
+				if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+					const modal = new bootstrap.Modal(modalElement);
+					modal.show();
+				} else {
+					// Fallback to jQuery if available
+					if (typeof $ !== 'undefined') {
+						$('#workModal').modal('show');
+					} else {
+						// Fallback to direct show
+						modalElement.style.display = 'block';
+						modalElement.classList.add('show');
+						document.body.classList.add('modal-open');
+					}
+				}
+			} catch (error) {
+				console.error('Error showing modal:', error);
+				// Fallback to direct show
+				modalElement.style.display = 'block';
+				modalElement.classList.add('show');
+				document.body.classList.add('modal-open');
+			}
+		}
+	}
+	
+	// Work category management
+	let workCategories = [];
+	
+	// Add work category function (for button click)
+	function addWorkCategory() {
+		const categoryInput = document.getElementById('workCategoryInput');
+		if (!categoryInput) return;
+		
+		const newCategory = categoryInput.value.trim();
+		
+		if (!newCategory) {
+			alert('Please enter a category name');
+			return;
+		}
+		
+		addWorkCategoryDirect(newCategory);
+	}
+	
+	// Add work category function (for Enter key - accepts value as parameter)
+	function addWorkCategoryDirect(newCategory) {
+		// Check if category already exists (case-insensitive)
+		if (workCategories.some(cat => cat.toLowerCase() === newCategory.toLowerCase())) {
+			alert('This category is already added');
+			return;
+		}
+		
+		// Add to selected categories
+		workCategories.push(newCategory);
+		
+		// Update display
+		updateWorkCategoriesDisplay();
+		
+		// Update hidden input
+		updateWorkCategoriesInput();
+		
+		// Clear input
+		const categoryInput = document.getElementById('workCategoryInput');
+		if (categoryInput) {
+			categoryInput.value = '';
+		}
+	}
+	
+	function removeWorkCategory(category) {
+		workCategories = workCategories.filter(cat => cat !== category);
+		updateWorkCategoriesDisplay();
+		updateWorkCategoriesInput();
+	}
+	
+	function updateWorkCategoriesDisplay() {
+		const container = document.getElementById('workCategoriesContainer');
+		if (!container) return;
+		
+		container.innerHTML = '';
+		
+		workCategories.forEach(category => {
+			const tag = document.createElement('span');
+			tag.className = 'badge bg-primary me-1 mb-1 category-tag';
+			tag.setAttribute('data-category', category);
+			tag.innerHTML = `
+				${category}
+				<button type="button" class="btn-close btn-close-white ms-1" onclick="removeWorkCategory('${category}')" style="font-size: 0.5em;"></button>
+			`;
+			container.appendChild(tag);
+		});
+	}
+	
+	function updateWorkCategoriesInput() {
+		const categoriesInput = document.getElementById('workCategoriesInput');
+		if (categoriesInput) {
+			categoriesInput.value = workCategories.join(',');
+		}
+	}
+	
+	// Auto-generate folder name from description
+	const workDescriptionInput = document.getElementById('workDescription');
+	if (workDescriptionInput) {
+		workDescriptionInput.addEventListener('input', function() {
+			const description = this.value.trim();
+			const folderName = description
+				.toLowerCase()
+				.replace(/[^a-z0-9\s-]/g, '')
+				.replace(/\s+/g, '-')
+				.replace(/-+/g, '-')
+				.trim();
+			const workFolderNameInput = document.getElementById('workFolderName');
+			if (workFolderNameInput) {
+				workFolderNameInput.value = folderName;
+			}
+		});
+	}
+	
+	// Work image preview functionality
+	const workImagesInput = document.getElementById('workImages');
+	if (workImagesInput) {
+		workImagesInput.addEventListener('change', function() {
+			const previewContainer = document.getElementById('workImagePreviewContainer');
+			if (previewContainer) {
+				previewContainer.innerHTML = '';
+				
+				const files = this.files;
+				for (let i = 0; i < files.length; i++) {
+					const file = files[i];
+					if (file.type.startsWith('image/')) {
+						const reader = new FileReader();
+						reader.onload = function(e) {
+							const previewDiv = document.createElement('div');
+							previewDiv.className = 'd-inline-block me-2 mb-2';
+							previewDiv.innerHTML = `
+								<img src="${e.target.result}" alt="Preview" class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;" />
+							`;
+							previewContainer.appendChild(previewDiv);
+						};
+						reader.readAsDataURL(file);
+					}
+				}
+			}
+		});
+	}
+	
+	// Work form submission handler function
+	function handleWorkFormSubmit(e) {
+		console.log('Work form submit event triggered');
+		e.preventDefault();
+		e.stopPropagation();
+	
+		const formData = new FormData(this);
+		const mode = formData.get('mode');
+		const workIndex = formData.get('workIndex');
+		const submitBtn = this.querySelector('button[type="submit"]');
+		const originalText = submitBtn.innerHTML;
+		
+		// Disable submit button and show loading
+		submitBtn.disabled = true;
+		submitBtn.innerHTML = '<i class="fa fa-spinner fa-spin me-1"></i> ' + (mode === 'edit' ? 'Updating...' : 'Adding...');
+		
+		// Note: Images are now deleted immediately via AJAX, so no need to track removed images
+		
+		const url = mode === 'edit' 
+			? `/admin/projects/<%= projectId %>/works/${workIndex}`
+			: `/admin/projects/<%= projectId %>/works`;
+		
+		console.log('Sending AJAX request to', url);
+		
+		// Send AJAX request with FormData for file uploads
+		fetch(url, {
+			method: mode === 'edit' ? 'PUT' : 'POST',
+			body: formData
+		})
+		.then(response => {
+			console.log('Response received:', response);
+			return response.json();
+		})
+		.then(data => {
+			console.log('Data received:', data);
+			if (data.success) {
+				// Show success message
+				const message = mode === 'edit' ? 'Work updated successfully' : 'Work added successfully';
+				showSuccessToast(data.message || message);
+				
+				// Close modal
+				const modalElement = document.getElementById('workModal');
+				if (modalElement) {
+					const modal = bootstrap.Modal.getInstance(modalElement);
+					if (modal) {
+						modal.hide();
+					}
+				}
+				
+				// Refresh the works table to show the updated work
+				refreshWorksTable();
+				console.log('Work ' + (mode === 'edit' ? 'updated' : 'added') + ' successfully, modal closed, table refreshed');
+			} else {
+				// Show error message
+				showErrorToast(data.message || 'Failed to ' + (mode === 'edit' ? 'update' : 'add') + ' work');
+			}
+		})
+		.catch(error => {
+			console.error('Error:', error);
+			showErrorToast('An error occurred while ' + (mode === 'edit' ? 'updating' : 'adding') + ' the work');
+		})
+		.finally(() => {
+			// Re-enable submit button
+			submitBtn.disabled = false;
+			submitBtn.innerHTML = originalText;
+		});
+	}
+	
+	// Add Enter key support for work category input
+	const workCategoryInput = document.getElementById('workCategoryInput');
+	if (workCategoryInput) {
+		workCategoryInput.addEventListener('keypress', function(e) {
+			if (e.key === 'Enter') {
+				e.preventDefault();
+				e.stopPropagation();
+				const value = this.value.trim();
+				if (value) {
+					addWorkCategoryDirect(value);
+				}
+			}
+		});
+	}
+	
+	// Add form event listener
+	const workForm = document.getElementById('workForm');
+	if (workForm) {
+		workForm.addEventListener('submit', handleWorkFormSubmit);
+	}
+	
+	// Function to reset modal for create mode
+	function resetWorkModal() {
+		const modalTitle = document.getElementById('workModalLabel');
+		const submitText = document.getElementById('workSubmitText');
+		const workMode = document.getElementById('workMode');
+		const workIndexInput = document.getElementById('workIndex');
+		
+		modalTitle.innerHTML = '<i class="fa fa-plus me-2"></i>Add New Work';
+		submitText.textContent = 'Add Work';
+		workMode.value = 'create';
+		workIndexInput.value = '';
+		
+		// Clear form
+		document.getElementById('workForm').reset();
+		workCategories = [];
+		updateWorkCategoriesDisplay();
+		updateWorkCategoriesInput();
+		
+		// Clear image previews
+		document.getElementById('workImagePreviewContainer').innerHTML = '';
+		document.getElementById('existingImagesContainer').style.display = 'none';
+		document.getElementById('existingImagesList').innerHTML = '';
+		
+		removedImages = [];
+		currentWorkData = null;
+	}
+	
+	// Add modal event listeners
+	const workModal = document.getElementById('workModal');
+	if (workModal) {
+		workModal.addEventListener('hidden.bs.modal', function() {
+			resetWorkModal();
+		});
+	}
+
+	// Global variables for edit mode
+	let removedImages = [];
+	let currentWorkData = null;
+	
+	// Structure information for each work (populated by backend)
+	const workStructureInfo = <%- JSON.stringify(project.works.map((work, index) => ({
+		workIndex: index,
+		isNewStructure: projectsService.isWorkNewStructure(project, work)
+	}))) %>;
+	
+	// Helper function to check if work uses new structure (uses backend logic)
+	function isWorkNewStructure(project, work) {
+		// Find the work in the structure info array
+		const workInfo = workStructureInfo.find(info => 
+			project.works[info.workIndex] === work
+		);
+		return workInfo ? workInfo.isNewStructure : false;
+	}
+	
+	function editWork(workIndex) {
+		// Get the work data from the project
+		const project = <%- JSON.stringify(project) %>;
+		const work = project.works[workIndex];
+		
+		if (!work) {
+			showErrorToast('Work not found');
+			return;
+		}
+		
+		currentWorkData = work;
+		removedImages = [];
+		
+		// Set modal to edit mode
+		const modal = document.getElementById('workModal');
+		const modalTitle = document.getElementById('workModalLabel');
+		const submitText = document.getElementById('workSubmitText');
+		const workMode = document.getElementById('workMode');
+		const workIndexInput = document.getElementById('workIndex');
+		
+		modalTitle.innerHTML = '<i class="fa fa-edit me-2"></i>Edit Work';
+		submitText.textContent = 'Update Work';
+		workMode.value = 'edit';
+		workIndexInput.value = workIndex;
+		
+		// Fill form with work data
+		document.getElementById('workDescription').value = work.description || '';
+		document.getElementById('workFolderName').value = work.folder_name || '';
+		
+		// Fill project details
+		if (work.details) {
+			document.getElementById('workProject').value = work.details.project || '';
+			document.getElementById('workArchitect').value = work.details.architect || '';
+			document.getElementById('workLocation').value = work.details.location || '';
+			document.getElementById('workYear').value = work.details.year || '';
+		}
+		
+		// Fill scope of work
+		document.getElementById('workScope').value = Array.isArray(work.scope_of_work) ? work.scope_of_work.join('\n') : '';
+		
+		// Fill categories
+		workCategories = Array.isArray(work.categories) ? [...work.categories] : [];
+		updateWorkCategoriesDisplay();
+		updateWorkCategoriesInput();
+		
+		// Show existing images
+		showExistingImages(work.images || [], project);
+		
+		// Clear new image preview
+		document.getElementById('workImagePreviewContainer').innerHTML = '';
+		document.getElementById('workImages').value = '';
+		
+		// Show the modal
+		const bootstrapModal = new bootstrap.Modal(modal);
+		bootstrapModal.show();
+	}
+	
+	function showExistingImages(images, project) {
+		const container = document.getElementById('existingImagesContainer');
+		const list = document.getElementById('existingImagesList');
+		
+		if (!images || images.length === 0) {
+			container.style.display = 'none';
+			return;
+		}
+		
+		container.style.display = 'block';
+		list.innerHTML = '';
+		
+		images.forEach((image, index) => {
+			const imageDiv = document.createElement('div');
+			imageDiv.className = 'position-relative d-inline-block me-2 mb-2';
+			imageDiv.setAttribute('data-image-index', index);
+			imageDiv.setAttribute('data-image-name', image);
+			
+			// Create image element
+			const img = document.createElement('img');
+			
+			// Generate correct image path using centralized path helper
+			const imagePath = getWorkImagePath(project, currentWorkData, image);
+			
+			img.src = imagePath;
+			img.alt = 'Work Image';
+			img.className = 'img-thumbnail';
+			img.style.cssText = 'width: 100px; height: 100px; object-fit: cover;';
+			
+			// Create remove button
+			const removeBtn = document.createElement('button');
+			removeBtn.type = 'button';
+			removeBtn.className = 'btn btn-danger position-absolute top-0 end-0';
+			removeBtn.style.cssText = 'transform: translate(50%, -50%); width: 20px; height: 20px; padding: 0; border-radius: 50%; font-size: 10px; line-height: 1; display: flex; align-items: center; justify-content: center; z-index: 10;';
+			removeBtn.onclick = () => removeExistingImage(image, index);
+			removeBtn.innerHTML = '<i class="fa fa-times"></i>';
+			
+			// Append elements
+			imageDiv.appendChild(img);
+			imageDiv.appendChild(removeBtn);
+			
+			list.appendChild(imageDiv);
+		});
+	}
+	
+	function removeExistingImage(imageName, index) {
+		// Create a custom confirmation modal for client-side actions
+		const modal = new bootstrap.Modal(document.getElementById('modal-dialog'));
+		document.getElementById('modalDialogTitle').textContent = 'Remove Image';
+		document.getElementById('modalDialogBody').textContent = 'Are you sure you want to remove this image? This action cannot be undone.';
+		
+		const actionBtn = document.getElementById('modalDialogActionBtn');
+		actionBtn.textContent = 'Remove Image';
+		actionBtn.className = 'btn btn-danger';
+		
+		// Remove any existing click handlers
+		const newActionBtn = actionBtn.cloneNode(true);
+		actionBtn.parentNode.replaceChild(newActionBtn, actionBtn);
+		
+		newActionBtn.onclick = function() {
+			// Disable button and show loading
+			newActionBtn.disabled = true;
+			newActionBtn.innerHTML = '<i class="fa fa-spinner fa-spin me-1"></i> Removing...';
+			
+			// Make AJAX call to delete image
+			const projectId = <%= projectId %>;
+			const workId = document.getElementById('workIndex').value;
+			const endpoint = `/admin/projects/${projectId}/works/${workId}/images/${encodeURIComponent(imageName)}`;
+			
+			fetch(endpoint, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			})
+			.then(response => response.json())
+			.then(data => {
+				// Close the modal
+				modal.hide();
+				
+				if (data.success) {
+					// Remove the image element from DOM
+					const imageElement = document.querySelector(`[data-image-name="${imageName}"]`);
+					if (imageElement) {
+						imageElement.style.transition = 'opacity 0.3s';
+						imageElement.style.opacity = '0';
+						setTimeout(() => {
+							imageElement.remove();
+							
+							// Check if no images left
+							const remainingImages = document.querySelectorAll('#existingImagesList [data-image-name]');
+							if (remainingImages.length === 0) {
+								document.getElementById('existingImagesContainer').style.display = 'none';
+							}
+						}, 300);
+					}
+					
+					// Update the current work data to remove the deleted image
+					if (currentWorkData && currentWorkData.images) {
+						currentWorkData.images = currentWorkData.images.filter(img => img !== imageName);
+					}
+					
+					// Update the embedded project data to keep it in sync
+					const project = <%- JSON.stringify(project) %>;
+					if (project.works && project.works[workId] && project.works[workId].images) {
+						project.works[workId].images = project.works[workId].images.filter(img => img !== imageName);
+					}
+					
+					// Show success toast
+					showSuccessToast(data.message || 'Image deleted successfully');
+					
+					// Update the works table image directly
+					updateWorksTableImage(workId, imageName);
+				} else {
+					// Show error toast
+					showErrorToast(data.message || 'Failed to delete image');
+				}
+			})
+			.catch(error => {
+				console.error('Error deleting image:', error);
+				modal.hide();
+				showErrorToast('An error occurred while deleting the image');
+			})
+			.finally(() => {
+				// Re-enable button
+				newActionBtn.disabled = false;
+				newActionBtn.textContent = 'Remove Image';
+			});
+		};
+		
+		modal.show();
+	}
+	
+	function getRemovedImages() {
+		return removedImages;
+	}
+
+	function deleteWork(workIndex) {
+		// TODO: Implement delete work functionality
+		if (confirm('Are you sure you want to delete this work? This action cannot be undone.')) {
+			alert('Delete work functionality will be implemented soon');
+		}
+	}
+	
+	// Centralized path helper functions (matching backend logic)
+	function getProjectImageUrl(projectName, imageName) {
+		return `/projects/${projectName}/${imageName}`;
+	}
+	
+	function getWorkImageUrl(projectName, workName, imageName) {
+		return `/projects/${projectName}/${workName}/${imageName}`;
+	}
+	
+	function getWorkImagePath(project, work, imageName) {
+		if (isWorkNewStructure(project, work)) {
+			// New structure: /projects/[project-name]/[work-folder]/[image]
+			return getWorkImageUrl(project.folder_name, work.folder_name, imageName);
+		} else {
+			// Old structure: /projects/[project-name]/[image] (images directly in project folder)
+			return getProjectImageUrl(project.folder_name, imageName);
+		}
+	}
+	
+	// Function to update the works table image after deletion
+	function updateWorksTableImage(workId, deletedImageName) {
+		// Find the work row in the table
+		const workRow = document.querySelector(`tr[data-work-id="${workId}"]`);
+		if (!workRow) return;
+		
+		// Find the image cell in the row
+		const imageCell = workRow.querySelector('td:first-child');
+		if (!imageCell) return;
+		
+		// Get the current work data
+		const project = <%- JSON.stringify(project) %>;
+		const work = project.works[workId];
+		
+		if (!work || !work.images) return;
+		
+		// Remove the deleted image from the work's images array
+		work.images = work.images.filter(img => img !== deletedImageName);
+		
+		// Update the image in the table using centralized path helper
+		if (work.images.length > 0) {
+			// Show the first remaining image using centralized path helper
+			const imagePath = getWorkImagePath(project, work, work.images[0]);
+			
+			imageCell.innerHTML = `
+				<img src="${imagePath}" alt="Work Image" class="rounded" width="40" height="40" style="object-fit:cover;" />
+			`;
+		} else {
+			// Show placeholder if no images left
+			imageCell.innerHTML = `
+				<div class="bg-light rounded d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+					<i class="fa fa-image text-muted"></i>
+				</div>
+			`;
+		}
+	}
+	
+	// Function to refresh the works table
+	function refreshWorksTable() {
+		// Reload the page to show the updated works list
+		// This is the simplest approach for now
+		window.location.reload();
+	}
+</script>

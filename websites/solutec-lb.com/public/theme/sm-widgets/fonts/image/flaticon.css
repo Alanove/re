@@ -1,0 +1,70 @@
+	/*
+  	Flaticon icon font: Flaticon
+  	Creation date: 18/04/2018 08:01
+  	*/
+
+@font-face {
+  font-family: "Flaticon";
+  src: url("./Flaticon.eot");
+  src: url("./Flaticon.eot?#iefix") format("embedded-opentype"),
+       url("./Flaticon.woff") format("woff"),
+       url("./Flaticon.ttf") format("truetype"),
+       url("./Flaticon.svg#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon";
+    src: url("./Flaticon.svg#Flaticon") format("svg");
+  }
+}
+
+[class^="flaticon-"]:before, [class*=" flaticon-"]:before,
+[class^="flaticon-"]:after, [class*=" flaticon-"]:after {   
+  font-family: Flaticon;
+        font-size: 20px;
+font-style: normal;
+}
+
+.flaticon-001-curves:before { content: "\f100"; }
+.flaticon-002-levels-1:before { content: "\f101"; }
+.flaticon-003-brightness-2:before { content: "\f102"; }
+.flaticon-004-pixelated:before { content: "\f103"; }
+.flaticon-005-sponge:before { content: "\f104"; }
+.flaticon-006-cd-burn:before { content: "\f105"; }
+.flaticon-007-brightness-1:before { content: "\f106"; }
+.flaticon-008-color:before { content: "\f107"; }
+.flaticon-009-monitor-7:before { content: "\f108"; }
+.flaticon-010-monitor-6:before { content: "\f109"; }
+.flaticon-011-monitor-5:before { content: "\f10a"; }
+.flaticon-012-levels:before { content: "\f10b"; }
+.flaticon-013-magic-wand:before { content: "\f10c"; }
+.flaticon-014-dropper:before { content: "\f10d"; }
+.flaticon-015-adjustment:before { content: "\f10e"; }
+.flaticon-016-photography:before { content: "\f10f"; }
+.flaticon-017-red-eye-1:before { content: "\f110"; }
+.flaticon-018-patch:before { content: "\f111"; }
+.flaticon-019-monitor-4:before { content: "\f112"; }
+.flaticon-020-red-eye:before { content: "\f113"; }
+.flaticon-021-monitor-3:before { content: "\f114"; }
+.flaticon-022-monitor-2:before { content: "\f115"; }
+.flaticon-023-monitor-1:before { content: "\f116"; }
+.flaticon-024-monitor:before { content: "\f117"; }
+.flaticon-025-contrast-1:before { content: "\f118"; }
+.flaticon-026-opacity:before { content: "\f119"; }
+.flaticon-027-blur:before { content: "\f11a"; }
+.flaticon-028-rgb:before { content: "\f11b"; }
+.flaticon-029-thermometer:before { content: "\f11c"; }
+.flaticon-030-sliders:before { content: "\f11d"; }
+.flaticon-031-pyramid:before { content: "\f11e"; }
+.flaticon-032-crop:before { content: "\f11f"; }
+.flaticon-033-contrast:before { content: "\f120"; }
+.flaticon-034-brightness:before { content: "\f121"; }
+.flaticon-035-graphic-tablet-5:before { content: "\f122"; }
+.flaticon-036-graphic-tablet-4:before { content: "\f123"; }
+.flaticon-037-graphic-tablet-3:before { content: "\f124"; }
+.flaticon-038-graphic-tablet-2:before { content: "\f125"; }
+.flaticon-039-graphic-tablet-1:before { content: "\f126"; }
+.flaticon-040-graphic-tablet:before { content: "\f127"; }

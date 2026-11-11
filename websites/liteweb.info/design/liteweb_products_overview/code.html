@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LiteWeb | Product Ecosystem</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Theme Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-on-surface": "#f0f1f2",
+                    "outline": "#707881",
+                    "on-surface": "#191c1d",
+                    "tertiary-fixed-dim": "#8bdb46",
+                    "on-surface-variant": "#3f4850",
+                    "background": "#f8f9fa",
+                    "on-primary": "#ffffff",
+                    "on-secondary-container": "#526478",
+                    "surface-tint": "#006397",
+                    "surface-variant": "#e1e3e4",
+                    "on-tertiary-fixed": "#0c2000",
+                    "secondary-container": "#cfe2f9",
+                    "secondary-fixed-dim": "#b5c8df",
+                    "inverse-surface": "#2e3132",
+                    "surface-container": "#edeeef",
+                    "on-secondary-fixed": "#091d2e",
+                    "on-tertiary-fixed-variant": "#285000",
+                    "surface-container-highest": "#e1e3e4",
+                    "primary-container": "#3498db",
+                    "secondary": "#4e6073",
+                    "primary-fixed": "#cce5ff",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-primary": "#92ccff",
+                    "primary": "#006397",
+                    "primary-fixed-dim": "#92ccff",
+                    "on-background": "#191c1d",
+                    "on-error": "#ffffff",
+                    "error": "#ba1a1a",
+                    "on-primary-container": "#002d47",
+                    "on-secondary-fixed-variant": "#36485b",
+                    "on-primary-fixed": "#001d31",
+                    "error-container": "#ffdad6",
+                    "outline-variant": "#bfc7d2",
+                    "surface": "#f8f9fa",
+                    "tertiary-fixed": "#a6f85f",
+                    "on-tertiary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "tertiary": "#376b00",
+                    "on-tertiary-container": "#163000",
+                    "tertiary-container": "#58a305",
+                    "surface-bright": "#f8f9fa",
+                    "surface-container-low": "#f3f4f5",
+                    "secondary-fixed": "#d1e4fb",
+                    "on-primary-fixed-variant": "#004b73",
+                    "on-secondary": "#ffffff",
+                    "surface-dim": "#d9dadb",
+                    "surface-container-high": "#e7e8e9"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-desktop": "48px",
+                    "gutter": "24px",
+                    "margin-mobile": "16px",
+                    "md": "16px",
+                    "lg": "24px",
+                    "xs": "4px",
+                    "xl": "32px",
+                    "max-width": "1280px",
+                    "base": "4px",
+                    "sm": "8px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-md": ["Manrope"],
+                    "body-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-lg-mobile": ["Manrope"],
+                    "headline-lg": ["Manrope"],
+                    "headline-xl": ["Manrope"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(233, 236, 239, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md overflow-x-hidden">
+<!-- TopNavBar -->
+<nav class="fixed top-0 left-0 w-full z-50 bg-surface/80 backdrop-blur-md dark:bg-surface-dim/80 shadow-sm dark:shadow-none border-b border-outline-variant/30 dark:border-outline/20">
+<div class="max-w-container-max mx-auto px-gutter py-4 flex justify-between items-center">
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">
+                LiteWeb
+            </div>
+<div class="hidden md:flex items-center space-x-lg">
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary transition-colors" href="#">Home</a>
+<a class="font-label-md text-label-md text-primary dark:text-primary-fixed font-bold border-b-2 border-primary pb-1" href="#">Services</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary transition-colors" href="#">Portfolio</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary transition-colors" href="#">Pricing</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary transition-colors" href="#">Blog</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary transition-colors" href="#">About</a>
+</div>
+<button class="bg-primary-container text-on-primary px-lg py-2 rounded font-label-md text-label-md hover:bg-primary transition-all active:scale-95 duration-150">
+                Start a Project
+            </button>
+</div>
+</nav>
+<main class="pt-32 pb-24">
+<!-- Hero Section -->
+<section class="max-w-[1280px] mx-auto px-gutter mb-24 relative">
+<div class="absolute top-0 right-0 -z-10 opacity-20 transform translate-x-1/4 -translate-y-1/4">
+
+</div>
+<div class="max-w-3xl">
+<span class="text-tertiary font-label-md text-label-md tracking-wider uppercase mb-base block">Our Solutions</span>
+<h1 class="font-headline-xl text-headline-xl text-on-surface mb-md">
+                    Scalable software products designed for <span class="text-primary">modern enterprise</span>.
+                </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-xl leading-relaxed">
+                    LiteWeb provides a comprehensive ecosystem of digital tools that empower businesses to automate workflows, engage customers, and scale operations with precision and reliability.
+                </p>
+<div class="flex gap-md">
+<button class="bg-primary px-xl py-md rounded-lg text-on-primary font-label-md text-label-md hover:opacity-90 transition-all">
+                        Consult with an Expert
+                    </button>
+<button class="border border-outline px-xl py-md rounded-lg text-on-surface font-label-md text-label-md hover:bg-surface-container transition-all">
+                        View Pricing
+                    </button>
+</div>
+</div>
+</section>
+<!-- Product Bento Grid -->
+<section class="max-w-[1280px] mx-auto px-gutter">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-lg auto-rows-min">
+<!-- Company Website -->
+<div class="md:col-span-8 group relative overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest p-xl flex flex-col justify-between min-h-[360px] transition-all hover:border-primary/50">
+<div>
+<div class="mb-lg flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" data-icon="web">web</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">High-Performance Presence</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface mb-md">Company Website</h3>
+<p class="text-on-surface-variant max-w-lg mb-lg">Ultra-fast, SEO-optimized corporate websites built to convert visitors into loyal partners. Featuring modern CMS integrations and custom animations.</p>
+</div>
+<div class="flex justify-between items-end">
+<button class="text-primary font-label-md text-label-md flex items-center gap-xs group-hover:gap-sm transition-all">
+                            Learn More <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<div class="w-48 h-32 rounded-lg overflow-hidden border border-outline-variant/30 grayscale group-hover:grayscale-0 transition-all duration-500">
+<img class="w-full h-full object-cover" data-alt="A clean, minimalist corporate website interface displayed on a high-end monitor. The design features professional blue and gray tones, ample white space, and a sleek typography-focused layout. The lighting is bright and architectural, suggesting a modern high-tech office environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkoSw7iHOTaMPxC2eH-1CbSO4p0BdFAkSNUPqE2v0nX-Fp9YwvHldwAytvtmc-lim2ZWZHE56EULwuQWCwQSx-2wblQ4APjh8y-q4we4yuO9n2Umt67gtU4qMD3lkC97fOOzfDVdmt0XRP9HjWA0lFjOveRKfBhURx2mSbrzagpbLSPYrJfc83CId0XCdIveHQQySw0w1hc2w_bWTQ5zZIjZ6O1mw1jh2nfVSQ5-fvPAg4q1xg3OPt"/>
+</div>
+</div>
+</div>
+<!-- E-Commerce -->
+<div class="md:col-span-4 group relative overflow-hidden rounded-xl border border-outline-variant bg-surface-container-low p-xl flex flex-col transition-all hover:border-tertiary/50">
+<div class="mb-lg">
+<span class="material-symbols-outlined text-tertiary mb-md" data-icon="shopping_cart">shopping_cart</span>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-sm">E-Commerce</h3>
+<p class="text-on-surface-variant text-body-sm">Scale your retail empire with secure payments, inventory sync, and AI-driven recommendations.</p>
+</div>
+<div class="mt-auto">
+<button class="bg-surface-container-highest w-full py-md rounded-lg text-on-surface font-label-md text-label-md hover:bg-secondary-container transition-all">
+                            View Details
+                        </button>
+</div>
+</div>
+<!-- Real Estate & Car Listing -->
+<div class="md:col-span-4 group relative overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest p-xl flex flex-col transition-all hover:shadow-lg">
+<div class="mb-lg">
+<span class="material-symbols-outlined text-primary mb-md" data-icon="apartment">apartment</span>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-sm">Marketplace Platforms</h3>
+<p class="text-on-surface-variant text-body-sm">Advanced search engines for Real Estate and Car dealerships with mapping integration and lead capture.</p>
+</div>
+<div class="w-full h-40 bg-surface-container rounded mb-lg overflow-hidden relative">
+<div class="w-full h-full bg-cover bg-center" data-alt="An elegant grid of real estate listings and luxury vehicles presented on a modern digital dashboard. The color palette is professional blue and neutral white, with subtle green success indicators. The overall mood is sophisticated, clean, and highly organized." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAenyY6dvjadDDSpU27tQqZUCwYrHdsnr2fYxzok1SXLsiuIr7o-ZNCBahnUzPjlK3E3cBnxD2w_dIpS1DIL0cc3ydUEe_P1Kg131vQEt71BJaMPGsvV8mRLlPlO2J7m9yexwTOEgFaMSlxs6RUjw9Th0GisGs6D5Uc57kw1sQkY5CXZoLllsbFhrpGdge3Yt_Gje5vRnUNb_akdEjFwNnHA9R99kiWx8bgMR3Zc39nOfKdU6ZAw5qX')"></div>
+</div>
+<button class="text-primary font-label-md text-label-md flex items-center gap-xs">
+                        Explore Platform <span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+<!-- ERP Software -->
+<div class="md:col-span-4 group relative overflow-hidden rounded-xl border border-outline-variant bg-primary text-on-primary p-xl flex flex-col justify-between transition-all">
+<div class="absolute inset-0 opacity-10 pointer-events-none">
+
+</div>
+<div class="relative z-10">
+<span class="material-symbols-outlined mb-md" data-icon="account_tree">account_tree</span>
+<h3 class="font-headline-md text-headline-md mb-sm">ERP Software</h3>
+<p class="text-primary-fixed text-body-sm">Centralize your entire business operations from supply chain to human resources in one unified hub.</p>
+</div>
+<button class="relative z-10 bg-white/20 backdrop-blur-md py-md rounded-lg text-white font-label-md text-label-md hover:bg-white/30 transition-all">
+                        Request Demo
+                    </button>
+</div>
+<!-- Accounting Software -->
+<div class="md:col-span-4 group relative overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest p-xl flex flex-col transition-all border-b-4 border-b-tertiary">
+<div class="mb-lg">
+<div class="flex justify-between items-start mb-md">
+<span class="material-symbols-outlined text-tertiary" data-icon="payments">payments</span>
+<span class="bg-tertiary-container text-on-tertiary-container px-sm py-xs rounded text-[10px] font-bold uppercase tracking-widest">Compliant</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-sm">Accounting</h3>
+<p class="text-on-surface-variant text-body-sm">Automated invoicing, tax preparation, and real-time financial reporting for SMEs and corporations.</p>
+</div>
+<div class="mt-auto flex items-center gap-md">
+<div class="w-12 h-12 rounded-full bg-tertiary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-on-tertiary-fixed" data-icon="show_chart">show_chart</span>
+</div>
+<button class="text-on-surface font-label-md text-label-md border-b border-outline">View Reports</button>
+</div>
+</div>
+<!-- Custom Software -->
+<div class="md:col-span-12 group relative overflow-hidden rounded-xl border border-outline-variant bg-secondary-container p-xl md:p-24 flex flex-col md:flex-row items-center gap-xl transition-all">
+<div class="flex-1 text-center md:text-left">
+<span class="bg-primary/10 text-primary px-lg py-1 rounded-full font-label-sm text-label-sm mb-md inline-block">Bespoke Solutions</span>
+<h3 class="font-headline-xl text-headline-xl text-on-secondary-fixed mb-md">Custom Software Engineering</h3>
+<p class="text-on-secondary-fixed-variant text-body-lg mb-lg max-w-xl">Don't settle for off-the-shelf. We architect and build proprietary software tailored specifically to your unique business logic and complex requirements.</p>
+<button class="bg-primary text-on-primary px-xl py-md rounded-lg font-label-md text-label-md shadow-lg hover:shadow-primary/20 transition-all">
+                            Start Consultation
+                        </button>
+</div>
+<div class="flex-1 w-full max-w-md aspect-video rounded-xl bg-white/40 border border-white shadow-2xl overflow-hidden p-md relative">
+<div class="w-full h-full rounded bg-surface border border-outline-variant/30 p-sm overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A high-tech digital blueprint of a custom software architecture displayed in a futuristic three-dimensional perspective. The visual style utilizes glowing primary blue lines, technical nodes, and sleek professional typography. The background is a clean white workspace with soft architectural shadows and a feeling of immense scale and precision." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB35_WeacIZRmcpKbt8vFZ45MNO0Pr-sw9OK-EI4y_7zogTKW3gzX7qSaJ79P2K5COlMe6TOYga2sF4nq9FG2Hfur8o4zvVFuofael-FO3QXek9rbkACd5Rr1oRCuwpSMWB9g7dofM3HkSMpGzle5-DGEl1byTrzYl4E4xklo-7JUAZloEIp2eEzz3WRXOhQqSn_bxWQkL-I9zqbmL4pYLQAcQSKgYy8wACPJDx1zCYb0xqp6HswY6b"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Stats Section -->
+<section class="max-w-[1280px] mx-auto px-gutter mt-24">
+<div class="bg-surface-container-high rounded-2xl p-xl grid grid-cols-2 md:grid-cols-4 gap-lg">
+<div class="text-center">
+<div class="text-primary font-headline-lg text-headline-lg mb-xs">500+</div>
+<div class="text-on-surface-variant font-label-md text-label-md">Clients Globally</div>
+</div>
+<div class="text-center">
+<div class="text-primary font-headline-lg text-headline-lg mb-xs">99.9%</div>
+<div class="text-on-surface-variant font-label-md text-label-md">Uptime SLA</div>
+</div>
+<div class="text-center">
+<div class="text-primary font-headline-lg text-headline-lg mb-xs">15k+</div>
+<div class="text-on-surface-variant font-label-md text-label-md">Projects Delivered</div>
+</div>
+<div class="text-center">
+<div class="text-primary font-headline-lg text-headline-lg mb-xs">24/7</div>
+<div class="text-on-surface-variant font-label-md text-label-md">Expert Support</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-dim border-t border-outline-variant dark:border-outline">
+<div class="max-w-container-max mx-auto py-xl px-gutter grid grid-cols-1 md:grid-cols-4 gap-lg">
+<div class="flex flex-col gap-md">
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">
+                    LiteWeb
+                </div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                    Engineering the future of enterprise software with speed, reliability, and precision.
+                </p>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface mb-lg">Product Line</h4>
+<ul class="flex flex-col gap-sm">
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">ERP Solutions</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">Marketplace Tech</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">Custom Systems</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">Accounting Tools</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface mb-lg">Company</h4>
+<ul class="flex flex-col gap-sm">
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">About Us</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">Careers</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">Blog</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">Portfolio</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface mb-lg">Contact</h4>
+<p class="font-body-md text-body-md text-on-surface-variant mb-md">
+                    Inquiries: sales@liteweb.io
+                </p>
+<div class="flex gap-md">
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary" data-icon="share">share</span>
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary" data-icon="forum">forum</span>
+</div>
+</div>
+</div>
+<div class="max-w-container-max mx-auto px-gutter py-md border-t border-outline-variant/30 flex justify-between items-center">
+<p class="font-body-sm text-body-sm text-outline">© 2024 LiteWeb Engineering. All rights reserved.</p>
+<div class="flex gap-lg">
+<a class="font-body-sm text-body-sm text-outline hover:text-primary" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm text-outline hover:text-primary" href="#">Terms of Service</a>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interactions for product cards
+        document.querySelectorAll('.group').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-4px)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0px)';
+            });
+        });
+    </script>
+</body></html>

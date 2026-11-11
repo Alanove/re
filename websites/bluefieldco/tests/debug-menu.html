@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Debug - Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #333;
+            color: white;
+        }
+        .debug-info {
+            background: #444;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 2px solid #666;
+        }
+        .debug-info h2 {
+            margin-top: 0;
+            color: #fff;
+        }
+        .debug-info .status {
+            background: #4caf50;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+        .debug-info .warning {
+            background: #ff9800;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+        
+        /* Menu Styles */
+        .fullscreen-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            padding-top: 10vh;
+        }
+        
+        .fullscreen-menu.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .menu-content {
+            text-align: left;
+            margin-left: 5%;
+            position: relative;
+            z-index: 1000;
+        }
+        
+        .menu-content ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .menu-content ul li {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .menu-content ul li a {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: 100;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: block;
+        }
+        
+        .menu-content ul li a:hover {
+            color: #ccc;
+        }
+        
+        /* Caret styles */
+        .caret {
+            margin-left: 10px;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 4px solid currentColor;
+            display: inline-block;
+            vertical-align: middle;
+            transition: transform 0.3s ease;
+            transform: rotate(-90deg); /* Point right by default */
+        }
+        
+        /* Dropdown styles */
+        .dropdown-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        /* Desktop: Horizontal layout */
+        @media (min-width: 768px) {
+            .dropdown-menu {
+                position: absolute;
+                top: 0;
+                left: 100%;
+                background: transparent;
+                padding: 0;
+                margin-left: 2px; /* This is the key change! */
+                opacity: 0;
+                visibility: hidden;
+                transform: translateX(-10px);
+                display: flex;
+                flex-direction: row;
+                gap: 8px; /* This is the key change! */
+                min-width: auto;
+                max-width: none;
+            }
+            
+            .dropdown-menu li {
+                margin: 0;
+                opacity: 1;
+                transform: none;
+                transition: none;
+                flex: 0 0 auto;
+            }
+            
+            .dropdown-menu li a {
+                font-size: 1.5rem;
+                font-weight: 100;
+                padding: 0;
+                white-space: nowrap;
+                border-radius: 0;
+                transition: color 0.3s ease;
+                color: rgba(255, 255, 255, 0.8);
+            }
+            
+            .dropdown-menu li a:hover {
+                background: transparent;
+                color: #fff;
+            }
+            
+            /* Desktop hover effect */
+            .dropdown:hover .dropdown-menu {
+                opacity: 1;
+                visibility: visible;
+                transform: translateX(0);
+            }
+            
+            .dropdown:hover .caret {
+                transform: rotate(0deg); /* Point down when active */
+            }
+        }
+        
+        /* Mobile: Vertical layout */
+        @media (max-width: 767px) {
+            .dropdown-menu {
+                max-height: 0;
+                margin-left: 20px;
+                border-left: 2px solid rgba(255, 255, 255, 0.2);
+                padding-left: 15px;
+            }
+            
+            .dropdown-menu li {
+                margin: 10px 0;
+                opacity: 0;
+                transform: translateX(-10px);
+                transition: opacity 0.3s ease, transform 0.3s ease;
+            }
+            
+            .dropdown-menu li a {
+                font-size: 1.2rem;
+                padding: 5px 0;
+                color: rgba(255, 255, 255, 0.8);
+            }
+            
+            .dropdown-menu li a:hover {
+                color: #fff;
+            }
+            
+            .dropdown-menu.expanded {
+                max-height: 500px;
+                margin-top: 10px;
+            }
+            
+            .dropdown-menu.expanded li {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* Burger menu */
+        .burger-menu {
+            width: 40px;
+            height: 40px;
+            top: 25px;
+            right: 25px;
+            position: fixed;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            z-index: 10010;
+            display: block;
+        }
+        
+        .burger-line {
+            width: 100%;
+            height: 2px;
+            background: #fff;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+            transform-origin: center;
+        }
+        
+        .burger-line:nth-child(1) {
+            transform: translateY(-12px);
+        }
+        
+        .burger-line:nth-child(2) {
+            transform: translateY(-50%);
+        }
+        
+        .burger-line:nth-child(3) {
+            transform: translateY(9px);
+        }
+        
+        .burger-menu.active .burger-line:nth-child(1) {
+            transform: rotate(45deg) translate(0, 0);
+        }
+        
+        .burger-menu.active .burger-line:nth-child(2) {
+            opacity: 0;
+            transform: scale(0);
+        }
+        
+        .burger-menu.active .burger-line:nth-child(3) {
+            transform: rotate(-45deg) translate(0, 0);
+        }
+    </style>
+</head>
+<body>
+    <div class="debug-info">
+        <h2>Menu Debug Test</h2>
+        <p>This is a simplified test to verify the menu functionality:</p>
+        <ul>
+            <li><strong>Desktop (768px+):</strong> Hover over "Projects" or "Services" to see child items appear 2px to the right</li>
+            <li><strong>Arrow:</strong> Should point right (▶) by default, rotate down (▼) on hover</li>
+            <li><strong>Spacing:</strong> Child items should be 8px apart from each other</li>
+        </ul>
+        <div class="status">
+            ✅ <strong>CSS is compiled correctly!</strong> The styles are in place.
+        </div>
+        <div class="warning">
+            ⚠️ <strong>If you don't see changes:</strong> Try refreshing the page (Ctrl+F5) to clear browser cache.
+        </div>
+    </div>
+
+    <!-- Burger Menu -->
+    <button class="burger-menu" id="burgerMenu">
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+    </button>
+    
+    <!-- Fullscreen Menu -->
+    <div class="fullscreen-menu" id="fullscreenMenu">
+        <div class="menu-content">
+            <ul>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">
+                        Projects
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Residential</a></li>
+                        <li><a href="#">Commercial</a></li>
+                        <li><a href="#">Healthcare</a></li>
+                        <li><a href="#">Education</a></li>
+                    </ul>
+                </li>
+                
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">
+                        Services
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Architecture</a></li>
+                        <li><a href="#">Engineering</a></li>
+                        <li><a href="#">Project Management</a></li>
+                        <li><a href="#">Consulting</a></li>
+                    </ul>
+                </li>
+                
+                <li>
+                    <a href="#">About</a>
+                </li>
+                
+                <li>
+                    <a href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Simple JavaScript for menu toggle
+        document.getElementById('burgerMenu').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.getElementById('fullscreenMenu').classList.toggle('active');
+        });
+        
+        // Mobile dropdown functionality
+        document.querySelectorAll('.dropdown-toggle').forEach(function(toggle) {
+            toggle.addEventListener('click', function(e) {
+                if (window.innerWidth <= 767) {
+                    e.preventDefault();
+                    const dropdown = this.closest('.dropdown');
+                    const dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                    
+                    // Close other dropdowns
+                    document.querySelectorAll('.dropdown-menu').forEach(function(menu) {
+                        if (menu !== dropdownMenu) {
+                            menu.classList.remove('expanded');
+                        }
+                    });
+                    
+                    // Toggle current dropdown
+                    dropdownMenu.classList.toggle('expanded');
+                }
+            });
+        });
+        
+        // Close menu when clicking outside
+        document.getElementById('fullscreenMenu').addEventListener('click', function(e) {
+            if (e.target === this) {
+                document.getElementById('burgerMenu').classList.remove('active');
+                this.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
+

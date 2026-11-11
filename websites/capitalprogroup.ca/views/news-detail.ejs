@@ -1,0 +1,48 @@
+<%- include('partials/page-title', { heading: newsItem.title }) %>
+
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mb-5 mb-lg-0">
+        <div class="card card-style7 border-0">
+          <% if (newsItem.pageImage) { %>
+          <img src="<%= newsItem.pageImage %>" class="card-img-top" alt="<%= newsItem.title %>">
+          <% } %>
+          <div class="card-body px-4 py-2-3">
+            <h2 class="mb-4"><%= newsItem.title %></h2>
+            <%- newsItem.content || '' %>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="sidebar ps-xl-4">
+          <div class="widget mb-1-9 p-4 wow fadeIn" data-wow-delay="400ms">
+            <h3 class="mb-1-6 h5">Recent Posts</h3>
+            <% if (typeof recentNews !== 'undefined') { %>
+              <% recentNews.forEach(function(item) { %>
+              <div class="media mb-4">
+                <a href="/news/<%= item.key %>">
+                  <img src="<%= item.pageImage || '/images/blog/blog-01.jpg' %>" class="rounded" alt="<%= item.title %>" style="width:80px;height:80px;object-fit:cover">
+                </a>
+                <div class="media-body ms-3">
+                  <h4 class="h6"><a href="/news/<%= item.key %>"><%= item.title %></a></h4>
+                  <p class="mb-0 small"><%= item.lastUpdated ? new Date(item.lastUpdated).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' }) : '' %></p>
+                </div>
+              </div>
+              <% }); %>
+            <% } %>
+          </div>
+          <div class="widget p-4 wow fadeIn" data-wow-delay="1000ms">
+            <h3 class="mb-1-6 h5">Follow Us</h3>
+            <div>
+              <% const social = (typeof siteSettings !== 'undefined' && siteSettings.socialMedia) ? siteSettings.socialMedia : {}; %>
+              <% if (social.facebook) { %><a href="<%= social.facebook %>" target="_blank" rel="noopener" class="me-2"><i class="fab fa-facebook-f"></i></a><% } %>
+              <% if (social.twitter) { %><a href="<%= social.twitter %>" target="_blank" rel="noopener" class="me-2" title="X"><span class="x-social">X</span></a><% } %>
+              <% if (social.instagram) { %><a href="<%= social.instagram %>" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a><% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

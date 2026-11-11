@@ -1,0 +1,80 @@
+// Customer care / appointments / bridal (homepage, above service strip)
+body.home {
+    .home-customer-care-strip {
+        background: $white;
+        border: 0;
+        padding: clamp(2.5rem, 4vw, 3.5rem) 32px;
+    }
+
+    .home-customer-care-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2px;
+        max-width: none;
+        width: 100%;
+        margin: 0 auto;
+
+        @media (max-width: 991.98px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .home-customer-care-col {
+        background: mix($white, $grey, 92%);
+        border: 0;
+        padding: clamp(2rem, 4vw, 3.25rem) clamp(1.25rem, 3vw, 2.5rem);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .home-customer-care-col h3,
+    .home-customer-care-col .home-customer-care-col-title {
+        font-family: $title-font-family;
+        font-weight: $title-font-weight;
+        font-size: clamp(0.85rem, 0.35vw + 0.78rem, 0.98rem);
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        margin: 0 0 14px;
+        color: $black;
+
+        p {
+            margin: 0;
+        }
+    }
+
+    .home-customer-care-col p,
+    .home-customer-care-col .home-customer-care-col-body {
+        font-family: $font-family-sans-serif;
+        font-size: 0.88rem;
+        line-height: 1.65;
+        color: $black;
+        margin: 0 0 18px;
+
+        p {
+            margin: 0 0 12px;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    .home-customer-care-col a {
+        font-family: $font-family-sans-serif;
+        font-size: 0.8rem;
+        font-weight: 400;
+        letter-spacing: 0;
+        text-transform: none;
+        color: $black;
+        text-decoration: underline;
+        text-underline-offset: 0.15em;
+
+        &:hover {
+            color: $link-hover-text !important;
+            text-decoration: underline !important;
+        }
+    }
+}

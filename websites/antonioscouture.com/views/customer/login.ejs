@@ -1,0 +1,151 @@
+<!-- Login Page -->
+
+<!-- Breadcrumb Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark" href="/">Home</a>
+                <span class="breadcrumb-item active">
+                    <%= typeof t !=='undefined' ? t('ecommerce.customer.login') : 'Login / Register' %>
+                </span>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Login/Register Start -->
+<div class="container-fluid pb-5">
+    <div class="row px-xl-5 justify-content-center">
+        <div class="col-lg-6">
+            <div class="bg-light">
+
+                <!-- Tabs (Login = current, Register = link to register page) -->
+                <ul class="nav nav-tabs mb-4" role="tablist">
+                    <li class="nav-item">
+                        <span class="nav-link active">
+                            <%= typeof t !=='undefined' ? t('ecommerce.customer.login') : 'Login' %>
+                        </span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/customer/register">
+                            <%= typeof t !=='undefined' ? t('ecommerce.customer.register') : 'Register' %>
+                        </a>
+                    </li>
+                </ul>
+
+                <form id="loginForm">
+                            <div id="loginError" class="alert alert-danger <%= typeof error !== 'undefined' && error ? '' : 'd-none' %>"><%= typeof error !== 'undefined' && error ? (typeof error === 'string' ? error : '') : '' %></div>
+                            <input type="hidden" name="_csrf"
+                                value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input class="form-control" type="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input class="form-control" type="password" name="password" required>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <a href="/customer/forgot-password" class="text-primary small">
+                                    <%= typeof t !=='undefined' ? t('ecommerce.customer.forgotPassword')
+                                        : 'Forgot Password?' %>
+                                </a>
+                            </div>
+                            <% if (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) { %>
+                            <div class="form-group">
+                                <div class="cf-turnstile" data-sitekey="<%= turnstileSiteKey %>" data-callback="onLoginTurnstileSuccess" data-error-callback="onLoginTurnstileError" data-expired-callback="onLoginTurnstileExpired"></div>
+                                <div id="login-turnstile-error" class="alert alert-danger small mt-2 py-2" style="display: none;">
+                                    <%= typeof t !== 'undefined' ? t('ecommerce.turnstileRequired') : 'Please complete the security verification' %>
+                                </div>
+                            </div>
+                            <% } %>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <%= typeof t !=='undefined' ? t('ecommerce.customer.login') : 'Login' %>
+                                </button>
+                            </div>
+                            <% if (typeof returnTo !== 'undefined' && (returnTo === 'checkout' || returnTo === '/checkout')) { %>
+                            <div class="form-group text-center">
+                                <a href="/checkout" class="text-dark">
+                                    <%= typeof t !== 'undefined' ? t('ecommerce.checkout.continueAsGuest') : 'Continue as Guest' %>
+                                </a>
+                            </div>
+                            <% } %>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Login/Register End -->
+
+<% if (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) { %>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<% } %>
+<script>
+    window.loginTurnstileToken = '';
+    (function () {
+        var params = new URLSearchParams(window.location.search);
+        var returnTo = params.get('returnTo');
+        window.loginReturnTo = (returnTo && typeof returnTo === 'string')
+            ? (returnTo.charAt(0) === '/' ? returnTo : '/' + returnTo)
+            : '';
+    })();
+    <% if (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) { %>
+    window.onLoginTurnstileSuccess = function(token) {
+        window.loginTurnstileToken = token;
+        var el = document.getElementById('login-turnstile-error');
+        if (el) el.style.display = 'none';
+    };
+    window.onLoginTurnstileError = function() {
+        window.loginTurnstileToken = '';
+        var el = document.getElementById('login-turnstile-error');
+        if (el) el.style.display = 'block';
+    };
+    window.onLoginTurnstileExpired = function() {
+        window.loginTurnstileToken = '';
+        var el = document.getElementById('login-turnstile-error');
+        if (el) el.style.display = 'block';
+    };
+    <% } %>
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+
+        <% if (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) { %>
+        if (!window.loginTurnstileToken) {
+            var errEl = document.getElementById('login-turnstile-error');
+            if (errEl) { errEl.style.display = 'block'; errEl.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+            return;
+        }
+        <% } %>
+        fetch('/api/customer/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'CSRF-Token': formData.get('_csrf')
+            },
+            body: JSON.stringify({
+                email: formData.get('email'),
+                password: formData.get('password'),
+                _csrf: formData.get('_csrf'),
+                cf_turnstile_response: window.loginTurnstileToken || ''
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = (typeof window.loginReturnTo === 'string' && window.loginReturnTo && window.loginReturnTo.startsWith('/')) ? window.loginReturnTo : '/customer/account';
+                } else {
+                    const errorDiv = document.getElementById('loginError');
+                    errorDiv.textContent = data.error || 'Login failed';
+                    errorDiv.classList.remove('d-none');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error logging in');
+            });
+    });
+</script>

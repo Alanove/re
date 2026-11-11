@@ -1,0 +1,39 @@
+<!-- News Detail Page -->
+<section id="news-detail" class="inverted">
+  <div class="container">
+    <% if (typeof newsItem !== 'undefined' && newsItem) { %>
+      <div class="news-detail-header">
+        <h1><%= newsItem.title %></h1>
+        <% if (newsItem.lastUpdated) { %>
+          <p class="news-date">
+            <%= new Date(newsItem.lastUpdated).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+          </p>
+        <% } %>
+      </div>
+      
+      <% if (newsItem.pageImage && newsItem.pageImage.trim() !== '') { %>
+        <div class="news-detail-image">
+          <img src="<%= newsItem.pageImage %>" alt="<%= newsItem.title %>" />
+        </div>
+      <% } %>
+      
+      <div class="news-detail-content">
+        <% if (newsItem.content) { %>
+          <%- newsItem.content %>
+        <% } else { %>
+          <p>No content available.</p>
+        <% } %>
+      </div>
+      
+      <div class="news-detail-footer">
+        <a href="/news" class="btn-back-to-news">Back to News</a>
+      </div>
+    <% } else { %>
+      <div class="section-content">
+        <p>News item not found.</p>
+        <a href="/news" class="btn-back-to-news">Back to News</a>
+      </div>
+    <% } %>
+  </div>
+</section>
+

@@ -1,0 +1,135 @@
+// FAQs CTA + brand marquee row (homepage, above global footer)
+body.home {
+    .home-pre-footer-faq-brand {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+        min-height: 180px;
+        align-items: stretch;
+
+        @media (max-width: 991.98px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .home-pre-footer-faq {
+        background: $white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 40px 24px 44px;
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
+
+        @media (min-width: 992px) {
+            border-top: none;
+            border-right: 1px solid rgba(0, 0, 0, 0.06);
+        }
+    }
+
+    .home-pre-footer-faq .eyebrow {
+        font-family: $font-family-sans-serif;
+        font-size: 0.7rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: rgba(0, 0, 0, 0.45);
+        margin: 0 0 10px;
+    }
+
+    .home-pre-footer-faq-title {
+        font-family: $font-family-sans-serif;
+        font-weight: 700;
+        font-size: clamp(2rem, 3vw + 1rem, 3rem);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin: 0 0 18px;
+        color: $black;
+        line-height: 1.05;
+    }
+
+    .home-pre-footer-faq-link {
+        font-family: $font-family-sans-serif;
+        font-size: 0.82rem;
+        letter-spacing: 0.08em;
+        text-transform: none;
+        color: $primary;
+        text-decoration: none;
+        border-bottom: 1px solid currentColor;
+        padding-bottom: 2px;
+
+        &:hover {
+            color: #007a68;
+        }
+    }
+
+    .home-pre-footer-marquee {
+        background: #ede4d6;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        position: relative;
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
+
+        @media (min-width: 992px) {
+            border-top: none;
+        }
+    }
+
+    .home-pre-footer-marquee-track {
+        display: inline-flex;
+        flex-shrink: 0;
+        will-change: transform;
+        animation: home-brand-marquee 48s linear infinite;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .home-pre-footer-marquee {
+            justify-content: center;
+        }
+
+        .home-pre-footer-marquee-track {
+            animation: none;
+        }
+
+        .home-pre-footer-marquee-chunk:last-child {
+            display: none;
+        }
+    }
+
+    .home-pre-footer-marquee-chunk {
+        display: inline-flex;
+        flex-shrink: 0;
+        align-items: baseline;
+        gap: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
+    .home-pre-footer-marquee-text {
+        font-family: $font-family-sans-serif;
+        font-weight: 700;
+        font-size: clamp(1.75rem, 2.5vw + 1rem, 3.25rem);
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: $black;
+        line-height: 1.2;
+    }
+
+    .home-pre-footer-marquee-sep {
+        font-family: $font-family-sans-serif;
+        font-weight: 700;
+        font-size: clamp(1.5rem, 2vw + 0.85rem, 2.75rem);
+        color: rgba(0, 0, 0, 0.35);
+        letter-spacing: 0;
+    }
+}
+
+@keyframes home-brand-marquee {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}

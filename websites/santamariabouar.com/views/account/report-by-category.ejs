@@ -1,0 +1,80 @@
+<div class="account-page account-page--portal">
+  <div class="account-shell">
+    <%- include('partials/sidebar') %>
+    <div class="account-main">
+      <div class="account-main__header">
+        <h1>Payments by Category<% if (selectedYear && selectedYear !== 'all') { %> <span class="account-meta">— <%= selectedYear %></span><% } %></h1>
+        <p class="account-meta">All income and expenses for the whole compound.</p>
+      </div>
+
+      <div class="account-panel">
+        <form method="GET" action="/account/transactions-by-category" class="account-filter">
+          <label for="year">Year</label>
+          <select id="year" name="year" class="js-year-filter">
+            <option value="all" <%= selectedYear === 'all' ? 'selected' : '' %>>All Years</option>
+            <% (availableYears || []).forEach(function(y) { %>
+              <option value="<%= y %>" <%= selectedYear === String(y) ? 'selected' : '' %>><%= y %></option>
+            <% }); %>
+          </select>
+        </form>
+      </div>
+
+      <% if (sortedCategories && sortedCategories.length) { %>
+        <% sortedCategories.forEach(function(categoryName) { %>
+          <% var totals = categoryTotals[categoryName]; %>
+          <div class="account-panel">
+            <div class="account-panel__title">
+              <h2>
+                <span class="account-cat-dot" style="background: <%= totals.color %>;"></span>
+                <%= categoryName %>
+              </h2>
+              <span class="account-badge">Balance: $<%= Number(totals.balance || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></span>
+            </div>
+            <div class="account-summary">
+              <div class="account-summary__item">
+                <span>Income</span>
+                <strong>$<%= Number(totals.income || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></strong>
+              </div>
+              <div class="account-summary__item">
+                <span>Expenses</span>
+                <strong>$<%= Number(totals.expense || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></strong>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="account-table">
+                <thead>
+                  <tr>
+                    <th class="account-col-date">Date</th>
+                    <th class="account-col-apartment">Apartment</th>
+                    <th class="account-col-description">Description</th>
+                    <th class="account-col-receipt">Receipt</th>
+                    <th class="account-col-money text-end">Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% groupedByCategory[categoryName].forEach(function(tx) { %>
+                    <tr class="<%= tx.type === 'income' ? 'account-row--income' : 'account-row--expense' %>">
+                      <td data-label="Date"><%= tx.date %></td>
+                      <td data-label="Apartment"><%= tx.apartmentLabel %></td>
+                      <td data-label="Description"><%= tx.description || '—' %></td>
+                      <td data-label="Receipt"><% if (tx.receiptImage) { %><%- include('partials/receipt-link', { receiptImage: tx.receiptImage }) %><% } else { %>—<% } %></td>
+                      <td data-label="Amount" class="text-end">
+                        <span class="<%= tx.type === 'income' ? 'account-amount--income' : 'account-amount--expense' %>">
+                          <%= tx.type === 'income' ? '+' : '-' %>$<%= Number(tx.amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+                        </span>
+                      </td>
+                    </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <div class="account-panel">
+          <p class="account-empty">No transactions found for the selected period.</p>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<% if (receiptImage) { %>
+  <% if (receiptImage.endsWith('.pdf')) { %>
+    <a href="<%= receiptImage %>" target="_blank" rel="noopener noreferrer" class="account-receipt-link">
+      View PDF
+    </a>
+  <% } else { %>
+    <a
+      href="<%= receiptImage %>"
+      data-fancybox="receipt-<%= receiptImage %>"
+      data-caption="Receipt"
+      class="account-receipt-link"
+    >
+      View Receipt
+    </a>
+  <% } %>
+<% } %>

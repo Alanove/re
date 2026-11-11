@@ -1,0 +1,49 @@
+<%
+  var formatMoney = function(value) {
+    return Number(value || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  };
+  var totalDue = 0;
+  paymentsDue.forEach(function(inv) {
+    totalDue += Number(inv.balance || 0);
+  });
+%>
+<div class="table-responsive">
+  <table class="account-table">
+    <thead>
+      <tr>
+        <th class="account-col-apartment">Apartment</th>
+        <th class="account-col-description">Description</th>
+        <th class="account-col-date">Due</th>
+        <th class="account-col-money text-end">Paid</th>
+        <th class="account-col-money text-end">Remaining</th>
+        <th class="account-col-status">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% paymentsDue.forEach(function(inv) { %>
+        <tr>
+          <td data-label="Apartment"><%= inv.apartmentLabel %></td>
+          <td data-label="Description">
+            <div class="account-payment-desc">
+              <% if (inv.description) { %><%= inv.description %><% } %>
+              <% if (inv.categoryName) { %>
+                <span
+                  class="account-badge account-badge--category"
+                  <% if (inv.categoryColor) { %>style="--cat-color: <%= inv.categoryColor %>;"<% } %>
+                ><%= inv.categoryName %></span>
+              <% } %>
+            </div>
+          </td>
+          <td data-label="Due"><%= inv.dueDate || '—' %></td>
+          <td data-label="Paid" class="text-end">$<%= formatMoney(inv.amountPaid) %></td>
+          <td data-label="Remaining" class="text-end account-amount--due">$<%= formatMoney(inv.balance) %></td>
+          <td data-label="Status"><span class="account-badge account-badge--<%= inv.status %>"><%= inv.status %></span></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</div>
+<p class="account-total-due">
+  <span>Total Due:</span>
+  <strong>$<%= formatMoney(totalDue) %></strong>
+</p>

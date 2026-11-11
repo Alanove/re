@@ -1,0 +1,374 @@
+// Hero Section Styles
+.hero-section {
+  overflow: hidden;
+  position: relative;
+  min-height: 100vh; // Fallback for older browsers
+  min-height: 100dvh; // Dynamic viewport height - accounts for mobile UI bars
+  
+  // White drop gradient under menu to make it pop (only on hero section)
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0; // Start from top of hero section
+    left: 0;
+    width: 100%;
+    height: 350px; // Increased height for bigger gradient
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.95) 20%, rgba(255, 255, 255, 0.8) 40%, rgba(255, 255, 255, 0.5) 60%, transparent 100%);
+    pointer-events: none;
+    z-index: 998; // Below header (1000) but above hero content
+  }
+  
+  // Additional mobile-specific adjustments
+  @media (max-width: 768px) {
+    min-height: calc(100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    min-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  }
+
+  video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 110vw;
+    height: 110vh;
+    min-width: 110vw;
+    min-height: 110vh;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    pointer-events: none;
+    will-change: transform;
+
+    img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 110vw;
+      height: 110vh;
+      min-width: 110vw;
+      min-height: 110vh;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      pointer-events: none;
+      will-change: transform;
+    }
+  }
+
+  // Hero image for pages (instead of video)
+  .hero-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 110vw;
+    height: 110vh;
+    min-width: 110vw;
+    min-height: 110vh;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    pointer-events: none;
+    will-change: transform;
+  }
+
+
+  .hero-decor-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+    /* ensure lines are painted above the video (which may create a stacking context) but below main hero content (z-index:3+), adjusted high to guarantee visibility */
+    opacity: 1;
+    transform: translateX(-100px);
+    animation: decorLineMove 20s ease-in-out infinite alternate;
+
+    .decor-line {
+      position: absolute;
+      top: 50%;
+      height: 140vh;
+      /* requested 120% of hero height */
+      background: rgba(255, 255, 255, 0.09);
+      transform: translateY(-50%) rotate(20deg);
+      transform-origin: top left;
+      will-change: transform, opacity;
+
+      &:nth-child(1) {
+        width: 40%;
+        left: -10%;
+        transform: translateY(-70%) rotate(20deg);
+      }
+
+      &:nth-child(2) {
+        width: 190px;
+        left: 55%;
+        transform: translateY(-50%) translateX(-50%) rotate(20deg);
+      }
+
+      &:nth-child(3) {
+        width: 40%;
+        left: 98vw;
+      }
+    }
+  }
+
+  @keyframes decorLineMove {
+    from {
+      transform: translateX(-100px);
+    }
+
+    to {
+      transform: translateX(150px);
+    }
+  }
+
+
+  // Scroll Arrow
+  .scroll-arrow-container {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 30;
+    animation: bounce 2s infinite;
+
+    .scroll-arrow {
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: rgba(255, 255, 255, 0.8);
+
+      &:hover {
+        color: rgba(255, 255, 255, 1);
+        transform: translateY(-3px);
+      }
+
+      &:active {
+        transform: translateY(-1px);
+      }
+
+      img {
+        width: 32px;
+        height: 32px;
+        transition: transform 0.3s ease;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+      }
+    }
+  }
+
+  @keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    40% {
+      transform: translateX(-50%) translateY(-10px);
+    }
+
+    60% {
+      transform: translateX(-50%) translateY(-5px);
+    }
+  }
+
+
+  .hero-quotes {
+    position: absolute;
+    bottom: 40px;
+    z-index: 15;
+    min-width: 280px;
+    max-width: 400px;
+    /* Width constraints for large screens */
+    pointer-events: none;
+
+    // Mobile width adjustments
+    @media (max-width: #{$small-screen - 1px}) {
+      min-width: auto;
+      max-width: none;
+      width: calc(100vw - 2 * #{$small-screen-padding});
+      left: $small-screen-padding;
+      bottom: calc(#{$small-screen-padding} + 100px); // Extra space to avoid scroll arrow overlap
+    }
+
+    // Hero quotes positioned to align with logo
+    position: absolute;
+    left: $medium-screen-padding; // Same left padding as logo
+    bottom: calc(#{$medium-screen-padding} + 50px); // Logo top should equal quotes bottom
+
+    // Very large screens (1600px+)
+    @media (min-width: $ultra-screen) {
+      left: $ultra-large-screen-padding;
+      bottom: calc(#{$ultra-large-screen-padding} + 50px);
+    }
+
+    // Large screens (1280px+)
+    @media (min-width: $large-screen) and (max-width: #{$ultra-screen - 1px}) {
+      left: $large-screen-padding;
+      bottom: calc(#{$large-screen-padding} + 50px);
+    }
+
+    // Medium screens (950px+)
+    @media (min-width: $medium-screen) and (max-width: #{$large-screen - 1px}) {
+      left: $medium-screen-padding;
+      bottom: calc(#{$medium-screen-padding} + 50px);
+    }
+
+    // Small screens (700px+)
+    @media (min-width: $small-screen) and (max-width: #{$medium-screen - 1px}) {
+      left: $small-screen-padding;
+      bottom: calc(#{$small-screen-padding} + 50px);
+    }
+
+    // Extra small screens (below 700px)
+    @media (max-width: #{$small-screen - 1px}) {
+      left: $small-screen-padding;
+      bottom: calc(#{$small-screen-padding} + 100px); // Extra space to avoid scroll arrow overlap
+    }
+
+    .quote-container {
+      position: relative;
+      height: 140px;
+      /* Increased height to accommodate larger content */
+      
+      // Mobile container adjustments
+      @media (max-width: #{$small-screen - 1px}) {
+        height: auto;
+        min-height: 120px;
+      }
+    }
+
+    .quote-item {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.8s ease-in-out;
+      padding: 25px 0;
+
+      // Mobile responsive width
+      @media (max-width: #{$small-screen - 1px}) {
+        width: calc(100% - 2 * #{$small-screen-padding});
+        left: $small-screen-padding;
+      }
+
+      &.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .quote-text {
+        color: white;
+        /* White text for visibility */
+        font-size: 1.2rem;
+        /* Slightly larger text */
+        font-style: italic;
+        margin: 0 0 15px 0;
+        /* Increased bottom margin */
+        line-height: 1.5;
+        /* Better line height for readability */
+        font-weight: 700;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        /* Drop shadow for better visibility */
+
+        // Mobile text adjustments
+        @media (max-width: #{$small-screen - 1px}) {
+          line-height: 1.4;
+          word-break: break-word;
+          white-space: normal;
+        }
+      }
+
+      .quote-author {
+        color: rgba(255, 255, 255, 0.9);
+        /* Slightly transparent white for author */
+        font-size: 1rem;
+        /* Slightly larger author text */
+        font-weight: 700;
+        /* Bold text */
+        display: block;
+        text-align: left;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        /* Drop shadow for better visibility */
+      }
+    }
+  }
+
+  // Hero Title
+  .hero-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 20;
+    text-align: center;
+    pointer-events: none;
+    padding: 0;
+    width: auto;
+    max-width: 90%;
+
+    h1 {
+      color: #fff;
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin: 0;
+      padding: 2rem 4rem;
+      line-height: 1.2;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-shadow: 
+        0 0 20px rgba(32, 56, 100, 0.8),
+        0 0 40px rgba(32, 56, 100, 0.6),
+        0 0 60px rgba(32, 56, 100, 0.4),
+        0 2px 4px rgba(0, 0, 0, 0.3);
+
+      // Large screens (1280px+)
+      @media (min-width: 1280px) {
+        font-size: 4.5rem;
+        padding: 2.5rem 5rem;
+      }
+
+      // Medium screens (950px - 1279px)
+      @media (min-width: 950px) and (max-width: 1279px) {
+        font-size: 3.5rem;
+        padding: 2rem 4rem;
+      }
+
+      // Small screens (700px - 949px)
+      @media (min-width: 700px) and (max-width: 949px) {
+        font-size: 2.5rem;
+        padding: 1.5rem 3rem;
+      }
+
+      // Extra small screens (below 700px)
+      @media (max-width: 699px) {
+        font-size: 2rem;
+        letter-spacing: 1px;
+        padding: 1.5rem 2rem;
+        text-shadow: 
+          0 0 15px rgba(32, 56, 100, 0.8),
+          0 0 30px rgba(32, 56, 100, 0.6),
+          0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    // Light background pages - keep text white with blue glow
+    body.light-background & {
+      h1 {
+        color: #fff;
+        text-shadow: 
+          0 0 20px rgba(32, 56, 100, 0.9),
+          0 0 40px rgba(32, 56, 100, 0.7),
+          0 0 60px rgba(32, 56, 100, 0.5),
+          0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+}

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title><%= typeof title !== 'undefined' ? title : (typeof siteTitle !== 'undefined' ? siteTitle : 'CMS') + ' Admin' %></title>
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+	<meta content="<%= typeof pageDescription !== 'undefined' ? pageDescription : (typeof siteTitle !== 'undefined' ? siteTitle : 'CMS') + ' Admin Panel' %>" name="description" />
+	<meta content="<%= typeof siteTitle !== 'undefined' ? siteTitle : 'CMS' %>" name="author" />
+	
+	<!-- ================== BEGIN core-css ================== -->
+	<link href="/admin/css/vendor.min.css" rel="stylesheet" />
+	<link href="/admin/css/app.min.css" rel="stylesheet" />
+	<link href="/admin/css/admin.css" rel="stylesheet" />
+	<!-- ================== END core-css ================== -->
+	
+	<!-- ================== BEGIN custom-editor ================== -->
+	<% if (typeof includeCustomEditor !== 'undefined' && includeCustomEditor) { %>
+		<link href="/admin/editor/custom-editor.css" rel="stylesheet">
+	<% } %>
+	<!-- ================== END custom-editor ================== -->
+	
+	<!-- ================== BEGIN page-css ================== -->
+	<% if (typeof pageCSS !== 'undefined' && pageCSS) { %>
+		<style>
+			<%- pageCSS %>
+		</style>
+	<% } %>
+	<!-- ================== END page-css ================== -->
+</head>
+<body class='pace-top <%= typeof themeClasses !== "undefined" ? themeClasses : "" %>'>
+	<!-- BEGIN #loader -->
+	<div id="loader" class="app-loader">
+		<span class="spinner"></span>
+	</div>
+	<!-- END #loader -->
+
+	<!-- BEGIN #app -->
+	<div id="app" class="app app-header-fixed app-sidebar-fixed">
+		<!-- BEGIN #header -->
+		<% if (typeof include === 'function') { %>
+			<%- include('partials/header', { siteTitle: typeof siteTitle !== 'undefined' && siteTitle ? siteTitle : 'Admin Panel' }) %>
+		<% } else { %>
+			<!-- Fallback header (include helper unavailable) -->
+			<div id="header" class="app-header">
+				<div class="navbar-header">
+					<a href="/admin/dashboard" class="navbar-brand">
+						<b class="me-3px"><%= (typeof siteTitle !== 'undefined' && siteTitle ? siteTitle : 'Admin') %> <span class="text-muted fs-12px fw-normal">Admin Panel</span></b>
+					</a>
+				</div>
+			</div>
+		<% } %>
+		<!-- END #header -->
+		
+		<!-- BEGIN #sidebar -->
+		<% if (typeof include === 'function') { %>
+			<%- include('partials/sidebar') %>
+		<% } else { %>
+			<!-- Fallback sidebar when include helper missing -->
+			<div id="sidebar" class="app-sidebar" data-bs-theme="dark">
+				<div class="app-sidebar-content" data-scrollbar="true" data-height="100%">
+					<div class="menu">
+						<div class="menu-header"></div>
+						<% if (typeof adminMenu !== 'undefined' && adminMenu && adminMenu.length > 0) { %>
+							<% adminMenu.forEach(function(item){ %>
+								<div class="menu-item <%= item.active ? 'active' : '' %>">
+									<a href="<%= item.url %>" class="menu-link">
+										<div class="menu-icon"><i class="<%= item.icon %>"></i></div>
+										<div class="menu-text"><%= item.text %></div>
+									</a>
+								</div>
+							<% }) %>
+						<% } else { %>
+							<div class="menu-item"><a href="/admin/dashboard" class="menu-link"><div class="menu-icon"><i class="fa fa-laptop"></i></div><div class="menu-text">Dashboard</div></a></div>
+						<% } %>
+					</div>
+				</div>
+			</div>
+		<% } %>
+		<!-- END #sidebar -->
+		
+		<!-- BEGIN #content -->
+		<div id="content" class="app-content">
+			<!-- BEGIN container -->
+			<div class="container-fluid">
+				<!-- BEGIN row -->
+				<div class="row">
+					<!-- BEGIN col-12 -->
+					<div class="col-xl-12">
+						<% if (typeof showBreadcrumb !== 'undefined' && showBreadcrumb !== false) { %>
+							<!-- BEGIN breadcrumb -->
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+								<% if (typeof breadcrumbItems !== 'undefined' && breadcrumbItems) { %>
+									<% breadcrumbItems.forEach(item => { %>
+										<% if (item.active) { %>
+											<li class="breadcrumb-item active"><%= item.text %></li>
+										<% } else { %>
+											<li class="breadcrumb-item"><a href="<%= item.url %>"><%= item.text %></a></li>
+										<% } %>
+									<% }) %>
+								<% } else { %>
+									<li class="breadcrumb-item active"><%= typeof pageTitle !== 'undefined' ? pageTitle : 'Page' %></li>
+								<% } %>
+							</ol>
+							<!-- END breadcrumb -->
+						<% } %>
+						
+						<% if (typeof showPageHeader !== 'undefined' && showPageHeader !== false) { %>
+							<!-- BEGIN page-header -->
+							<h1 class="page-header">
+								<%= typeof pageTitle !== 'undefined' ? pageTitle : 'Page' %>
+								<% if (typeof pageSubtitle !== 'undefined' && pageSubtitle) { %>
+									<small><%= pageSubtitle %></small>
+								<% } %>
+							</h1>
+							<!-- END page-header -->
+						<% } %>
+						
+						<!-- BEGIN content area -->
+						<%- body %>
+						<!-- END content area -->
+					</div>
+					<!-- END col-12 -->
+				</div>
+				<!-- END row -->
+			</div>
+			<!-- END container -->
+		</div>
+		<!-- END #content -->
+		
+		<!-- BEGIN theme-panel -->
+		<% if (typeof include === 'function') { %>
+			<%- include('partials/theme-panel') %>
+		<% } %>
+		<!-- END theme-panel -->
+		
+		<!-- BEGIN scroll-top-btn -->
+		<a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top" data-toggle="scroll-to-top">
+			<i class="fa fa-angle-up"></i>
+		</a>
+		<!-- END scroll-top-btn -->
+	</div>
+	<!-- END #app -->
+	
+	<!-- BEGIN generic action modal -->
+	<div class="modal fade" id="modal-dialog">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h4 class="modal-title" id="modalDialogTitle">Modal Dialog</h4>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+	      </div>
+	      <div class="modal-body" id="modalDialogBody">
+	        ...
+	      </div>
+	      <div class="modal-footer">
+	        <a href="javascript:;" class="btn btn-white" data-bs-dismiss="modal">Cancel</a>
+	        <a href="javascript:;" class="btn btn-success" id="modalDialogActionBtn">Action</a>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- END generic action modal -->
+	
+	<!-- ================== BEGIN core-js ================== -->
+	<script src="/admin/js/vendor.min.js"></script>
+	<script src="/admin/js/app.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+	<script src="/admin/js/custom.js"></script>
+	<!-- ================== END core-js ================== -->
+	
+	<!-- ================== BEGIN custom-editor ================== -->
+	<% if (typeof includeCustomEditor !== 'undefined' && includeCustomEditor) { %>
+		<script src="/admin/editor/custom-editor.js"></script>
+	<% } %>
+	<!-- ================== END custom-editor ================== -->
+	
+	<!-- ================== BEGIN theme-js ================== -->
+	<script src="/admin/js/theme.js"></script>
+	<!-- ================== END theme-js ================== -->
+	
+	<!-- ================== BEGIN page-js ================== -->
+	<% if (typeof pageJS !== 'undefined' && pageJS) { %>
+		<script>
+			<%- pageJS %>
+		</script>
+	<% } %>
+	<!-- ================== END page-js ================== -->
+	
+	<!-- ================== BEGIN loader-fix ================== -->
+	<script>
+		// Ensure loader is hidden when page is fully loaded
+		document.addEventListener('DOMContentLoaded', function() {
+			setTimeout(function() {
+				const loader = document.getElementById('loader');
+				if (loader) {
+					loader.classList.add('loaded');
+				}
+			}, 500);
+		});
+		
+		// Also hide loader when window is fully loaded
+		window.addEventListener('load', function() {
+			const loader = document.getElementById('loader');
+			if (loader) {
+				loader.classList.add('loaded');
+			}
+		});
+		
+		// Fallback: hide loader after 2 seconds regardless
+		setTimeout(function() {
+			const loader = document.getElementById('loader');
+			if (loader) {
+				loader.classList.add('loaded');
+			}
+		}, 2000);
+	</script>
+	<!-- ================== END loader-fix ================== -->
+</body>
+</html> 

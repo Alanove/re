@@ -1,0 +1,201 @@
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Edit Category: <%= category.name %></h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="/admin/transaction-categories">Transaction Categories</a></li>
+                        <li class="breadcrumb-item active">Edit</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Category Information</h3>
+                        </div>
+                        <form id="categoryForm" action="/admin/transaction-categories/<%= category.id %>/edit" method="POST">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="name">Category Name *</label>
+                                    <input type="text" class="form-control" id="name" name="name" required 
+                                           value="<%= category.name %>" placeholder="e.g., Office Supplies, Electricity">
+                                    <small class="form-text text-muted">Choose a clear, descriptive name for this category</small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="type">Category Type *</label>
+                                    <select class="form-control" id="type" name="type" required>
+                                        <option value="">Select category type</option>
+                                        <option value="income" <%= category.type === 'income' ? 'selected' : '' %>>
+                                            Income (Money coming in)
+                                        </option>
+                                        <option value="expense" <%= category.type === 'expense' ? 'selected' : '' %>>
+                                            Expense (Money going out)
+                                        </option>
+                                        <option value="both" <%= category.type === 'both' ? 'selected' : '' %>>
+                                            Both (Can be used for income or expense)
+                                        </option>
+                                    </select>
+                                    <small class="form-text text-muted">
+                                        <strong>Income:</strong> Money added to account | 
+                                        <strong>Expense:</strong> Money removed from account | 
+                                        <strong>Both:</strong> Flexible usage
+                                    </small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="color">Category Color</label>
+                                    <div class="input-group">
+                                        <input type="color" class="form-control-color" id="color" name="color" 
+                                               value="<%= category.color %>" style="width: 60px; height: 40px;">
+                                        <input type="text" class="form-control ml-2" id="colorHex" 
+                                               value="<%= category.color %>" readonly>
+                                    </div>
+                                    <small class="form-text text-muted">Choose a color to help identify this category in reports</small>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="isActive" 
+                                               name="isActive" <%= category.isActive ? 'checked' : '' %>>
+                                        <label class="custom-control-label" for="isActive">Active</label>
+                                    </div>
+                                    <small class="form-text text-muted">Only active categories will appear in transaction forms</small>
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-save"></i> Update Category
+                                </button>
+                                <a href="/admin/transaction-categories" class="btn btn-secondary ml-2">
+                                    <i class="fa fa-arrow-left"></i> Back to Categories
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card card-info">
+                        <div class="card-header">
+                            <h3 class="card-title">Category Details</h3>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-sm">
+                                <tr>
+                                    <td><strong>Created:</strong></td>
+                                    <td><%= new Date(category.createdAt).toLocaleDateString() %></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Type:</strong></td>
+                                    <td>
+                                        <% if (category.type === 'income') { %>
+                                            <span class="badge badge-success">Income</span>
+                                        <% } else if (category.type === 'expense') { %>
+                                            <span class="badge badge-danger">Expense</span>
+                                        <% } else { %>
+                                            <span class="badge badge-info">Both</span>
+                                        <% } %>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Status:</strong></td>
+                                    <td>
+                                        <span class="badge badge-<%= category.isActive ? 'success' : 'secondary' %>">
+                                            <%= category.isActive ? 'Active' : 'Inactive' %>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Color:</strong></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div style="width: 20px; height: 20px; background-color: <%= category.color %>; border-radius: 50%; border: 1px solid #ddd;"></div>
+                                            <span class="ml-2"><%= category.color %></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card card-warning">
+                        <div class="card-header">
+                            <h3 class="card-title">Important Notes</h3>
+                        </div>
+                        <div class="card-body">
+                            <% if (category.name.toLowerCase() === 'transfer') { %>
+                                <p><i class="fa fa-info-circle text-info"></i> <strong>Transfer Category:</strong> 
+                                This category is used for moving money between accounts and automatically creates paired transactions.</p>
+                            <% } else if (category.name.toLowerCase() === 'common expenses') { %>
+                                <p><i class="fa fa-info-circle text-info"></i> <strong>Common Expenses:</strong> 
+                                This category is used for apartment building expenses and allows multi-apartment selection with receipt generation.</p>
+                            <% } else { %>
+                                <p><i class="fa fa-exclamation-triangle text-warning"></i> <strong>Category Changes:</strong> 
+                                Modifying this category will affect all future transactions that use it.</p>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<%- contentFor('scripts') %>
+<script>
+// Update color preview when color changes
+document.getElementById('color').addEventListener('input', function() {
+    document.getElementById('colorPreview').style.backgroundColor = this.value;
+});
+
+document.getElementById('categoryForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    
+    // Show loading state
+    submitBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Updating...';
+    submitBtn.disabled = true;
+    
+    try {
+        const response = await fetch('/admin/transaction-categories/<%= category.id %>/edit', {
+            method: 'POST',
+            body: formData
+        });
+        
+        if (response.ok) {
+            window.location.href = '/admin/transaction-categories';
+        } else {
+            const result = await response.json();
+            alert('Error: ' + (result.message || 'Failed to update category'));
+        }
+    } catch (error) {
+        console.error('Error updating category:', error);
+        alert('Error updating category. Please try again.');
+    } finally {
+        // Restore button state
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    }
+});
+
+// Color picker functionality
+document.getElementById('color').addEventListener('change', function() {
+    document.getElementById('colorHex').value = this.value;
+});
+</script>

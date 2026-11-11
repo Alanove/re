@@ -1,0 +1,179 @@
+{
+  "menus": [
+    {
+      "id": "main-menu",
+      "name": "Main Menu",
+      "description": "Primary navigation",
+      "items": [
+        {
+          "id": "home",
+          "title": "Home",
+          "type": "page",
+          "link": "home",
+          "sort": 1,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "about-us",
+          "title": "About Us",
+          "type": "page",
+          "link": "about-us",
+          "sort": 2,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "sectors",
+          "title": "Sectors",
+          "type": "anchor",
+          "link": "#sectors",
+          "sort": 3,
+          "active": true,
+          "children": [
+            {
+              "id": "sector-agriculture",
+              "title": "Agriculture",
+              "type": "page",
+              "link": "sector-agriculture",
+              "sort": 1,
+              "active": true,
+              "children": []
+            },
+            {
+              "id": "sector-pest-management",
+              "title": "Pest Management",
+              "type": "page",
+              "link": "sector-pest-management",
+              "sort": 2,
+              "active": true,
+              "children": []
+            },
+            {
+              "id": "sector-landscaping",
+              "title": "Landscaping",
+              "type": "page",
+              "link": "sector-landscaping",
+              "sort": 3,
+              "active": true,
+              "children": []
+            },
+            {
+              "id": "sector-cleaning-services",
+              "title": "Cleaning Services",
+              "type": "page",
+              "link": "sector-cleaning-services",
+              "sort": 4,
+              "active": true,
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "member-companies",
+          "title": "Member Companies",
+          "type": "page",
+          "link": "member-companies",
+          "sort": 4,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "sustainability-env",
+          "title": "Sustainability",
+          "type": "page",
+          "link": "sustainability-environmental-sustainability",
+          "sort": 5,
+          "active": true,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "utility-menu",
+      "name": "Utility Menu",
+      "description": "Pre-header links",
+      "items": [
+        {
+          "id": "news-link",
+          "title": "News & Events",
+          "type": "page",
+          "link": "news-listing",
+          "sort": 1,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "contact-link",
+          "title": "Contact Us",
+          "type": "anchor",
+          "link": "contact-us",
+          "sort": 2,
+          "active": true,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "footer-menu",
+      "name": "Footer Menu",
+      "description": "Footer navigation columns",
+      "items": [
+        {
+          "id": "f-home",
+          "title": "Home",
+          "type": "page",
+          "link": "home",
+          "sort": 1,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "f-about",
+          "title": "About Us",
+          "type": "page",
+          "link": "about-us",
+          "sort": 2,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "f-members",
+          "title": "Member Companies",
+          "type": "page",
+          "link": "member-companies",
+          "sort": 3,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "f-sustain",
+          "title": "Sustainability",
+          "type": "page",
+          "link": "sustainability-environmental-sustainability",
+          "sort": 4,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "f-news",
+          "title": "News & Events",
+          "type": "page",
+          "link": "news-listing",
+          "sort": 5,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "f-contact",
+          "title": "Contact Us",
+          "type": "anchor",
+          "link": "contact-us",
+          "sort": 6,
+          "active": true,
+          "children": []
+        }
+      ]
+    }
+  ]
+}

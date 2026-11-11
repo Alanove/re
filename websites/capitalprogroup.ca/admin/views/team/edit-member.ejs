@@ -1,0 +1,62 @@
+<ol class="breadcrumb">
+	<li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+	<li class="breadcrumb-item"><a href="/admin/team">Our Team</a></li>
+	<li class="breadcrumb-item active"><%= isCreateMode ? 'Add' : 'Edit' %></li>
+</ol>
+<form method="POST" enctype="multipart/form-data" action="<%= isCreateMode ? '/admin/team/create' : '/admin/team/' + item.id + '/edit' %>">
+	<div class="panel panel-inverse">
+		<div class="panel-heading">
+			<h4 class="panel-title"><%= isCreateMode ? 'Add Team Member' : 'Edit Team Member' %></h4>
+		</div>
+		<div class="panel-body">
+			<div class="mb-3">
+				<label class="form-label">Name</label>
+				<input class="form-control" name="name" value="<%= item.name || '' %>" required>
+			</div>
+			<div class="mb-3">
+				<label class="form-label">Description</label>
+				<textarea class="form-control" name="description" rows="4" placeholder="Title, extension, email…"><%= item.description || '' %></textarea>
+				<small class="text-muted">Shown under the name. Hidden when empty. Company-specific text below can override this.</small>
+			</div>
+			<div class="mb-3">
+				<label class="form-label">Bio</label>
+				<textarea class="form-control" name="bio" rows="6"><%= item.bio || '' %></textarea>
+				<small class="text-muted">Hidden on the site when empty</small>
+			</div>
+			<div class="mb-3">
+				<label class="form-label">Photo</label>
+				<% if (item.photo) { %>
+					<div class="mb-2"><img src="<%= item.photo %>" alt="" style="max-height:120px;"></div>
+				<% } %>
+				<input class="form-control" type="file" name="photoFile" accept="image/*">
+			</div>
+			<h5 class="mt-4">Companies</h5>
+			<p class="text-muted">Assign this person to one or more companies and set display order for each listing.</p>
+			<% companies.forEach(function(company) { %>
+				<% const assignment = (item.companies || []).find(function(c) { return c.key === company.key; }); %>
+				<div class="border rounded p-3 mb-3">
+					<div class="form-check mb-2">
+						<input class="form-check-input" type="checkbox" id="company_<%= company.key %>" name="company_<%= company.key %>" value="1" <%= assignment ? 'checked' : '' %>>
+						<label class="form-check-label" for="company_<%= company.key %>"><strong><%= company.title %></strong></label>
+					</div>
+					<div class="row">
+						<div class="col-md-3">
+							<label class="form-label">Order</label>
+							<input class="form-control" type="number" name="company_sort_<%= company.key %>" value="<%= assignment ? assignment.sort : 1000 %>">
+						</div>
+						<div class="col-md-9">
+							<label class="form-label">Description for this company (optional)</label>
+							<textarea class="form-control" name="company_description_<%= company.key %>" rows="2"><%= assignment && assignment.description ? assignment.description : '' %></textarea>
+						</div>
+					</div>
+				</div>
+			<% }); %>
+			<div class="form-check mb-3">
+				<input class="form-check-input" type="checkbox" id="isActive" name="isActive" value="1" <%= item.status !== 'draft' ? 'checked' : '' %>>
+				<label class="form-check-label" for="isActive">Published</label>
+			</div>
+			<button class="btn btn-primary" type="submit">Save</button>
+			<a class="btn btn-secondary" href="/admin/team">Cancel</a>
+		</div>
+	</div>
+</form>

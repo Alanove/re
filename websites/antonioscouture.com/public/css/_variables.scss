@@ -1,0 +1,136 @@
+// SCSS Variables - MultiShop Template
+// Variables from MultiShop template
+
+// Black-forward palette — no teal/green storefront accent; typography leads, imagery carries color.
+$black: #000000;
+$nearly-black: #1c1c1c;
+$spring-bed: $black; // legacy name (formerly green-teal accent)
+$teal: $nearly-black; // legacy compat only — do not use for accent UI
+$grey: #919191;
+$white: #ffffff;
+$yellow: #ffff00;
+
+// MultiShop Colors ($primary feeds Bootstrap `.btn-primary`, links, navbar hovers compiled from SCSS)
+$primary: $black;
+$secondary: $white;
+$light: $white;
+$dark: $nearly-black;
+
+// Body
+$body-bg: $white;
+$body-color: $nearly-black;
+
+// Listing thumbs (imageThumbService THUMB_PAD_BG) — card media background
+$listing-thumb-bg: #f5f3ee;
+
+// Links / hover — barely darker than body for quiet interaction
+$link-hover-text: #0a0a0a;
+
+// Headings
+$headings-color: $black;
+
+// Typography — Roboto for UI/body; Montserrat for h1–h4; Square 721 BT for other display labels
+$font-family-roboto: "Roboto", sans-serif;
+$font-family-montserrat: "Montserrat", sans-serif;
+$font-family-square721: "Square721 BT", sans-serif;
+$font-family-sans-serif: $font-family-roboto;
+$title-font-family: $font-family-montserrat;
+$title-font-weight: 400;
+$headings-font-family: $font-family-square721;
+$headings-font-weight: 700;
+
+// Bootstrap 4 Settings (for reference, Bootstrap is loaded via CDN)
+$enable-responsive-font-sizes: true;
+$enable-rounded: false;
+$btn-focus-box-shadow: none;
+$btn-active-box-shadow: none;
+$input-btn-focus-box-shadow: none;
+$input-placeholder-color: #999999;
+$border-color: #dee2e6;
+
+// Legacy variable names for compatibility
+$primary-color: $primary;
+$secondary-color: $nearly-black;
+$white: $light;
+$black: #000000;
+
+// -----------------------------------------------------------------------------
+// Luxury storefront header (breakpoint + chrome)
+// -----------------------------------------------------------------------------
+// Desktop nav / mega menu: viewport width >= this value ($lux-header-desktop-min).
+$lux-header-breakpoint-max: 1150px;
+$lux-header-desktop-min: 1151px;
+$lux-header-pin-scroll-px: 80px;
+
+// Matches `.luxury-header .lux-bar` horizontal padding — interior `.container-fluid` uses the same inset.
+$lux-bar-padding-x-desktop: 32px;
+$lux-bar-padding-x-mobile: 16px;
+$lux-site-gutter-x: $lux-bar-padding-x-desktop;
+$lux-site-gutter-x-mobile: $lux-bar-padding-x-mobile;
+
+$lux-header-bg: $white;
+$lux-header-border-color: rgba($black, 0.06);
+$lux-header-border-color-open: rgba($black, 0.08);
+// Base nav copy slightly softer than pure black; hover nudges toward ink (no hue shift).
+$lux-header-text: rgba($black, 0.88);
+$lux-header-link-hover: $link-hover-text;
+$lux-header-text-muted: rgba($black, 0.55);
+
+$lux-megamenu-bg: $white;
+$lux-megamenu-text: rgba($black, 0.88);
+$lux-megamenu-link-hover: $link-hover-text;
+$lux-megamenu-heading-muted: rgba($black, 0.45);
+$lux-megamenu-rule: rgba($black, 0.12);
+$lux-megamenu-image-bg: rgba($black, 0.06);
+$lux-megamenu-shadow: 0 18px 40px rgba($black, 0.08);
+// Category archive (seasons grouped by year)
+$lux-megamenu-year-text: rgba($black, 0.38);
+$lux-megamenu-archive-rule: rgba($black, 0.06);
+$lux-megamenu-archive-sep: rgba($black, 0.22);
+$lux-megamenu-archive-max-width: 760px;
+
+// Homepage hero overlay promo glass (paired with translucent strip)
+$lux-home-promo-glass-bg: rgba(255, 255, 255, 0.35);
+$lux-home-promo-glass-border: rgba(255, 255, 255, 0.22);
+
+// Mobile toolbar (luxury narrow header) — Bootstrap Icons optical size (see `$lux-toolbar-bi-size`)
+$lux-toolbar-bi-size: 1.32rem;
+
+// Centered wordmark — desktop base, then −25% per band (see `_header.scss`)
+$lux-logo-height-desktop: 43.2px;
+$lux-logo-max-width-desktop: 336px;
+$lux-logo-bp-xl: 1200px;
+$lux-logo-bp-md: 800px;
+// Hero carousel portrait video shows below this width (desktop video at ≥ breakpoint)
+$lux-hero-video-desktop-min: $lux-logo-bp-md;
+// Shop category hero (collection pages with category video)
+$shop-category-hero-height-mobile: 72dvh;
+$shop-category-hero-height: 88dvh;
+$lux-logo-bp-sm: 400px;
+$lux-logo-scale-step: 0.75;
+$lux-logo-height-lg: $lux-logo-height-desktop * $lux-logo-scale-step;
+$lux-logo-max-width-lg: $lux-logo-max-width-desktop * $lux-logo-scale-step;
+$lux-logo-height-md: $lux-logo-height-lg * $lux-logo-scale-step;
+$lux-logo-max-width-md: $lux-logo-max-width-lg * $lux-logo-scale-step;
+$lux-logo-height-sm: $lux-logo-height-md * $lux-logo-scale-step;
+$lux-logo-max-width-sm: $lux-logo-max-width-md * $lux-logo-scale-step;
+// Icon bar (≤1150px): phone vs tablet wordmark tiers
+$lux-logo-bp-phone-max: 767.98px;
+$lux-logo-height-phone: 20px;
+$lux-logo-max-width-phone: 155px;
+$lux-logo-inline-reserve-phone: 11.5rem;
+$lux-logo-height-tablet: $lux-logo-height-lg;
+$lux-logo-max-width-tablet: $lux-logo-max-width-lg;
+$lux-logo-inline-reserve-tablet: 10rem;
+
+// Mobile left nav drawer (`.lux-mobile-drawer`, max width below)
+$lux-mobile-drawer-max-width: 500px;
+$lux-mobile-drawer-bg: $white;
+$lux-mobile-drawer-text: $lux-header-text;
+$lux-mobile-drawer-heading-rule: rgba($black, 0.18);
+$lux-mobile-card-width: 132px;
+$lux-mobile-pill-border: rgba($black, 0.16);
+$lux-mobile-pill-border-hover: rgba($black, 0.7);
+
+// Homepage light-on-hero nav (scoped in _home.scss; keep token here)
+$lux-home-overlay-nav: $white;

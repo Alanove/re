@@ -1,0 +1,41 @@
+<%
+  const imageFile = apartment.officialImage || (apartment.images && apartment.images[0]) || '';
+  const imageUrl = imageFile
+    ? '/images/apartments/' + apartment.id + '/' + imageFile
+    : '/images/default-hero.jpg';
+  const unitLabel = apartment.unitNumberOfficial || apartment.unitNumberUnofficial || apartment.id;
+  const statusLabel = apartment.status === 'for_sale' ? 'For Sale' : 'For Rent';
+  const statusClass = apartment.status === 'for_sale' ? 'sale' : 'rent';
+  let priceLabel = 'Contact for price';
+  if (!apartment.contactForPrice && apartment.priceUsd != null && apartment.priceUsd > 0) {
+    priceLabel = '$' + Number(apartment.priceUsd).toLocaleString('en-US');
+    if (apartment.status === 'for_rent') priceLabel += '/mo';
+    if (apartment.priceNegotiable) priceLabel += ' · Negotiable';
+  }
+%>
+<a href="/apartments/<%= apartment.id %>" class="apartment-card apartment-card--link">
+  <div class="apartment-card__media">
+    <img src="<%= imageUrl %>" alt="Apartment <%= unitLabel %>" loading="lazy" />
+    <span class="apartment-card__badge apartment-card__badge--<%= statusClass %>"><%= statusLabel %></span>
+  </div>
+  <div class="apartment-card__body">
+    <h3 class="apartment-card__title">Apartment <%= unitLabel %></h3>
+    <p class="apartment-card__price"><%= priceLabel %></p>
+    <p class="apartment-card__meta">
+      <span><i class="bi bi-building"></i> Block <%= apartment.block || '—' %></span>
+      <% if (apartment.bedrooms != null) { %>
+        <span><i class="bi bi-door-closed"></i> <%= apartment.bedrooms %> bed</span>
+      <% } %>
+      <% if (apartment.bathrooms != null) { %>
+        <span><i class="bi bi-droplet"></i> <%= apartment.bathrooms %> bath</span>
+      <% } %>
+      <% if (apartment.areaInM2) { %>
+        <span><i class="bi bi-rulers"></i> <%= apartment.areaInM2 %> m²</span>
+      <% } %>
+    </p>
+    <% if (apartment.isFurnished) { %>
+      <span class="apartment-card__chip">Furnished</span>
+    <% } %>
+    <span class="apartment-card__link">View details <i class="bi bi-arrow-right"></i></span>
+  </div>
+</a>

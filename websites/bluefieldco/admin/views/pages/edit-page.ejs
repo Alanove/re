@@ -1,0 +1,732 @@
+<!-- BEGIN breadcrumb -->
+<ol class="breadcrumb">
+	<li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+	<li class="breadcrumb-item"><a href="/admin/pages">Pages</a></li>
+	<li class="breadcrumb-item active">
+		<%= isCreateMode ? 'Create Page' : 'Edit Page' %>
+	</li>
+</ol>
+<!-- END breadcrumb -->
+
+<form method="POST" action="<%= isCreateMode ? '/admin/pages/create' : '/admin/pages/' + page.key + '/edit' %>"
+	enctype="multipart/form-data" id="editPageForm" data-create-mode="<%= isCreateMode %>"
+	data-page-key="<%= page.key %>">
+	<!-- BEGIN row -->
+	<div class="row">
+		<!-- BEGIN col-9 -->
+		<div class="col-xl-9">
+			<!-- BEGIN panel -->
+			<div class="panel panel-inverse" data-sortable-id="form-stuff-1">
+				<!-- BEGIN panel-heading -->
+				<div class="panel-heading">
+					<h4 class="panel-title">Page Information</h4>
+					<div class="panel-heading-btn">
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i
+								class="fa fa-expand"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i
+								class="fa fa-redo"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i
+								class="fa fa-minus"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-danger" data-toggle="panel-remove"><i
+								class="fa fa-times"></i></a>
+					</div>
+				</div>
+				<!-- END panel-heading -->
+				<!-- BEGIN panel-body -->
+				<div class="panel-body">
+					<% if (typeof error !=='undefined' && error) { %>
+						<div class="alert alert-danger">
+							<i class="fa fa-exclamation-triangle"></i>
+							<%= error %>
+						</div>
+						<% } %>
+							<% if (typeof success !=='undefined' && success) { %>
+								<div class="alert alert-success">
+									<i class="fa fa-check-circle"></i>
+									<%= success %>
+								</div>
+								<% } %>
+									<!-- Basic Information -->
+									<div class="row mb-15px">
+										<label class="form-label col-form-label col-md-3">Page Title <span
+												class="text-danger">*</span></label>
+										<div class="col-md-9">
+											<input type="text" class="form-control" id="title" name="title"
+												value="<%= page.title %>" required />
+											<small class="fs-12px text-gray-500-darker">Display title for the page</small>
+										</div>
+									</div>
+
+									<div class="row mb-15px">
+										<label class="form-label col-form-label col-md-3">Page Key <span
+												class="text-danger">*</span></label>
+										<div class="col-md-9">
+											<input type="text" class="form-control" id="key" name="key"
+												value="<%= page.key %>" <%=isCreateMode ? '' : 'readonly' %> required />
+											<small class="fs-12px text-gray-500-darker">
+												<%= isCreateMode
+													? 'Auto-generated from title (e.g., "about", "contact")'
+													: 'Unique identifier for the page (cannot be changed)' %>
+											</small>
+										</div>
+									</div>
+
+									<div class="row mb-15px">
+										<label class="form-label col-form-label col-md-3">Page URL <span
+												class="text-danger">*</span></label>
+										<div class="col-md-9">
+											<input type="text" class="form-control" id="url" name="url"
+												value="<%= page.url %>" <%=isCreateMode ? '' : 'readonly' %> required />
+											<small class="fs-12px text-gray-500-darker">
+												<%= isCreateMode ? 'Auto-generated from title (e.g., "/about", "/contact")'
+													: 'URL path for the page (cannot be changed)' %>
+											</small>
+										</div>
+									</div>
+
+									<div class="row mb-15px">
+										<div class="col-12">
+											<label class="form-label">Page Content</label>
+											<textarea class="form-control rich-text" id="content" name="content" rows="8"
+												placeholder="Enter the page content in HTML format..."><%= page.content || '' %></textarea>
+											<small class="fs-12px text-gray-500-darker">Rich text content for the page.
+												Use the toolbar above to format your text, add links, images, and
+												more.</small>
+										</div>
+									</div>
+
+									<!-- Hidden input for existing image URL -->
+									<input type="hidden" id="pageImage" name="pageImage"
+										value="<%= page.pageImage || '' %>">
+				</div>
+				<!-- END panel-body -->
+			</div>
+			<!-- END panel -->
+
+			<!-- BEGIN panel -->
+			<div class="panel panel-inverse" data-sortable-id="form-stuff-3">
+				<!-- BEGIN panel-heading -->
+				<div class="panel-heading">
+					<h4 class="panel-title">SEO Settings</h4>
+					<div class="panel-heading-btn">
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i
+								class="fa fa-expand"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i
+								class="fa fa-redo"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i
+								class="fa fa-minus"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-danger" data-toggle="panel-remove"><i
+								class="fa fa-times"></i></a>
+					</div>
+				</div>
+				<!-- END panel-heading -->
+				<!-- BEGIN panel-body -->
+				<div class="panel-body">
+					<!-- SEO Information -->
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3">SEO Page Title</label>
+						<div class="col-md-9">
+							<input type="text" class="form-control" id="seoPageTitle" name="pageTitle"
+								value="<%= page.seo.pageTitle || '' %>" maxlength="60" />
+							<div class="d-flex justify-content-between">
+								<small class="fs-12px text-gray-500-darker">Title that appears in search results and
+									browser tabs</small>
+								<small class="fs-12px text-gray-500-darker" id="seoTitleCount">0/60</small>
+							</div>
+						</div>
+					</div>
+
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3">SEO Page Description</label>
+						<div class="col-md-9">
+							<textarea class="form-control" id="seoPageDescription" name="pageDescription" rows="3"
+								maxlength="160"><%= page.seo.pageDescription || '' %></textarea>
+							<div class="d-flex justify-content-between align-items-center">
+								<div>
+									<small class="fs-12px text-gray-500-darker">Description that appears in search
+										results</small>
+								</div>
+								<div class="d-flex align-items-center">
+									<small class="fs-12px text-gray-500-darker" id="seoDescCount">0/160</small>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3">SEO Keywords</label>
+						<div class="col-md-9">
+							<input type="text" class="form-control" id="seoPageKeywords" name="pageKeywords"
+								value="<%= page.seo.pageKeywords || '' %>" />
+							<small class="fs-12px text-gray-500-darker">Comma-separated keywords for search optimization
+								(optional)</small>
+						</div>
+					</div>
+
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3">SEO Page Image</label>
+						<div class="col-md-9">
+							<% 
+							// Check if images exist and are valid (declare once, use in multiple places)
+							const hasValidPageImage = page.pageImage && 
+								typeof page.pageImage === 'string' && 
+								page.pageImage.trim() !== '';
+							const hasValidSeoImage = page.seo?.pageImage && 
+								typeof page.seo.pageImage === 'string' && 
+								page.seo.pageImage.trim() !== '';
+							const defaultLogoPath = typeof defaultLogo !== 'undefined' ? defaultLogo : '/images/logo.jpg';
+							
+							// Normalize paths for comparison (remove trailing slashes, normalize)
+							const normalizePath = (path) => path ? path.trim().replace(/\/+$/, '') : '';
+							const normalizedSeoImage = normalizePath(page.seo?.pageImage);
+							const normalizedPageImage = normalizePath(page.pageImage);
+							const normalizedDefaultLogo = normalizePath(defaultLogoPath);
+							
+							// Determine if "Use Page Image" should be checked
+							// It should be checked if:
+							// 1. Page image exists AND SEO image equals page image, OR
+							// 2. Page image doesn't exist BUT SEO image equals default logo (meaning "use page image" was checked but no page image exists)
+							const seoMatchesPageImage = hasValidPageImage && hasValidSeoImage && 
+								normalizedSeoImage === normalizedPageImage;
+							// If no page image but SEO is default logo, assume "use page image" was checked
+							// This handles the case where user checked "use page image" but there's no page image
+							const seoIsDefaultLogo = hasValidSeoImage && normalizedSeoImage === normalizedDefaultLogo;
+							const shouldCheckUsePageImage = seoMatchesPageImage || 
+								(!hasValidPageImage && seoIsDefaultLogo);
+							
+							// Determine SEO image URL for display
+							const isUsingPageImage = hasValidPageImage && hasValidSeoImage && 
+								normalizedSeoImage === normalizedPageImage;
+							const seoImageUrl = hasValidSeoImage && !isUsingPageImage ? page.seo.pageImage : 
+								(hasValidPageImage && isUsingPageImage ? page.pageImage : '');
+							%>
+							<div class="d-flex align-items-center mb-2">
+								<div class="form-check me-3">
+									<input class="form-check-input" type="checkbox" id="usePageImage"
+										name="usePageImage" value="1" <%= shouldCheckUsePageImage ? 'checked' : '' %> />
+									<label class="form-check-label" for="usePageImage">
+										Use page image
+									</label>
+								</div>
+							</div>
+
+							<!-- SEO Image Display -->
+							<div id="seoImageContainer" class="mb-3"
+								style="display: <%= isUsingPageImage ? 'none' : 'block' %>;">
+								<% if (seoImageUrl && seoImageUrl.trim() !== '') { %>
+									<div class="text-center">
+										<img id="seoCurrentImage" src="<%= seoImageUrl %>"
+											alt="Current SEO image" class="img-fluid rounded"
+											style="max-width: 100px; max-height: 100px; cursor: pointer;"
+											onclick="openImageInNewTab('<%= seoImageUrl %>')" />
+										<div class="mt-2">
+											<button type="button" class="btn btn-sm btn-outline-primary"
+												onclick="uploadSeoImage()">
+												<i class="fa fa-upload me-1"></i> Upload New Image
+											</button>
+										</div>
+									</div>
+								<% } else { %>
+									<div class="text-center p-3 border rounded bg-light">
+										<i class="fa fa-image fa-2x text-muted mb-2"></i>
+										<p class="text-muted mb-2">No image uploaded</p>
+										<button type="button" class="btn btn-sm btn-outline-primary"
+											onclick="uploadSeoImage()">
+											<i class="fa fa-upload me-1"></i> Upload Image
+										</button>
+									</div>
+								<% } %>
+							</div>
+
+							<!-- Hidden file input for SEO image -->
+							<input type="file" id="seoImageFile" name="seoImageFile" accept="image/*"
+								style="display: none;" />
+
+							<!-- SEO Image URL input (when usePageImage is unchecked) -->
+							<div id="seoImageUrlContainer" style="display: none;">
+								<input type="text" class="form-control" id="seoImageUrl" name="seoImageUrl"
+									value="<%= page.seo.pageImage %>" />
+								<small class="fs-12px text-gray-500-darker">Image URL for social media sharing</small>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- END panel-body -->
+			</div>
+			<!-- END panel -->
+		</div>
+		<!-- END col-9 -->
+
+		<!-- BEGIN col-3 -->
+		<div class="col-xl-3">
+			<!-- BEGIN panel -->
+			<div class="panel panel-inverse" data-sortable-id="form-stuff-2">
+				<!-- BEGIN panel-heading -->
+				<div class="panel-heading">
+					<h4 class="panel-title">Page Image & Status</h4>
+					<div class="panel-heading-btn">
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i
+								class="fa fa-expand"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i
+								class="fa fa-redo"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i
+								class="fa fa-minus"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-danger" data-toggle="panel-remove"><i
+								class="fa fa-times"></i></a>
+					</div>
+				</div>
+				<!-- END panel-heading -->
+				<!-- BEGIN panel-body -->
+				<div class="panel-body">
+					<!-- Page Image Section -->
+					<div class="mb-15px">
+						<label class="form-label">Page Image</label>
+
+						<!-- Image Display -->
+						<div id="currentImageContainer" class="mb-3">
+							<% 
+							// Check if pageImage exists and is a valid non-empty string
+							// Handle both string and array cases (array is a data integrity issue)
+							const hasPageImage = page.pageImage && 
+								(typeof page.pageImage === 'string' ? page.pageImage.trim() !== '' : 
+								 Array.isArray(page.pageImage) ? page.pageImage.length > 0 && page.pageImage.some(img => img && typeof img === 'string' && img.trim() !== '') : false);
+							%>
+							<% if (hasPageImage) { %>
+								<div class="text-center">
+									<% 
+									// Get the actual image URL - handle both string and array
+									const imageUrl = typeof page.pageImage === 'string' ? page.pageImage : 
+										Array.isArray(page.pageImage) ? page.pageImage.find(img => img && typeof img === 'string' && img.trim() !== '') : '';
+									%>
+									<img id="currentImage" src="<%= imageUrl %>" alt="Current page image"
+										class="img-fluid rounded"
+										style="max-width: 100%; max-height: 200px; cursor: pointer;"
+										onclick="openImageInNewTab('<%= imageUrl %>')" />
+									<% if (!isCreateMode) { %>
+										<div class="mt-2">
+											<button type="button" class="btn btn-sm btn-danger"
+												onclick="deletePageImage()">
+												<i class="fa fa-trash me-1"></i> Delete Image
+											</button>
+										</div>
+										<% } %>
+								</div>
+								<% } else { %>
+									<div class="text-center p-4 border rounded bg-light">
+										<img src="/uploads/2024/03/Cultivating-Header.jpg" alt="Default page header"
+											class="img-fluid rounded mb-2"
+											style="max-width: 100%; max-height: 200px; opacity: 0.85;" />
+										<p class="text-muted mb-0">No image uploaded — default header shown on site</p>
+									</div>
+									<% } %>
+						</div>
+
+						<!-- Image Upload -->
+						<div class="mb-3">
+							<label for="pagePicture" class="form-label">Upload New Image</label>
+							<input type="file" class="form-control" id="pagePicture" name="pagePicture"
+								accept="image/*" />
+							<small class="fs-12px text-gray-500-darker">Upload a new image to replace the current
+								one</small>
+						</div>
+
+						<!-- Image Preview -->
+						<div id="imagePreview" class="mb-3" style="display: none;">
+							<label class="form-label">Preview</label>
+							<div class="text-center">
+								<img id="previewImg" src="" alt="Preview" class="img-fluid rounded"
+									style="max-width: 100%; max-height: 150px;" />
+								<div class="mt-2">
+									<button type="button" class="btn btn-sm btn-secondary"
+										onclick="removeImagePreview()">
+										<i class="fa fa-times me-1"></i> Remove Preview
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Status Section -->
+					<div class="mb-15px">
+						<label class="form-label">Page Status</label>
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" id="isActive" name="isActive" value="1"
+								<%=page.status==='published' ? 'checked' : '' %> />
+							<label class="form-check-label" for="isActive">
+								Published
+							</label>
+						</div>
+						<small class="fs-12px text-gray-500-darker">Check to publish this page (unchecked =
+							draft)</small>
+					</div>
+
+					<!-- Menu Inclusion Section -->
+
+				</div>
+				<!-- END panel-body -->
+			</div>
+			<!-- END panel -->
+		</div>
+		<!-- END col-3 -->
+	</div>
+	<!-- END row -->
+
+	<!-- Form Actions -->
+	<div class="d-flex justify-content-between mt-4">
+		<a href="/admin/pages" class="btn btn-secondary">
+			<i class="fa fa-arrow-left me-1"></i> Back to Pages
+		</a>
+		<button type="submit" class="btn btn-primary">
+			<i class="fa fa-save me-1"></i>
+			<%= isCreateMode ? 'Create Page' : 'Update Page' %>
+		</button>
+	</div>
+</form>
+
+<script>
+	// Character count for SEO fields
+	document.getElementById('seoPageTitle').addEventListener('input', function () {
+		const count = this.value.length;
+		document.getElementById('seoTitleCount').textContent = count + '/60';
+	});
+
+	document.getElementById('seoPageDescription').addEventListener('input', function () {
+		const count = this.value.length;
+		document.getElementById('seoDescCount').textContent = count + '/160';
+	});
+
+	// Auto-fill key and URL from title (only in create mode)
+	document.addEventListener('DOMContentLoaded', function () {
+		const titleInput = document.getElementById('title');
+		const keyInput = document.getElementById('key');
+		const urlInput = document.getElementById('url');
+		const isCreateModeFlag = document.getElementById('editPageForm').dataset.createMode === 'true';
+
+		// Function to convert title to URL-friendly key
+		function titleToKey(title) {
+			return title
+				.toLowerCase()
+				.replace(/[^a-z0-9\s-]/g, '') // Remove special characters except spaces and hyphens
+				.replace(/\s+/g, '-') // Replace spaces with hyphens
+				.replace(/-+/g, '-') // Replace multiple hyphens with single hyphen
+				.replace(/^-|-$/g, ''); // Remove leading/trailing hyphens
+		}
+
+		// Function to convert title to URL
+		function titleToUrl(title) {
+			return '/' + titleToKey(title);
+		}
+
+		// Auto-fill key and URL from title (only in create mode)
+		if (titleInput && isCreateModeFlag && keyInput && urlInput) {
+			titleInput.addEventListener('input', function() {
+				const pageTitle = this.value;
+				if (pageTitle) {
+					keyInput.value = titleToKey(pageTitle);
+					urlInput.value = titleToUrl(pageTitle);
+					
+					// Trigger validation
+					keyInput.dispatchEvent(new Event('input'));
+					urlInput.dispatchEvent(new Event('input'));
+				}
+			});
+		}
+	});
+
+	// Initialize character counts and other functionality
+	document.addEventListener('DOMContentLoaded', function () {
+		document.getElementById('seoPageTitle').dispatchEvent(new Event('input'));
+		document.getElementById('seoPageDescription').dispatchEvent(new Event('input'));
+
+
+
+		// SEO Image functionality
+		const usePageImageCheckbox = document.getElementById('usePageImage');
+		if (usePageImageCheckbox) {
+			usePageImageCheckbox.addEventListener('change', function () {
+				const seoImageContainer = document.getElementById('seoImageContainer');
+				const seoImageUrlContainer = document.getElementById('seoImageUrlContainer');
+
+				if (this.checked) {
+					// Use page image - hide both upload UI and URL input
+					seoImageContainer.style.display = 'none';
+					seoImageUrlContainer.style.display = 'none';
+					// Set the page image URL to the current page image
+					const currentPageImage = document.getElementById('pageImage').value;
+					if (currentPageImage) {
+						document.getElementById('pageImage').value = currentPageImage;
+					}
+					console.log('Use page image checked - hiding SEO upload UI');
+				} else {
+					// Use custom image - show upload UI, hide URL input
+					seoImageContainer.style.display = 'block';
+					seoImageUrlContainer.style.display = 'none';
+					console.log('Use page image unchecked - showing SEO upload UI');
+				}
+			});
+
+			// Initialize SEO image checkbox state
+			console.log('Initializing SEO image checkbox state');
+			console.log('Page image:', document.getElementById('pageImage').value);
+			console.log('Page SEO image:', document.getElementById('pageImage').value);
+			console.log('Checkbox checked:', usePageImageCheckbox.checked);
+			usePageImageCheckbox.dispatchEvent(new Event('change'));
+		}
+	});
+
+	// Image preview functionality
+	document.getElementById('pagePicture').addEventListener('change', function () {
+		const preview = document.getElementById('imagePreview');
+		const previewImg = document.getElementById('previewImg');
+		const file = this.files[0];
+
+		console.log('File selected:', file);
+
+		if (file) {
+			const reader = new FileReader();
+			reader.onload = function (e) {
+				previewImg.src = e.target.result;
+				preview.style.display = 'block';
+			}
+			reader.readAsDataURL(file);
+		} else {
+			preview.style.display = 'none';
+		}
+	});
+
+	// Form submission debugging
+	document.getElementById('editPageForm').addEventListener('submit', function (e) {
+		console.log('Form submitted');
+		
+		// Debug SEO fields
+		const seoPageTitle = document.getElementById('seoPageTitle');
+		const seoPageDescription = document.getElementById('seoPageDescription');
+		const seoPageKeywords = document.getElementById('seoPageKeywords');
+		
+		console.log('SEO Page Title:', seoPageTitle ? seoPageTitle.value : 'not found');
+		console.log('SEO Page Description:', seoPageDescription ? seoPageDescription.value : 'not found');
+		console.log('SEO Page Keywords:', seoPageKeywords ? seoPageKeywords.value : 'not found');
+
+		// Update content textarea before submission
+		const contentTextarea = document.getElementById('content');
+		if (contentTextarea) {
+			console.log('Content textarea value:', contentTextarea.value);
+		}
+
+		// Check if file is selected
+		const fileInput = document.getElementById('pagePicture');
+		if (fileInput.files.length > 0) {
+			console.log('File will be uploaded:', fileInput.files[0]);
+		} else {
+			console.log('No file selected');
+		}
+	});
+
+	// Real-time validation for page key and URL uniqueness (only in create mode)
+	document.addEventListener('DOMContentLoaded', function () {
+		const keyInput = document.getElementById('key');
+		const urlInput = document.getElementById('url');
+		const isCreateModeFlag = document.getElementById('editPageForm').dataset.createMode === 'true';
+
+		if (!isCreateModeFlag) return;
+
+		// Function to validate key uniqueness
+		async function validateKeyUniqueness(key) {
+			if (!key || key.trim() === '') return;
+
+			try {
+				const response = await fetch(`/admin/api/pages/check-key/${encodeURIComponent(key.trim())}`);
+				const data = await response.json();
+
+				const keyField = document.getElementById('key');
+				const keyHelpText = keyField.parentNode.querySelector('small');
+
+				if (data.exists) {
+					keyField.classList.add('is-invalid');
+					keyField.classList.remove('is-valid');
+					if (keyHelpText) {
+						keyHelpText.textContent = 'This page key already exists. Please choose a different one.';
+						keyHelpText.className = 'fs-12px text-danger';
+					}
+				} else {
+					keyField.classList.remove('is-invalid');
+					keyField.classList.add('is-valid');
+					if (keyHelpText) {
+						keyHelpText.textContent = 'Unique identifier for the page (e.g., "about", "contact")';
+						keyHelpText.className = 'fs-12px text-gray-500-darker';
+					}
+				}
+			} catch (error) {
+				console.error('Error validating key:', error);
+			}
+		}
+
+		// Function to validate URL uniqueness
+		async function validateUrlUniqueness(url) {
+			if (!url || url.trim() === '') return;
+
+			try {
+				const response = await fetch(`/admin/api/pages/check-url/${encodeURIComponent(url.trim())}`);
+				const data = await response.json();
+
+				const urlField = document.getElementById('url');
+				const urlHelpText = urlField.parentNode.querySelector('small');
+
+				if (data.exists) {
+					urlField.classList.add('is-invalid');
+					urlField.classList.remove('is-valid');
+					if (urlHelpText) {
+						urlHelpText.textContent = 'This URL already exists. Please choose a different one.';
+						urlHelpText.className = 'fs-12px text-danger';
+					}
+				} else {
+					urlField.classList.remove('is-invalid');
+					urlField.classList.add('is-valid');
+					if (urlHelpText) {
+						urlHelpText.textContent = 'URL path for the page (e.g., "/about", "/contact")';
+						urlHelpText.className = 'fs-12px text-gray-500-darker';
+					}
+				}
+			} catch (error) {
+				console.error('Error validating URL:', error);
+			}
+		}
+
+		// Add event listeners for real-time validation
+		if (keyInput) {
+			let keyTimeout;
+			keyInput.addEventListener('input', function () {
+				clearTimeout(keyTimeout);
+				keyTimeout = setTimeout(() => {
+					validateKeyUniqueness(this.value);
+				}, 500); // Debounce for 500ms
+			});
+		}
+
+		if (urlInput) {
+			let urlTimeout;
+			urlInput.addEventListener('input', function () {
+				clearTimeout(urlTimeout);
+				urlTimeout = setTimeout(() => {
+					validateUrlUniqueness(this.value);
+				}, 500); // Debounce for 500ms
+			});
+		}
+	});
+
+	function removeImagePreview() {
+		document.getElementById('pagePicture').value = '';
+		document.getElementById('imagePreview').style.display = 'none';
+		document.getElementById('previewImg').src = '';
+	}
+
+	function openImageInNewTab(imageUrl) {
+		if (imageUrl) {
+			window.open(imageUrl, '_blank');
+		}
+	}
+
+	function uploadSeoImage() {
+		console.log('uploadSeoImage called');
+		const seoImageFile = document.getElementById('seoImageFile');
+		if (seoImageFile) {
+			console.log('SEO image file input found, clicking...');
+			seoImageFile.click();
+		} else {
+			console.error('SEO image file input not found');
+		}
+	}
+
+	// Handle SEO image file selection
+	document.addEventListener('DOMContentLoaded', function () {
+		const seoImageFile = document.getElementById('seoImageFile');
+		if (seoImageFile) {
+			seoImageFile.addEventListener('change', function () {
+				console.log('SEO image file selected:', this.files[0]);
+				const file = this.files[0];
+				if (file) {
+					const reader = new FileReader();
+					reader.onload = function (e) {
+						console.log('SEO image file loaded, updating UI');
+						const seoImageContainer = document.getElementById('seoImageContainer');
+						seoImageContainer.innerHTML = `
+						<div class="text-center">
+							<img id="seoCurrentImage" src="${e.target.result}" alt="Current SEO image" class="img-fluid rounded" style="max-width: 100px; max-height: 100px; cursor: pointer;" onclick="openImageInNewTab('${e.target.result}')" />
+							<div class="mt-2">
+								<button type="button" class="btn btn-sm btn-outline-primary" onclick="uploadSeoImage()">
+									<i class="fa fa-upload me-1"></i> Upload New Image
+								</button>
+							</div>
+						</div>
+					`;
+
+						// Don't update the pageImage input with base64 data URL
+						// The file will be uploaded separately and the path will be set by the server
+						console.log('SEO image file selected, will be uploaded with form');
+					};
+					reader.readAsDataURL(file);
+				}
+			});
+		}
+	});
+
+
+
+	function deletePageImage() {
+		const pageKey = '<%= page.key %>';
+		const currentImage = '<%= page.pageImage %>';
+		const isCreateModeFlag = document.getElementById('editPageForm').dataset.createMode === 'true';
+
+		if (isCreateModeFlag) {
+			showWarningToast('Cannot delete image in create mode');
+			return;
+		}
+
+		console.log('deletePageImage called');
+		console.log('pageKey:', pageKey);
+		console.log('currentImage:', currentImage);
+
+		if (!currentImage) {
+			console.log('No image to delete, showing warning toast');
+			showWarningToast('No image to delete');
+			return;
+		}
+
+		showActionModal({
+			title: 'Delete Image',
+			message: 'Are you sure you want to delete the page image? This action cannot be undone.',
+			endpoint: `/admin/pages/${pageKey}/delete-image`,
+			onSuccess: function (data) {
+				console.log('Delete image response:', data);
+				if (data.success) {
+					// Update the image container to show placeholder
+					const container = document.getElementById('currentImageContainer');
+					container.innerHTML = `
+					<div class="text-center p-4 border rounded bg-light">
+						<i class="fa fa-image fa-3x text-muted mb-2"></i>
+						<p class="text-muted mb-0">No image uploaded</p>
+					</div>
+				`;
+
+					// Clear the hidden input
+					const pageImageInput = document.getElementById('pageImage');
+					if (pageImageInput) {
+						pageImageInput.value = '';
+					}
+
+					// Show success toast
+					console.log('Showing success toast');
+					showSuccessToast('Image deleted successfully');
+					
+					// Reload the page after a short delay to ensure data consistency
+					setTimeout(function() {
+						window.location.reload();
+					}, 1000);
+				} else {
+					console.log('Showing error toast');
+					showErrorToast('Failed to delete image: ' + (data.message || 'Unknown error'));
+				}
+			}
+		});
+	}
+</script>

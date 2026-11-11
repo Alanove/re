@@ -1,0 +1,270 @@
+<!-- BEGIN row -->
+<div class="row">
+  <!-- BEGIN col-6 -->
+  <div class="col-xl-6">
+    <!-- BEGIN panel -->
+    <div class="panel panel-inverse">
+      <div class="panel-heading">
+        <h4 class="panel-title">Current Theme</h4>
+      </div>
+      <div class="panel-body">
+        <div class="d-flex align-items-center mb-3">
+          <div class="flex-fill">
+            <h5 class="mb-1"><%= availableThemes[currentTheme.currentTheme]?.name || 'Default' %></h5>
+            <p class="text-muted mb-0">Theme: <%= currentTheme.currentTheme %></p>
+          </div>
+          <div class="ms-auto">
+            <span class="badge bg-<%= availableThemes[currentTheme.currentTheme]?.color || 'teal' %>">
+              Active
+            </span>
+          </div>
+        </div>
+        
+        <div class="d-flex align-items-center">
+          <div class="flex-fill">
+            <h6 class="mb-1">Dark Mode</h6>
+            <p class="text-muted mb-0"><%= currentTheme.darkMode ? 'Enabled' : 'Disabled' %></p>
+          </div>
+          <div class="ms-auto">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="darkModeToggle" 
+                     <%= currentTheme.darkMode ? 'checked' : '' %>>
+              <label class="form-check-label" for="darkModeToggle"></label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END panel -->
+  </div>
+  <!-- END col-6 -->
+  
+  <!-- BEGIN col-6 -->
+  <div class="col-xl-6">
+    <!-- BEGIN panel -->
+    <div class="panel panel-inverse">
+      <div class="panel-heading">
+        <h4 class="panel-title">Quick Actions</h4>
+      </div>
+      <div class="panel-body">
+        <div class="d-grid gap-2">
+          <button type="button" class="btn btn-outline-primary" id="resetTheme">
+            <i class="fa fa-refresh me-1"></i> Reset to Default
+          </button>
+          <button type="button" class="btn btn-outline-secondary" id="exportTheme">
+            <i class="fa fa-download me-1"></i> Export Configuration
+          </button>
+          <button type="button" class="btn btn-outline-info" id="importTheme">
+            <i class="fa fa-upload me-1"></i> Import Configuration
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- END panel -->
+  </div>
+  <!-- END col-6 -->
+</div>
+<!-- END row -->
+
+<!-- BEGIN row -->
+<div class="row">
+  <!-- BEGIN col-12 -->
+  <div class="col-xl-12">
+    <!-- BEGIN panel -->
+    <div class="panel panel-inverse">
+      <div class="panel-heading">
+        <h4 class="panel-title">Available Themes</h4>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <% Object.entries(availableThemes).forEach(([key, theme]) => { %>
+            <div class="col-xl-3 col-lg-4 col-md-6 mb-3">
+              <div class="theme-card card h-100 <%= currentTheme.currentTheme === key ? 'border-primary' : '' %>">
+                <div class="card-body text-center">
+                  <div class="theme-preview mb-3" style="background-color: var(--bs-<%= theme.color %>); height: 60px; border-radius: 8px;"></div>
+                  <h6 class="card-title"><%= theme.name %></h6>
+                  <p class="card-text text-muted small"><%= key %></p>
+                  <button type="button" class="btn btn-sm <%= currentTheme.currentTheme === key ? 'btn-primary' : 'btn-outline-primary' %> theme-selector"
+                          data-theme="<%= key %>">
+                    <%= currentTheme.currentTheme === key ? 'Active' : 'Select' %>
+                  </button>
+                </div>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+    <!-- END panel -->
+  </div>
+  <!-- END col-12 -->
+</div>
+<!-- END row -->
+
+<!-- BEGIN hidden file input for import -->
+<input type="file" id="importFile" accept=".json" style="display: none;">
+<!-- END hidden file input for import -->
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Theme selector
+  document.querySelectorAll('.theme-selector').forEach(button => {
+    button.addEventListener('click', function() {
+      const theme = this.getAttribute('data-theme');
+      if (theme) {
+        setTheme(theme);
+      }
+    });
+  });
+
+  // Dark mode toggle
+  const darkModeToggle = document.getElementById('darkModeToggle');
+  if (darkModeToggle) {
+    darkModeToggle.addEventListener('change', function() {
+      toggleDarkMode(this.checked);
+    });
+  }
+
+  // Reset theme
+  const resetBtn = document.getElementById('resetTheme');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', function() {
+      if (confirm('Are you sure you want to reset the theme to default?')) {
+        resetTheme();
+      }
+    });
+  }
+
+  // Export theme
+  const exportBtn = document.getElementById('exportTheme');
+  if (exportBtn) {
+    exportBtn.addEventListener('click', function() {
+      exportTheme();
+    });
+  }
+
+  // Import theme
+  const importBtn = document.getElementById('importTheme');
+  const importFile = document.getElementById('importFile');
+  if (importBtn && importFile) {
+    importBtn.addEventListener('click', function() {
+      importFile.click();
+    });
+    
+    importFile.addEventListener('change', function() {
+      if (this.files && this.files[0]) {
+        importTheme(this.files[0]);
+      }
+    });
+  }
+});
+
+// API functions
+async function setTheme(themeName) {
+  try {
+    const response = await fetch('/admin/api/theme', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ themeName })
+    });
+    
+    const result = await response.json();
+    if (result.success) {
+      location.reload();
+    } else {
+      alert('Failed to set theme: ' + result.message);
+    }
+  } catch (error) {
+    alert('Error setting theme: ' + error.message);
+  }
+}
+
+async function toggleDarkMode(enabled) {
+  try {
+    const response = await fetch('/admin/api/theme/dark-mode', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ enabled })
+    });
+    
+    const result = await response.json();
+    if (result.success) {
+      location.reload();
+    } else {
+      alert('Failed to toggle dark mode: ' + result.message);
+    }
+  } catch (error) {
+    alert('Error toggling dark mode: ' + error.message);
+  }
+}
+
+async function resetTheme() {
+  try {
+    const response = await fetch('/admin/api/theme/reset', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+    
+    const result = await response.json();
+    if (result.success) {
+      location.reload();
+    } else {
+      alert('Failed to reset theme: ' + result.message);
+    }
+  } catch (error) {
+    alert('Error resetting theme: ' + error.message);
+  }
+}
+
+async function exportTheme() {
+  try {
+    const response = await fetch('/admin/api/theme/export');
+    const result = await response.json();
+    
+    if (result.success) {
+      const dataStr = JSON.stringify(result.data, null, 2);
+      const dataBlob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(dataBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'theme-config.json';
+      link.click();
+      URL.revokeObjectURL(url);
+    } else {
+      alert('Failed to export theme: ' + result.message);
+    }
+  } catch (error) {
+    alert('Error exporting theme: ' + error.message);
+  }
+}
+
+async function importTheme(file) {
+  try {
+    const text = await file.text();
+    const themeConfig = JSON.parse(text);
+    
+    const response = await fetch('/admin/api/theme/import', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(themeConfig)
+    });
+    
+    const result = await response.json();
+    if (result.success) {
+      location.reload();
+    } else {
+      alert('Failed to import theme: ' + result.message);
+    }
+  } catch (error) {
+    alert('Error importing theme: ' + error.message);
+  }
+}
+</script> 

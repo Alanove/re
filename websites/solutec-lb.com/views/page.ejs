@@ -1,0 +1,27 @@
+<% const html = typeof pageContent !== 'undefined' ? pageContent : ''; %>
+<% const news = typeof latestNews !== 'undefined' ? latestNews : []; %>
+<% const marker = '<div class="solu-catalog-embed"></div>'; %>
+<%
+  function esc(value) {
+    return String(value || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  function withNews(value) {
+    if (value.indexOf('<!--SOLU_NEWS-->') === -1) return value;
+    const cards = news.map(function(item) {
+      const image = item.pageImage ? '<div class="man_news_item_img man_image_bck" data-image="' + esc(item.pageImage) + '" style="background-image:url(' + esc(item.pageImage) + ')"></div>' : '';
+      return '<div class="man_news_grid_item col-sm-6 col-md-6"><a href="' + esc(item.url) + '" class="man_news_item_link"></a>' + image + '<div class="man_news_item_cont"><div class="man_news_item_title">' + esc(item.title) + '</div></div></div>';
+    }).join('');
+    return value.split('<!--SOLU_NEWS-->').join(cards);
+  }
+  const body = withNews(html);
+%>
+<% if (body.indexOf(marker) !== -1) { %>
+  <%- body.split(marker)[0] %>
+  <%- include('partials/shop') %>
+  <%- body.split(marker)[1] %>
+<% } else { %>
+  <%- body %>
+  <% if (typeof pageKind !== 'undefined' && pageKind === 'products') { %>
+    <%- include('partials/shop') %>
+  <% } %>
+<% } %>

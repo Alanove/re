@@ -1,0 +1,57 @@
+@use "../abstracts/variables" as *;
+
+[dir="rtl"] {
+  font-family: $font-body-ar;
+
+  body,
+  .form__input,
+  .form__textarea,
+  .form__select,
+  .site-header__link,
+  .nav-dropdown__trigger,
+  .form__label {
+    font-family: $font-body-ar;
+  }
+
+  .headline-xl,
+  .headline-lg,
+  .headline-md,
+  .hero__title,
+  .card__title,
+  .feature-card__title,
+  .product-tile__title,
+  .price-card__name,
+  .stat__value,
+  .process-step__num,
+  .method-step__num,
+  .why-steps h3,
+  .team-card__name,
+  .audience-table th {
+    font-family: $font-headline-ar;
+    letter-spacing: 0;
+  }
+
+  .eyebrow {
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .icon-dir {
+    transform: scaleX(-1);
+  }
+
+  .drawer {
+    right: auto;
+    left: 0;
+    transform: translateX(-100%);
+    box-shadow: 8px 0 32px rgba(0, 0, 0, 0.12);
+
+    &.is-open {
+      transform: translateX(0);
+    }
+  }
+
+  .form__select {
+    background-position: left $space-md center;
+  }
+}

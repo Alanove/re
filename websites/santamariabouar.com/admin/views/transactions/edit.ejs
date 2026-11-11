@@ -1,0 +1,778 @@
+<style>
+.special-category-section {
+    display: none;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    border: 1px solid #dee2e6;
+}
+
+.apartment-selection {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ced4da;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.apartment-item {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+.apartment-item:last-child {
+    border-bottom: none;
+}
+
+.category-indicator {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+}
+</style>
+
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Edit Transaction</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="/admin/transactions">Transactions</a></li>
+                        <li class="breadcrumb-item active">Edit</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Transaction Details</h3>
+                        </div>
+                        <form id="transactionForm" action="/admin/transactions/<%= transaction.id %>/edit" method="POST" enctype="multipart/form-data">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="categoryId">Category *</label>
+                                    <select class="form-control" id="categoryId" name="categoryId" required>
+                                        <option value="">Select a category</option>
+                                        <% categories.forEach(category => { %>
+                                            <option value="<%= category.id %>" 
+                                                    data-type="<%= category.type %>" 
+                                                    data-color="<%= category.color %>"
+                                                    data-name="<%= category.name.toLowerCase() %>"
+                                                    <%= category.id == transaction.categoryId ? 'selected' : '' %>>
+                                                <span class="category-indicator" style="background-color: <%= category.color %>;"></span>
+                                                <%= category.name %> 
+                                                <% if (category.type === 'income') { %>
+                                                    (+)
+                                                <% } else if (category.type === 'expense') { %>
+                                                    (-)
+                                                <% } else { %>
+                                                    (+/-)
+                                                <% } %>
+                                            </option>
+                                        <% }); %>
+                                    </select>
+                                    <small class="form-text text-muted">Choose the category that best describes this transaction</small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="amount">Amount *</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <input type="number" step="0.01" min="0" class="form-control" id="amount" 
+                                               name="amount" required value="<%= transaction.amount %>">
+                                    </div>
+                                    <small class="form-text text-muted" id="amountHelp"></small>
+                                </div>
+
+                                <!-- Transaction Type for 'both' categories -->
+                                <div class="form-group" id="transactionTypeGroup" style="display: none;">
+                                    <label for="transactionType">Transaction Type *</label>
+                                    <select class="form-control" id="transactionType" name="transactionType">
+                                        <option value="income" <%= transaction.type === 'income' ? 'selected' : '' %>>Income (+)</option>
+                                        <option value="expense" <%= transaction.type === 'expense' ? 'selected' : '' %>>Expense (-)</option>
+                                    </select>
+                                    <small class="form-text text-muted">Choose whether this adds or removes money from the account</small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="description">Description <span id="descriptionRequired">*</span></label>
+                                    <textarea class="form-control" id="description" name="description" rows="3" 
+                                              required><%= transaction.description %></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="date">Date *</label>
+                                    <input type="date" class="form-control" id="date" name="date" 
+                                           value="<%= transaction.date %>" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="receiptImage">Receipt Image (Optional)</label>
+                                    
+                                    <% if (transaction.receiptImage) { %>
+                                        <div id="currentReceiptImage" class="mb-2">
+                                            <div class="d-flex align-items-center">
+                                                <div class="mr-3">
+                                                    <% if (transaction.receiptImage.endsWith('.pdf')) { %>
+                                                        <a href="<%= transaction.receiptImage %>" target="_blank" class="btn btn-sm btn-info">
+                                                            <i class="fa fa-file-pdf"></i> View PDF Receipt
+                                                        </a>
+                                                    <% } else { %>
+                                                        <a href="<%= transaction.receiptImage %>" target="_blank">
+                                                            <img src="<%= transaction.receiptImage %>" alt="Current Receipt" style="max-width: 200px; max-height: 200px; border: 1px solid #ddd; padding: 5px;">
+                                                        </a>
+                                                    <% } %>
+                                                </div>
+                                                <div>
+                                                    <button type="button" class="btn btn-sm btn-danger" id="deleteReceiptBtn">
+                                                        <i class="fa fa-trash"></i> Delete Receipt
+                                                    </button>
+                                                    <input type="hidden" name="deleteReceiptImage" id="deleteReceiptImage" value="false">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <% } %>
+                                    
+                                    <input type="file" class="form-control" id="receiptImage" name="receiptImage" accept="image/*,application/pdf">
+                                    <small class="form-text text-muted">
+                                        <% if (transaction.receiptImage) { %>
+                                            Upload a new receipt to replace the existing one, or delete it using the button above.
+                                        <% } else { %>
+                                            Upload a receipt image or PDF (max 20MB). Supported formats: JPEG, PNG, GIF, WebP, PDF
+                                        <% } %>
+                                    </small>
+                                    <div id="receiptImagePreview" class="mt-2" style="display: none;">
+                                        <img id="previewImage" src="" alt="Receipt Preview" style="max-width: 200px; max-height: 200px; border: 1px solid #ddd; padding: 5px;">
+                                    </div>
+                                </div>
+
+                                <div class="form-group" id="accountGroup">
+                                    <label for="accountId">Account *</label>
+                                    <select class="form-control" id="accountId" name="accountId" required>
+                                        <option value="">Select a account</option>
+                                        <% accounts.filter(w => w.isActive).forEach(account => { %>
+                                            <option value="<%= account.id %>" <%= account.id == transaction.accountId ? 'selected' : '' %>>
+                                                <%= account.name %> ($<%= (account.balance != null ? account.balance.toFixed(2) : '0.00') %>)
+                                            </option>
+                                        <% }); %>
+                                    </select>
+                                </div>
+
+                                <!-- Transfer Section -->
+                                <div id="transferSection" class="special-category-section">
+                                    <h5><i class="fa fa-exchange-alt text-info"></i> Transfer Details</h5>
+                                <div class="form-group">
+                                        <label for="toAccountId">To Account *</label>
+                                        <select class="form-control" id="toAccountId" name="toAccountId">
+                                            <option value="">Select destination account</option>
+                                            <% accounts.filter(w => w.isActive).forEach(account => { %>
+                                                <option value="<%= account.id %>">
+                                                    <%= account.name %> ($<%= (account.balance != null ? account.balance.toFixed(2) : '0.00') %>)
+                                                </option>
+                                            <% }); %>
+                                        </select>
+                                        <small class="form-text text-muted">Money will be moved from the source account to this account</small>
+                                    </div>
+                                </div>
+
+                                <!-- Common Expenses Section -->
+                                <div id="commonExpensesSection" class="special-category-section">
+                                    <h5><i class="fa fa-building text-success"></i> Common Expenses</h5>
+                                    <div class="alert alert-warning">
+                                        <strong>Note:</strong> Common expense payments have already been applied to apartment payment records. 
+                                        You can only edit the description, date, and account for this transaction. 
+                                        To modify the payment amount or apartment, please delete this transaction and create a new one.
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="apartmentId">Apartment *</label>
+                                        <select class="form-control" id="apartmentId" name="apartmentId" required disabled>
+                                            <option value="">Select an apartment</option>
+                                            <% 
+                                            const apartmentsByBlock = {};
+                                            apartments.forEach(apt => {
+                                                if (!apartmentsByBlock[apt.block]) {
+                                                    apartmentsByBlock[apt.block] = [];
+                                                }
+                                                apartmentsByBlock[apt.block].push(apt);
+                                            });
+                                            %>
+                                            
+                                            <% Object.keys(apartmentsByBlock).sort().forEach(block => { %>
+                                                <optgroup label="Block <%= block %>">
+                                                    <% apartmentsByBlock[block].forEach(apartment => { 
+                                                        const owner = users.find(u => u.id === apartment.ownerId);
+                                                        const ownerName = owner ? owner.name : 'Unknown Owner';
+                                                    %>
+                                                        <option value="<%= apartment.id %>" 
+                                                                data-area="<%= apartment.areaInM2 %>"
+                                                                data-block="<%= apartment.block %>"
+                                                                data-official="<%= apartment.unitNumberOfficial %>"
+                                                                data-unofficial="<%= apartment.unitNumberUnofficial %>"
+                                                                data-registration="<%= apartment.registrationDate %>"
+                                                                <%= apartment.id == transaction.apartmentId ? 'selected' : '' %>>
+                                                            <%= ownerName %> - Block <%= apartment.block %> <%= apartment.unitNumberOfficial %> 
+                                                            (<%= apartment.unitNumberUnofficial %>) - <%= apartment.areaInM2 %>m²
+                                                        </option>
+                                                    <% }); %>
+                                                </optgroup>
+                                            <% }); %>
+                                        </select>
+                                        <small class="form-text text-muted">Apartment cannot be changed after payment is applied</small>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="amountDisplay">Payment Amount</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">$</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="amountDisplay" 
+                                                   value="<%= transaction.amount %>" disabled>
+                                        </div>
+                                        <small class="form-text text-muted">Amount cannot be changed after payment is applied</small>
+                                    </div>
+
+                                    <div class="alert alert-info">
+                                        <h6><i class="fa fa-info-circle"></i> Payment Applied</h6>
+                                        <p class="mb-0">This payment has been applied to the apartment's payment records. 
+                                        To see the full payment history, visit the apartment's detail page.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-footer d-flex justify-content-between align-items-center">
+                                <div>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fa fa-save"></i> Update Transaction
+                                    </button>
+                                    <% if (transaction.type === 'income') { %>
+                                        <button type="button" class="btn btn-success ml-2" id="createReceiptBtn">
+                                            <i class="fa fa-receipt"></i> Create Receipt
+                                        </button>
+                                    <% } %>
+                                    <a href="/admin/transactions" class="btn btn-secondary ml-2">
+                                        <i class="fa fa-arrow-left"></i> Back to Transactions
+                                    </a>
+                                </div>
+                                <div>
+                                    <a href="/admin/transactions/create?categoryId=<%= transaction.categoryId %>&transactionType=<%= transaction.type %>&accountId=<%= transaction.accountId %>" class="btn btn-outline-primary">
+                                        <i class="fa fa-plus"></i> Create Another Transaction
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card card-info">
+                        <div class="card-header">
+                            <h3 class="card-title">Transaction Types</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <h6><i class="fa fa-arrow-up text-success"></i> Income Transactions</h6>
+                                <p class="small text-muted">Add money to the selected account. Examples: salary, sales, payments received.</p>
+                            </div>
+                            <div class="mb-3">
+                                <h6><i class="fa fa-arrow-down text-danger"></i> Expense Transactions</h6>
+                                <p class="small text-muted">Remove money from the selected account. Examples: bills, purchases, payments made.</p>
+                            </div>
+                            <div class="mb-3">
+                                <h6><i class="fa fa-exchange-alt text-info"></i> Transfers</h6>
+                                <p class="small text-muted">Move money between accounts. Creates two transactions automatically.</p>
+                            </div>
+                            <div>
+                                <h6><i class="fa fa-building text-warning"></i> Common Expenses</h6>
+                                <p class="small text-muted">Expenses shared among apartments. Select multiple apartments and receipts will be generated.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card card-success" id="transactionPreview" style="display: none;">
+                        <div class="card-header">
+                            <h3 class="card-title">Transaction Preview</h3>
+                        </div>
+                        <div class="card-body" id="previewContent">
+                            <!-- Dynamic content will be inserted here -->
+                        </div>
+                    </div>
+
+                    <div class="card card-warning">
+                        <div class="card-header">
+                            <h3 class="card-title">Transaction Info</h3>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-sm">
+                                <tr>
+                                    <td><strong>ID:</strong></td>
+                                    <td>#<%= transaction.id %></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Created:</strong></td>
+                                    <td><%= new Date(transaction.createdAt).toLocaleDateString() %></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Current Amount:</strong></td>
+                                    <td>
+                                        <span class="<%= transaction.type === 'income' ? 'text-success' : 'text-danger' %>">
+                                            <%= transaction.type === 'income' ? '+' : '-' %>$<%= (transaction.amount != null ? transaction.amount.toFixed(2) : '0.00') %>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Type:</strong></td>
+                                    <td>
+                                        <span class="badge badge-<%= transaction.type === 'income' ? 'success' : 'danger' %>">
+                                            <%= transaction.type === 'income' ? 'Income' : 'Expense' %>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <% if (transaction.apartmentId) { %>
+                                    <tr>
+                                        <td><strong>Apartment:</strong></td>
+                                        <td><%= apartments.find(a => a.id === transaction.apartmentId)?.unitNumberOfficial || 'Unknown' %></td>
+                                    </tr>
+                                <% } %>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Error Modal -->
+<div class="modal fade" id="errorModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">
+                    <i class="fa fa-exclamation-circle"></i> Error
+                </h5>
+                <button type="button" class="close text-white" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="errorModalBody">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Receipt Name Modal -->
+<div class="modal fade" id="receiptNameModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fa fa-receipt"></i> Create Receipt
+                </h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info">
+                    <i class="fa fa-info-circle"></i>
+                    This transaction is not related to an apartment. Please provide a name for the receipt.
+                </div>
+                <div class="form-group">
+                    <label for="receiptName">Name for Receipt *</label>
+                    <input type="text" class="form-control" id="receiptName" placeholder="Enter name for the receipt">
+                    <small class="form-text text-muted">This name will appear on the receipt as the payer.</small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" id="generateReceiptBtn">
+                    <i class="fa fa-receipt"></i> Generate Receipt
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Set today's date as default if not set
+if (!document.getElementById('date').value) {
+    document.getElementById('date').value = new Date().toISOString().split('T')[0];
+}
+
+const RECEIPT_MAX_BYTES = 20 * 1024 * 1024;
+
+// Receipt image preview
+document.getElementById('receiptImage').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    const preview = document.getElementById('receiptImagePreview');
+    const previewImage = document.getElementById('previewImage');
+    
+    if (file) {
+        if (file.size > RECEIPT_MAX_BYTES) {
+            showError('Receipt file is too large. Maximum size is 20MB.');
+            e.target.value = '';
+            preview.style.display = 'none';
+            return;
+        }
+        // Check file type
+        if (file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImage.src = e.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        } else if (file.type === 'application/pdf') {
+            // For PDF, just show a placeholder
+            previewImage.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiNlZGVkZWQiLz48dGV4dCB4PSI1MCIgeT0iNTAiIGZvbnQtc2l6ZT0iMTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5QREYgRmlsZTwvdGV4dD48L3N2Zz4=';
+            preview.style.display = 'block';
+        } else {
+            preview.style.display = 'none';
+        }
+    } else {
+        preview.style.display = 'none';
+    }
+});
+
+// Delete receipt button handler
+const deleteReceiptBtn = document.getElementById('deleteReceiptBtn');
+if (deleteReceiptBtn) {
+    deleteReceiptBtn.addEventListener('click', function() {
+        if (confirm('Are you sure you want to delete the receipt image?')) {
+            document.getElementById('deleteReceiptImage').value = 'true';
+            document.getElementById('currentReceiptImage').style.display = 'none';
+            this.disabled = true;
+        }
+    });
+}
+
+// Category change handler
+document.getElementById('categoryId').addEventListener('change', function() {
+    const selectedOption = this.options[this.selectedIndex];
+    const categoryType = selectedOption.getAttribute('data-type');
+    const categoryName = selectedOption.getAttribute('data-name');
+    
+    // Reset all special sections
+    document.getElementById('transferSection').style.display = 'none';
+    document.getElementById('commonExpensesSection').style.display = 'none';
+    // Hide transaction type selector by default; don't clear selection so server-rendered value persists
+    document.getElementById('transactionTypeGroup').style.display = 'none';
+    
+    // Show transaction type for 'both' categories (except special ones)
+    if (categoryType === 'both' && categoryName !== 'transfer') {
+        document.getElementById('transactionTypeGroup').style.display = 'block';
+    }
+    
+    // Show special sections
+    if (categoryName === 'transfer') {
+        document.getElementById('transferSection').style.display = 'block';
+        document.querySelector('label[for="accountId"]').textContent = 'From Account *';
+    } else {
+        document.querySelector('label[for="accountId"]').textContent = 'Account *';
+    }
+    
+    if (categoryName === 'common expenses') {
+        document.getElementById('commonExpensesSection').style.display = 'block';
+        // Make description optional for common expenses
+        document.getElementById('description').required = false;
+        document.getElementById('descriptionRequired').style.display = 'none';
+        // Disable amount field for common expenses (already applied)
+        document.getElementById('amount').disabled = true;
+        document.getElementById('amountHelp').textContent = 'Amount cannot be changed after payment is applied';
+    } else {
+        // Make description required for other transaction types
+        document.getElementById('description').required = true;
+        document.getElementById('descriptionRequired').style.display = 'inline';
+        // Enable amount field for other transaction types
+        document.getElementById('amount').disabled = false;
+        document.getElementById('amountHelp').textContent = '';
+    }
+    
+    updateTransactionPreview();
+});
+
+// Amount and other field change handlers
+['amount', 'description', 'accountId', 'toAccountId', 'transactionType'].forEach(fieldId => {
+    const field = document.getElementById(fieldId);
+    if (field) {
+        field.addEventListener('input', function() {
+            updateTransactionPreview();
+            updatePaymentDetails();
+        });
+        field.addEventListener('change', function() {
+            updateTransactionPreview();
+            updatePaymentDetails();
+        });
+    }
+});
+
+// Form initialization
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize form based on current transaction
+    initializeForm();
+});
+
+// Common expense transactions have payments already applied, so no dynamic year loading needed
+
+function updateTransactionPreview() {
+    const categorySelect = document.getElementById('categoryId');
+    const selectedCategory = categorySelect.options[categorySelect.selectedIndex];
+    const amount = document.getElementById('amount').value;
+    const description = document.getElementById('description').value;
+    
+    if (!selectedCategory.value || !amount) {
+        document.getElementById('transactionPreview').style.display = 'none';
+        return;
+    }
+    
+    const categoryName = selectedCategory.getAttribute('data-name');
+    const categoryType = selectedCategory.getAttribute('data-type');
+    const previewContent = document.getElementById('previewContent');
+    
+    let preview = `<h6>${selectedCategory.text}</h6>`;
+    preview += `<p><strong>Amount:</strong> $${parseFloat(amount).toFixed(2)}</p>`;
+    
+    if (categoryName === 'transfer') {
+        const toAccount = document.getElementById('toAccountId');
+        const fromAccount = document.getElementById('accountId');
+        if (toAccount.value && fromAccount.value) {
+            preview += `<p><strong>From:</strong> ${fromAccount.options[fromAccount.selectedIndex].text}</p>`;
+            preview += `<p><strong>To:</strong> ${toAccount.options[toAccount.selectedIndex].text}</p>`;
+            preview += `<div class="alert alert-info">This will create 2 transactions</div>`;
+        }
+    } else if (categoryName === 'common expenses') {
+        const apartmentId = document.getElementById('apartmentId').value;
+        if (apartmentId) {
+            const apartmentSelect = document.getElementById('apartmentId');
+            const selectedApartment = apartmentSelect.options[apartmentSelect.selectedIndex];
+            preview += `<p><strong>Apartment:</strong> ${selectedApartment.text}</p>`;
+            preview += `<p><strong>Amount:</strong> $${parseFloat(amount).toFixed(2)}</p>`;
+            preview += `<div class="alert alert-info">Payment has been applied to apartment records</div>`;
+        }
+    }
+    
+    if (description) {
+        preview += `<p><strong>Description:</strong> ${description}</p>`;
+    }
+    
+    previewContent.innerHTML = preview;
+    document.getElementById('transactionPreview').style.display = 'block';
+}
+
+function initializeForm() {
+    // Trigger category change to initialize form sections
+    const categorySelect = document.getElementById('categoryId');
+    if (categorySelect.value) {
+        categorySelect.dispatchEvent(new Event('change'));
+    }
+}
+
+// Form submission
+document.getElementById('transactionForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const categorySelect = document.getElementById('categoryId');
+    const selectedCategory = categorySelect.options[categorySelect.selectedIndex];
+    const categoryName = selectedCategory.getAttribute('data-name');
+    
+    // Validation for transfers
+    if (categoryName === 'transfer') {
+        const fromAccount = document.getElementById('accountId').value;
+        const toAccount = document.getElementById('toAccountId').value;
+        
+        if (!toAccount) {
+            showError('Please select a destination account for the transfer.');
+            return;
+        }
+        
+        if (fromAccount === toAccount) {
+            showError('Cannot transfer to the same account. Please select different accounts.');
+            return;
+        }
+    }
+    
+    // Validation for common expenses (apartment field is disabled but still required)
+    if (categoryName === 'common expenses') {
+        const apartmentId = document.getElementById('apartmentId').value;
+        
+        if (!apartmentId) {
+            showError('Apartment information is missing. This transaction may be corrupted.');
+            return;
+        }
+    }
+    
+    // Use FormData to handle file upload
+    const formData = new FormData(this);
+    
+    // For common expenses, manually add disabled fields
+    if (categoryName === 'common expenses') {
+        formData.set('amount', document.getElementById('amount').value);
+        formData.set('apartmentId', document.getElementById('apartmentId').value);
+    }
+    
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    
+    // Show loading state
+    submitBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Updating...';
+    submitBtn.disabled = true;
+    
+    try {
+        // Send as multipart/form-data to handle file upload
+        const response = await fetch('/admin/transactions/<%= transaction.id %>/edit', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json'
+                // Don't set Content-Type - browser will set it with boundary for multipart/form-data
+            },
+            body: formData
+        });
+        
+        if (response.ok) {
+            window.location.href = '/admin/transactions';
+        } else {
+            let message = 'Failed to update transaction';
+            try {
+                const result = await response.json();
+                message = result.message || message;
+            } catch (_) { /* non-JSON error body */ }
+            showError(message);
+        }
+    } catch (error) {
+        console.error('Error updating transaction:', error);
+        showError('Error updating transaction: ' + error.message);
+    } finally {
+        // Restore button state
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    }
+});
+
+// Helper function to show errors
+function showError(message) {
+    document.getElementById('errorModalBody').textContent = message;
+    $('#errorModal').modal('show');
+}
+
+// Receipt generation functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const createReceiptBtn = document.getElementById('createReceiptBtn');
+    const receiptNameModal = $('#receiptNameModal');
+    const generateReceiptBtn = document.getElementById('generateReceiptBtn');
+    const receiptNameInput = document.getElementById('receiptName');
+    
+    if (createReceiptBtn) {
+        createReceiptBtn.addEventListener('click', function() {
+            // Check if transaction is apartment-related
+            const apartmentId = document.getElementById('apartmentId');
+            const hasApartment = apartmentId && apartmentId.value && apartmentId.value !== '';
+            
+            if (hasApartment) {
+                // Directly generate receipt for apartment-related transaction
+                generateReceipt();
+            } else {
+                // Auto-fill name from description
+                const description = document.getElementById('description').value.trim();
+                if (description) {
+                    receiptNameInput.value = description;
+                }
+                // Show modal to ask for name
+                receiptNameModal.modal('show');
+            }
+        });
+    }
+    
+    if (generateReceiptBtn) {
+        generateReceiptBtn.addEventListener('click', function() {
+            const name = receiptNameInput.value.trim();
+            
+            if (!name) {
+                alert('Please enter a name for the receipt.');
+                return;
+            }
+            
+            generateReceipt(name);
+        });
+    }
+    
+    function generateReceipt(name = null) {
+        const transactionId = <%= transaction.id %>;
+        
+        // Show loading state
+        if (createReceiptBtn) {
+            createReceiptBtn.disabled = true;
+            createReceiptBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Generating...';
+        }
+        
+        if (generateReceiptBtn) {
+            generateReceiptBtn.disabled = true;
+            generateReceiptBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Generating...';
+        }
+        
+        // Prepare request data
+        const requestData = {
+            transactionId: transactionId
+        };
+        
+        if (name) {
+            requestData.name = name;
+        }
+        
+        fetch('/admin/transactions/generate-receipt', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                // Close modal if open
+                receiptNameModal.modal('hide');
+                // Open receipt in new tab
+                window.open(result.receiptUrl, '_blank');
+                // Reload page to update receipt status
+                location.reload();
+            } else {
+                showError(result.message || 'Failed to generate receipt');
+            }
+        })
+        .catch(error => {
+            console.error('Error generating receipt:', error);
+            showError('Error generating receipt: ' + error.message);
+        })
+        .finally(() => {
+            // Restore button states
+            if (createReceiptBtn) {
+                createReceiptBtn.disabled = false;
+                createReceiptBtn.innerHTML = '<i class="fa fa-receipt"></i> Create Receipt';
+            }
+            if (generateReceiptBtn) {
+                generateReceiptBtn.disabled = false;
+                generateReceiptBtn.innerHTML = '<i class="fa fa-receipt"></i> Generate Receipt';
+            }
+        });
+    }
+});
+</script>

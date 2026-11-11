@@ -1,0 +1,30 @@
+<% if (block && block.products && block.products.length > 0) { %>
+<section class="home-new-arrivals">
+    <div class="home-section-header">
+        <h2 class="home-section-title"><%= block.config.title || 'Products' %></h2>
+        <% if (block.config.discoverLink) { %>
+            <a href="<%= block.config.discoverLink %>" class="home-section-link">Discover</a>
+        <% } %>
+    </div>
+    <div class="home-arrivals-grid">
+        <% var productLimit = block.config.limit || 4; %>
+        <% block.products.slice(0, productLimit).forEach(function(product) { %>
+            <a class="home-arrival-card" href="/shop/product/<%= product.slug %>">
+                <div class="home-arrival-media">
+                    <% if (product.images && product.images.length > 0) { %>
+                        <img src="<%= product.images[0].image_url || product.images[0].thumb_url %>" alt="<%= product.name %>" loading="lazy" />
+                    <% } else { %>
+                        <img src="<%= typeof siteImage !== 'undefined' ? siteImage : '/images/no-image.jpg' %>" alt="<%= product.name %>" loading="lazy" />
+                    <% } %>
+                </div>
+                <div class="home-arrival-body">
+                    <div class="home-arrival-name"><%= product.name %></div>
+                    <div class="home-arrival-price money">
+                        <%- include('../../product-listing-price', { product, customClass: '', multi_price_display: (typeof ecommerceSettings !== 'undefined' && ecommerceSettings) ? ecommerceSettings.multi_price_display : '' }) %>
+                    </div>
+                </div>
+            </a>
+        <% }); %>
+    </div>
+</section>
+<% } %>

@@ -1,0 +1,103 @@
+// Traditional fixed cookie consent bar
+.cookie-banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10050;
+  background: $white;
+  color: $dark-text;
+  border-top: 1px solid $border-color;
+  box-shadow: 0 -4px 24px rgba(74, 55, 40, 0.12);
+  padding: 1rem 0;
+  transform: translateY(0);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+
+  &[hidden] {
+    display: none !important;
+  }
+
+  &.is-hiding {
+    transform: translateY(100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &__inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 1.5rem;
+
+    @media (min-width: $large-screen) {
+      padding: 0 2rem;
+    }
+  }
+
+  &__text {
+    margin: 0;
+    flex: 1 1 280px;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: $dark-text;
+
+    a {
+      color: $primary;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+
+      &:hover {
+        color: $accent;
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1rem;
+    flex: 0 0 auto;
+  }
+
+  &__link {
+    color: $primary;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    white-space: nowrap;
+
+    &:hover {
+      color: $accent;
+    }
+  }
+
+  &__accept {
+    appearance: none;
+    border: none;
+    border-radius: 4px;
+    background: $primary;
+    color: $white;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 0.65rem 1.25rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s ease;
+
+    &:hover,
+    &:focus-visible {
+      background: $accent;
+      outline: none;
+    }
+
+    &:focus-visible {
+      box-shadow: 0 0 0 3px rgba(229, 212, 193, 0.45);
+    }
+  }
+}

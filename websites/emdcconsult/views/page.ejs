@@ -1,0 +1,129 @@
+<% if (typeof isParentPage !== 'undefined' && isParentPage && childPages && childPages.length > 0) { %>
+  <!-- Parent page with sections based on child pages -->
+  
+  <!-- Hero Section with page header image -->
+  <section id="<%= selected %>-hero" class="hero-section">
+    <% if (typeof pageImage !== 'undefined' && pageImage) { %>
+      <img src="<%= pageImage %>" alt="<%= typeof pageTitle !== 'undefined' && pageTitle ? pageTitle : 'Page Image' %>" class="hero-image" />
+    <% } %>
+    
+    <!-- Decorative tilted vertical lines (visual only) -->
+    <div class="hero-decor-lines" aria-hidden="true">
+        <span class="decor-line"></span>
+        <span class="decor-line"></span>
+        <span class="decor-line"></span>
+    </div>
+
+    <!-- Page Title -->
+    <% 
+      const showTitle = typeof pageTitle !== 'undefined' && pageTitle;
+      const pageKey = typeof selected !== 'undefined' ? selected : '';
+      const excludePages = ['home', 'contact', 'projects'];
+      const shouldShowTitle = showTitle && pageKey && !excludePages.includes(pageKey);
+    %>
+    <% if (shouldShowTitle) { %>
+      <div class="hero-title">
+        <h1><%= pageTitle %></h1>
+      </div>
+    <% } %>
+
+    <div class="scroll-arrow-container">
+        <button class="scroll-arrow" aria-label="Scroll to next section">
+            <img src="/images/icons/arrow-down.svg" alt="Scroll down" width="32" height="32" />
+        </button>
+    </div>
+  </section>
+
+  <!-- Sections based on child pages -->
+  <% childPages.forEach((childPage, index) => { %>
+    <% const isInverted = index % 2 === 0; %>
+    <section id="<%= childPage.menuItem.key %>" class="<%= isInverted ? 'inverted' : '' %><%= childPage.menuItem.key === 'past-and-present' ? ' past-present-section' : '' %>">
+      <div class="container">
+        <h2><%= childPage.pageData.title %></h2>
+        <% if (childPage.menuItem.key === 'news' && typeof latestNews !== 'undefined' && latestNews && latestNews.length > 0) { %>
+          <!-- News items section -->
+          <div class="insights-news-list">
+            <% latestNews.forEach((newsItem) => { %>
+              <div class="insights-news-item">
+                <% if (newsItem.pageImage && newsItem.pageImage.trim() !== '') { %>
+                  <div class="insights-news-image">
+                    <img src="<%= newsItem.pageImage %>" alt="<%= newsItem.title %>" />
+                  </div>
+                <% } %>
+                <div class="insights-news-content">
+                  <h3><%= newsItem.title %></h3>
+                  <% if (newsItem.lastUpdated) { %>
+                    <p class="insights-news-date">
+                      <%= new Date(newsItem.lastUpdated).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+                    </p>
+                  <% } %>
+                  <% if (newsItem.content) { %>
+                    <div class="insights-news-excerpt">
+                      <% 
+                        const textContent = newsItem.content.replace(/<[^>]*>/g, '').trim();
+                        const excerpt = textContent.length > 150 ? textContent.substring(0, 150) + '...' : textContent;
+                      %>
+                      <p><%= excerpt %></p>
+                    </div>
+                  <% } %>
+                  <a href="/news/<%= newsItem.key %>" class="insights-news-link">Read More</a>
+                </div>
+              </div>
+            <% }); %>
+            <div class="insights-news-more">
+              <a href="/news" class="btn-view-more-news">More News</a>
+            </div>
+          </div>
+        <% } else if (childPage.menuItem.key === 'past-and-present') { %>
+          <% if (childPage.pageData.content && String(childPage.pageData.content).trim() !== '') { %>
+            <div class="past-present-timelines">
+              <%- childPage.pageData.content %>
+            </div>
+          <% } %>
+        <% } else { %>
+          <!-- Regular content section -->
+          <div class="section-layout">
+            <div class="section-content">
+              <% if (childPage.pageData.content) { %>
+                <%- childPage.pageData.content %>
+              <% } else { %>
+                
+              <% } %>
+            </div>
+            <% if (typeof childPage.pageData.pageImage !== 'undefined' && childPage.pageData.pageImage && childPage.pageData.pageImage !== '') { %>
+              <div class="section-image">
+                <img src="<%= childPage.pageData.pageImage %>" alt="<%= childPage.pageData.title %>" class="slide-in-image" />
+              </div>
+            <% } %>
+          </div>
+        <% } %>
+      </div>
+    </section>
+  <% }); %>
+
+<% } else { %>
+  <!-- Single page content (original layout) -->
+  <div class="inner-page <%= typeof selected !== 'undefined' && selected ? selected : 'page' %>">
+    <div class="inner-page-content">
+      <% if (typeof pageTitle !== 'undefined' && pageTitle) { %>
+        <h1><%= pageTitle %></h1>
+      <% } %>
+      <div class="inner-page-layout">
+        <div class="inner-page-box">
+          <% if (typeof pageImage !== 'undefined' && pageImage && pageImage !== '') { %>
+            <div class="page-image-container">
+              <img src="<%= pageImage %>" alt="<%= typeof pageTitle !== 'undefined' && pageTitle ? pageTitle : 'Page Image' %>" class="page-image" onerror="console.error('Failed to load image:', this.src); this.style.display='none';">
+            </div>
+          <% } else { %>
+            <!-- Debug: No pageImage found - pageImage: <%= typeof pageImage !== 'undefined' ? pageImage : 'undefined' %> -->
+            <!-- Debug: All locals: <%= JSON.stringify({pageImage, pageTitle, pageContent: typeof pageContent !== 'undefined' ? 'defined' : 'undefined'}, null, 2) %> -->
+          <% } %>
+            <% if (typeof pageContent !== 'undefined' && pageContent) { %>
+            <%- pageContent %>
+          <% } else { %>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% } %>

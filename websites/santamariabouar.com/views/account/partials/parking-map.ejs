@@ -1,0 +1,49 @@
+<% var map = typeof parkingMap !== 'undefined' && parkingMap ? parkingMap : { highlights: [], unmarkedLabels: [], imageUrl: '' }; %>
+<div class="parking-map" id="memberParkingMap">
+  <% if (!map.highlights.length) { %>
+    <p class="parking-map__note">Your parking position is not marked on this plan yet.</p>
+  <% } else if (map.unmarkedLabels && map.unmarkedLabels.length) { %>
+    <p class="parking-map__note">Not marked yet: <%= map.unmarkedLabels.join(', ') %>.</p>
+  <% } %>
+
+  <% if (map.highlights.length) { %>
+    <ul class="parking-map__legend">
+      <% map.highlights.forEach(function(item) { %>
+        <li>
+          <span class="parking-map__swatch" style="background: <%= item.color %>"></span>
+          <%= item.label %>
+        </li>
+      <% }); %>
+    </ul>
+  <% } %>
+
+  <div class="parking-map__toolbar">
+    <button type="button" class="parking-map__btn" data-parking-zoom="in">Zoom in</button>
+    <button type="button" class="parking-map__btn" data-parking-zoom="out">Zoom out</button>
+    <button type="button" class="parking-map__btn" data-parking-zoom="fit">Fit plan</button>
+    <% if (map.highlights.length) { %>
+      <button type="button" class="parking-map__btn" data-parking-zoom="spots">Show my parking</button>
+    <% } %>
+  </div>
+
+  <div class="parking-map__viewport" data-parking-viewport>
+    <div class="parking-map__stage" data-parking-stage>
+      <img class="parking-map__image" src="<%= map.imageUrl %>" alt="Compound parking plan" draggable="false" />
+      <svg class="parking-map__overlay" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <% map.highlights.forEach(function(item) { %>
+          <% item.bays.forEach(function(bay) { %>
+            <polygon
+              points="<%= bay.points.map(function(point) { return point.x + ',' + point.y; }).join(' ') %>"
+              fill="<%= item.color %>"
+              fill-opacity="0.55"
+              stroke="<%= item.color %>"
+              stroke-width="0.18"
+            />
+          <% }); %>
+        <% }); %>
+      </svg>
+    </div>
+  </div>
+</div>
+<script type="application/json" id="memberParkingData"><%- JSON.stringify({ highlights: map.highlights }).replace(/</g, '\\u003c') %></script>
+<script src="/js/account-parking-map.js"></script>

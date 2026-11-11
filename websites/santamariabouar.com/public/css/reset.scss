@@ -1,0 +1,363 @@
+/* CSS Reset */
+/* Reset margins, padding, and borders for all elements */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove default list styles */
+ul,
+ol {
+  list-style: none;
+}
+
+/* Remove default link styles */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Remove default button styles */
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* Remove default form styles */
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Remove default table styles */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Remove default image styles */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Remove default heading margins */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: inherit;
+  font-size: inherit;
+}
+
+/* Remove default paragraph margins */
+p {
+  margin: 0;
+}
+
+/* Remove default fieldset and legend styles */
+fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+legend {
+  padding: 0;
+}
+
+/* Remove default hr styles */
+hr {
+  border: none;
+  margin: 0;
+}
+
+/* Remove default blockquote styles */
+blockquote {
+  margin: 0;
+}
+
+/* Remove default pre styles */
+pre {
+  margin: 0;
+}
+
+/* Remove default address styles */
+address {
+  font-style: normal;
+}
+
+/* Remove default figure and figcaption margins */
+figure {
+  margin: 0;
+}
+
+figcaption {
+  margin: 0;
+}
+
+/* Remove default details and summary styles */
+details {
+  display: block;
+}
+
+summary {
+  display: list-item;
+  cursor: pointer;
+}
+
+/* Remove default mark styles */
+mark {
+  background: none;
+}
+
+/* Remove default small styles */
+small {
+  font-size: inherit;
+}
+
+/* Remove default sub and sup styles */
+sub,
+sup {
+  font-size: inherit;
+  line-height: inherit;
+  position: static;
+  vertical-align: baseline;
+}
+
+/* Remove default code styles */
+code,
+kbd,
+samp {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Remove default abbr styles */
+abbr {
+  text-decoration: none;
+}
+
+/* Remove default cite styles */
+cite {
+  font-style: normal;
+}
+
+/* Remove default del and ins styles */
+del,
+ins {
+  text-decoration: none;
+}
+
+/* Remove default q styles */
+q {
+  quotes: none;
+}
+
+/* Remove default s and u styles */
+s,
+u {
+  text-decoration: none;
+}
+
+/* Remove default var styles */
+var {
+  font-style: normal;
+}
+
+/* Remove default bdi and bdo styles */
+bdi,
+bdo {
+  unicode-bidi: normal;
+}
+
+/* Remove default ruby styles */
+ruby {
+  display: inline;
+}
+
+rt {
+  font-size: inherit;
+  line-height: inherit;
+}
+
+rp {
+  display: none;
+}
+
+/* Remove default meter and progress styles */
+meter,
+progress {
+  appearance: none;
+  border: none;
+  background: none;
+}
+
+/* Remove default output styles */
+output {
+  display: inline;
+}
+
+/* Remove default template styles */
+template {
+  display: none;
+}
+
+/* Remove default slot styles */
+slot {
+  display: contents;
+}
+
+/* Remove default dialog styles */
+dialog {
+  border: none;
+  padding: 0;
+  margin: 0;
+  background: none;
+}
+
+/* Remove default menu styles */
+menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove default menuitem styles */
+menuitem {
+  display: list-item;
+}
+
+/* Remove default command styles */
+command {
+  display: none;
+}
+
+/* Remove default keygen styles */
+keygen {
+  display: inline-block;
+}
+
+/* Remove default source styles */
+source {
+  display: none;
+}
+
+/* Remove default track styles */
+track {
+  display: none;
+}
+
+/* Remove default wbr styles */
+wbr {
+  display: inline;
+}
+
+/* Remove default canvas styles */
+canvas {
+  display: inline-block;
+}
+
+/* Remove default embed styles */
+embed {
+  display: inline-block;
+}
+
+/* Remove default iframe styles */
+iframe {
+  border: none;
+}
+
+/* Remove default object styles */
+object {
+  display: inline-block;
+}
+
+/* Remove default param styles */
+param {
+  display: none;
+}
+
+/* Remove default video styles */
+video {
+  display: inline-block;
+}
+
+/* Remove default audio styles */
+audio {
+  display: inline-block;
+}
+
+/* Remove default map styles */
+map {
+  display: inline;
+}
+
+/* Remove default area styles */
+area {
+  display: none;
+}
+
+/* Remove default base styles */
+base {
+  display: none;
+}
+
+/* Remove default link styles */
+link {
+  display: none;
+}
+
+/* Remove default meta styles */
+meta {
+  display: none;
+}
+
+/* Remove default noscript styles */
+noscript {
+  display: block;
+}
+
+/* Remove default script styles */
+script {
+  display: none;
+}
+
+/* Remove default style styles */
+style {
+  display: none;
+}
+
+/* Remove default title styles */
+title {
+  display: none;
+}
+
+/* Remove default head styles */
+head {
+  display: none;
+}
+
+/* Remove default body styles */
+body {
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+
+/* Remove default html styles */
+html {
+  margin: 0;
+  padding: 0;
+}

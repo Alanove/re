@@ -1,0 +1,316 @@
+<!-- BEGIN content area -->
+<div class="row">
+	<div class="col-xl-12">
+		<!-- BEGIN panel -->
+		<div class="panel panel-inverse">
+			<div class="panel-heading">
+				<h4 class="panel-title"><%= typeof t !== 'undefined' ? t('ecommerce.discounts.title') : 'Discounts' %></h4>
+				<div class="panel-heading-btn">
+					<a href="/admin/discounts/create" class="btn btn-xs btn-success">
+						<i class="fa fa-plus"></i> <%= typeof t !== 'undefined' ? t('ecommerce.discounts.createDiscount') : 'Create Discount' %>
+					</a>
+				</div>
+			</div>
+			<div class="panel-body">
+				<% if (typeof success !== 'undefined' && success) { %>
+					<div class="alert alert-success alert-dismissible fade show" role="alert">
+						<strong><%= typeof t !== 'undefined' ? t('messages.success') : 'Success!' %></strong> <%= success %>
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>
+				<% } %>
+				
+				<% if (typeof error !== 'undefined' && error) { %>
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<strong>Error!</strong> <%= error %>
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>
+				<% } %>
+				
+				<!-- BEGIN filters -->
+				<form method="GET" action="/admin/discounts" id="filters-form">
+					<div class="row mb-3">
+						<div class="col-md-4">
+							<div class="input-group">
+								<span class="input-group-text">
+									<i class="fa fa-search"></i>
+								</span>
+								<input type="text" class="form-control" name="search" id="searchFilter" 
+								       placeholder="<%= typeof t !== 'undefined' ? t('common.search') : 'Search discounts...' %>" 
+								       value="<%= typeof filters !== 'undefined' && filters.search ? filters.search : '' %>" />
+							</div>
+						</div>
+						<div class="col-md-2">
+							<select class="form-select" name="is_active" id="activeFilter">
+								<option value="">All Status</option>
+								<option value="true" <%= typeof filters !== 'undefined' && filters.is_active === true ? 'selected' : '' %>>
+									<%= typeof t !== 'undefined' ? t('common.active') : 'Active' %>
+								</option>
+								<option value="false" <%= typeof filters !== 'undefined' && filters.is_active === false ? 'selected' : '' %>>
+									<%= typeof t !== 'undefined' ? t('common.inactive') : 'Inactive' %>
+								</option>
+							</select>
+						</div>
+						<div class="col-md-3">
+							<button type="submit" class="btn btn-primary me-1">
+								<i class="fa fa-filter"></i> <%= typeof t !== 'undefined' ? t('common.filter') : 'Filter' %>
+							</button>
+							<a href="/admin/discounts" class="btn btn-secondary">
+								<i class="fa fa-times"></i> <%= typeof t !== 'undefined' ? t('common.clearFilters') : 'Clear' %>
+							</a>
+						</div>
+					</div>
+				</form>
+				<!-- END filters -->
+				
+				<input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+				<div class="table-responsive">
+					<table class="table table-striped table-bordered align-middle">
+						<thead>
+							<tr>
+								<th>Code</th>
+								<th>Name</th>
+								<th>Type</th>
+								<th>Value</th>
+								<th>Usage</th>
+								<th>Valid Dates</th>
+								<th><%= typeof t !== 'undefined' ? t('common.status') : 'Status' %></th>
+								<th width="100"><%= typeof t !== 'undefined' ? t('common.actions') : 'Actions' %></th>
+							</tr>
+						</thead>
+						<tbody>
+							<% if (typeof discounts !== 'undefined' && discounts && discounts.length > 0) { %>
+								<% discounts.forEach(function(discount) { %>
+									<tr data-discount-id="<%= discount.id %>">
+										<td>
+											<code class="fw-bold"><%= discount.code %></code>
+										</td>
+										<td>
+											<div class="fw-bold"><%= discount.name %></div>
+											<% if (discount.description) { %>
+												<div class="text-muted small"><%= discount.description.substring(0, 50) %><%= discount.description.length > 50 ? '...' : '' %></div>
+											<% } %>
+										</td>
+										<td>
+											<span class="badge bg-info">
+												<%= discount.type === 'percentage' ? '%' : '$' %>
+											</span>
+										</td>
+										<td>
+											<% if (discount.type === 'percentage') { %>
+												<%= discount.value %>% off
+											<% } else { %>
+												$<%= parseFloat(discount.value).toFixed(2) %> off
+											<% } %>
+										</td>
+										<td>
+											<% 
+											const usageCount = discount.usage_count || 0;
+											const usageLimit = discount.usage_limit;
+											%>
+											<% if (usageLimit) { %>
+												<%= usageCount %> / <%= usageLimit %>
+											<% } else { %>
+												<%= usageCount %> / ∞
+											<% } %>
+										</td>
+										<td>
+											<% if (discount.start_date && discount.end_date) { %>
+												<%= new Date(discount.start_date).toLocaleDateString() %> - 
+												<%= new Date(discount.end_date).toLocaleDateString() %>
+											<% } else if (discount.start_date) { %>
+												From <%= new Date(discount.start_date).toLocaleDateString() %>
+											<% } else if (discount.end_date) { %>
+												Until <%= new Date(discount.end_date).toLocaleDateString() %>
+											<% } else { %>
+												<span class="text-muted">No expiration</span>
+											<% } %>
+										</td>
+										<td>
+											<% if (discount.is_active) { %>
+												<span class="badge bg-success"><%= typeof t !== 'undefined' ? t('common.active') : 'Active' %></span>
+											<% } else { %>
+												<span class="badge bg-danger"><%= typeof t !== 'undefined' ? t('common.inactive') : 'Inactive' %></span>
+											<% } %>
+										</td>
+										<td>
+											<div class="btn-group">
+												<a href="/admin/discounts/<%= discount.id %>/edit" class="btn btn-xs btn-primary" title="<%= typeof t !== 'undefined' ? t('common.edit') : 'Edit' %>">
+													<i class="fa fa-edit"></i>
+												</a>
+												<button type="button" class="btn btn-xs btn-danger delete-discount-btn" 
+												        data-discount-id="<%= discount.id %>" 
+												        data-discount-code="<%= discount.code %>"
+												        title="<%= typeof t !== 'undefined' ? t('common.delete') : 'Delete' %>">
+													<i class="fa fa-trash"></i>
+												</button>
+											</div>
+										</td>
+									</tr>
+								<% }); %>
+							<% } else { %>
+								<tr>
+									<td colspan="8" class="text-center py-4">
+										<i class="fa fa-gift fa-3x text-muted mb-3"></i>
+										<p class="text-muted"><%= typeof t !== 'undefined' ? t('common.noData') : 'No discounts found' %></p>
+										<a href="/admin/discounts/create" class="btn btn-primary">
+											<i class="fa fa-plus"></i> <%= typeof t !== 'undefined' ? t('ecommerce.discounts.createDiscount') : 'Create Discount' %>
+										</a>
+									</td>
+								</tr>
+							<% } %>
+						</tbody>
+					</table>
+				</div>
+				
+				<!-- BEGIN pagination -->
+				<% if (typeof pagination !== 'undefined' && pagination.totalPages > 1) { %>
+					<div class="d-flex justify-content-between align-items-center mt-3">
+						<div>
+							<%= typeof t !== 'undefined' ? (t('common.showing') || t('ecommerce.showing')) : 'Showing' %> 
+							<%= ((pagination.page - 1) * pagination.limit) + 1 %> - 
+							<%= Math.min(pagination.page * pagination.limit, pagination.total) %> 
+							<%= typeof t !== 'undefined' ? t('common.of') : 'of' %> 
+							<%= pagination.total %> 
+							<%= typeof t !== 'undefined' ? t('common.items') : 'items' %>
+						</div>
+						<nav>
+							<ul class="pagination mb-0">
+								<% 
+									const currentPage = pagination.page;
+									const totalPages = pagination.totalPages;
+									const queryParams = new URLSearchParams();
+									if (typeof filters !== 'undefined') {
+										if (filters.search) queryParams.set('search', filters.search);
+										if (filters.is_active !== undefined) queryParams.set('is_active', filters.is_active.toString());
+									}
+									
+									// Previous button
+									if (currentPage > 1) {
+										queryParams.set('page', (currentPage - 1).toString());
+								%>
+									<li class="page-item">
+										<a class="page-link" href="?<%= queryParams.toString() %>">
+											<i class="fa fa-chevron-left"></i>
+										</a>
+									</li>
+								<% } else { %>
+									<li class="page-item disabled">
+										<span class="page-link"><i class="fa fa-chevron-left"></i></span>
+									</li>
+								<% } %>
+
+								<% 
+									// Page numbers
+									let startPage = Math.max(1, currentPage - 2);
+									let endPage = Math.min(totalPages, currentPage + 2);
+									
+									for (let i = startPage; i <= endPage; i++) {
+										queryParams.set('page', i.toString());
+								%>
+									<li class="page-item <%= i === currentPage ? 'active' : '' %>">
+										<a class="page-link" href="?<%= queryParams.toString() %>"><%= i %></a>
+									</li>
+								<% } %>
+
+								<% 
+									// Next button
+									if (currentPage < totalPages) {
+										queryParams.set('page', (currentPage + 1).toString());
+								%>
+									<li class="page-item">
+										<a class="page-link" href="?<%= queryParams.toString() %>">
+											<i class="fa fa-chevron-right"></i>
+										</a>
+									</li>
+								<% } else { %>
+									<li class="page-item disabled">
+										<span class="page-link"><i class="fa fa-chevron-right"></i></span>
+									</li>
+								<% } %>
+							</ul>
+						</nav>
+					</div>
+				<% } %>
+				<!-- END pagination -->
+			</div>
+		</div>
+		<!-- END panel -->
+	</div>
+</div>
+<!-- END content area -->
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteDiscountModal" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title"><%= typeof t !== 'undefined' ? t('common.confirm') : 'Confirm Delete' %></h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+			<div class="modal-body">
+				<p><%= typeof t !== 'undefined' ? t('messages.confirmDelete') : 'Are you sure you want to delete this discount?' %></p>
+				<p class="fw-bold" id="deleteDiscountCode"></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+					<%= typeof t !== 'undefined' ? t('common.cancel') : 'Cancel' %>
+				</button>
+				<button type="button" class="btn btn-danger" id="confirmDeleteDiscountBtn">
+					<%= typeof t !== 'undefined' ? t('common.delete') : 'Delete' %>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+	const deleteModal = new bootstrap.Modal(document.getElementById('deleteDiscountModal'));
+	let discountToDelete = null;
+
+	function getCsrfToken() {
+		return document.querySelector('input[name="_csrf"]')?.value || '';
+	}
+	
+	// Delete discount button handlers
+	document.querySelectorAll('.delete-discount-btn').forEach(btn => {
+		btn.addEventListener('click', function() {
+			discountToDelete = {
+				id: this.getAttribute('data-discount-id'),
+				code: this.getAttribute('data-discount-code')
+			};
+			document.getElementById('deleteDiscountCode').textContent = discountToDelete.code;
+			deleteModal.show();
+		});
+	});
+	
+	// Confirm delete
+	document.getElementById('confirmDeleteDiscountBtn').addEventListener('click', function() {
+		if (discountToDelete) {
+			fetch(`/admin/discounts/${discountToDelete.id}`, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-CSRF-Token': getCsrfToken()
+				}
+			})
+			.then(response => response.json())
+			.then(data => {
+				if (data.success) {
+					location.reload();
+				} else {
+					alert('Error: ' + (data.error || 'Failed to delete discount'));
+				}
+			})
+			.catch(error => {
+				console.error('Error:', error);
+				alert('Error deleting discount');
+			})
+			.finally(() => {
+				deleteModal.hide();
+			});
+		}
+	});
+});
+</script>

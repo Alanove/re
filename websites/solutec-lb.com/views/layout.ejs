@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= typeof pageTitle !== 'undefined' && pageTitle ? pageTitle : (siteSettings && siteSettings.siteTitle ? siteSettings.siteTitle : 'Solutec') %></title>
+  <meta name="description" content="<%= typeof pageDescription !== 'undefined' ? pageDescription : '' %>">
+  <meta name="robots" content="<%= typeof pageRobots !== 'undefined' ? pageRobots : 'index, follow' %>">
+  <link rel="canonical" href="<%= typeof pageUrl !== 'undefined' ? pageUrl : '' %>">
+  <% if (siteData && siteData.favicon) { %><link rel="icon" href="<%= siteData.favicon %>"><% } %>
+  <link rel="stylesheet" href="/theme/sm-widgets/fonts/icons.css">
+  <link rel="stylesheet" href="/theme/sm-widgets/widgets_style.css">
+  <link rel="stylesheet" href="/theme/sm-widgets/css/owl.carousel.min.css">
+  <link rel="stylesheet" href="/theme/hfe/header-footer-elementor.css">
+  <link rel="stylesheet" href="/theme/hfe/frontend.css">
+  <link rel="stylesheet" href="/theme/elementor/lib/eicons/css/elementor-icons.min.css">
+  <link rel="stylesheet" href="/theme/elementor/frontend.min.css">
+  <link rel="stylesheet" href="/theme/elementor/lib/swiper/v8/css/swiper.min.css">
+  <link rel="stylesheet" href="/theme/elementor/css/post-6.css">
+  <link rel="stylesheet" href="/theme/elementor/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/theme/elementor/lib/font-awesome/css/v4-shims.min.css">
+  <link rel="stylesheet" href="/theme/elementor/lib/font-awesome/css/fontawesome.min.css">
+  <link rel="stylesheet" href="/theme/elementor/lib/font-awesome/css/brands.min.css">
+  <link rel="stylesheet" href="/theme/elementor/lib/animations/animations.min.css">
+  <link rel="stylesheet" href="/theme/manufacturer/style.css">
+  <link rel="stylesheet" href="/theme/manufacturer/css/manufacturer_style.css">
+  <link rel="stylesheet" href="/theme/manufacturer/css/responsive.css">
+  <link rel="stylesheet" href="/theme/manufacturer/fonts/themify-icons.css">
+  <link rel="stylesheet" href="/theme/manufacturer/dynamic.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Roboto+Slab:400,700|Poppins:400,500,600,700|Hind:400,500,600,700&display=swap">
+  <link rel="stylesheet" href="/theme/woocommerce.css">
+  <link rel="stylesheet" href="/theme/solu.css">
+  <% if (typeof chromeData !== 'undefined' && chromeData.headerCss) { %><link rel="stylesheet" href="<%= chromeData.headerCss %>"><% } %>
+  <% if (typeof chromeData !== 'undefined' && chromeData.footerCss) { %><link rel="stylesheet" href="<%= chromeData.footerCss %>"><% } %>
+  <% if (typeof currentPage !== 'undefined' && currentPage && currentPage.elementorCss) { %><link rel="stylesheet" href="<%= currentPage.elementorCss %>"><% } %>
+</head>
+<body class="<%= typeof bodyClass !== 'undefined' ? bodyClass : '' %>">
+  <div id="page" class="man_page">
+    <% const siteName = typeof siteData !== 'undefined' && siteData && siteData.name ? siteData.name : 'Solutec'; %>
+    <% if (typeof headerHtml !== 'undefined' && headerHtml) { %>
+    <header id="masthead" itemscope="itemscope" itemtype="https://schema.org/WPHeader">
+      <p class="main-title bhf-hidden" itemprop="headline"><a href="/" title="<%= siteName %>" rel="home"><%= siteName %></a></p>
+      <%- headerHtml %>
+    </header>
+    <% } %>
+    <% if (typeof isHome === 'undefined' || !isHome) { %>
+      <% if (typeof introTitle !== 'undefined' && introTitle) { %>
+        <%- include('partials/page-intro') %>
+      <% } %>
+    <% } %>
+    <div id="content" class="site-content">
+      <%- body %>
+    </div>
+    <% if (typeof footerHtml !== 'undefined' && footerHtml) { %>
+    <footer itemtype="https://schema.org/WPFooter" itemscope="itemscope" id="colophon" role="contentinfo">
+      <div class="footer-width-fixer"><%- footerHtml %></div>
+    </footer>
+    <% } %>
+  </div>
+  <script src="/theme/jquery.min.js"></script>
+  <script src="/theme/sm-widgets/js/owl.carousel.min.js"></script>
+  <script src="/theme/sm-widgets/js/scripts.js"></script>
+  <script>
+    window.device = window.device || {
+      mobile: function () { return /Mobi|Android|iPhone|iPod/i.test(navigator.userAgent); },
+      tablet: function () { return /iPad|Tablet/i.test(navigator.userAgent) || (navigator.maxTouchPoints > 1 && /Macintosh/.test(navigator.userAgent)); }
+    };
+  </script>
+  <script src="/theme/manufacturer/js/manufacturer_script.js"></script>
+  <script>
+    (function () {
+      var items = Array.prototype.slice.call(document.querySelectorAll('.elementor-invisible[data-settings]'));
+      function reveal(el) {
+        if (el.getAttribute('data-solu-revealed')) return;
+        el.setAttribute('data-solu-revealed', '1');
+        var settings = {};
+        try { settings = JSON.parse(el.getAttribute('data-settings')) || {}; } catch (e) {}
+        var name = settings._animation || settings.animation;
+        var delay = Number(settings._animation_delay || settings.animation_delay || 0) || 0;
+        setTimeout(function () {
+          el.classList.remove('elementor-invisible');
+          if (name) el.classList.add('animated', name);
+        }, delay);
+      }
+      function inView(el) {
+        var rect = el.getBoundingClientRect();
+        var height = window.innerHeight || document.documentElement.clientHeight;
+        return rect.bottom > 0 && rect.top < height + 80;
+      }
+      if (!('IntersectionObserver' in window)) {
+        items.forEach(reveal);
+        return;
+      }
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          observer.unobserve(entry.target);
+          reveal(entry.target);
+        });
+      }, { rootMargin: '80px 0px' });
+      items.forEach(function (el) {
+        if (inView(el)) reveal(el);
+        else observer.observe(el);
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,434 @@
+/* Admin Custom CSS */
+
+/* Ensure proper spacing and layout */
+.page-header {
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* Fix breadcrumb alignment */
+.breadcrumb {
+    background: none;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+/* Ensure proper card styling */
+.card {
+    border-radius: 0.375rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    margin-bottom: 1.5rem;
+}
+
+.card-header {
+    background-color: rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    padding: 0.75rem 1.25rem;
+}
+
+.card-body {
+    padding: 1.25rem;
+}
+
+/* Badge styling */
+.badge {
+    font-size: 0.75em;
+    font-weight: 600;
+}
+
+.badge-success {
+    background-color: #28a745;
+}
+
+.badge-danger {
+    background-color: #dc3545;
+}
+
+.badge-info {
+    background-color: #17a2b8;
+}
+
+.badge-secondary {
+    background-color: #6c757d;
+}
+
+/* Button styling */
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
+
+/* Table styling */
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Account specific styles */
+.account-balance {
+    font-weight: bold;
+    color: #28a745;
+}
+
+.account-balance.negative {
+    color: #dc3545;
+}
+
+.account-status.active {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+}
+
+.account-status.inactive {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+}
+
+/* Info box styles for compatibility */
+.info-box {
+    background: #fff;
+    border-radius: 0.25rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    display: flex;
+    margin-bottom: 1rem;
+    min-height: 80px;
+    padding: 0.5rem;
+}
+
+.info-box-icon {
+    border-radius: 0.25rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 70px;
+    margin-right: 1rem;
+}
+
+.info-box-icon.bg-success {
+    background-color: #28a745;
+}
+
+.info-box-icon.bg-danger {
+    background-color: #dc3545;
+}
+
+.info-box-icon.bg-info {
+    background-color: #17a2b8;
+}
+
+.info-box-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+}
+
+.info-box-text {
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+}
+
+.info-box-number {
+    font-size: 1.125rem;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+.progress-description {
+    color: #6c757d;
+    font-size: 0.75rem;
+}
+
+/* Fix dropdown arrows for all select elements */
+select.form-control,
+select.form-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+    padding-right: 2.5rem;
+}
+
+/* Dark background select fix */
+select.form-control:focus,
+select.form-select:focus {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+}
+
+/* Form spacing and styling improvements */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-top: 0.75rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #495057;
+    font-size: 0.95rem;
+}
+
+.form-group label:first-child {
+    margin-top: 0;
+}
+
+.form-control,
+.form-select {
+    margin-bottom: 0.25rem;
+}
+
+.form-text {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+/* Better spacing for form sections */
+.special-category-section {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid #e9ecef;
+}
+
+.special-category-section h5 {
+    margin-bottom: 1rem;
+}
+
+/* Input group spacing */
+.input-group {
+    margin-bottom: 0.25rem;
+}
+
+/* Textarea spacing */
+textarea.form-control {
+    margin-bottom: 0.25rem;
+}
+
+/* Checkbox and radio spacing */
+.form-check {
+    margin-bottom: 0.75rem;
+    padding-left: 1.5rem;
+}
+
+.form-check-input {
+    margin-top: 0.25rem;
+}
+
+.form-check-label {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* File input spacing */
+input[type="file"].form-control {
+    padding: 0.375rem 0.75rem;
+}
+
+/* Better spacing for nested form groups */
+.card-body .form-group:last-child {
+    margin-bottom: 0;
+}
+
+/* Modal form spacing */
+.modal-body .form-group {
+    margin-bottom: 1.25rem;
+}
+
+.safemate-system-row {
+    background-color: #f8f9fa;
+}
+
+.gate-access-suggest {
+    position: absolute;
+    z-index: 1060;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 220px;
+    overflow-y: auto;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.gate-access-suggest .list-group-item {
+    cursor: pointer;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .float-end {
+        float: none !important;
+    }
+    
+    .breadcrumb {
+        margin-top: 1rem;
+    }
+    
+    .info-box {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .info-box-icon {
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+        width: 100%;
+        height: 50px;
+    }
+    
+    .form-group {
+        margin-bottom: 1.25rem;
+    }
+}
+
+.parking-admin__layout {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 1rem;
+    align-items: start;
+}
+
+.parking-admin__list {
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 6px;
+    padding: 0.75rem;
+}
+
+.parking-admin__apartments {
+    margin-top: 0.75rem;
+    max-height: 70vh;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.parking-admin__apt {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    width: 100%;
+    text-align: left;
+    border: 1px solid transparent;
+    background: #f4f6f8;
+    border-radius: 4px;
+    padding: 0.45rem 0.6rem;
+    cursor: pointer;
+}
+
+.parking-admin__apt small {
+    color: #6c757d;
+}
+
+.parking-admin__apt.is-active {
+    border-color: #c9a227;
+    background: #fff8e8;
+}
+
+.parking-admin__count {
+    margin-left: auto;
+    min-width: 1.5rem;
+    text-align: center;
+    font-weight: 700;
+    color: #5c4308;
+}
+
+.parking-admin__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.5rem;
+}
+
+.parking-admin__status {
+    min-height: 1.25rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.92rem;
+}
+
+.parking-admin__status.is-error {
+    color: #b42318;
+}
+
+.parking-admin__viewport {
+    position: relative;
+    height: 70vh;
+    min-height: 420px;
+    overflow: hidden;
+    background: #e7eef2;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 6px;
+    touch-action: none;
+    cursor: grab;
+    user-select: none;
+}
+
+.parking-admin__viewport.is-draw {
+    cursor: crosshair;
+}
+
+.parking-admin__viewport.is-panning {
+    cursor: grabbing;
+}
+
+.parking-admin__stage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transform-origin: 0 0;
+}
+
+.parking-admin__stage img {
+    display: block;
+    width: 100%;
+    height: auto;
+    pointer-events: none;
+    user-select: none;
+}
+
+.parking-admin__overlay,
+.parking-admin__handles {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.parking-admin__handle {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    padding: 0;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background: #c9a227;
+    transform: translate(-50%, -50%) scale(calc(1 / var(--map-scale, 1)));
+    pointer-events: auto;
+    cursor: grab;
+    box-shadow: 0 0 0 1px #5c4308;
+}
+
+@media (max-width: 991px) {
+    .parking-admin__layout {
+        grid-template-columns: 1fr;
+    }
+
+    .parking-admin__apartments {
+        max-height: 220px;
+    }
+}

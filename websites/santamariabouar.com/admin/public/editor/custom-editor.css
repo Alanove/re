@@ -1,0 +1,492 @@
+/**
+ * Custom Editor Styles
+ * Professional styling for the custom content editor
+ */
+
+.custom-editor-toolbar {
+    border: 1px solid #dee2e6 !important;
+    border-bottom: none !important;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+    padding: 10px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+    align-items: center !important;
+    border-radius: 6px 6px 0 0 !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+}
+
+.custom-editor-btn {
+    padding: 8px 12px !important;
+    border: 1px solid #ced4da !important;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
+    cursor: pointer !important;
+    border-radius: 4px !important;
+    font-size: 13px !important;
+    min-width: 36px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s ease !important;
+    font-weight: 500 !important;
+    color: #495057 !important;
+}
+
+.custom-editor-btn:hover {
+    background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%) !important;
+    border-color: #adb5bd !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+.custom-editor-btn:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1) !important;
+}
+
+/* Active state styling */
+.custom-editor-btn.active {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%) !important;
+    color: white !important;
+    border-color: #0056b3 !important;
+    font-weight: 600 !important;
+    box-shadow: 0 2px 4px rgba(0,123,255,0.3) !important;
+}
+
+.custom-editor-btn.active:hover {
+    background: linear-gradient(135deg, #0056b3 0%, #004085 100%) !important;
+    border-color: #004085 !important;
+}
+
+.custom-editor-btn[data-action="source"] {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%) !important;
+    color: white !important;
+    border-color: #0056b3 !important;
+    font-weight: 600 !important;
+}
+
+.custom-editor-btn[data-action="source"]:hover {
+    background: linear-gradient(135deg, #0056b3 0%, #004085 100%) !important;
+    border-color: #004085 !important;
+}
+
+.custom-editor-rich {
+    border: 1px solid #dee2e6 !important;
+    border-top: none !important;
+    padding: 16px !important;
+    min-height: 600px !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+    outline: none !important;
+    overflow-y: auto !important;
+    background: white !important;
+    border-radius: 0 0 6px 6px !important;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.075) !important;
+}
+
+.custom-editor-rich:focus {
+    border-color: #80bdff !important;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.075), 0 0 0 0.2rem rgba(0,123,255,0.25) !important;
+}
+.custom-editor-rich img{
+    max-width: 100%;
+}
+.custom-editor-source {
+    border: 1px solid #dee2e6 !important;
+    border-top: none !important;
+    padding: 16px !important;
+    min-height: 600px !important;
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace !important;
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    outline: none !important;
+    resize: vertical !important;
+    background: #f8f9fa !important;
+    color: #212529 !important;
+    border-radius: 0 0 6px 6px !important;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.075) !important;
+    tab-size: 4 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.custom-editor-source:focus {
+    border-color: #80bdff !important;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.075), 0 0 0 0.2rem rgba(0,123,255,0.25) !important;
+    background: white !important;
+}
+
+.custom-editor-word-count {
+    padding: 8px 16px !important;
+    background: #f8f9fa !important;
+    border: 1px solid #dee2e6 !important;
+    border-top: none !important;
+    font-size: 12px !important;
+    color: #6c757d !important;
+    text-align: right !important;
+    border-radius: 0 0 6px 6px !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+/* Button specific styles */
+.custom-editor-btn[data-action="bold"] strong {
+    font-weight: bold !important;
+}
+
+.custom-editor-btn[data-action="italic"] em {
+    font-style: italic !important;
+}
+
+.custom-editor-btn[data-action="underline"] u {
+    text-decoration: underline !important;
+}
+
+.custom-editor-btn[data-action="strike"] s {
+    text-decoration: line-through !important;
+}
+
+.custom-editor-btn[data-action="h1"],
+.custom-editor-btn[data-action="h2"],
+.custom-editor-btn[data-action="h3"],
+.custom-editor-btn[data-action="h4"],
+.custom-editor-btn[data-action="h5"],
+.custom-editor-btn[data-action="h6"] {
+    font-weight: bold !important;
+    font-size: 12px !important;
+}
+
+/* Better alignment icons - using SVG images */
+.custom-editor-btn[data-action="left"]::before {
+    content: "" !important;
+    display: inline-block !important;
+    width: 16px !important;
+    height: 16px !important;
+    background: url('/admin/editor/icons/align-left.svg') no-repeat center center !important;
+    background-size: 16px 16px !important;
+}
+
+.custom-editor-btn[data-action="center"]::before {
+    content: "" !important;
+    display: inline-block !important;
+    width: 16px !important;
+    height: 16px !important;
+    background: url('/admin/editor/icons/align-center.svg') no-repeat center center !important;
+    background-size: 16px 16px !important;
+}
+
+.custom-editor-btn[data-action="right"]::before {
+    content: "" !important;
+    display: inline-block !important;
+    width: 16px !important;
+    height: 16px !important;
+    background: url('/admin/editor/icons/align-right.svg') no-repeat center center !important;
+    background-size: 16px 16px !important;
+}
+
+.custom-editor-btn[data-action="justify"]::before {
+    content: "" !important;
+    display: inline-block !important;
+    width: 16px !important;
+    height: 16px !important;
+    background: url('/admin/editor/icons/align-justify.svg') no-repeat center center !important;
+    background-size: 16px 16px !important;
+}
+
+/* Better list icons - using SVG images */
+.custom-editor-btn[data-action="bullet"]::before {
+    content: "" !important;
+    display: inline-block !important;
+    width: 16px !important;
+    height: 16px !important;
+    background: url('/admin/editor/icons/list.svg') no-repeat center center !important;
+    background-size: 16px 16px !important;
+}
+
+.custom-editor-btn[data-action="number"]::before {
+    content: "" !important;
+    display: inline-block !important;
+    width: 16px !important;
+    height: 16px !important;
+    background: url('/admin/editor/icons/number-list.svg') no-repeat center center !important;
+    background-size: 16px 16px !important;
+}
+
+/* Modal styles */
+.custom-editor-modal {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: rgba(0, 0, 0, 0.5) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 10000 !important;
+}
+
+.custom-editor-modal > div {
+    background: white !important;
+    padding: 24px !important;
+    border-radius: 8px !important;
+    min-width: 400px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+.custom-editor-modal h3 {
+    margin: 0 0 20px 0 !important;
+    color: #333 !important;
+    font-size: 18px !important;
+}
+
+.custom-editor-modal label {
+    display: block !important;
+    margin-bottom: 6px !important;
+    font-weight: 500 !important;
+    color: #555 !important;
+}
+
+.custom-editor-modal input {
+    width: 100% !important;
+    padding: 8px 12px !important;
+    border: 1px solid #ddd !important;
+    border-radius: 4px !important;
+    font-size: 14px !important;
+    box-sizing: border-box !important;
+}
+
+.custom-editor-modal input:focus {
+    border-color: #007bff !important;
+    outline: none !important;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25) !important;
+}
+
+.custom-editor-modal .modal-cancel {
+    padding: 8px 16px !important;
+    border: 1px solid #ddd !important;
+    background: white !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    font-size: 14px !important;
+    margin-right: 8px !important;
+}
+
+.custom-editor-modal .modal-confirm {
+    padding: 8px 16px !important;
+    border: 1px solid #007bff !important;
+    background: #007bff !important;
+    color: white !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    font-size: 14px !important;
+}
+
+.custom-editor-modal .modal-cancel:hover {
+    background: #f8f9fa !important;
+}
+
+.custom-editor-modal .modal-confirm:hover {
+    background: #0056b3 !important;
+}
+
+/* Upload section styling */
+.custom-editor-modal .upload-section {
+    margin: 20px 0 !important;
+    padding: 15px !important;
+    border: 2px dashed #ddd !important;
+    border-radius: 4px !important;
+    text-align: center !important;
+    background: #f8f9fa !important;
+}
+
+.custom-editor-modal .upload-section:hover {
+    border-color: #007bff !important;
+    background: #e9ecef !important;
+}
+
+.custom-editor-modal .upload-text {
+    margin: 0 0 10px 0 !important;
+    color: #666 !important;
+    font-size: 14px !important;
+}
+
+.custom-editor-modal .upload-button {
+    padding: 8px 16px !important;
+    background: #28a745 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    font-size: 14px !important;
+    transition: background-color 0.2s ease !important;
+}
+
+.custom-editor-modal .upload-button:hover {
+    background: #218838 !important;
+}
+
+.custom-editor-modal .upload-button:disabled {
+    background: #6c757d !important;
+    cursor: not-allowed !important;
+}
+
+/* Dark theme support */
+[data-theme="dark"] .custom-editor-toolbar {
+    background: linear-gradient(135deg, #343a40 0%, #495057 100%) !important;
+    border-color: #495057 !important;
+}
+
+[data-theme="dark"] .custom-editor-btn {
+    background: linear-gradient(135deg, #495057 0%, #343a40 100%) !important;
+    border-color: #6c757d !important;
+    color: #f8f9fa !important;
+}
+
+[data-theme="dark"] .custom-editor-btn:hover {
+    background: linear-gradient(135deg, #6c757d 0%, #495057 100%) !important;
+    border-color: #adb5bd !important;
+}
+
+[data-theme="dark"] .custom-editor-btn.active {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%) !important;
+    color: white !important;
+    border-color: #0056b3 !important;
+}
+
+[data-theme="dark"] .custom-editor-rich {
+    background: #212529 !important;
+    border-color: #495057 !important;
+    color: #f8f9fa !important;
+}
+
+[data-theme="dark"] .custom-editor-source {
+    background: #2d3748 !important;
+    border-color: #495057 !important;
+    color: #e2e8f0 !important;
+}
+
+[data-theme="dark"] .custom-editor-source:focus {
+    background: #1a202c !important;
+}
+
+[data-theme="dark"] .custom-editor-word-count {
+    background: #343a40 !important;
+    border-color: #495057 !important;
+    color: #adb5bd !important;
+}
+
+[data-theme="dark"] .custom-editor-modal > div {
+    background: #343a40 !important;
+    color: #f8f9fa !important;
+}
+
+[data-theme="dark"] .custom-editor-modal h3 {
+    color: #f8f9fa !important;
+}
+
+[data-theme="dark"] .custom-editor-modal label {
+    color: #e9ecef !important;
+}
+
+[data-theme="dark"] .custom-editor-modal input {
+    background: #495057 !important;
+    border-color: #6c757d !important;
+    color: #f8f9fa !important;
+}
+
+[data-theme="dark"] .custom-editor-modal input:focus {
+    border-color: #007bff !important;
+    background: #343a40 !important;
+}
+
+[data-theme="dark"] .custom-editor-modal .modal-cancel {
+    background: #495057 !important;
+    border-color: #6c757d !important;
+    color: #f8f9fa !important;
+}
+
+[data-theme="dark"] .custom-editor-modal .modal-cancel:hover {
+    background: #6c757d !important;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .custom-editor-toolbar {
+        padding: 8px !important;
+        gap: 4px !important;
+    }
+
+    .custom-editor-btn {
+        padding: 6px 8px !important;
+        min-width: 32px !important;
+        font-size: 12px !important;
+    }
+
+    .custom-editor-rich,
+    .custom-editor-source {
+        padding: 12px !important;
+        min-height: 400px !important;
+    }
+
+    .custom-editor-modal > div {
+        min-width: 300px !important;
+        margin: 20px !important;
+    }
+}
+
+/* Placeholder styling */
+.custom-editor-rich[data-placeholder]:empty:before {
+    content: attr(data-placeholder);
+    color: #6c757d;
+    font-style: italic;
+    pointer-events: none;
+}
+
+/* Selection styling */
+.custom-editor-rich ::selection {
+    background: rgba(0, 123, 255, 0.3);
+}
+
+.custom-editor-rich ::-moz-selection {
+    background: rgba(0, 123, 255, 0.3);
+}
+
+/* Scrollbar styling */
+.custom-editor-rich::-webkit-scrollbar,
+.custom-editor-source::-webkit-scrollbar {
+    width: 8px;
+}
+
+.custom-editor-rich::-webkit-scrollbar-track,
+.custom-editor-source::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.custom-editor-rich::-webkit-scrollbar-thumb,
+.custom-editor-source::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.custom-editor-rich::-webkit-scrollbar-thumb:hover,
+.custom-editor-source::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Dark theme scrollbars */
+[data-theme="dark"] .custom-editor-rich::-webkit-scrollbar-track,
+[data-theme="dark"] .custom-editor-source::-webkit-scrollbar-track {
+    background: #343a40;
+}
+
+[data-theme="dark"] .custom-editor-rich::-webkit-scrollbar-thumb,
+[data-theme="dark"] .custom-editor-source::-webkit-scrollbar-thumb {
+    background: #6c757d;
+}
+
+[data-theme="dark"] .custom-editor-rich::-webkit-scrollbar-thumb:hover,
+[data-theme="dark"] .custom-editor-source::-webkit-scrollbar-thumb:hover {
+    background: #adb5bd;
+}

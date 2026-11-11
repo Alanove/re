@@ -1,0 +1,10 @@
+{
+  "serverPath": "/www/wwwroot/antonioscouture.com",
+  "port": null,
+  "healthPath": "/",
+  "nodeBin": null,
+  "aapanelProject": "antonioscouture",
+  "restartCommand": null,
+  "protect": [],
+  "migrations": { "dir": "data-migration", "script": "migrate:production" }
+}

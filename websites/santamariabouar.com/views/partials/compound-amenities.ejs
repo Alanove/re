@@ -1,0 +1,24 @@
+<% if (typeof compoundAmenities !== 'undefined' && compoundAmenities && compoundAmenities.length) { %>
+  <section class="compound-amenities">
+    <div class="compound-amenities__header">
+      <p class="compound-amenities__eyebrow">Included for every resident</p>
+      <h2>Compound amenities</h2>
+      <p class="compound-amenities__lede">Facilities available throughout Santa Maria Bouar</p>
+    </div>
+    <ul class="compound-amenities__list">
+      <% compoundAmenities.forEach(function(amenity) { %>
+        <li class="compound-amenities__item">
+          <span class="compound-amenities__icon" aria-hidden="true">
+            <i class="bi <%= amenity.icon %>"></i>
+          </span>
+          <div class="compound-amenities__text">
+            <h3><%= amenity.name %></h3>
+            <% if (amenity.description) { %>
+              <p><%= amenity.description %></p>
+            <% } %>
+          </div>
+        </li>
+      <% }); %>
+    </ul>
+  </section>
+<% } %>

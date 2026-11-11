@@ -1,0 +1,235 @@
+<%- contentFor('styles') %>
+<style>
+.category-color-indicator {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 8px;
+    border: 1px solid #ddd;
+}
+
+.badge {
+    color: white !important;
+    font-weight: 500 !important;
+}
+
+.badge-success {
+    background-color: #28a745 !important;
+    color: white !important;
+}
+
+.badge-danger {
+    background-color: #dc3545 !important;
+    color: white !important;
+}
+
+.badge-info {
+    background-color: #17a2b8 !important;
+    color: white !important;
+}
+
+.badge-secondary {
+    background-color: #6c757d !important;
+    color: white !important;
+}
+</style>
+
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Transaction Categories</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="/admin/site-settings">Settings</a></li>
+                        <li class="breadcrumb-item active">Transaction Categories</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Manage Transaction Categories</h3>
+                            <div class="card-tools">
+                                <a href="/admin/transaction-categories/create" class="btn btn-primary btn-sm">
+                                    <i class="fa fa-plus"></i> Add New Category
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <% if (categories.length === 0) { %>
+                                <div class="text-center py-5">
+                                    <i class="fa fa-tags fa-3x text-muted mb-3"></i>
+                                    <h4>No categories found</h4>
+                                    <p class="text-muted">Create transaction categories to organize your income and expenses.</p>
+                                    <a href="/admin/transaction-categories/create" class="btn btn-primary">
+                                        <i class="fa fa-plus"></i> Create First Category
+                                    </a>
+                                </div>
+                            <% } else { %>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Category</th>
+                                                <th>Type</th>
+                                                <th>Color</th>
+                                                <th>Status</th>
+                                                <th>Created</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% categories.forEach(category => { %>
+                                                <tr>
+                                                    <td>
+                                                        <strong><%= category.name %></strong>
+                                                    </td>
+                                                    <td>
+                                                        <% if (category.type === 'income') { %>
+                                                            <span class="badge badge-success">
+                                                                <i class="fa fa-arrow-up"></i> Income
+                                                            </span>
+                                                        <% } else if (category.type === 'expense') { %>
+                                                            <span class="badge badge-danger">
+                                                                <i class="fa fa-arrow-down"></i> Expense
+                                                            </span>
+                                                        <% } else { %>
+                                                            <span class="badge badge-info">
+                                                                <i class="fa fa-arrows-alt-h"></i> Both
+                                                            </span>
+                                                        <% } %>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <div style="width: 30px; height: 20px; background-color: <%= category.color %>; border-radius: 4px; border: 1px solid #ddd;"></div>
+                                                            <span class="ml-2 text-muted small"><%= category.color %></span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge badge-<%= category.isActive ? 'success' : 'secondary' %>">
+                                                            <%= category.isActive ? 'Active' : 'Inactive' %>
+                                                        </span>
+                                                    </td>
+                                                    <td><%= new Date(category.createdAt).toLocaleDateString() %></td>
+                                                    <td>
+                                                        <a href="/admin/transaction-categories/<%= category.id %>/edit" class="btn btn-sm btn-info">
+                                                            <i class="fa fa-edit"></i> Edit
+                                                        </a>
+                                                        <button class="btn btn-sm btn-danger ml-1" onclick="deleteCategory(<%= category.id %>)" 
+                                                                data-category-name="<%= category.name %>">
+                                                            <i class="fa fa-trash"></i> Delete
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            <% }); %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Types Explanation -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card card-info">
+                        <div class="card-header">
+                            <h3 class="card-title">Category Types Explained</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-success">
+                                            <i class="fa fa-arrow-up"></i>
+                                        </span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Income Categories</span>
+                                            <span class="info-box-number">Add Money</span>
+                                            <span class="progress-description">
+                                                Money coming into the account
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-danger">
+                                            <i class="fa fa-arrow-down"></i>
+                                        </span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Expense Categories</span>
+                                            <span class="info-box-number">Remove Money</span>
+                                            <span class="progress-description">
+                                                Money going out of the account
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-info">
+                                            <i class="fa fa-arrows-alt-h"></i>
+                                        </span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Both Types</span>
+                                            <span class="info-box-number">Flexible</span>
+                                            <span class="progress-description">
+                                                Can be used for income or expense
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<%- contentFor('scripts') %>
+<script>
+async function deleteCategory(id) {
+    const button = event.target.closest('button');
+    const categoryName = button.getAttribute('data-category-name');
+    
+    if (!confirm(`Are you sure you want to delete category "${categoryName}"? This action cannot be undone and may affect existing transactions.`)) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`/admin/transaction-categories/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            location.reload();
+        } else {
+            alert('Error: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Error deleting category:', error);
+        alert('Error deleting category. Please try again.');
+    }
+}
+</script>

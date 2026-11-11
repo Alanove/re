@@ -1,0 +1,201 @@
+@import '../variables';
+
+// Modern internal page layout: banner image + title, then readable text column
+.inner-page {
+  background: $light-bg;
+  min-height: calc(100vh - var(--site-header-height, 72px));
+  display: block;
+
+  // ---- Banner (header picture) ----
+  &__banner {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: 260px;
+    padding: 3rem 0 2.25rem;
+    background-color: $golden-brown;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+
+    @media (min-width: $medium-screen) {
+      min-height: 340px;
+      padding: 4rem 0 2.75rem;
+    }
+
+    // The container needs to sit above the overlay
+    .container {
+      position: relative;
+      z-index: 2;
+    }
+  }
+
+  &__banner-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    // Solid brand tint when there's no image, gradient scrim when there is
+    background: linear-gradient(
+      to top,
+      rgba(43, 22, 8, 0.75) 0%,
+      rgba(43, 22, 8, 0.35) 55%,
+      rgba(43, 22, 8, 0.15) 100%
+    );
+  }
+
+  &__banner:not(.has-image) &__banner-overlay {
+    background: linear-gradient(135deg, $golden-brown 0%, $accent 100%);
+  }
+
+  &__title {
+    margin: 0;
+    color: $white;
+    font-size: clamp(1.9rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.15;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+  }
+
+  // ---- Body / text ----
+  &__body {
+    padding: 3rem 0 4.5rem;
+
+    @media (min-width: $medium-screen) {
+      padding: 4rem 0 5.5rem;
+    }
+  }
+
+  &__content {
+    max-width: 820px;
+    margin: 0 auto;
+    background: $white;
+    border: 1px solid $border-color;
+    border-radius: 10px;
+    padding: 2rem 1.5rem;
+    color: $dark-text;
+    font-size: 1.05rem;
+    line-height: 1.75;
+    box-shadow: 0 4px 24px rgba(74, 55, 40, 0.06);
+
+    @media (min-width: $medium-screen) {
+      padding: 3rem 3.25rem;
+    }
+
+    // Typography
+    h1, h2, h3, h4, h5, h6 {
+      color: $dark-text;
+      font-weight: 700;
+      line-height: 1.25;
+      margin: 2rem 0 0.85rem;
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+
+    h1 { font-size: 2rem; }
+    h2 {
+      font-size: 1.6rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid $secondary;
+    }
+    h3 { font-size: 1.3rem; }
+    h4 { font-size: 1.1rem; }
+
+    p {
+      margin: 0 0 1.25rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    ul, ol {
+      margin: 0 0 1.25rem;
+      padding-left: 1.5rem;
+
+      li {
+        margin-bottom: 0.5rem;
+      }
+    }
+
+    ul {
+      list-style: disc outside;
+    }
+
+    ol {
+      list-style: decimal outside;
+    }
+
+    a {
+      color: $primary;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s ease, color 0.2s ease;
+
+      &:hover {
+        color: $accent;
+        border-bottom-color: $accent;
+      }
+    }
+
+    strong {
+      color: $dark-text;
+      font-weight: 700;
+    }
+
+    blockquote {
+      margin: 1.5rem 0;
+      padding: 1rem 1.25rem;
+      border-left: 4px solid $primary;
+      background: $light-bg;
+      color: $light-text;
+      font-style: italic;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+    }
+
+    // Responsive tables/iframes
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+
+      th, td {
+        border: 1px solid $border-color;
+        padding: 0.65rem 0.85rem;
+        text-align: left;
+      }
+
+      th {
+        background: $light-bg;
+        color: $dark-text;
+      }
+    }
+
+    iframe {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+
+    .legal-meta {
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+      color: $light-text;
+    }
+
+    .legal-callout {
+      margin: 0 0 1.75rem;
+      padding: 1rem 1.25rem;
+      border-left: 4px solid $primary;
+      background: $light-bg;
+      border-radius: 0 8px 8px 0;
+      color: $dark-text;
+    }
+  }
+}

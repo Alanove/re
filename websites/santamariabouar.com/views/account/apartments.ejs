@@ -1,0 +1,40 @@
+<div class="account-page account-page--portal">
+  <div class="account-shell">
+    <%- include('partials/sidebar') %>
+    <div class="account-main">
+      <div class="account-main__header">
+        <h1>My Apartments</h1>
+      </div>
+
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="account-alert account-alert--error"><%= error %></div>
+      <% } %>
+      <% if (typeof success !== 'undefined' && success) { %>
+        <div class="account-alert account-alert--success"><%= success %></div>
+      <% } %>
+
+      <div class="account-panel">
+        <% if (apartments && apartments.length) { %>
+          <div class="account-apartment-grid">
+            <% apartments.forEach(function(apt) { %>
+              <a class="account-apartment-card" href="/account/apartments/<%= apt.id %>">
+                <% if (apt.officialImage) { %>
+                  <img src="/images/apartments/<%= apt.id %>/<%= apt.officialImage %>" alt="" />
+                <% } else { %>
+                  <div class="account-apartment-card__placeholder">No photo</div>
+                <% } %>
+                <div class="account-apartment-card__body">
+                  <strong>Block <%= apt.block %> <%= apt.unitNumberOfficial %></strong>
+                  <span>(<%= apt.unitNumberUnofficial %>)</span>
+                  <span class="account-badge"><%= apt.status || 'owned' %></span>
+                </div>
+              </a>
+            <% }); %>
+          </div>
+        <% } else { %>
+          <p class="account-empty">No apartments are linked to your account yet.</p>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>

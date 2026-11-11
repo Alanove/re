@@ -1,0 +1,65 @@
+<main id="primary" class="site-main">
+  <article id="post-353" class="">
+    <section class="breadcrumb_wrapper">
+      <div class="container">
+        <h1 class="title big white">News &amp; Events</h1>
+        <div class="breadcrumb">
+          <p id="breadcrumbs">
+            <span>
+              <span><a href="/"><img src="/themes/bluefieldco/images/home.png" alt="Home" onerror="this.style.display='none'"/></a></span>
+              » <span class="breadcrumb_last" aria-current="page">News &amp; Events</span>
+            </span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="news-container">
+          <div class="other-news-items">
+            <% if (typeof news !== 'undefined' && news && news.length > 0) { %>
+              <% news.forEach(function(newsItem) { %>
+                <% const category = newsItem.category || 'agriculture'; %>
+                <% const displayDate = newsItem.displayDate || (newsItem.lastUpdated ? new Date(newsItem.lastUpdated).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) : ''); %>
+                <div class="single_item <%= category %>">
+                  <% if (newsItem.pageImage) { %>
+                    <div class="img_wrapper">
+                      <a href="/news/<%= newsItem.key %>">
+                        <img src="<%= newsItem.pageImage %>" alt="<%= newsItem.title %>" title="<%= newsItem.title %>"/>
+                      </a>
+                    </div>
+                  <% } %>
+                  <div class="thumbnail_wrap">
+                    <a href="/news/<%= newsItem.key %>">
+                      <p><%= newsItem.title %></p>
+                    </a>
+                    <div class="wrapping_date">
+                      <div class="date"><%= displayDate %></div>
+                      <a class="side-by-side fade-in" href="/news/<%= newsItem.key %>">
+                        Read More
+                        <svg class="anchor-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                          <path d="M17 8v4a1 1 0 0 1-2 0v-1.586l-6.293 6.293a1 1 0 1 1-1.414-1.414L13.586 9H12a1 1 0 0 1 0-2h4a1 1 0 0 1 1 1z" style="fill:#f97c4b" data-name="Up Right"></path>
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              <% }); %>
+            <% } else { %>
+              <p>No news articles published yet.</p>
+            <% } %>
+          </div>
+
+          <% if (typeof totalPages !== 'undefined' && totalPages > 1) { %>
+            <div class="pagination">
+              <% if (hasPrevPage) { %><a class="prev page-numbers" href="/news?page=<%= currentPage - 1 %>">«</a><% } %>
+              <span class="page-numbers current"><%= currentPage %> / <%= totalPages %></span>
+              <% if (hasNextPage) { %><a class="next page-numbers" href="/news?page=<%= currentPage + 1 %>">»</a><% } %>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </section>
+  </article>
+</main>

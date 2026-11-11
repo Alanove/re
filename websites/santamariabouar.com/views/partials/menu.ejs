@@ -1,0 +1,35 @@
+<div id="fullscreenMenu" class="slide-menu-panel main-menu-panel">
+  <button type="button" class="slide-menu-panel__close" id="fullscreenCloseBtn" aria-label="Close menu">
+    <i class="bi bi-x-lg" aria-hidden="true"></i>
+  </button>
+
+  <a href="/" class="main-menu-panel__brand">
+    <img
+      src="<%= typeof siteData !== 'undefined' && siteData.logo ? siteData.logo : '/images/logo.jpg' %>"
+      alt="<%= typeof siteData !== 'undefined' && siteData.name ? siteData.name : 'Logo' %>"
+    />
+    <span><%= typeof siteData !== 'undefined' && siteData.name ? siteData.name : 'Santa Maria Bouar' %></span>
+  </a>
+
+  <nav class="account-sidebar__nav main-menu-panel__nav" aria-label="Main navigation">
+    <div class="account-sidebar__group">
+      <% if (typeof items !== 'undefined' && items && items.length > 0) { %>
+        <% items.forEach(function(item) { %>
+          <% if (item.active) { %>
+            <% if (!item.children || item.children.length === 0) { %>
+              <a href="<%= item.url %>" class="<%= selected === item.key ? 'is-active' : '' %>"><%= item.title %></a>
+            <% } else { %>
+              <span class="account-sidebar__group-label"><%= item.title %></span>
+              <% item.children.forEach(function(subItem) { %>
+                <% if (subItem.active) { %>
+                  <a href="<%= subItem.url %>" class="<%= selected === subItem.key ? 'is-active' : '' %>"><%= subItem.title %></a>
+                <% } %>
+              <% }); %>
+            <% } %>
+          <% } %>
+        <% }); %>
+      <% } %>
+    </div>
+  </nav>
+</div>
+<div class="slide-menu-panel__backdrop" id="fullscreenMenuBackdrop"></div>

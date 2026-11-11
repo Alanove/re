@@ -1,0 +1,47 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.page-hero {
+  padding: $space-2xl $space-lg;
+  text-align: center;
+  @include brand-box;
+
+  &--plain {
+    background: transparent;
+    padding: 0;
+
+    &::before {
+      display: none;
+    }
+  }
+}
+
+.contact-layout {
+  display: grid;
+  gap: $space-xl;
+
+  @include respond-to(lg) {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr);
+    align-items: start;
+  }
+}
+
+.contact-info {
+  display: grid;
+  gap: $space-md;
+
+  &__card,
+  &__cta {
+    padding: $space-lg;
+    @include brand-box;
+  }
+
+  &__card a {
+    color: $color-primary;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

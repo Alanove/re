@@ -1,0 +1,201 @@
+// Generic Boxes List / Grid Component
+// Used in: Contact Page (offices on dark band), CMS pages e.g. Our Team (light background)
+
+.boxes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 40px;
+  margin-top: 50px;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+}
+
+// Default: readable on light backgrounds (inner pages, Our Team, etc.)
+.box-card {
+  position: relative;
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 40px 30px;
+  transition: all 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 0, 0, 0.2);
+    transform: translateY(-4px);
+  }
+
+  .box-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: $text-color !important;
+    background: rgba(0, 0, 0, 0.06);
+    padding: 6px 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 1 !important;
+    text-shadow: none !important;
+  }
+
+  .box-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 30px;
+
+    &.centered {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 15px;
+    }
+
+    .box-icon {
+      font-size: 3rem;
+      line-height: 1;
+      color: $text-color !important;
+
+      img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 2px solid rgba(0, 0, 0, 0.12);
+        filter: invert(1);
+      }
+    }
+
+    .box-details {
+      flex: 1;
+
+      .box-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: $text-color;
+        margin: 0 0 12px 0;
+      }
+
+      .box-subtitle,
+      .box-text {
+        font-size: 1rem;
+        color: $text-color;
+        opacity: 0.8;
+        margin: 0;
+        line-height: 1.6;
+      }
+
+      .box-role {
+        color: $brand-blue;
+        font-weight: 700;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 5px;
+        opacity: 1;
+      }
+    }
+  }
+
+  .box-footer,
+  .box-items {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: auto;
+
+    .box-item {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      font-size: 1rem;
+      color: $text-color;
+
+      strong {
+        min-width: 100px;
+        font-weight: 600;
+        opacity: 0.75;
+      }
+
+      a {
+        color: $brand-blue;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.2s ease;
+
+        &:hover {
+          opacity: 0.85;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+// Contact — office cards sit on the dark "Get In Touch" band; keep glass / light text
+#contact-info .box-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .box-badge {
+    color: $white !important;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .box-header .box-icon {
+    color: $white !important;
+
+    img {
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      filter: none;
+    }
+  }
+
+  .box-header .box-details {
+    .box-title {
+      color: $white;
+    }
+
+    .box-subtitle,
+    .box-text {
+      color: $white;
+      opacity: 0.7;
+    }
+
+    .box-role {
+      color: $white;
+      opacity: 0.8;
+    }
+  }
+
+  .box-footer .box-item,
+  .box-items .box-item {
+    color: $white;
+
+    strong {
+      opacity: 0.7;
+    }
+
+    a {
+      color: $white;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+}

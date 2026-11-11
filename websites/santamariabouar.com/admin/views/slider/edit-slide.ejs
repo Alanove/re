@@ -1,0 +1,248 @@
+<!-- BEGIN content area -->
+<div class="row">
+	<div class="col-xl-12">
+		<!-- BEGIN panel -->
+		<div class="panel panel-inverse">
+			<div class="panel-heading">
+				<h4 class="panel-title"><%= isEdit ? 'Edit Slide' : 'Add New Slide' %></h4>
+				<div class="panel-heading-btn">
+					<a href="/admin/slider" class="btn btn-xs btn-secondary">
+						<i class="fa fa-arrow-left"></i> Back to Slider
+					</a>
+				</div>
+			</div>
+			<div class="panel-body">
+				<% if (typeof error !== 'undefined' && error) { %>
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<strong>Error!</strong> <%= error %>
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>
+				<% } %>
+				
+				<form method="POST" enctype="multipart/form-data" id="slideForm" action="<%= isEdit ? '/admin/slider/' + slide.id + '/edit' : '/admin/slider/create' %>">
+					<div class="row">
+						<div class="col-md-8">
+							<!-- Basic Information -->
+							<div class="card">
+								<div class="card-header">
+									<h5 class="card-title mb-0">Slide Information</h5>
+								</div>
+								<div class="card-body">
+									<div class="mb-3">
+										<label for="alt" class="form-label">Alt Text (Description) <span class="text-danger">*</span></label>
+										<input type="text" class="form-control" id="alt" name="alt" value="<%= slide.alt || '' %>" required maxlength="255" />
+										<div class="form-text">This text will be used as the alt attribute for the image and for accessibility.</div>
+									</div>
+									
+									<div class="mb-3">
+										<label for="order" class="form-label">Display Order</label>
+										<input type="number" class="form-control" id="order" name="order" value="<%= slide.order || '' %>" />
+										<div class="form-text">Order determines the display sequence. Lower numbers appear first.</div>
+									</div>
+									
+									<div class="mb-3">
+										<label for="title" class="form-label">Slide Title (Optional)</label>
+										<input type="text" class="form-control" id="title" name="title" value="<%= slide.title || '' %>" placeholder="Enter slide title" maxlength="255" />
+										<div class="form-text">This title will be displayed on the slide overlay. If empty, no title will be shown.</div>
+									</div>
+									
+									<div class="mb-3">
+										<label for="link" class="form-label">Link URL (Optional)</label>
+										<input type="url" class="form-control" id="link" name="link" value="<%= slide.link || '' %>" placeholder="https://example.com" />
+										<div class="form-text">If provided, the slide will have a clickable button linking to this URL.</div>
+									</div>
+									
+									<div class="mb-3">
+										<label for="buttonText" class="form-label">Button Text (Optional)</label>
+										<input type="text" class="form-control" id="buttonText" name="buttonText" value="<%= slide.buttonText || '' %>" placeholder="See More" maxlength="100" />
+										<div class="form-text">Text to display on the button. If empty, will default to "See More" or "Check More".</div>
+									</div>
+									
+									<div class="mb-3">
+										<label for="image" class="form-label">
+											<%= isEdit ? 'Update Image' : 'Upload Image' %> <%= !isEdit ? '<span class="text-danger">*</span>' : '' %>
+										</label>
+										<input type="file" class="form-control" id="image" name="image" accept="image/*" <%= isEdit ? '' : 'required' %> />
+										<div class="form-text">
+											<%= isEdit ? 'Leave empty to keep the current image. ' : '' %>
+											Recommended size: 1920x1080 pixels. Max 10MB.
+											<% if (!isEdit) { %>This image is required for non-video slides.<% } %>
+										</div>
+									</div>
+									
+									<div class="mb-3">
+										<label for="video" class="form-label">
+											<%= isEdit ? 'Update Video' : 'Upload Video' %> <span class="text-muted">(Optional)</span>
+										</label>
+										<input type="file" class="form-control" id="video" name="video" accept="video/*" />
+										<div class="form-text">
+											<%= isEdit ? 'Leave empty to keep the current video (or remove video if image is uploaded). ' : '' %>
+											Supported formats: MP4, WebM, OGG. Max 100MB.
+											<strong>Note:</strong> If both image and video are uploaded, the image will be used as a poster/fallback.
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-md-4">
+							<!-- Media Preview -->
+							<div class="card">
+								<div class="card-header">
+									<h5 class="card-title mb-0">Media Preview</h5>
+								</div>
+								<div class="card-body">
+									<div id="imagePreview" class="text-center">
+										<% if (isEdit && slide.image) { %>
+											<% if (slide.mediaType === 'video') { %>
+												<video controls class="img-fluid rounded" style="max-height: 200px; width: 100%;">
+													<source src="/images/slide/<%= slide.videoUrl || slide.image %>" type="video/mp4">
+													Your browser does not support the video tag.
+												</video>
+												<div class="mt-2">
+													<small class="text-muted">Current Video</small>
+												</div>
+											<% } else { %>
+												<img src="/images/slide/<%= slide.image %>" alt="<%= slide.alt %>" class="img-fluid rounded" style="max-height: 200px; object-fit: cover;" />
+												<div class="mt-2">
+													<small class="text-muted">Current Image</small>
+												</div>
+											<% } %>
+										<% } else { %>
+											<div class="border rounded p-4 text-muted">
+												<i class="fa fa-image fa-3x mb-2"></i>
+												<p class="mb-0">No media selected</p>
+											</div>
+										<% } %>
+									</div>
+								</div>
+							</div>
+							
+							<!-- Slide Status -->
+							<div class="card mt-3">
+								<div class="card-header">
+									<h5 class="card-title mb-0">Slide Status</h5>
+								</div>
+								<div class="card-body">
+									<div class="form-check form-switch">
+										<input class="form-check-input" type="checkbox" id="active" name="active" <%= slide.active ? 'checked' : '' %> />
+										<label class="form-check-label" for="active">
+											Active
+										</label>
+									</div>
+									<div class="form-text">Inactive slides will not appear in the slider.</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<!-- Form Actions -->
+					<div class="row mt-3">
+						<div class="col-12">
+							<div class="d-flex justify-content-between">
+								<a href="/admin/slider" class="btn btn-secondary">
+									<i class="fa fa-times me-1"></i> Cancel
+								</a>
+								<button type="submit" class="btn btn-primary">
+									<i class="fa fa-save me-1"></i> <%= isEdit ? 'Update Slide' : 'Create Slide' %>
+								</button>
+							</div>
+						</div>
+					</div>
+				</form>
+				
+				<!-- Validation Error Modal -->
+				<div class="modal fade" id="validationErrorModal" tabindex="-1" aria-labelledby="validationErrorModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header bg-danger text-white">
+								<h5 class="modal-title" id="validationErrorModalLabel">
+									<i class="fa fa-exclamation-triangle me-2"></i>Validation Error
+								</h5>
+								<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<p id="validationErrorMessage"></p>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<script>
+					// Client-side validation for link fields and file requirements
+					document.getElementById('slideForm').addEventListener('submit', function(e) {
+						const linkText = document.getElementById('buttonText').value.trim();
+						const link = document.getElementById('link').value.trim();
+						const imageInput = document.getElementById('image');
+						const videoInput = document.getElementById('video');
+						const isEdit = <%= isEdit ? 'true' : 'false' %>;
+						
+						// Validate link requirement
+						if (linkText && !link) {
+							e.preventDefault();
+							document.getElementById('validationErrorMessage').textContent = 
+								'Link URL is required when button text is provided.';
+							const validationModal = new bootstrap.Modal(document.getElementById('validationErrorModal'));
+							validationModal.show();
+							document.getElementById('validationErrorModal').addEventListener('hidden.bs.modal', function() {
+								document.getElementById('link').focus();
+							}, { once: true });
+							return false;
+						}
+						
+						// Validate file requirement for new slides
+						if (!isEdit && !imageInput.files[0] && !videoInput.files[0]) {
+							e.preventDefault();
+							document.getElementById('validationErrorMessage').textContent = 
+								'Please upload at least an image or video.';
+							const validationModal = new bootstrap.Modal(document.getElementById('validationErrorModal'));
+							validationModal.show();
+							return false;
+						}
+					});
+					
+					// Image preview
+					document.getElementById('image').addEventListener('change', function(e) {
+						const file = e.target.files[0];
+						if (file) {
+							const preview = document.getElementById('imagePreview');
+							const reader = new FileReader();
+							reader.onload = function(e) {
+								preview.innerHTML = `
+									<img src="${e.target.result}" alt="Preview" class="img-fluid rounded" style="max-height: 200px; object-fit: cover;" />
+									<div class="mt-2">
+										<small class="text-muted">New Image Preview</small>
+									</div>
+								`;
+							};
+							reader.readAsDataURL(file);
+						}
+					});
+					
+					// Video preview
+					document.getElementById('video').addEventListener('change', function(e) {
+						const file = e.target.files[0];
+						if (file) {
+							const preview = document.getElementById('imagePreview');
+							const videoUrl = URL.createObjectURL(file);
+							preview.innerHTML = `
+								<video controls class="img-fluid rounded" style="max-height: 200px; width: 100%;">
+									<source src="${videoUrl}" type="${file.type}">
+									Your browser does not support the video tag.
+								</video>
+								<div class="mt-2">
+									<small class="text-muted">New Video Preview</small>
+								</div>
+							`;
+						}
+					});
+				</script>
+			</div>
+		</div>
+		<!-- END panel -->
+	</div>
+</div>
+<!-- END content area --> 

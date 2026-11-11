@@ -1,0 +1,104 @@
+{
+  "menu": [
+    {
+      "id": "dashboard",
+      "text": "Dashboard",
+      "icon": "fa fa-laptop",
+      "url": "/admin/dashboard",
+      "active": false
+    },
+    {
+      "id": "pages",
+      "text": "Pages",
+      "icon": "fa fa-file-alt",
+      "url": "/admin/pages"
+    },
+    {
+      "id": "slider",
+      "text": "Home Page Slider",
+      "icon": "fa fa-images",
+      "url": "/admin/slider"
+    },
+    {
+      "id": "projects",
+      "text": "Projects",
+      "icon": "fa fa-project-diagram",
+      "url": "/admin/projects"
+    },
+    
+    {
+      "id": "menus",
+      "text": "Menus",
+      "icon": "fa fa-bars",
+      "url": "/admin/menus"
+    },{
+      "id": "apartments",
+      "text": "Apartments",
+      "icon": "fa fa-building",
+      "url": "/admin/apartments"
+    },
+    {
+      "id": "accounting",
+      "text": "Accounting",
+      "icon": "fa fa-calculator",
+      "url": "#",
+      "children": [
+        {
+          "id": "transactions",
+          "text": "Transactions",
+          "icon": "fa fa-exchange-alt",
+          "url": "/admin/transactions"
+        },
+        {
+          "id": "payments",
+          "text": "Payment Parameters",
+          "icon": "fa fa-money-bill",
+          "url": "/admin/payments"
+        },
+        {
+          "id": "accounts",
+          "text": "Accounts",
+          "icon": "fa fa-wallet",
+          "url": "/admin/accounts"
+        },
+        {
+          "id": "transaction-categories",
+          "text": "Transaction Categories",
+          "icon": "fa fa-tags",
+          "url": "/admin/transaction-categories"
+        },
+        {
+          "id": "common-expenses",
+          "text": "Common Expenses",
+          "icon": "fa fa-chart-line",
+          "url": "/admin/common-expenses"
+        },
+        {
+          "id": "unpaid-by-block",
+          "text": "Unpaid by Block",
+          "icon": "fa fa-print",
+          "url": "/admin/common-expenses/unpaid-report"
+        },
+        {
+          "id": "invoices",
+          "text": "Invoices",
+          "icon": "fa fa-file-invoice-dollar",
+          "url": "/admin/invoices"
+        }
+      ]
+    },
+    {
+      "id": "users",
+      "text": "Users",
+      "icon": "fa fa-users",
+      "url": "/admin/users",
+      "active": true
+    },
+    {
+      "id": "site-settings",
+      "text": "Site Settings",
+      "icon": "fa fa-cog",
+      "url": "/admin/site-settings"
+    }
+  ]
+} 

@@ -1,0 +1,48 @@
+<!-- Generate Payment Receipt Modal -->
+<div class="modal fade" id="invoiceReceiptModal" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title"><i class="fa fa-receipt"></i> Generate Payment Receipt</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+			<div class="modal-body">
+				<p class="text-muted small mb-3" id="invoiceReceiptIntro">
+					Create a printable receipt for the owner. Wallet payments have no bank transaction — this receipt is the acknowledgment.
+				</p>
+				<div class="mb-2">
+					<strong>Invoice #<span id="invoiceReceiptInvoiceId"></span></strong>
+					<div class="small text-muted" id="invoiceReceiptDescription"></div>
+				</div>
+				<div class="mb-3">
+					<label class="form-label">Payment Date *</label>
+					<input type="date" class="form-control" id="invoiceReceiptDate">
+				</div>
+				<div class="mb-3">
+					<label class="form-label"><i class="fa fa-wallet text-success"></i> From Wallet</label>
+					<div class="input-group">
+						<span class="input-group-text">$</span>
+						<input type="number" class="form-control" id="invoiceReceiptWallet" step="0.01" min="0" value="0">
+					</div>
+				</div>
+				<div class="mb-3">
+					<label class="form-label">Cash Received</label>
+					<div class="input-group">
+						<span class="input-group-text">$</span>
+						<input type="number" class="form-control" id="invoiceReceiptCash" step="0.01" min="0" value="0">
+					</div>
+				</div>
+				<div class="alert alert-info py-2 mb-0">
+					<strong>Receipt total:</strong> $<span id="invoiceReceiptTotal">0.00</span>
+				</div>
+				<div id="invoiceReceiptFeedback" class="alert alert-danger d-none mt-2"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-success" id="invoiceReceiptSubmitBtn">
+					<i class="fa fa-print"></i> Open Receipt
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

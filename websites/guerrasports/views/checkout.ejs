@@ -1,0 +1,896 @@
+<!-- Breadcrumb Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark" href="/">
+                    <%= typeof t !=='undefined' ? t('ecommerce.common.home') : 'Home' %>
+                </a>
+                <a class="breadcrumb-item text-dark" href="/shop">
+                    <%= typeof t !=='undefined' ? t('ecommerce.common.shop') : 'Shop' %>
+                </a>
+                <span class="breadcrumb-item active">
+                    <%= typeof t !=='undefined' ? t('ecommerce.checkout.title') : 'Checkout' %>
+                </span>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Checkout Start -->
+<div class="container-fluid">
+    <% if (typeof metaShopWarnings !== 'undefined' && metaShopWarnings && metaShopWarnings.length) { %>
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <div class="alert alert-warning" role="alert">
+                <ul class="mb-0 pl-3">
+                    <% metaShopWarnings.forEach(function(msg) { %>
+                    <li><%= msg %></li>
+                    <% }); %>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <% } %>
+    <form id="checkout-form">
+        <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+        <div class="row px-xl-5">
+            <div class="col-lg-8">
+                <h5
+                    class="section-title position-relative text-uppercase mb-3 d-flex justify-content-between align-items-center">
+                    <span class="bg-secondary pr-3">
+                        <%= typeof t !=='undefined' ? t('ecommerce.checkout.billingAddress') : 'Billing Address' %>
+                    </span>
+                    <% if (typeof customerId !=='undefined' && customerId) { %>
+                        <a href="/customer/addresses?returnTo=checkout" class="btn btn-sm btn-primary"
+                            style="z-index: 1;">
+                            <%= (typeof address !=='undefined' && address) ? (typeof t !=='undefined' ?
+                                t('ecommerce.customer.changeAddress') : 'Change Address' ) : (typeof t !=='undefined' ?
+                                t('ecommerce.customer.addAddress') : 'Add Address' ) %>
+                        </a>
+                        <% } %>
+                </h5>
+                <div class="bg-light py-30 mb-5">
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <label>
+                                <%= typeof t !=='undefined' ? t('ecommerce.checkout.firstName') : 'First Name' %>
+                            </label>
+                            <input class="form-control" type="text" name="shipping_address[first_name]"
+                                placeholder="John"
+                                value="<%= (typeof address !== 'undefined' && address) ? address.first_name : '' %>"
+                                required>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>
+                                <%= typeof t !=='undefined' ? t('ecommerce.checkout.lastName') : 'Last Name' %>
+                            </label>
+                            <input class="form-control" type="text" name="shipping_address[last_name]" placeholder="Doe"
+                                value="<%= (typeof address !== 'undefined' && address) ? address.last_name : '' %>"
+                                required>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>
+                                <%= typeof t !=='undefined' ? t('ecommerce.checkout.email') : 'E-mail' %>
+                            </label>
+                            <input class="form-control" type="email" name="shipping_address[email]"
+                                placeholder="example@email.com"
+                                value="<%= (typeof user !== 'undefined' && user) ? user.email : '' %>" required>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>
+                                <%= typeof t !=='undefined' ? t('ecommerce.checkout.mobileNo') : 'Mobile No' %>
+                            </label>
+                            <input class="form-control" type="tel" name="shipping_address[phone]"
+                                placeholder="+123 456 789"
+                                value="<%= (typeof address !== 'undefined' && address) ? address.phone : '' %>"
+                                required>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <label>
+                                <%= typeof t !=='undefined' ? t('ecommerce.checkout.country') : 'Country' %>
+                            </label>
+                            <select class="custom-select" name="shipping_address[country]" id="shipping-country"
+                                required>
+                                <% const selectedCountry=(typeof address !=='undefined' && address && address.country) ?
+                                    address.country : 'Lebanon' ; if (typeof countries !=='undefined' && countries &&
+                                    countries.length> 0) {
+                                    countries.forEach(function(country) {
+                                    const countryName = typeof country === 'string' ? country : country.name;
+                                    const countryCode = typeof country === 'string' ? country : country.code;
+                                    %>
+                                    <option value="<%= countryCode %>" <%=(countryName===selectedCountry ||
+                                        countryCode===selectedCountry) ? 'selected' : '' %>><%= countryName %>
+                                    </option>
+                                    <% }); } else { %>
+                                        <option value="LB" selected>Lebanon</option>
+                                        <% } %>
+                            </select>
+                        </div>
+                        <div class="col-md-12 form-group d-none" id="shipping-state-wrap">
+                            <label>
+                                <%= typeof t !=='undefined' ? t('ecommerce.checkout.state') : 'State' %>
+                            </label>
+                            <select class="form-control d-none" id="shipping-state-select">
+                                <option value=""><%= typeof t !== 'undefined' ? t('ecommerce.checkout.selectState') : 'Select state' %></option>
+                            </select>
+                            <input class="form-control" type="text" id="shipping-state-input" placeholder="State"
+                                value="<%= (typeof address !== 'undefined' && address) ? (address.state || '') : '' %>">
+                            <input type="hidden" name="shipping_address[state]" id="shipping-state" value="<%= (typeof address !== 'undefined' && address) ? (address.state || '') : '' %>">
+                        </div>
+                        <div class="col-md-12 form-group position-relative" id="shipping-city-wrap">
+                            <label>
+                                <%= typeof t !=='undefined' ? t('ecommerce.checkout.city') : 'City' %>
+                            </label>
+                            <input class="form-control" type="text" id="shipping-city-input" placeholder="<%= typeof t !== 'undefined' ? t('ecommerce.checkout.enterCity') : 'Start typing city name...' %>" autocomplete="nope"
+                                value="<%= (typeof address !== 'undefined' && address) ? (address.city || '') : '' %>">
+                            <input type="hidden" name="shipping_address[city]" id="shipping-city" value="<%= (typeof address !== 'undefined' && address) ? (address.city || '') : '' %>" required>
+                            <ul class="list-group position-absolute shadow-sm" id="shipping-city-suggestions" style="z-index: 1050; max-height: 200px; overflow-y: auto; display: none; left: 0; right: 0; top: 100%;"></ul>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>
+                                <%= typeof t !=='undefined' ? t('ecommerce.checkout.addressLine1') : 'Address Line 1' %>
+                            </label>
+                            <input class="form-control" type="text" name="shipping_address[address_line1]"
+                                placeholder="123 Street"
+                                value="<%= (typeof address !== 'undefined' && address) ? address.address_line_1 : '' %>"
+                                required>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>
+                                <%= typeof t !=='undefined' ? t('ecommerce.checkout.addressLine2') : 'Address Line 2' %>
+                            </label>
+                            <input class="form-control" type="text" name="shipping_address[address_line2]"
+                                placeholder="Apartment, Suite, etc."
+                                value="<%= (typeof address !== 'undefined' && address) ? (address.address_line_2 || '') : '' %>">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>
+                                <%= typeof t !=='undefined' ? t('ecommerce.checkout.zipCode') : 'ZIP Code' %>
+                            </label>
+                            <input class="form-control" type="text" name="shipping_address[zip_code]" placeholder="123"
+                                value="<%= (typeof address !== 'undefined' && address) ? (address.postal_code || '') : '' %>">
+                        </div>
+                        <!-- Separate Billing Address Logic could go here -->
+                        <div class="col-md-12 form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="shipto"
+                                    name="ship_to_different_address">
+                                <label class="custom-control-label" for="shipto" data-toggle="collapse"
+                                    data-target="#shipping-address">
+                                    <%= typeof t !=='undefined' ? t('ecommerce.checkout.shipToDifferent')
+                                        : 'Ship to different address' %>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shipping Address Section (Hidden by default) -->
+                <div class="collapse mb-5" id="shipping-address">
+                    <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">
+                            <%= typeof t !=='undefined' ? t('ecommerce.checkout.shippingAddress') : 'Shipping Address'
+                                %>
+                        </span></h5>
+                    <div class="bg-light py-30">
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label>
+                                    <%= typeof t !=='undefined' ? t('ecommerce.checkout.firstName') : 'First Name' %>
+                                </label>
+                                <input class="form-control" type="text" name="billing_address[first_name]"
+                                    placeholder="John">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>
+                                    <%= typeof t !=='undefined' ? t('ecommerce.checkout.lastName') : 'Last Name' %>
+                                </label>
+                                <input class="form-control" type="text" name="billing_address[last_name]"
+                                    placeholder="Doe">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>
+                                    <%= typeof t !=='undefined' ? t('ecommerce.checkout.email') : 'E-mail' %>
+                                </label>
+                                <input class="form-control" type="email" name="billing_address[email]"
+                                    placeholder="example@email.com">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>
+                                    <%= typeof t !=='undefined' ? t('ecommerce.checkout.mobileNo') : 'Mobile No' %>
+                                </label>
+                                <input class="form-control" type="tel" name="billing_address[phone]"
+                                    placeholder="+123 456 789">
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <label>
+                                    <%= typeof t !=='undefined' ? t('ecommerce.checkout.country') : 'Country' %>
+                                </label>
+                                <select class="custom-select" name="billing_address[country]" id="billing-country">
+                                    <% if (typeof countries !=='undefined' && countries && countries.length> 0) {
+                                        countries.forEach(function(country) {
+                                        const countryName = typeof country === 'string' ? country : country.name;
+                                        const countryCode = typeof country === 'string' ? country : country.code;
+                                        %>
+                                        <option value="<%= countryCode %>" <%=(countryName==='Lebanon' ||
+                                            countryCode==='LB' ) ? 'selected' : '' %>><%= countryName %>
+                                        </option>
+                                        <% }); } else { %>
+                                            <option value="LB" selected>Lebanon</option>
+                                            <% } %>
+                                </select>
+                            </div>
+                            <div class="col-md-12 form-group d-none" id="billing-state-wrap">
+                                <label>
+                                    <%= typeof t !=='undefined' ? t('ecommerce.checkout.state') : 'State' %>
+                                </label>
+                                <select class="form-control d-none" id="billing-state-select">
+                                    <option value=""><%= typeof t !== 'undefined' ? t('ecommerce.checkout.selectState') : 'Select state' %></option>
+                                </select>
+                                <input class="form-control" type="text" id="billing-state-input" placeholder="State">
+                                <input type="hidden" name="billing_address[state]" id="billing-state">
+                            </div>
+                            <div class="col-md-12 form-group position-relative" id="billing-city-wrap">
+                                <label>
+                                    <%= typeof t !=='undefined' ? t('ecommerce.checkout.city') : 'City' %>
+                                </label>
+                                <input class="form-control" type="text" id="billing-city-input" placeholder="<%= typeof t !== 'undefined' ? t('ecommerce.checkout.enterCity') : 'Start typing city name...' %>" autocomplete="nope">
+                                <input type="hidden" name="billing_address[city]" id="billing-city">
+                                <ul class="list-group position-absolute shadow-sm" id="billing-city-suggestions" style="z-index: 1050; max-height: 200px; overflow-y: auto; display: none; left: 0; right: 0; top: 100%;"></ul>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>
+                                    <%= typeof t !=='undefined' ? t('ecommerce.checkout.addressLine1')
+                                        : 'Address Line 1' %>
+                                </label>
+                                <input class="form-control" type="text" name="billing_address[address_line1]"
+                                    placeholder="123 Street">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>
+                                    <%= typeof t !=='undefined' ? t('ecommerce.checkout.addressLine2')
+                                        : 'Address Line 2' %>
+                                </label>
+                                <input class="form-control" type="text" name="billing_address[address_line2]"
+                                    placeholder="Apartment, Suite, etc.">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>
+                                    <%= typeof t !=='undefined' ? t('ecommerce.checkout.zipCode') : 'ZIP Code' %>
+                                </label>
+                                <input class="form-control" type="text" name="billing_address[zip_code]"
+                                    placeholder="123">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">
+                        <%= typeof t !=='undefined' ? t('ecommerce.checkout.orderTotal') : 'Order Total' %>
+                    </span></h5>
+                <div class="bg-light py-30 mb-5">
+                    <div class="border-bottom">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="m-0">
+                                <%= typeof t !=='undefined' ? t('ecommerce.cart.products') : 'Products' %>
+                            </h6>
+                            <a href="/cart" class="text-primary small" style="text-decoration: underline;">
+                                <%= typeof t !=='undefined' ? t('ecommerce.cart.editCart') : 'Edit Cart' %>
+                            </a>
+                        </div>
+                        <% if (cart && cart.items && cart.items.length> 0) { %>
+                            <% cart.items.forEach(function(item) { %>
+                                <div class="d-flex align-items-center mb-3">
+                                    <img src="<%= item.image_url || '/MultiShop/img/product-1.jpg' %>"
+                                        alt="<%= item.product_name %>"
+                                        style="width: 50px; height: 50px; object-fit: cover; margin-right: 15px;"
+                                        class="img-thumbnail">
+                                    <div style="flex: 1;">
+                                        <h6 class="m-0 text-truncate" style="max-width: 200px;">
+                                            <%= item.product_name %>
+                                        </h6>
+                                        <small class="text-muted">
+                                            <%= item.variant_name || '' %> x <%= item.quantity %>
+                                        </small>
+                                    </div>
+                                    <span class="font-weight-medium money"><%- include('partials/price', { price:
+                                            parseFloat(item.price) * item.quantity }) %></span>
+                                </div>
+                                <% }); %>
+                                    <% } else { %>
+                                        <p>
+                                            <%= typeof t !=='undefined' ? t('ecommerce.cart.empty')
+                                                : 'Your cart is empty' %>
+                                        </p>
+                                        <% } %>
+                    </div>
+                    <div class="border-bottom pt-3 pb-2">
+                        <div class="d-flex justify-content-between mb-3">
+                            <h6>
+                                <%= typeof t !=='undefined' ? t('ecommerce.cart.subtotal') : 'Subtotal' %>
+                            </h6>
+                            <h6>$<%= totals && totals.subtotal != null ? formatMoneyAmount(totals.subtotal) : formatMoneyAmount(0) %>
+                            </h6>
+                        </div>
+                        <!-- Shipping Options Container (populated by AJAX on load and address change) -->
+                        <div id="shipping-methods-container">
+                            <div id="shipping-loading" class="d-flex align-items-center justify-content-between py-2">
+                                <h6 class="font-weight-medium mb-0">
+                                    <span class="spinner-border spinner-border-sm text-primary mr-2" role="status" aria-hidden="true"></span>
+                                    <%= typeof t !=='undefined' ? t('ecommerce.checkout.calculatingShipping') : 'Calculating shipping...' %>
+                                </h6>
+                                <h6 class="font-weight-medium mb-0 text-muted">—</h6>
+                            </div>
+                            <div id="shipping-rates-wrapper" class="d-none"></div>
+                        </div>
+
+                        <% if (totals && totals.discount> 0) { %>
+                            <div class="d-flex justify-content-between mb-3">
+                                <h6 class="font-weight-medium text-success">
+                                    <%= typeof t !=='undefined' ? t('ecommerce.cart.discount') : 'Discount' %>
+                                </h6>
+                                <h6 class="font-weight-medium text-success">-$<%= formatMoneyAmount(totals.discount)
+                                        %>
+                                </h6>
+                            </div>
+                            <% } %>
+                    </div>
+                    <div class="pt-2">
+                        <div class="d-flex justify-content-between mt-2">
+                            <h5>
+                                <%= typeof t !=='undefined' ? t('ecommerce.cart.total') : 'Total' %>
+                            </h5>
+                            <h5 id="order-total">$<%= (totals && totals.total != null && !isNaN(parseFloat(totals.total))) ? formatMoneyAmount(totals.total) : formatMoneyAmount(0) %>
+                            </h5>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="mb-5">
+                    <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">
+                            <%= typeof t !=='undefined' ? t('ecommerce.checkout.payment') : 'Payment' %>
+                        </span></h5>
+                    <div class="bg-light py-30">
+                        <div class="form-group mb-4" id="payment-methods-list-wrapper">
+                            <% if (typeof paymentMethods !=='undefined' && paymentMethods.length> 0) { %>
+                                <% paymentMethods.forEach(function(method, index) { %>
+                                    <div class="custom-control custom-radio mb-3">
+                                        <input type="radio" class="custom-control-input" name="payment_method_id"
+                                            id="payment-<%= method.id %>" value="<%= method.id %>" <%=index===0
+                                            ? 'checked' : '' %>>
+                                        <label class="custom-control-label" for="payment-<%= method.id %>">
+                                            <%= method.name %>
+                                        </label>
+                                    </div>
+                                    <% }); %>
+                                        <% } else { %>
+                                            <p>No payment methods available.</p>
+                                            <% } %>
+                        </div>
+                        <div id="shipping-checkout-message" class="alert alert-warning small py-2 mb-3 d-none" role="alert"></div>
+                        <button class="btn btn-block btn-primary font-weight-bold py-3" type="submit"
+                            id="place-order-btn" disabled>
+                            <%= typeof t !=='undefined' ? t('ecommerce.checkout.placeOrder') : 'Place Order' %>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- Bank debug report modal (shown after Place Order when redirecting to bank) -->
+<div class="modal fade" id="bank-report-modal" tabindex="-1" role="dialog" aria-labelledby="bank-report-modal-title" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bank-report-modal-title">Bank / Gateway Debug Report</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted small mb-3">Details of what was sent to the bank and what was received. Use "Download report" to send to your bank for debugging.</p>
+                <div id="bank-report-content" class="bg-light p-3 rounded small font-monospace" style="white-space: pre-wrap; max-height: 60vh; overflow: auto;"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" id="bank-report-download-btn">Download report</button>
+                <button type="button" class="btn btn-primary" id="bank-report-continue-btn">Continue to bank</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Checkout End -->
+
+<script src="/js/address-form.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var msgWaitForShipping = <%- JSON.stringify((typeof t !== 'undefined' && t('ecommerce.checkout.waitForShipping') !== 'ecommerce.checkout.waitForShipping') ? t('ecommerce.checkout.waitForShipping') : 'Please wait for shipping to be calculated before placing your order.') %>;
+        var msgSelectAddress = <%- JSON.stringify((typeof t !== 'undefined' && t('ecommerce.checkout.selectAddress') !== 'ecommerce.checkout.selectAddress') ? t('ecommerce.checkout.selectAddress') : 'Select address') %>;
+        var msgChooseAnotherAddress = <%- JSON.stringify((typeof t !== 'undefined' && t('ecommerce.checkout.chooseAnotherAddress') !== 'ecommerce.checkout.chooseAnotherAddress') ? t('ecommerce.checkout.chooseAnotherAddress') : 'We cannot ship to this address. Please choose another address.') %>;
+        var msgEnterFullAddressForShippingBanner = <%- JSON.stringify((typeof t !== 'undefined' && t('ecommerce.checkout.enterFullAddressForShipping') !== 'ecommerce.checkout.enterFullAddressForShipping') ? t('ecommerce.checkout.enterFullAddressForShipping') : 'Please enter your full shipping address including city and zip/postal code to get shipping rates.') %>;
+        var msgNoPaymentsForCountry = <%- JSON.stringify((typeof t !== 'undefined' && t('ecommerce.checkout.noPaymentsForCountry') !== 'ecommerce.checkout.noPaymentsForCountry') ? t('ecommerce.checkout.noPaymentsForCountry') : 'No payment options available for this country.') %>;
+        var placeOrderLabel = <%- JSON.stringify((typeof t !== 'undefined' && t('ecommerce.checkout.placeOrder') !== 'ecommerce.checkout.placeOrder') ? t('ecommerce.checkout.placeOrder') : 'Place Order') %>;
+        var isLoggedIn = <%= (typeof customerId !== 'undefined' && customerId) ? 'true' : 'false' %>;
+        var initialAddress = <%- JSON.stringify(typeof address !== 'undefined' && address ? { country: address.country || '', city: address.city || '', state: address.state || '', zip: (address.postal_code || address.zip || '') } : null) %>;
+
+        var shippingCheckoutState = 'loading'; // 'loading' | 'ready' | 'cannot_ship' | 'no_address'
+        var noPaymentForCountry = false;
+        var shippingCheckoutMessageEl = document.getElementById('shipping-checkout-message');
+        var placeOrderBtn = document.getElementById('place-order-btn');
+
+        function getMessageForState() {
+            if (shippingCheckoutState === 'loading') return msgWaitForShipping;
+            if (shippingCheckoutState === 'no_address') return msgSelectAddress;
+            if (shippingCheckoutState === 'cannot_ship') return msgEnterFullAddressForShippingBanner;
+            return '';
+        }
+
+        function updatePlaceOrderButton() {
+            if (!placeOrderBtn) return;
+            if (shippingCheckoutState === 'ready' && !noPaymentForCountry) {
+                placeOrderBtn.disabled = false;
+                placeOrderBtn.textContent = placeOrderLabel;
+                if (shippingCheckoutMessageEl) { shippingCheckoutMessageEl.classList.add('d-none'); shippingCheckoutMessageEl.textContent = ''; }
+            } else {
+                placeOrderBtn.disabled = true;
+                placeOrderBtn.textContent = placeOrderLabel;
+                if (shippingCheckoutMessageEl) {
+                    shippingCheckoutMessageEl.classList.remove('d-none');
+                    shippingCheckoutMessageEl.textContent = noPaymentForCountry ? msgNoPaymentsForCountry : getMessageForState();
+                    shippingCheckoutMessageEl.classList.toggle('alert-warning', shippingCheckoutState === 'loading' && !noPaymentForCountry);
+                    shippingCheckoutMessageEl.classList.toggle('alert-danger', noPaymentForCountry || shippingCheckoutState === 'no_address' || shippingCheckoutState === 'cannot_ship');
+                }
+            }
+        }
+
+        function formatMoneyAmount(n) {
+            var num = parseFloat(n);
+            if (!isFinite(num)) return '0';
+            var s = num.toFixed(2);
+            if (s.slice(-3) === '.00') return s.slice(0, -3);
+            return s;
+        }
+
+        const orderTotalElement = document.getElementById('order-total');
+        // Initial totals from page (used until shipping API returns server-authoritative cart)
+        const initialSubtotal = parseFloat('<%= (totals && totals.subtotal != null) ? totals.subtotal : 0 %>') || 0;
+        const initialDiscount = parseFloat('<%= (totals && totals.discount != null) ? totals.discount : 0 %>') || 0;
+        var serverCart = null;
+
+        function updateTotal() {
+            var subtotal = serverCart != null ? (Number(serverCart.subtotal) || 0) : initialSubtotal;
+            var discount = serverCart != null ? (Number(serverCart.discountAmount) || 0) : initialDiscount;
+            var shippingCost = 0;
+            const selectedShipping = document.querySelector('input[name="shipping_method_id"]:checked');
+            if (selectedShipping) {
+                shippingCost = parseFloat(selectedShipping.getAttribute('data-cost')) || 0;
+            }
+            const total = subtotal + shippingCost - discount;
+            const safeTotal = (typeof total === 'number' && !isNaN(total)) ? formatMoneyAmount(total) : formatMoneyAmount(0);
+            orderTotalElement.textContent = '$' + safeTotal;
+        }
+
+        function getAddressForShipping() {
+            var useDifferent = document.getElementById('shipto') && document.getElementById('shipto').checked;
+            if (useDifferent) {
+                var section = document.getElementById('shipping-address');
+                if (!section) return { country: '', city: '', state: '', zip: '' };
+                var countryEl = section.querySelector('select[name="billing_address[country]"]');
+                var cityEl = section.querySelector('input[name="billing_address[city]"]');
+                var stateEl = section.querySelector('input[name="billing_address[state]"]');
+                var zipEl = section.querySelector('input[name="billing_address[zip_code]"]');
+                return {
+                    country: countryEl ? countryEl.value : '',
+                    city: cityEl ? cityEl.value : '',
+                    state: stateEl ? stateEl.value : '',
+                    zip: zipEl ? zipEl.value : ''
+                };
+            }
+            var countryEl = document.getElementById('shipping-country');
+            var cityEl = document.getElementById('shipping-city');
+            var stateEl = document.getElementById('shipping-state');
+            var zipEl = document.querySelector('input[name="shipping_address[zip_code]"]');
+            return {
+                country: countryEl ? countryEl.value : '',
+                city: cityEl ? cityEl.value : '',
+                state: stateEl ? stateEl.value : '',
+                zip: zipEl ? zipEl.value : ''
+            };
+        }
+
+        function hideLoading() {
+            var el = document.getElementById('shipping-loading');
+            if (el) {
+                el.classList.remove('d-flex', 'align-items-center', 'justify-content-between');
+                el.classList.add('d-none');
+                el.style.display = 'none';
+            }
+        }
+
+        var msgEnterFullAddressForShipping = (typeof t !== 'undefined' && t('ecommerce.checkout.enterFullAddressForShipping')) ? t('ecommerce.checkout.enterFullAddressForShipping') : 'Please enter your full shipping address including city and zip/postal code to get shipping rates.';
+
+        function setShippingUI(state, wrapperHtml) {
+            shippingCheckoutState = state;
+            updatePlaceOrderButton();
+            var wrapper = document.getElementById('shipping-rates-wrapper');
+            if (wrapper) { wrapper.innerHTML = wrapperHtml || ''; wrapper.classList.remove('d-none'); }
+            hideLoading();
+        }
+
+        async function fetchShippingRates() {
+            var addr = getAddressForShipping();
+            var country = (addr.country || '').trim();
+            var city = (addr.city || '').trim();
+            if (!country && initialAddress && (initialAddress.country || initialAddress.city)) {
+                country = (initialAddress.country || '').trim();
+                if (country === 'Lebanon') country = 'LB';
+                city = (initialAddress.city || '').trim();
+                addr = { country: country, city: city, state: (initialAddress.state || '').trim(), zip: (initialAddress.zip || '').trim() };
+            }
+            const loadingEl = document.getElementById('shipping-loading');
+            const wrapper = document.getElementById('shipping-rates-wrapper');
+
+            var addressEmpty = !country;
+            if (addressEmpty && !isLoggedIn) {
+                setShippingUI('no_address', '<p class="text-muted small mb-0">' + msgSelectAddress.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</p>');
+                return;
+            }
+
+            shippingCheckoutState = 'loading';
+            updatePlaceOrderButton();
+            if (loadingEl) { loadingEl.classList.remove('d-none'); loadingEl.classList.add('d-flex', 'align-items-center', 'justify-content-between'); loadingEl.style.display = ''; }
+            if (wrapper) { wrapper.classList.add('d-none'); wrapper.innerHTML = ''; }
+
+            var timeoutId;
+            var controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+            if (controller) {
+                timeoutId = setTimeout(function () { controller.abort(); }, 20000);
+            }
+            try {
+                var csrfInput = document.querySelector('input[name="_csrf"]');
+                var csrfToken = csrfInput ? csrfInput.value : '';
+                var body = { country: country || '', city: city || '', state: addr.state || '', postcode: addr.zip || '', _csrf: csrfToken };
+                var response = await fetch('/api/shipping/rates', {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
+                    body: JSON.stringify(body),
+                    signal: controller ? controller.signal : undefined
+                });
+                clearTimeout(timeoutId);
+                var result = await response.json();
+
+                if (!result.success || !Array.isArray(result.rates)) {
+                    if (addressEmpty) {
+                        setShippingUI('no_address', '<p class="text-muted small mb-0">' + msgSelectAddress.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</p>');
+                    } else {
+                        setShippingUI('cannot_ship', '<p class="text-dark small mb-0">' + msgEnterFullAddressForShipping.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</p>');
+                    }
+                    return;
+                }
+
+                serverCart = result.cart || null;
+                if (result.rates.length > 0) {
+                    shippingCheckoutState = 'ready';
+                    updatePlaceOrderButton();
+                    var html = '<h6 class="font-weight-medium mb-3">Shipping</h6><div class="form-group" id="shipping-rates-list">';
+                    result.rates.forEach(function (calc, index) {
+                        var cost = parseFloat(calc.cost);
+                        var costStr = isNaN(cost) ? formatMoneyAmount(0) : formatMoneyAmount(cost);
+                        var rateId = (calc.rate && calc.rate.id != null) ? calc.rate.id : index;
+                        var rateName = (calc.rate && calc.rate.name) ? calc.rate.name : 'Shipping';
+                        html += '<div class="custom-control custom-radio mb-2"><input type="radio" class="custom-control-input shipping-method" name="shipping_method_id" id="shipping-' + rateId + '" value="' + rateId + '" data-cost="' + costStr + '" ' + (index === 0 ? 'checked' : '') + '><label class="custom-control-label" for="shipping-' + rateId + '">' + rateName + ' ($' + costStr + ')</label></div>';
+                    });
+                    html += '</div>';
+                    if (wrapper) { wrapper.innerHTML = html; wrapper.classList.remove('d-none'); }
+                    var newRadios = document.querySelectorAll('input[name="shipping_method_id"]');
+                    newRadios.forEach(function (r) { r.removeEventListener('change', updateTotal); r.addEventListener('change', updateTotal); });
+                    updateTotal();
+                } else {
+                    var noRatesState = addressEmpty ? 'no_address' : 'cannot_ship';
+                    var noRatesMsg = addressEmpty ? msgSelectAddress : msgEnterFullAddressForShipping;
+                    var noRatesClass = addressEmpty ? 'text-muted' : 'text-dark';
+                    setShippingUI(noRatesState, '<p class="' + noRatesClass + ' small mb-0">' + noRatesMsg.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</p>');
+                }
+                hideLoading();
+            } catch (err) {
+                console.error('Error fetching shipping rates:', err);
+                setShippingUI(addressEmpty ? 'no_address' : 'cannot_ship', '<p class="text-danger small mb-0">' + (err && err.name === 'AbortError' ? 'Request timed out.' : 'Unable to load shipping.') + '</p>');
+            } finally {
+                clearTimeout(timeoutId);
+                hideLoading();
+            }
+        }
+
+        // Payment methods by country: fetch from API so disabled methods and country rules are respected
+        const paymentMethodsWrapper = document.getElementById('payment-methods-list-wrapper');
+        function updatePaymentMethodsFromCountry() {
+            var addr = getAddressForShipping();
+            var country = (addr && addr.country) ? String(addr.country).trim() : '';
+            if (!paymentMethodsWrapper) return;
+            fetch('/api/checkout/payment-methods?country=' + encodeURIComponent(country))
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
+                    var methods = (data && data.paymentMethods) ? data.paymentMethods : [];
+                    noPaymentForCountry = methods.length === 0;
+                    if (methods.length > 0) {
+                        var html = '';
+                        methods.forEach(function (method, index) {
+                            var name = (method.name || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+                            html += '<div class="custom-control custom-radio mb-3"><input type="radio" class="custom-control-input" name="payment_method_id" id="payment-' + method.id + '" value="' + method.id + '" ' + (index === 0 ? 'checked' : '') + '><label class="custom-control-label" for="payment-' + method.id + '">' + name + '</label></div>';
+                        });
+                        paymentMethodsWrapper.innerHTML = html;
+                    } else {
+                        paymentMethodsWrapper.innerHTML = '<p class="text-muted mb-0">' + msgNoPaymentsForCountry.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</p>';
+                    }
+                    updatePlaceOrderButton();
+                })
+                .catch(function () {
+                    noPaymentForCountry = true;
+                    updatePlaceOrderButton();
+                });
+        }
+        updatePaymentMethodsFromCountry();
+        const countrySelects = document.querySelectorAll('select[name="shipping_address[country]"], select[name="billing_address[country]"]');
+        countrySelects.forEach(function (select) {
+            select.addEventListener('change', function () {
+                updatePaymentMethodsFromCountry();
+                if (this.name === 'shipping_address[country]') fetchShippingRates();
+            });
+        });
+
+        // Address change: recalculate shipping (country, city, state, zip)
+        var addressDebounce;
+        function onAddressChange() {
+            clearTimeout(addressDebounce);
+            addressDebounce = setTimeout(fetchShippingRates, 400);
+        }
+        var cityHidden = document.getElementById('shipping-city');
+        if (cityHidden) cityHidden.addEventListener('change', onAddressChange);
+        var stateHidden = document.getElementById('shipping-state');
+        if (stateHidden) stateHidden.addEventListener('change', onAddressChange);
+        var zipInput = document.querySelector('input[name="shipping_address[zip_code]"]');
+        if (zipInput) zipInput.addEventListener('input', onAddressChange);
+
+        // Address form: city autocomplete + state (US only) – shared script
+        AddressForm.init({
+            ids: {
+                country: 'shipping-country',
+                stateWrap: 'shipping-state-wrap',
+                stateSelect: 'shipping-state-select',
+                stateInput: 'shipping-state-input',
+                stateHidden: 'shipping-state',
+                cityInput: 'shipping-city-input',
+                cityHidden: 'shipping-city',
+                citySuggestions: 'shipping-city-suggestions'
+            },
+            onChange: onAddressChange
+        });
+
+        // When "ship to different address" is toggled, recalculate shipping and payment options
+        var shiptoCheckbox = document.getElementById('shipto');
+        if (shiptoCheckbox) {
+            shiptoCheckbox.addEventListener('change', function () {
+                updatePaymentMethodsFromCountry();
+                onAddressChange();
+            });
+        }
+
+        // Billing (different address) form – shared script
+        AddressForm.init({
+            ids: {
+                country: 'billing-country',
+                stateWrap: 'billing-state-wrap',
+                stateSelect: 'billing-state-select',
+                stateInput: 'billing-state-input',
+                stateHidden: 'billing-state',
+                cityInput: 'billing-city-input',
+                cityHidden: 'billing-city',
+                citySuggestions: 'billing-city-suggestions'
+            },
+            onChange: onAddressChange,
+            onCountryChange: function () {
+                updatePaymentMethodsFromCountry();
+                onAddressChange();
+            }
+        });
+
+        // Different-address fields: recalculate shipping when user enters the shipping address
+        var differentSection = document.getElementById('shipping-address');
+        if (differentSection) {
+            var diffCountry = differentSection.querySelector('select[name="billing_address[country]"]');
+            var diffZip = differentSection.querySelector('input[name="billing_address[zip_code]"]');
+            if (diffCountry) {
+                diffCountry.addEventListener('change', function () {
+                    updatePaymentMethodsFromCountry();
+                    onAddressChange();
+                });
+            }
+            if (diffZip) diffZip.addEventListener('input', onAddressChange);
+        }
+
+        updatePaymentMethodsFromCountry();
+        fetchShippingRates();
+
+        function formatBankReport(report) {
+            var lines = [];
+            lines.push('=== BANK / GATEWAY DEBUG REPORT ===');
+            lines.push('Generated: ' + new Date().toISOString());
+            lines.push('');
+            lines.push('--- REQUEST SENT TO BANK ---');
+            lines.push('Sent at (UTC): ' + (report.requestSentAt || 'N/A'));
+            lines.push('URL: ' + (report.requestUrl || 'N/A'));
+            lines.push('Method: ' + (report.requestMethod || 'N/A'));
+            lines.push('Headers: ' + JSON.stringify(report.requestHeaders || {}, null, 2));
+            lines.push('Body: ' + JSON.stringify(report.requestBody || {}, null, 2));
+            lines.push('');
+            lines.push('--- RESPONSE RECEIVED FROM BANK ---');
+            lines.push('Received at (UTC): ' + (report.responseReceivedAt || 'N/A'));
+            lines.push('HTTP Status: ' + (report.responseStatus != null ? report.responseStatus : 'N/A'));
+            lines.push('Body: ' + JSON.stringify(report.responseBody != null ? report.responseBody : {}, null, 2));
+            lines.push('');
+            if (report.redirectUrl) {
+                lines.push('--- REDIRECT TO BANK PAGE ---');
+                lines.push('Redirect at (UTC): ' + (report.redirectAt || 'N/A'));
+                lines.push('Redirect URL: ' + report.redirectUrl);
+            }
+            return lines.join('\n');
+        }
+
+        function showBankReportModal(report, redirectUrl) {
+            var contentEl = document.getElementById('bank-report-content');
+            var modal = document.getElementById('bank-report-modal');
+            contentEl.textContent = formatBankReport(report);
+            window._bankReportRedirectUrl = redirectUrl;
+            window._bankReportData = report;
+            $(modal).modal('show');
+            document.getElementById('bank-report-download-btn').onclick = function() {
+                var blob = new Blob([formatBankReport(report)], { type: 'text/plain' });
+                var a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = 'bank-debug-report-' + new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19) + '.txt';
+                a.click();
+                URL.revokeObjectURL(a.href);
+            };
+            document.getElementById('bank-report-continue-btn').onclick = function() {
+                if (window._bankReportRedirectUrl) window.location.href = window._bankReportRedirectUrl;
+                $(modal).modal('hide');
+            };
+        }
+
+        // Handle form submission
+        const checkoutForm = document.getElementById('checkout-form');
+        checkoutForm.addEventListener('submit', function (e) {
+            if (shippingCheckoutState !== 'ready') {
+                e.preventDefault();
+                updatePlaceOrderButton();
+                if (shippingCheckoutMessageEl) {
+                    shippingCheckoutMessageEl.classList.remove('d-none');
+                    shippingCheckoutMessageEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+                return;
+            }
+            e.preventDefault();
+
+            const btn = document.getElementById('place-order-btn');
+            const originalText = btn.textContent;
+            btn.disabled = true;
+            btn.textContent = 'Processing...';
+
+            // Collect form data
+            const formData = new FormData(checkoutForm);
+            const data = {};
+
+            // Convert FormData to JSON object, handling nested keys like shipping_address[first_name]
+            for (let [key, value] of formData.entries()) {
+                if (key.includes('[')) {
+                    const [parent, childWithBracket] = key.split('[');
+                    const child = childWithBracket.replace(']', '');
+                    if (!data[parent]) data[parent] = {};
+                    data[parent][child] = value;
+                } else {
+                    data[key] = value;
+                }
+            }
+
+            // Ensure selected shipping method and its cost are sent (backend uses cost for synthetic rates e.g. Aramex)
+            const selectedShippingRadio = document.querySelector('input[name="shipping_method_id"]:checked');
+            if (selectedShippingRadio && selectedShippingRadio.value) {
+                data.shipping_method_id = selectedShippingRadio.value;
+                var costAttr = selectedShippingRadio.getAttribute('data-cost');
+                if (costAttr != null && costAttr !== '') {
+                    data.selected_shipping_cost = parseFloat(costAttr);
+                    if (isNaN(data.selected_shipping_cost)) data.selected_shipping_cost = 0;
+                }
+            }
+
+            // Handle billing address same as shipping
+            if (!data.ship_to_different_address) {
+                data.billing_address = { ...data.shipping_address };
+            } else if (!data.billing_address || Object.keys(data.billing_address).length === 0) {
+                // Fallback if checked but empty (though HTML structure suggests separate fields)
+                // If the section is collapsed/hidden, fields might still be there but empty.
+                // If user checked "ship to different", they should fill it.
+                // Basic validation could be added here.
+            }
+
+            // Add discount code if present in session/url (not in form currently, but logic exists in cart)
+            // For now, simple checkout.
+
+            // Get CSRF token (include in both body and header so backend accepts JSON requests)
+            const csrfTokenInput = document.querySelector('input[name="_csrf"]');
+            const csrfToken = csrfTokenInput ? csrfTokenInput.value : '';
+            data._csrf = csrfToken;
+
+            fetch('/api/checkout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': csrfToken
+                },
+                body: JSON.stringify(data)
+            })
+                .then(async function(response) {
+                    const text = await response.text();
+                    let result;
+                    try {
+                        result = text ? JSON.parse(text) : {};
+                    } catch (e) {
+                        throw new Error(response.ok ? 'Invalid response from server' : 'Server error: ' + response.status);
+                    }
+                    if (!response.ok) {
+                        throw new Error(result.error || 'Server error: ' + response.status);
+                    }
+                    return result;
+                })
+                .then(function(result) {
+                    if (result.success) {
+                        // If the payment gateway requires redirection (Hosted Checkout)
+                        if (result.redirectUrl) {
+                            if (result.paymentDebugEnabled && result.bankDebugReport) {
+                                showBankReportModal(result.bankDebugReport, result.redirectUrl);
+                                return;
+                            }
+                            window.location.href = result.redirectUrl;
+                            return;
+                        }
+
+                        // Otherwise redirect to order success page
+                        window.location.href = '/order-success?orderNumber=' + result.orderNumber;
+                    } else {
+                        alert('Error: ' + (result.error || 'Failed to place order'));
+                        btn.disabled = false;
+                        btn.textContent = originalText;
+                    }
+                })
+                .catch(function(error) {
+                    console.error('Error:', error);
+                    alert('Error: ' + (error.message || 'Network error. Please check your connection and try again.'));
+                    btn.disabled = false;
+                    btn.textContent = originalText;
+                });
+        });
+    });
+</script>
+<% if (typeof metaInitiateCheckout !== 'undefined' && metaInitiateCheckout) { %>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var payload = {
+        value: <%= metaInitiateCheckout.value %>,
+        currency: <%- JSON.stringify(metaInitiateCheckout.currency) %>,
+        content_ids: <%- JSON.stringify(metaInitiateCheckout.content_ids) %>,
+        content_type: 'product'
+    };
+    if (typeof window.MetaPixel !== 'undefined') {
+        window.MetaPixel.track('InitiateCheckout', payload);
+    } else if (typeof window.fbq === 'function') {
+        window.fbq('track', 'InitiateCheckout', payload);
+    }
+});
+</script>
+<% } %>

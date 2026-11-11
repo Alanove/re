@@ -1,0 +1,167 @@
+<!-- SUBJECT: New Order Notification - {{orderNumber}} -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Order Notification</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            line-height: 1.6;
+            color: {{textColor}};
+            margin: 0;
+            padding: 0;
+            background-color: {{secondaryColor}};
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            padding: 20px 0;
+        }
+        .header img {
+            max-height: 50px;
+            width: auto;
+        }
+        .card {
+            background-color: {{lightColor}};
+            border-radius: 4px;
+            padding: 40px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.05);
+        }
+        h1, h2, h3 {
+            color: {{darkColor}};
+            margin-top: 0;
+        }
+        .order-info {
+            background-color: {{secondaryColor}};
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .items-table th {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 2px solid #eee;
+            color: {{darkColor}};
+            font-size: 0.9em;
+        }
+        .items-table td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            vertical-align: top;
+        }
+        .order-totals {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+        }
+        .total-row.final {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: {{primaryColor}};
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+        .btn {
+            display: inline-block;
+            background-color: {{primaryColor}};
+            color: #ffffff !important;
+            text-decoration: none;
+            padding: 12px 30px;
+            font-weight: bold;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: #999999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="{{logoUrl}}" alt="{{siteTitle}}">
+        </div>
+        
+        <div class="card">
+            <h2 style="text-align: center;">New Order Received</h2>
+            
+            <p>A new order has been placed and is awaiting processing.</p>
+            
+            <div class="order-info">
+                <p style="margin: 0 0 5px;"><strong>Order Number:</strong> {{orderNumber}}</p>
+                <p style="margin: 0 0 5px;"><strong>Customer:</strong> {{customerName}}</p>
+                <p style="margin: 0;"><strong>Email:</strong> {{customerEmail}}</p>
+            </div>
+            
+            <h3 style="font-size: 1.1em; margin-bottom: 10px;">Order Items:</h3>
+            
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th style="text-align: center;">Qty</th>
+                        <th style="text-align: right;">Price</th>
+                        <th style="text-align: right;">Total</th>
+                    </tr>
+                </thead>
+                <tbody>{{itemsTableHtml}}</tbody>
+            </table>
+            
+            <div class="order-totals">
+                <% if (typeof subtotal !== 'undefined' && subtotal !== null) { %>
+                <div class="total-row">
+                    <span>Subtotal:</span>
+                    <span>${{subtotal}}</span>
+                </div>
+                <% } %>
+                <% if (typeof shipping !== 'undefined' && shipping !== null) { %>
+                <div class="total-row">
+                    <span>Shipping:</span>
+                    <span>${{shipping}}</span>
+                </div>
+                <% } %>
+                <div class="total-row final">
+                    <span>Total:</span>
+                    <span>${{total}}</span>
+                </div>
+            </div>
+            
+            <div class="order-info" style="margin-top: 20px;">
+                <h3 style="font-size: 1.1em; margin-bottom: 10px;">Shipping Address:</h3>
+                <div style="color: #666;">
+                    {{shippingAddress}}
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="{{adminOrderUrl}}" class="btn">Manage Order</a>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>&copy; {{currentYear}} {{siteTitle}}. All rights reserved.</p>
+            <p>{{siteUrl}}</p>
+        </div>
+    </div>
+</body>
+</html>

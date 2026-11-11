@@ -1,0 +1,38 @@
+body.home {
+    .home-service-strip {
+        background: #ede4d6;
+        padding: 36px 32px;
+
+        .home-service-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            max-width: none;
+            width: 100%;
+            margin: 0 auto;
+            text-align: center;
+
+            @media (max-width: 767.98px) {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        h5 {
+            font-family: $font-family-sans-serif;
+            font-weight: 700;
+            font-size: clamp(0.78rem, 0.4vw + 0.68rem, 0.95rem);
+            letter-spacing: 0.22em;
+            margin: 0 0 10px;
+            text-transform: uppercase;
+            color: $black;
+        }
+
+        p {
+            font-family: $font-family-sans-serif;
+            font-size: 0.86rem;
+            line-height: 1.6;
+            color: rgba(0, 0, 0, 0.68);
+            margin: 0;
+        }
+    }
+}

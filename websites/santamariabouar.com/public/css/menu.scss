@@ -1,0 +1,592 @@
+@import "variables";
+
+// ============================================================================
+// MENU SYSTEM SCSS - Organized Hierarchy
+// ============================================================================
+
+// ============================================================================
+// 1. DESKTOP NAVIGATION (Traditional navbar)
+// ============================================================================
+.main-header {
+  .navbar {
+    padding: 1rem 10px !important;
+
+    .navbar-collapse {
+      justify-content: flex-end;
+      display: none !important; // Hidden in favor of fullscreen menu
+
+      ul {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+          margin-left: 1.5rem;
+          position: relative;
+
+          a {
+            color: $menu-text !important;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.2s;
+            font-size: 1rem;
+            position: relative;
+            padding-bottom: 10px;
+
+            &:hover {
+              color: $menu-hover !important;
+            }
+
+            &.active,
+            &.selected {
+              border-bottom: 3px solid $menu-text;
+            }
+          }
+
+          // Dropdown functionality
+          &.dropdown {
+
+
+            .dropdown-menu {
+              position: absolute;
+              top: 100%;
+              left: 0;
+              background: white;
+              border: 1px solid #ddd;
+              border-radius: 4px;
+              box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+              min-width: 200px;
+              padding: 0.5rem 0;
+              z-index: 1000;
+              display: none;
+              flex-direction: column;
+
+              li {
+                margin: 0;
+
+                a {
+                  display: block;
+                  padding: 0.5rem 1rem;
+                  color: #333 !important;
+                  border-bottom: none !important;
+
+                  &:hover {
+                    background-color: #f8f9fa;
+                    color: $menu-hover !important;
+                  }
+                }
+              }
+            }
+
+            &:hover .dropdown-menu {
+              display: flex;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// ============================================================================
+// 2. BURGER MENU BUTTON
+// ============================================================================
+.burger-menu {
+  width: 40px;
+  height: 40px;
+  top: 25px;
+  right: 25px;
+  position: fixed;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  z-index: 10010;
+  display: block !important; // Always visible
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  // Burger lines
+  .burger-line {
+    width: 100%;
+    height: 2px;
+    background: #fff;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+    transform-origin: center;
+
+    &:nth-child(1) {
+      transform: translateY(-12px);
+    }
+
+    &:nth-child(2) {
+      transform: translateY(-50%);
+    }
+
+    &:nth-child(3) {
+      transform: translateY(9px);
+    }
+  }
+  
+
+
+  // Active state - transform to X
+  &.active {
+    .burger-line {
+      &:nth-child(1) {
+        transform: rotate(45deg) translate(0, 0);
+      }
+
+      &:nth-child(2) {
+        opacity: 0;
+        transform: scale(0);
+      }
+
+      &:nth-child(3) {
+        transform: rotate(-45deg) translate(0, 0);
+      }
+    }
+  }
+}
+
+// ============================================================================
+// 3. FULLSCREEN MENU SYSTEM
+// ============================================================================
+.fullscreen-menu {
+  // Base container properties
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 9999;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  padding-top: 10vh;
+
+  // -------------------------------------------------------------------------
+  // 3.1 SLIDESHOW BACKGROUND LAYER (Z-index: -1)
+  // -------------------------------------------------------------------------
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 120%;
+    height: 120%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 1;
+    z-index: -1;
+    transition: background-color 0.5s ease, transform 0.8s ease;
+    transform: rotate(0deg) scale(1);
+    transform-origin: center center;
+  }
+
+  // -------------------------------------------------------------------------
+  // 3.2 WHITE EXPANDING BORDER (Z-index: 1 -> 900)
+  // -------------------------------------------------------------------------
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    opacity: 0;
+    transition: width 0.8s ease, height 0.8s ease, opacity 0.9s ease 0.2s;
+  }
+
+  // -------------------------------------------------------------------------
+  // 3.3 ACTIVE STATE ANIMATIONS
+  // -------------------------------------------------------------------------
+  &.active {
+    opacity: 1;
+    visibility: visible;
+
+    // Prevent body scroll when menu is open
+    & ~ body,
+    & + body {
+      overflow: hidden;
+    }
+
+    // Background rotation and scaling
+    &::before {
+      transform: rotate(0) scale(1); // User's modification: scale 0.9
+    }
+
+    // White border expansion
+    &::after {
+      width: calc(100% - 20px);
+      height: calc(100% - 20px);
+      opacity: 1;
+      z-index: 900; // User's modification: elevated z-index
+    }
+
+    // Menu content animations
+    .menu-content {
+
+      // Activate large overlay border
+      &::before {
+        border-width: 25%;
+        transform: rotate(0) scale(1);
+      }
+
+      ul li {
+
+        // Staggered animation delays
+        @for $i from 1 through 8 {
+          &:nth-child(#{$i}) {
+            transition-delay: #{0.5 + ($i * 0.05)}s;
+          }
+        }
+
+        opacity: 1;
+        transform: translateY(0);
+
+        &.dropdown {
+          a.dropdown-toggle::after {
+            position: relative;
+            top: 2px;
+            transition: transform 0.3s ease;
+          }
+        }
+
+        &.dropdown:hover {
+          a.dropdown-toggle::after {
+            transform: rotate(-90deg); // Rotate caret to indicate active dropdown
+          }
+        }
+
+      }
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // 3.4 MENU CONTENT CONTAINER
+  // -------------------------------------------------------------------------
+  .menu-content {
+    text-align: left;
+    margin-left: 5%;
+    position: relative;
+    z-index: 1000;
+
+    // Menu list structure
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-width: 270px;
+
+      li {
+        margin-bottom: 20px;
+        opacity: 0;
+        transform: translateX(-30px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+        transition-delay: 0;
+        position: relative;
+        display: block;
+        width: 100%;
+
+        // Only dropdown items should be inline-block
+        &.dropdown {
+          display: inline-block;
+          width: auto;
+        }
+
+        a {
+          color: #fff;
+          font-size: 1.5rem;
+          font-weight: 100;
+          text-decoration: none;
+          transition: color 0.3s ease;
+          display: inline-block;
+          width: fit-content;
+
+          &:hover {
+            color: #ccc;
+          }
+
+          &.active {
+            color: #fff;
+            font-weight: 500;
+          }
+        }
+
+        // Dropdown functionality
+        &.dropdown {
+          .dropdown-toggle {
+            cursor: pointer;
+            position: relative;
+            width: fit-content;
+          }
+
+          .dropdown-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            width: 400px;
+
+            // Desktop: Horizontal layout
+            @media (min-width: 768px) {
+              position: absolute;
+              top: 0;
+              left: 100%;
+              background: transparent;
+              padding: 0;
+              margin-left: 10px;
+              opacity: 0;
+              visibility: hidden;
+              transform: translateX(-10px);
+              display: flex;
+              flex-direction: row;
+              gap: 20px;
+              min-width: auto;
+              max-width: none;
+              width:auto;
+
+              li {
+                margin: 0;
+                opacity: 1;
+                transform: none;
+                transition: none;
+                flex: 0 0 auto;
+                display: inline-block;
+                width: fit-content;
+
+                a {
+                  font-size: 1.5rem;
+                  font-weight: 100;
+                  padding: 0;
+                  white-space: nowrap;
+                  border-radius: 0;
+                  transition: color 0.3s ease;
+                  color: rgba(255, 255, 255, 0.8);
+
+                  &:hover {
+                    background: transparent;
+                    color: #fff;
+                  }
+                }
+              }
+            }
+
+            // Mobile: Vertical layout
+            @media (max-width: 767px) {
+              max-height: 0;
+              margin-left: 20px;
+              padding-left: 15px;
+              display: block;
+              position: static;
+              background: transparent;
+              border: none;
+              box-shadow: none;
+
+              li {
+                margin: 10px 0;
+                opacity: 0;
+                transform: translateX(-10px);
+                transition: opacity 0.3s ease, transform 0.3s ease;
+                display: block;
+                width: auto;
+
+                a {
+                  font-size: 1.5rem;
+                  font-weight: 100;
+                  padding: 0;
+                  color: rgba(255, 255, 255, 0.8);
+                  background: transparent;
+
+                  &:hover {
+                    color: #fff;
+                    background: transparent;
+                  }
+                }
+              }
+
+              &.expanded {
+                max-height: 500px;
+                margin-top: 10px;
+
+                li {
+                  opacity: 1;
+                  transform: translateX(0);
+
+                  @for $i from 1 through 10 {
+                    &:nth-child(#{$i}) {
+                      transition-delay: #{0.1 * $i}s;
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          // Desktop hover effect
+          @media (min-width: 768px) {
+            &:hover {
+              .dropdown-menu {
+                opacity: 1;
+                visibility: visible;
+                transform: translateX(0);
+              }
+
+            }
+          }
+
+          // Mobile click effect - caret rotation
+          @media (max-width: 767px) {
+            &.expanded {
+              .dropdown-toggle::after {
+                transform: rotate(-90deg); // Rotate caret when expanded
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// ============================================================================
+// 4. THEME VARIATIONS
+// ============================================================================
+.nav-bar-inverse {
+  background: $white !important;
+
+  .navbar-collapse ul li a {
+    color: $primary !important;
+
+    &:hover {
+      color: $accent !important;
+    }
+
+    &.active,
+    &.selected {
+      border-bottom: 3px solid $primary;
+      color: $primary !important;
+    }
+  }
+}
+
+// ============================================================================
+// 5. MAIN CONTENT TRANSITIONS
+// ============================================================================
+.main {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+
+// Force navbar menu to be hidden
+#navbarNav {
+  display: none !important;
+}
+
+// ============================================================================
+// 6. ADMIN MENU MANAGEMENT STYLES
+// ============================================================================
+.menu-section-panel {
+  .btn {
+    border-radius: 8px;
+    font-weight: 600;
+    padding: 12px 20px;
+    transition: box-shadow 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  .badge {
+    font-size: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+  }
+}
+
+.menu-stats-card {
+  transition: all 0.3s ease;
+  background: #fff;
+  border: 1px solid #e9ecef !important;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border-color: #007bff !important;
+  }
+}
+
+.menu-stats-icon {
+  color: #6c757d;
+}
+
+.menu-stats-number {
+  font-weight: 700;
+  color: #212529;
+}
+
+.menu-stats-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.menu-badge {
+  transition: all 0.2s ease;
+  cursor: default;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-color: #007bff !important;
+
+    a {
+      opacity: 1;
+    }
+  }
+
+  a {
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      color: #0056b3 !important;
+    }
+  }
+}
+
+// ============================================================================
+// 7. INNER PAGE BURGER MENU STYLING
+// ============================================================================
+// Override burger menu color for inner pages using body class
+body.inner-page .burger-menu .burger-line,
+body.projects .burger-menu .burger-line {
+  background: $brand-blue !important;
+}
+
+// Ensure active state burger menu is always white
+body.inner-page .burger-menu.active .burger-line,
+body.projects .burger-menu.active .burger-line,
+.burger-menu.active .burger-line {
+  background: #fff !important;
+}

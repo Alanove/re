@@ -1,0 +1,91 @@
+	/*
+  	Flaticon icon font: Flaticon
+  	Creation date: 22/03/2017 09:08
+  	*/
+
+@font-face {
+  font-family: "Flaticon";
+  src: url("./Flaticon.eot");
+  src: url("./Flaticon.eot?#iefix") format("embedded-opentype"),
+       url("./Flaticon.woff") format("woff"),
+       url("./Flaticon.ttf") format("truetype"),
+       url("./Flaticon.svg#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon";
+    src: url("./Flaticon.svg#Flaticon") format("svg");
+  }
+}
+
+[class^="flaticon-"]:before, [class*=" flaticon-"]:before,
+[class^="flaticon-"]:after, [class*=" flaticon-"]:after {   
+  font-family: Flaticon;
+        font-size: 20px;
+font-style: normal;
+margin-left: 20px;
+}
+
+.flaticon-061-blueprint:before { content: "\f100"; }
+.flaticon-061-book:before { content: "\f101"; }
+.flaticon-061-conveyor:before { content: "\f102"; }
+.flaticon-061-conveyor-1:before { content: "\f103"; }
+.flaticon-061-conveyor-2:before { content: "\f104"; }
+.flaticon-061-conveyor-3:before { content: "\f105"; }
+.flaticon-061-conveyor-4:before { content: "\f106"; }
+.flaticon-061-conveyor-5:before { content: "\f107"; }
+.flaticon-061-conveyor-6:before { content: "\f108"; }
+.flaticon-061-conveyor-7:before { content: "\f109"; }
+.flaticon-061-crane:before { content: "\f10a"; }
+.flaticon-061-crane-1:before { content: "\f10b"; }
+.flaticon-061-crane-2:before { content: "\f10c"; }
+.flaticon-061-crane-3:before { content: "\f10d"; }
+.flaticon-061-crane-4:before { content: "\f10e"; }
+.flaticon-061-dashboard:before { content: "\f10f"; }
+.flaticon-061-dashboard-1:before { content: "\f110"; }
+.flaticon-061-dashboard-2:before { content: "\f111"; }
+.flaticon-061-dashboard-3:before { content: "\f112"; }
+.flaticon-061-dashboard-4:before { content: "\f113"; }
+.flaticon-061-drilling-machine:before { content: "\f114"; }
+.flaticon-061-factory:before { content: "\f115"; }
+.flaticon-061-factory-1:before { content: "\f116"; }
+.flaticon-061-factory-2:before { content: "\f117"; }
+.flaticon-061-factory-3:before { content: "\f118"; }
+.flaticon-061-factory-4:before { content: "\f119"; }
+.flaticon-061-factory-5:before { content: "\f11a"; }
+.flaticon-061-factory-6:before { content: "\f11b"; }
+.flaticon-061-industrial-robot:before { content: "\f11c"; }
+.flaticon-061-industrial-robot-1:before { content: "\f11d"; }
+.flaticon-061-industrial-robot-10:before { content: "\f11e"; }
+.flaticon-061-industrial-robot-11:before { content: "\f11f"; }
+.flaticon-061-industrial-robot-12:before { content: "\f120"; }
+.flaticon-061-industrial-robot-13:before { content: "\f121"; }
+.flaticon-061-industrial-robot-14:before { content: "\f122"; }
+.flaticon-061-industrial-robot-15:before { content: "\f123"; }
+.flaticon-061-industrial-robot-16:before { content: "\f124"; }
+.flaticon-061-industrial-robot-17:before { content: "\f125"; }
+.flaticon-061-industrial-robot-2:before { content: "\f126"; }
+.flaticon-061-industrial-robot-3:before { content: "\f127"; }
+.flaticon-061-industrial-robot-4:before { content: "\f128"; }
+.flaticon-061-industrial-robot-5:before { content: "\f129"; }
+.flaticon-061-industrial-robot-6:before { content: "\f12a"; }
+.flaticon-061-industrial-robot-7:before { content: "\f12b"; }
+.flaticon-061-industrial-robot-8:before { content: "\f12c"; }
+.flaticon-061-industrial-robot-9:before { content: "\f12d"; }
+.flaticon-061-machine-press:before { content: "\f12e"; }
+.flaticon-061-machine-press-1:before { content: "\f12f"; }
+.flaticon-061-machine-press-2:before { content: "\f130"; }
+.flaticon-061-machine-press-3:before { content: "\f131"; }
+.flaticon-061-machine-press-4:before { content: "\f132"; }
+.flaticon-061-machine-press-5:before { content: "\f133"; }
+.flaticon-061-packages:before { content: "\f134"; }
+.flaticon-061-power-plant:before { content: "\f135"; }
+.flaticon-061-processor:before { content: "\f136"; }
+.flaticon-061-refinery:before { content: "\f137"; }
+.flaticon-061-refinery-1:before { content: "\f138"; }
+.flaticon-061-refinery-2:before { content: "\f139"; }
+.flaticon-061-stock:before { content: "\f13a"; }
+.flaticon-061-welder:before { content: "\f13b"; }

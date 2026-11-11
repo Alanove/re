@@ -1,0 +1,630 @@
+<!-- BEGIN row -->
+<% if (typeof expiredGateAccess !== 'undefined' && expiredGateAccess && expiredGateAccess.length) { %>
+<div class="row">
+	<div class="col-12">
+		<div class="alert alert-danger alert-dismissible fade show" role="alert">
+			<h5 class="alert-heading mb-2">
+				<i class="fas fa-exclamation-triangle me-1"></i>
+				Expired main gate access (<%= expiredGateAccess.length %>)
+			</h5>
+			<p class="mb-2">The following people still have gate access records past their expiry date. Review and revoke if needed.</p>
+			<ul class="mb-3">
+				<% expiredGateAccess.forEach(function(item) { %>
+					<li>
+						<strong><%= item.userName %></strong>
+						(<%= item.relation %>) — <%= item.apartmentLabel %> — expired <%= item.expiryDate %>
+						<a href="/admin/apartments/<%= item.apartmentId %>/edit?tab=gate-access" class="ms-1">Manage</a>
+					</li>
+				<% }); %>
+			</ul>
+			<a href="/admin/main-gate-access" class="btn btn-sm btn-outline-danger">Open main gate access</a>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
+</div>
+<% } %>
+<div class="row">
+	<!-- BEGIN col-3 -->
+	<div class="col-xl-3 col-md-6">
+		<!-- BEGIN card -->
+		<div class="card mb-3 dashboard-stats-card">
+			<div class="card-body">
+				<div class="d-flex fw-bold">
+					<div class="flex-grow-1">
+						<div class="stats-label">TOTAL PAGES</div>
+						<div class="stats-number text-dark"><%= statistics.totalPages %></div>
+					</div>
+					<div class="flex-shrink-0 ms-3">
+						<div class="stats-icon bg-primary bg-opacity-10">
+							<i class="fa fa-file-text text-primary"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END card -->
+	</div>
+	<!-- END col-3 -->
+	
+	<!-- BEGIN col-3 -->
+	<div class="col-xl-3 col-md-6">
+		<!-- BEGIN card -->
+		<div class="card mb-3 dashboard-stats-card">
+			<div class="card-body">
+				<div class="d-flex fw-bold">
+					<div class="flex-grow-1">
+						<div class="stats-label">PUBLISHED PAGES</div>
+						<div class="stats-number text-success"><%= statistics.publishedPages %></div>
+					</div>
+					<div class="flex-shrink-0 ms-3">
+						<div class="stats-icon bg-success bg-opacity-10">
+							<i class="fa fa-check-circle text-success"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END card -->
+	</div>
+	<!-- END col-3 -->
+	
+	<!-- BEGIN col-3 -->
+	<div class="col-xl-3 col-md-6">
+		<!-- BEGIN card -->
+		<div class="card mb-3 dashboard-stats-card">
+			<div class="card-body">
+				<div class="d-flex fw-bold">
+					<div class="flex-grow-1">
+						<div class="stats-label">DRAFT PAGES</div>
+						<div class="stats-number text-warning"><%= statistics.draftPages %></div>
+					</div>
+					<div class="flex-shrink-0 ms-3">
+						<div class="stats-icon bg-warning bg-opacity-10">
+							<i class="fa fa-edit text-warning"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END card -->
+	</div>
+	<!-- END col-3 -->
+	
+	<!-- BEGIN col-3 -->
+	<div class="col-xl-3 col-md-6">
+		<!-- BEGIN card -->
+		<div class="card mb-3 dashboard-stats-card">
+			<div class="card-body">
+				<div class="d-flex fw-bold">
+					<div class="flex-grow-1">
+						<div class="stats-label">TOTAL PROJECTS</div>
+						<div class="stats-number text-info"><%= statistics.totalProjects %></div>
+					</div>
+					<div class="flex-shrink-0 ms-3">
+						<div class="stats-icon bg-info bg-opacity-10">
+							<i class="fa fa-building text-info"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END card -->
+	</div>
+	<!-- END col-3 -->
+</div>
+<!-- END row -->
+
+<!-- BEGIN row -->
+<div class="row">
+	<!-- BEGIN col-3 -->
+	<div class="col-xl-3 col-md-6">
+		<!-- BEGIN card -->
+		<div class="card mb-3 dashboard-stats-card">
+			<div class="card-body">
+				<div class="d-flex fw-bold">
+					<div class="flex-grow-1">
+						<div class="stats-label">TOTAL APARTMENTS</div>
+						<div class="stats-number text-purple"><%= apartmentStats.totalApartments %></div>
+					</div>
+					<div class="flex-shrink-0 ms-3">
+						<div class="stats-icon bg-purple bg-opacity-10">
+							<i class="fa fa-home text-purple"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END card -->
+	</div>
+	<!-- END col-3 -->
+	
+	<!-- BEGIN col-3 -->
+	<div class="col-xl-3 col-md-6">
+		<!-- BEGIN card -->
+		<div class="card mb-3 dashboard-stats-card">
+			<div class="card-body">
+				<div class="d-flex fw-bold">
+					<div class="flex-grow-1">
+						<div class="stats-label">TOTAL AREA</div>
+						<div class="stats-number text-teal"><%= apartmentStats.totalArea.toFixed(1) %> m²</div>
+					</div>
+					<div class="flex-shrink-0 ms-3">
+						<div class="stats-icon bg-teal bg-opacity-10">
+							<i class="fa fa-expand text-teal"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END card -->
+	</div>
+	<!-- END col-3 -->
+	
+	<!-- BEGIN col-3 -->
+	<div class="col-xl-3 col-md-6">
+		<!-- BEGIN card -->
+		<div class="card mb-3 dashboard-stats-card">
+			<div class="card-body">
+				<div class="d-flex fw-bold">
+					<div class="flex-grow-1">
+						<div class="stats-label">AVERAGE AREA</div>
+						<div class="stats-number text-orange"><%= apartmentStats.averageArea.toFixed(1) %> m²</div>
+					</div>
+					<div class="flex-shrink-0 ms-3">
+						<div class="stats-icon bg-orange bg-opacity-10">
+							<i class="fa fa-calculator text-orange"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END card -->
+	</div>
+	<!-- END col-3 -->
+	
+	<!-- BEGIN col-3 -->
+	<div class="col-xl-3 col-md-6">
+		<!-- BEGIN card -->
+		<div class="card mb-3 dashboard-stats-card">
+			<div class="card-body">
+				<div class="d-flex fw-bold">
+					<div class="flex-grow-1">
+						<div class="stats-label">OCCUPIED BLOCKS</div>
+						<div class="stats-number text-cyan"><%= Object.values(apartmentStats.apartmentsByBlock).filter(count => count > 0).length %></div>
+					</div>
+					<div class="flex-shrink-0 ms-3">
+						<div class="stats-icon bg-cyan bg-opacity-10">
+							<i class="fa fa-th-large text-cyan"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END card -->
+	</div>
+	<!-- END col-3 -->
+</div>
+<!-- END row -->
+
+<!-- BEGIN row - Payment Statistics -->
+<div class="row">
+	<!-- BEGIN col-3 -->
+	<div class="col-xl-3 col-md-6">
+		<!-- BEGIN card -->
+		<div class="card mb-3 dashboard-stats-card">
+			<div class="card-body">
+				<div class="d-flex fw-bold">
+					<div class="flex-grow-1">
+						<div class="stats-label">PAYMENT YEARS</div>
+						<div class="stats-number text-success"><%= paymentStats.totalYears %></div>
+					</div>
+					<div class="flex-shrink-0 ms-3">
+						<div class="stats-icon bg-success bg-opacity-10">
+							<i class="fa fa-calendar text-success"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END card -->
+	</div>
+	<!-- END col-3 -->
+	
+	<!-- BEGIN col-3 -->
+	<div class="col-xl-3 col-md-6">
+		<!-- BEGIN card -->
+		<div class="card mb-3 dashboard-stats-card">
+			<div class="card-body">
+				<div class="d-flex fw-bold">
+					<div class="flex-grow-1">
+						<div class="stats-label">AVERAGE PRICE/M²</div>
+						<div class="stats-number text-warning">$<%= paymentStats.averagePrice.toFixed(2) %></div>
+					</div>
+					<div class="flex-shrink-0 ms-3">
+						<div class="stats-icon bg-warning bg-opacity-10">
+							<i class="fa fa-chart-line text-warning"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END card -->
+	</div>
+	<!-- END col-3 -->
+	
+	<% if (paymentStats.latestYear) { %>
+	<!-- BEGIN col-3 -->
+	<div class="col-xl-3 col-md-6">
+		<!-- BEGIN card -->
+		<div class="card mb-3 dashboard-stats-card">
+			<div class="card-body">
+				<div class="d-flex fw-bold">
+					<div class="flex-grow-1">
+						<div class="stats-label">CURRENT YEAR</div>
+						<div class="stats-number text-info"><%= paymentStats.latestYear %></div>
+					</div>
+					<div class="flex-shrink-0 ms-3">
+						<div class="stats-icon bg-info bg-opacity-10">
+							<i class="fa fa-clock text-info"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END card -->
+	</div>
+	<!-- END col-3 -->
+	
+	<!-- BEGIN col-3 -->
+	<div class="col-xl-3 col-md-6">
+		<!-- BEGIN card -->
+		<div class="card mb-3 dashboard-stats-card">
+			<div class="card-body">
+				<div class="d-flex fw-bold">
+					<div class="flex-grow-1">
+						<div class="stats-label">CURRENT PRICE/M²</div>
+						<div class="stats-number text-danger">$<%= paymentStats.latestPrice.toFixed(2) %></div>
+					</div>
+					<div class="flex-shrink-0 ms-3">
+						<div class="stats-icon bg-danger bg-opacity-10">
+							<i class="fa fa-money-bill text-danger"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END card -->
+	</div>
+	<!-- END col-3 -->
+	<% } else { %>
+	<!-- BEGIN col-6 -->
+	<div class="col-xl-6 col-md-12">
+		<!-- BEGIN card -->
+		<div class="card mb-3 dashboard-stats-card">
+			<div class="card-body text-center">
+				<div class="fw-bold">
+					<div class="stats-label mb-2">PAYMENTS</div>
+					<p class="text-muted mb-3">No payment data available</p>
+					<a href="/admin/payments" class="btn btn-success">
+						<i class="fa fa-plus me-1"></i>Add Payment Data
+					</a>
+				</div>
+			</div>
+		</div>
+		<!-- END card -->
+	</div>
+	<!-- END col-6 -->
+	<% } %>
+</div>
+<!-- END row -->
+
+<!-- BEGIN row -->
+<div class="row">
+	<!-- BEGIN col-12 -->
+	<div class="col-xl-12">
+		<!-- BEGIN panel -->
+		<div class="panel panel-inverse quick-actions-panel" data-sortable-id="index-1">
+			<div class="panel-heading">
+				<h4 class="panel-title">Quick Actions</h4>
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-4">
+						<a href="/admin/pages/create" class="btn btn-primary btn-lg w-100 mb-3">
+							<i class="fa fa-plus me-2"></i>Create New Page
+						</a>
+					</div>
+					<div class="col-md-4">
+						<a href="/admin/projects/create" class="btn btn-success btn-lg w-100 mb-3">
+							<i class="fa fa-plus me-2"></i>Create New Project
+						</a>
+					</div>
+					<div class="col-md-4">
+						<a href="/admin/apartments/create" class="btn btn-purple btn-lg w-100 mb-3">
+							<i class="fa fa-plus me-2"></i>Add New Apartment
+						</a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<a href="/admin/pages" class="btn btn-outline-primary w-100 mb-3">
+							<i class="fa fa-list me-2"></i>Manage All Pages
+						</a>
+					</div>
+					<div class="col-md-4">
+						<a href="/admin/projects" class="btn btn-outline-success w-100 mb-3">
+							<i class="fa fa-list me-2"></i>Manage All Projects
+						</a>
+					</div>
+					<div class="col-md-4">
+						<a href="/admin/apartments" class="btn btn-outline-purple w-100 mb-3">
+							<i class="fa fa-building me-2"></i>Manage All Apartments
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END panel -->
+	</div>
+	<!-- END col-12 -->
+</div>
+<!-- END row -->
+
+
+
+<!-- BEGIN row -->
+<div class="row">
+	<!-- BEGIN col-6 -->
+	<div class="col-xl-6">
+		<!-- BEGIN panel -->
+		<div class="panel panel-inverse" data-sortable-id="index-2">
+			<div class="panel-heading">
+				<h4 class="panel-title">Recently Updated Pages</h4>
+			</div>
+			<div class="panel-body">
+				<% if (recentPages && recentPages.length > 0) { %>
+					<div class="table-responsive recent-items-table">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th>Title</th>
+									<th>Status</th>
+									<th>Last Updated</th>
+									<th>Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% recentPages.forEach(function(page) { %>
+									<tr>
+										<td>
+											<strong><%= page.title %></strong>
+											<div class="text-muted small"><%= page.url %></div>
+										</td>
+										<td>
+											<% if (page.status === 'published') { %>
+												<span class="badge bg-success">Published</span>
+											<% } else { %>
+												<span class="badge bg-warning">Draft</span>
+											<% } %>
+										</td>
+										<td>
+											<small class="text-muted">
+												<% if (page.lastUpdated) { %>
+													<%= new Date(page.lastUpdated).toLocaleDateString() %>
+												<% } else { %>
+													No date
+												<% } %>
+											</small>
+										</td>
+										<td>
+											<a href="/admin/pages/<%= page.key %>/edit" class="btn btn-sm btn-outline-primary">
+												<i class="fa fa-edit"></i>
+											</a>
+											<a href="<%= page.url %>" target="_blank" class="btn btn-sm btn-outline-secondary">
+												<i class="fa fa-external-link"></i>
+											</a>
+										</td>
+									</tr>
+								<% }); %>
+							</tbody>
+						</table>
+					</div>
+					<div class="text-center mt-3">
+						<a href="/admin/pages" class="btn btn-outline-primary">View All Pages</a>
+					</div>
+				<% } else { %>
+					<div class="empty-state">
+						<div class="empty-icon">
+							<i class="fa fa-file-text"></i>
+						</div>
+						<div class="empty-text">No pages found</div>
+						<a href="/admin/pages/create" class="btn btn-primary">Create Your First Page</a>
+					</div>
+				<% } %>
+			</div>
+		</div>
+		<!-- END panel -->
+	</div>
+	<!-- END col-6 -->
+	
+	<!-- BEGIN col-6 -->
+	<div class="col-xl-6">
+		<!-- BEGIN panel -->
+		<div class="panel panel-inverse" data-sortable-id="index-3">
+			<div class="panel-heading">
+				<h4 class="panel-title">Recent Projects</h4>
+			</div>
+			<div class="panel-body">
+				<% if (recentProjects && recentProjects.length > 0) { %>
+					<div class="table-responsive recent-items-table">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th>Title</th>
+									<th>Works</th>
+									<th>Categories</th>
+									<th>Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% recentProjects.forEach(function(project) { %>
+									<tr>
+										<td>
+											<strong><%= project.title %></strong>
+											<div class="text-muted small"><%= project.url %></div>
+										</td>
+										<td>
+											<span class="badge bg-info"><%= project.works ? project.works.length : 0 %> works</span>
+										</td>
+										<td>
+											<% if (project.categories && project.categories.length > 0) { %>
+												<% project.categories.slice(0, 2).forEach(function(category) { %>
+													<span class="badge bg-secondary me-1"><%= category %></span>
+												<% }); %>
+												<% if (project.categories.length > 2) { %>
+													<span class="badge bg-secondary">+<%= project.categories.length - 2 %></span>
+												<% } %>
+											<% } else { %>
+												<span class="text-muted small">No categories</span>
+											<% } %>
+										</td>
+										<td>
+											<a href="/admin/projects/<%= allProjects.indexOf(project) %>/edit" class="btn btn-sm btn-outline-success">
+												<i class="fa fa-edit"></i>
+											</a>
+											<a href="/projects/<%= project.url %>" target="_blank" class="btn btn-sm btn-outline-secondary">
+												<i class="fa fa-external-link"></i>
+											</a>
+										</td>
+									</tr>
+								<% }); %>
+							</tbody>
+						</table>
+					</div>
+					<div class="text-center mt-3">
+						<a href="/admin/projects" class="btn btn-outline-success">View All Projects</a>
+					</div>
+				<% } else { %>
+					<div class="empty-state">
+						<div class="empty-icon">
+							<i class="fa fa-building"></i>
+						</div>
+						<div class="empty-text">No projects found</div>
+						<a href="/admin/projects/create" class="btn btn-success">Create Your First Project</a>
+					</div>
+				<% } %>
+			</div>
+		</div>
+		<!-- END panel -->
+	</div>
+	<!-- END col-6 -->
+</div>
+<!-- END row -->
+
+<!-- BEGIN row -->
+<div class="row">
+	<!-- BEGIN col-6 -->
+	<div class="col-xl-6">
+		<!-- BEGIN panel -->
+		<div class="panel panel-inverse system-info-panel" data-sortable-id="index-4">
+			<div class="panel-heading">
+				<h4 class="panel-title">System Information</h4>
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-6">
+						<h5>Settings</h5>
+						<ul class="list-unstyled">
+							<li><strong>Site Title:</strong> <%= siteTitle %></li>
+							<li><strong>Total Pages:</strong> <%= statistics.totalPages %></li>
+							<li><strong>Total Projects:</strong> <%= statistics.totalProjects %></li>
+						</ul>
+					</div>
+					<div class="col-md-6">
+						<h5>Quick Links</h5>
+						<ul class="list-unstyled">
+							<li><a href="/admin/site-settings" class="text-decoration-none"><i class="fa fa-cog me-2"></i>Settings</a></li>
+							<li><a href="/admin/payments" class="text-decoration-none"><i class="fa fa-money-bill me-2"></i>Payments</a></li>
+							<li><a href="/admin/profile" class="text-decoration-none"><i class="fa fa-user me-2"></i>User Profile</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END panel -->
+	</div>
+	<!-- END col-6 -->
+	
+	<!-- BEGIN col-6 -->
+	<div class="col-xl-6">
+		<!-- BEGIN panel -->
+		<div class="panel panel-inverse menu-section-panel" data-sortable-id="index-1-5">
+			<div class="panel-heading">
+				<h4 class="panel-title">Menu Management</h4>
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="menu-stats-card text-center p-3 border rounded">
+							<div class="menu-stats-icon mb-2">
+								<i class="fa fa-bars fa-2x text-primary"></i>
+							</div>
+							<div class="menu-stats-number h3 text-dark mb-1"><%= menuStatistics.totalMenus %></div>
+							<div class="menu-stats-label text-muted">Total Menus</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="menu-stats-card text-center p-3 border rounded">
+							<div class="menu-stats-icon mb-2">
+								<i class="fa fa-link fa-2x text-success"></i>
+							</div>
+							<div class="menu-stats-number h3 text-dark mb-1"><%= menuStatistics.totalItems %></div>
+							<div class="menu-stats-label text-muted">Total Menu Items</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="menu-stats-card text-center p-3 border rounded">
+							<div class="menu-stats-icon mb-2">
+								<i class="fa fa-cog fa-2x text-info"></i>
+							</div>
+							<div class="menu-stats-number h3 text-dark mb-1"><%= menuStatistics.menuNames.length > 0 ? menuStatistics.menuNames.length : 0 %></div>
+							<div class="menu-stats-label text-muted">Active Menus</div>
+						</div>
+					</div>
+				</div>
+				<div class="row mt-4">
+					<div class="col-md-6">
+						<a href="/admin/menus" class="btn btn-outline-primary w-100 mb-3">
+							<i class="fa fa-bars me-2"></i>Manage All Menus
+						</a>
+					</div>
+					<div class="col-md-6">
+						<a href="/admin/menus/create" class="btn btn-primary w-100 mb-3">
+							<i class="fa fa-plus me-2"></i>Create New Menu
+						</a>
+					</div>
+				</div>
+				<% if (allMenus && allMenus.length > 0) { %>
+					<div class="row mt-3">
+						<div class="col-12">
+							<h6 class="text-muted mb-2">Available Menus:</h6>
+							<div class="d-flex flex-wrap gap-2">
+								<% allMenus.forEach(function(menu) { %>
+									<span class="badge bg-light text-dark border menu-badge" data-menu-id="<%= menu.id %>">
+										<%= menu.name %>
+										<a href="/admin/menus/<%= menu.id %>/edit" class="text-decoration-none ms-1" title="Edit <%= menu.name %>">
+											<i class="fa fa-edit text-primary"></i>
+										</a>
+									</span>
+								<% }); %>
+							</div>
+						</div>
+					</div>
+				<% } %>
+			</div>
+		</div>
+		<!-- END panel -->
+	</div>
+	<!-- END col-6 -->
+</div>
+<!-- END row --> 

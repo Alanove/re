@@ -1,0 +1,201 @@
+
+<style>
+.account-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.account-balance {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #27ae60;
+}
+
+.account-balance.negative {
+    color: #e74c3c;
+}
+
+.total-amount-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+}
+
+.total-amount {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.account-actions {
+    margin-top: 10px;
+}
+
+.account-status {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.account-status.active {
+    background: #d4edda;
+    color: #155724;
+}
+
+.account-status.inactive {
+    background: #f8d7da;
+    color: #721c24;
+}
+</style>
+
+<div class="row mb-3">
+    <div class="col-sm-6">
+        <h1 class="page-header">Accounts Management</h1>
+    </div>
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-end">
+            <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item active">Accounts</li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+            <!-- Total Amount Card -->
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="account-card total-amount-card">
+                        <div class="text-center">
+                            <h3>Total Amount</h3>
+                            <div class="total-amount">$<%= (totalAmount || 0).toFixed(2) %></div>
+                            <p><%= accounts.length %> account<%= accounts.length !== 1 ? 's' : '' %></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Quick Actions</h3>
+                        </div>
+                        <div class="card-body">
+                            <a href="/admin/accounts/create" class="btn btn-primary">
+                                <i class="fa fa-plus"></i> Create New Account
+                            </a>
+                            <a href="/admin/transactions" class="btn btn-success ml-2">
+                                <i class="fa fa-exchange-alt"></i> View Transactions
+                            </a>
+                            <a href="/admin/transactions/create" class="btn btn-info ml-2">
+                                <i class="fa fa-plus"></i> Add Transaction
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Accounts List -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">All Accounts</h3>
+                        </div>
+                        <div class="card-body">
+                            <% if (accounts.length === 0) { %>
+                                <div class="text-center py-5">
+                                    <i class="fa fa-wallet fa-3x text-muted mb-3"></i>
+                                    <h4>No accounts found</h4>
+                                    <p class="text-muted">Create your first account to get started with financial management.</p>
+                                    <a href="/admin/accounts/create" class="btn btn-primary">
+                                        <i class="fa fa-plus"></i> Create First Account
+                                    </a>
+                                </div>
+                            <% } else { %>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Account Name</th>
+                                                <th>Balance</th>
+                                                <th>Currency</th>
+                                                <th>Status</th>
+                                                <th>Created</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% accounts.forEach(account => { %>
+                                                <tr>
+                                                    <td>
+                                                        <strong><%= account.name %></strong>
+                                                        <% if (account.notes) { %>
+                                                            <br><small class="text-muted"><%= account.notes %></small>
+                                                        <% } %>
+                                                    </td>
+                                                    <td>
+                                                        <span class="account-balance <%= (account.balance || 0) < 0 ? 'negative' : '' %>">
+                                                            $<%= (account.balance || 0).toFixed(2) %>
+                                                        </span>
+                                                    </td>
+                                                    <td><%= account.currency %></td>
+                                                    <td>
+                                                        <span class="account-status <%= account.isActive ? 'active' : 'inactive' %>">
+                                                            <%= account.isActive ? 'Active' : 'Inactive' %>
+                                                        </span>
+                                                    </td>
+                                                    <td><%= new Date(account.createdAt).toLocaleDateString() %></td>
+                                                    <td>
+                                                        <a href="/admin/accounts/<%= account.id %>/edit" class="btn btn-sm btn-info">
+                                                            <i class="fa fa-edit"></i> Edit
+                                                        </a>
+                                                        <button class="btn btn-sm btn-danger ml-1" onclick="deleteAccount(<%= account.id %>)" data-account-name="<%= account.name %>">
+                                                            <i class="fa fa-trash"></i> Delete
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            <% }); %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</div>
+
+
+<script>
+async function deleteAccount(id) {
+    const button = event.target.closest('button');
+    const accountName = button.getAttribute('data-account-name');
+    
+    if (!confirm(`Are you sure you want to delete account "${accountName}"? This action cannot be undone.`)) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`/admin/accounts/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            location.reload();
+        } else {
+            alert('Error: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Error deleting account:', error);
+        alert('Error deleting account. Please try again.');
+    }
+}
+</script>

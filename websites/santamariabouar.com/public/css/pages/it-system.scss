@@ -1,0 +1,394 @@
+// IT System page styles
+.it-system-page {
+  .page-header {
+    background: linear-gradient(135deg, rgba($primary, 0.8), rgba($accent, 0.8));
+    color: white;
+    padding: 3rem 0;
+    text-align: center;
+    margin-bottom: 3rem;
+    
+    p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+  }
+  
+  .it-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    
+    .it-intro {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 2.5rem;
+      margin-bottom: 3rem;
+      text-align: center;
+      
+      h2 {
+        color: $brand-blue;
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      p {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        color: $text;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+    }
+    
+    .network-diagram {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 2rem;
+      margin: 3rem 0;
+      overflow-x: auto;
+      
+      .diagram-container {
+        min-width: 1200px;
+        position: relative;
+        
+        .diagram {
+          width: 100%;
+          height: auto;
+          border-radius: 8px;
+        }
+        
+        .diagram-legend {
+          margin-top: 2rem;
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 1rem;
+          
+          .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+            
+            .legend-color {
+              width: 20px;
+              height: 20px;
+              border-radius: 4px;
+            }
+            
+            .legend-text {
+              color: $text;
+              font-size: 0.9rem;
+            }
+          }
+        }
+      }
+    }
+    
+    .infrastructure-sections {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+      
+      .infrastructure-section {
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        padding: 2rem;
+        
+        h3 {
+          color: $brand-blue;
+          font-size: 1.5rem;
+          margin-bottom: 1.5rem;
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          
+          .section-icon {
+            font-size: 1.5rem;
+            color: $accent;
+          }
+        }
+        
+        .section-content {
+          color: $text;
+          line-height: 1.6;
+          
+          p {
+            margin-bottom: 1rem;
+            
+            &:last-child {
+              margin-bottom: 0;
+            }
+          }
+        }
+        
+        .component-list {
+          margin-top: 1.5rem;
+          
+          .component-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            
+            &:last-child {
+              border-bottom: none;
+            }
+            
+            .component-icon {
+              width: 40px;
+              height: 40px;
+              background: rgba($accent, 0.2);
+              border-radius: 8px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              color: $accent;
+              font-size: 1.2rem;
+            }
+            
+            .component-info {
+              flex: 1;
+              
+              .component-name {
+                color: $brand-blue;
+                font-weight: 600;
+                font-size: 1rem;
+                margin-bottom: 0.25rem;
+              }
+              
+              .component-description {
+                color: $text;
+                font-size: 0.9rem;
+                opacity: 0.8;
+              }
+            }
+          }
+        }
+      }
+    }
+    
+    .cloud-services {
+      background: rgba($background, 0.8);
+      padding: 3rem 0;
+      margin: 3rem 0;
+      
+      .cloud-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        
+        h2 {
+          color: $brand-blue;
+          font-size: 2rem;
+          text-align: center;
+          margin-bottom: 2rem;
+        }
+        
+        .cloud-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 2rem;
+          
+          .cloud-service {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            
+            .cloud-icon {
+              font-size: 3rem;
+              color: $accent;
+              margin-bottom: 1rem;
+            }
+            
+            h4 {
+              color: $brand-blue;
+              font-size: 1.3rem;
+              margin-bottom: 1rem;
+            }
+            
+            p {
+              color: $text;
+              line-height: 1.6;
+            }
+          }
+        }
+      }
+    }
+    
+    .security-section {
+      margin: 3rem 0;
+      
+      .security-content {
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        padding: 2.5rem;
+        
+        h2 {
+          color: $brand-blue;
+          font-size: 1.8rem;
+          text-align: center;
+          margin-bottom: 2rem;
+        }
+        
+        .security-features {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 2rem;
+          
+          .security-feature {
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 1.5rem;
+            
+            .feature-header {
+              display: flex;
+              align-items: center;
+              gap: 1rem;
+              margin-bottom: 1rem;
+              
+              .feature-icon {
+                font-size: 2rem;
+                color: $accent;
+              }
+              
+              h4 {
+                color: $brand-blue;
+                font-size: 1.2rem;
+                margin: 0;
+              }
+            }
+            
+            p {
+              color: $text;
+              line-height: 1.6;
+              margin: 0;
+            }
+          }
+        }
+      }
+    }
+    
+    .connectivity-section {
+      background: linear-gradient(135deg, rgba($primary, 0.1), rgba($accent, 0.1));
+      padding: 3rem 0;
+      margin: 3rem 0;
+      
+      .connectivity-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        text-align: center;
+        
+        h2 {
+          color: $brand-blue;
+          font-size: 2rem;
+          margin-bottom: 2rem;
+        }
+        
+        .connectivity-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 2rem;
+          
+          .connectivity-item {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 2rem;
+            
+            .connectivity-icon {
+              font-size: 2.5rem;
+              color: $accent;
+              margin-bottom: 1rem;
+            }
+            
+            h4 {
+              color: $brand-blue;
+              font-size: 1.3rem;
+              margin-bottom: 1rem;
+            }
+            
+            p {
+              color: $text;
+              line-height: 1.6;
+              margin: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Infrastructure section specific styles
+.infrastructure-section {
+  &.servers {
+    border-left: 4px solid #e74c3c;
+  }
+  
+  &.storage {
+    border-left: 4px solid #f39c12;
+  }
+  
+  &.network {
+    border-left: 4px solid #C87E2F;
+  }
+  
+  &.security {
+    border-left: 4px solid #9b59b6;
+  }
+}
+
+// Responsive adjustments for IT System page
+@media (max-width: 768px) {
+  .it-system-page {
+    .it-content {
+      padding: 0 1rem;
+      
+      .it-intro {
+        padding: 2rem 1.5rem;
+      }
+      
+      .network-diagram {
+        padding: 1rem;
+        
+        .diagram-container {
+          min-width: auto;
+          
+          .diagram-legend {
+            grid-template-columns: 1fr;
+          }
+        }
+      }
+      
+      .infrastructure-sections {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      
+      .cloud-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .security-features {
+        grid-template-columns: 1fr;
+      }
+      
+      .connectivity-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+<ol class="breadcrumb">
+	<li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+	<li class="breadcrumb-item"><a href="/admin/testimonials">Testimonials</a></li>
+	<li class="breadcrumb-item active"><%= isCreateMode ? 'Add' : 'Edit' %></li>
+</ol>
+<form method="POST" action="<%= isCreateMode ? '/admin/testimonials/create' : '/admin/testimonials/' + item.id + '/edit' %>">
+	<div class="panel panel-inverse">
+		<div class="panel-heading">
+			<h4 class="panel-title"><%= isCreateMode ? 'Add Testimonial' : 'Edit Testimonial' %></h4>
+		</div>
+		<div class="panel-body">
+			<% if (typeof error !== 'undefined' && error) { %>
+				<div class="alert alert-danger"><%= error %></div>
+			<% } %>
+			<div class="mb-3">
+				<label class="form-label">Name</label>
+				<input class="form-control" name="name" value="<%= item.name || '' %>" required>
+			</div>
+			<div class="mb-3">
+				<label class="form-label">Quote</label>
+				<textarea class="form-control" name="quote" rows="5" required><%= item.quote || '' %></textarea>
+			</div>
+			<div class="mb-3">
+				<label class="form-label">Location (optional)</label>
+				<input class="form-control" name="location" value="<%= item.location || '' %>">
+				<small class="text-muted">Hidden on the site when empty</small>
+			</div>
+			<div class="mb-3">
+				<label class="form-label">Star rating</label>
+				<select class="form-select" name="rating">
+					<% const rating = item.rating || 5; %>
+					<% [5,4,3,2,1].forEach(function(value) { %>
+						<option value="<%= value %>" <%= rating == value ? 'selected' : '' %>><%= value %> star<%= value === 1 ? '' : 's' %></option>
+					<% }); %>
+				</select>
+			</div>
+			<div class="mb-3">
+				<label class="form-label">Display order</label>
+				<input class="form-control" type="number" name="sort" value="<%= item.sort || 1000 %>">
+			</div>
+			<div class="form-check mb-3">
+				<input class="form-check-input" type="checkbox" id="isActive" name="isActive" value="1" <%= item.status !== 'draft' ? 'checked' : '' %>>
+				<label class="form-check-label" for="isActive">Published</label>
+			</div>
+			<button class="btn btn-primary" type="submit">Save</button>
+			<a class="btn btn-secondary" href="/admin/testimonials">Cancel</a>
+		</div>
+	</div>
+</form>

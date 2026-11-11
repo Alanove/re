@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>" />
+  
+  <!-- SEO Meta Tags -->
+  <%
+    const siteName = typeof siteSettings !== 'undefined' && siteSettings.siteTitle ? siteSettings.siteTitle : (typeof siteData !== 'undefined' && siteData.name ? siteData.name : 'Antonio\'s Couture');
+    const isHome = typeof isHomePage !== 'undefined' && isHomePage;
+    const slogan = typeof siteSettings !== 'undefined' && siteSettings.siteSlogan ? siteSettings.siteSlogan : '';
+    let documentTitle;
+    if (isHome && slogan) {
+      documentTitle = siteName + ' - ' + slogan;
+    } else if (typeof pageTitle !== 'undefined' && pageTitle) {
+      documentTitle = pageTitle.includes(siteName) ? pageTitle : (pageTitle + ' - ' + siteName);
+    } else {
+      documentTitle = siteName;
+    }
+    const pageDesc = typeof pageDescription !== 'undefined' && pageDescription ? String(pageDescription).trim() : '';
+    const siteDesc = typeof siteSettings !== 'undefined' && siteSettings.siteDescription ? String(siteSettings.siteDescription).trim() : (typeof siteData !== 'undefined' && siteData.description ? String(siteData.description).trim() : '');
+    const metaDesc = pageDesc || siteDesc || '';
+  %>
+  <title><%= documentTitle %></title>
+  <meta name="description" content="<%= metaDesc %>">
+  <meta name="keywords" content="<%= typeof pageKeywords !== 'undefined' ? pageKeywords : '' %>">
+  <meta name="author" content="<%= siteName %>">
+  <meta name="robots" content="<%= typeof pageRobots !== 'undefined' ? pageRobots : 'index, follow' %>">
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="<%= documentTitle %>">
+  <meta property="og:description" content="<%= metaDesc %>">
+  <meta property="og:type" content="<%= typeof pageType !== 'undefined' ? pageType : 'website' %>">
+  <meta property="og:url" content="<%= typeof pageUrl !== 'undefined' ? pageUrl : '' %>">
+  <meta property="og:image" content="<%= (function() {
+    const image = typeof pageImage !== 'undefined' ? pageImage : '';
+    const siteUrl = typeof siteData !== 'undefined' && siteData.domain ? siteData.domain : '';
+    if (!image) return '';
+    // If image is already a full URL, return as is; otherwise prepend site URL
+    if (image.startsWith('http://') || image.startsWith('https://')) return image;
+    return siteUrl + (image.startsWith('/') ? image : '/' + image);
+  })() %>">
+  <meta property="og:site_name" content="<%= siteName %>">
+  <meta property="og:locale" content="en_US">
+  <% 
+    const fbAppRawLt = typeof ecommerceSettings !== 'undefined' && ecommerceSettings && ecommerceSettings.facebook_app_id
+      ? String(ecommerceSettings.facebook_app_id).replace(/\D/g, '').trim() : '';
+    if (fbAppRawLt) { %>
+  <meta property="fb:app_id" content="<%= fbAppRawLt %>">
+  <% } %>
+  
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<%= documentTitle %>">
+  <meta name="twitter:description" content="<%= metaDesc %>">
+  <meta name="twitter:image" content="<%= (function() {
+    const image = typeof pageImage !== 'undefined' ? pageImage : '';
+    const siteUrl = typeof siteData !== 'undefined' && siteData.domain ? siteData.domain : '';
+    if (!image) return '';
+    // If image is already a full URL, return as is; otherwise prepend site URL
+    if (image.startsWith('http://') || image.startsWith('https://')) return image;
+    return siteUrl + (image.startsWith('/') ? image : '/' + image);
+  })() %>">
+  
+  <!-- Additional SEO Meta Tags -->
+  <meta name="language" content="English">
+  <meta name="revisit-after" content="7 days">
+  <meta name="distribution" content="global">
+  <meta name="rating" content="general">
+  <meta name="theme-color" content="#000000">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="<%= typeof pageUrl !== 'undefined' ? pageUrl : '' %>">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="<%= typeof siteData !== 'undefined' && siteData.favicon ? siteData.favicon : '/images/favicon.ico' %>">
+  <link rel="apple-touch-icon" sizes="180x180" href="<%= typeof siteData !== 'undefined' && siteData.favicon ? siteData.favicon : '/images/apple-touch-icon.png' %>">
+  <link rel="icon" type="image/png" sizes="32x32" href="<%= typeof siteData !== 'undefined' && siteData.favicon ? siteData.favicon : '/images/favicon-32x32.png' %>">
+  <link rel="icon" type="image/png" sizes="16x16" href="<%= typeof siteData !== 'undefined' && siteData.favicon ? siteData.favicon : '/images/favicon-16x16.png' %>">
+  
+  <!-- Preconnect to external domains -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+  <!-- Deferred styles (non-blocking): same cascade order as before, then site CSS loads last -->
+  <%- include('partials/deferred-stylesheet', { href: 'https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400&display=swap' }) %>
+  <%- include('partials/deferred-stylesheet', { href: '/css/font-awesome/all.min.css' }) %>
+  <%- include('partials/deferred-stylesheet', { href: 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css' }) %>
+  <%- include('partials/deferred-stylesheet', { href: 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css' }) %>
+  <% if (!isHome) { %>
+  <%- include('partials/deferred-stylesheet', { href: 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css' }) %>
+  <% } %>
+
+  <!-- Site stylesheet (blocking): must follow vendor links so overrides win -->
+  <link rel="stylesheet" href="/css/styles.css?v=<%= typeof assetVersion !== 'undefined' ? assetVersion : '1' %>">
+  <% if (!isHome) { %>
+  <%- include('partials/deferred-stylesheet', { href: 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css' }) %>
+  <% } %>
+  
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  <%- typeof structuredData !== 'undefined' ? structuredData : (function() {
+    const siteName = typeof siteData !== 'undefined' && siteData.name ? siteData.name : '';
+    const siteUrl = typeof siteData !== 'undefined' && siteData.domain ? siteData.domain : '';
+    const siteLogo = typeof siteData !== 'undefined' && siteData.logo ? siteData.domain + siteData.logo : '';
+    const siteDescription = typeof siteData !== 'undefined' && siteData.description ? siteData.description : '';
+    const linkedinUrl = typeof siteData !== 'undefined' && siteData.social && siteData.social.linkedin ? siteData.social.linkedin : '';
+    const facebookUrl = typeof siteData !== 'undefined' && siteData.social && siteData.social.facebook ? siteData.social.facebook : '';
+    
+    return JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": siteName,
+      "url": siteUrl,
+      "logo": siteLogo,
+      "description": siteDescription,
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "Lebanon"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service"
+      },
+      "sameAs": [
+        linkedinUrl,
+        facebookUrl
+      ]
+    });
+  })() %>
+  </script>
+
+  <!-- Meta Pixel (E-commerce Settings) -->
+  <% if (typeof ecommerceSettings !== 'undefined' && ecommerceSettings && ecommerceSettings.facebook_pixel_script && String(ecommerceSettings.facebook_pixel_script).trim()) { %>
+  <%- ecommerceSettings.facebook_pixel_script %>
+  <% } %>
+
+  <!-- Analytics (from Site Settings) -->
+  <% if (typeof siteSettings !== 'undefined' && siteSettings.analyticsScript && String(siteSettings.analyticsScript).trim()) { %>
+  <%- siteSettings.analyticsScript %>
+  <% } %>
+</head>
+<body<%- typeof bodyClass !== 'undefined' ? ' class="' + bodyClass + '"' : '' %>>
+  <!-- Page Loader -->
+  <div class="loader" id="pageLoader">
+    <div class="loader-content">
+      <div class="loader-title">
+        <%= typeof siteData !== 'undefined' && siteData.siteTitle ? siteData.siteTitle : '' %>
+      </div>
+    </div>
+  </div>
+
+  <%
+    var _wrapMainPage = !(typeof isHomePage !== 'undefined' && isHomePage);
+  %>
+  <div class="main">
+    <%- include('partials/header') %>
+    <% if (_wrapMainPage) { %><div class="main-page"><% } %>
+    <%- body %>
+    <%- include('partials/footer') %>
+    <% if (_wrapMainPage) { %></div><% } %>
+  </div>
+
+  <%- include('partials/need-help-chat') %>
+
+  <!-- JavaScript Libraries -->
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  
+  <!-- Bootstrap 4 JS Bundle (MultiShop template uses Bootstrap 4) -->
+  <script src="/js/bootstrap/bootstrap.bundle.min.js"></script>
+  
+  <% if (!isHome) { %>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <% } %>
+
+  <script src="/js/socket.io.js?v=<%= typeof assetVersion !== 'undefined' ? assetVersion : '1' %>"></script>
+
+  <!-- Custom Scripts (script.js + site.js) -->
+  <script src="/js/<%= typeof isProduction !== 'undefined' && isProduction ? 'app.min.js' : 'app.js' %>?v=<%= typeof assetVersion !== 'undefined' ? assetVersion : '1' %>"></script>
+
+</body>
+</html>

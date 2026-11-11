@@ -1,0 +1,121 @@
+<%- include('partials/page-title', { heading: typeof heading !== 'undefined' ? heading : (typeof pageTitle !== 'undefined' ? pageTitle : '') }) %>
+
+<section>
+  <div class="container">
+    <% if (typeof pageKind !== 'undefined' && pageKind === 'company') { %>
+      <div class="row">
+        <div class="col-lg-4 order-2 order-lg-1 wow fadeIn" data-wow-delay="200ms">
+          <%- include('partials/company-sidebar') %>
+        </div>
+        <div class="col-lg-8 order-1 order-lg-2 mb-2-9 mb-lg-0 wow fadeIn cms-page-content" data-wow-delay="400ms">
+          <%- typeof pageContent !== 'undefined' ? pageContent : '' %>
+        </div>
+      </div>
+    <% } else if (typeof pageKind !== 'undefined' && pageKind === 'team') { %>
+      <div class="text-center mb-2-9 mb-lg-6 wow fadeIn" data-wow-delay="100ms">
+        <span class="text-secondary mb-2 d-block fw-bold text-uppercase">Our Team</span>
+        <h2 class="mb-0 h1"><%= typeof teamHeading !== 'undefined' && teamHeading ? teamHeading : 'Our Expert Team' %></h2>
+      </div>
+      <% const teamCompanies = typeof companyPages !== 'undefined' ? companyPages : []; %>
+      <% const activeTeamCompany = typeof teamCompanyKey !== 'undefined' ? teamCompanyKey : ''; %>
+      <% if (teamCompanies.length) { %>
+      <div class="text-center mb-2-9 team-company-filters">
+        <% teamCompanies.forEach(function(company) { %>
+          <a href="/our-team/<%= company.key %>" class="butn-style3<%= activeTeamCompany === company.key ? ' brown' : '' %> m-1"><%= company.title %></a>
+        <% }); %>
+      </div>
+      <% } %>
+      <div class="row mt-n1-9">
+        <% (typeof teamMembers !== 'undefined' ? teamMembers : []).forEach(function(member, i) { %>
+        <div class="col-sm-6 col-lg-3 mt-1-9">
+          <div class="card card-style3 border-0 text-center h-100">
+            <div class="card-img position-relative team-photo<%= member.photo ? '' : ' team-photo-empty' %>">
+              <img src="<%= member.photo || '/images/team/photo-not-available.png' %>" class="card-img-top<%= member.photo ? '' : ' team-photo-placeholder' %>" alt="<%= member.photo ? member.name : 'Photo not available' %>">
+            </div>
+            <div class="card-body p-1-9">
+              <h3 class="h5"><%= member.name %></h3>
+              <% if (member.description) { %>
+                <p class="text-primary mb-0" style="white-space:pre-line"><%= member.description %></p>
+              <% } %>
+              <% if (member.bio && String(member.bio).trim()) { %>
+                <button type="button" class="team-bio-link" data-bs-toggle="modal" data-bs-target="#teamBioModal">Bio</button>
+                <div class="d-none team-bio-source"><%= member.bio %></div>
+              <% } %>
+            </div>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+      <div class="modal fade" id="teamBioModal" tabindex="-1" aria-labelledby="teamBioModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="teamBioModalLabel"></h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="teamBioModalBody"></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (function () {
+          var modal = document.getElementById('teamBioModal');
+          if (!modal) return;
+          modal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var card = button && button.closest ? button.closest('.card') : null;
+            if (!card) return;
+            var nameEl = card.querySelector('h3');
+            var bioEl = card.querySelector('.team-bio-source');
+            var title = modal.querySelector('.modal-title');
+            var body = modal.querySelector('.modal-body');
+            if (title) title.textContent = nameEl ? nameEl.textContent : '';
+            if (body) body.textContent = bioEl ? bioEl.textContent : '';
+          });
+        })();
+      </script>
+    <% } else if (typeof pageKind !== 'undefined' && pageKind === 'testimonials') { %>
+      <div class="text-center mb-2-9 mb-lg-6 wow fadeIn" data-wow-delay="100ms">
+        <span class="text-secondary mb-2 d-block fw-bold text-uppercase">Testimonials</span>
+        <h2 class="mb-0 h1">What Our Clients Say</h2>
+      </div>
+      <div class="bg-brown p-1-9 p-lg-6 testimonial-style1 position-relative rounded wow fadeIn" data-wow-delay="200ms">
+        <img src="/images/content/dots2.png" class="position-absolute bottom-n60 right-n10 ani-left-right" alt="">
+        <div class="testimonial-carousel owl-carousel owl-theme">
+          <% (typeof testimonials !== 'undefined' ? testimonials : []).forEach(function(item) { %>
+          <div class="text-center row justify-content-center">
+            <div class="col-md-10">
+              <div class="mb-1-6 text-center mt-3 mt-lg-2-3 lead text-white"><%= item.quote %></div>
+              <% const stars = Math.max(1, Math.min(5, parseInt(item.rating, 10) || 5)); %>
+              <div class="mb-3 testimonial-stars">
+                <% [1,2,3,4,5].slice(0, stars).forEach(function() { %><i class="fas fa-star text-secondary"></i><% }); %>
+              </div>
+              <h6 class="mb-1 text-white font-weight-400"><%= item.name %></h6>
+              <% if (item.location) { %><p class="mb-0 text-white opacity8 small"><%= item.location %></p><% } %>
+            </div>
+          </div>
+          <% }); %>
+        </div>
+      </div>
+    <% } else if (typeof pageKind !== 'undefined' && pageKind === 'companies') { %>
+      <div class="row mt-n2-2">
+        <% (typeof companyPages !== 'undefined' ? companyPages : []).forEach(function(company) { %>
+        <div class="col-md-6 company-card-col mt-2-2 wow fadeIn">
+          <div class="card card-style8 company-card h-100" style="--company-color: <%= company.brandColor || '#3d5896' %>">
+            <div class="card-body px-1-9 py-2-9">
+              <% if (company.icon) { %><div class="icon-box mb-1-9"><img src="<%= company.icon %>" alt="<%= company.title %>"></div><% } %>
+              <h3 class="h5 mb-3"><a href="<%= company.url %>"><%= company.title %></a></h3>
+              <% if (company.tagline) { %><p class="mb-1-9 text-color-light-blue"><%= company.tagline %></p><% } %>
+              <a href="<%= company.url %>" class="company-card-more font-weight-600">Read more <i class="ti-arrow-right ms-2"></i></a>
+            </div>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+    <% } else { %>
+      <div class="cms-page-content">
+        <%- typeof pageContent !== 'undefined' ? pageContent : '' %>
+      </div>
+    <% } %>
+  </div>
+</section>

@@ -1,0 +1,115 @@
+<%
+  const items = typeof catalogProducts !== 'undefined' ? catalogProducts : [];
+  const cats = typeof categories !== 'undefined' ? categories : [];
+  const page = typeof shopPage !== 'undefined' ? shopPage : 1;
+  const pages = typeof shopPages !== 'undefined' ? shopPages : 1;
+  const base = typeof shopBase !== 'undefined' ? shopBase : '/products';
+  const active = typeof activeCategory !== 'undefined' ? activeCategory : '';
+  function pageHref(n) {
+    if (n <= 1) return base;
+    return base + '/page/' + n;
+  }
+  const numbers = [];
+  if (pages <= 7) {
+    for (let i = 1; i <= pages; i++) numbers.push(i);
+  } else {
+    numbers.push(1);
+    let start = Math.max(2, page - 2);
+    let end = Math.min(pages - 1, page + 2);
+    if (page < 4) end = Math.min(pages - 1, 4);
+    if (page > pages - 3) start = Math.max(2, pages - 3);
+    if (start > 2) numbers.push('dots');
+    for (let i = start; i <= end; i++) numbers.push(i);
+    if (end < pages - 1) numbers.push('dots');
+    numbers.push(pages);
+  }
+%>
+<div class="stm-products-catalog">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 col-lg-9 man_main_sidebar">
+        <div class="content-area">
+          <div id="primary" class="content-area">
+            <main id="main" class="site-main" role="main">
+              <div class="stm-products-catalog__filter">
+                <div class="stm-filter-chosen-units"></div>
+                <div class="stm-view-by">
+                  <a href="#" class="view-grid view-type" data-view="grid"><i class="fa fa-th"></i></a>
+                  <a href="#" class="view-list view-type active" data-view="list"><i class="fa fa-list-ul"></i></a>
+                </div>
+              </div>
+              <div class="stm-products-main list cols-3">
+                <% items.forEach(function(product) {
+                  const category = cats.find(function(item) { return (product.categories || [])[0] === item.slug; });
+                %>
+                <div class="stm-product-item">
+                  <a class="stm-product-item__image" href="<%= product.url %>">
+                    <% if (product.image) { %><img src="<%= product.image %>" alt="<%= product.title %>"><% } %>
+                  </a>
+                  <div class="stm-product-item__content">
+                    <div class="meta-top">
+                      <% if (category) { %><div class="product-categories"><a href="/product-category/<%= category.slug %>" rel="tag"><%= category.name %></a></div><% } %>
+                      <a class="stm-product-item__title" href="<%= product.url %>"><%= product.title %></a>
+                    </div>
+                    <div class="meta-middle"><div class="meta-middle-unit"></div></div>
+                    <div class="meta-bottom">
+                      <div class="stm-product-item__price"></div>
+                      <div class="stm-product-item__add_cart man_button_round">
+                        <a href="<%= product.url %>" class="button product_type_simple" aria-label="Read more about “<%= product.title %>”"><i class="add_to_cart_button__icon ti ti-arrow-right"></i> <span class="add_to_cart_button__text">Read more</span></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <% }) %>
+              </div>
+              <% if (pages > 1) { %>
+              <div class="man_navigation">
+                <% if (page > 1) { %><a class="prev page-numbers" href="<%= pageHref(page - 1) %>"><i class="ti ti-arrow-left"></i>Previous</a><% } %>
+                <% numbers.forEach(function(n) { %>
+                  <% if (n === 'dots') { %><span class="page-numbers dots">…</span>
+                  <% } else if (n === page) { %><span aria-current="page" class="page-numbers current"><%= n %></span>
+                  <% } else { %><a class="page-numbers" href="<%= pageHref(n) %>"><%= n %></a><% } %>
+                <% }) %>
+                <% if (page < pages) { %><a class="next page-numbers" href="<%= pageHref(page + 1) %>">Next<i class="ti ti-arrow-right"></i></a><% } %>
+              </div>
+              <% } %>
+            </main>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 col-lg-3 man_sidebar_col">
+        <div class="man_sidebar">
+          <section class="widget woocommerce widget_product_categories">
+            <h3 class="widget-title">Categories</h3>
+            <ul class="product-categories">
+              <% cats.forEach(function(item) { %>
+              <li class="cat-item<%= active === item.slug ? ' current-cat' : '' %>">
+                <i class="toggle"></i>
+                <a href="/product-category/<%= item.slug %>"><%= item.name %></a>
+                <span class="count"><%= item.count || 0 %></span>
+              </li>
+              <% }) %>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var main = document.querySelector('.stm-products-main');
+  if (!main) return;
+  document.querySelectorAll('.view-type').forEach(function (link) {
+    link.addEventListener('click', function (event) {
+      event.preventDefault();
+      var view = link.getAttribute('data-view');
+      main.classList.toggle('list', view === 'list');
+      main.classList.toggle('grid', view === 'grid');
+      document.querySelectorAll('.view-type').forEach(function (item) {
+        item.classList.toggle('active', item === link);
+      });
+    });
+  });
+})();
+</script>

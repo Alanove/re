@@ -1,0 +1,986 @@
+<%- include('../partials/header') %>
+
+	<!-- BEGIN content area -->
+	<div class="row">
+		<div class="col-xl-12">
+			<!-- BEGIN panel -->
+			<div class="panel panel-inverse">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<%= typeof t !=='undefined' ? t('ecommerce.products.editProduct') : 'Edit Product' %> - <%=
+								product.name %>
+					</h4>
+					<div class="panel-heading-btn">
+						<a href="/admin/products" class="btn btn-xs btn-secondary">
+							<i class="fa fa-arrow-left"></i>
+							<%= typeof t !=='undefined' ? t('common.back') : 'Back' %>
+						</a>
+					</div>
+				</div>
+				<div class="panel-body">
+					<% if (typeof success !=='undefined' && success) { %>
+						<div class="alert alert-success alert-dismissible fade show" role="alert">
+							<strong>
+								<%= typeof t !=='undefined' ? t('messages.success') : 'Success!' %>
+							</strong>
+							<%= success %>
+								<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+						</div>
+						<% } %>
+
+							<% if (typeof error !=='undefined' && error) { %>
+								<div class="alert alert-danger alert-dismissible fade show" role="alert">
+									<strong>Error!</strong>
+									<%= error %>
+										<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+								</div>
+								<% } %>
+
+									<form method="POST" action="/admin/products/<%= product.id %>/edit" id="productForm"
+										enctype="multipart/form-data">
+										<input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+										<div class="row">
+											<div class="col-md-8">
+												<%- include('product-form-fields', { product: product }) %>
+
+											</div>
+
+											<div class="col-md-4">
+												<%- include('product-settings-card', { product: product, categories: categories }) %>
+
+												<!-- Product Images -->
+												<div class="card mb-3">
+													<div class="card-header d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#collapseImages" aria-expanded="true" style="cursor: pointer;">
+														<h5 class="mb-0">Product Images</h5>
+														<i class="fa fa-chevron-down"></i>
+													</div>
+													<div id="collapseImages" class="collapse show">
+														<div class="card-body">
+														<!-- Main Image -->
+														<div class="mb-4">
+															<label class="form-label fw-bold">Main Image</label>
+															<div id="mainImageContainer" class="mb-3">
+																<% const primaryImage=images && images.length> 0 ?
+																	images.find(img => img.is_primary) : (images &&
+																	images.length > 0 ? images[0] : null);
+																	%>
+																	<% if (primaryImage) { %>
+																		<% let
+																			mainImageUrl=primaryImage.image_url.trim();
+																			if (!mainImageUrl.startsWith('/')) {
+																			mainImageUrl='/' + mainImageUrl; } %>
+																			<div class="text-center border rounded p-3">
+																				<img src="<%= mainImageUrl %>"
+																					alt="Main product image"
+																					class="img-fluid rounded open-image-btn"
+																					style="max-width: 100%; max-height: 200px; cursor: pointer;"
+																					data-image-url="<%= mainImageUrl %>" />
+																				<div class="mt-2">
+																					<span
+																						class="badge bg-primary">Primary
+																						Image</span>
+																				</div>
+																			</div>
+																			<% } else { %>
+																				<div
+																					class="text-center p-4 border rounded bg-light">
+																					<i
+																						class="fa fa-image fa-3x text-muted mb-2"></i>
+																					<p class="text-muted mb-0">No main
+																						image set</p>
+																				</div>
+																				<% } %>
+															</div>
+														</div>
+
+														<!-- Image Gallery -->
+														<div class="mb-3">
+															<label class="form-label fw-bold">Image Gallery</label>
+															<div id="imageGallery" class="row g-2">
+																<% if (images && images.length> 0) { %>
+																	<% images.forEach(function(image) { %>
+																		<% let imgUrl=image.image_url.trim(); if
+																			(!imgUrl.startsWith('/')) { imgUrl='/' +
+																			imgUrl; } %>
+																			<div class="col-md-3 image-item"
+																				data-image-id="<%= image.id %>">
+																				<div
+																					class="position-relative border rounded p-2">
+																					<img src="<%= imgUrl %>"
+																						alt="Product image"
+																						class="img-fluid rounded open-image-btn"
+																						style="width: 100%; height: 100px; object-fit: cover; cursor: pointer;"
+																						data-image-url="<%= imgUrl %>" />
+																					<% if (image.is_primary) { %>
+																						<span
+																							class="badge bg-primary position-absolute top-0 start-0 m-1">Primary</span>
+																						<% } %>
+																							<div class="btn-group btn-group-sm position-absolute bottom-0 end-0 m-1"
+																								role="group">
+																								<% if
+																									(!image.is_primary)
+																									{ %>
+																									<button
+																										type="button"
+																										class="btn btn-sm btn-info set-primary-image-btn"
+																										data-image-id="<%= image.id %>"
+																										title="Set as primary">
+																										<i
+																											class="fa fa-star"></i>
+																									</button>
+																									<% } %>
+																										<button
+																											type="button"
+																											class="btn btn-sm btn-danger delete-product-image-btn"
+																											data-image-id="<%= image.id %>"
+																											title="Delete">
+																											<i
+																												class="fa fa-trash"></i>
+																										</button>
+																							</div>
+																				</div>
+																			</div>
+																			<% }); %>
+																				<% } else { %>
+																					<div class="col-12">
+																						<p
+																							class="text-muted text-center">
+																							No images uploaded yet</p>
+																					</div>
+																					<% } %>
+															</div>
+														</div>
+
+														<!-- Upload New Images -->
+														<div class="mb-3">
+															<label for="productImagesUpload" class="form-label">Upload
+																Images</label>
+															<div class="input-group">
+																<input type="file" class="form-control"
+																	id="productImagesUpload" accept="image/*"
+																	multiple />
+																<button type="button" class="btn btn-primary"
+																	id="upload-product-images-btn">
+																	<i class="fa fa-upload"></i> Upload
+																</button>
+															</div>
+															<small class="form-text text-muted">You can select multiple
+																images at once (up to 20)</small>
+															<div class="form-check mt-2">
+																<input class="form-check-input" type="checkbox"
+																	id="setAsPrimary" />
+																<label class="form-check-label" for="setAsPrimary">
+																	Set first image as primary
+																</label>
+															</div>
+															<!-- Upload Progress -->
+															<div id="uploadProgress" class="mt-2"
+																style="display: none;">
+																<div class="progress">
+																	<div class="progress-bar progress-bar-striped progress-bar-animated"
+																		role="progressbar" style="width: 0%"></div>
+																</div>
+																<small class="text-muted"
+																	id="uploadStatus">Uploading...</small>
+															</div>
+														</div>
+													</div>
+														</div>
+													</div>
+												</div>
+
+											</div>
+										</div>
+
+
+										</div>
+										<!-- Product Variants -->
+										<div class="card mb-3">
+											<div class="card-header d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#collapseVariants" aria-expanded="true" style="cursor: pointer;">
+												<h5 class="mb-0">Product Variants</h5>
+												<i class="fa fa-chevron-down"></i>
+											</div>
+											<div id="collapseVariants" class="collapse show">
+												<div class="card-body" id="variants-section-body"
+													data-variant-types='<%= typeof variantTypes !=="undefined" ? JSON.stringify(variantTypes) : "[]" %>'>
+												<% if (typeof variants !=='undefined' && variants && variants.length> 0)
+													{ %>
+													<div class="d-flex justify-content-end mb-2">
+														<button type="button" class="btn btn-sm btn-outline-secondary"
+															id="refillAllVariantStocksBtn" title="Set every variant to the same stock level">
+															<i class="fa fa-cubes"></i> Re-fill all stocks
+														</button>
+													</div>
+													<div class="table-responsive">
+														<table class="table table-bordered table-hover align-middle">
+															<thead>
+																<tr>
+																	<th>Name</th>
+																	<th>SKU</th>
+																	<th>Price</th>
+																	<th>Stock</th>
+																	<th>Image</th>
+																	<th width="120">Actions</th>
+																</tr>
+															</thead>
+															<tbody id="variantsTableBody">
+																<% variants.forEach(function(variant) { %>
+																	<tr data-variant-id="<%= variant.id %>"
+																		data-variant-name="<%= variant.name %>">
+																		<td><strong>
+																				<%= variant.name %>
+																			</strong></td>
+																		<td>
+																			<input type="text"
+																				class="form-control form-control-sm grid-edit-input"
+																				value="<%= variant.sku || '' %>"
+																				placeholder="SKU"
+																				autocomplete="off"
+																				data-variant-id="<%= variant.id %>"
+																				data-field="sku">
+																		</td>
+																		<td>
+																			<div class="input-group input-group-sm">
+																				<span class="input-group-text">$</span>
+																				<input type="number"
+																					class="form-control grid-edit-input"
+																					value="<%= variant.price ? Number(variant.price).toFixed(2) : '' %>"
+																					placeholder="Default" step="0.01"
+																					data-variant-id="<%= variant.id %>"
+																					data-field="price">
+																			</div>
+																		</td>
+																		<td>
+																			<input type="number"
+																				class="form-control form-control-sm grid-edit-input"
+																				value="<%= variant.stock_quantity || 0 %>"
+																				data-variant-id="<%= variant.id %>"
+																				data-field="stock_quantity">
+																		</td>
+																		<td>
+																			<% const variantImage=images &&
+																				images.length> 0
+																				? images.find(img => img.variant_id ===
+																				variant.id)
+																				: null;
+																				%>
+																				<% if (variantImage) { %>
+																					<% let
+																						imgUrl=variantImage.image_url.trim();
+																						if (!imgUrl.startsWith('/')) {
+																						imgUrl='/' + imgUrl; } %>
+																						<img src="<%= imgUrl %>"
+																							alt="Variant image"
+																							class="img-thumbnail open-image-btn"
+																							style="width: 50px; height: 50px; object-fit: cover; cursor: pointer;"
+																							data-image-url="<%= imgUrl %>" />
+																						<% } else { %>
+																							<span
+																								class="text-muted">-</span>
+																							<% } %>
+																		</td>
+																		<td>
+																			<button type="button"
+																				class="btn btn-xs btn-primary edit-variant-btn"
+																				data-variant-id="<%= variant.id %>"
+																				data-variant-name="<%= variant.name %>"
+																				data-variant-sku="<%= variant.sku || '' %>"
+																				data-variant-price="<%= variant.price || '' %>"
+																				data-variant-stock="<%= variant.stock_quantity || 0 %>"
+																				data-variant-attributes='<%= JSON.stringify(variant.attributes) %>'
+																				title="Edit">
+																				<i class="fa fa-edit"></i>
+																			</button>
+																			<button type="button"
+																				class="btn btn-xs btn-danger delete-variant-btn"
+																				data-variant-id="<%= variant.id %>"
+																				title="Delete">
+																				<i class="fa fa-trash"></i>
+																			</button>
+																		</td>
+																	</tr>
+																	<% }); %>
+															</tbody>
+														</table>
+													</div>
+													<% } else { %>
+														<div class="text-center py-4">
+															<i class="fa fa-tags fa-3x text-muted mb-3"></i>
+															<p class="text-muted">No variants created yet</p>
+														</div>
+														<% } %>
+											</div>
+											</div>
+										</div>
+										<!-- START: Product Attributes Selection (Refined) -->
+										<div class="card mb-3">
+											<div class="card-header d-flex justify-content-between align-items-center">
+												<div class="d-flex align-items-center flex-grow-1" data-bs-toggle="collapse" data-bs-target="#collapseAttributes" aria-expanded="true" style="cursor: pointer;">
+													<h5 class="mb-0 me-auto">Product Attributes</h5>
+													<i class="fa fa-chevron-down me-3"></i>
+												</div>
+												<button type="button" class="btn btn-primary btn-sm"
+													data-bs-toggle="modal" data-bs-target="#addAttributeModal">
+													<i class="fa fa-plus"></i> Add Attribute
+												</button>
+											</div>
+											<div id="collapseAttributes" class="collapse show">
+												<div class="card-body">
+												<p class="text-muted small">Add attributes to define variants (e.g.,
+													Color, Size). Select values and upload images where applicable.</p>
+
+												<!-- Container for dynamically added attributes -->
+												<div id="productAttributesContainer">
+													<!-- Attributes will be loaded here via JS -->
+												</div>
+
+												<% if (!typeof variantTypes==='undefined' || variantTypes.length===0) {
+													%>
+													<div class="alert alert-info">
+														No attributes defined. <a
+															href="/admin/product-attributes/create">Create attributes
+															first.</a>
+													</div>
+													<% } %>
+											</div>
+											<div class="card-body d-flex justify-content-between align-items-center">
+												<div>
+													<h6 class="mb-1">Variant Generation</h6>
+													<div id="variantPreview" style="display:none;"
+														class="text-muted small">
+														<span id="variantPreviewText"></span>
+													</div>
+												</div>
+												<button type="button" class="btn btn-success"
+													id="generateVariantsFromAttributesBtn">
+													<i class="fa fa-magic"></i> Generate New Variants
+												</button>
+											</div>
+
+											</div>
+										</div>
+										</div>
+
+										
+										<!-- Hidden Data for JS -->
+										<div id="available-attributes-data"
+											data-types='<%= JSON.stringify(typeof variantTypes !== "undefined" ? variantTypes : []) %>'
+											style="display: none;"></div>
+
+										<!-- Add Attribute Modal -->
+										<div class="modal fade" id="addAttributeModal" tabindex="-1" aria-hidden="true">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h5 class="modal-title">Add Attribute</h5>
+														<button type="button" class="btn-close" data-bs-dismiss="modal"
+															aria-label="Close"></button>
+													</div>
+													<div class="modal-body">
+														<div class="mb-3">
+															<label class="form-label">Select Attribute Type</label>
+															<select class="form-select" id="attributeSelect">
+																<option value="">Choose...</option>
+																<% if (typeof variantTypes !=='undefined' ) { %>
+																	<% variantTypes.forEach(type=> { %>
+																		<option value="<%= type.id %>">
+																			<%= type.name %>
+																		</option>
+																		<% }); %>
+																			<% } %>
+															</select>
+														</div>
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-secondary"
+															data-bs-dismiss="modal">Cancel</button>
+														<button type="button" class="btn btn-primary"
+															id="confirmAddAttributeBtn">Add</button>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- END: Product Attributes Selection (Refined) -->
+
+
+										
+
+
+										<!-- Sticky Actions Footer -->
+
+										<!-- Sticky Actions Footer -->
+										<div
+											class="sticky-actions-footer bg-white border-top py-3 px-4 d-flex justify-content-end align-items-center">
+											<a href="/admin/products" class="btn btn-secondary me-2">
+												<i class="fa fa-times"></i>
+												<%= typeof t !=='undefined' ? t('common.cancel') : 'Cancel' %>
+											</a>
+											<button type="submit" class="btn btn-primary">
+												<i class="fa fa-save"></i>
+												<%= typeof t !=='undefined' ? t('common.save') : 'Save Changes' %>
+											</button>
+										</div>
+									</form>
+									<!-- Spacer for sticky footer -->
+									<div style="height: 80px;"></div>
+				</div>
+			</div>
+			<!-- END panel -->
+		</div>
+	</div>
+	<!-- END content area -->
+
+	<div id="product-variants-data" data-variants='<%- JSON.stringify(variants) %>' style="display:none;"></div>
+	<script>
+		const productId = <%= product.id %>;
+		// Make productId globally available for custom.js event handlers
+		window.productId = productId;
+
+		document.getElementById('refillAllVariantStocksBtn')?.addEventListener('click', async function () {
+			const raw = window.prompt('Set this stock quantity on every variant:', '0');
+			if (raw === null) return;
+			const n = parseInt(String(raw).trim(), 10);
+			if (Number.isNaN(n) || n < 0) {
+				alert('Please enter a valid whole number (0 or greater).');
+				return;
+			}
+			const count = document.querySelectorAll('#variantsTableBody tr[data-variant-id]').length;
+			if (!confirm(`Set stock to ${n} for all ${count} variant(s)?`)) return;
+			try {
+				const csrf = typeof getCsrfToken === 'function'
+					? getCsrfToken()
+					: (document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '');
+				const res = await fetch(`/admin/products/${productId}/variants/reset-stocks`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'X-CSRF-Token': csrf,
+						'CSRF-Token': csrf
+					},
+					body: JSON.stringify({ stock_quantity: n, _csrf: csrf })
+				});
+				const data = await res.json();
+				if (data.success) {
+					if (typeof showToast === 'function') {
+						showToast(`Stock set to ${n} for ${data.updated} variant(s)`, 'success');
+					}
+					document.querySelectorAll('#variantsTableBody input[data-field="stock_quantity"]').forEach(function (inp) {
+						inp.value = String(n);
+					});
+				} else {
+					alert(data.error || 'Failed to update stocks');
+				}
+			} catch (e) {
+				console.error(e);
+				alert('Request failed');
+			}
+		});
+
+		function openImageInNewTab(url) {
+			window.open(url, '_blank');
+		}
+
+		function uploadProductImages() {
+			const fileInput = document.getElementById('productImagesUpload');
+			const setAsPrimary = document.getElementById('setAsPrimary').checked;
+
+			if (!fileInput.files || fileInput.files.length === 0) {
+				alert('Please select at least one image file');
+				return;
+			}
+
+			const files = Array.from(fileInput.files);
+			const formData = new FormData();
+
+			// Append all files with the field name 'images' for multiple upload
+			files.forEach(file => {
+				formData.append('images', file);
+			});
+
+			formData.append('is_primary', setAsPrimary ? 'true' : 'false');
+
+			// Show loading and progress
+			const uploadBtn = event.target;
+			const originalText = uploadBtn.innerHTML;
+			uploadBtn.disabled = true;
+			uploadBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Uploading...';
+
+			const progressDiv = document.getElementById('uploadProgress');
+			const progressBar = progressDiv.querySelector('.progress-bar');
+			const statusText = document.getElementById('uploadStatus');
+			progressDiv.style.display = 'block';
+			progressBar.style.width = '0%';
+			statusText.textContent = `Uploading ${files.length} image(s)...`;
+
+			fetch(`/admin/products/${productId}/images`, {
+				method: 'POST',
+				body: formData
+			})
+				.then(response => response.json())
+				.then(data => {
+					if (data.success) {
+						progressBar.style.width = '100%';
+						statusText.textContent = `Successfully uploaded ${data.count} image(s)!`;
+						setTimeout(() => {
+							// Reload page to show new images
+							location.reload();
+						}, 1000);
+					} else {
+						alert('Error: ' + (data.error || 'Failed to upload images'));
+						uploadBtn.disabled = false;
+						uploadBtn.innerHTML = originalText;
+						progressDiv.style.display = 'none';
+					}
+				})
+				.catch(error => {
+					console.error('Error:', error);
+					alert('Error uploading images');
+					uploadBtn.disabled = false;
+					uploadBtn.innerHTML = originalText;
+					progressDiv.style.display = 'none';
+				});
+		}
+
+		// Upload button event listener
+		document.getElementById('upload-product-images-btn')?.addEventListener('click', uploadProductImages);
+
+		// Open image in new tab event listener
+		document.addEventListener('click', function (e) {
+			if (e.target.classList.contains('open-image-btn')) {
+				const url = e.target.getAttribute('data-image-url');
+				if (url) openImageInNewTab(url);
+			}
+		});
+
+		// ============================================
+		// VARIANT MANAGEMENT
+		// ============================================
+
+		// Get variant types from data attribute to avoid EJS syntax errors in script
+		const variantsBody = document.getElementById('variants-section-body');
+		const variantTypes = variantsBody && variantsBody.dataset.variantTypes ? JSON.parse(variantsBody.dataset.variantTypes) : [];
+		let currentVariantId = null;
+		let currentVariantAttributes = {};
+
+		// Edit Variant Buttons
+		document.addEventListener('click', function (e) {
+			if (e.target.closest('.edit-variant-btn')) {
+				const btn = e.target.closest('.edit-variant-btn');
+				currentVariantId = parseInt(btn.getAttribute('data-variant-id'));
+				const name = btn.getAttribute('data-variant-name');
+				const sku = btn.getAttribute('data-variant-sku');
+				const price = btn.getAttribute('data-variant-price');
+				const stock = btn.getAttribute('data-variant-stock');
+				const attributes = JSON.parse(btn.getAttribute('data-variant-attributes') || '{}');
+
+				showVariantModal({
+					id: currentVariantId,
+					name,
+					sku,
+					price,
+					stock_quantity: stock,
+					attributes
+				});
+			}
+		});
+
+// Delete Variant Buttons
+		document.addEventListener('click', function (e) {
+			if (e.target.closest('.delete-variant-btn')) {
+				const btn = e.target.closest('.delete-variant-btn');
+				const variantId = parseInt(btn.getAttribute('data-variant-id'));
+
+				showActionModal({
+					title: 'Delete Variant',
+					message: 'Are you sure you want to delete this variant? This action cannot be undone.',
+					endpoint: `/admin/products/${productId}/variants/${variantId}`,
+					method: 'DELETE',
+					onSuccess: function (data) {
+						if (data.success) {
+							showToast('Variant deleted successfully', 'success');
+							setTimeout(() => location.reload(), 1000);
+						} else {
+							showToast('Error: ' + (data.error || 'Failed to delete variant'), 'error');
+						}
+					}
+				});
+			}
+		});
+
+		function showVariantModal(variant = null) {
+			currentVariantAttributes = variant ? (variant.attributes || {}) : {};
+			const isEdit = variant !== null;
+			const title = isEdit ? 'Edit Variant' : 'Add Variant';
+
+			// Build attribute fields
+			let attributeFields = '';
+			variantTypes.forEach(type => {
+				const currentValue = variant?.attributes?.[type.name] || '';
+				const disabledAttr = isEdit ? 'disabled' : '';
+				const wrapperStyle = isEdit ? 'display:none' : '';
+				attributeFields += `
+				<div class="mb-3" style="${wrapperStyle}">
+					<label for="variant_attr_${type.id}" class="form-label">${type.name}</label>
+					<select class="form-select variant-attribute" id="variant_attr_${type.id}" data-attr-name="${type.name}" ${disabledAttr}>
+						<option value="">Select ${type.name}</option>
+						${type.values.map(v => `
+							<option value="${v.value}" ${currentValue === v.value ? 'selected' : ''}>${v.value}</option>
+						`).join('')}
+					</select>
+				</div>
+			`;
+			});
+
+			// Helper to show/hide "Name" field explanation
+			const hasAttributes = variantTypes.length > 0;
+
+			// Modal Body Content ONLY
+			const nameField = isEdit ?
+				`<h5 class="mb-3">${variant?.name || 'Variant'}</h5><input type="hidden" id="variant_name" value="${variant?.name || ''}">` :
+				`<div class="mb-3">
+					<label for="variant_name" class="form-label">Variant Name <span class="text-danger">*</span></label>
+					<input type="text" class="form-control bg-light" id="variant_name" value="${variant?.name || ''}" 
+						placeholder="${hasAttributes ? 'Auto-generated from attributes' : 'Enter variant name'}" 
+						${hasAttributes ? 'readonly' : ''}>
+					${hasAttributes ? '<small class="text-muted">Select attributes below to generate the name.</small>' : ''}
+				</div>`;
+
+			const modalBodyContent = `
+				${nameField}
+				
+				${attributeFields}
+				
+				<div class="mb-3">
+					<label for="variant_sku" class="form-label">SKU</label>
+					<input type="text" class="form-control" id="variant_sku" value="${variant?.sku || ''}" placeholder="Optional">
+				</div>
+				
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<label for="variant_price" class="form-label">Price Override</label>
+						<div class="input-group">
+							<span class="input-group-text">$</span>
+							<input type="number" class="form-control" id="variant_price" value="${variant?.price || ''}" step="0.01" min="0" placeholder="Leave empty for default">
+						</div>
+					</div>
+					<div class="col-md-6 mb-3">
+						<label for="variant_stock" class="form-label">Stock Quantity</label>
+						<input type="number" class="form-control" id="variant_stock" value="${variant?.stock_quantity || 0}" min="0">
+					</div>
+				</div>
+				<!-- Variant Image removed as per new attribute-based image system -->
+			`;
+
+			const modalElement = document.getElementById('modal-dialog');
+
+			// Set Title and Body
+			document.getElementById('modalDialogTitle').textContent = title;
+			document.getElementById('modalDialogBody').innerHTML = modalBodyContent;
+
+			// Handle Footer Replacement safely
+			const modalFooter = modalElement.querySelector('.modal-footer');
+			if (!window.originalModalFooter) {
+				window.originalModalFooter = modalFooter.innerHTML;
+			}
+
+			modalFooter.innerHTML = `
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-primary" id="saveVariantBtn">Save Variant</button>
+			`;
+
+			// Attach event listener to avoid CSP violation
+			document.getElementById('saveVariantBtn').addEventListener('click', saveVariant);
+
+			const modal = new bootstrap.Modal(modalElement);
+			modal.show();
+			window.currentVariantModal = modal;
+
+			// Restore footer when modal is hidden to avoid breaking other modals (like delete confirmation)
+			modalElement.addEventListener('hidden.bs.modal', function () {
+				if (window.originalModalFooter) {
+					modalFooter.innerHTML = window.originalModalFooter;
+				}
+			}, { once: true });
+
+			// Auto-generate name from attributes
+			setTimeout(() => {
+				document.querySelectorAll('.variant-attribute').forEach(select => {
+					select.addEventListener('change', autoGenerateVariantName);
+				});
+			}, 100);
+		}
+
+		function autoGenerateVariantName() {
+			const nameInput = document.getElementById('variant_name');
+			if (!nameInput.readOnly) return; // Don't auto-update if it's editable (no attributes case)
+
+			const attributes = [];
+			document.querySelectorAll('.variant-attribute').forEach(select => {
+				if (select.value) {
+					attributes.push(select.value);
+				}
+			});
+
+			if (attributes.length > 0) {
+				nameInput.value = attributes.join(' - ');
+			} else {
+				nameInput.value = '';
+			}
+		}
+
+		window.saveVariant = function () {
+			const name = document.getElementById('variant_name').value.trim();
+			const sku = document.getElementById('variant_sku').value.trim();
+			const price = document.getElementById('variant_price').value;
+			const stock = document.getElementById('variant_stock').value;
+			const imageInput = document.getElementById('variant_image');
+
+			// Logic for Edit Mode vs New Mode
+			let attributes = {};
+
+			if (currentVariantId) {
+				// EDIT MODE: Collect from DOM to allow repairing attributes
+				const selects = document.querySelectorAll('.variant-attribute');
+				selects.forEach(select => {
+					if (select.value) {
+						attributes[select.dataset.attrName] = select.value;
+					}
+				});
+				attributes = { ...currentVariantAttributes, ...attributes };
+			} else {
+				// NEW MODE: Collect from DOM and Validate
+				let missingAttributes = false;
+				const selects = document.querySelectorAll('.variant-attribute');
+				selects.forEach(select => {
+					if (!select.value) missingAttributes = true;
+					attributes[select.dataset.attrName] = select.value;
+				});
+
+				if (document.querySelectorAll('.variant-attribute').length > 0 && missingAttributes) {
+					showToast('Please select all attributes to create a variant', 'error');
+					return;
+				}
+			}
+
+			// Validation bypassed in Edit Mode
+
+			// Fallback for no-attributes case
+			let finalName = name;
+			if (!finalName) {
+				showToast('Please enter a variant name', 'error');
+				return;
+			}
+
+			const formData = new FormData();
+			formData.append('name', finalName);
+			formData.append('sku', sku);
+			if (price) formData.append('price', price);
+			formData.append('stock_quantity', stock || 0);
+			formData.append('attributes', JSON.stringify(attributes));
+			// Add CSRF to body as fallback
+			formData.append('_csrf', getCsrfToken());
+
+			if (imageInput && imageInput.files[0]) {
+				formData.append('image', imageInput.files[0]);
+			}
+
+			const url = currentVariantId
+				? `/admin/products/${productId}/variants/${currentVariantId}`
+				: `/admin/products/${productId}/variants`;
+			const method = currentVariantId ? 'PUT' : 'POST';
+
+			fetch(url, {
+				method: method,
+				headers: {
+					// Content-Type is set automatically for FormData
+					'X-CSRF-Token': getCsrfToken(),
+					'CSRF-Token': getCsrfToken()
+				},
+				body: formData
+			})
+				.then(response => response.json())
+				.then(data => {
+					if (data.success) {
+						showToast(currentVariantId ? 'Variant updated successfully' : 'Variant created successfully', 'success');
+						// Close modal properly
+						const modalEl = document.getElementById('modal-dialog');
+						const modal = bootstrap.Modal.getInstance(modalEl);
+						if (modal) modal.hide();
+
+						setTimeout(() => location.reload(), 1000);
+					} else {
+						showToast('Error: ' + (data.error || 'Failed to save variant'), 'error');
+					}
+				})
+				.catch(error => {
+					console.error('Error:', error);
+					showToast('Error saving variant', 'error');
+				});
+		};
+
+
+
+
+		// ============================================
+		// BULK VARIANT GENERATION
+		// ============================================
+
+		document.addEventListener('DOMContentLoaded', function () {
+			const attributeCheckboxes = document.querySelectorAll('.attribute-type-checkbox');
+			const attributeValuesSection = document.getElementById('attributeValuesSection');
+			const attributeValuesContainer = document.getElementById('attributeValuesContainer');
+			const generateVariantsBtn = document.getElementById('generateVariantsBtn');
+
+			if (!generateVariantsBtn) {
+				console.error('Generate Variants button not found!');
+			} else {
+				// Debug click to confirm listener attachment
+				generateVariantsBtn.addEventListener('click', function () {
+					console.log('Generate button clicked');
+				});
+			}
+
+			// Handle Attribute Type Selection
+			attributeCheckboxes.forEach(checkbox => {
+				checkbox.addEventListener('change', updateAttributeValuesDisplay);
+			});
+
+			function updateAttributeValuesDisplay() {
+				const selectedCheckboxes = Array.from(document.querySelectorAll('.attribute-type-checkbox:checked'));
+
+				if (selectedCheckboxes.length > 0) {
+					attributeValuesSection.style.display = 'block';
+				} else {
+					attributeValuesSection.style.display = 'none';
+				}
+
+				// Clear current container but keep values if possible (not implemented for simplicity, full redraw)
+				attributeValuesContainer.innerHTML = '';
+
+				selectedCheckboxes.forEach(checkbox => {
+					const id = checkbox.value;
+					const name = checkbox.getAttribute('data-name');
+					const values = JSON.parse(checkbox.getAttribute('data-values') || '[]');
+
+					const col = document.createElement('div');
+					col.className = 'mb-3';
+					col.innerHTML = `
+					<label class="form-label">${name}</label>
+					<div class="d-flex flex-wrap gap-2">
+						${values.map(val => `
+							<div class="form-check">
+								<input class="form-check-input variant-value-checkbox" type="checkbox" 
+									value="${val.value}" 
+									id="val_${id}_${val.id}"
+									data-attr-name="${name}">
+								<label class="form-check-label" for="val_${id}_${val.id}">
+									${val.value}
+								</label>
+							</div>
+						`).join('')}
+					</div>
+					${values.length === 0 ? '<small class="text-muted">No pre-defined values found. Add values in Attributes section first.</small>' : ''}
+				`;
+					attributeValuesContainer.appendChild(col);
+				});
+			}
+
+			// Generate Variants
+			generateVariantsBtn?.addEventListener('click', function () {
+				const selectedAttributes = {};
+
+				// Group selected values by attribute name
+				document.querySelectorAll('.variant-value-checkbox:checked').forEach(checkbox => {
+					const attrName = checkbox.getAttribute('data-attr-name');
+					const value = checkbox.value;
+
+					if (!selectedAttributes[attrName]) {
+						selectedAttributes[attrName] = [];
+					}
+					selectedAttributes[attrName].push(value);
+				});
+
+				const attrNames = Object.keys(selectedAttributes);
+
+				if (attrNames.length === 0) {
+					showToast('Please select at least one attribute value', 'error');
+					return;
+				}
+
+				// Calculate combinations
+				const combinations = cartesianProduct(selectedAttributes);
+
+				if (combinations.length === 0) {
+					showToast('No combinations could be generated', 'error');
+					return;
+				}
+
+				const confirmMessage = `This will generate ${combinations.length} variants. Existing variants will not be deleted. Continue?`;
+
+				if (confirm(confirmMessage)) {
+					createBulkVariants(combinations);
+				}
+			});
+
+			function cartesianProduct(attributesObj) {
+				const keys = Object.keys(attributesObj);
+				const values = keys.map(key => attributesObj[key]);
+
+				const combos = values.reduce((a, b) => a.flatMap(x => b.map(y => [...x, y])), [[]]);
+
+				return combos.map(combo => {
+					const result = {};
+					keys.forEach((key, index) => {
+						result[key] = combo[index];
+					});
+					return result;
+				});
+			}
+
+			function createBulkVariants(attributesList) {
+				const variants = attributesList.map(attrs => {
+					const name = Object.values(attrs).join(' - ');
+					return {
+						name: name,
+						attributes: attrs,
+						stock_quantity: 0,
+						price: parseFloat(document.getElementById('price').value) || 0 // Default to product price
+					};
+				});
+
+				// Show loading state
+				const originalText = generateVariantsBtn.innerHTML;
+				generateVariantsBtn.disabled = true;
+				generateVariantsBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Generating...';
+
+				fetch(`/admin/products/${productId}/variants/bulk`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'X-CSRF-Token': getCsrfToken()
+					},
+					body: JSON.stringify({ variants })
+				})
+					.then(response => response.json())
+					.then(data => {
+						if (data.success) {
+							showToast(`Successfully created ${data.count} variants`, 'success');
+							setTimeout(() => location.reload(), 1000);
+						} else {
+							showToast('Error: ' + (data.error || 'Failed to create variants'), 'error');
+							generateVariantsBtn.disabled = false;
+							generateVariantsBtn.innerHTML = originalText;
+						}
+					})
+					.catch(error => {
+						console.error('Error:', error);
+						showToast('Error creating variants', 'error');
+						generateVariantsBtn.disabled = false;
+						generateVariantsBtn.innerHTML = originalText;
+					});
+			}
+		});
+	</script>
+	<script src="/admin/js/product-attributes.js"></script>
+
+	<%- include('../partials/footer') %>

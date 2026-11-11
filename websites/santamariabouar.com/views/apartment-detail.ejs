@@ -1,0 +1,194 @@
+<%
+  const unitLabel = apartment.unitNumberOfficial || apartment.unitNumberUnofficial || apartment.id;
+  const statusLabel = apartment.status === 'for_sale' ? 'For Sale' : 'For Rent';
+  const statusClass = apartment.status === 'for_sale' ? 'sale' : 'rent';
+  const backHref = apartment.status === 'for_sale' ? '/for-sale' : '/for-rent';
+  const description = apartment.listingDescription || apartment.notes || '';
+  const gallery = [];
+  if (apartment.officialImage) gallery.push(apartment.officialImage);
+  if (apartment.images && apartment.images.length) {
+    apartment.images.forEach(function(img) {
+      if (img && gallery.indexOf(img) === -1) gallery.push(img);
+    });
+  }
+  let priceLabel = 'Contact for price';
+  if (!apartment.contactForPrice && apartment.priceUsd != null && apartment.priceUsd > 0) {
+    priceLabel = '$' + Number(apartment.priceUsd).toLocaleString('en-US');
+    if (apartment.status === 'for_rent') priceLabel += ' / month';
+    if (apartment.priceNegotiable) priceLabel += ' · Negotiable';
+  }
+%>
+<div class="apartment-detail">
+  <div class="apartment-detail__header">
+    <div class="container">
+      <a href="<%= backHref %>" class="apartment-detail__back">
+        <i class="bi bi-arrow-left"></i> Back to listings
+      </a>
+      <div class="apartment-detail__title-row">
+        <div>
+          <h1>Apartment <%= unitLabel %></h1>
+          <%
+            const subtitleParts = [];
+            if (apartment.bedrooms != null) subtitleParts.push(apartment.bedrooms + ' bed');
+            if (apartment.bathrooms != null) subtitleParts.push(apartment.bathrooms + ' bath');
+            if (apartment.areaInM2) subtitleParts.push(apartment.areaInM2 + ' m²');
+          %>
+          <% if (subtitleParts.length) { %>
+            <p class="apartment-detail__subtitle"><%= subtitleParts.join(' · ') %></p>
+          <% } %>
+        </div>
+        <span class="apartment-detail__badge apartment-detail__badge--<%= statusClass %>"><%= statusLabel %></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="container apartment-detail__body">
+    <div class="apartment-detail__layout">
+      <div class="apartment-detail__gallery">
+        <% if (gallery.length) { %>
+          <a
+            href="/images/apartments/<%= apartment.id %>/<%= gallery[0] %>"
+            class="apartment-detail__hero"
+            data-fancybox="apartment-<%= apartment.id %>"
+            data-caption="Apartment <%= unitLabel %> — photo 1"
+          >
+            <img src="/images/apartments/<%= apartment.id %>/<%= gallery[0] %>" alt="Apartment <%= unitLabel %>" />
+          </a>
+          <% if (gallery.length > 1) { %>
+            <div class="apartment-detail__thumbs">
+              <% gallery.forEach(function(img, index) { %>
+                <% if (index === 0) { %>
+                  <button
+                    type="button"
+                    class="apartment-detail__thumb is-active"
+                    data-fancybox-trigger="apartment-<%= apartment.id %>"
+                    aria-label="Show photo 1"
+                  >
+                    <img src="/images/apartments/<%= apartment.id %>/<%= img %>" alt="Apartment <%= unitLabel %> photo 1" loading="lazy" />
+                  </button>
+                <% } else { %>
+                  <a
+                    href="/images/apartments/<%= apartment.id %>/<%= img %>"
+                    class="apartment-detail__thumb"
+                    data-fancybox="apartment-<%= apartment.id %>"
+                    data-caption="Apartment <%= unitLabel %> — photo <%= index + 1 %>"
+                  >
+                    <img src="/images/apartments/<%= apartment.id %>/<%= img %>" alt="Apartment <%= unitLabel %> photo <%= index + 1 %>" loading="lazy" />
+                  </a>
+                <% } %>
+              <% }); %>
+            </div>
+          <% } %>
+        <% } else { %>
+          <div class="apartment-detail__hero">
+            <img src="/images/default-hero.jpg" alt="Apartment <%= unitLabel %>" />
+          </div>
+        <% } %>
+      </div>
+
+      <aside class="apartment-detail__info">
+        <p class="apartment-detail__price"><%= priceLabel %></p>
+        <h2>Apartment details</h2>
+        <div class="apartment-detail__facts">
+          <% if (apartment.areaInM2) { %>
+            <div class="apartment-detail__fact">
+              <i class="bi bi-rulers" aria-hidden="true"></i>
+              <div>
+                <span class="apartment-detail__fact-label">Size</span>
+                <span class="apartment-detail__fact-value"><%= apartment.areaInM2 %> m²</span>
+              </div>
+            </div>
+          <% } %>
+          <% if (apartment.bedrooms != null) { %>
+            <div class="apartment-detail__fact">
+              <i class="bi bi-door-closed" aria-hidden="true"></i>
+              <div>
+                <span class="apartment-detail__fact-label">Bedrooms</span>
+                <span class="apartment-detail__fact-value"><%= apartment.bedrooms %></span>
+              </div>
+            </div>
+          <% } %>
+          <% if (apartment.bathrooms != null) { %>
+            <div class="apartment-detail__fact">
+              <i class="bi bi-droplet" aria-hidden="true"></i>
+              <div>
+                <span class="apartment-detail__fact-label">Bathrooms</span>
+                <span class="apartment-detail__fact-value"><%= apartment.bathrooms %></span>
+              </div>
+            </div>
+          <% } %>
+          <% if (apartment.parkingSpaces != null) { %>
+            <div class="apartment-detail__fact">
+              <i class="bi bi-car-front" aria-hidden="true"></i>
+              <div>
+                <span class="apartment-detail__fact-label">Parking</span>
+                <span class="apartment-detail__fact-value"><%= apartment.parkingSpaces %> space<%= apartment.parkingSpaces === 1 ? '' : 's' %></span>
+              </div>
+            </div>
+          <% } %>
+          <div class="apartment-detail__fact">
+            <i class="bi bi-lamp" aria-hidden="true"></i>
+            <div>
+              <span class="apartment-detail__fact-label">Furnished</span>
+              <span class="apartment-detail__fact-value"><%= apartment.isFurnished ? 'Yes' : 'No' %></span>
+            </div>
+          </div>
+          <% if (apartment.status === 'for_rent' && apartment.availabilityDate) { %>
+            <div class="apartment-detail__fact">
+              <i class="bi bi-calendar-event" aria-hidden="true"></i>
+              <div>
+                <span class="apartment-detail__fact-label">Available from</span>
+                <span class="apartment-detail__fact-value"><%= apartment.availabilityDate %></span>
+              </div>
+            </div>
+          <% } %>
+          <% if (apartment.status === 'for_rent' && apartment.petFriendly != null) { %>
+            <div class="apartment-detail__fact">
+              <i class="bi bi-heart" aria-hidden="true"></i>
+              <div>
+                <span class="apartment-detail__fact-label">Pet friendly</span>
+                <span class="apartment-detail__fact-value"><%= apartment.petFriendly ? 'Yes' : 'No' %></span>
+              </div>
+            </div>
+          <% } %>
+        </div>
+
+        <%
+          const featureItems = [];
+          if (apartment.hasGarden) featureItems.push({ icon: 'bi-flower1', label: 'Garden' });
+          if (apartment.hasTerrace) featureItems.push({ icon: 'bi-sun', label: 'Terrace' });
+          if (apartment.hasBalcony) featureItems.push({ icon: 'bi-columns-gap', label: 'Balcony' });
+          if (apartment.hasStorageRoom) featureItems.push({ icon: 'bi-box', label: 'Storage room' });
+        %>
+        <% if (featureItems.length) { %>
+          <div class="apartment-detail__features">
+            <h3>Features</h3>
+            <ul class="apartment-detail__feature-list">
+              <% featureItems.forEach(function(feature) { %>
+                <li>
+                  <i class="bi <%= feature.icon %>" aria-hidden="true"></i>
+                  <%= feature.label %>
+                </li>
+              <% }); %>
+            </ul>
+          </div>
+        <% } %>
+
+        <div class="apartment-detail__description">
+          <h3>Description</h3>
+          <% if (description) { %>
+            <p><%= description %></p>
+          <% } else { %>
+            <p>Contact us for more information about this <%= statusLabel.toLowerCase() %> apartment at Santa Maria Bouar.</p>
+          <% } %>
+        </div>
+
+        <a href="/contact?apartment=<%= apartment.id %>" class="apartment-detail__cta">
+          Inquire about this apartment <i class="bi bi-arrow-right"></i>
+        </a>
+      </aside>
+    </div>
+
+    <%- include('partials/compound-amenities') %>
+  </div>
+</div>

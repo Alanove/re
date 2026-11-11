@@ -1,0 +1,189 @@
+<%- include('partials/page-title', { heading: 'Contact Us' }) %>
+<% const settings = typeof siteSettings !== 'undefined' ? siteSettings : {}; %>
+<% const companies = typeof companyPages !== 'undefined' ? companyPages : []; %>
+
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-5 col-xl-4 mb-2-9 mb-lg-0">
+        <div class="pe-lg-3 mt-n1-9">
+          <% if (settings.address) { %>
+          <div class="card card-style8 mt-1-9">
+            <div class="card-body p-1-9">
+              <div class="media">
+                <div class="icon-box">
+                  <i class="ti-location-pin text-primary z-index-9 position-relative"></i>
+                  <div class="box-circle"></div>
+                </div>
+                <div class="media-body">
+                  <h4 class="h5">Location</h4>
+                  <span><% if (settings.locationLabel) { %><b><%= settings.locationLabel %></b><br><% } %><%= settings.address %></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% } %>
+          <% if (settings.contactPhone) { %>
+          <div class="card card-style8 mt-1-9">
+            <div class="card-body p-1-9">
+              <div class="media">
+                <div class="icon-box">
+                  <i class="ti-mobile text-primary z-index-9 position-relative"></i>
+                  <div class="box-circle"></div>
+                </div>
+                <div class="media-body">
+                  <h4 class="h5">Phone Number</h4>
+                  <span class="d-block"><a href="tel:<%= String(settings.contactPhone).replace(/[^\d+]/g, '') %>"><%= settings.contactPhone %></a></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% } %>
+          <% if (settings.fax) { %>
+          <div class="card card-style8 mt-1-9">
+            <div class="card-body p-1-9">
+              <div class="media">
+                <div class="icon-box">
+                  <i class="fal fa-fax text-primary z-index-9 position-relative"></i>
+                  <div class="box-circle"></div>
+                </div>
+                <div class="media-body">
+                  <h4 class="h5">Fax</h4>
+                  <span class="d-block"><%= settings.fax %></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% } %>
+          <% if (settings.contactEmail) { %>
+          <div class="card card-style8 mt-1-9">
+            <div class="card-body p-1-9">
+              <div class="media">
+                <div class="icon-box">
+                  <i class="ti-email text-primary z-index-9 position-relative"></i>
+                  <div class="box-circle"></div>
+                </div>
+                <div class="media-body">
+                  <h4 class="h5">Email Address</h4>
+                  <span class="d-block"><a href="mailto:<%= settings.contactEmail %>"><%= settings.contactEmail %></a></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% } %>
+          <% if (settings.parkingNote) { %>
+          <div class="card card-style8 mt-1-9">
+            <div class="card-body p-1-9">
+              <div class="media">
+                <div class="icon-box">
+                  <i class="fal fa-parking text-primary z-index-9 position-relative"></i>
+                  <div class="box-circle"></div>
+                </div>
+                <div class="media-body">
+                  <h4 class="h5">Free Parking</h4>
+                  <span><%= settings.parkingNote %></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% } %>
+        </div>
+      </div>
+      <div class="col-lg-7 col-xl-8">
+        <div class="contact-form p-4 p-md-5 ms-xl-3">
+          <h2 class="h3 mb-4">Quick Contact</h2>
+          <form id="ContactUs" method="post" action="/api/forms/contact">
+            <div class="quform-elements">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="quform-element form-group">
+                    <label for="name">Your Name <span class="quform-required">*</span></label>
+                    <input class="form-control" id="name" type="text" name="name" placeholder="Your name here" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="quform-element form-group">
+                    <label for="email">Your Email <span class="quform-required">*</span></label>
+                    <input class="form-control" id="email" type="email" name="email" placeholder="Your email here" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="quform-element form-group">
+                    <label for="concern">Your Concern <span class="quform-required">*</span></label>
+                    <select class="form-control" id="concern" name="concern" required>
+                      <option value="">Select a concern</option>
+                      <% companies.forEach(function(company) { %>
+                        <option value="<%= company.key %>"><%= company.title %></option>
+                      <% }); %>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="quform-element form-group">
+                    <label for="phone">Contact Number</label>
+                    <input class="form-control" id="phone" type="text" name="phone" placeholder="Your phone here">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="quform-element form-group">
+                    <label for="bestway">Best way to contact you</label>
+                    <input class="form-control" id="bestway" type="text" name="bestway" placeholder="Best way to contact you here">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="quform-element form-group">
+                    <label for="besttime">Best time to contact you</label>
+                    <input class="form-control" id="besttime" type="text" name="besttime" placeholder="Best time to contact you here">
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="quform-element form-group">
+                    <label for="message">Message <span class="quform-required">*</span></label>
+                    <textarea class="form-control h-auto" id="message" name="message" rows="3" placeholder="Tell us a few words" required></textarea>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="quform-submit-inner">
+                    <button class="butn-style3" type="submit"><span>Send Message</span></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <p class="success d-none mt-3" id="contact-success">Your request has been sent successfully</p>
+          <p class="error d-none mt-3" id="contact-error"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var form = document.getElementById('ContactUs');
+    if (!form) return;
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var data = new FormData(form);
+      var payload = {};
+      data.forEach(function (value, key) { payload[key] = value; });
+      fetch('/api/forms/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(function (res) { return res.json(); }).then(function (json) {
+        if (json.success) {
+          form.classList.add('d-none');
+          document.getElementById('contact-success').classList.remove('d-none');
+        } else {
+          var err = document.getElementById('contact-error');
+          err.textContent = json.message || 'Unable to send your message.';
+          err.classList.remove('d-none');
+        }
+      }).catch(function () {
+        var err = document.getElementById('contact-error');
+        err.textContent = 'Unable to send your message. Please try again later.';
+        err.classList.remove('d-none');
+      });
+    });
+  });
+</script>

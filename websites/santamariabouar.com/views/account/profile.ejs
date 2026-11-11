@@ -1,0 +1,42 @@
+<div class="account-page account-page--portal">
+  <div class="account-shell">
+    <%- include('partials/sidebar') %>
+    <div class="account-main">
+      <div class="account-main__header">
+        <h1>My Profile</h1>
+      </div>
+
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="account-alert account-alert--error"><%= error %></div>
+      <% } %>
+      <% if (typeof success !== 'undefined' && success) { %>
+        <div class="account-alert account-alert--success"><%= success %></div>
+      <% } %>
+
+      <div class="account-alert account-alert--info">
+        To change your email or phone number, please contact Santa Maria &mdash;
+        <a href="/contact">contact us</a>.
+      </div>
+
+      <div class="account-panel">
+        <form method="POST" action="/account/profile" class="account-form">
+          <div class="account-field">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required value="<%= member.name || '' %>" />
+          </div>
+          <div class="account-field">
+            <label for="email">Email</label>
+            <input type="email" id="email" value="<%= member.email || '' %>" readonly disabled />
+            <small>Used to sign in. Contact Santa Maria to change it.</small>
+          </div>
+          <div class="account-field">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" value="<%= member.phone || '' %>" readonly disabled />
+            <small>Can also be used to sign in. Contact Santa Maria to change it.</small>
+          </div>
+          <button type="submit" class="account-btn account-btn--primary">Save Profile</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

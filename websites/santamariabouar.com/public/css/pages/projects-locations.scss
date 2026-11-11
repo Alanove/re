@@ -1,0 +1,462 @@
+// Projects Locations page styles
+.projects-locations-page {
+  .page-header {
+    background: linear-gradient(135deg, rgba($primary, 0.8), rgba($accent, 0.8));
+    color: white;
+    padding: 3rem 0;
+    text-align: center;
+    margin-bottom: 3rem;
+    
+    p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+  }
+  
+  .locations-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    
+    .locations-intro {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 2.5rem;
+      margin-bottom: 3rem;
+      text-align: center;
+      
+      h2 {
+        color: $brand-blue;
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      p {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        color: $text;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+    }
+    
+    .map-section {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 2rem;
+      margin: 3rem 0;
+      
+      .map-container {
+        position: relative;
+        height: 600px;
+        border-radius: 8px;
+        overflow: hidden;
+        
+        .map {
+          width: 100%;
+          height: 100%;
+          border: none;
+        }
+        
+        .map-overlay {
+          position: absolute;
+          top: 1rem;
+          right: 1rem;
+          background: rgba(255,255,255,0.95);
+          backdrop-filter: blur(10px);
+          border-radius: 8px;
+          padding: 1rem;
+          max-width: 300px;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+          
+          h4 {
+            color: $brand-blue;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+          }
+          
+          .location-stats {
+            font-size: 0.9rem;
+            color: $text;
+            
+            .stat-item {
+              display: flex;
+              justify-content: space-between;
+              margin-bottom: 0.25rem;
+              
+              .stat-label {
+                font-weight: 600;
+              }
+              
+              .stat-value {
+                color: $accent;
+              }
+            }
+          }
+        }
+      }
+    }
+    
+    .locations-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+      
+      .location-card {
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        padding: 2rem;
+        transition: transform 0.3s ease;
+        
+        &:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .location-header {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          margin-bottom: 1.5rem;
+          
+          .location-icon {
+            font-size: 2.5rem;
+            color: $accent;
+          }
+          
+          .location-info {
+            flex: 1;
+            
+            .location-name {
+              color: $brand-blue;
+              font-size: 1.4rem;
+              font-weight: 600;
+              margin-bottom: 0.25rem;
+            }
+            
+            .location-country {
+              color: $text;
+              font-size: 1rem;
+              opacity: 0.8;
+            }
+          }
+        }
+        
+        .location-stats {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1rem;
+          margin-bottom: 1.5rem;
+          
+          .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            
+            .stat-number {
+              font-size: 1.5rem;
+              font-weight: 700;
+              color: $accent;
+              margin-bottom: 0.25rem;
+            }
+            
+            .stat-label {
+              font-size: 0.9rem;
+              color: $text;
+              opacity: 0.8;
+            }
+          }
+        }
+        
+        .location-projects {
+          .projects-title {
+            color: $brand-blue;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+          }
+          
+          .project-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            
+            .project-item {
+              display: flex;
+              align-items: center;
+              gap: 0.75rem;
+              padding: 0.5rem 0;
+              border-bottom: 1px solid rgba(255,255,255,0.1);
+              
+              &:last-child {
+                border-bottom: none;
+              }
+              
+              .project-icon {
+                width: 30px;
+                height: 30px;
+                background: rgba($accent, 0.2);
+                border-radius: 6px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: $accent;
+                font-size: 0.9rem;
+              }
+              
+              .project-info {
+                flex: 1;
+                
+                .project-name {
+                  color: $text;
+                  font-weight: 600;
+                  font-size: 0.95rem;
+                  margin-bottom: 0.25rem;
+                }
+                
+                .project-type {
+                  color: $text;
+                  font-size: 0.85rem;
+                  opacity: 0.7;
+                }
+              }
+              
+              .project-status {
+                padding: 0.25rem 0.5rem;
+                border-radius: 4px;
+                font-size: 0.8rem;
+                font-weight: 600;
+                
+                &.completed {
+                  background: rgba(#27ae60, 0.2);
+                  color: #27ae60;
+                }
+                
+                &.ongoing {
+                  background: rgba(#f39c12, 0.2);
+                  color: #f39c12;
+                }
+                
+                &.planned {
+                  background: rgba(#C87E2F, 0.2);
+                  color: #C87E2F;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    
+    .region-breakdown {
+      background: rgba($background, 0.8);
+      padding: 3rem 0;
+      margin: 3rem 0;
+      
+      .region-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        
+        h2 {
+          color: $brand-blue;
+          font-size: 2rem;
+          text-align: center;
+          margin-bottom: 2rem;
+        }
+        
+        .region-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 2rem;
+          
+          .region-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            
+            .region-icon {
+              font-size: 3rem;
+              color: $accent;
+              margin-bottom: 1rem;
+            }
+            
+            h3 {
+              color: $brand-blue;
+              font-size: 1.4rem;
+              margin-bottom: 1rem;
+            }
+            
+            .region-stats {
+              display: grid;
+              grid-template-columns: repeat(2, 1fr);
+              gap: 1rem;
+              margin-bottom: 1.5rem;
+              
+              .stat {
+                .stat-number {
+                  font-size: 1.3rem;
+                  font-weight: 700;
+                  color: $accent;
+                  margin-bottom: 0.25rem;
+                }
+                
+                .stat-label {
+                  font-size: 0.85rem;
+                  color: $text;
+                  opacity: 0.8;
+                }
+              }
+            }
+            
+            .region-projects {
+              .project-count {
+                color: $text;
+                font-size: 0.9rem;
+                margin-bottom: 0.5rem;
+              }
+              
+              .project-types {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                justify-content: center;
+                
+                .project-type {
+                  background: rgba($accent, 0.2);
+                  color: $accent;
+                  padding: 0.25rem 0.5rem;
+                  border-radius: 4px;
+                  font-size: 0.8rem;
+                  font-weight: 600;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    
+    .global-reach {
+      margin: 3rem 0;
+      
+      .reach-content {
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        padding: 2.5rem;
+        text-align: center;
+        
+        h2 {
+          color: $brand-blue;
+          font-size: 1.8rem;
+          margin-bottom: 1.5rem;
+        }
+        
+        p {
+          font-size: 1.1rem;
+          line-height: 1.7;
+          color: $text;
+          max-width: 800px;
+          margin: 0 auto 2rem;
+        }
+        
+        .reach-stats {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 2rem;
+          
+          .reach-stat {
+            .stat-number {
+              font-size: 2.5rem;
+              font-weight: 700;
+              color: $accent;
+              margin-bottom: 0.5rem;
+            }
+            
+            .stat-label {
+              color: $text;
+              font-size: 1rem;
+              font-weight: 600;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Location card specific styles
+.location-card {
+  &.middle-east {
+    border-left: 4px solid #e74c3c;
+  }
+  
+  &.north-america {
+    border-left: 4px solid #C87E2F;
+  }
+  
+  &.europe {
+    border-left: 4px solid #9b59b6;
+  }
+  
+  &.asia {
+    border-left: 4px solid #f39c12;
+  }
+  
+  &.africa {
+    border-left: 4px solid #1abc9c;
+  }
+}
+
+// Responsive adjustments for Projects Locations page
+@media (max-width: 768px) {
+  .projects-locations-page {
+    .locations-content {
+      padding: 0 1rem;
+      
+      .locations-intro {
+        padding: 2rem 1.5rem;
+      }
+      
+      .map-section {
+        padding: 1rem;
+        
+        .map-container {
+          height: 400px;
+          
+          .map-overlay {
+            position: relative;
+            top: auto;
+            right: auto;
+            max-width: none;
+            margin-top: 1rem;
+          }
+        }
+      }
+      
+      .locations-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      
+      .region-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .reach-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+    }
+  }
+}

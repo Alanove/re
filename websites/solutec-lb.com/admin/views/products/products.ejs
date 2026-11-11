@@ -1,0 +1,38 @@
+<div class="panel panel-inverse">
+  <div class="panel-heading">
+    <h4 class="panel-title">Products</h4>
+    <div class="panel-heading-btn">
+      <a href="/admin/products/new/edit" class="btn btn-xs btn-success">Add product</a>
+    </div>
+  </div>
+  <div class="panel-body">
+    <% if (success) { %><div class="alert alert-success"><%= success %></div><% } %>
+    <% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+    <table class="table table-striped">
+      <thead><tr><th>Picture</th><th>Title</th><th>SKU</th><th>Price</th><th>Categories</th><th></th></tr></thead>
+      <tbody>
+        <% products.forEach(function(product) { %>
+          <tr>
+            <td>
+              <% if (product.image) { %>
+                <img src="<%= product.image %>" alt="<%= product.title %>" class="rounded" width="48" height="48" style="object-fit:contain;background:#f8f8f8;">
+              <% } else { %>
+                <div class="bg-light rounded d-flex align-items-center justify-content-center" style="width:48px;height:48px;"><i class="fa fa-image text-muted"></i></div>
+              <% } %>
+            </td>
+            <td><%= product.title %></td>
+            <td><%= product.sku || '' %></td>
+            <td><%= product.price || '' %></td>
+            <td><%= (product.categories || []).join(', ') %></td>
+            <td>
+              <a class="btn btn-xs btn-primary" href="/admin/products/<%= product.key %>/edit">Edit</a>
+              <form method="post" action="/admin/products/<%= product.key %>/delete" style="display:inline" onsubmit="return confirm('Delete this product?')">
+                <button class="btn btn-xs btn-danger" type="submit">Delete</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,116 @@
+@use "variables" as *;
+
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == md {
+    @media (min-width: $bp-md) {
+      @content;
+    }
+  } @else if $breakpoint == lg {
+    @media (min-width: $bp-lg) {
+      @content;
+    }
+  }
+}
+
+@mixin container {
+  width: 100%;
+  max-width: $max-width;
+  margin-inline: auto;
+  padding-inline: $margin-mobile;
+
+  @include respond-to(md) {
+    padding-inline: $gutter;
+  }
+
+  @include respond-to(lg) {
+    padding-inline: $margin-desktop;
+  }
+}
+
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@mixin focus-ring {
+  outline: 2px solid $color-primary;
+  outline-offset: 2px;
+}
+
+@mixin glass {
+  background: rgba(248, 249, 250, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+@property --snake-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes brand-snake {
+  to {
+    --snake-angle: 360deg;
+  }
+}
+
+@mixin brand-box($tone: light) {
+  $fill: if($tone == dark, $color-navy-dark, $color-white);
+
+  position: relative;
+  isolation: isolate;
+  border: 0;
+  border-radius: $radius-lg;
+  background-color: $fill;
+  background-image: none;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    padding: 1.5px;
+    pointer-events: none;
+    border-radius: inherit;
+    background: conic-gradient(
+      from var(--snake-angle),
+      transparent 0deg,
+      transparent 255deg,
+      rgba($color-primary, 0) 285deg,
+      rgba($color-primary, 0.18) 318deg,
+      rgba($color-tertiary, 0.4) 340deg,
+      rgba($color-primary, 0.28) 354deg,
+      transparent 360deg
+    );
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    animation: brand-snake 22s linear infinite;
+  }
+
+  @for $i from 1 through 8 {
+    &:nth-child(#{$i})::before {
+      animation-delay: #{($i - 1) * -2.75}s;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &::before {
+      animation: none;
+      --snake-angle: 48deg;
+    }
+  }
+}

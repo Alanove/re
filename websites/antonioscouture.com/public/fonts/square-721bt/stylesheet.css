@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'Square721 BdEx BT';
+    src: url('Square721BT-BoldExtended.woff2') format('woff2'),
+        url('Square721BT-BoldExtended.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+

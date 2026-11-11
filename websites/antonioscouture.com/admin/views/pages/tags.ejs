@@ -1,0 +1,74 @@
+<!-- BEGIN content area -->
+<div class="row">
+	<div class="col-xl-12">
+		<!-- BEGIN panel -->
+		<div class="panel panel-inverse">
+			<div class="panel-heading">
+				<h4 class="panel-title"><%= typeof t !== 'undefined' ? t('pages.tags') : 'Tags' %></h4>
+			</div>
+			<div class="panel-body">
+				<% if (typeof success !== 'undefined' && success) { %>
+					<div class="alert alert-success alert-dismissible fade show" role="alert">
+						<strong><%= typeof t !== 'undefined' ? t('messages.success') : 'Success!' %></strong> <%= success %>
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>
+				<% } %>
+				
+				<% if (typeof error !== 'undefined' && error) { %>
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<strong><%= typeof t !== 'undefined' ? t('messages.error') : 'Error!' %></strong> <%= error %>
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>
+				<% } %>
+				
+				<% if (typeof tags !== 'undefined' && tags && tags.length > 0) { %>
+					<div class="tags-container">
+						<% tags.forEach(function(tag) { %>
+							<a href="/admin/pages?tag=<%= encodeURIComponent(tag.slug) %>" class="tag-link">
+								<span class="badge bg-primary me-2 mb-2" style="font-size: 14px; padding: 8px 12px; cursor: pointer;">
+									<%= tag.name %>
+								</span>
+							</a>
+						<% }); %>
+					</div>
+				<% } else { %>
+					<div class="alert alert-info">
+						<%= typeof t !== 'undefined' ? t('pages.noTagsFound') : 'No tags found.' %>
+					</div>
+				<% } %>
+			</div>
+		</div>
+		<!-- END panel -->
+	</div>
+</div>
+<!-- END content area -->
+
+<!-- BEGIN page-css -->
+<style>
+	.tags-container {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+	
+	.tag-link {
+		text-decoration: none;
+		transition: transform 0.2s;
+	}
+	
+	.tag-link:hover {
+		transform: scale(1.05);
+		text-decoration: none;
+	}
+	
+	.tag-link .badge {
+		transition: all 0.2s;
+	}
+	
+	.tag-link:hover .badge {
+		background-color: var(--bs-primary-dark, #0d6efd) !important;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+	}
+</style>
+<!-- END page-css -->
+

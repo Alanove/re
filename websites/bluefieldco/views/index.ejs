@@ -1,0 +1,18 @@
+<main id="primary" class="site-main scrollReveal">
+  <% if (typeof slides !== 'undefined' && slides && slides.length > 0) { %>
+    <section class="homeslider">
+      <% slides.forEach(function(slide) { %>
+        <div>
+          <img src="<%= slide.image %>" alt="<%= slide.alt || slide.headlineLine1 || '' %>" title="<%= slide.alt || '' %>"/>
+          <h1 class="slider-title container">
+            <% if (slide.headlineLine1) { %><p><%= slide.headlineLine1 %></p><% } %>
+            <% if (slide.headlineLine2) { %><p><%= slide.headlineLine2 %></p><% } %>
+            <% if (!slide.headlineLine1 && slide.title) { %><p><%= slide.title %></p><% } %>
+          </h1>
+        </div>
+      <% }); %>
+    </section>
+  <% } %>
+
+  <%- typeof pageContent !== 'undefined' ? pageContent : '' %>
+</main>

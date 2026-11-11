@@ -1,0 +1,113 @@
+<%
+  const siteName = typeof siteData !== 'undefined' && siteData.name ? siteData.name : 'Santa Maria Bouar';
+  const lastUpdated = 'July 27, 2026';
+%>
+<article class="inner-page terms-and-conditions">
+  <header class="inner-page__banner">
+    <div class="inner-page__banner-overlay"></div>
+    <div class="container">
+      <h1 class="inner-page__title">Terms and Conditions</h1>
+    </div>
+  </header>
+
+  <div class="inner-page__body">
+    <div class="container">
+      <div class="inner-page__content">
+        <p class="legal-meta"><strong>Last updated:</strong> <%= lastUpdated %></p>
+
+        <p>
+          Welcome to the <%= siteName %> website and member portal. By accessing or using this website,
+          you agree to these Terms and Conditions. If you do not agree, please do not use our services.
+        </p>
+
+        <h2>1. About Our Services</h2>
+        <p>
+          This website provides information about <%= siteName %>, including available apartments,
+          compound news, and a secure member portal for residents and authorized account holders.
+          Portal features may include payment records, wallet balances, transaction history, access requests,
+          and apartment-related uploads.
+        </p>
+
+        <h2>2. Eligibility and Account Access</h2>
+        <p>
+          Member portal access is limited to verified owners, tenants, and other individuals authorized by compound management.
+          You are responsible for keeping your login credentials confidential and for all activity that occurs under your account.
+        </p>
+        <ul>
+          <li>You must provide accurate information when requesting access or updating your profile.</li>
+          <li>You must notify us promptly if you suspect unauthorized use of your account.</li>
+          <li>We may suspend or revoke access if we believe these terms have been violated.</li>
+        </ul>
+
+        <h2>3. Acceptable Use</h2>
+        <p>When using this website, you agree not to:</p>
+        <ul>
+          <li>Attempt to gain unauthorized access to systems, accounts, or data.</li>
+          <li>Upload malicious code, unlawful content, or material that infringes others' rights.</li>
+          <li>Misrepresent your identity, apartment ownership, or tenancy status.</li>
+          <li>Interfere with the normal operation or security of the website.</li>
+          <li>Use automated tools to scrape, harvest, or overload the service without permission.</li>
+        </ul>
+
+        <h2>4. Financial and Property Information</h2>
+        <p>
+          Payment records, invoices, wallet balances, and transaction details displayed in the portal are provided
+          for your convenience. While we strive for accuracy, official compound records maintained by management remain authoritative.
+          If you notice a discrepancy, please contact us promptly.
+        </p>
+
+        <h2>5. User Content</h2>
+        <p>
+          If you upload photos or other content through the portal, you confirm that you have the right to share that material
+          and that it does not violate applicable laws or the rights of others. We may review, approve, or remove uploaded content
+          that is inappropriate, inaccurate, or inconsistent with compound policies.
+        </p>
+
+        <h2>6. Privacy and Data Use</h2>
+        <p>
+          Your use of this website is also governed by our
+          <a href="/privacy-policy">Privacy Policy</a>, which explains how we collect, store, secure, and use personal data.
+          <strong>We do not sell or resell your personal information.</strong>
+        </p>
+
+        <h2>7. Intellectual Property</h2>
+        <p>
+          The website design, branding, text, images, and software are owned by or licensed to <%= siteName %> and its operators.
+          You may not copy, modify, distribute, or exploit site content without prior written permission, except for personal,
+          non-commercial use of information made available to you through your account.
+        </p>
+
+        <h2>8. Third-Party Services</h2>
+        <p>
+          The website may link to third-party services, such as map providers or sign-in options like Google.
+          We are not responsible for the content, policies, or practices of those external services.
+        </p>
+
+        <h2>9. Availability and Changes</h2>
+        <p>
+          We aim to keep the website available and up to date, but we do not guarantee uninterrupted access.
+          Features may be added, changed, or removed at any time. We may update these Terms and Conditions by posting a revised version on this page.
+        </p>
+
+        <h2>10. Disclaimer and Limitation of Liability</h2>
+        <p>
+          This website and portal are provided on an "as is" and "as available" basis. To the fullest extent permitted by law,
+          <%= siteName %> and its operators disclaim liability for indirect, incidental, or consequential damages arising from your use of the site.
+          Nothing in these terms limits rights that cannot be excluded under applicable law.
+        </p>
+
+        <h2>11. Governing Law</h2>
+        <p>
+          These Terms and Conditions are governed by the laws of Lebanon, without regard to conflict-of-law principles.
+          Disputes should first be addressed through good-faith contact with compound management.
+        </p>
+
+        <h2>12. Contact</h2>
+        <p>
+          For questions about these Terms and Conditions, please
+          <a href="/contact">contact us</a> or reach <%= siteName %> management through your usual compound channels.
+        </p>
+      </div>
+    </div>
+  </div>
+</article>

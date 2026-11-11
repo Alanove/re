@@ -1,0 +1,425 @@
+<!-- Topbar Start -->
+<div class="container-fluid">
+
+    <div class="row align-items-center bg-light px-xl-5 d-none d-lg-flex">
+        <div class="col-lg-4">
+            <a href="/" class="text-decoration-none logo">
+                <% if (typeof siteSettings !=='undefined' && siteSettings.logo) { %>
+                    <img src="<%= siteSettings.logo %>" class="img-fluid"
+                        alt="<%= typeof siteSettings !== 'undefined' && siteSettings.siteTitle ? siteSettings.siteTitle : 'Logo' %>">
+                    <% } else if (typeof siteData !=='undefined' && siteData.logo) { %>
+                        <img src="<%= siteData.logo %>" class="img-fluid"
+                            alt="<%= typeof siteData !== 'undefined' && siteData.name ? siteData.name : 'Logo' %>">
+                        <% } else { %>
+                            <span class="h1 text-uppercase text-primary bg-dark px-2">
+                                <%= typeof siteSettings !=='undefined' && siteSettings.siteTitle ?
+                                    siteSettings.siteTitle.substring(0, 5) : 'Multi' %>
+                            </span>
+                            <span class="h1 text-uppercase text-dark bg-primary px-2 ml-n1">
+                                <%= typeof siteSettings !=='undefined' && siteSettings.siteTitle ?
+                                    siteSettings.siteTitle.substring(5) : 'Shop' %>
+                            </span>
+                            <% } %>
+            </a>
+        </div>
+        <div class="col-lg-4 col-6 text-left">
+            <form action="/shop" method="get">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="search" placeholder="Search for products">
+                    <div class="input-group-append">
+                        <span class="input-group-text bg-transparent text-primary">
+                            <i class="fa fa-search"></i>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-4 col-6 text-right">
+            <% if (typeof siteSettings !=='undefined' && siteSettings.siteSlogan) { %>
+                <h5>
+                    <span class="text-dark slogan-heading">
+                        <%- typeof formatTrademarks !== 'undefined' ? formatTrademarks(siteSettings.siteSlogan) : siteSettings.siteSlogan %>
+                    </span>
+                </h5>
+                <% } %>
+        </div>
+    </div>
+</div>
+<!-- Topbar End -->
+
+<!-- Navbar Start -->
+<div class="container-fluid bg-white border-bottom border-top header-navbar-container">
+    <div class="row px-xl-5">
+        <div class="col-lg-12">
+            <nav class="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0 px-0">
+                <a href="/" class="text-decoration-none d-block d-lg-none mobile-logo">
+                    <% if (typeof siteSettings !=='undefined' && siteSettings.logo) { %>
+                        <img src="<%= siteSettings.logo %>"
+                            alt="<%= typeof siteSettings !== 'undefined' && siteSettings.siteTitle ? siteSettings.siteTitle : 'Logo' %>"
+                            class="mobile-logo-img">
+                        <% } else if (typeof siteData !=='undefined' && siteData.logo) { %>
+                            <img src="<%= siteData.logo %>"
+                                alt="<%= typeof siteData !== 'undefined' && siteData.name ? siteData.name : 'Logo' %>"
+                                class="mobile-logo-img">
+                            <% } else { %>
+                                <span class="h1 text-uppercase text-dark bg-light px-2">
+                                    <%= typeof siteSettings !=='undefined' && siteSettings.siteTitle ?
+                                        siteSettings.siteTitle.substring(0, 5) : '' %>
+                                </span>
+                                <span class="h1 text-uppercase text-light bg-primary px-2 ml-n1">
+                                    <%= typeof siteSettings !=='undefined' && siteSettings.siteTitle ?
+                                        siteSettings.siteTitle.substring(5) : 'Shop' %>
+                                </span>
+                                <% } %>
+                </a>
+                <div class="d-flex align-items-center d-lg-none ml-auto mr-2">
+                    <a href="/customer/account" class="btn px-0 ml-2">
+                        <i class="fas fa-user text-dark"></i>
+                    </a>
+                    <a href="/wishlist" class="btn px-0 ml-2 position-relative">
+                        <i class="fas fa-heart text-dark"></i>
+                        <% if (typeof wishlistCount !=='undefined' && wishlistCount > 0) { %>
+                            <sup class="badge text-primary wishlist-badge"><%= wishlistCount %></sup>
+                        <% } else { %>
+                            <sup class="badge text-primary wishlist-badge d-none">0</sup>
+                        <% } %>
+                    </a>
+                    <a href="/cart" class="btn px-0 ml-2 position-relative">
+                        <i class="fas fa-shopping-cart text-dark"></i>
+                        <% if (typeof cartCount !=='undefined' && cartCount > 0) { %>
+                            <sup class="badge text-primary cart-badge"><%= cartCount %></sup>
+                        <% } else { %>
+                            <sup class="badge text-primary cart-badge d-none">0</sup>
+                        <% } %>
+                    </a>
+                </div>
+                <button type="button" class="navbar-toggler border-0 px-0 ml-2">
+                    <i class="fas fa-bars text-dark"></i>
+                </button>
+                <div class="collapse navbar-collapse justify-content-between mobile-menu-slide" id="navbarCollapse">
+                    <div class="d-lg-none p-3 text-right">
+                        <button type="button" class="btn btn-link close-mobile-menu">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+
+                    <!-- Mobile Icons: Account, Wishlist, Cart -->
+                    <div class="d-lg-none px-3 pb-3 mobile-menu-icons">
+                        <a href="/customer/account" class="mobile-icon-link">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <a href="/wishlist" class="mobile-icon-link position-relative">
+                            <i class="fas fa-heart"></i>
+                            <% if (typeof wishlistCount !=='undefined' && wishlistCount> 0) { %>
+                                <sup class="badge text-primary wishlist-badge">
+                                    <%= wishlistCount %>
+                                </sup>
+                                <% } else { %>
+                                    <sup class="badge text-primary wishlist-badge d-none">0</sup>
+                                <% } %>
+                        </a>
+                        <a href="/cart" class="mobile-icon-link position-relative">
+                            <i class="fas fa-shopping-cart"></i>
+                            <% if (typeof cartCount !=='undefined' && cartCount> 0) { %>
+                                <sup class="badge text-primary cart-badge">
+                                    <%= cartCount %>
+                                </sup>
+                                <% } else { %>
+                                    <sup class="badge text-primary cart-badge d-none">0</sup>
+                                <% } %>
+                        </a>
+                    </div>
+
+                    <!-- Mobile Search Form -->
+                    <div class="d-lg-none px-3 pb-3">
+                        <form action="/shop" method="get">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="search" placeholder="Search for products">
+                                <div class="input-group-append">
+                                    <button type="submit" class="input-group-text bg-transparent text-primary border-0">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="navbar-nav mr-auto py-0">
+                        <% if (typeof items !=='undefined' && items && items.length> 0) { %>
+                            <% items.forEach(function(item) { %>
+                                <% if (item.title==='Guerra Products' ) { %>
+                                    <div class="nav-item dropdown mega-menu-item">
+                                        <a href="<%= item.url %>"
+                                            class="nav-link dropdown-toggle<%= selected === item.key ? ' active' : '' %>"
+                                            data-toggle="dropdown">
+                                            <%= item.title %> <i class="fa fa-angle-down mt-1"></i>
+                                        </a>
+                                        <!-- Desktop Mega Menu -->
+                                        <div
+                                            class="dropdown-menu bg-white border-0 m-0 w-100 mega-menu-dropdown p-0 shadow-sm">
+                                            <div class="container-fluid px-xl-5">
+                                                <div class="row no-gutters">
+                                                    <div class="col-lg-9 p-4">
+                                                        <div class="row">
+                                                            <% if (typeof categories !=='undefined' &&
+                                                                categories.length> 0) { %>
+                                                                <% categories.forEach(function(category) { %>
+                                                                    <div class="col-lg-4 col-md-6 pb-2">
+                                                                        <a class="text-decoration-none"
+                                                                            href="/shop/category/<%= category.slug %>">
+                                                                            <div
+                                                                                class="cat-item d-flex align-items-center mb-3 p-2 rounded hover-bg-light">
+                                                                                <div
+                                                                                    class="overflow-hidden rounded cat-img">
+                                                                                    <img class="img-fluid"
+                                                                                        src="<%= typeof categoryListingImageUrl !== 'undefined' ? categoryListingImageUrl(category) : (category.thumb_url || category.image_url || '/images/no-image.jpg') %>"
+                                                                                        alt="<%= category.name %>">
+                                                                                </div>
+                                                                                <div class="flex-fill pl-3">
+                                                                                    <h6
+                                                                                        class="m-0 text-dark font-weight-normal">
+                                                                                        <%= category.name %>
+                                                                                    </h6>
+                                                                                </div>
+                                                                            </div>
+                                                                        </a>
+                                                                    </div>
+                                                                    <% }); %>
+                                                                        <% } else { %>
+                                                                            <div class="col-12 p-3">
+                                                                                <a href="/shop"
+                                                                                    class="nav-item nav-link">All
+                                                                                    Products</a>
+                                                                            </div>
+                                                                            <% } %>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3 featured-product-col">
+                                                        <% if (typeof randomFeaturedProduct !=='undefined' &&
+                                                            randomFeaturedProduct) { %>
+                                                            <div class="featured-product-card">
+                                                                <a href="/shop/product/<%= randomFeaturedProduct.slug %>"
+                                                                    class="text-decoration-none">
+                                                                    <div class="featured-product-img-container">
+                                                                        <img class="img-fluid"
+                                                                            src="<%= randomFeaturedProduct.images && randomFeaturedProduct.images.length > 0 ? (randomFeaturedProduct.images[0].thumb_url || randomFeaturedProduct.images[0].image_url) : '/images/no-image.jpg' %>"
+                                                                            alt="<%= randomFeaturedProduct.name %>">
+                                                                    </div>
+                                                                    <h6 class="featured-product-title">
+                                                                        <%= randomFeaturedProduct.name %>
+                                                                    </h6>
+                                                                </a>
+                                                            </div>
+                                                            <% } else { %>
+                                                                <img src="/images/site-image-1769270743381-174751291.png"
+                                                                    class="img-fluid menu-fallback-image"
+                                                                    alt="Menu Image">
+                                                                <% } %>
+                                                    </div>
+                                                    <div
+                                                        class="col-12 py-3 text-center border-top mega-menu-fw-btn-container">
+                                                        <a href="/products"
+                                                            class="btn btn-primary py-2 px-4 text-white">View All
+                                                            Products</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Mobile Simple List -->
+                                        <div class="dropdown-menu mobile-simple-dropdown">
+                                            <% if (typeof categories !=='undefined' && categories.length> 0) { %>
+                                                <% categories.forEach(function(category) { %>
+                                                    <a href="/shop/category/<%= category.slug %>" class="dropdown-item">
+                                                        <%= category.name %>
+                                                    </a>
+                                                    <% }); %>
+                                                        <% } %>
+                                                            <a href="/products"
+                                                                class="dropdown-item font-weight-bold">View All
+                                                                Products</a>
+                                        </div>
+                                    </div>
+                                    <% } else if (item.active) { %>
+                                        <% if (item.children && item.children.length> 0) { %>
+                                            <div class="nav-item dropdown">
+                                                <a href="<%= item.url %>"
+                                                    class="nav-link dropdown-toggle<%= selected === item.key ? ' active' : '' %>"
+                                                    data-toggle="dropdown">
+                                                    <%= item.title %> <i class="fa fa-angle-down mt-1"></i>
+                                                </a>
+                                                <div
+                                                    class="dropdown-menu bg-light rounded-0 border-0 m-0 wide-dropdown">
+                                                    <div class="dropdown-columns">
+                                                        <% item.children.forEach(function(subItem) { %>
+                                                            <% if (subItem.active) { %>
+                                                                <a href="<%= subItem.url %>"
+                                                                    class="dropdown-item<%= selected === subItem.key ? ' active' : '' %>">
+                                                                    <%= subItem.title %>
+                                                                </a>
+                                                                <% } %>
+                                                                    <% }); %>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% } else { %>
+                                                <a href="<%= item.url %>"
+                                                    class="nav-item nav-link<%= selected === item.key ? ' active' : '' %>">
+                                                    <%= item.title %>
+                                                </a>
+                                                <% } %>
+                                                    <% } %>
+                                                        <% }); %>
+                                                            <% } %>
+                    </div>
+
+                    <!-- Mobile social (same as footer) -->
+                    <% if (typeof siteSettings !== 'undefined' && siteSettings.socialMedia && (siteSettings.socialMedia.twitter || siteSettings.socialMedia.facebook || siteSettings.socialMedia.linkedin || siteSettings.socialMedia.youtube || siteSettings.socialMedia.instagram)) { %>
+                        <div class="d-lg-none px-3 py-3 mobile-phone-bottom">
+                            <h6 class="text-secondary text-uppercase mb-4">Follow Us</h6>
+                            <div class="d-flex flex-wrap justify-content-center align-items-center mobile-menu-social">
+                                <% if (siteSettings.socialMedia.twitter) { %>
+                                    <a class="mobile-menu-social-link"
+                                        href="<%= siteSettings.socialMedia.twitter %>" target="_blank"
+                                        rel="noopener noreferrer" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                                    <% } %>
+                                        <% if (siteSettings.socialMedia.facebook) { %>
+                                            <a class="mobile-menu-social-link"
+                                                href="<%= siteSettings.socialMedia.facebook %>" target="_blank"
+                                                rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                                            <% } %>
+                                                <% if (siteSettings.socialMedia.linkedin) { %>
+                                                    <a class="mobile-menu-social-link"
+                                                        href="<%= siteSettings.socialMedia.linkedin %>" target="_blank"
+                                                        rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                                                    <% } %>
+                                                        <% if (siteSettings.socialMedia.youtube) { %>
+                                                            <a class="mobile-menu-social-link"
+                                                                href="<%= siteSettings.socialMedia.youtube %>"
+                                                                target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i
+                                                                    class="fab fa-youtube"></i></a>
+                                                            <% } %>
+                                                                <% if (siteSettings.socialMedia.instagram) { %>
+                                                                    <a class="mobile-menu-social-link"
+                                                                        href="<%= siteSettings.socialMedia.instagram %>"
+                                                                        target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i
+                                                                            class="fab fa-instagram"></i></a>
+                                                                    <% } %>
+                            </div>
+                        </div>
+                        <% } %>
+                            <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
+                                <div class="dropdown d-inline-block">
+                                    <button type="button" class="btn px-0 dropdown-toggle" data-toggle="dropdown"
+                                        title="My Account">
+                                        <i class="fas fa-user"></i>
+                                    </button>
+                                    <!-- Login Dropdown -->
+                                    <div class="dropdown-menu dropdown-menu-right p-0 account-dropdown">
+                                        <% if (typeof user !=='undefined' && user) { %>
+                                            <!-- User Logged In -->
+                                            <div>
+                                                <div class="px-3 pt-3">
+                                                    <h6 class="mb-3">Welcome, <%= user.name %>!</h6>
+                                                </div>
+                                                <!-- CSRF Token for Logout -->
+                                                <input type="hidden" name="_csrf"
+                                                    value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+
+                                                <% if (typeof menus !=='undefined' && menus.account &&
+                                                    menus.account.length> 0) { %>
+                                                    <% menus.account.forEach(function(item) { %>
+                                                        <a href="<%= item.url %>" class="dropdown-item">
+                                                            <%= item.title %>
+                                                        </a>
+                                                        <% }); %>
+                                                            <% } %>
+                                                                <div class="p-3">
+                                                                    <button id="headerLogoutBtn"
+                                                                        class="btn btn-block btn-outline-dark">Logout</button>
+                                                                </div>
+                                            </div>
+                                            <% } else { %>
+                                                <!-- Login Form -->
+                                                <div class="p-3">
+                                                    <h6 class="font-weight-bold text-uppercase mb-3">Login</h6>
+                                                    <form id="headerLoginForm">
+                                                        <input type="hidden" name="_csrf"
+                                                            value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+                                                        <div class="form-group mb-2">
+                                                            <label class="small text-muted mb-1">Username or Email
+                                                                Address</label>
+                                                            <input type="email" class="form-control border py-2"
+                                                                name="email" required placeholder="Email">
+                                                        </div>
+                                                        <div class="form-group mb-3">
+                                                            <label class="small text-muted mb-1">Password</label>
+                                                            <input type="password" class="form-control border py-2"
+                                                                name="password" required placeholder="Password">
+                                                            <div class="text-right mt-1">
+                                                                <a href="/customer/forgot-password"
+                                                                    class="small text-muted">
+                                                                    <%= typeof t !=='undefined' ?
+                                                                        t('ecommerce.customer.forgotPassword')
+                                                                        : 'Forgot Password?' %>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+
+                                                        <div id="headerLoginError"
+                                                            class="alert alert-danger small p-2 d-none mb-3"></div>
+
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center mb-3">
+                                                            <button type="submit"
+                                                                class="btn btn-primary px-4 py-2 font-weight-bold text-uppercase login-btn">Log
+                                                                In</button>
+                                                            <!-- <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" id="rememberMeHeader">
+                                                        <label class="custom-control-label small text-muted" for="rememberMeHeader">Remember Me</label>
+                                                    </div> -->
+                                                        </div>
+                                                    </form>
+
+                                                    <div class="border-top pt-3">
+                                                        <!-- <a href="/auth/google" class="btn btn-block btn-outline-danger py-2 mb-2">
+                                                    <i class="fab fa-google mr-2"></i>Continue with Google
+                                                </a> -->
+                                                        <div class="text-center">
+                                                            <span class="small text-muted">Don't have an account?
+                                                            </span>
+                                                            <a href="/customer/register" class="small">Sign Up</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <% } %>
+                                    </div>
+                                </div>
+                                <a href="/wishlist" class="btn px-0 position-relative ml-3">
+                                    <i class="fas fa-heart"></i>
+                                    <% if (typeof wishlistCount !=='undefined' && wishlistCount> 0) { %>
+                                        <sup class="badge text-primary wishlist-badge" id="wishlistBadge">
+                                            <%= wishlistCount %>
+                                        </sup>
+                                        <% } else { %>
+                                            <sup class="badge text-primary wishlist-badge d-none" id="wishlistBadge">0</sup>
+                                            <% } %>
+                                </a>
+                                <a href="/cart" class="btn px-0 ml-3 position-relative">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    <% if (typeof cartCount !=='undefined' && cartCount> 0) { %>
+                                        <sup class="badge text-primary cart-badge" id="cartBadge">
+                                            <%= cartCount %>
+                                        </sup>
+                                        <% } else { %>
+                                            <sup class="badge text-primary cart-badge d-none" id="cartBadge">0</sup>
+                                            <% } %>
+                                </a>
+                            </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Navbar End -->
+
+<!-- Mobile Backdrop -->
+<div class="mobile-menu-backdrop"></div>

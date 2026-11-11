@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Editor Test</title>
+    <link href="custom-editor.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .test-html {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .btn {
+            padding: 8px 16px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background: #007bff;
+            color: white;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .btn-success {
+            background: #28a745;
+        }
+        .btn-success:hover {
+            background: #1e7e34;
+        }
+        .features-list {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .features-list h4 {
+            margin-top: 0;
+            color: #495057;
+        }
+        .features-list ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .features-list li {
+            margin: 5px 0;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Custom Editor Test Page</h1>
+
+        <div class="features-list">
+            <h4>✨ New Features Added:</h4>
+            <ul>
+                <li><strong>Active State Icons:</strong> Toolbar buttons now show active state when text has that formatting (bold, italic, etc.)</li>
+                <li><strong>Better Alignment Icons:</strong> Clearer icons for text alignment (left, center, right, justify)</li>
+                <li><strong>Full Width HTML Mode:</strong> HTML source textarea now takes full width of container</li>
+                <li><strong>Clearer List Icons:</strong> Better icons for bulleted and numbered lists</li>
+                <li><strong>Custom Modals:</strong> Professional modals for inserting links and images (no more browser prompts!)</li>
+                <li><strong>Image Upload:</strong> Upload images directly from your computer using the same handler as Quill</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h3>Test HTML Content</h3>
+            <p>Use this HTML to test the editor:</p>
+            <div class="test-html" id="testHtml">
+&lt;div class="diagram"&gt;
+    &lt;!-- Cloud Services --&gt;
+    &lt;div class="cloud-services"&gt;
+        &lt;div class="cloud"&gt;Private Cloud (USA)&lt;/div&gt;
+        &lt;div class="cloud main"&gt;Internet&lt;/div&gt;
+        &lt;div class="cloud"&gt;Autodesk Forge&lt;/div&gt;
+        &lt;div class="cloud"&gt;BIM Collaborate&lt;br&gt;Pro &amp; MS 365&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Offices --&gt;
+    &lt;div class="offices"&gt;
+        &lt;div class="office"&gt;
+            &lt;div class="office-icon"&gt;&lt;/div&gt;
+            &lt;span&gt;Cairo Office&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class="office"&gt;
+            &lt;div class="office-icon"&gt;&lt;/div&gt;
+            &lt;span&gt;Dubai Office&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class="office"&gt;
+            &lt;div class="office-icon"&gt;&lt;/div&gt;
+            &lt;span&gt;Beirut Office&lt;/span&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+            </div>
+            <button class="btn" onclick="copyTestHtml()">Copy Test HTML</button>
+        </div>
+
+        <div class="test-section">
+            <h3>Editor Test</h3>
+            <p>Try the following features:</p>
+            <ul>
+                <li>Type some text and select it, then click formatting buttons (bold, italic, etc.) - notice the active states!</li>
+                <li>Switch between Rich Text and HTML Source modes</li>
+                <li>Try the link and image buttons - you'll see custom modals instead of browser prompts</li>
+                <li>Test the alignment and list buttons with the new clearer icons</li>
+            </ul>
+
+            <!-- Hidden textarea for form simulation -->
+            <textarea name="content" style="display: none;">&lt;p&gt;Initial content&lt;/p&gt;</textarea>
+
+            <!-- Custom editor will be initialized here -->
+            <div id="custom-editor"></div>
+
+            <div style="margin-top: 20px;">
+                <button class="btn btn-success" onclick="getContent()">Get Content</button>
+                <button class="btn" onclick="setContent()">Set Test Content</button>
+                <button class="btn" onclick="clearContent()">Clear Content</button>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>Content Output</h3>
+            <div id="contentOutput" style="background: #f8f9fa; padding: 10px; border-radius: 4px; min-height: 100px; font-family: monospace; font-size: 12px; white-space: pre-wrap;"></div>
+        </div>
+    </div>
+
+    <script src="custom-editor.js"></script>
+    <script>
+        let customEditor;
+
+        // Initialize custom editor
+        document.addEventListener('DOMContentLoaded', function() {
+            customEditor = initCustomEditor('custom-editor', {
+                height: '400px',
+                placeholder: 'Enter your content here... Test the rich text and HTML source modes! Try selecting text and clicking formatting buttons to see active states.'
+            });
+        });
+
+        function copyTestHtml() {
+            const testHtml = document.getElementById('testHtml').textContent;
+            navigator.clipboard.writeText(testHtml).then(() => {
+                alert('Test HTML copied to clipboard!');
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = testHtml;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('Test HTML copied to clipboard!');
+            });
+        }
+
+        function getContent() {
+            if (customEditor) {
+                const content = customEditor.getHTML();
+                document.getElementById('contentOutput').textContent = content;
+            }
+        }
+
+        function setContent() {
+            if (customEditor) {
+                const testHtml = document.getElementById('testHtml').textContent;
+                customEditor.setHTML(testHtml);
+            }
+        }
+
+        function clearContent() {
+            if (customEditor) {
+                customEditor.setHTML('');
+                document.getElementById('contentOutput').textContent = '';
+            }
+        }
+    </script>
+</body>
+</html>

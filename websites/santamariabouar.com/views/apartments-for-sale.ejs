@@ -1,0 +1,32 @@
+<%
+  const bannerImage = typeof pageImage !== 'undefined' && pageImage ? pageImage : '';
+  const heading = typeof pageTitle !== 'undefined' && pageTitle ? pageTitle : 'Apartments for Sale';
+%>
+<div class="apartments-page">
+  <header class="inner-page__banner<%= bannerImage ? ' has-image' : '' %>"<% if (bannerImage) { %> style="background-image: url('<%= bannerImage %>');"<% } %>>
+    <div class="inner-page__banner-overlay"></div>
+    <div class="container">
+      <h1 class="inner-page__title"><%= heading %></h1>
+      <p class="apartments-page__intro">Units available to purchase at Santa Maria Bouar</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <% if (typeof apartments !== 'undefined' && apartments && apartments.length > 0) { %>
+      <div class="apartments-grid">
+        <% apartments.forEach(function(apartment) { %>
+          <%- include('partials/apartment-card', { apartment: apartment }) %>
+        <% }); %>
+      </div>
+    <% } else { %>
+      <div class="no-apartments">
+        <i class="bi bi-house"></i>
+        <h3>No apartments for sale right now</h3>
+        <p>Please check back later or contact us for availability.</p>
+        <a href="/#contact" class="btn-view-all">Contact us</a>
+      </div>
+    <% } %>
+
+    <%- include('partials/compound-amenities') %>
+  </div>
+</div>

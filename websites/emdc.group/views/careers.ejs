@@ -1,0 +1,278 @@
+<!-- Careers Page -->
+<!-- Hero Section with page header image -->
+<section id="careers-hero" class="hero-section">
+  <% if (typeof pageImage !== 'undefined' && pageImage && pageImage.trim() !== '') { %>
+    <img src="<%= pageImage %>" alt="<%= typeof pageTitle !== 'undefined' && pageTitle ? pageTitle : 'Careers' %>" class="hero-image" />
+  <% } %>
+  
+  <!-- Decorative tilted vertical lines (visual only) -->
+  <div class="hero-decor-lines" aria-hidden="true">
+    <span class="decor-line"></span>
+    <span class="decor-line"></span>
+    <span class="decor-line"></span>
+  </div>
+
+  <!-- Page Title -->
+  <% if (typeof pageTitle !== 'undefined' && pageTitle) { %>
+    <div class="hero-title">
+      <h1><%= pageTitle %></h1>
+    </div>
+  <% } %>
+
+  <div class="scroll-arrow-container">
+    <button class="scroll-arrow" aria-label="Scroll to next section">
+      <img src="/images/icons/arrow-down.svg" alt="Scroll down" width="32" height="32" />
+    </button>
+  </div>
+</section>
+
+<!-- Intro Text Section in 2 columns -->
+<% if (typeof introText !== 'undefined' && introText && introText.trim() !== '') { %>
+  <section id="careers-intro" class="inverted">
+    <div class="container">
+      <div class="intro-text-two-columns">
+        <% 
+          // Split intro text by paragraph tags to display in 2 columns
+          // First, try to match all <p>...</p> tags
+          let paraMatches = introText.match(/<p[^>]*>[\s\S]*?<\/p>/gi);
+          
+          // If no matches, try splitting by </p><p> pattern
+          if (!paraMatches || paraMatches.length === 0) {
+            const parts = introText.split(/<\/p>\s*<p[^>]*>/i);
+            if (parts.length >= 2) {
+              // Reconstruct paragraphs
+              const firstTag = introText.match(/<p[^>]*>/i)?.[0] || '<p>';
+              paraMatches = [
+                parts[0] + '</p>',
+                firstTag + parts.slice(1).join('</p>' + firstTag)
+              ];
+            } else {
+              // Single paragraph or no paragraphs
+              paraMatches = [introText];
+            }
+          }
+          
+          const firstPara = paraMatches[0] || '';
+          const secondPara = paraMatches[1] || '';
+        %>
+        <% if (firstPara) { %>
+          <div class="intro-column">
+            <%- firstPara %>
+          </div>
+        <% } %>
+        <% if (secondPara) { %>
+          <div class="intro-column">
+            <%- secondPara %>
+          </div>
+        <% } %>
+        <% if (paraMatches.length > 2) { %>
+          <!-- Additional paragraphs go to first column -->
+          <div class="intro-column">
+            <% paraMatches.slice(2).forEach(para => { %>
+              <%- para %>
+            <% }); %>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </section>
+<% } %>
+
+<!-- Careers List -->
+<% if (typeof careers !== 'undefined' && careers && careers.length > 0) { %>
+  <% careers.forEach((career, index) => { %>
+    <% const isInverted = index % 2 === 1; %>
+    <section id="career-<%= career.id %>" class="<%= isInverted ? 'inverted' : '' %>">
+      <div class="container">
+        <h2><%= career.title %></h2>
+        <div class="career-content-two-columns">
+          <div class="career-description">
+            <%- career.content %>
+          </div>
+        </div>
+        <div class="career-apply-button-container">
+          <% 
+            // Build email list: contactEmail and careersEmail (if available)
+            let emailList = '';
+            if (typeof contactEmail !== 'undefined' && contactEmail && contactEmail.trim() !== '') {
+              emailList = contactEmail;
+            }
+            if (typeof careersEmail !== 'undefined' && careersEmail && careersEmail.trim() !== '') {
+              if (emailList) {
+                emailList += ',' + careersEmail;
+              } else {
+                emailList = careersEmail;
+              }
+            }
+            // Fallback if no emails configured
+            if (!emailList) {
+              emailList = 'info@emdc.group';
+            }
+          %>
+          <a href="mailto:<%= emailList %>?subject=Application for <%= encodeURIComponent(career.title) %>" class="btn-apply-now">
+            Apply Now
+          </a>
+        </div>
+      </div>
+    </section>
+  <% }); %>
+<% } else { %>
+  <!-- No careers message -->
+  <section class="inverted">
+    <div class="container">
+      <div class="section-content">
+        <p>We currently don't have any open positions. Please check back later or contact us for more information.</p>
+      </div>
+    </div>
+  </section>
+<% } %>
+
+<style>
+  /* Intro text in 2 columns */
+  .intro-text-two-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .intro-column {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .intro-column p {
+    margin: 0 0 1rem 0;
+  }
+
+  .intro-column p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Text colors for inverted sections */
+  section.inverted .intro-text-two-columns,
+  section.inverted .intro-text-two-columns *,
+  section.inverted .intro-column,
+  section.inverted .intro-column * {
+    color: #203864 !important;
+  }
+
+  section.inverted .intro-text-two-columns strong {
+    color: #203864 !important;
+  }
+
+  /* Text colors for non-inverted sections */
+  section:not(.inverted) .intro-text-two-columns,
+  section:not(.inverted) .intro-text-two-columns *,
+  section:not(.inverted) .intro-column,
+  section:not(.inverted) .intro-column * {
+    color: #fff !important;
+  }
+
+  section:not(.inverted) .intro-text-two-columns strong {
+    color: #fff !important;
+  }
+
+  /* Career content in 2 columns */
+  .career-content-two-columns {
+    max-width: 1200px;
+    margin: 0 auto 2rem;
+  }
+
+  .career-description {
+    column-count: 2;
+    column-gap: 2rem;
+    column-fill: balance;
+  }
+
+  .career-description > * {
+    margin-bottom: 1rem;
+    break-inside: avoid;
+  }
+
+  .career-description p,
+  .career-description ul,
+  .career-description ol {
+    break-inside: avoid;
+    margin-bottom: 1rem;
+  }
+
+  /* Text colors for career descriptions in inverted sections */
+  section.inverted .career-description,
+  section.inverted .career-description *,
+  section.inverted .career-description p,
+  section.inverted .career-description ul,
+  section.inverted .career-description li,
+  section.inverted .career-description strong {
+    color: #203864 !important;
+  }
+
+  /* Text colors for career descriptions in non-inverted sections */
+  section:not(.inverted) .career-description,
+  section:not(.inverted) .career-description *,
+  section:not(.inverted) .career-description p,
+  section:not(.inverted) .career-description ul,
+  section:not(.inverted) .career-description li,
+  section:not(.inverted) .career-description strong {
+    color: #fff !important;
+  }
+
+  /* Apply Now button */
+  .career-apply-button-container {
+    text-align: center;
+    margin-top: 4rem;
+    padding-top: 3.25rem; /* 2rem (32px) + 20px = 52px = 3.25rem */
+  }
+
+  .btn-apply-now {
+    display: inline-block;
+    padding: 1rem 3rem;
+    background-color: #203864;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    border: 2px solid #fff;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .btn-apply-now:hover {
+    background-color: #2a4a7a;
+    border-color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  section.inverted .btn-apply-now {
+    background-color: transparent;
+    color: #203864;
+    border-color: #203864;
+  }
+
+  section.inverted .btn-apply-now:hover {
+    background-color: #203864;
+    color: #fff;
+    border-color: #203864;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .intro-text-two-columns {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .career-description {
+      column-count: 1;
+    }
+
+    .btn-apply-now {
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+    }
+  }
+</style>

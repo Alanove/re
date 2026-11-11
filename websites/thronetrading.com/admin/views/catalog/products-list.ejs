@@ -50,14 +50,14 @@
 			<table class="table table-striped table-bordered align-middle" id="products-table">
 				<thead>
 					<tr>
-						<th style="width:56px">Image</th>
+						<th style="width:56px" data-sort="off">Image</th>
 						<th>Name</th>
 						<th>Category</th>
 						<th>Brand</th>
 						<th class="text-center">Images</th>
 						<th>Status</th>
 						<th>Updated</th>
-						<th style="width:1%">Actions</th>
+						<th style="width:1%" data-sort="off">Actions</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -70,7 +70,7 @@
 									<div class="admin-thumb admin-thumb-empty rounded"><i class="fa fa-image text-muted"></i></div>
 								<% } %>
 							</td>
-							<td>
+							<td data-sort-value="<%= product.name %>">
 								<a href="/admin/products/<%= product.id %>/edit" class="fw-bold"><%= product.name %></a>
 								<% if (product.featured) { %><span class="badge bg-warning text-dark ms-1">Featured</span><% } %>
 								<% if (product.model) { %><div class="small text-muted"><%= product.model %></div><% } %>
@@ -79,7 +79,7 @@
 							<td><% if (product.brandName) { %><a href="/admin/products?brand=<%= product.brandId %>"><%= product.brandName %></a><% } else { %><span class="text-muted">—</span><% } %></td>
 							<td class="text-center"><%= product.images.length %></td>
 							<td><% if (product.status === 'published') { %><span class="badge bg-success">Published</span><% } else { %><span class="badge bg-secondary">Draft</span><% } %></td>
-							<td class="text-nowrap small"><%= new Date(product.updatedAt).toLocaleDateString('en-GB') %></td>
+							<td class="text-nowrap small" data-sort-value="<%= product.updatedAt %>"><%= new Date(product.updatedAt).toLocaleDateString('en-GB') %></td>
 							<td class="text-nowrap">
 								<a href="/admin/products/<%= product.id %>/edit" class="btn btn-sm btn-primary" title="Edit"><i class="fa fa-edit"></i></a>
 								<% if (product.url && product.status === 'published') { %><a href="<%= product.url %>" target="_blank" rel="noopener" class="btn btn-sm btn-default" title="View on site"><i class="fa fa-external-link-alt"></i></a><% } %>

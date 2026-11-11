@@ -1,0 +1,158 @@
+<div class="projects-page">
+  <%- include('partials/projects-sidebar') %>
+  <div class="project-detail-content">
+    <div class="project-detail-left">
+      <h1><%= project.title %></h1>
+      
+      <div class="project-categories-tags">
+        <% project.categories.forEach(cat => { %>
+          <span class="category-tag"><%= cat %></span>
+        <% }); %>
+      </div>
+      
+      <!-- Project Details Section -->
+      <div class="project-details-section">
+        <div class="project-details-grid">
+          <% if (project.country) { %>
+            <div class="detail-item">
+              <strong>Country:</strong> <%= project.country %>
+            </div>
+          <% } %>
+          
+          <% if (project.bau) { %>
+            <div class="detail-item">
+              <strong>BAU:</strong> <%= project.bau %>
+            </div>
+          <% } %>
+          
+          <% if (project.area) { %>
+            <div class="detail-item">
+              <strong>Area:</strong> <%= project.area %>
+            </div>
+          <% } %>
+          
+          <% if (project.size) { %>
+            <div class="detail-item">
+              <strong>Size:</strong> <%= project.size %>
+            </div>
+          <% } %>
+          
+          <% if (project.quantity) { %>
+            <div class="detail-item">
+              <strong>Quantity:</strong> <%= project.quantity %>
+            </div>
+          <% } %>
+          
+          <% if (project.contractor) { %>
+            <div class="detail-item">
+              <strong>Contractor:</strong> <%= project.contractor %>
+            </div>
+          <% } %>
+          
+          <% if (project.architect) { %>
+            <div class="detail-item">
+              <strong>Architect:</strong> <%= project.architect %>
+            </div>
+          <% } %>
+          
+          <% if (project.client) { %>
+            <div class="detail-item">
+              <strong>Client:</strong> <%= project.client %>
+            </div>
+          <% } %>
+          
+          <% if (project.land) { %>
+            <div class="detail-item">
+              <strong>Land:</strong> <%= project.land %>
+            </div>
+          <% } %>
+          
+          <% if (project.capacity) { %>
+            <div class="detail-item">
+              <strong>Capacity:</strong> <%= project.capacity %>
+            </div>
+          <% } %>
+          
+          <% if (project.districts) { %>
+            <div class="detail-item">
+              <strong>Districts:</strong> <%= project.districts %>
+            </div>
+          <% } %>
+          
+          <% if (project.owner) { %>
+            <div class="detail-item">
+              <strong>Owner:</strong> <%= project.owner %>
+            </div>
+          <% } %>
+          
+          <% if (project.consultant) { %>
+            <div class="detail-item">
+              <strong>Consultant:</strong> <%= project.consultant %>
+            </div>
+          <% } %>
+        </div>
+        
+        <% if (project.all_text) { %>
+          <div class="project-all-text-section">
+            <h4>Additional Information</h4>
+            <p><%= project.all_text %></p>
+          </div>
+        <% } %>
+        
+        <% if (project.scope) { %>
+          <div class="project-scope-section">
+            <h4>Scope of Work</h4>
+            <p><%= project.scope %></p>
+          </div>
+        <% } %>
+      </div>
+      
+      <hr class="project-separator">
+      
+      <% if (project.works && project.works.length > 0) { %>
+        <% project.works.forEach((work, index) => { %>
+          <div class="project-work-item">
+            <div class="work-details">
+              <% if (work.details) { %>
+                <% Object.entries(work.details).forEach(([key, value]) => { %>
+                  <div class="work-detail-line">
+                    <strong><%= key.charAt(0).toUpperCase() + key.slice(1) %>:</strong> <%= value %>
+                  </div>
+                <% }); %>
+              <% } %>
+              
+              <% if (work.scope_of_work && work.scope_of_work.length > 0) { %>
+                <h4>Scope of Work</h4>
+                <ul>
+                  <% work.scope_of_work.forEach(item => { %>
+                    <li><%= item %></li>
+                  <% }); %>
+                </ul>
+              <% } %>
+            </div>
+          </div>
+          
+          <% if (work.images && work.images.length > 0) { %>
+            <div class="work-images">
+              <% work.images.forEach(img => { %>
+                <a href="<%= projectsService.getWorkImagePath(project, work, img) %>" data-fancybox="work-gallery-<%= index %>" data-caption="<%= project.title %>">
+                  <img src="<%= projectsService.getWorkImagePath(project, work, img) %>" alt="<%= project.title %>" />
+                </a>
+              <% }); %>
+            </div>
+          <% } %>
+          
+          <% if (index < project.works.length - 1) { %>
+            <hr class="project-separator">
+          <% } %>
+        <% }); %>
+      <% } %>
+    </div>
+    
+    <div class="project-detail-right">
+      <a href="<%= projectsService.getProjectImagePath(project) %>" data-fancybox="main-image" data-caption="<%= project.title %>">
+        <img src="<%= projectsService.getProjectImagePath(project) %>" alt="<%= project.title %>" class="project-main-image" />
+      </a>
+    </div>
+  </div>
+</div> 

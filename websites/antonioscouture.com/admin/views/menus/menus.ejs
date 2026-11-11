@@ -1,0 +1,316 @@
+<!-- BEGIN content area -->
+<div class="menu-editing">
+	<div class="row">
+		<div class="col-xl-12">
+			<!-- BEGIN panel -->
+			<div class="panel panel-inverse">
+				<div class="panel-heading">
+					<h4 class="panel-title"><%= typeof t !== 'undefined' ? t('menus.pageTitle') : 'Menu Management' %></h4>
+					<div class="panel-heading-btn">
+						<a href="/admin/menus/create" class="btn btn-xs btn-success">
+							<i class="fa fa-plus"></i> <%= typeof t !== 'undefined' ? t('menus.addNewMenu') : 'Add New Menu' %>
+						</a>
+					</div>
+				</div>
+				<div class="panel-body">
+				<% if (typeof success !== 'undefined' && success) { %>
+					<div class="alert alert-success alert-dismissible fade show" role="alert">
+						<strong><%= typeof t !== 'undefined' ? t('messages.success') : 'Success!' %></strong> <%= success %>
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>
+				<% } %>
+				
+				<% if (typeof error !== 'undefined' && error) { %>
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<strong><%= typeof t !== 'undefined' ? t('messages.error') : 'Error!' %></strong> <%= error %>
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>
+				<% } %>
+
+				<!-- BEGIN statistics -->
+				<div class="row mb-4">
+					<div class="col-md-4">
+						<div class="card bg-primary text-white">
+							<div class="card-body">
+								<div class="d-flex justify-content-between">
+								<div>
+									<h4 class="mb-0"><%= statistics.totalMenus %></h4>
+									<p class="mb-0"><%= typeof t !== 'undefined' ? t('menus.totalMenus') : 'Total Menus' %></p>
+								</div>
+									<div class="align-self-center">
+										<i class="fa fa-bars fa-2x"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card bg-success text-white">
+							<div class="card-body">
+								<div class="d-flex justify-content-between">
+								<div>
+									<h4 class="mb-0"><%= statistics.totalItems %></h4>
+									<p class="mb-0"><%= typeof t !== 'undefined' ? t('menus.totalMenuItems') : 'Total Menu Items' %></p>
+								</div>
+									<div class="align-self-center">
+										<i class="fa fa-list fa-2x"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card bg-info text-white">
+							<div class="card-body">
+								<div class="d-flex justify-content-between">
+								<div>
+									<h4 class="mb-0"><%= menus.length %></h4>
+									<p class="mb-0"><%= typeof t !== 'undefined' ? t('menus.activeMenus') : 'Active Menus' %></p>
+								</div>
+									<div class="align-self-center">
+										<i class="fa fa-check-circle fa-2x"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- END statistics -->
+				
+				<!-- BEGIN filters -->
+				<div class="row mb-3">
+					<div class="col-md-6">
+						<div class="input-group">
+							<span class="input-group-text">
+								<i class="fa fa-search"></i>
+							</span>
+							<input type="text" class="form-control" id="keywordFilter" placeholder="<%= typeof t !== 'undefined' ? t('menus.searchPlaceholder') : 'Search by menu name or description...' %>" />
+						</div>
+					</div>
+					<div class="col-md-3">
+						<button type="button" class="btn btn-secondary" id="clearFilters">
+							<i class="fa fa-times me-1"></i> <%= typeof t !== 'undefined' ? t('common.clearFilters') : 'Clear Filters' %>
+						</button>
+					</div>
+				</div>
+				<!-- END filters -->
+				
+				<div class="table-responsive">
+					<table class="table table-striped table-bordered align-middle">
+						<thead>
+							<tr>
+								<th><%= typeof t !== 'undefined' ? t('menus.menuNameLabel') : 'Menu Name' %></th>
+								<th><%= typeof t !== 'undefined' ? t('menus.descriptionLabel') : 'Description' %></th>
+								<th><%= typeof t !== 'undefined' ? t('menus.itemsCount') : 'Items Count' %></th>
+								<th><%= typeof t !== 'undefined' ? t('menus.lastUpdated') : 'Last Updated' %></th>
+								<th width="1%"><%= typeof t !== 'undefined' ? t('common.actions') : 'Actions' %></th>
+							</tr>
+						</thead>
+						<tbody>
+							<% if (typeof menus !== 'undefined' && menus && menus.length > 0) { %>
+								<% menus.forEach(menu => { %>
+									<tr data-menu-id="<%= menu.id %>">
+										<td>
+											<div class="d-flex align-items-center">
+												<div class="flex-grow-1">
+													<div class="fw-bold"><%= menu.name %></div>
+													<div class="fs-12px text-gray-500-darker">ID: <%= menu.id %></div>
+												</div>
+											</div>
+										</td>
+										<td>
+											<%= menu.description %>
+										</td>
+										<td>
+											<span class="badge bg-primary"><%= menu.items.length %> <%= typeof t !== 'undefined' ? t('common.items') || 'items' : 'items' %></span>
+										</td>
+										<td>
+											<small class="text-muted"><%= typeof t !== 'undefined' ? t('menus.justNow') : 'Just now' %></small>
+										</td>
+										<td>
+											<div class="btn-group">
+												<a href="/admin/menus/<%= menu.id %>/edit" class="btn btn-xs btn-primary" title="<%= typeof t !== 'undefined' ? t('menus.editMenu') : 'Edit Menu' %>">
+													<i class="fa fa-edit"></i>
+												</a>
+												<button type="button" class="btn btn-xs btn-danger delete-menu" data-menu-id="<%= menu.id %>" data-menu-name="<%= menu.name %>" title="<%= typeof t !== 'undefined' ? t('menus.deleteMenu') : 'Delete Menu' %>">
+													<i class="fa fa-trash"></i>
+												</button>
+											</div>
+										</td>
+									</tr>
+								<% }); %>
+							<% } else { %>
+								<tr>
+									<td colspan="5" class="text-center py-4">
+										<div class="text-muted">
+											<i class="fa fa-bars fa-3x mb-3"></i>
+											<h5><%= typeof t !== 'undefined' ? t('menus.noMenusFound') : 'No menus found' %></h5>
+											<p><%= typeof t !== 'undefined' ? t('menus.createFirstMenu') : 'Create your first menu to get started.' %></p>
+											<a href="/admin/menus/create" class="btn btn-primary">
+												<i class="fa fa-plus"></i> <%= typeof t !== 'undefined' ? t('menus.createMenu') : 'Create Menu' %>
+											</a>
+										</div>
+									</td>
+								</tr>
+							<% } %>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			</div>
+		</div>
+		<!-- END panel -->
+	</div>
+</div>
+</div>
+<!-- END content area -->
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteMenuModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title"><%= typeof t !== 'undefined' ? t('menus.deleteMenu') : 'Delete Menu' %></h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+			<div class="modal-body">
+				<p id="deleteMenuConfirmText"></p>
+				<p class="text-danger"><small><%= typeof t !== 'undefined' ? t('menus.deleteMenuWarning') : 'This action cannot be undone. All menu items will also be deleted.' %></small></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= typeof t !== 'undefined' ? t('common.cancel') : 'Cancel' %></button>
+				<button type="button" class="btn btn-danger" id="confirmDeleteMenu"><%= typeof t !== 'undefined' ? t('menus.deleteMenu') : 'Delete Menu' %></button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Error Modal -->
+<div class="modal fade" id="deleteErrorModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header bg-danger text-white">
+				<h5 class="modal-title"><%= typeof t !== 'undefined' ? t('messages.error') : 'Error!' %></h5>
+				<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+			</div>
+			<div class="modal-body">
+				<p id="deleteErrorMessage"></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= typeof t !== 'undefined' ? t('common.close') : 'Close' %></button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+	// Filter functionality
+	const keywordFilter = document.getElementById('keywordFilter');
+	const clearFilters = document.getElementById('clearFilters');
+	const tableRows = document.querySelectorAll('tbody tr');
+
+	function filterTable() {
+		const keyword = keywordFilter.value.toLowerCase();
+		
+		tableRows.forEach(row => {
+			const menuName = row.querySelector('td:first-child .fw-bold').textContent.toLowerCase();
+			const description = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+			
+			if (menuName.includes(keyword) || description.includes(keyword)) {
+				row.style.display = '';
+			} else {
+				row.style.display = 'none';
+			}
+		});
+	}
+
+	keywordFilter.addEventListener('input', filterTable);
+	
+	clearFilters.addEventListener('click', function() {
+		keywordFilter.value = '';
+		filterTable();
+	});
+
+	// Delete menu functionality
+	const deleteButtons = document.querySelectorAll('.delete-menu');
+	const deleteModalElement = document.getElementById('deleteMenuModal');
+	const deleteMenuConfirmText = document.getElementById('deleteMenuConfirmText');
+	const confirmDeleteBtn = document.getElementById('confirmDeleteMenu');
+	const deleteErrorModalElement = document.getElementById('deleteErrorModal');
+	const deleteErrorMessage = document.getElementById('deleteErrorMessage');
+	
+	if (!deleteModalElement || !deleteMenuConfirmText || !confirmDeleteBtn || !deleteErrorModalElement || !deleteErrorMessage) {
+		console.error('Delete modal elements not found');
+		return;
+	}
+	
+	const deleteModal = new bootstrap.Modal(deleteModalElement);
+	const deleteErrorModal = new bootstrap.Modal(deleteErrorModalElement);
+	let menuToDelete = null;
+	const deleteMenuText = '<%= typeof t !== "undefined" ? t("menus.deleteMenu") : "Delete Menu" %>';
+	const deletingText = '<%= typeof t !== "undefined" ? t("common.loading") : "Loading..." %>';
+	const deleteErrorPrefix = '<%= typeof t !== "undefined" ? t("messages.deleteError") : "Error deleting" %>';
+	const deleteMenuConfirmTemplate = <%- typeof t !== "undefined" ? JSON.stringify(t("menus.deleteMenuConfirm")) : JSON.stringify("Are you sure you want to delete the menu \"{name}\"?") %>;
+
+	deleteButtons.forEach(button => {
+		button.addEventListener('click', function() {
+			menuToDelete = this.dataset.menuId;
+			const menuName = this.dataset.menuName || 'this menu';
+			// Update confirmation text with menu name
+			const confirmText = deleteMenuConfirmTemplate.replace('{name}', '<strong>' + menuName + '</strong>');
+			deleteMenuConfirmText.innerHTML = confirmText;
+			confirmDeleteBtn.disabled = false;
+			confirmDeleteBtn.textContent = deleteMenuText;
+			deleteModal.show();
+		});
+	});
+
+	confirmDeleteBtn.addEventListener('click', function() {
+		if (menuToDelete) {
+			// Disable button to prevent double-clicks
+			confirmDeleteBtn.disabled = true;
+			confirmDeleteBtn.textContent = deletingText;
+			
+			fetch(`/admin/menus/${menuToDelete}`, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+				}
+			})
+			.then(response => {
+				console.log('Delete response status:', response.status);
+				if (!response.ok) {
+					// Try to parse error response
+					return response.json().then(data => {
+						throw new Error(data.error || `Server error: ${response.status} ${response.statusText}`);
+					}).catch(() => {
+						throw new Error(`Server error: ${response.status} ${response.statusText}`);
+					});
+				}
+				return response.json();
+			})
+			.then(data => {
+				console.log('Delete response:', data);
+				if (data.success) {
+					deleteModal.hide();
+					window.location.reload();
+				} else {
+					throw new Error(data.error || 'Unknown error');
+				}
+			})
+			.catch(error => {
+				console.error('Error deleting menu:', error);
+				deleteModal.hide();
+				deleteErrorMessage.textContent = deleteErrorPrefix + ': ' + error.message;
+				deleteErrorModal.show();
+				confirmDeleteBtn.disabled = false;
+				confirmDeleteBtn.textContent = deleteMenuText;
+			});
+		} else {
+			deleteModal.hide();
+		}
+	});
+});
+</script>

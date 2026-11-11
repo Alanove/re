@@ -1,0 +1,317 @@
+<!-- Order Detail Page -->
+<% 
+    var _odPaySt = order.payment_status ? String(order.payment_status).toLowerCase() : '';
+    var _odOrderSt = order.status ? String(order.status).toLowerCase() : '';
+    var _odTotNum = parseFloat(String(order.total_amount));
+    /* Pending fulfilment/payment quote orders — hide $0 and show translated TBC instead */
+    var _odPendingZeroTotal = ((_odPaySt === 'pending' || _odOrderSt === 'pending'))
+        && Number.isFinite(_odTotNum) && _odTotNum <= 0;
+    function _odNum(v) { var n = parseFloat(String(v)); return Number.isFinite(n) ? n : NaN; }
+    function _odShowMoney(v) { var n = _odNum(v); return Number.isFinite(n) && n > 0; }
+    var _odTbc = typeof t !== 'undefined' ? t('ecommerce.pricing.toBeConfirmed') : 'To be confirmed';
+%>
+
+<!-- Breadcrumb Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark" href="/">Home</a>
+                <a class="breadcrumb-item text-dark" href="/customer/account">Account</a>
+                <a class="breadcrumb-item text-dark" href="/customer/orders">Orders</a>
+                <span class="breadcrumb-item active">Order #<%= order.order_number %></span>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Order Detail Start -->
+<div class="container-fluid pb-5">
+    <div class="row px-xl-5">
+        <!-- Account Sidebar -->
+        <div class="col-lg-3 mb-5">
+            <%- include('../partials/account-sidebar') %>
+        </div>
+
+        <!-- Order Content -->
+        <div class="col-lg-9">
+            <div class="bg-light mb-5">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="mb-0">Order #<%= order.order_number %></h4>
+                    <span class="badge badge-info"><%= order.status %></span>
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <h6 class="mb-3">Order Information</h6>
+                        <p class="mb-1"><strong>Date:</strong> <%= new Date(order.created_at).toLocaleDateString() %></p>
+                        <p class="mb-1"><strong>Payment Method:</strong> <%= order.payment_method %></p>
+                        <p class="mb-1"><strong>Payment Status:</strong> <%= order.payment_status %></p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="mb-3">Shipping Assessment</h6>
+                        <p class="mb-1"><strong>Method:</strong> <%= typeof shippingMethodLabel !== 'undefined' ? shippingMethodLabel : (order.shipping_method || 'Standard') %></p>
+                        <% if (order.tracking_number) { %>
+                            <p class="mb-1"><strong>Tracking:</strong> <%= order.tracking_number %></p>
+                            <button type="button" class="btn btn-sm btn-outline-primary mt-1" id="trackOrderBtn"><i class="fa fa-map-marker-alt mr-1"></i><%= typeof t !== 'undefined' ? t('ecommerce.trackOrder') : 'Track Order' %></button>
+                        <% } %>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <h6 class="mb-3">Shipping Address</h6>
+                        <address>
+                            <% if (order.shipping_address) { %>
+                                <strong><%= order.shipping_address.first_name %> <%= order.shipping_address.last_name %></strong><br>
+                                <%= order.shipping_address.address_line_1 %><br>
+                                <% if (order.shipping_address.address_line_2) { %>
+                                    <%= order.shipping_address.address_line_2 %><br>
+                                <% } %>
+                                <%= order.shipping_address.city %>, <%= order.shipping_address.state %> <%= order.shipping_address.postal_code %><br>
+                                <%= order.shipping_address.country %><br>
+                                <%= order.shipping_address.phone %>
+                            <% } %>
+                        </address>
+                    </div>
+                    <% if (order.billing_address) { %>
+                    <div class="col-md-6">
+                        <h6 class="mb-3">Billing Address</h6>
+                        <address>
+                            <strong><%= order.billing_address.first_name %> <%= order.billing_address.last_name %></strong><br>
+                            <%= order.billing_address.address_line_1 %><br>
+                            <% if (order.billing_address.address_line_2) { %>
+                                <%= order.billing_address.address_line_2 %><br>
+                            <% } %>
+                            <%= order.billing_address.city %>, <%= order.billing_address.state %> <%= order.billing_address.postal_code %><br>
+                            <%= order.billing_address.country %><br>
+                            <%= order.billing_address.phone %>
+                        </address>
+                    </div>
+                    <% } %>
+                </div>
+
+                <div class="table-responsive mb-4">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="bg-secondary">
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% order.items.forEach(function(item) { %>
+                                <tr>
+                                    <td>
+                                        <%= item.product_name %>
+                                        <% if (item.variant_name) { %>
+                                            <br><small class="text-muted"><%= item.variant_name %></small>
+                                        <% } %>
+                                    </td>
+                                    <td>
+                                        <% if (_odPendingZeroTotal && !_odShowMoney(item.unit_price)) { %>
+                                            <span class="text-muted small"><%= _odTbc %></span>
+                                        <% } else { %>
+                                            <%- include('../partials/price', { price: item.unit_price, suppressZero: true }) %>
+                                        <% } %>
+                                    </td>
+                                    <td><%= item.quantity %></td>
+                                    <td>
+                                        <% if (_odPendingZeroTotal && !_odShowMoney(item.total_price)) { %>
+                                            <span class="text-muted small"><%= _odTbc %></span>
+                                        <% } else { %>
+                                            <%- include('../partials/price', { price: item.total_price, suppressZero: true }) %>
+                                        <% } %>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="row justify-content-end">
+                    <div class="col-lg-5">
+                        <div class="bg-light">
+                            <div class="border-bottom pb-2">
+                                <div class="d-flex justify-content-between mb-3">
+                                    <h6>Subtotal</h6>
+                                    <h6>
+                                        <% if (_odPendingZeroTotal && !_odShowMoney(order.subtotal)) { %>
+                                            <span class="text-muted small font-weight-normal"><%= _odTbc %></span>
+                                        <% } else { %>
+                                            <%- include('../partials/price', { price: order.subtotal }) %>
+                                        <% } %>
+                                    </h6>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="font-weight-medium">Shipping</h6>
+                                    <h6 class="font-weight-medium">
+                                        <% if (_odPendingZeroTotal && !_odShowMoney(order.shipping_amount)) { %>
+                                            <span class="text-muted small font-weight-normal"><%= _odTbc %></span>
+                                        <% } else { %>
+                                            <%- include('../partials/price', { price: order.shipping_amount }) %>
+                                        <% } %>
+                                    </h6>
+                                </div>
+                                <% if (order.tax_amount > 0) { %>
+                                <div class="d-flex justify-content-between mt-2">
+                                    <h6 class="font-weight-medium">Tax</h6>
+                                    <h6 class="font-weight-medium"><%- include('../partials/price', { price: order.tax_amount }) %></h6>
+                                </div>
+                                <% } %>
+                                <% if (order.discount_amount > 0) { %>
+                                <div class="d-flex justify-content-between mt-2 text-success">
+                                    <h6 class="font-weight-medium">Discount</h6>
+                                    <h6 class="font-weight-medium">-<%- include('../partials/price', { price: order.discount_amount }) %></h6>
+                                </div>
+                                <% } %>
+                            </div>
+                            <div class="pt-2">
+                                <div class="d-flex justify-content-between mt-2">
+                                    <h5>Total</h5>
+                                    <h5>
+                                        <% if (_odPendingZeroTotal) { %>
+                                            <span class="text-muted small font-weight-normal"><%= _odTbc %></span>
+                                        <% } else { %>
+                                            <%- include('../partials/price', { price: order.total_amount }) %>
+                                        <% } %>
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <a href="/customer/orders" class="btn btn-primary"><i class="fa fa-angle-left mr-2"></i>Back to Orders</a>
+        </div>
+    </div>
+</div>
+<!-- Order Detail End -->
+
+<style>
+#trackOrderModal .modal-track-order { max-width: 95%; width: 100%; }
+@media (min-width: 576px) { #trackOrderModal .modal-track-order { max-width: 90%; } }
+@media (min-width: 992px) { #trackOrderModal .modal-track-order { max-width: 700px; } }
+@media (min-width: 1200px) { #trackOrderModal .modal-track-order { max-width: 800px; } }
+</style>
+<!-- Track Order Modal -->
+<div class="modal fade" id="trackOrderModal" tabindex="-1" aria-labelledby="trackOrderModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg modal-track-order" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="trackOrderModalLabel"><%= typeof t !== 'undefined' ? t('ecommerce.trackOrder') : 'Track Order' %></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div id="trackOrderLoading" class="text-center py-4 d-none"><span class="spinner-border"></span> <span><%= typeof t !== 'undefined' ? t('common.loading') : 'Loading...' %></span></div>
+                <div id="trackOrderError" class="alert alert-danger d-none"></div>
+                <div id="trackOrderContent" class="d-none">
+                    <p class="mb-3"><strong><%= typeof t !== 'undefined' ? t('ecommerce.trackingNumber') : 'Tracking Number' %>:</strong> <code id="trackOrderNumber"></code></p>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-sm table-hover mb-0" id="trackOrderTable">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th><%= typeof t !== 'undefined' ? t('ecommerce.dateTime') : 'Date &amp; Time' %></th>
+                                    <th><%= typeof t !== 'undefined' ? t('ecommerce.status') : 'Status' %></th>
+                                    <th><%= typeof t !== 'undefined' ? t('ecommerce.location') : 'Location' %></th>
+                                </tr>
+                            </thead>
+                            <tbody id="trackOrderUpdates"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+(function() {
+    const trackBtn = document.getElementById('trackOrderBtn');
+    if (!trackBtn) return;
+    const orderId = '<%= order.id %>';
+    const modalEl = document.getElementById('trackOrderModal');
+    if (!modalEl) return;
+    trackBtn.addEventListener('click', function() {
+        document.getElementById('trackOrderLoading').classList.remove('d-none');
+        document.getElementById('trackOrderError').classList.add('d-none');
+        document.getElementById('trackOrderContent').classList.add('d-none');
+        document.getElementById('trackOrderError').textContent = '';
+        fetch('/api/customer/orders/' + orderId + '/track')
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                document.getElementById('trackOrderLoading').classList.add('d-none');
+                if (data.success) {
+                    document.getElementById('trackOrderNumber').textContent = data.trackingNumber || '';
+                    var tbody = document.getElementById('trackOrderUpdates');
+                    tbody.innerHTML = '';
+                    var results = data.trackingResults;
+                    function parseNetDate(s) {
+                        if (!s || typeof s !== 'string') return '';
+                        var m = s.match(/\/Date\((\d+)/);
+                        if (!m) return s;
+                        var d = new Date(parseInt(m[1], 10));
+                        return isNaN(d.getTime()) ? s : d.toLocaleString();
+                    }
+                    function toArray(r) {
+                        if (!r || typeof r !== 'object') return [];
+                        if (Array.isArray(r)) {
+                            var out = [];
+                            r.forEach(function(item) {
+                                if (!item || typeof item !== 'object') return;
+                                if (item.Value && Array.isArray(item.Value)) {
+                                    out = out.concat(item.Value);
+                                } else if (item.UpdateDescription !== undefined || item.Description !== undefined || item.UpdateLocation !== undefined) {
+                                    out.push(item);
+                                } else if (item.Value && item.Value.TrackingResult) {
+                                    var tr = item.Value.TrackingResult;
+                                    out = out.concat(Array.isArray(tr) ? tr : [tr]);
+                                }
+                            });
+                            return out;
+                        }
+                        if (r.Value && Array.isArray(r.Value)) return r.Value;
+                        if (r.Value && r.Value.TrackingResult) {
+                            var tr = r.Value.TrackingResult;
+                            return Array.isArray(tr) ? tr : [tr];
+                        }
+                        var kv = r.KeyValueOfstringArrayOfTrackingResultmFAkxlpY;
+                        if (kv && kv.Value) {
+                            var v = kv.Value.TrackingResult;
+                            return v ? (Array.isArray(v) ? v : [v]) : [];
+                        }
+                        return [];
+                    }
+                    var list = toArray(results);
+                    function esc(s) { if (s == null || s === undefined) return ''; var t = String(s); var div = document.createElement('div'); div.textContent = t; return div.innerHTML; }
+                    list.forEach(function(u) {
+                        var tr = document.createElement('tr');
+                        var dateStr = parseNetDate(u.UpdateDateTime) || '';
+                        var descStr = esc(u.UpdateDescription || u.Description || u.Status || '');
+                        var locStr = esc(u.UpdateLocation || '');
+                        tr.innerHTML = '<td class="text-nowrap">' + dateStr + '</td><td>' + descStr + '</td><td>' + locStr + '</td>';
+                        tbody.appendChild(tr);
+                    });
+                    if (list.length === 0) {
+                        var empty = document.createElement('tr');
+                        empty.innerHTML = '<td colspan="3" class="text-muted text-center py-3"><%= typeof t !== "undefined" ? t("ecommerce.noTrackingUpdates") : "No tracking updates yet." %></td>';
+                        tbody.appendChild(empty);
+                    }
+                    document.getElementById('trackOrderContent').classList.remove('d-none');
+                } else {
+                    document.getElementById('trackOrderError').textContent = data.error || 'Unable to load tracking.';
+                    document.getElementById('trackOrderError').classList.remove('d-none');
+                }
+            })
+            .catch(function() {
+                document.getElementById('trackOrderLoading').classList.add('d-none');
+                document.getElementById('trackOrderError').textContent = '<%= typeof t !== "undefined" ? t("ecommerce.trackingError") : "Error loading tracking." %>';
+                document.getElementById('trackOrderError').classList.remove('d-none');
+            });
+        $(modalEl).modal('show');
+    });
+})();
+</script>

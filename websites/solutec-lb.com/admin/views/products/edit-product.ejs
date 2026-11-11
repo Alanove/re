@@ -1,0 +1,52 @@
+<div class="panel panel-inverse">
+  <div class="panel-heading"><h4 class="panel-title"><%= pageTitle %></h4></div>
+  <div class="panel-body">
+    <form method="post" action="/admin/products/save" enctype="multipart/form-data">
+      <input type="hidden" name="key" value="<%= product ? product.key : '' %>">
+      <div class="mb-3"><label>Title</label><input class="form-control" name="title" value="<%= product ? product.title : '' %>" required></div>
+      <div class="mb-3"><label>SKU</label><input class="form-control" name="sku" value="<%= product ? (product.sku || '') : '' %>"></div>
+      <div class="mb-3"><label>Price</label><input class="form-control" name="price" value="<%= product ? (product.price || '') : '' %>"></div>
+      <div class="mb-3">
+        <label class="form-label">Picture</label>
+        <% if (product && product.image) { %>
+          <div class="mb-2"><img src="<%= product.image %>" alt="" style="max-height:160px"></div>
+          <label class="form-check"><input type="checkbox" name="removeImage" value="1"> Remove picture</label>
+        <% } %>
+        <input class="form-control" type="file" name="imageFile" accept="image/*">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">More pictures</label>
+        <% (product && product.gallery ? product.gallery : []).forEach(function(image) { %>
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <img src="<%= image %>" alt="" style="height:64px">
+            <label class="form-check mb-0"><input type="checkbox" name="removeGallery" value="<%= image %>"> Remove</label>
+          </div>
+        <% }) %>
+        <input class="form-control" type="file" name="galleryFiles" accept="image/*" multiple>
+      </div>
+      <div class="mb-3">
+        <label>Categories</label>
+        <select class="form-select" name="categories" multiple size="8">
+          <% categories.forEach(function(category) { %>
+            <option value="<%= category.slug %>" <%= product && product.categories && product.categories.indexOf(category.slug) >= 0 ? 'selected' : '' %>><%= category.name %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="mb-3"><label>Short description</label><textarea class="form-control" name="excerpt" rows="3"><%= product ? (product.excerpt || '') : '' %></textarea></div>
+      <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea class="form-control rich-text" id="content" name="content" rows="12"><%= product ? (product.content || '') : '' %></textarea>
+      </div>
+      <div class="mb-3"><label>Status</label>
+        <select class="form-select" name="status">
+          <option value="published" <%= !product || product.status !== 'draft' ? 'selected' : '' %>>Published</option>
+          <option value="draft" <%= product && product.status === 'draft' ? 'selected' : '' %>>Draft</option>
+        </select>
+      </div>
+      <div class="mb-3"><label>SEO title</label><input class="form-control" name="seoTitle" value="<%= product && product.seo ? (product.seo.pageTitle || '') : '' %>"></div>
+      <div class="mb-3"><label>SEO description</label><input class="form-control" name="seoDescription" value="<%= product && product.seo ? (product.seo.pageDescription || '') : '' %>"></div>
+      <button class="btn btn-primary" type="submit">Save</button>
+      <a class="btn btn-secondary" href="/admin/products">Cancel</a>
+    </form>
+  </div>
+</div>

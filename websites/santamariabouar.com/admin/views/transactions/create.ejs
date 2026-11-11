@@ -1,0 +1,1652 @@
+
+<style>
+.special-category-section {
+    display: none;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    border: 1px solid #dee2e6;
+}
+
+.apartment-selection {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ced4da;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.apartment-item {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+.apartment-item:last-child {
+    border-bottom: none;
+}
+
+.category-indicator {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+}
+</style>
+
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Create Transaction</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="/admin/transactions">Transactions</a></li>
+                        <li class="breadcrumb-item active">Create</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Transaction Details</h3>
+                        </div>
+                        <form id="transactionForm" action="/admin/transactions/create" method="POST" enctype="multipart/form-data">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="categoryId">Category *</label>
+                                    <select class="form-control" id="categoryId" name="categoryId" required>
+                                        <option value="">Select a category</option>
+                                        <% categories.forEach(category => { %>
+                                            <option value="<%= category.id %>" 
+                                                    data-type="<%= category.type %>" 
+                                                    data-color="<%= category.color %>"
+                                                    data-name="<%= category.name.toLowerCase() %>">
+                                                <span class="category-indicator" style="background-color: <%= category.color %>;"></span>
+                                                <%= category.name %> 
+                                                <% if (category.type === 'income') { %>
+                                                    (+)
+                                                <% } else if (category.type === 'expense') { %>
+                                                    (-)
+                                                <% } else { %>
+                                                    (+/-)
+                                                <% } %>
+                                            </option>
+                                        <% }); %>
+                                    </select>
+                                    <small class="form-text text-muted">Choose the category that best describes this transaction</small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="amount">Total Amount *</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <input type="number" step="0.01" min="0" class="form-control" id="amount" 
+                                               name="amount" required placeholder="0.00">
+                                    </div>
+                                    <small class="form-text text-muted" id="amountHelpText"></small>
+                                </div>
+
+                                <!-- Transaction Type for 'both' categories -->
+                                <div class="form-group" id="transactionTypeGroup" style="display: none;">
+                                    <label for="transactionType">Transaction Type *</label>
+                                    <select class="form-control" id="transactionType" name="transactionType">
+                                        <option value="income">Income (+)</option>
+                                        <option value="expense">Expense (-)</option>
+                                    </select>
+                                    <small class="form-text text-muted">Choose whether this adds or removes money from the account</small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="description">Description <span id="descriptionRequired">*</span></label>
+                                    <textarea class="form-control" id="description" name="description" rows="3" 
+                                              required placeholder="Describe this transaction..."></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="date">Date *</label>
+                                    <input type="date" class="form-control" id="date" name="date" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="receiptImage">Receipt Image (Optional)</label>
+                                    <input type="file" class="form-control" id="receiptImage" name="receiptImage" accept="image/*,application/pdf">
+                                    <small class="form-text text-muted">Upload a receipt image or PDF (max 20MB). Supported formats: JPEG, PNG, GIF, WebP, PDF</small>
+                                    <div id="receiptImagePreview" class="mt-2" style="display: none;">
+                                        <img id="previewImage" src="" alt="Receipt Preview" style="max-width: 200px; max-height: 200px; border: 1px solid #ddd; padding: 5px;">
+                                    </div>
+                                </div>
+
+                                <div class="form-group" id="accountGroup">
+                                    <label for="accountId">Account *</label>
+                                    <select class="form-control" id="accountId" name="accountId" required>
+                                        <option value="">Select a account</option>
+                                        <% accounts.filter(w => w.isActive).forEach(account => { %>
+                                            <option value="<%= account.id %>">
+                                                <%= account.name %> ($<%= (account.balance != null ? account.balance.toFixed(2) : '0.00') %>)
+                                            </option>
+                                        <% }); %>
+                                    </select>
+                                </div>
+
+                                <!-- Transfer Section -->
+                                <div id="transferSection" class="special-category-section">
+                                    <h5><i class="fa fa-exchange-alt text-info"></i> Transfer Details</h5>
+                                    <div class="form-group">
+                                        <label for="toAccountId">To Account *</label>
+                                        <select class="form-control" id="toAccountId" name="toAccountId">
+                                            <option value="">Select destination account</option>
+                                            <% accounts.filter(w => w.isActive).forEach(account => { %>
+                                                <option value="<%= account.id %>">
+                                                    <%= account.name %> ($<%= (account.balance != null ? account.balance.toFixed(2) : '0.00') %>)
+                                                </option>
+                                            <% }); %>
+                                        </select>
+                                        <small class="form-text text-muted">Money will be moved from the source account to this account</small>
+                                    </div>
+                                </div>
+
+                                <!-- Common Expenses Section -->
+                                <div id="commonExpensesSection" class="special-category-section">
+                                    <h5><i class="fa fa-building text-success"></i> Common Expenses</h5>
+                                    <p class="text-muted">Select one apartment and the year for this expense:</p>
+                                    
+                                    <div class="form-group">
+                                        <label for="apartmentId">Apartment *</label>
+                                        <select class="form-control" id="apartmentId" name="apartmentId">
+                                            <option value="">Select an apartment</option>
+                                            <% 
+                                            const apartmentsByBlock = {};
+                                            apartments.forEach(apt => {
+                                                if (!apartmentsByBlock[apt.block]) {
+                                                    apartmentsByBlock[apt.block] = [];
+                                                }
+                                                apartmentsByBlock[apt.block].push(apt);
+                                            });
+                                            %>
+                                            
+                                            <% Object.keys(apartmentsByBlock).sort().forEach(block => { %>
+                                                <optgroup label="Block <%= block %>">
+                                                    <% apartmentsByBlock[block].forEach(apartment => { 
+                                                        const owner = users.find(u => u.id === apartment.ownerId);
+                                                        const ownerName = owner ? owner.name : 'Unknown Owner';
+                                                    %>
+                                                        <option value="<%= apartment.id %>" 
+                                                                data-area="<%= apartment.areaInM2 %>"
+                                                                data-block="<%= apartment.block %>"
+                                                                data-official="<%= apartment.unitNumberOfficial %>"
+                                                                data-unofficial="<%= apartment.unitNumberUnofficial %>"
+                                                                data-registration="<%= apartment.registrationDate %>">
+                                                            <%= ownerName %> - Block <%= apartment.block %> <%= apartment.unitNumberOfficial %> 
+                                                            (<%= apartment.unitNumberUnofficial %>) - <%= apartment.areaInM2 %>m²
+                                                        </option>
+                                                    <% }); %>
+                                                </optgroup>
+                                            <% }); %>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Select Years and Payment Amounts *</label>
+                                        <div id="yearsCheckboxContainer" class="border rounded p-3" style="background: #f8f9fa;">
+                                            <div id="yearsList">
+                                                <!-- Checkboxes will be populated dynamically -->
+                                            </div>
+                                        </div>
+                                        <small class="form-text text-muted mt-2">
+                                            <i class="fa fa-info-circle"></i> Enter the amount to pay for each year. 
+                                            <button type="button" class="btn btn-xs btn-link p-0" onclick="autoDistributePayment()">
+                                                <i class="fa fa-magic"></i> Auto-distribute from total amount
+                                            </button>
+                                        </small>
+                                    </div>
+
+                                    <div id="paymentDetails" style="display: none;">
+                                        <div class="alert alert-info">
+                                            <h6><i class="fa fa-calculator"></i> Payment Breakdown</h6>
+                                            <div id="paymentInfo"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <input type="hidden" name="submitAction" id="submitAction" value="create">
+                            <div class="card-footer d-flex align-items-center">
+                                <button type="submit" class="btn btn-primary mr-2" data-action="create" style="margin-right:8px;">
+                                    <i class="fa fa-save"></i> Create
+                                </button>
+                                <button type="submit" class="btn btn-outline-primary mr-2" data-action="create_edit" style="margin-right:8px;">
+                                    <i class="fa fa-edit"></i> Create & Edit
+                                </button>
+                                <a href="/admin/transactions" class="btn btn-secondary">
+                                    <i class="fa fa-arrow-left"></i> Cancel
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <!-- Outstanding Invoices Section -->
+                    <% if (outstandingInvoices && outstandingInvoices.length > 0) { %>
+                    <div class="card card-warning">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h3 class="card-title"><i class="fa fa-file-invoice"></i> Outstanding Invoices</h3>
+                            <button type="button" class="btn btn-sm btn-success" id="paySelectedInvoicesBtn" style="display: none;">
+                                <i class="fa fa-money-bill"></i> Pay Selected
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-muted small mb-3">Select invoices to pay together, or click "Pay" for a single invoice</p>
+                            <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                                <table class="table table-sm table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 30px;">
+                                                <input type="checkbox" id="selectAllInvoices" title="Select All">
+                                            </th>
+                                            <th>Date</th>
+                                            <th>Category</th>
+                                            <th>Amount</th>
+                                            <th>Paid</th>
+                                            <th>Balance</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% outstandingInvoices.forEach(invoice => { %>
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" 
+                                                       class="invoice-checkbox" 
+                                                       data-invoice-id="<%= invoice.id %>"
+                                                       data-invoice-amount="<%= invoice.amount %>"
+                                                       data-invoice-paid="<%= invoice.amountPaid %>"
+                                                       data-invoice-balance="<%= invoice.balance %>"
+                                                       data-invoice-description="<%= (invoice.description || '').replace(/'/g, "\\'") %>"
+                                                       data-category-id="<%= invoice.categoryId %>"
+                                                       onchange="updateSelectedInvoices()">
+                                            </td>
+                                            <td><small><%= new Date(invoice.invoiceDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></small></td>
+                                            <td>
+                                                <span class="badge" style="background-color: <%= invoice.categoryColor %>; color: white;">
+                                                    <%= invoice.categoryName %>
+                                                </span>
+                                            </td>
+                                            <td><strong>$<%= invoice.amount.toFixed(2) %></strong></td>
+                                            <td>$<%= invoice.amountPaid.toFixed(2) %></td>
+                                            <td>
+                                                <span class="badge badge-<%= invoice.balance > 0 ? 'danger' : 'success' %>">
+                                                    $<%= invoice.balance.toFixed(2) %>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <button type="button" 
+                                                        class="btn btn-xs btn-primary pay-invoice-btn" 
+                                                        data-invoice-id="<%= invoice.id %>"
+                                                        data-invoice-amount="<%= invoice.amount %>"
+                                                        data-invoice-paid="<%= invoice.amountPaid %>"
+                                                        data-invoice-balance="<%= invoice.balance %>"
+                                                        data-invoice-description="<%= (invoice.description || '').replace(/'/g, "\\'") %>"
+                                                        data-category-id="<%= invoice.categoryId %>"
+                                                        onclick="payInvoiceFromButton(this); return false;"
+                                                        title="Pay this invoice">
+                                                    <i class="fa fa-money-bill"></i> Pay
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div id="selectedInvoicesSummary" class="mt-2" style="display: none;">
+                                <div class="alert alert-info">
+                                    <strong>Selected:</strong> <span id="selectedCount">0</span> invoice(s) | 
+                                    <strong>Total Balance:</strong> $<span id="selectedTotal">0.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
+                    
+                    <div class="card card-info">
+                        <div class="card-header">
+                            <h3 class="card-title">Transaction Types</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <h6><i class="fa fa-arrow-up text-success"></i> Income Transactions</h6>
+                                <p class="small text-muted">Add money to the selected account. Examples: salary, sales, payments received.</p>
+                            </div>
+                            <div class="mb-3">
+                                <h6><i class="fa fa-arrow-down text-danger"></i> Expense Transactions</h6>
+                                <p class="small text-muted">Remove money from the selected account. Examples: bills, purchases, payments made.</p>
+                            </div>
+                            <div class="mb-3">
+                                <h6><i class="fa fa-exchange-alt text-info"></i> Transfers</h6>
+                                <p class="small text-muted">Move money between accounts. Creates two transactions automatically.</p>
+                            </div>
+                            <div>
+                                <h6><i class="fa fa-building text-warning"></i> Common Expenses</h6>
+                                <p class="small text-muted">Expenses shared among apartments. Select multiple apartments and receipts will be generated.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card card-success" id="transactionPreview" style="display: none;">
+                        <div class="card-header">
+                            <h3 class="card-title">Transaction Preview</h3>
+                        </div>
+                        <div class="card-body" id="previewContent">
+                            <!-- Dynamic content will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Error Modal -->
+<div class="modal fade" id="errorModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">
+                    <i class="fa fa-exclamation-circle"></i> Error
+                </h5>
+                <button type="button" class="close text-white" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="errorModalBody">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Define payInvoiceFromButton function globally FIRST, before any other code
+window.payInvoiceFromButton = function(btn) {
+    console.log('payInvoiceFromButton called', btn);
+    
+    // If called from event, extract button
+    if (btn && btn.target) {
+        btn = btn.target.closest('.pay-invoice-btn') || btn.target;
+    }
+    
+    if (!btn || !btn.classList || !btn.classList.contains('pay-invoice-btn')) {
+        console.error('Invalid button element', btn);
+        return;
+    }
+    
+    console.log('Processing invoice payment for button:', btn);
+    
+    const invoiceId = btn.getAttribute('data-invoice-id');
+    const invoiceAmount = parseFloat(btn.getAttribute('data-invoice-amount'));
+    const invoicePaid = parseFloat(btn.getAttribute('data-invoice-paid'));
+    const invoiceBalance = parseFloat(btn.getAttribute('data-invoice-balance'));
+    let invoiceDescription = btn.getAttribute('data-invoice-description');
+    const categoryId = btn.getAttribute('data-category-id');
+    
+    // Decode HTML entities if any
+    if (invoiceDescription) {
+        const txt = document.createElement('textarea');
+        txt.innerHTML = invoiceDescription;
+        invoiceDescription = txt.value;
+    }
+    
+    console.log('Invoice payment data:', { 
+        invoiceId, 
+        invoiceBalance, 
+        categoryId, 
+        invoiceDescription: invoiceDescription || '(empty)' 
+    });
+    
+    // Get apartmentId from URL parameter, form field, or template variable
+    const urlParams = new URLSearchParams(window.location.search);
+    let apartmentId = urlParams.get('apartmentId') || 
+                     document.getElementById('apartmentId')?.value || 
+                     '<%= apartmentId || "" %>';
+    
+    console.log('Apartment ID:', apartmentId);
+    
+    if (!apartmentId || apartmentId === '' || apartmentId === 'null') {
+        alert('Please select an apartment first');
+        return;
+    }
+    
+    // Validate required elements exist
+    const categorySelect = document.getElementById('categoryId');
+    const amountInput = document.getElementById('amount');
+    const descriptionInput = document.getElementById('description');
+    const transactionTypeSelect = document.getElementById('transactionType');
+    const apartmentSelect = document.getElementById('apartmentId');
+    
+    if (!categorySelect || !amountInput || !transactionTypeSelect) {
+        console.error('Required form elements not found');
+        alert('Error: Form elements not found. Please refresh the page.');
+        return;
+    }
+    
+    console.log('Pre-filling form...');
+    console.log('Invoice description from button:', invoiceDescription);
+    
+    // Store invoice ID FIRST to prevent updateDescriptionForCommonExpense from overwriting
+    let invoiceIdInput = document.getElementById('invoiceId');
+    if (!invoiceIdInput) {
+        invoiceIdInput = document.createElement('input');
+        invoiceIdInput.type = 'hidden';
+        invoiceIdInput.id = 'invoiceId';
+        invoiceIdInput.name = 'invoiceId';
+        document.getElementById('transactionForm').appendChild(invoiceIdInput);
+    }
+    invoiceIdInput.value = invoiceId;
+    
+    // Store invoice amount separately so it doesn't get lost when credit is added
+    let invoiceAmountInput = document.getElementById('invoiceAmount');
+    if (!invoiceAmountInput) {
+        invoiceAmountInput = document.createElement('input');
+        invoiceAmountInput.type = 'hidden';
+        invoiceAmountInput.id = 'invoiceAmount';
+        invoiceAmountInput.name = 'invoiceAmount';
+        document.getElementById('transactionForm').appendChild(invoiceAmountInput);
+    }
+    invoiceAmountInput.value = invoiceBalance.toFixed(2);
+    
+    // Get description field reference
+    const descriptionField = document.getElementById('description');
+    
+    // Pre-fill the form for paying this invoice
+    document.getElementById('categoryId').value = categoryId;
+    document.getElementById('amount').value = invoiceBalance.toFixed(2);
+    document.getElementById('transactionType').value = 'income';
+    
+    // Set apartment
+    if (!document.getElementById('apartmentId').value) {
+        document.getElementById('apartmentId').value = apartmentId;
+    }
+    
+    // Set description RIGHT NOW - before any events fire
+    if (invoiceDescription && invoiceDescription.trim() !== '') {
+        descriptionField.value = invoiceDescription;
+        console.log('✓ Description set to:', invoiceDescription);
+    } else {
+        console.warn('⚠ No invoice description found in button data!');
+    }
+    
+    // Now trigger category change - but description is already set and invoiceId prevents overwrite
+    document.getElementById('categoryId').dispatchEvent(new Event('change'));
+    
+    // Keep forcing the description - use a persistent interval
+    let descriptionSetCount = 0;
+    const descriptionInterval = setInterval(() => {
+        if (invoiceDescription && invoiceDescription.trim() !== '') {
+            descriptionField.value = invoiceDescription;
+            descriptionSetCount++;
+            if (descriptionSetCount <= 3) {
+                console.log(`Description forced (attempt ${descriptionSetCount}):`, invoiceDescription);
+            }
+        }
+        // Stop after 2 seconds
+        if (descriptionSetCount >= 20) {
+            clearInterval(descriptionInterval);
+        }
+    }, 100);
+    
+    // Invoice ID already set above, no need to set it again
+    
+    // Scroll to form and highlight
+    document.getElementById('transactionForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.getElementById('amount').focus();
+    document.getElementById('amount').select();
+    
+    // Show info message
+    const infoDiv = document.createElement('div');
+    infoDiv.className = 'alert alert-info alert-dismissible fade show';
+    infoDiv.innerHTML = `
+        <strong><i class="fa fa-info-circle"></i> Invoice Payment Mode</strong><br>
+        Form pre-filled to pay invoice #${invoiceId}. Amount set to balance: $${invoiceBalance.toFixed(2)}<br>
+        <small>Select an account and date, then click "Create" to complete the payment.</small>
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+    `;
+    const formCard = document.querySelector('.card-body');
+    if (formCard) {
+        formCard.insertBefore(infoDiv, formCard.firstChild);
+    }
+    
+    // Auto-dismiss after 5 seconds
+    setTimeout(() => {
+        if (infoDiv.parentNode) {
+            infoDiv.remove();
+        }
+    }, 5000);
+};
+
+// Multiple invoice selection functions
+function updateSelectedInvoices() {
+    const checkboxes = document.querySelectorAll('.invoice-checkbox:checked');
+    const paySelectedBtn = document.getElementById('paySelectedInvoicesBtn');
+    const summaryDiv = document.getElementById('selectedInvoicesSummary');
+    const selectedCount = document.getElementById('selectedCount');
+    const selectedTotal = document.getElementById('selectedTotal');
+    
+    if (checkboxes.length > 0) {
+        paySelectedBtn.style.display = 'block';
+        summaryDiv.style.display = 'block';
+        
+        let total = 0;
+        checkboxes.forEach(checkbox => {
+            const balance = parseFloat(checkbox.getAttribute('data-invoice-balance')) || 0;
+            total += balance;
+        });
+        
+        selectedCount.textContent = checkboxes.length;
+        selectedTotal.textContent = total.toFixed(2);
+    } else {
+        paySelectedBtn.style.display = 'none';
+        summaryDiv.style.display = 'none';
+    }
+}
+
+// Select all invoices
+document.getElementById('selectAllInvoices')?.addEventListener('change', function() {
+    const checkboxes = document.querySelectorAll('.invoice-checkbox');
+    checkboxes.forEach(cb => cb.checked = this.checked);
+    updateSelectedInvoices();
+});
+
+// Pay selected invoices
+document.getElementById('paySelectedInvoicesBtn')?.addEventListener('click', function() {
+    const checkboxes = document.querySelectorAll('.invoice-checkbox:checked');
+    if (checkboxes.length === 0) {
+        alert('Please select at least one invoice');
+        return;
+    }
+    
+    const invoiceIds = [];
+    const invoiceAmounts = {};
+    let totalBalance = 0;
+    let categoryId = null;
+    
+    checkboxes.forEach(checkbox => {
+        const id = checkbox.getAttribute('data-invoice-id');
+        const balance = parseFloat(checkbox.getAttribute('data-invoice-balance')) || 0;
+        const catId = checkbox.getAttribute('data-category-id');
+        
+        invoiceIds.push(id);
+        invoiceAmounts[id] = balance;
+        totalBalance += balance;
+        
+        if (!categoryId) {
+            categoryId = catId;
+        }
+    });
+    
+    // Pre-fill form for multiple invoice payment
+    if (categoryId) {
+        document.getElementById('categoryId').value = categoryId;
+    }
+    document.getElementById('amount').value = totalBalance.toFixed(2);
+    document.getElementById('transactionType').value = 'income';
+    
+    // Store selected invoice IDs
+    let invoiceIdsInput = document.getElementById('invoiceIds');
+    if (!invoiceIdsInput) {
+        invoiceIdsInput = document.createElement('input');
+        invoiceIdsInput.type = 'hidden';
+        invoiceIdsInput.id = 'invoiceIds';
+        invoiceIdsInput.name = 'invoiceIds';
+        document.getElementById('transactionForm').appendChild(invoiceIdsInput);
+    }
+    invoiceIdsInput.value = JSON.stringify(invoiceIds);
+    
+    // Store invoice amounts
+    let invoiceAmountsInput = document.getElementById('invoiceAmounts');
+    if (!invoiceAmountsInput) {
+        invoiceAmountsInput = document.createElement('input');
+        invoiceAmountsInput.type = 'hidden';
+        invoiceAmountsInput.id = 'invoiceAmounts';
+        invoiceAmountsInput.name = 'invoiceAmounts';
+        document.getElementById('transactionForm').appendChild(invoiceAmountsInput);
+    }
+    invoiceAmountsInput.value = JSON.stringify(invoiceAmounts);
+    
+    // Show info message
+    const infoDiv = document.createElement('div');
+    infoDiv.className = 'alert alert-info alert-dismissible fade show';
+    infoDiv.innerHTML = `
+        <strong><i class="fa fa-info-circle"></i> Multiple Invoice Payment Mode</strong><br>
+        Form pre-filled to pay ${invoiceIds.length} invoice(s). Total amount: $${totalBalance.toFixed(2)}<br>
+        <small>Select an account and date, then click "Create" to complete the payment.</small>
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+    `;
+    const formCard = document.querySelector('.card-body');
+    if (formCard) {
+        formCard.insertBefore(infoDiv, formCard.firstChild);
+    }
+    
+    // Auto-dismiss after 5 seconds
+    setTimeout(() => {
+        if (infoDiv.parentNode) {
+            infoDiv.remove();
+        }
+    }, 5000);
+    
+    // Scroll to form
+    document.getElementById('transactionForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.getElementById('amount').focus();
+    document.getElementById('amount').select();
+});
+
+// Set today's date as default
+document.getElementById('date').value = new Date().toISOString().split('T')[0];
+
+// Receipt image preview
+document.getElementById('receiptImage').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    const preview = document.getElementById('receiptImagePreview');
+    const previewImage = document.getElementById('previewImage');
+    
+    if (file) {
+        // Check file type
+        if (file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImage.src = e.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        } else if (file.type === 'application/pdf') {
+            // For PDF, just show a placeholder
+            previewImage.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiNlZGVkZWQiLz48dGV4dCB4PSI1MCIgeT0iNTAiIGZvbnQtc2l6ZT0iMTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5QREYgRmlsZTwvdGV4dD48L3N2Zz4=';
+            preview.style.display = 'block';
+        } else {
+            preview.style.display = 'none';
+        }
+    } else {
+        preview.style.display = 'none';
+    }
+});
+
+// Category change handler
+document.getElementById('categoryId').addEventListener('change', function() {
+    const selectedOption = this.options[this.selectedIndex];
+    const categoryType = selectedOption.getAttribute('data-type');
+    const categoryName = selectedOption.getAttribute('data-name');
+    
+    // Reset all special sections
+    document.getElementById('transferSection').style.display = 'none';
+    document.getElementById('commonExpensesSection').style.display = 'none';
+    // Hide transaction type selector and clear any previous selection to avoid stale values
+    document.getElementById('transactionTypeGroup').style.display = 'none';
+    const txTypeEl = document.getElementById('transactionType');
+    if (txTypeEl) txTypeEl.value = '';
+    
+    // Show transaction type for 'both' categories (except special ones)
+    if (categoryType === 'both' && categoryName !== 'transfer') {
+        document.getElementById('transactionTypeGroup').style.display = 'block';
+    }
+    
+    // Show special sections
+    if (categoryName === 'transfer') {
+        document.getElementById('transferSection').style.display = 'block';
+        document.querySelector('label[for="accountId"]').textContent = 'From Account *';
+    } else {
+        document.querySelector('label[for="accountId"]').textContent = 'Account *';
+    }
+    
+    if (categoryName === 'common expenses') {
+        document.getElementById('commonExpensesSection').style.display = 'block';
+        // Make description optional for common expenses
+        document.getElementById('description').required = false;
+        document.getElementById('descriptionRequired').style.display = 'none';
+        // Make apartmentId required for common expenses
+        document.getElementById('apartmentId').required = true;
+        // Auto-generate description if apartment is already selected
+        updateDescriptionForCommonExpense();
+        // Update amount field help text
+        document.getElementById('amountHelpText').innerHTML = '<i class="fa fa-info-circle"></i> Enter total here and use auto-distribute, OR enter amounts per year below';
+        document.getElementById('amountHelpText').className = 'form-text text-info';
+    } else {
+        // Make description required for other transaction types
+        document.getElementById('description').required = true;
+        document.getElementById('descriptionRequired').style.display = 'inline';
+        // Make apartmentId not required for other transaction types
+        document.getElementById('apartmentId').required = false;
+        // Clear amount help text
+        document.getElementById('amountHelpText').textContent = '';
+    }
+    
+    updateTransactionPreview();
+});
+
+// Amount and other field change handlers
+['amount', 'description', 'accountId', 'toAccountId', 'transactionType'].forEach(fieldId => {
+    const field = document.getElementById(fieldId);
+    if (field) {
+        field.addEventListener('input', function() {
+            updateTransactionPreview();
+            updatePaymentDetails();
+        });
+        field.addEventListener('change', function() {
+            updateTransactionPreview();
+            updatePaymentDetails();
+        });
+    }
+});
+
+// Apartment selection handler
+document.addEventListener('DOMContentLoaded', function() {
+    const apartmentSelect = document.getElementById('apartmentId');
+    
+    if (apartmentSelect) {
+        apartmentSelect.addEventListener('change', function() {
+            loadAvailableYears();
+            updateTransactionPreview();
+            updateDescriptionForCommonExpense();
+        });
+    }
+    
+    // Check for values in URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const apartmentId = urlParams.get('apartmentId');
+    const presetCategoryId = urlParams.get('categoryId');
+    const presetTransactionType = urlParams.get('transactionType');
+    const presetAccountId = urlParams.get('accountId');
+    
+    if (apartmentId && apartmentSelect) {
+        // Pre-select the apartment
+        apartmentSelect.value = apartmentId;
+        
+        // Find and select the "Common Expenses" category
+        const categorySelect = document.getElementById('categoryId');
+        if (categorySelect) {
+            const commonExpenseOption = Array.from(categorySelect.options).find(
+                option => option.getAttribute('data-name') === 'common expenses'
+            );
+            
+            if (commonExpenseOption) {
+                categorySelect.value = commonExpenseOption.value;
+                // Trigger the category change event to show the common expenses section
+                categorySelect.dispatchEvent(new Event('change'));
+            }
+        }
+        
+        // Load available years for the selected apartment
+        setTimeout(() => {
+            loadAvailableYears();
+            updateDescriptionForCommonExpense();
+        }, 100);
+    }
+    
+    // Prefill category, transaction type, and account if provided
+    const categorySelect = document.getElementById('categoryId');
+    const accountSelect = document.getElementById('accountId');
+    
+    if (presetCategoryId && categorySelect) {
+        categorySelect.value = presetCategoryId;
+        // Trigger change to apply dependent UI logic
+        categorySelect.dispatchEvent(new Event('change'));
+    }
+    
+    if (presetTransactionType) {
+        const txTypeEl = document.getElementById('transactionType');
+        if (txTypeEl) {
+            txTypeEl.value = presetTransactionType;
+        }
+    }
+    
+    if (presetAccountId && accountSelect) {
+        accountSelect.value = presetAccountId;
+        accountSelect.dispatchEvent(new Event('change'));
+    }
+});
+
+function updateDescriptionForCommonExpense() {
+    // ALWAYS check for invoice ID first - if paying an invoice, NEVER update description
+    const invoiceIdInput = document.getElementById('invoiceId');
+    if (invoiceIdInput && invoiceIdInput.value) {
+        console.log('Invoice payment in progress - SKIPPING auto-description update');
+        return;
+    }
+    
+    const categorySelect = document.getElementById('categoryId');
+    const selectedCategory = categorySelect.options[categorySelect.selectedIndex];
+    const categoryName = selectedCategory.getAttribute('data-name');
+    
+    // Only auto-generate for common expenses
+    if (categoryName !== 'common expenses') {
+        return;
+    }
+    
+    const apartmentSelect = document.getElementById('apartmentId');
+    if (!apartmentSelect.value) {
+        return;
+    }
+    
+    const selectedOption = apartmentSelect.options[apartmentSelect.selectedIndex];
+    const block = selectedOption.getAttribute('data-block');
+    const official = selectedOption.getAttribute('data-official');
+    const unofficial = selectedOption.getAttribute('data-unofficial');
+    
+    if (block && official && unofficial) {
+        const description = `Common Expenses Payment for Apartment Block ${block} ${official} (${unofficial})`;
+        document.getElementById('description').value = description;
+    }
+}
+
+async function loadAvailableYears() {
+    const apartmentId = document.getElementById('apartmentId').value;
+    const yearsList = document.getElementById('yearsList');
+    
+    if (!apartmentId) {
+        yearsList.innerHTML = '';
+        document.getElementById('paymentDetails').style.display = 'none';
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/admin/apartments/${apartmentId}/unsettled-years`);
+        const data = await response.json();
+        
+        yearsList.innerHTML = '';
+        
+        // Show credit information if available
+        if (data.creditAvailable && data.creditAvailable > 0) {
+            const creditDiv = document.createElement('div');
+            creditDiv.className = 'alert alert-success mb-3';
+            creditDiv.id = 'creditInfo';
+            creditDiv.innerHTML = `
+                <h6><i class="fa fa-wallet"></i> Wallet Available</h6>
+                <p class="mb-0">This apartment has <strong>$${data.creditAvailable.toFixed(2)}</strong> in its wallet that will be automatically applied to payments.</p>
+            `;
+            yearsList.appendChild(creditDiv);
+        }
+        
+        // Helper function to create credit option
+        function createCreditOption() {
+            const creditDiv = document.createElement('div');
+            creditDiv.className = 'mb-3 p-3 border rounded';
+            creditDiv.style.backgroundColor = '#f0f9ff';
+            creditDiv.style.borderColor = '#3b82f6';
+            creditDiv.innerHTML = `
+                <div class="row align-items-center">
+                    <div class="col-md-4">
+                        <div class="form-check">
+                            <input class="form-check-input year-checkbox" 
+                                   type="checkbox" 
+                                   name="paymentYears" 
+                                   value="0" 
+                                   id="year_credit"
+                                   data-outstanding="999999">
+                            <label class="form-check-label" for="year_credit">
+                                <strong><i class="fa fa-wallet"></i> Wallet (prepaid balance)</strong>
+                                <br>
+                                <small class="text-muted">Add to apartment wallet for future expenses</small>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                            </div>
+                            <input type="number" 
+                                   step="0.01" 
+                                   min="0" 
+                                   class="form-control year-amount-input" 
+                                   id="amount_credit"
+                                   data-year="credit"
+                                   placeholder="0.00"
+                                   disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-right">
+                        <small class="text-muted" id="status_credit">
+                            <span class="badge badge-secondary">Not selected</span>
+                        </small>
+                    </div>
+                </div>
+            `;
+            return creditDiv;
+        }
+        
+        // Helper function to add event listeners
+        function addEventListeners() {
+            // Add change listeners to all checkboxes (including credit)
+            document.querySelectorAll('.year-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const year = this.value;
+                    const amountInput = document.getElementById(`amount_${year === '0' ? 'credit' : year}`);
+                    const statusBadge = document.getElementById(`status_${year === '0' ? 'credit' : year}`);
+                    
+                    if (this.checked) {
+                        amountInput.disabled = false;
+                        amountInput.focus();
+                        statusBadge.innerHTML = '<span class="badge badge-info">Enter amount</span>';
+                    } else {
+                        amountInput.disabled = true;
+                        amountInput.value = '';
+                        statusBadge.innerHTML = '<span class="badge badge-secondary">Not selected</span>';
+                    }
+                    
+                    updatePaymentDetails();
+                    updateTransactionPreview();
+                });
+            });
+            
+            // Add input listeners to all amount inputs
+            document.querySelectorAll('.year-amount-input').forEach(input => {
+                input.addEventListener('input', function() {
+                    const year = this.dataset.year;
+                    const checkbox = document.getElementById(`year_${year === 'credit' ? 'credit' : year}`);
+                    const outstanding = parseFloat(checkbox.dataset.outstanding);
+                    let amount = parseFloat(this.value) || 0;
+                    const statusBadge = document.getElementById(`status_${year === 'credit' ? 'credit' : year}`);
+                    
+                    // Special handling for credit - no max validation
+                    if (year === 'credit') {
+                        if (amount > 0) {
+                            statusBadge.innerHTML = `<span class="badge badge-success"><i class="fa fa-piggy-bank"></i> Credit: $${amount.toFixed(2)}</span>`;
+                        } else {
+                            statusBadge.innerHTML = '<span class="badge badge-info">Enter amount</span>';
+                        }
+                    } else {
+                        // Regular year validation: don't allow exceeding outstanding amount
+                        if (amount > outstanding) {
+                            amount = outstanding;
+                            this.value = outstanding.toFixed(2);
+                            statusBadge.innerHTML = '<span class="badge badge-warning"><i class="fa fa-exclamation-triangle"></i> Max amount applied</span>';
+                            setTimeout(() => {
+                                statusBadge.innerHTML = '<span class="badge badge-success"><i class="fa fa-check"></i> Fully paid</span>';
+                            }, 2000);
+                        } else if (amount > 0) {
+                            if (amount >= outstanding) {
+                                statusBadge.innerHTML = '<span class="badge badge-success"><i class="fa fa-check"></i> Fully paid</span>';
+                            } else {
+                                const remaining = outstanding - amount;
+                                statusBadge.innerHTML = `<span class="badge badge-warning">$${remaining.toFixed(2)} remaining</span>`;
+                            }
+                        } else {
+                            statusBadge.innerHTML = '<span class="badge badge-info">Enter amount</span>';
+                        }
+                    }
+                    
+                    updatePaymentDetails();
+                    updateTransactionPreview();
+                });
+            });
+        }
+        
+        if (data.success && data.years && data.years.length > 0) {
+            // Filter out any invalid years and sort
+            const validYears = data.years.filter(y => y.year > 0 && !isNaN(y.outstandingAmount));
+            
+            if (validYears.length > 0) {
+                validYears.forEach((year, index) => {
+                    const yearDiv = document.createElement('div');
+                    yearDiv.className = 'mb-3 p-3 border rounded';
+                    yearDiv.style.backgroundColor = '#ffffff';
+                    yearDiv.innerHTML = `
+                        <div class="row align-items-center">
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input year-checkbox" 
+                                           type="checkbox" 
+                                           name="paymentYears" 
+                                           value="${year.year}" 
+                                           id="year_${year.year}"
+                                           data-outstanding="${year.outstandingAmount}">
+                                    <label class="form-check-label" for="year_${year.year}">
+                                        <strong>Year ${year.year}</strong>
+                                        <br>
+                                        <small class="text-muted"> $${year.outstandingAmount.toFixed(2)}</small>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">$</span>
+                                    </div>
+                                    <input type="number" 
+                                           step="0.01" 
+                                           min="0" 
+                                           max="${year.outstandingAmount}"
+                                           class="form-control year-amount-input" 
+                                           id="amount_${year.year}"
+                                           data-year="${year.year}"
+                                           placeholder="0.00"
+                                           disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-right">
+                                <small class="text-muted" id="status_${year.year}">
+                                    <span class="badge badge-secondary">Not selected</span>
+                                </small>
+                            </div>
+                        </div>
+                    `;
+                    yearsList.appendChild(yearDiv);
+                });
+            }
+            
+            // Always add "Credit for Future Use" option at the end
+            yearsList.appendChild(createCreditOption());
+            addEventListeners();
+        } else {
+            // No unsettled years - show message but still allow credit
+            const noYearsMsg = document.createElement('div');
+            noYearsMsg.className = 'alert alert-info mb-3';
+            noYearsMsg.innerHTML = '<i class="fa fa-info-circle"></i> No unsettled payments found. You can still add money as credit for future use.';
+            yearsList.appendChild(noYearsMsg);
+            
+            // Always show credit option even when no unsettled years
+            yearsList.appendChild(createCreditOption());
+            addEventListeners();
+        }
+        
+        // Show credit info if available
+        await loadCreditInfo(apartmentId);
+    } catch (error) {
+        console.error('Error loading available years:', error);
+        yearsList.innerHTML = '<p class="text-danger mb-0"><i class="fa fa-exclamation-triangle"></i> Error loading years</p>';
+    }
+}
+
+async function loadCreditInfo(apartmentId) {
+    // Credit info is now loaded in loadAvailableYears
+    // This function is kept for backwards compatibility
+}
+
+function autoDistributePayment() {
+    const totalAmount = parseFloat(document.getElementById('amount').value) || 0;
+    
+    if (totalAmount <= 0) {
+        alert('Please enter a total payment amount first.');
+        return;
+    }
+    
+    const allCheckboxes = Array.from(document.querySelectorAll('.year-checkbox'));
+    const sortedCheckboxes = allCheckboxes.sort((a, b) => parseInt(a.value) - parseInt(b.value));
+    
+    let remainingAmount = totalAmount;
+    
+    // Uncheck all and clear amounts first
+    allCheckboxes.forEach(cb => {
+        cb.checked = false;
+        const isCredit = (cb.value === '0');
+        const amountInput = document.getElementById(isCredit ? 'amount_credit' : `amount_${cb.value}`);
+        const statusElement = document.getElementById(isCredit ? 'status_credit' : `status_${cb.value}`);
+        
+        if (amountInput) {
+            amountInput.value = '';
+            amountInput.disabled = true;
+        }
+        if (statusElement) {
+            statusElement.innerHTML = '<span class="badge badge-secondary">Not selected</span>';
+        }
+    });
+    
+    // Distribute from oldest to newest (skip credit field - year 0)
+    for (const checkbox of sortedCheckboxes) {
+        if (remainingAmount <= 0) break;
+        
+        // Skip credit field during auto-distribution
+        if (checkbox.value === '0') continue;
+        
+        const outstanding = parseFloat(checkbox.dataset.outstanding);
+        const paymentForYear = Math.min(remainingAmount, outstanding);
+        
+        checkbox.checked = true;
+        const amountInput = document.getElementById(`amount_${checkbox.value}`);
+        amountInput.disabled = false;
+        amountInput.value = paymentForYear.toFixed(2);
+        
+        // Trigger input event to update status
+        amountInput.dispatchEvent(new Event('input'));
+        
+        remainingAmount -= paymentForYear;
+    }
+    
+    // If there's still remaining amount after distributing to all years, add it to credit
+    if (remainingAmount > 0) {
+        const creditCheckbox = document.getElementById('year_credit');
+        const creditInput = document.getElementById('amount_credit');
+        const creditStatus = document.getElementById('status_credit');
+        
+        if (creditCheckbox && creditInput) {
+            creditCheckbox.checked = true;
+            creditInput.disabled = false;
+            creditInput.value = remainingAmount.toFixed(2);
+            
+            if (creditStatus) {
+                creditStatus.innerHTML = `<span class="badge badge-info">Credit: $${remainingAmount.toFixed(2)}</span>`;
+            }
+        }
+    }
+    
+    updatePaymentDetails();
+    updateTransactionPreview();
+}
+
+function updatePaymentDetails() {
+    const apartmentId = document.getElementById('apartmentId').value;
+    const selectedCheckboxes = Array.from(document.querySelectorAll('.year-checkbox:checked'));
+    const paymentDetails = document.getElementById('paymentDetails');
+    const paymentInfo = document.getElementById('paymentInfo');
+    
+    if (!apartmentId) {
+        paymentDetails.style.display = 'none';
+        return;
+    }
+    
+    if (selectedCheckboxes.length === 0) {
+        paymentDetails.style.display = 'none';
+        return;
+    }
+    
+    // Sort selected years by year value (oldest first)
+    const sortedCheckboxes = selectedCheckboxes.sort((a, b) => 
+        parseInt(a.value) - parseInt(b.value)
+    );
+    
+    // Check if there's an invoice payment
+    const invoiceIdInput = document.getElementById('invoiceId');
+    const invoiceAmountInput = document.getElementById('invoiceAmount');
+    const hasInvoice = invoiceIdInput && invoiceIdInput.value;
+    let invoiceAmount = 0;
+    
+    if (hasInvoice) {
+        // Get the invoice amount from the stored hidden field (more reliable than main amount field)
+        if (invoiceAmountInput && invoiceAmountInput.value) {
+            invoiceAmount = parseFloat(invoiceAmountInput.value) || 0;
+        } else {
+            // Fallback to main amount field if hidden field doesn't exist yet
+            invoiceAmount = parseFloat(document.getElementById('amount').value) || 0;
+        }
+    }
+    
+    // Calculate totals from manual inputs
+    let totalPayment = 0;
+    let totalOutstanding = 0;
+    let creditAmount = 0;
+    const yearPayments = [];
+    
+    sortedCheckboxes.forEach((checkbox) => {
+        const year = checkbox.value;
+        
+        // Handle credit separately
+        if (year === '0') {
+            const creditInput = document.getElementById('amount_credit');
+            creditAmount = parseFloat(creditInput.value) || 0;
+            totalPayment += creditAmount;
+            return;
+        }
+        
+        const yearOutstanding = parseFloat(checkbox.dataset.outstanding);
+        const amountInput = document.getElementById(`amount_${year}`);
+        const yearPayment = parseFloat(amountInput.value) || 0;
+        
+        totalOutstanding += yearOutstanding;
+        totalPayment += yearPayment;
+        
+        yearPayments.push({
+            year: year,
+            payment: yearPayment,
+            outstanding: yearOutstanding
+        });
+    });
+    
+    // Calculate total including invoice amount
+    const totalWithInvoice = totalPayment + invoiceAmount;
+    
+    let info = `<p><strong>Selected Years:</strong> ${sortedCheckboxes.map(cb => cb.value).join(', ')}</p>`;
+    info += `<p><strong>Total Outstanding:</strong> $${totalOutstanding.toFixed(2)}</p>`;
+    
+    // Show invoice payment if present
+    if (hasInvoice && invoiceAmount > 0) {
+        info += `<p><strong>Invoice Payment:</strong> <span class="text-info"><strong>$${invoiceAmount.toFixed(2)}</strong></span></p>`;
+    }
+    
+    // Only show/update total if amounts were manually entered
+    if (totalPayment > 0 || invoiceAmount > 0) {
+        if (hasInvoice && invoiceAmount > 0) {
+            info += `<p><strong>Total Payment (Invoice + Credit/Years):</strong> <span class="text-primary"><strong>$${totalWithInvoice.toFixed(2)}</strong></span></p>`;
+            // Update the main amount field to include both invoice and credit/years
+            // But preserve the invoice amount in the hidden field
+            document.getElementById('amount').value = totalWithInvoice.toFixed(2);
+            // Ensure invoice amount is still stored in hidden field
+            if (invoiceAmountInput) {
+                invoiceAmountInput.value = invoiceAmount.toFixed(2);
+            }
+        } else {
+            info += `<p><strong>Total Payment (from year amounts):</strong> <span class="text-primary"><strong>$${totalPayment.toFixed(2)}</strong></span></p>`;
+            // Update the main amount field to reflect the calculated total
+            // Only update if there's no invoice (to avoid overwriting invoice amount)
+            if (!hasInvoice) {
+                document.getElementById('amount').value = totalPayment.toFixed(2);
+            }
+        }
+    } else {
+        // Show what the main amount field has
+        const mainAmount = parseFloat(document.getElementById('amount').value) || 0;
+        if (mainAmount > 0) {
+            info += `<p><strong>Total Amount to Distribute:</strong> <span class="text-primary"><strong>$${mainAmount.toFixed(2)}</strong></span></p>`;
+            info += `<p class="text-muted small"><i class="fa fa-lightbulb"></i> Click "Auto-distribute" to allocate this amount across years</p>`;
+        }
+    }
+    
+    // Show breakdown by year
+    info += `<div class="mt-3"><h6>Payment Distribution:</h6><ul class="list-unstyled">`;
+    
+    yearPayments.forEach((yp) => {
+        info += `<li class="mb-2">
+            <div class="d-flex justify-content-between align-items-center">
+                <span><strong>Year ${yp.year}:</strong> $${yp.payment.toFixed(2)}</span>`;
+        
+        if (yp.payment >= yp.outstanding) {
+            info += `<span class="badge badge-success"><i class="fa fa-check"></i> Fully Paid</span>`;
+        } else if (yp.payment > 0) {
+            info += `<span class="badge badge-warning">Partial ($${(yp.outstanding - yp.payment).toFixed(2)} remaining)</span>`;
+        } else {
+            info += `<span class="badge badge-danger">No payment entered</span>`;
+        }
+        info += `</div></li>`;
+    });
+    
+    // Show credit if specified
+    if (creditAmount > 0) {
+        info += `<li class="mb-2" style="background: #f0f9ff; padding: 8px; border-radius: 4px;">
+            <div class="d-flex justify-content-between align-items-center">
+                <span><strong><i class="fa fa-piggy-bank"></i> Credit for Future:</strong> $${creditAmount.toFixed(2)}</span>
+                <span class="badge badge-success"><i class="fa fa-check"></i> Will be saved</span>
+            </div>
+        </li>`;
+    }
+    
+    info += `</ul></div>`;
+    
+    // Show summary
+    if (totalPayment > totalOutstanding) {
+        const excess = totalPayment - totalOutstanding;
+        info += `<div class="alert alert-warning mt-2">
+                    <strong><i class="fa fa-exclamation-triangle"></i> Excess Payment:</strong> $${excess.toFixed(2)} will be stored as credit for future years.
+                </div>`;
+    } else if (totalPayment < totalOutstanding) {
+        const totalRemaining = totalOutstanding - totalPayment;
+        info += `<div class="alert alert-info mt-2">
+                    <strong><i class="fa fa-info-circle"></i> Remaining Balance:</strong> $${totalRemaining.toFixed(2)} still outstanding across selected years.
+                </div>`;
+    } else if (totalPayment === totalOutstanding && totalPayment > 0) {
+        info += `<div class="alert alert-success mt-2">
+                    <strong><i class="fa fa-check-circle"></i> Perfect Match!</strong> This will fully settle all selected years.
+                </div>`;
+    }
+    
+    paymentInfo.innerHTML = info;
+    paymentDetails.style.display = 'block';
+}
+
+function autoFillYears(paymentAmount) {
+    const allCheckboxes = Array.from(document.querySelectorAll('.year-checkbox'));
+    
+    if (allCheckboxes.length === 0) return;
+    
+    let remainingAmount = paymentAmount;
+    const selectedYears = [];
+    
+    // Sort checkboxes by year (oldest first)
+    const sortedCheckboxes = allCheckboxes.sort((a, b) => parseInt(a.value) - parseInt(b.value));
+    
+    for (const checkbox of sortedCheckboxes) {
+        const outstandingAmount = parseFloat(checkbox.dataset.outstanding);
+        
+        // Skip if invalid data
+        if (isNaN(outstandingAmount) || !checkbox.value) {
+            continue;
+        }
+        
+        if (remainingAmount >= outstandingAmount) {
+            selectedYears.push({
+                year: checkbox.value,
+                amount: outstandingAmount
+            });
+            checkbox.checked = true;
+            remainingAmount -= outstandingAmount;
+        } else if (remainingAmount > 0) {
+            selectedYears.push({
+                year: checkbox.value,
+                amount: remainingAmount
+            });
+            checkbox.checked = true;
+            remainingAmount = 0;
+            break;
+        }
+    }
+    
+    if (selectedYears.length > 0) {
+        // Show auto-fill info
+        const autoFillInfo = document.getElementById('autoFillInfo');
+        if (!autoFillInfo) {
+            const infoDiv = document.createElement('div');
+            infoDiv.id = 'autoFillInfo';
+            infoDiv.className = 'alert alert-info mt-2';
+            infoDiv.innerHTML = `
+                <h6>Auto-filled Years:</h6>
+                <ul class="mb-0">
+                    ${selectedYears.map(y => `<li>${y.year}: $${y.amount.toFixed(2)}</li>`).join('')}
+                </ul>
+            `;
+            document.getElementById('paymentDetails').appendChild(infoDiv);
+        }
+    }
+}
+
+function updateTransactionPreview() {
+    const categorySelect = document.getElementById('categoryId');
+    const selectedCategory = categorySelect.options[categorySelect.selectedIndex];
+    const amount = document.getElementById('amount').value;
+    const description = document.getElementById('description').value;
+    
+    if (!selectedCategory.value || !amount) {
+        document.getElementById('transactionPreview').style.display = 'none';
+        return;
+    }
+    
+    const categoryName = selectedCategory.getAttribute('data-name');
+    const categoryType = selectedCategory.getAttribute('data-type');
+    const previewContent = document.getElementById('previewContent');
+    
+    let preview = `<h6>${selectedCategory.text}</h6>`;
+    preview += `<p><strong>Amount:</strong> $${parseFloat(amount).toFixed(2)}</p>`;
+    
+    if (categoryName === 'transfer') {
+        const toAccount = document.getElementById('toAccountId');
+        const fromAccount = document.getElementById('accountId');
+        if (toAccount.value && fromAccount.value) {
+            preview += `<p><strong>From:</strong> ${fromAccount.options[fromAccount.selectedIndex].text}</p>`;
+            preview += `<p><strong>To:</strong> ${toAccount.options[toAccount.selectedIndex].text}</p>`;
+            preview += `<div class="alert alert-info">This will create 2 transactions</div>`;
+        }
+    } else if (categoryName === 'common expenses') {
+        const apartmentId = document.getElementById('apartmentId').value;
+        const selectedCheckboxes = Array.from(document.querySelectorAll('.year-checkbox:checked'));
+        if (apartmentId && selectedCheckboxes.length > 0) {
+            const apartmentSelect = document.getElementById('apartmentId');
+            const selectedApartment = apartmentSelect.options[apartmentSelect.selectedIndex];
+            preview += `<p><strong>Apartment:</strong> ${selectedApartment.text}</p>`;
+            preview += `<p><strong>Years:</strong> ${selectedCheckboxes.map(cb => cb.value).join(', ')}</p>`;
+            preview += `<p><strong>Amount:</strong> $${parseFloat(amount).toFixed(2)}</p>`;
+            preview += `<div class="alert alert-success"><i class="fa fa-check-circle"></i> Payment will be applied to apartment</div>`;
+        }
+    }
+    
+    if (description) {
+        preview += `<p><strong>Description:</strong> ${description}</p>`;
+    }
+    
+    previewContent.innerHTML = preview;
+    document.getElementById('transactionPreview').style.display = 'block';
+}
+
+// Also attach via event delegation as backup for pay invoice buttons
+function handlePayInvoiceClick(e) {
+    const payBtn = e.target.closest('.pay-invoice-btn');
+    if (payBtn) {
+        window.payInvoiceFromButton(payBtn);
+    }
+}
+
+// Attach event listener using vanilla JS
+document.addEventListener('click', handlePayInvoiceClick);
+
+// Also try jQuery if available (for Bootstrap compatibility)
+if (typeof $ !== 'undefined') {
+    $(document).on('click', '.pay-invoice-btn', function(e) {
+        e.preventDefault();
+        window.payInvoiceFromButton(this);
+    });
+    console.log('jQuery pay invoice handler attached');
+}
+
+console.log('Pay invoice handlers attached. Buttons found:', document.querySelectorAll('.pay-invoice-btn').length);
+
+// Form submission
+document.getElementById('transactionForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const categorySelect = document.getElementById('categoryId');
+    const selectedCategory = categorySelect.options[categorySelect.selectedIndex];
+    const categoryName = selectedCategory.getAttribute('data-name');
+    
+    // Validation for transfers
+    if (categoryName === 'transfer') {
+        const fromAccount = document.getElementById('accountId').value;
+        const toAccount = document.getElementById('toAccountId').value;
+        
+        if (!toAccount) {
+            showError('Please select a destination account for the transfer.');
+            return;
+        }
+        
+        if (fromAccount === toAccount) {
+            showError('Cannot transfer to the same account. Please select different accounts.');
+            return;
+        }
+    }
+    
+    // Get submit button early for error handling
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    
+    // Validation for common expenses
+    if (categoryName === 'common expenses') {
+        const apartmentId = document.getElementById('apartmentId').value;
+        const selectedCheckboxes = Array.from(document.querySelectorAll('.year-checkbox:checked'));
+        
+        if (!apartmentId) {
+            showError('Please select an apartment for common expenses.');
+            return;
+        }
+        
+        if (selectedCheckboxes.length === 0) {
+            showError('Please select at least one year or credit for future use.');
+            return;
+        }
+        
+        // Check if at least one checkbox has an amount entered
+        let hasAmount = false;
+        selectedCheckboxes.forEach(checkbox => {
+            const year = checkbox.value;
+            const isCredit = (year === '0');
+            const amountInput = document.getElementById(isCredit ? 'amount_credit' : `amount_${year}`);
+            const amount = parseFloat(amountInput.value) || 0;
+            if (amount > 0) {
+                hasAmount = true;
+            }
+        });
+        
+        if (!hasAmount) {
+            showError('Please enter an amount for at least one selected option.');
+            return;
+        }
+    }
+    
+    // Ensure submitAction reflects which button was clicked
+    const actionInput = document.getElementById('submitAction');
+    const activeBtn = document.activeElement;
+    if (activeBtn && activeBtn.getAttribute && activeBtn.getAttribute('data-action')) {
+        actionInput.value = activeBtn.getAttribute('data-action');
+    }
+
+    // Use FormData to handle file upload
+    const formData = new FormData(this);
+    
+    // Handle multiple invoice payments
+    const invoiceIdsInput = document.getElementById('invoiceIds');
+    if (invoiceIdsInput && invoiceIdsInput.value) {
+        try {
+            const invoiceIds = JSON.parse(invoiceIdsInput.value);
+            const invoiceAmountsInput = document.getElementById('invoiceAmounts');
+            let invoiceAmounts = null;
+            
+            if (invoiceAmountsInput && invoiceAmountsInput.value) {
+                invoiceAmounts = JSON.parse(invoiceAmountsInput.value);
+            }
+            
+            // Add invoiceIds array to formData
+            invoiceIds.forEach(id => {
+                formData.append('invoiceIds[]', id.toString());
+            });
+            
+            if (invoiceAmounts) {
+                formData.set('invoiceAmounts', JSON.stringify(invoiceAmounts));
+            }
+            
+            console.log('Multiple invoice payment:', { invoiceIds, invoiceAmounts });
+        } catch (e) {
+            console.error('Error parsing invoice IDs:', e);
+        }
+    }
+    
+    // For common expenses, collect year amounts manually
+    if (categoryName === 'common expenses') {
+        const selectedCheckboxes = Array.from(document.querySelectorAll('.year-checkbox:checked'));
+        const yearAmounts = {};
+        let totalFromYears = 0;
+        let hasManualAmounts = false;
+        const paymentYears = [];
+        
+        // Check if there's an invoice payment (invoiceId present)
+        const invoiceIdInput = document.getElementById('invoiceId');
+        const invoiceAmountInput = document.getElementById('invoiceAmount');
+        const hasInvoice = invoiceIdInput && invoiceIdInput.value;
+        let invoiceAmount = 0;
+        
+        if (hasInvoice) {
+            // Get the invoice amount from the stored hidden field (more reliable)
+            if (invoiceAmountInput && invoiceAmountInput.value) {
+                invoiceAmount = parseFloat(invoiceAmountInput.value) || 0;
+            } else {
+                // Fallback to main amount field if hidden field doesn't exist
+                invoiceAmount = parseFloat(document.getElementById('amount').value) || 0;
+            }
+            console.log('Invoice payment detected. Amount:', invoiceAmount);
+        }
+        
+        // Check if user entered amounts per year (including credit)
+        selectedCheckboxes.forEach(checkbox => {
+            const year = checkbox.value;
+            const isCredit = (year === '0');
+            const amountInput = document.getElementById(isCredit ? 'amount_credit' : `amount_${year}`);
+            const amount = parseFloat(amountInput.value) || 0;
+            
+            // Always include in paymentYears array
+            paymentYears.push(parseInt(year));
+            
+            if (amount > 0) {
+                yearAmounts[year] = amount;
+                totalFromYears += amount;
+                hasManualAmounts = true;
+            }
+        });
+        
+        // Ensure paymentYears is set in formData
+        paymentYears.forEach(year => {
+            formData.append('paymentYears[]', year.toString());
+        });
+        
+        // Decide which amount to use
+        if (hasManualAmounts) {
+            // User entered amounts per year - combine with invoice amount if present
+            const totalAmount = totalFromYears + invoiceAmount;
+            formData.set('amount', totalAmount.toString());
+            formData.set('yearAmounts', JSON.stringify(yearAmounts));
+            console.log('Using manual year amounts. Credit/Year total:', totalFromYears);
+            console.log('Invoice amount:', invoiceAmount);
+            console.log('Combined total:', totalAmount);
+            console.log('Year amounts:', yearAmounts);
+            console.log('Payment years:', paymentYears);
+        } else {
+            // No manual amounts - use main amount field with auto-distribution
+            const mainAmount = parseFloat(document.getElementById('amount').value) || 0;
+            if (mainAmount <= 0) {
+                showError('Please enter a total amount OR enter amounts for each year.');
+                return;
+            }
+            console.log('Using main amount field for auto-distribution:', mainAmount);
+            console.log('Payment years:', paymentYears);
+            // Don't send yearAmounts - backend will auto-distribute
+        }
+    }
+    
+    // Show loading state
+    submitBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Creating...';
+    submitBtn.disabled = true;
+    
+    try {
+        // Send as multipart/form-data to handle file upload
+        const response = await fetch('/admin/transactions/create', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json'
+                // Don't set Content-Type - browser will set it with boundary for multipart/form-data
+            },
+            body: formData
+        });
+        
+        if (response.ok) {
+            const result = await response.json();
+            const action = actionInput.value || 'create';
+            if (action === 'create_edit' && result && result.success) {
+                let createdId = null;
+                if (result.result && typeof result.result === 'object') {
+                    if (result.result.id) {
+                        createdId = result.result.id;
+                    } else if (result.result.fromTransaction && result.result.fromTransaction.id) {
+                        createdId = result.result.fromTransaction.id;
+                    }
+                }
+                if (createdId) {
+                    window.location.href = `/admin/transactions/${createdId}/edit`;
+                    return;
+                }
+            }
+            window.location.href = '/admin/transactions';
+        } else {
+            const result = await response.json();
+            showError(result.message || 'Failed to create transaction');
+        }
+    } catch (error) {
+        console.error('Error creating transaction:', error);
+        showError('Error creating transaction: ' + error.message);
+    } finally {
+        // Restore button state
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    }
+});
+
+// Helper function to show errors
+function showError(message) {
+    document.getElementById('errorModalBody').textContent = message;
+    $('#errorModal').modal('show');
+}
+</script>

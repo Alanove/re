@@ -1,0 +1,60 @@
+<div class="account-page account-page--portal">
+  <div class="account-shell">
+    <%- include('partials/sidebar') %>
+    <div class="account-main">
+      <div class="account-main__header">
+        <h1>Payment History</h1>
+        <p class="account-meta">Payments and receipts for your apartments only.</p>
+      </div>
+
+      <div class="account-panel">
+        <% if (transactions && transactions.length) { %>
+          <div class="table-responsive">
+            <table class="account-table">
+              <thead>
+                <tr>
+                  <th class="account-col-date">Date</th>
+                  <th class="account-col-apartment">Apartment</th>
+                  <th class="account-col-description">Description</th>
+                  <th class="account-col-money text-end">Amount</th>
+                  <th class="account-col-action">Receipt</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% transactions.forEach(function(tx) { %>
+                  <tr>
+                    <td data-label="Date"><%= tx.date %></td>
+                    <td data-label="Apartment"><%= tx.apartmentLabel %></td>
+                    <td data-label="Description"><%= tx.description || '—' %></td>
+                    <td data-label="Amount" class="text-end">$<%= Number(tx.amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></td>
+                    <td data-label="Receipt">
+                      <% if (tx.isWalletPayment && tx.invoiceId) { %>
+                        <a
+                          href="/account/invoices/<%= tx.invoiceId %>/payment-receipt?walletAmount=<%= Number(tx.walletAmount || tx.amount || 0).toFixed(2) %>&date=<%= encodeURIComponent(tx.date || '') %>"
+                          target="_blank"
+                          rel="noopener"
+                          class="account-btn account-btn--secondary account-btn--sm"
+                        >View / Download</a>
+                      <% } else if (tx.type === 'income' && tx.receiptGenerated) { %>
+                        <a
+                          href="/account/transactions/<%= tx.id %>/receipt"
+                          target="_blank"
+                          rel="noopener"
+                          class="account-btn account-btn--secondary account-btn--sm"
+                        >View / Download</a>
+                      <% } else { %>
+                        <span class="account-meta">—</span>
+                      <% } %>
+                    </td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        <% } else { %>
+          <p class="account-empty">No transactions found.</p>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,58 @@
+<footer class="main-footer">
+  <div class="container">
+    <!-- Logo centered -->
+    <div class="footer-logo">
+      <a href="/">
+        <img
+          src="<%= typeof siteData !== 'undefined' && siteData.logo ? siteData.logo : '/images/logo.jpg' %>"
+          alt="<%= typeof siteData !== 'undefined' && siteData.name ? siteData.name : 'Logo' %>"
+        />
+      </a>
+    </div>
+
+    <!-- Menu and TOP button on same line -->
+    <div class="footer-menu-line">
+      <nav class="footer-menu"><%- include('menu-items') %></nav>
+      <button class="footer-top-button" id="footerTopButton" aria-label="Back to top">
+        <span class="top-text">TOP</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(180deg); transform-origin: center;"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Horizontal line -->
+    <div class="footer-divider"></div>
+
+    <!-- Social Media Links -->
+    <% if (typeof siteData !== 'undefined' && siteData.social) { %>
+      <div class="footer-social">
+        <% if (siteData.social.facebook && siteData.social.facebook.trim() !== '') { %>
+          <a href="<%= siteData.social.facebook %>" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook">
+            <i class="bi bi-facebook"></i>
+          </a>
+        <% } %>
+        <% if (siteData.social.twitter && siteData.social.twitter.trim() !== '') { %>
+          <a href="<%= siteData.social.twitter %>" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Twitter">
+            <i class="bi bi-twitter"></i>
+          </a>
+        <% } %>
+        <% if (siteData.social.instagram && siteData.social.instagram.trim() !== '') { %>
+          <a href="<%= siteData.social.instagram %>" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
+            <i class="bi bi-instagram"></i>
+          </a>
+        <% } %>
+        <% if (siteData.social.linkedin && siteData.social.linkedin.trim() !== '') { %>
+          <a href="<%= siteData.social.linkedin %>" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
+            <i class="bi bi-linkedin"></i>
+          </a>
+        <% } %>
+      </div>
+    <% } %>
+
+    <!-- Copyright notice right aligned -->
+    <div class="footer-copyright">
+      &copy; 2025 <%= typeof siteData !== 'undefined' && siteData.name ? siteData.name : '' %>. All rights reserved.
+    </div>
+  </div>
+</footer>

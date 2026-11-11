@@ -1,0 +1,84 @@
+<div class="account-page account-page--portal">
+  <div class="account-shell">
+    <%- include('partials/sidebar') %>
+    <div class="account-main">
+      <div class="account-main__header">
+        <h1><%= welcomeTitle || 'Welcome to Santa Maria Bouar' %></h1>
+      </div>
+
+      <div class="account-panel account-open-gate" id="open-gate">
+        <h2>Main Gate</h2>
+        <p class="account-meta">Open the compound main gate.</p>
+        <button
+          type="button"
+          class="account-btn account-btn--primary account-open-gate__btn"
+          id="openGateBtn"
+          data-open-url="/account/open-gate"
+          data-csrf="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>"
+        >
+          <span class="account-btn__label">Open Main Gate</span>
+          <span class="account-btn__spinner" hidden aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <div class="modal fade" id="openGateModal" tabindex="-1" aria-labelledby="openGateModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="openGateModalLabel">Opening main gate</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="openGateModalBody">Sending the open command. Please wait…</div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="openGateModalClose">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <% if (welcomeContent) { %>
+        <div class="account-panel account-welcome">
+          <%- welcomeContent %>
+        </div>
+      <% } %>
+
+      <div class="account-panel">
+        <h2>My Apartments</h2>
+        <% if (apartments && apartments.length) { %>
+          <div class="account-apartment-grid">
+            <% apartments.forEach(function(apt) { %>
+              <a class="account-apartment-card" href="/account/apartments/<%= apt.id %>">
+                <% if (apt.officialImage) { %>
+                  <img src="/images/apartments/<%= apt.id %>/<%= apt.officialImage %>" alt="" />
+                <% } else { %>
+                  <div class="account-apartment-card__placeholder">No photo</div>
+                <% } %>
+                <div class="account-apartment-card__body">
+                  <strong>Block <%= apt.block %> <%= apt.unitNumberOfficial %></strong>
+                  <span>(<%= apt.unitNumberUnofficial %>)</span>
+                  <span class="account-badge"><%= apt.status || 'owned' %></span>
+                </div>
+              </a>
+            <% }); %>
+          </div>
+        <% } else { %>
+          <p class="account-empty">No apartments are linked to your account yet.</p>
+        <% } %>
+      </div>
+
+      <% if (paymentsDue && paymentsDue.length) { %>
+        <div class="account-panel">
+          <h2>Payments Due</h2>
+          <%- include('partials/payments-due') %>
+
+          <%- include('partials/payment-methods') %>
+          <%- include('partials/interest-note') %>
+        </div>
+      <% } else { %>
+        <div class="account-panel">
+          <%- include('partials/interest-note') %>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</div>

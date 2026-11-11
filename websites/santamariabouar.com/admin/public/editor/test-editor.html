@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Editor Test</title>
+    	<link rel="stylesheet" href="../css/admin.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .test-info {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .test-info h3 {
+            margin-top: 0;
+            color: #495057;
+        }
+        .test-info ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .test-info li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Custom Editor Test Page</h1>
+        
+        <div class="test-info">
+            <h3>Features to Test:</h3>
+            <ul>
+                <li><strong>Image Upload:</strong> When no page key is found, images should upload to <code>public/images/generic</code></li>
+                <li><strong>Image Panel:</strong> The right-side panel should display existing images</li>
+                <li><strong>Image Source Toggle:</strong> Switch between "Page Images" and "Public Images" in the panel</li>
+                <li><strong>Image Insertion:</strong> Click on images in the panel to insert them into the editor</li>
+                <li><strong>Image Modal:</strong> Click the image button in the toolbar to open the image insertion modal</li>
+                <li><strong>Rich Text Editing:</strong> All toolbar buttons should work properly</li>
+                <li><strong>Source Mode:</strong> Toggle between rich text and HTML source mode</li>
+            </ul>
+        </div>
+
+        <form id="testForm">
+            <div class="form-group">
+                <label for="pageKey">Page Key (leave empty for generic upload test):</label>
+                <input type="text" id="pageKey" name="key" placeholder="Enter page key or leave empty">
+            </div>
+            
+            <div class="form-group">
+                <label for="content">Content:</label>
+                <textarea name="content" id="content" style="display: none;">
+                    <h2>Welcome to the Custom Editor Test</h2>
+                    <p>This is a test of the custom editor with image panel functionality.</p>
+                    <p>Try uploading an image using the image button in the toolbar, or click on images in the modal to insert them.</p>
+                </textarea>
+            </div>
+            
+            <button type="submit" style="margin-top: 20px; padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                Submit Form
+            </button>
+        </form>
+    </div>
+
+    <script src="custom-editor.js"></script>
+    <script>
+        // Initialize custom editor when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Initializing custom editor...');
+            
+            // Create container for custom editor
+            const contentTextarea = document.getElementById('content');
+            const editorContainer = document.createElement('div');
+            editorContainer.id = 'custom-editor';
+            
+            // Replace textarea with custom editor container
+            contentTextarea.parentNode.insertBefore(editorContainer, contentTextarea);
+            contentTextarea.style.display = 'none';
+            
+                    // Initialize custom editor
+        const customEditor = initCustomEditor('custom-editor', {
+            height: '600px',
+            showImagePanel: true,
+            placeholder: 'Enter your page content here... You can use the toolbar above to format your text, add links, images, and more. Switch to HTML Source Mode for unrestricted HTML editing.'
+        });
+            
+            // Update form submission to include custom editor content
+            const form = document.getElementById('testForm');
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                contentTextarea.value = customEditor.getHTML();
+                
+                // Show the content that would be submitted
+                alert('Form submitted! Content:\n\n' + contentTextarea.value.substring(0, 500) + '...');
+            });
+            
+            console.log('Custom editor initialized successfully');
+        });
+    </script>
+</body>
+</html>

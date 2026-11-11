@@ -1,0 +1,80 @@
+=== Main gate access Excel import ===
+File: docs\maingate\Main gate access - Contacts.xlsx
+Started: 2026-08-14T00:16:19.003Z
+
+--- Summary ---
+Upserted gate access links: 147
+Users reused (phone/name match): 117
+Users created: 24
+Empty owner phones filled from sheet: 0
+Skipped empty relation (no access): 182
+Skipped admin: 1
+Missing apartment unit lookups: 2
+Owner mismatches vs DB: 57
+
+--- Owner mismatches (sheet Owner vs apartments.owner_id) ---
+Still added as Owner gate access with exact sheet name/phone. Ownership NOT changed.
+[NAME] J-203 (official 10) (apt #93) | sheet: Nassim Ghreich / 00242065542877 | db: Nassim Ghraiche / +242 06 554 2877 (user #103)
+[NAME_AND_PHONE] B-101 (official 4) (apt #15) | sheet: Joanna / 03016696 | db: Elie Mina / +961 3 822 561 (user #29)
+[NAME_AND_PHONE] D-301 (official 12) (apt #47) | sheet: Sabella Naoum / 03039873 | db: Sami Naoum / +234 811 101 0101 (user #59)
+[NAME_AND_PHONE] E-102 (official 5) (apt #53) | sheet: Geagea Geagea / 03056763 | db: Dany Ayoub / +961 81 747 452 (user #64)
+[NAME_AND_PHONE] E-103 (official 6) (apt #52) | sheet: Geagea Geagea / 03056763 | db: Bassel Wehbe & Abir Dib / +961 70 116 674 (user #63)
+[NAME_AND_PHONE] E-304 (official 15) (apt #58) | sheet: Raymond Toubaji / 03103309 | db: Romy Aoun / +9613176569 (user #69)
+[NAME_AND_PHONE] F-203 (official 10) (apt #69) | sheet: Georges Saade / 03109285 | db: Toufic Rousse / +1 (514) 605-6158 (user #79)
+[PHONE] D-301 (official 12) (apt #47) | sheet: Sami Naoum / 03123140 | db: Sami Naoum / +234 811 101 0101 (user #59)
+[NAME] A-102 (official 5) (apt #5) | sheet: George Lahoud / 03131123 | db: Georges Lahoud / +9613131123 (user #19)
+[NAME] A-302 (official 13) (apt #11) | sheet: Toni Trad / 03173642 | db: Said Trad / +961 3 173 642 (user #25)
+[NAME_AND_PHONE] I-102 (official 5) (apt #86) | sheet: Marie Kassouf / 03330246 | db: Celine Kassouf / +1 (713) 505-5456 (user #96)
+[NAME] D-303 (official 14) (apt #42) | sheet: Rola Hajjar Khreiss / 03411443 | db: Joseph Abi Kheirs- ROULA HAJJAR / +961 3 411 443 (user #54)
+[NAME] F-202 (official 9) (apt #67) | sheet: Sami Wardini / 03429144 | db: Samy Charbel Wardini / +961 3 429 144 (user #77)
+[NAME_AND_PHONE] B-303 (official 14) (apt #19) | sheet: Berna Mechref Bouery / 03432709 | db: Alain Boueiry / +961 3 966 278 (user #33)
+[NAME] H-304 (official 9) (apt #82) | sheet: Eddy Assaker / 03464742 | db: Eddy Asaker / +961 3 464 742 (user #14)
+[NAME_AND_PHONE] D-104 (official 7) (apt #45) | sheet: Nina Khoury / 03465557 | db: Roy and Mandy Khoury / +961 70 443 413 (user #57)
+[NAME_AND_PHONE] B-101 (official 4) (apt #15) | sheet: Maha Abou Jaoude / 03472605 | db: Elie Mina / +961 3 822 561 (user #29)
+[NAME] E-201 (official 8) (apt #60) | sheet: Toros Kouyoumjian / 03548614 | db: Toros Kumijian / +9613548614 (user #71)
+[NAME] E-202 (official 9) (apt #61) | sheet: Toros Kouyoumjian / 03548614 | db: Toros Kumijian / +9613548614 (user #71)
+[NAME_AND_PHONE] B-303 (official 14) (apt #19) | sheet: Alain Bouery / 03580158 | db: Alain Boueiry / +961 3 966 278 (user #33)
+[NAME_AND_PHONE] D-202 (official 9) (apt #40) | sheet: Simon Karam / 03638244 | db: Bassam Moukarzel / +961 3 822 923 (user #52)
+[NAME_AND_PHONE] D-203 (official 10) (apt #51) | sheet: Simon Karam / 03638244 | db: Tony Bernaba / +961 3 772 996 (user #62)
+[NAME_AND_PHONE] J-7 (official 104) (apt #98) | sheet: Mirna Bayda / 03751003 | db: Carmen Bayda / +9613620217 (user #108)
+[NAME_AND_PHONE] F-302 (official 13) (apt #65) | sheet: Odette Khalil / 03767868 | db: Nadim Khalil / +9613049335 (user #75)
+[NAME] D-203 (official 10) (apt #51) | sheet: Toni Bernaba / 03772996 | db: Tony Bernaba / +961 3 772 996 (user #62)
+[NAME_AND_PHONE] B-202 (official 9) (apt #26) | sheet: Noura Ohannesian / 03846073 | db: Noura Ohannessian / +961 3 859 399 (user #39)
+[NAME] B-202 (official 9) (apt #26) | sheet: Raffi Kouzi / 03859399 | db: Noura Ohannessian / +961 3 859 399 (user #39)
+[NAME_AND_PHONE] G-302 (official 13) (apt #78) | sheet: Guitta Khadra / 03892195 | db: Paul Khadra / +961 3 499 534 (user #88)
+[NAME] E-303 (official 14) (apt #54) | sheet: Elie Abou Chaaya / 03940101 | db: Elias Bou Chaaya / +961 3 940 101 (user #65)
+[NAME] J-102 (official 5) (apt #91) | sheet: Mirna Khawaja / 03944282 | db: Antoine Khawaja / +961 3 944 282 (user #101)
+[NAME] B-303 (official 14) (apt #19) | sheet: Alain Bouery / 03966278 | db: Alain Boueiry / +961 3 966 278 (user #33)
+[NAME] D-302 (official 13) (apt #43) | sheet: Ali Hijazi / 03972223 | db: Malak Hamdan / +961 3 972 223 (user #55)
+[PHONE] I-302 (official 13) (apt #18) | sheet: Youssef Bou Abboud / 03980876 | db: Chadi Bou Abboud / +1 (418) 933-1831 (user #32)
+[NAME] F-203 (official 10) (apt #69) | sheet: Toufic El Rouse / 0015146056158 | db: Toufic Rousse / +1 (514) 605-6158 (user #79)
+[NAME_AND_PHONE] J-202 (official 9) (apt #92) | sheet: Yaacoub Fares / 70004984 | db: Perla Jerdi / +96170719665 (user #102)
+[NAME_AND_PHONE] F-304 (official 15) (apt #66) | sheet: Bakhos Chmouni / 70357042 | db: Randa Nasr / +961 3 103 585 (user #76)
+[NAME_AND_PHONE] F-303 (official 14) (apt #13) | sheet: Liliane Chidiac / 70362334 | db: Camile Chidiac / +961 76 357 755 (user #27)
+[NAME_AND_PHONE] B-104 (official 7) (apt #104) | sheet: Mandy El Taktouk / 70443413 | db: Mattias Daou / +961 71 783 129 (user #116)
+[NAME_AND_PHONE] H-304 (official 9) (apt #82) | sheet: Edy Assaker / 70464742 | db: Eddy Asaker / +961 3 464 742 (user #14)
+[PHONE] E-303 (official 14) (apt #54) | sheet: Mireille Bou Chaaya / 70555691 | db: Elias Bou Chaaya / +961 3 940 101 (user #65)
+[NAME] I-203 (official 10) (apt #85) | sheet: Carla Jerdi / 70602053 | db: Carla Jirdi / +961 70 602 053 (user #95)
+[PHONE] E-203 (official 10) (apt #59) | sheet: Badih Bou Rjeily / 70890510 | db: Badih Bou Rjeily / +961 71 952 459 (user #70)
+[NAME_AND_PHONE] H-304 (official 9) (apt #82) | sheet: Linda Hatem Assaker / 71210423 | db: Eddy Asaker / +961 3 464 742 (user #14)
+[NAME_AND_PHONE] C-204 (official 11) (apt #28) | sheet: Helena Tawk / 71439174 | db: Alfred Eid / +961 3 126 822 (user #41)
+[NAME_AND_PHONE] H-304 (official 9) (apt #82) | sheet: Edy Assaker / 71464942 | db: Eddy Asaker / +961 3 464 742 (user #14)
+[NAME_AND_PHONE] G-202 (official 9) (apt #80) | sheet: Nohad Fares / 71893094 | db: Yaacoub Fares / +961 70 004 984 (user #90)
+[NAME_AND_PHONE] H-301 (official 8) (apt #83) | sheet: Mireille Saade Salloum / 76322129 | db: Carlos Salloum / +961 71 756 651 (user #93)
+[NAME] F-303 (official 14) (apt #13) | sheet: Camil Chidiac / 76357755 | db: Camile Chidiac / +961 76 357 755 (user #27)
+[NAME_AND_PHONE] I-201 (official 8) (apt #4) | sheet: Aleksandra Haddad / 76425130 | db: Alain Haddad / 03553124 (user #10)
+[NAME_AND_PHONE] I-204 (official 11) (apt #87) | sheet: Kristel Bassil Azzi / 76427260 | db: Jean-marc Azzi / +961 70 935 205 (user #97)
+[NAME_AND_PHONE] B-204 (official 11) (apt #24) | sheet: Maya Ishak Nasr / 76435557 | db: Miled Nasr / +961 71 771 882 (user #38)
+[NAME_AND_PHONE] H-304 (official 9) (apt #82) | sheet: Edy Assaker / 76464742 | db: Eddy Asaker / +961 3 464 742 (user #14)
+[NAME_AND_PHONE] C-304 (official 15) (apt #31) | sheet: Nicolas Mitri / 76633252 | db: Marie Al Najjar Mitri / +961 70 907 718 (user #44)
+[NAME] F-301 (official 12) (apt #62) | sheet: Toni Saliba / 76969696 | db: Antoine Saliba / +96176969696 (user #72)
+[PHONE] G-102 (official 5) (apt #70) | sheet: Georges Nakhle / 79121331 | db: Georges Nakhle & Lucie Choucri / +961 70 113 348 (user #80)
+[NAME_AND_PHONE] E-203 (official 10) (apt #59) | sheet: Karen Abou Rjeily / 79308571 | db: Badih Bou Rjeily / +961 71 952 459 (user #70)
+[NAME_AND_PHONE] H-304 (official 9) (apt #82) | sheet: Edy Assaker / 81666928 | db: Eddy Asaker / +961 3 464 742 (user #14)
+
+--- Missing apartments ---
+row 47: E-104 | Geagea Geagea | 03056763 | Owner
+row 181: H-202 | Layla Al Berjawi | 70414293 | Owner
+
+--- Created user IDs ---
+473, 474, 475, 476, 477, 478, 479, 480, 481, 482, 483, 484, 485, 486, 487, 488, 489, 490, 491, 492, 493, 494, 495, 496

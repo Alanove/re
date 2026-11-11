@@ -7,3 +7,792 @@ scripts/deploy/deploy.local.json
 
 # Local snapshot of the site tree. It duplicates tracked files and is near GitHub's 100MB limit.
 websites/*/src.zip
+
+# Legacy source, kept locally until the site is moved to the Node CMS.
+websites/emedicalinstruments.com/wwwroot/
+
+# websites/antonioscouture.com (from its old .gitignore)
+websites/antonioscouture.com/**/node_modules
+websites/antonioscouture.com/**/dist
+websites/antonioscouture.com/**/deploy
+websites/antonioscouture.com/**/.env.testing
+websites/antonioscouture.com/**/logs
+websites/antonioscouture.com/**/cert
+websites/antonioscouture.com/**/*.log
+websites/antonioscouture.com/**/*.zip
+websites/antonioscouture.com/public/images/2019
+websites/antonioscouture.com/public/images/2020
+websites/antonioscouture.com/public/images/2021
+websites/antonioscouture.com/public/images/2022
+websites/antonioscouture.com/public/images/2023
+websites/antonioscouture.com/public/images/2024
+websites/antonioscouture.com/public/images/2025
+websites/antonioscouture.com/public/images/2026
+websites/antonioscouture.com/public/images/2027
+websites/antonioscouture.com/public/images/2028
+websites/antonioscouture.com/public/images/2029
+websites/antonioscouture.com/public/images/2030
+websites/antonioscouture.com/public/images/2019/
+websites/antonioscouture.com/public/images/photo_novosti
+websites/antonioscouture.com/public/images/gallery
+websites/antonioscouture.com/public/images/photo-obiyavleniya
+websites/antonioscouture.com/public/images/slider
+websites/antonioscouture.com/public/images/photogallery
+websites/antonioscouture.com/public/images/www.palomnik.by/uploaded
+websites/antonioscouture.com/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965607-738114123.jpg
+websites/antonioscouture.com/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965611-558712886.jpeg
+websites/antonioscouture.com/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965613-118100784.jpg
+websites/antonioscouture.com/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965617-630261325.jpg
+websites/antonioscouture.com/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965621-272974608.jpeg
+websites/antonioscouture.com/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965626-534738949.jpg
+websites/antonioscouture.com/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965629-421551663.jpg
+websites/antonioscouture.com/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965638-882775666.jpeg
+websites/antonioscouture.com/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47.del-default.jpg
+websites/antonioscouture.com/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965679-289771223.jpg
+websites/antonioscouture.com/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965679-714448268.jpeg
+websites/antonioscouture.com/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965642-782228024.jpg
+websites/antonioscouture.com/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965651-362068708.jpeg
+websites/antonioscouture.com/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965652-95681971.jpg
+websites/antonioscouture.com/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965655-826993298.jpeg
+websites/antonioscouture.com/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965657-415951446.jpg
+websites/antonioscouture.com/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965659-298230882.jpg
+websites/antonioscouture.com/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965662-976151332.jpeg
+websites/antonioscouture.com/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965663-2522911.jpeg
+websites/antonioscouture.com/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965673-876526129.jpg
+websites/antonioscouture.com/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965676-942433961.jpg
+websites/antonioscouture.com/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965677-534031463.jpeg
+websites/antonioscouture.com/public/pages/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina-default.jpg
+websites/antonioscouture.com/public/pages/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina/gallery/photo-1763063200234-897104454.jpg
+websites/antonioscouture.com/public/pages/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina/gallery/photo-1763063200236-360191098.jpg
+websites/antonioscouture.com/public/pages/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina/gallery/photo-1763063200238-561712767.jpg
+websites/antonioscouture.com/public/pages/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina/gallery/photo-1763063200242-734347869.jpg
+websites/antonioscouture.com/public/pages/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina/gallery/photo-1763063200243-875114540.jpg
+websites/antonioscouture.com/public/pages/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina/gallery/photo-1763063200245-273922100.jpg
+websites/antonioscouture.com/public/pages/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina/gallery/photo-1763063200248-834443504.jpg
+websites/antonioscouture.com/public/pages/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina/gallery/photo-1763063200251-200451211.jpg
+websites/antonioscouture.com/public/pages/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina/gallery/photo-1763063200261-444997143.jpg
+websites/antonioscouture.com/public/pages/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina/gallery/photo-1763063200263-546092842.jpg
+websites/antonioscouture.com/public/pages/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina/gallery/photo-1763063200265-975190641.jpg
+websites/antonioscouture.com/public/pages/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina/gallery/photo-1763063200268-997005052.jpg
+websites/antonioscouture.com/public/pages/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina/gallery/photo-1763063200276-194368746.jpg
+websites/antonioscouture.com/public/images/product-1768266045310-842445421.jpg
+websites/antonioscouture.com/public/images/product-1768266045322-810976978.jpg
+websites/antonioscouture.com/public/images/product-1768266045326-528382852.jpg
+websites/antonioscouture.com/public/images/product-1768266045341-284259677.jpg
+websites/antonioscouture.com/public/images/product-1768266045344-528992329.jpg
+websites/antonioscouture.com/public/images/product-1768266045349-226183768.jpeg
+websites/antonioscouture.com/public/images/product-1768266045351-819235138.jpeg
+websites/antonioscouture.com/public/images/product-1768266045353-187652212.jpg
+websites/antonioscouture.com/public/images/product-1768266045358-784788389.jpg
+websites/antonioscouture.com/public/images/product-1768266045361-217982865.jpg
+websites/antonioscouture.com/public/images/product-1768266045366-144902331.jpg
+websites/antonioscouture.com/public/images/product-1768267487693-79016344.png
+
+# websites/bluefieldco (from its old .gitignore)
+# Dependencies
+websites/bluefieldco/**/node_modules/
+websites/bluefieldco/**/npm-debug.log*
+websites/bluefieldco/**/yarn-debug.log*
+websites/bluefieldco/**/yarn-error.log*
+websites/bluefieldco/**/pnpm-debug.log*
+# Build outputs
+websites/bluefieldco/**/dist/
+websites/bluefieldco/**/build/
+websites/bluefieldco/**/*.tsbuildinfo
+# Environment variables
+websites/bluefieldco/**/.env.local
+websites/bluefieldco/**/.env.development.local
+websites/bluefieldco/**/.env.test.local
+websites/bluefieldco/**/.env.production.local
+# IDE and editor files
+websites/bluefieldco/**/.vscode/
+websites/bluefieldco/**/.idea/
+websites/bluefieldco/**/*.swp
+websites/bluefieldco/**/*.swo
+websites/bluefieldco/**/*~
+# OS generated files
+websites/bluefieldco/**/.DS_Store
+websites/bluefieldco/**/.DS_Store?
+websites/bluefieldco/**/._*
+websites/bluefieldco/**/.Spotlight-V100
+websites/bluefieldco/**/.Trashes
+websites/bluefieldco/**/ehthumbs.db
+websites/bluefieldco/**/Thumbs.db
+# Logs
+websites/bluefieldco/**/logs/
+websites/bluefieldco/**/*.log
+# Runtime data
+websites/bluefieldco/**/pids/
+websites/bluefieldco/**/*.pid
+websites/bluefieldco/**/*.seed
+websites/bluefieldco/**/*.pid.lock
+# Coverage directory used by tools like istanbul
+websites/bluefieldco/**/coverage/
+websites/bluefieldco/**/*.lcov
+websites/bluefieldco/**/.nyc_output/
+# Test files in root directory (should be in tests/ or public/tests/ folders)
+websites/bluefieldco/**/test-*.html
+websites/bluefieldco/**/test-*.js
+websites/bluefieldco/**/test-*.ts
+websites/bluefieldco/**/*-test.html
+# Temporary test files (should be organized properly)
+websites/bluefieldco/**/temp-test*
+websites/bluefieldco/**/debug-test*
+# Dependency directories
+websites/bluefieldco/**/jspm_packages/
+# Optional npm cache directory
+websites/bluefieldco/**/.npm
+# Optional eslint cache
+websites/bluefieldco/**/.eslintcache
+# Optional REPL history
+websites/bluefieldco/**/.node_repl_history
+# Output of 'npm pack'
+websites/bluefieldco/**/*.tgz
+# Yarn Integrity file
+websites/bluefieldco/**/.yarn-integrity
+# parcel-bundler cache (https://parceljs.org/)
+websites/bluefieldco/**/.cache
+websites/bluefieldco/**/.parcel-cache
+# next.js build output
+websites/bluefieldco/**/.next
+# nuxt.js build output
+websites/bluefieldco/**/.nuxt
+# vuepress build output
+websites/bluefieldco/.vuepress/dist
+# Serverless directories
+websites/bluefieldco/**/.serverless/
+# FuseBox cache
+websites/bluefieldco/**/.fusebox/
+# DynamoDB Local files
+websites/bluefieldco/**/.dynamodb/
+# TernJS port file
+websites/bluefieldco/**/.tern-port
+# Stores VSCode versions used for testing VSCode extensions
+websites/bluefieldco/**/.vscode-test
+# Temporary folders
+websites/bluefieldco/**/tmp/
+websites/bluefieldco/**/temp/
+# Upload directories (if you want to ignore uploaded files)
+websites/bluefieldco/**/uploads/
+websites/bluefieldco/public/uploads/
+# Database files
+websites/bluefieldco/**/*.db
+websites/bluefieldco/**/*.sqlite
+websites/bluefieldco/**/*.sqlite3
+# Backup files
+websites/bluefieldco/**/*.bak
+websites/bluefieldco/**/*.backup
+# Compiled binary addons
+websites/bluefieldco/build/Release
+# Temporary files
+websites/bluefieldco/**/*.tmp
+websites/bluefieldco/**/*.temp
+
+# websites/capitalprogroup.ca (from its old .gitignore)
+# Dependencies
+websites/capitalprogroup.ca/**/node_modules/
+websites/capitalprogroup.ca/**/npm-debug.log*
+websites/capitalprogroup.ca/**/yarn-debug.log*
+websites/capitalprogroup.ca/**/yarn-error.log*
+websites/capitalprogroup.ca/**/pnpm-debug.log*
+# Build outputs
+websites/capitalprogroup.ca/**/dist/
+websites/capitalprogroup.ca/**/build/
+websites/capitalprogroup.ca/**/*.tsbuildinfo
+# Environment variables
+websites/capitalprogroup.ca/**/.env.local
+websites/capitalprogroup.ca/**/.env.development.local
+websites/capitalprogroup.ca/**/.env.test.local
+websites/capitalprogroup.ca/**/.env.production.local
+# IDE and editor files
+websites/capitalprogroup.ca/**/.vscode/
+websites/capitalprogroup.ca/**/.idea/
+websites/capitalprogroup.ca/**/*.swp
+websites/capitalprogroup.ca/**/*.swo
+websites/capitalprogroup.ca/**/*~
+# OS generated files
+websites/capitalprogroup.ca/**/.DS_Store
+websites/capitalprogroup.ca/**/.DS_Store?
+websites/capitalprogroup.ca/**/._*
+websites/capitalprogroup.ca/**/.Spotlight-V100
+websites/capitalprogroup.ca/**/.Trashes
+websites/capitalprogroup.ca/**/ehthumbs.db
+websites/capitalprogroup.ca/**/Thumbs.db
+# Logs
+websites/capitalprogroup.ca/**/logs/
+websites/capitalprogroup.ca/**/*.log
+# Runtime data
+websites/capitalprogroup.ca/**/pids/
+websites/capitalprogroup.ca/**/*.pid
+websites/capitalprogroup.ca/**/*.seed
+websites/capitalprogroup.ca/**/*.pid.lock
+# Coverage directory used by tools like istanbul
+websites/capitalprogroup.ca/**/coverage/
+websites/capitalprogroup.ca/**/*.lcov
+websites/capitalprogroup.ca/**/.nyc_output/
+# Test files in root directory (should be in tests/ or public/tests/ folders)
+websites/capitalprogroup.ca/**/test-*.html
+websites/capitalprogroup.ca/**/test-*.js
+websites/capitalprogroup.ca/**/test-*.ts
+websites/capitalprogroup.ca/**/*-test.html
+# Temporary test files (should be organized properly)
+websites/capitalprogroup.ca/**/temp-test*
+websites/capitalprogroup.ca/**/debug-test*
+# Dependency directories
+websites/capitalprogroup.ca/**/jspm_packages/
+# Optional npm cache directory
+websites/capitalprogroup.ca/**/.npm
+# Optional eslint cache
+websites/capitalprogroup.ca/**/.eslintcache
+# Optional REPL history
+websites/capitalprogroup.ca/**/.node_repl_history
+# Output of 'npm pack'
+websites/capitalprogroup.ca/**/*.tgz
+# Yarn Integrity file
+websites/capitalprogroup.ca/**/.yarn-integrity
+# parcel-bundler cache (https://parceljs.org/)
+websites/capitalprogroup.ca/**/.cache
+websites/capitalprogroup.ca/**/.parcel-cache
+# next.js build output
+websites/capitalprogroup.ca/**/.next
+# nuxt.js build output
+websites/capitalprogroup.ca/**/.nuxt
+# vuepress build output
+websites/capitalprogroup.ca/.vuepress/dist
+# Serverless directories
+websites/capitalprogroup.ca/**/.serverless/
+# FuseBox cache
+websites/capitalprogroup.ca/**/.fusebox/
+# DynamoDB Local files
+websites/capitalprogroup.ca/**/.dynamodb/
+# TernJS port file
+websites/capitalprogroup.ca/**/.tern-port
+# Stores VSCode versions used for testing VSCode extensions
+websites/capitalprogroup.ca/**/.vscode-test
+# Temporary folders
+websites/capitalprogroup.ca/**/tmp/
+websites/capitalprogroup.ca/**/temp/
+# Upload directories (if you want to ignore uploaded files)
+websites/capitalprogroup.ca/**/uploads/
+websites/capitalprogroup.ca/public/uploads/
+# Database files
+websites/capitalprogroup.ca/**/*.db
+websites/capitalprogroup.ca/**/*.sqlite
+websites/capitalprogroup.ca/**/*.sqlite3
+# Backup files
+websites/capitalprogroup.ca/**/*.bak
+websites/capitalprogroup.ca/**/*.backup
+# Compiled binary addons
+websites/capitalprogroup.ca/build/Release
+# Temporary files
+websites/capitalprogroup.ca/**/*.tmp
+websites/capitalprogroup.ca/**/*.temp
+
+# websites/emdcconsult (from its old .gitignore)
+# Dependencies
+websites/emdcconsult/**/node_modules/
+websites/emdcconsult/**/npm-debug.log*
+websites/emdcconsult/**/yarn-debug.log*
+websites/emdcconsult/**/yarn-error.log*
+websites/emdcconsult/**/pnpm-debug.log*
+# Build outputs
+websites/emdcconsult/**/dist/
+websites/emdcconsult/**/build/
+websites/emdcconsult/**/*.tsbuildinfo
+# Environment variables
+websites/emdcconsult/**/.env.local
+websites/emdcconsult/**/.env.development.local
+websites/emdcconsult/**/.env.test.local
+websites/emdcconsult/**/.env.production.local
+# IDE and editor files
+websites/emdcconsult/**/.vscode/
+websites/emdcconsult/**/.idea/
+websites/emdcconsult/**/*.swp
+websites/emdcconsult/**/*.swo
+websites/emdcconsult/**/*~
+# OS generated files
+websites/emdcconsult/**/.DS_Store
+websites/emdcconsult/**/.DS_Store?
+websites/emdcconsult/**/._*
+websites/emdcconsult/**/.Spotlight-V100
+websites/emdcconsult/**/.Trashes
+websites/emdcconsult/**/ehthumbs.db
+websites/emdcconsult/**/Thumbs.db
+# Logs
+websites/emdcconsult/**/logs/
+websites/emdcconsult/**/*.log
+# Runtime data
+websites/emdcconsult/**/pids/
+websites/emdcconsult/**/*.pid
+websites/emdcconsult/**/*.seed
+websites/emdcconsult/**/*.pid.lock
+# Coverage directory used by tools like istanbul
+websites/emdcconsult/**/coverage/
+websites/emdcconsult/**/*.lcov
+websites/emdcconsult/**/.nyc_output/
+# Test files in root directory (should be in tests/ or public/tests/ folders)
+websites/emdcconsult/**/test-*.html
+websites/emdcconsult/**/test-*.js
+websites/emdcconsult/**/test-*.ts
+websites/emdcconsult/**/*-test.html
+# Temporary test files (should be organized properly)
+websites/emdcconsult/**/temp-test*
+websites/emdcconsult/**/debug-test*
+# Dependency directories
+websites/emdcconsult/**/jspm_packages/
+# Optional npm cache directory
+websites/emdcconsult/**/.npm
+# Optional eslint cache
+websites/emdcconsult/**/.eslintcache
+# Optional REPL history
+websites/emdcconsult/**/.node_repl_history
+# Output of 'npm pack'
+websites/emdcconsult/**/*.tgz
+# Yarn Integrity file
+websites/emdcconsult/**/.yarn-integrity
+# parcel-bundler cache (https://parceljs.org/)
+websites/emdcconsult/**/.cache
+websites/emdcconsult/**/.parcel-cache
+# next.js build output
+websites/emdcconsult/**/.next
+# nuxt.js build output
+websites/emdcconsult/**/.nuxt
+# vuepress build output
+websites/emdcconsult/.vuepress/dist
+# Serverless directories
+websites/emdcconsult/**/.serverless/
+# FuseBox cache
+websites/emdcconsult/**/.fusebox/
+# DynamoDB Local files
+websites/emdcconsult/**/.dynamodb/
+# TernJS port file
+websites/emdcconsult/**/.tern-port
+# Stores VSCode versions used for testing VSCode extensions
+websites/emdcconsult/**/.vscode-test
+# Temporary folders
+websites/emdcconsult/**/tmp/
+websites/emdcconsult/**/temp/
+# Upload directories (if you want to ignore uploaded files)
+websites/emdcconsult/**/uploads/
+websites/emdcconsult/public/uploads/
+# Database files
+websites/emdcconsult/**/*.db
+websites/emdcconsult/**/*.sqlite
+websites/emdcconsult/**/*.sqlite3
+# Backup files
+websites/emdcconsult/**/*.bak
+websites/emdcconsult/**/*.backup
+# Compiled binary addons
+websites/emdcconsult/build/Release
+# Temporary files
+websites/emdcconsult/**/*.tmp
+websites/emdcconsult/**/*.temp
+
+# websites/emdc.group (from its old .gitignore)
+# Dependencies
+websites/emdc.group/**/node_modules/
+websites/emdc.group/**/npm-debug.log*
+websites/emdc.group/**/yarn-debug.log*
+websites/emdc.group/**/yarn-error.log*
+websites/emdc.group/**/pnpm-debug.log*
+# Build outputs
+websites/emdc.group/**/dist/
+websites/emdc.group/**/build/
+websites/emdc.group/**/*.tsbuildinfo
+# Environment variables
+websites/emdc.group/**/.env.local
+websites/emdc.group/**/.env.development.local
+websites/emdc.group/**/.env.test.local
+websites/emdc.group/**/.env.production.local
+# IDE and editor files
+websites/emdc.group/**/.vscode/
+websites/emdc.group/**/.idea/
+websites/emdc.group/**/*.swp
+websites/emdc.group/**/*.swo
+websites/emdc.group/**/*~
+# OS generated files
+websites/emdc.group/**/.DS_Store
+websites/emdc.group/**/.DS_Store?
+websites/emdc.group/**/._*
+websites/emdc.group/**/.Spotlight-V100
+websites/emdc.group/**/.Trashes
+websites/emdc.group/**/ehthumbs.db
+websites/emdc.group/**/Thumbs.db
+# Logs
+websites/emdc.group/**/logs/
+websites/emdc.group/**/*.log
+# Runtime data
+websites/emdc.group/**/pids/
+websites/emdc.group/**/*.pid
+websites/emdc.group/**/*.seed
+websites/emdc.group/**/*.pid.lock
+# Coverage directory used by tools like istanbul
+websites/emdc.group/**/coverage/
+websites/emdc.group/**/*.lcov
+websites/emdc.group/**/.nyc_output/
+# Test files in root directory (should be in tests/ or public/tests/ folders)
+websites/emdc.group/**/test-*.html
+websites/emdc.group/**/test-*.js
+websites/emdc.group/**/test-*.ts
+websites/emdc.group/**/*-test.html
+# Temporary test files (should be organized properly)
+websites/emdc.group/**/temp-test*
+websites/emdc.group/**/debug-test*
+# Dependency directories
+websites/emdc.group/**/jspm_packages/
+# Optional npm cache directory
+websites/emdc.group/**/.npm
+# Optional eslint cache
+websites/emdc.group/**/.eslintcache
+# Optional REPL history
+websites/emdc.group/**/.node_repl_history
+# Output of 'npm pack'
+websites/emdc.group/**/*.tgz
+# Yarn Integrity file
+websites/emdc.group/**/.yarn-integrity
+# parcel-bundler cache (https://parceljs.org/)
+websites/emdc.group/**/.cache
+websites/emdc.group/**/.parcel-cache
+# next.js build output
+websites/emdc.group/**/.next
+# nuxt.js build output
+websites/emdc.group/**/.nuxt
+# vuepress build output
+websites/emdc.group/.vuepress/dist
+# Serverless directories
+websites/emdc.group/**/.serverless/
+# FuseBox cache
+websites/emdc.group/**/.fusebox/
+# DynamoDB Local files
+websites/emdc.group/**/.dynamodb/
+# TernJS port file
+websites/emdc.group/**/.tern-port
+# Stores VSCode versions used for testing VSCode extensions
+websites/emdc.group/**/.vscode-test
+# Temporary folders
+websites/emdc.group/**/tmp/
+websites/emdc.group/**/temp/
+# Upload directories (if you want to ignore uploaded files)
+websites/emdc.group/**/uploads/
+websites/emdc.group/public/uploads/
+# Database files
+websites/emdc.group/**/*.db
+websites/emdc.group/**/*.sqlite
+websites/emdc.group/**/*.sqlite3
+# Backup files
+websites/emdc.group/**/*.bak
+websites/emdc.group/**/*.backup
+# Compiled binary addons
+websites/emdc.group/build/Release
+# Temporary files
+websites/emdc.group/**/*.tmp
+websites/emdc.group/**/*.temp
+
+# websites/guerrasports (from its old .gitignore)
+websites/guerrasports/**/node_modules
+websites/guerrasports/**/dist
+websites/guerrasports/**/deploy
+websites/guerrasports/**/logs
+websites/guerrasports/**/cert
+websites/guerrasports/**/*.log
+websites/guerrasports/**/*.zip
+websites/guerrasports/public/images/2019
+websites/guerrasports/public/images/2020
+websites/guerrasports/public/images/2021
+websites/guerrasports/public/images/2022
+websites/guerrasports/public/images/2023
+websites/guerrasports/public/images/2024
+websites/guerrasports/public/images/2025
+websites/guerrasports/public/images/2026
+websites/guerrasports/public/images/2027
+websites/guerrasports/public/images/2028
+websites/guerrasports/public/images/2029
+websites/guerrasports/public/images/2030
+websites/guerrasports/public/images/2019/
+websites/guerrasports/public/images/photo_novosti
+websites/guerrasports/public/images/gallery
+websites/guerrasports/public/images/photo-obiyavleniya
+websites/guerrasports/public/images/slider
+websites/guerrasports/public/images/photogallery
+websites/guerrasports/public/images/www.palomnik.by/uploaded
+websites/guerrasports/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965607-738114123.jpg
+websites/guerrasports/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965611-558712886.jpeg
+websites/guerrasports/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965613-118100784.jpg
+websites/guerrasports/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965617-630261325.jpg
+websites/guerrasports/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965621-272974608.jpeg
+websites/guerrasports/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965626-534738949.jpg
+websites/guerrasports/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965629-421551663.jpg
+websites/guerrasports/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965638-882775666.jpeg
+websites/guerrasports/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47.del-default.jpg
+websites/guerrasports/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965679-289771223.jpg
+websites/guerrasports/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965679-714448268.jpeg
+websites/guerrasports/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965642-782228024.jpg
+websites/guerrasports/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965651-362068708.jpeg
+websites/guerrasports/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965652-95681971.jpg
+websites/guerrasports/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965655-826993298.jpeg
+websites/guerrasports/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965657-415951446.jpg
+websites/guerrasports/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965659-298230882.jpg
+websites/guerrasports/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965662-976151332.jpeg
+websites/guerrasports/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965663-2522911.jpeg
+websites/guerrasports/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965673-876526129.jpg
+websites/guerrasports/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965676-942433961.jpg
+websites/guerrasports/public/pages/1276-ierarkh-russkoj-pravoslavnoj-tserkvi-prinyal-uchastie-v-bozhestvennoj-liturgii-v-khrame-v-chest-ikony-bozhiej-materi-nechayannaya-radost-v-g-zakhle.47/gallery/photo-1762831965677-534031463.jpeg
+websites/guerrasports/public/pages/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina-default.jpg
+websites/guerrasports/public/pages/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina/gallery/photo-1763063200234-897104454.jpg
+websites/guerrasports/public/pages/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina/gallery/photo-1763063200236-360191098.jpg
+websites/guerrasports/public/pages/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina/gallery/photo-1763063200238-561712767.jpg
+websites/guerrasports/public/pages/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina/gallery/photo-1763063200242-734347869.jpg
+websites/guerrasports/public/pages/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina/gallery/photo-1763063200243-875114540.jpg
+websites/guerrasports/public/pages/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina/gallery/photo-1763063200245-273922100.jpg
+websites/guerrasports/public/pages/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina/gallery/photo-1763063200248-834443504.jpg
+websites/guerrasports/public/pages/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina/gallery/photo-1763063200251-200451211.jpg
+websites/guerrasports/public/pages/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina/gallery/photo-1763063200261-444997143.jpg
+websites/guerrasports/public/pages/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina/gallery/photo-1763063200263-546092842.jpg
+websites/guerrasports/public/pages/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina/gallery/photo-1763063200265-975190641.jpg
+websites/guerrasports/public/pages/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina/gallery/photo-1763063200268-997005052.jpg
+websites/guerrasports/public/pages/palomnicheskaya-poezdka-obshchiny-podvor-ya-russkoy-pravoslavnoy-tserkvi-v-livane-v-monastyr-v-chest-svyatogo-iakova-persyanina/gallery/photo-1763063200276-194368746.jpg
+websites/guerrasports/public/images/product-1768266045310-842445421.jpg
+websites/guerrasports/public/images/product-1768266045322-810976978.jpg
+websites/guerrasports/public/images/product-1768266045326-528382852.jpg
+websites/guerrasports/public/images/product-1768266045341-284259677.jpg
+websites/guerrasports/public/images/product-1768266045344-528992329.jpg
+websites/guerrasports/public/images/product-1768266045349-226183768.jpeg
+websites/guerrasports/public/images/product-1768266045351-819235138.jpeg
+websites/guerrasports/public/images/product-1768266045353-187652212.jpg
+websites/guerrasports/public/images/product-1768266045358-784788389.jpg
+websites/guerrasports/public/images/product-1768266045361-217982865.jpg
+websites/guerrasports/public/images/product-1768266045366-144902331.jpg
+websites/guerrasports/public/images/product-1768267487693-79016344.png
+
+# websites/liteweb.info (from its old .gitignore)
+websites/liteweb.info/**/node_modules/
+websites/liteweb.info/html/css/*.map
+websites/liteweb.info/**/.DS_Store
+websites/liteweb.info/**/*.log
+websites/liteweb.info/mails/*
+!websites/liteweb.info/mails/.gitkeep
+
+# websites/santamariabouar.com (from its old .gitignore)
+# Dependencies
+websites/santamariabouar.com/**/node_modules/
+websites/santamariabouar.com/**/npm-debug.log*
+websites/santamariabouar.com/**/yarn-debug.log*
+websites/santamariabouar.com/**/yarn-error.log*
+websites/santamariabouar.com/**/package-lock.json.bak
+websites/santamariabouar.com/**/.vs/
+# Build outputs
+websites/santamariabouar.com/**/dist/
+websites/santamariabouar.com/**/*.js.map
+websites/santamariabouar.com/**/*.d.ts.map
+# Environment variables (local overrides only)
+websites/santamariabouar.com/**/.env.local
+websites/santamariabouar.com/**/.env.*.local
+# IDE and Editor files
+websites/santamariabouar.com/**/.vscode/
+websites/santamariabouar.com/**/.idea/
+websites/santamariabouar.com/**/*.swp
+websites/santamariabouar.com/**/*.swo
+websites/santamariabouar.com/**/*~
+websites/santamariabouar.com/**/.DS_Store
+websites/santamariabouar.com/**/Thumbs.db
+websites/santamariabouar.com/**/*.sublime-project
+websites/santamariabouar.com/**/*.sublime-workspace
+# OS files
+websites/santamariabouar.com/**/.DS_Store
+websites/santamariabouar.com/**/.DS_Store?
+websites/santamariabouar.com/**/._*
+websites/santamariabouar.com/**/.Spotlight-V100
+websites/santamariabouar.com/**/.Trashes
+websites/santamariabouar.com/**/ehthumbs.db
+websites/santamariabouar.com/**/Thumbs.db
+websites/santamariabouar.com/**/desktop.ini
+# Logs
+websites/santamariabouar.com/**/logs/
+websites/santamariabouar.com/**/*.log
+websites/santamariabouar.com/**/npm-debug.log*
+websites/santamariabouar.com/**/yarn-debug.log*
+websites/santamariabouar.com/**/yarn-error.log*
+websites/santamariabouar.com/**/lerna-debug.log*
+websites/santamariabouar.com/**/invoice-recalc.log
+websites/santamariabouar.com/**/*.log.*
+# Runtime data
+websites/santamariabouar.com/**/pids/
+websites/santamariabouar.com/**/*.pid
+websites/santamariabouar.com/**/*.seed
+websites/santamariabouar.com/**/*.pid.lock
+# Coverage directory used by tools like istanbul
+websites/santamariabouar.com/**/coverage/
+websites/santamariabouar.com/**/*.lcov
+websites/santamariabouar.com/**/.nyc_output/
+# Temporary files
+websites/santamariabouar.com/**/tmp/
+websites/santamariabouar.com/**/temp/
+websites/santamariabouar.com/public/temp/
+websites/santamariabouar.com/**/*.tmp
+# One-off production overlay packages (local upload only)
+websites/santamariabouar.com/**/deploy/
+# Uploads (user-generated content)
+websites/santamariabouar.com/public/uploads/*
+!websites/santamariabouar.com/public/uploads/.gitkeep
+!websites/santamariabouar.com/public/uploads/receipts/
+websites/santamariabouar.com/public/uploads/receipts/*
+!websites/santamariabouar.com/public/uploads/receipts/**
+websites/santamariabouar.com/public/videos/*
+!websites/santamariabouar.com/public/videos/.gitkeep
+# Test results
+websites/santamariabouar.com/**/test-results/
+websites/santamariabouar.com/**/playwright-report/
+websites/santamariabouar.com/playwright/.cache/
+# Database
+websites/santamariabouar.com/**/*.sqlite
+websites/santamariabouar.com/**/*.sqlite3
+websites/santamariabouar.com/**/*.db
+# Backup files
+websites/santamariabouar.com/**/*.bak
+websites/santamariabouar.com/**/*.backup
+websites/santamariabouar.com/**/*~
+# TypeScript
+websites/santamariabouar.com/**/*.tsbuildinfo
+# Optional npm cache directory
+websites/santamariabouar.com/**/.npm
+# Optional eslint cache
+websites/santamariabouar.com/**/.eslintcache
+# Optional REPL history
+websites/santamariabouar.com/**/.node_repl_history
+# Output of 'npm pack'
+websites/santamariabouar.com/**/*.tgz
+# Yarn Integrity file
+websites/santamariabouar.com/**/.yarn-integrity
+# parcel-bundler cache
+websites/santamariabouar.com/**/.cache
+websites/santamariabouar.com/**/.parcel-cache
+# Next.js (if used in future)
+websites/santamariabouar.com/**/.next/
+websites/santamariabouar.com/**/out/
+# Nuxt.js (if used in future)
+websites/santamariabouar.com/**/.nuxt/
+# Vite (if used in future)
+websites/santamariabouar.com/**/.vite/
+# Rollup (if used in future)
+websites/santamariabouar.com/**/.rollup.cache/
+# Serverless directories
+websites/santamariabouar.com/**/.serverless/
+# FuseBox cache
+websites/santamariabouar.com/**/.fusebox/
+# DynamoDB Local files
+websites/santamariabouar.com/**/.dynamodb/
+# TernJS port file
+websites/santamariabouar.com/**/.tern-port
+# Stores VSCode versions used for testing VSCode extensions
+websites/santamariabouar.com/**/.vscode-test
+# Playwright
+websites/santamariabouar.com/**/playwright-report/
+websites/santamariabouar.com/**/test-results/
+websites/santamariabouar.com/playwright/.cache/
+
+# websites/solutec-lb.com (from its old .gitignore)
+# Dependencies
+websites/solutec-lb.com/**/node_modules/
+websites/solutec-lb.com/**/npm-debug.log*
+websites/solutec-lb.com/**/yarn-debug.log*
+websites/solutec-lb.com/**/yarn-error.log*
+websites/solutec-lb.com/**/pnpm-debug.log*
+# Build outputs
+websites/solutec-lb.com/**/dist/
+websites/solutec-lb.com/**/build/
+websites/solutec-lb.com/**/deploy/
+websites/solutec-lb.com/**/*.tsbuildinfo
+# Environment variables
+websites/solutec-lb.com/**/.env.local
+websites/solutec-lb.com/**/.env.development.local
+websites/solutec-lb.com/**/.env.test.local
+websites/solutec-lb.com/**/.env.production.local
+# IDE and editor files
+websites/solutec-lb.com/**/.vscode/
+websites/solutec-lb.com/**/.idea/
+websites/solutec-lb.com/**/*.swp
+websites/solutec-lb.com/**/*.swo
+websites/solutec-lb.com/**/*~
+# OS generated files
+websites/solutec-lb.com/**/.DS_Store
+websites/solutec-lb.com/**/.DS_Store?
+websites/solutec-lb.com/**/._*
+websites/solutec-lb.com/**/.Spotlight-V100
+websites/solutec-lb.com/**/.Trashes
+websites/solutec-lb.com/**/ehthumbs.db
+websites/solutec-lb.com/**/Thumbs.db
+# Logs
+websites/solutec-lb.com/**/logs/
+websites/solutec-lb.com/**/*.log
+# Runtime data
+websites/solutec-lb.com/**/pids/
+websites/solutec-lb.com/**/*.pid
+websites/solutec-lb.com/**/*.seed
+websites/solutec-lb.com/**/*.pid.lock
+# Coverage directory used by tools like istanbul
+websites/solutec-lb.com/**/coverage/
+websites/solutec-lb.com/**/*.lcov
+websites/solutec-lb.com/**/.nyc_output/
+# Test files in root directory (should be in tests/ or public/tests/ folders)
+websites/solutec-lb.com/**/test-*.html
+websites/solutec-lb.com/**/test-*.js
+websites/solutec-lb.com/**/test-*.ts
+websites/solutec-lb.com/**/*-test.html
+# Temporary test files (should be organized properly)
+websites/solutec-lb.com/**/temp-test*
+websites/solutec-lb.com/**/debug-test*
+# Dependency directories
+websites/solutec-lb.com/**/jspm_packages/
+# Optional npm cache directory
+websites/solutec-lb.com/**/.npm
+# Optional eslint cache
+websites/solutec-lb.com/**/.eslintcache
+# Optional REPL history
+websites/solutec-lb.com/**/.node_repl_history
+# Output of 'npm pack'
+websites/solutec-lb.com/**/*.tgz
+# Yarn Integrity file
+websites/solutec-lb.com/**/.yarn-integrity
+# parcel-bundler cache (https://parceljs.org/)
+websites/solutec-lb.com/**/.cache
+websites/solutec-lb.com/**/.parcel-cache
+# next.js build output
+websites/solutec-lb.com/**/.next
+# nuxt.js build output
+websites/solutec-lb.com/**/.nuxt
+# vuepress build output
+websites/solutec-lb.com/.vuepress/dist
+# Serverless directories
+websites/solutec-lb.com/**/.serverless/
+# FuseBox cache
+websites/solutec-lb.com/**/.fusebox/
+# DynamoDB Local files
+websites/solutec-lb.com/**/.dynamodb/
+# TernJS port file
+websites/solutec-lb.com/**/.tern-port
+# Stores VSCode versions used for testing VSCode extensions
+websites/solutec-lb.com/**/.vscode-test
+# Temporary folders
+websites/solutec-lb.com/**/tmp/
+websites/solutec-lb.com/**/temp/
+websites/solutec-lb.com/**/tmp-*/
+# Archives
+websites/solutec-lb.com/**/*.zip
+# Upload directories (if you want to ignore uploaded files)
+websites/solutec-lb.com/**/uploads/
+websites/solutec-lb.com/public/uploads/
+# Database files
+websites/solutec-lb.com/**/*.db
+websites/solutec-lb.com/**/*.sqlite
+websites/solutec-lb.com/**/*.sqlite3
+# Backup files
+websites/solutec-lb.com/**/*.bak
+websites/solutec-lb.com/**/*.backup
+# Compiled binary addons
+websites/solutec-lb.com/build/Release
+# Temporary files
+websites/solutec-lb.com/**/*.tmp
+websites/solutec-lb.com/**/*.temp
+
+# Over GitHub's 100 MB file limit
+websites/emdc.group/public/videos/home1.mp4

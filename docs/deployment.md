@@ -1,6 +1,6 @@
 # Deploying a site
 
-Sites are deployed one at a time from a laptop with `scripts/deploy/deploy.ps1`. The server is Ubuntu with aaPanel, and every site runs as an aaPanel Node Project under the `www` user.
+Sites are deployed from a laptop with `scripts/deploy/deploy.ps1`, one site per run. To deploy every site in one go, use `scripts/deploy/deploy-all.ps1` (see "Deploy all sites" below). The server is Ubuntu with aaPanel, and every site runs as an aaPanel Node Project under the `www` user.
 
 ```powershell
 .\scripts\deploy\deploy.ps1 -Site thronetrading.com
@@ -20,7 +20,9 @@ If PowerShell blocks the script, run it as
 3. On the server:
    - fetches the commit from GitHub into `/www/deploy/repo`
    - extracts `websites/<domain>` into `/www/deploy/builds/<domain>/<time>-<sha>/`
-   - runs `npm ci` (Linux sharp binaries come from the lockfile), `npm run build` and `npm prune --omit=dev` there; the live site is not touched until the build succeeds
+   - runs `npm ci` (Linux sharp binaries come from the lockfile) and `npm run build` there
+   - for sites with `migrations` in `deploy.json`: backs up the database and runs pending migrations when needed (see "Database migrations" below)
+   - runs `npm prune --omit=dev`; the live site is not touched until all of this succeeds
 4. Copies the build into the site folder (`serverPath`):
    - **Code**, including `dist`, `src`, `views`, `admin`, `public` (except uploads), `node_modules` and `package*.json`, is mirrored exactly. Old files are removed.
    - **`data/`, `content/`, `public/uploads/`**: new files from git are added, but files that already exist on the server are never overwritten or deleted. Admin edits made on the live site are kept. To overwrite them on purpose, see "Intentionally overwriting live data" below.
@@ -58,14 +60,54 @@ By default the server's `data/` and `content/` win. To push the committed versio
 
 The commit must already be on `origin/main`. Local build checks are skipped for `-Ref`, because that commit is not checked out on the laptop. The server still builds it from scratch. Deploy history is in `/www/deploy/state/<domain>/history.log`.
 
-Other options: `-SkipChecks` skips the local typecheck, lint and build. `-Yes` skips the confirmation prompt.
+Other options: `-SkipChecks` skips the local typecheck, lint and build. `-Yes` skips the confirmation prompt. `-ForceMigrations` runs the site's migrations even when its migrations folder did not change.
+
+## Database migrations
+
+Sites with a MySQL database set `migrations` in `deploy.json`:
+
+```json
+"migrations": { "dir": "data-migration", "script": "migrate:production" }
+```
+
+- **When they run:** on the first deploy of the site, when `-ForceMigrations` is given, or when anything in `dir` changed between the last successful deploy (`/www/deploy/state/<site>/current.sha`) and the commit being deployed. Otherwise the step is skipped and logged. A failed deploy does not update `current.sha`, so the next deploy checks the same migrations again.
+- **How they run:** in the new build folder, after `npm run build` and before dev dependencies are pruned (the runners use `ts-node`). The site's script reads `.env.production` and skips migrations already recorded in its tracking table, so running it again is safe.
+- **Backup first:** before migrating, the database named by `DB_NAME` in `.env.production` (with `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`) is dumped with `mysqldump --single-transaction` to `/www/deploy/state/<site>/db-backups/db-<time>.sql.gz` (mode 600). The last 5 backups are kept. If the backup fails, nothing else happens.
+- **On failure:** if a migration fails, the deploy stops before the copy, so the live code is unchanged; the output names the backup. If a later step fails and the code is rolled back, the database is **not** rolled back; the output names the backup to restore if the old code cannot run on the new schema.
+- **Restoring a backup by hand:** `gunzip -c /www/deploy/state/<site>/db-backups/<file> | mysql -h <DB_HOST> -P <DB_PORT> -u <DB_USER> -p <DB_NAME>`, then restart the project in aaPanel.
+- **Server requirement:** `mysqldump` must be on the `www` user's `PATH` (`apt install -y mysql-client`, or the aaPanel MySQL `bin` folder).
+
+## Deploy all sites
+
+```powershell
+.\scripts\deploy\deploy-all.ps1
+```
+
+- **Which sites:** every folder in `websites/` that has both `deploy.json` and `package.json` and no `NOT_READY.md`. Folders without `deploy.json` or with `NOT_READY.md` are listed and skipped.
+- **Migrations:** each site's own migration settings apply as in a single-site deploy. `-ForceMigrations` is not available here.
+- **Before anything is deployed:** the script checks that local `HEAD` equals `origin/main` and that the sites and `packages/` have no uncommitted changes. It then shows the commit and each site's port and server folder.
+- **Confirmation:** type `DEPLOY ALL` exactly, in capitals. Any other answer cancels and nothing is deployed. There is no option to skip this prompt.
+- **How each site runs:** sites are deployed one after another. Each one runs `deploy.ps1 -Site <domain> -Yes` in its own PowerShell process, with the same checks, build, health check, media check and automatic rollback as a single-site deploy. Server `data/` and `content/` are kept on every site.
+- **Failures:** a failed site does not stop the run. The remaining sites are still deployed, then a summary lists every site as `OK` or `FAILED` with its duration. The script exits with code 1 if any site failed and prints the `deploy.ps1 -Site <domain>` command to retry each failed site on its own once the cause is fixed.
+
+Options:
+
+```powershell
+# Leave sites out (comma-separated)
+.\scripts\deploy\deploy-all.ps1 -Exclude re-petroleum.com,bypec-lb.com
+
+# Skip the local typecheck, lint and build for every site
+.\scripts\deploy\deploy-all.ps1 -SkipChecks
+```
+
+`-Ref`, `-OverwriteData` and `-DataFiles` are not available for deploy-all; use `deploy.ps1` for the one site that needs them. Never deploy several sites by looping `deploy.ps1` by hand.
 
 ## Per-site settings: `websites/<domain>/deploy.json`
 
 ```json
 {
   "serverPath": "/www/wwwroot/thronetrading.com",
-  "port": 3042,
+  "port": 3043,
   "healthPath": "/",
   "nodeBin": null,
   "aapanelProject": null,
@@ -83,8 +125,13 @@ Other options: `-SkipChecks` skips the local typecheck, lint and build. `-Yes` s
 | `aapanelProject` | aaPanel project name. `null` finds the project whose start script points at `serverPath`. |
 | `restartCommand` | Optional shell command, run as `www` in `serverPath`, that replaces the aaPanel restart. |
 | `protect` | Extra paths, relative to `serverPath`, that a deploy must never change or delete. |
+| `migrations` | Optional. `dir` is the migrations folder inside the site and `script` the npm script that applies pending migrations. See "Database migrations". |
 
-A site without `deploy.json` cannot be deployed. New sites need one.
+A site without `deploy.json` cannot be deployed. New sites need one, and the deploy stops while its `port` is still `null`. The site name passed to `-Site` is the folder name in `websites/`; it may be lowercase letters, digits, dots, dashes and underscores.
+
+## Sites that are not ready
+
+A site folder that contains `NOT_READY.md` is still being brought up to the shared CMS standards. The deploy script refuses it before doing anything else. The file lists what the site still needs; delete it once every item is done and the site has its `deploy.json`.
 
 ## Environment files
 
@@ -152,7 +199,7 @@ Run everything in PowerShell. Replace `<server-ip>` with the server's IP address
 
 Run these as root, or as a user with sudo.
 
-1. **Tools**: `apt install -y git rsync` (`flock`, `ss` and `pgrep` are already part of Ubuntu).
+1. **Tools**: `apt install -y git rsync` (`flock`, `ss` and `pgrep` are already part of Ubuntu). Sites with database migrations also need `mysqldump`: `apt install -y mysql-client`, or put the aaPanel MySQL `bin` folder on `www`'s `PATH`.
 2. **SSH user**: create or choose the login user, add your laptop's public key to `~<user>/.ssh/authorized_keys`, and let it run commands as `www` without a password:
 
    ```bash
@@ -198,6 +245,9 @@ Run these as root, or as a user with sudo.
 | `No aaPanel Node project found` | Set `aapanelProject` to the project name shown in `/www/server/nodejs/vhost/scripts`. |
 | `Port ... held by a process www cannot stop` | The site was started as root. Stop it once in aaPanel, set the run user to `www`, and deploy again. |
 | `Health check failed` | Read the aaPanel project log. The path is on the `nohup` line of `/www/server/nodejs/vhost/scripts/<project>.sh`, usually `/www/server/nodejs/vhost/logs/<project>.log` or `/www/wwwlogs/nodejs/<project>.log`. The previous build is already back online. |
+| `deploy.json port is not set yet` | Set `port` in the site's `deploy.json` to its aaPanel project port, and the same `PORT` in `.env.production`. |
+| `mysqldump is not installed on the server` | Install it (`apt install -y mysql-client`) or add the aaPanel MySQL `bin` folder to `www`'s `PATH`. Nothing was changed. |
+| `Database backup failed` or `Migrations failed` | Check the `DB_*` values in `.env.production` and the migration output above. The live site was not changed. |
 | `media:check:prod` fails | sharp is on its WebAssembly fallback or uploads are not writable. See `.cursor/rules/cms-media.mdc`. |
 
 `re-petroleum.com` has no `media:check:prod` script yet, so its deploy skips that check and prints a warning.

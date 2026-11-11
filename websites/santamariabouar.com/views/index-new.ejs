@@ -1,0 +1,238 @@
+<!-- Hero Section with Slideshow -->
+<section class="home-hero">
+  <div id="slideshow" class="slideshow fullscreen-slideshow">
+    <div class="slide-wrapper">
+      <% if (typeof slides !== 'undefined' && slides && slides.length > 0) { %>
+        <% slides.forEach((slide, index) => { %>
+          <div class="slide-container <%= index === 0 ? 'active' : '' %>" data-media-type="<%= slide.mediaType || 'image' %>">
+            <% if (slide.mediaType === 'video') { %>
+              <video class="slide-video" 
+                     muted 
+                     loop 
+                     playsinline
+                     <% if (slide.posterImage) { %>poster="/images/slide/<%= slide.posterImage %>"<% } %>
+                     <% if (index > 0) { %>preload="metadata"<% } else { %>preload="auto"<% } %>>
+                <source src="/images/slide/<%= slide.videoUrl || slide.image %>" type="video/mp4">
+                <% if (slide.posterImage) { %>
+                  <img src="/images/slide/<%= slide.posterImage %>" alt="<%= slide.alt %>" style="width:100%; height:100%; object-fit:cover;" />
+                <% } %>
+                Your browser does not support the video tag.
+              </video>
+            <% } else { %>
+              <img src="/images/slide/<%= slide.image %>" 
+                   class="slide-img" 
+                   alt="<%= slide.alt %>" 
+                   <% if (index > 0) { %>loading="lazy"<% } %> />
+            <% } %>
+            <div class="slide-overlay">
+              <div class="slide-content">
+                <h2 class="slide-title">
+                  <%= slide.title || slide.alt %>
+                </h2>
+                <% if (slide.subtitle) { %>
+                  <p class="slide-subtitle"><%= slide.subtitle %></p>
+                <% } %>
+                <a href="<%= slide.link || '/apartments-for-rent' %>" class="slide-btn">
+                  <%= slide.buttonText || 'Explore Now' %>
+                </a>
+              </div>
+            </div>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <!-- Default slide if no slides are available -->
+        <div class="slide-container active" data-media-type="image">
+          <img src="/images/default-hero.jpg" class="slide-img" alt="Santa Maria Bouar" />
+          <div class="slide-overlay">
+            <div class="slide-content">
+              <h2 class="slide-title">Welcome to Santa Maria Bouar</h2>
+              <p class="slide-subtitle">Your Premier Residential Compound</p>
+              <a href="/apartments-for-rent" class="slide-btn">Explore Now</a>
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </div>
+    <% if (typeof slides !== 'undefined' && slides && slides.length > 1) { %>
+      <button class="slide-arrow left" id="slidePrev" aria-label="Previous slide">
+        <img src="/images/icons/arrow.svg" alt="Previous" />
+      </button>
+      <button class="slide-arrow right" id="slideNext" aria-label="Next slide">
+        <img src="/images/icons/arrow.svg" alt="Next" />
+      </button>
+    <% } %>
+  </div>
+
+  <!-- Scroll Arrow -->
+  <div class="scroll-arrow-container">
+    <button class="scroll-arrow" id="scrollToContent" aria-label="Scroll to content">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
+    </button>
+  </div>
+</section>
+
+<!-- Quick Links Section -->
+<section class="quick-links" id="mainContent">
+  <div class="container">
+    <div class="section-title">
+      <h2>Discover Santa Maria Bouar</h2>
+      <p>Find your perfect home in our premium residential compound</p>
+    </div>
+    
+    <div class="links-grid">
+      <!-- Apartments for Rent Card -->
+      <a href="/apartments-for-rent" class="link-card">
+        <div class="card-image">
+          <img src="/images/for-rent.jpg" alt="Apartments for Rent" />
+          <div class="card-icon">
+            <i class="bi bi-key"></i>
+          </div>
+        </div>
+        <div class="card-content">
+          <h3>For Rent</h3>
+          <p>Explore our modern apartments available for rent. Comfortable living spaces with all amenities.</p>
+          <div class="card-arrow">
+            View Available Units <i class="bi bi-arrow-right"></i>
+          </div>
+        </div>
+      </a>
+
+      <!-- Apartments for Sale Card -->
+      <a href="/apartments-for-sale" class="link-card">
+        <div class="card-image">
+          <img src="/images/for-sale.jpg" alt="Apartments for Sale" />
+          <div class="card-icon">
+            <i class="bi bi-house-door"></i>
+          </div>
+        </div>
+        <div class="card-content">
+          <h3>For Sale</h3>
+          <p>Own your dream home at Santa Maria Bouar. Quality apartments with excellent investment value.</p>
+          <div class="card-arrow">
+            Browse Properties <i class="bi bi-arrow-right"></i>
+          </div>
+        </div>
+      </a>
+
+      <!-- Projects Card -->
+      <a href="/projects-info" class="link-card">
+        <div class="card-image">
+          <img src="/images/projects.jpg" alt="Our Projects" />
+          <div class="card-icon">
+            <i class="bi bi-building"></i>
+          </div>
+        </div>
+        <div class="card-content">
+          <h3>Our Projects</h3>
+          <p>Discover ongoing and completed development projects at our compound.</p>
+          <div class="card-arrow">
+            Learn More <i class="bi bi-arrow-right"></i>
+          </div>
+        </div>
+      </a>
+
+      <!-- About Compound Card -->
+      <a href="/about-compound" class="link-card">
+        <div class="card-image">
+          <img src="/images/about-compound.jpg" alt="About Compound" />
+          <div class="card-icon">
+            <i class="bi bi-info-circle"></i>
+          </div>
+        </div>
+        <div class="card-content">
+          <h3>About Us</h3>
+          <p>Learn about Santa Maria Bouar, our vision, amenities, and commitment to excellence.</p>
+          <div class="card-arrow">
+            Read More <i class="bi bi-arrow-right"></i>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section">
+  <div class="container">
+    <div class="section-title">
+      <h2>Why Choose Santa Maria Bouar</h2>
+      <p>Experience premium living with world-class amenities</p>
+    </div>
+    
+    <div class="features-grid">
+      <div class="feature-item">
+        <div class="feature-icon">
+          <i class="bi bi-shield-check"></i>
+        </div>
+        <h3>24/7 Security</h3>
+        <p>Round-the-clock security with controlled access for your peace of mind</p>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">
+          <i class="bi bi-lightning-charge"></i>
+        </div>
+        <h3>Backup Power</h3>
+        <p>Uninterrupted power supply with backup generators</p>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">
+          <i class="bi bi-droplet"></i>
+        </div>
+        <h3>Water Supply</h3>
+        <p>Reliable water supply system throughout the compound</p>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">
+          <i class="bi bi-car-front"></i>
+        </div>
+        <h3>Parking</h3>
+        <p>Ample parking space for residents and visitors</p>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">
+          <i class="bi bi-tree"></i>
+        </div>
+        <h3>Green Spaces</h3>
+        <p>Beautiful landscaped gardens and recreational areas</p>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">
+          <i class="bi bi-people"></i>
+        </div>
+        <h3>Community Center</h3>
+        <p>Modern community facilities for residents</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="cta-section">
+  <div class="container">
+    <h2>Ready to Find Your Home?</h2>
+    <p>Contact us today to schedule a viewing or learn more about available apartments</p>
+    <div class="cta-buttons">
+      <a href="/contact" class="btn btn-primary">Contact Us</a>
+      <a href="/apartments-for-rent" class="btn btn-outline">View Apartments</a>
+    </div>
+  </div>
+</section>
+
+<script>
+// Smooth scroll for scroll arrow
+document.getElementById('scrollToContent')?.addEventListener('click', function() {
+  document.getElementById('mainContent')?.scrollIntoView({ 
+    behavior: 'smooth',
+    block: 'start'
+  });
+});
+</script>
+

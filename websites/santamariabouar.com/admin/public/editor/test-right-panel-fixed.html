@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Right Panel - Fixed</title>
+    	<link rel="stylesheet" href="../css/admin.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .test-info {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .test-info h3 {
+            margin: 0 0 10px 0;
+            color: #1976d2;
+        }
+        .test-info ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .test-info li {
+            margin-bottom: 5px;
+        }
+        .debug-info {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 20px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        #editor-container {
+            height: 600px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Custom Editor - Right Panel Test (Fixed)</h1>
+        
+        <div class="test-info">
+            <h3>Features to Test:</h3>
+            <ul>
+                <li><strong>Layout:</strong> Editor should be on the left, image panel on the right</li>
+                <li><strong>Image Panel:</strong> Should show "Image Management" header with toggle buttons</li>
+                <li><strong>Toggle Buttons:</strong> "Page Images" and "Public Images" should be clickable</li>
+                <li><strong>Image Loading:</strong> Panel should attempt to load images (may fail due to auth)</li>
+                <li><strong>Responsive:</strong> On mobile, panel should move above editor</li>
+                <li><strong>Editor Functionality:</strong> Rich text editing should work normally</li>
+            </ul>
+        </div>
+
+        <form>
+            <div class="mb-3">
+                <label for="pageKey" class="form-label">Page Key (for testing):</label>
+                <input type="text" id="pageKey" name="pageKey" value="test-page" class="form-control">
+            </div>
+            
+            <div class="mb-3">
+                <label for="content" class="form-label">Content:</label>
+                <div id="editor-container"></div>
+            </div>
+        </form>
+
+        <div class="debug-info">
+            <h4>Debug Information:</h4>
+            <div id="debug-output">Initializing...</div>
+        </div>
+    </div>
+
+    <script src="custom-editor.js"></script>
+    <script>
+        let editor;
+        
+        function updateDebugInfo(message) {
+            const debugOutput = document.getElementById('debug-output');
+            const timestamp = new Date().toLocaleTimeString();
+            debugOutput.innerHTML += `<div>[${timestamp}] ${message}</div>`;
+        }
+
+        function initCustomEditor() {
+            try {
+                updateDebugInfo('Initializing CustomEditor...');
+                
+                editor = new CustomEditor('editor-container', {
+                    height: '500px',
+                    showImagePanel: true,
+                    placeholder: 'Start typing your content here...'
+                });
+                
+                updateDebugInfo('CustomEditor initialized successfully');
+                updateDebugInfo('Image panel should be visible on the right side');
+                
+                // Check if image panel was created
+                setTimeout(() => {
+                    const imagePanel = document.querySelector('.custom-editor-image-panel');
+                    if (imagePanel) {
+                        updateDebugInfo('✓ Image panel found in DOM');
+                        updateDebugInfo(`Panel width: ${imagePanel.offsetWidth}px`);
+                        updateDebugInfo(`Panel height: ${imagePanel.offsetHeight}px`);
+                    } else {
+                        updateDebugInfo('✗ Image panel not found in DOM');
+                    }
+                    
+                    // Check layout
+                    const container = document.getElementById('editor-container');
+                    const computedStyle = window.getComputedStyle(container);
+                    updateDebugInfo(`Container display: ${computedStyle.display}`);
+                    updateDebugInfo(`Container flex-direction: ${computedStyle.flexDirection}`);
+                    
+                }, 1000);
+                
+            } catch (error) {
+                updateDebugInfo(`Error initializing editor: ${error.message}`);
+                console.error('Editor initialization error:', error);
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initCustomEditor);
+    </script>
+</body>
+</html>
+

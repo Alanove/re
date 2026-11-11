@@ -1,0 +1,762 @@
+/******* Bootstrap Theming ********/
+
+// Import variables first (they need to be available for Bootstrap)
+@import 'variables';
+
+// Variables are now defined in _variables.scss - no need to override here
+
+// Import Bootstrap from css/bootstrap folder
+@import "bootstrap/scss/bootstrap";
+
+
+/********** Custom CSS ************/
+
+h1,
+h2,
+h3,
+h4,
+.h1,
+.h2,
+.h3,
+.h4 {
+    font-family: $title-font-family !important;
+    font-weight: $title-font-weight !important;
+}
+
+h5,
+h6 {
+    font-weight: $headings-font-weight !important;
+}
+
+.mb-30 {
+    margin-bottom: 30px;
+}
+
+.pb-30 {
+    padding-bottom: 30px;
+}
+
+.p-30 {
+    padding: 30px;
+}
+
+.btn {
+    &.btn-primary {
+        color: $white !important;
+    }
+
+    &-square {
+        width: 40px;
+        height: 40px;
+    }
+
+    &-sm-square {
+        width: 30px;
+        height: 30px;
+    }
+
+    &-lg-square {
+        width: 50px;
+        height: 50px;
+    }
+
+    &-square,
+    &-sm-square,
+    &-lg-square {
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.navbar {
+    .navbar-nav .nav-link {
+        padding: 20px 10px;
+        color: $secondary;
+        outline: none;
+
+        &:hover,
+        &.active {
+            color: $primary;
+        }
+
+        &:first-child {
+            padding-left: 0;
+        }
+
+        @media (max-width: 991.98px) {
+            padding: 5px 0px;
+        }
+    }
+
+    &-vertical.navbar-light .navbar-nav .nav-link {
+        padding: 8px 30px;
+        border-bottom: 1px solid $secondary;
+    }
+
+    &-light .dropdown-toggle::after,
+    &-dark .dropdown-toggle::after {
+        display: none;
+    }
+}
+
+#header-carousel img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.carousel {
+    &-indicators {
+        li {
+            width: 15px;
+            height: 15px;
+            margin: 0 3px 12px 3px;
+            background: transparent;
+            border: 1px solid #FFFFFF;
+            transition: .5s;
+        }
+
+        .active {
+            width: 30px;
+            background: #FFFFFF;
+        }
+    }
+
+    &-caption {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(61, 70, 77, .5);
+        text-transform: uppercase;
+        z-index: 1;
+        justify-content: flex-end !important;
+        padding-bottom: 75px;
+    }
+}
+
+.section-title::after {
+    display: none; /* Blue/dashed line under section titles removed */
+}
+
+// Fix alignment for sidebar section titles to match content box padding
+.col-lg-3 .section-title,
+.col-md-4 .section-title,
+/* Checkout summary column uses col-lg-4 – same clipping/padding fixes as shop sidebar */
+#checkout-form .col-lg-4 .section-title {
+    padding-left: 0; // Align with logo and nav links
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
+    
+    &::after {
+        left: 0; // Start from same position as logo/nav
+        width: 100%;
+    }
+    
+    span.bg-secondary {
+        padding-left: 0;
+        padding-right: 0.75rem; // Keep pr-3
+    }
+}
+
+// Checkout: headings and payment labels can wrap instead of ellipsis in narrow column
+#checkout-form .col-lg-4 {
+    .section-title {
+        overflow: visible;
+        word-break: break-word;
+
+        span.bg-secondary {
+            white-space: normal;
+        }
+    }
+
+    .custom-radio .custom-control-label {
+        white-space: normal;
+    }
+}
+
+/* Checkout — subtotal/shipping/discount/total: fixed numeric column so values line up */
+#checkout-form .checkout-summary-line {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 11rem;
+    column-gap: 0.75rem;
+    align-items: baseline;
+    margin-bottom: 1rem;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    &__label {
+        grid-column: 1;
+        min-width: 0;
+        margin-bottom: 0;
+    }
+
+    &__value {
+        grid-column: 2;
+        justify-self: stretch;
+        margin-bottom: 0;
+        width: 100%;
+        max-width: 100%;
+        text-align: right;
+        word-break: break-word;
+        hyphens: auto;
+        font-feature-settings: 'tnum';
+        font-variant-numeric: tabular-nums;
+    }
+
+    &--total {
+        align-items: center;
+    }
+
+    &--total &__value {
+        font-size: inherit;
+    }
+
+    /* “To be confirmed” — not heading weight/size */
+    &__value .checkout-summary-tbc {
+        font-family: inherit;
+        font-size: 0.8125rem !important; /* ~13px */
+        font-weight: 400 !important;
+        line-height: 1.35;
+        vertical-align: baseline;
+        letter-spacing: normal;
+        text-transform: none;
+        font-variant-numeric: normal;
+        font-feature-settings: normal;
+    }
+}
+
+// Ensure main content section titles align properly
+.col-lg-9 .section-title,
+.col-md-8 .section-title {
+    margin-left: 0;
+    margin-right: 0;
+    
+    &::after {
+        left: 0;
+        width: 100%;
+    }
+}
+
+// Align breadcrumb with logo and nav links
+.breadcrumb {
+    padding-left: 0; // Remove left padding to align with logo/nav
+    padding-right: 1rem; // Keep right padding for visual spacing
+    font-size: 0.875rem; // Make breadcrumbs smaller (14px)
+    
+    .breadcrumb-item {
+        color: $grey; // Use custom grey variable
+        
+        a {
+            color: $grey; // Grey color for links
+            text-decoration: none;
+            
+            &:hover {
+                color: $primary; // Primary color on hover
+            }
+        }
+        
+        &.active {
+            color: $grey; // Grey color for active item
+        }
+        
+        &::before {
+            color: $grey; // Grey color for divider
+        }
+    }
+}
+
+// Fix product grid alignment
+.product-item {
+    .text-center {
+        text-align: center !important;
+    }
+    
+    .d-flex.align-items-center.justify-content-center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+// Ensure product grid items are properly aligned
+.row.pb-3 {
+    > [class*="col-"] {
+        display: flex;
+        flex-direction: column;
+        
+        > .product-item {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            
+            .product-img {
+                flex-shrink: 0;
+            }
+            
+            .text-center {
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+        }
+    }
+}
+
+// Ensure consistent alignment for category items
+.cat-item {
+    display: flex;
+    align-items: center;
+    
+    .flex-fill {
+        flex: 1 1 auto;
+    }
+}
+
+// Ensure categories list aligns properly with content box
+.col-lg-3 .bg-light.p-4,
+.col-md-4 .bg-light.p-4 {
+    padding-left: 0 !important; // Remove left padding to align with logo/nav
+    padding-right: 1.5rem; // Keep right padding
+    padding-top: 1.5rem; // Keep top padding
+    padding-bottom: 1.5rem; // Keep bottom padding
+    
+    .list-unstyled {
+        margin-bottom: 0;
+        padding-left: 0;
+        margin-left: 0;
+        
+        > li {
+            padding-left: 0;
+            margin-left: 0;
+            list-style: none;
+            
+            > a {
+                display: block;
+                padding: 0.25rem 0;
+            }
+        }
+        
+        // Nested lists (children categories)
+        .list-unstyled {
+            padding-left: 1rem;
+            margin-left: 0;
+        }
+    }
+}
+
+.product-offer {
+    position: relative;
+    overflow: hidden;
+
+    img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: .5s;
+    }
+
+    &:hover img {
+        transform: scale(1.2) rotate(5deg);
+    }
+
+    .offer-text {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(61, 70, 77, .5);
+        z-index: 1;
+    }
+}
+
+.cat-item {
+    background: $light;
+    transition: .5s;
+
+    h6,
+    small {
+        transition: .3s;
+    }
+
+    img {
+        transition: .5s;
+    }
+
+    &:hover {
+        background: $primary;
+        color: $white;
+
+        h6,
+        small.text-body {
+            color: $white!important;
+        }
+
+        img {
+            transform: scale(1.2);
+        }
+    }
+
+}
+
+.product-item {
+    transition: .5s;
+
+    &:hover {
+        box-shadow: 0 0 30px #DDDDDD;
+
+        .product-action {
+            background: rgba(256, 256, 256, .7);
+
+            a.btn {
+                &:first-child {
+                    opacity: 1;
+                    margin-top: 0;
+                    transition: .3s 0s;
+                }
+
+                &:nth-child(2) {
+                    opacity: 1;
+                    margin-top: 0;
+                    transition: .3s .05s;
+                }
+
+                &:nth-child(3) {
+                    opacity: 1;
+                    margin-top: 0;
+                    transition: .3s .1s;
+                }
+
+                &:nth-child(4) {
+                    opacity: 1;
+                    margin-top: 0;
+                    transition: .3s .15s;
+                }
+            }
+        }
+
+        .product-img img {
+            transform: scale(1);
+        }
+    }
+
+    .product-img img {
+        transition: .5s;
+        height: 400px;
+        object-fit: cover;
+    }
+
+    .btn:hover {
+        color: $primary !important;
+    }
+}
+
+.product-action {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: .5s;
+    pointer-events: none;
+    /* Allow clicks to pass through to the image */
+
+    a.btn {
+        position: relative;
+        margin: 0 3px;
+        margin-top: 100px;
+        opacity: 0;
+        pointer-events: auto;
+        /* Re-enable clicks for buttons */
+    }
+}
+
+.table.table-borderless {
+
+    thead tr,
+    tbody tr:not(:last-child) {
+        border-bottom: 15px solid $secondary;
+    }
+}
+
+.contact-form .help-block ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.need-help-chat {
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    z-index: 1100;
+    font-size: 0.95rem;
+}
+
+.need-help-chat__toggle {
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+    border-radius: 999px;
+    padding: 0.55rem 1rem;
+    -webkit-animation: action 1s infinite alternate;
+    animation: action 1s infinite alternate;
+}
+
+.need-help-chat__panel {
+    position: absolute;
+    right: 0;
+    bottom: 100%;
+    margin-bottom: 10px;
+    width: min(100vw - 40px, 320px);
+    /* Intro: contact + Turnstile; compact class after first message (see app.js) */
+    height: min(85vh, 600px);
+    min-height: min(85vh, 600px);
+    max-height: min(90vh, 630px);
+    background: #fff;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 1101;
+}
+
+/* Conversation mode: much shorter panel, messages area fills middle */
+.need-help-chat.need-help-chat--compact .need-help-chat__panel {
+    height: min(75vh, 450px);
+    min-height: min(75vh, 450px);
+    max-height: min(82vh, 480px);
+}
+
+.need-help-chat__head {
+    flex-shrink: 0;
+}
+
+.need-help-chat__form {
+    flex: 0 1 auto;
+    max-height: min(54vh, 330px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.need-help-chat.need-help-chat--compact .need-help-chat__form {
+    display: none !important;
+}
+
+.need-help-chat__turnstile {
+    overflow: hidden;
+}
+
+.need-help-chat__messages {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    background: #f8f9fa;
+}
+
+.need-help-chat__composer {
+    flex-shrink: 0;
+    background: #fff;
+}
+
+.need-help-chat__line {
+    margin-bottom: 8px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    background: #fff;
+    border: 1px solid #e9ecef;
+}
+
+.need-help-chat__line--staff {
+    border-color: #cce5ff;
+    background: #f0f7ff;
+}
+
+.need-help-chat__who {
+    font-weight: 600;
+}
+
+@media (max-width: 767px) {
+    .need-help-chat__panel {
+        width: min(calc(100vw - 32px), 320px);
+        height: min(93vh, 540px);
+        min-height: min(93vh, 540px);
+        max-height: 97vh;
+    }
+
+    .need-help-chat.need-help-chat--compact .need-help-chat__panel {
+        height: min(72vh, 420px);
+        min-height: min(72vh, 420px);
+        max-height: 78vh;
+    }
+
+    .need-help-chat__form {
+        max-height: min(42vh, 270px);
+    }
+}
+
+@media (max-width: 575px) {
+    .need-help-chat {
+        right: 12px;
+        bottom: 12px;
+    }
+
+    .need-help-chat__panel {
+        width: min(calc(100vw - 24px), 300px);
+        height: min(82vh, 510px);
+        min-height: min(82vh, 510px);
+        max-height: 87vh;
+        margin-bottom: 8px;
+    }
+
+    .need-help-chat.need-help-chat--compact .need-help-chat__panel {
+        height: min(68vh, 390px);
+        min-height: min(68vh, 390px);
+        max-height: 72vh;
+    }
+
+    .need-help-chat__form {
+        max-height: min(36vh, 225px);
+    }
+}
+
+@media (max-width: 380px) {
+    .need-help-chat__panel {
+        height: min(75vh, 450px);
+        min-height: min(75vh, 450px);
+        max-height: 81vh;
+    }
+
+    .need-help-chat.need-help-chat--compact .need-help-chat__panel {
+        height: min(63vh, 360px);
+        min-height: min(63vh, 360px);
+        max-height: 69vh;
+    }
+}
+
+@-webkit-keyframes action {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-15px);
+    }
+}
+
+@keyframes action {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-15px);
+    }
+}
+
+.testimonial-carousel {
+    .owl-item {
+
+        .testimonial-item,
+        &.center .testimonial-item * {
+            transition: .5s;
+        }
+
+        &.center .testimonial-item {
+            background: $primary !important;
+            border-color: $primary !important;
+
+            * {
+                color: #FFFFFF !important;
+            }
+        }
+    }
+
+    .owl-dots {
+        margin-top: 24px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+    }
+
+    .owl-dot {
+        position: relative;
+        display: inline-block;
+        margin: 0 5px;
+        width: 15px;
+        height: 15px;
+        background: #FFFFFF;
+        transition: .5s;
+
+        &.active {
+            background: $primary;
+        }
+    }
+}
+
+// Visual Swatches
+.variant-image-box {
+    width: 50px !important;
+    height: 50px !important;
+    display: inline-block;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    margin-right: 5px;
+    transition: all 0.3s;
+
+    &:hover {
+        border-color: $primary;
+    }
+}
+
+.variant-input:checked+.variant-image-box {
+    border: 2px solid $primary;
+    transform: scale(1.1);
+}
+
+.cate-btn {
+
+    &,
+    &:not(:disabled):not(.disabled) {
+        background-color: $primary !important;
+        border-color: $primary !important;
+        color: $white !important;
+        box-shadow: none !important;
+    }
+
+    &:hover,
+    &:focus,
+    &:active,
+    &.active,
+    &.show,
+    &.dropdown-toggle,
+    &[aria-expanded="true"] {
+        background-color: $primary !important;
+        border-color: $primary !important;
+        color: $white !important;
+        box-shadow: none !important;
+    }
+}
+
+.show>.cate-btn.dropdown-toggle {
+    background-color: $primary !important;
+    border-color: $primary !important;
+    color: $white !important;
+    box-shadow: none !important;
+}

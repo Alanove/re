@@ -1,0 +1,13 @@
+<% if (typeof impersonator !== 'undefined' && impersonator && typeof member !== 'undefined' && member) { %>
+  <div class="impersonation-banner" role="status">
+    <div class="impersonation-banner__inner">
+      <span class="impersonation-banner__text">
+        Viewing as <strong><%= member.name %></strong>
+      </span>
+      <form method="POST" action="/account/stop-impersonating" class="impersonation-banner__form">
+        <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>" />
+        <button type="submit" class="impersonation-banner__exit">Exit preview</button>
+      </form>
+    </div>
+  </div>
+<% } %>

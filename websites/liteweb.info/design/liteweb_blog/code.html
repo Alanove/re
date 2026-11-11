@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Insights &amp; Innovation | LiteWeb Blog</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-dim": "#d9dadb",
+                    "surface-container-high": "#e7e8e9",
+                    "secondary-fixed-dim": "#b5c8df",
+                    "on-secondary-fixed": "#091d2e",
+                    "surface-container": "#edeeef",
+                    "on-surface-variant": "#3f4850",
+                    "tertiary-fixed-dim": "#8bdb46",
+                    "primary-fixed-dim": "#92ccff",
+                    "secondary": "#4e6073",
+                    "on-secondary-container": "#526478",
+                    "surface-tint": "#006397",
+                    "error": "#ba1a1a",
+                    "outline": "#707881",
+                    "on-tertiary-container": "#163000",
+                    "background": "#f8f9fa",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed-variant": "#36485b",
+                    "tertiary-container": "#58a305",
+                    "on-tertiary-fixed": "#0c2000",
+                    "primary-container": "#3498db",
+                    "secondary-fixed": "#d1e4fb",
+                    "on-background": "#191c1d",
+                    "inverse-surface": "#2e3132",
+                    "surface-variant": "#e1e3e4",
+                    "inverse-primary": "#92ccff",
+                    "on-primary-fixed-variant": "#004b73",
+                    "surface-container-highest": "#e1e3e4",
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#f8f9fa",
+                    "surface-bright": "#f8f9fa",
+                    "on-error-container": "#93000a",
+                    "on-surface": "#191c1d",
+                    "tertiary-fixed": "#a6f85f",
+                    "on-secondary": "#ffffff",
+                    "on-primary-fixed": "#001d31",
+                    "on-tertiary-fixed-variant": "#285000",
+                    "on-primary-container": "#002d47",
+                    "on-error": "#ffffff",
+                    "primary-fixed": "#cce5ff",
+                    "secondary-container": "#cfe2f9",
+                    "on-tertiary": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "primary": "#006397",
+                    "inverse-on-surface": "#f0f1f2",
+                    "tertiary": "#376b00",
+                    "surface-container-low": "#f3f4f5",
+                    "outline-variant": "#bfc7d2"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "lg": "24px",
+                    "sm": "8px",
+                    "xl": "32px",
+                    "max-width": "1280px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "48px",
+                    "md": "16px",
+                    "xs": "4px",
+                    "gutter": "24px",
+                    "base": "4px"
+            },
+            "fontFamily": {
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Manrope"],
+                    "headline-lg-mobile": ["Manrope"],
+                    "body-md": ["Inter"],
+                    "headline-xl": ["Manrope"],
+                    "body-lg": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-md": ["Manrope"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(233, 236, 239, 1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-surface-container-lowest border-b border-outline-variant">
+<nav class="flex justify-between items-center max-w-max-width mx-auto px-margin-desktop h-20">
+<div class="font-headline-md text-headline-md font-bold text-primary">LiteWeb</div>
+<div class="hidden md:flex items-center gap-xl">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Home</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Services</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Portfolio</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Pricing</a>
+<a class="font-label-md text-label-md text-primary border-b-2 border-primary pb-1" href="#">Blog</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">About</a>
+</div>
+<button class="bg-primary-container text-on-primary px-lg py-sm font-label-md rounded-lg active:scale-95 transition-transform">
+                Start a Project
+            </button>
+</nav>
+</header>
+<main class="pt-20">
+<!-- Hero Section -->
+<section class="relative py-xl md:py-32 overflow-hidden bg-surface-container-low">
+
+<div class="max-w-max-width mx-auto px-margin-desktop relative z-10 text-center">
+<span class="inline-block px-md py-xs rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm mb-md uppercase tracking-wider">Our Journal</span>
+<h1 class="font-headline-xl text-headline-xl text-on-surface mb-lg">Insights &amp; Innovation</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">
+                    Deep dives into the technologies, processes, and trends shaping the future of software development and digital product design.
+                </p>
+</div>
+</section>
+<!-- Search & Filter Bar -->
+<section class="bg-surface-container-lowest border-b border-outline-variant sticky top-20 z-40">
+<div class="max-w-max-width mx-auto px-margin-desktop py-md flex flex-col md:flex-row justify-between items-center gap-md">
+<div class="flex gap-md overflow-x-auto pb-2 md:pb-0 w-full md:w-auto">
+<button class="px-md py-sm bg-primary-container text-on-primary rounded-full font-label-md text-label-md whitespace-nowrap">All Topics</button>
+<button class="px-md py-sm hover:bg-surface-container text-on-surface-variant rounded-full font-label-md text-label-md whitespace-nowrap transition-colors">Engineering</button>
+<button class="px-md py-sm hover:bg-surface-container text-on-surface-variant rounded-full font-label-md text-label-md whitespace-nowrap transition-colors">AI &amp; ML</button>
+<button class="px-md py-sm hover:bg-surface-container text-on-surface-variant rounded-full font-label-md text-label-md whitespace-nowrap transition-colors">Cloud Tech</button>
+<button class="px-md py-sm hover:bg-surface-container text-on-surface-variant rounded-full font-label-md text-label-md whitespace-nowrap transition-colors">Design Systems</button>
+</div>
+<div class="relative w-full md:w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant">search</span>
+<input class="w-full pl-10 pr-md py-sm bg-surface-container-low border-outline-variant border rounded-lg font-body-sm text-body-sm focus:ring-2 focus:ring-primary-container outline-none" placeholder="Search insights..." type="text"/>
+</div>
+</div>
+</section>
+<!-- Main Blog Grid -->
+<section class="max-w-max-width mx-auto px-margin-desktop py-xl">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg">
+<!-- Blog Card 1: Featured -->
+<div class="lg:col-span-2 group relative bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden hover:border-primary-container transition-all duration-300">
+<div class="flex flex-col md:flex-row h-full">
+<div class="md:w-1/2 overflow-hidden">
+<div class="h-64 md:h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="A futuristic, high-end laboratory or data center interior with soft blue and white ambient lighting. Glowing servers and holographic data visualizations are visible in the background, creating a sense of advanced artificial intelligence and cloud computing. The aesthetic is clean, professional, and corporate, matching a modern light mode UI with precision and technical elegance." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBVrXSzKlRdwz0F_x3sBczt297hjiH68PNySQViY9E5eo5JuJfgWjz2APX2XQIe7a-7IHEk4cf1uTjF_HWhszb9BPzHBSZTXj3npK9YLPUSdKxR0E5wiAYqHxgPM3zd5MS_3_-y22D3Ucxc8s4mraodKm5qiev-4Jb54qWGzkXqPYDjNqkNxNBR3BQIpXUbrc6PbJm9jEszb8kqC0r0kTJ2NkDz_qBL7q381P2RZtVtWjTRc-1Wu4g9')">
+</div>
+</div>
+<div class="md:w-1/2 p-xl flex flex-col justify-center">
+<span class="font-label-sm text-label-sm text-tertiary-container mb-sm">AI &amp; MACHINE LEARNING</span>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-md group-hover:text-primary transition-colors">Scaling Large Language Models for Enterprise Architecture</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-lg line-clamp-3">
+                                Discover our systematic approach to integrating LLMs into secure enterprise environments while maintaining reliability and high data density performance standards.
+                            </p>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-secondary-container"></div>
+<span class="font-label-sm text-label-sm text-on-surface">By Dr. Sarah Chen</span>
+</div>
+<a class="flex items-center gap-xs font-label-md text-label-md text-primary group-hover:gap-sm transition-all" href="#">
+                                    Read More <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Blog Card 2 -->
+<div class="group bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden hover:border-primary-container transition-all">
+<div class="h-48 overflow-hidden">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="A minimalist architectural shot of a modern glass office building reflecting a bright blue sky. The composition emphasizes clean lines, structural integrity, and professional transparency. High-key lighting creates a professional atmosphere, with a focus on geometric patterns and soft blue tones that evoke stability and corporate trust." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAQlpqFTB4l4yLBoeUTESlWIdZcmhCXtyEeyZGgTMgk-ip4rh0iyU_D7szYx7sRggjjDTTkQjvXqDLRmLOCYNq6bYo91FvyUEw-cf7vF4nrNFM0yLU-g-PcDsLRxPQ6JCUEmxADWiyC6TdX3rBhzSOl3Ra1-u_xP7iKsnxnKmjx2TLuKFhQWX2dWTeNFy_AnPQauFArTH5KjrIX28KafikfUv3XT0XqBuC76snI7e13V7vcVFsKoU2P')">
+</div>
+</div>
+<div class="p-lg">
+<span class="font-label-sm text-label-sm text-secondary mb-sm">ENGINEERING</span>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-sm group-hover:text-primary transition-colors">Monorepo Management at Scale</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-md line-clamp-2">
+                            A guide to maintaining systematic order in large-scale codebases using modern tooling and strict CI/CD pipelines.
+                        </p>
+<a class="flex items-center gap-xs font-label-md text-label-md text-primary" href="#">
+                            Read More <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Blog Card 3 -->
+<div class="group bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden hover:border-primary-container transition-all">
+<div class="h-48 overflow-hidden">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Close-up of a high-resolution professional computer display showing a complex, organized design system layout with multiple UI components, color swatches, and typography rules. The scene is lit with cool, soft light, highlighting the precision of the design process. The background is a clean, minimalist studio space, suggesting a sophisticated and modern creative environment." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAOPSVS_ll5sCuXTb5Wr6EQkPaxDnYx4YC_a_jqxA7MkILXIGxwdJGiDKdzYXVI0yaksBhZHruSwXWkBic57wqqAi2ooIr3HiFdo2vurdC5MTQ4hjQxdibOG5s3HZZjxAtdFvZR5YkH4DIisCFsQFvHaRDvoraN4YhQY0mjURGGaf921J2BDMvb24WXh2ZLo1Vo6OcRkANv9SGIs3rP5LQe8FI1ciR5Z9qScWtrfCaLHEjxeL2zwL50')">
+</div>
+</div>
+<div class="p-lg">
+<span class="font-label-sm text-label-sm text-secondary mb-sm">DESIGN SYSTEMS</span>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-sm group-hover:text-primary transition-colors">The ROI of Systematic Design</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-md line-clamp-2">
+                            Why investing in a robust design language accelerates development velocity and ensures institutional trust across digital platforms.
+                        </p>
+<a class="flex items-center gap-xs font-label-md text-label-md text-primary" href="#">
+                            Read More <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Blog Card 4 -->
+<div class="group bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden hover:border-primary-container transition-all">
+<div class="h-48 overflow-hidden">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="A wide, conceptual image representing cloud infrastructure with ethereal, glowing lines of data flowing through a dark blue sky filled with abstract geometric constellations. The image is clean and minimalist, avoiding clutter while conveying a sense of vast connectivity and technological reliability. The lighting is low-contrast and soft, reflecting a premium enterprise aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDCUO63mOaoxkYGS8YZDGra0SAhGOE9ReuGCFmdiCeOcnPqZhkZ2FfN3t5c_4YaG2jb1fVvQ4K-aX1jPazPQIFS-Rc8yBjd1hMGGjQyALqi2dH-ShyLWGpqkVUqM43x-8d73mCQXmWvRah7FA8bMJ3HbB6AGlr8kY9vXUSzz7g7CSQ9nnPP7-W71Ga5MJztrcH7L56C3vYKu5AzyvMsRp9fT1_sDXy6PtoxrMHrfXNL4x_K_jtM9Vrs')">
+</div>
+</div>
+<div class="p-lg">
+<span class="font-label-sm text-label-sm text-secondary mb-sm">CLOUD TECH</span>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-sm group-hover:text-primary transition-colors">Serverless: Beyond the Hype</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-md line-clamp-2">
+                            Analyzing the cost-benefit ratio of serverless architectures for high-traffic enterprise applications in 2024.
+                        </p>
+<a class="flex items-center gap-xs font-label-md text-label-md text-primary" href="#">
+                            Read More <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Blog Card 5 -->
+<div class="group bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden hover:border-primary-container transition-all">
+<div class="h-48 overflow-hidden">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="An abstract visualization of digital security, featuring a series of interconnected translucent hexagonal shields and glowing blue locks. The atmosphere is calm and secure, utilizing a palette of deep navy blues and bright cyan accents. The design is structured and architectural, conveying institutional trust and advanced protection for modern data platforms." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDArjX7zoUNbPFG8NrJAGz8UOyRP48nEvI9I8tna4aoLGfuJasdh8DGx_mxvmNoFQ-3Qbw4VmEksXF3BuirGmGGJBPA-3-enUmlQv8R-jxpe9pkGnTSS6-89hUehFLrAq6Nd6xb0BI1XLeZkCLRkLmgIlkOptMg5ZkLxAs6wxT8TRuFffOYEdcem2Ft0ny4lUoqrN0WHUehVNE0XObvWLzhkUtrFbr9qISetnYXjUXGojTit9SNzqF2')">
+</div>
+</div>
+<div class="p-lg">
+<span class="font-label-sm text-label-sm text-secondary mb-sm">ENGINEERING</span>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-sm group-hover:text-primary transition-colors">Zero-Trust Security Protocols</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-md line-clamp-2">
+                            Implementing rigorous security standards without sacrificing developer experience or deployment velocity.
+                        </p>
+<a class="flex items-center gap-xs font-label-md text-label-md text-primary" href="#">
+                            Read More <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="mt-xl flex justify-center items-center gap-sm">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary-container text-on-primary font-label-md">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-colors font-label-md">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-colors font-label-md">3</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</section>
+<!-- Newsletter Section -->
+<section class="bg-surface-container py-xl">
+<div class="max-w-max-width mx-auto px-margin-desktop">
+<div class="bg-primary-container rounded-xl p-xl flex flex-col md:flex-row items-center justify-between gap-xl">
+<div class="max-w-xl text-center md:text-left">
+<h2 class="font-headline-md text-headline-md text-on-primary mb-sm">Stay at the Forefront</h2>
+<p class="font-body-md text-body-md text-on-primary/80">Subscribe to get monthly insights on tech trends and engineering best practices delivered to your inbox.</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-md w-full md:w-auto">
+<input class="px-md py-sm rounded-lg border-none focus:ring-2 focus:ring-white/50 outline-none min-w-[300px]" placeholder="Enter your email" type="email"/>
+<button class="bg-on-primary-container text-on-primary px-lg py-sm font-label-md rounded-lg hover:bg-on-primary-container/90 transition-colors">Subscribe</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container border-t border-outline-variant">
+<div class="max-w-max-width mx-auto px-margin-desktop py-xl flex flex-col md:flex-row justify-between items-start gap-lg">
+<div class="flex flex-col gap-md max-w-sm">
+<div class="font-headline-md text-headline-md font-bold text-on-surface">LiteWeb</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                    Architecting the future of digital enterprise through systematic design and precision engineering.
+                </p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-xl">
+<div class="flex flex-col gap-sm">
+<span class="font-label-md text-label-md text-on-surface">Resources</span>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Services</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Portfolio</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Pricing</a>
+</div>
+<div class="flex flex-col gap-sm">
+<span class="font-label-md text-label-md text-on-surface">Company</span>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Blog</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">About</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Careers</a>
+</div>
+<div class="flex flex-col gap-sm">
+<span class="font-label-md text-label-md text-on-surface">Legal</span>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+</div>
+</div>
+</div>
+<div class="max-w-max-width mx-auto px-margin-desktop py-md border-t border-outline-variant/30 text-center">
+<p class="font-body-sm text-body-sm text-on-surface-variant">© 2024 LiteWeb Software Development. All rights reserved.</p>
+</div>
+</footer>
+<script>
+        // Simple micro-interaction for cards
+        document.querySelectorAll('.group').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.classList.add('shadow-xl');
+            });
+            card.addEventListener('mouseleave', () => {
+                card.classList.remove('shadow-xl');
+            });
+        });
+    </script>
+</body></html>

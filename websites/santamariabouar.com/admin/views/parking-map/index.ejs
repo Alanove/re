@@ -1,0 +1,65 @@
+<div id="parking-map-admin" class="parking-admin">
+  <div class="parking-admin__layout">
+    <aside class="parking-admin__list">
+      <label class="form-label" for="parkingApartmentSearch">Apartment</label>
+      <input class="form-control" id="parkingApartmentSearch" type="search" placeholder="Block and number, for example I 8" autocomplete="off" />
+      <div class="parking-admin__apartments" id="parkingApartmentList">
+        <% if (apartments && apartments.length) { %>
+          <% apartments.forEach(function(apt) { %>
+            <button type="button" class="parking-admin__apt" data-apartment-id="<%= apt.id %>" data-search="<%= apt.label %> <%= apt.unitNumberUnofficial %>">
+              <span><%= apt.label %></span>
+              <% if (apt.unitNumberUnofficial && apt.unitNumberUnofficial !== apt.unitNumberOfficial) { %>
+                <small>(<%= apt.unitNumberUnofficial %>)</small>
+              <% } %>
+              <span class="parking-admin__count" data-count-for="<%= apt.id %>"><%= apt.bayCount %></span>
+            </button>
+          <% }); %>
+        <% } else { %>
+          <p class="text-muted mb-0">No apartments yet.</p>
+        <% } %>
+      </div>
+    </aside>
+
+    <div class="parking-admin__canvas">
+      <p class="text-muted mb-2">
+        Select an apartment, choose Draw, then drag along one side of the stall. Move sideways and click to set the width. Drag a corner if the stall is slightly skewed.
+      </p>
+      <div class="parking-admin__toolbar">
+        <button type="button" class="btn btn-sm btn-primary" id="parkingToolPan" aria-pressed="true">Pan</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" id="parkingToolDraw" aria-pressed="false">Draw</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" id="parkingZoomIn">Zoom in</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" id="parkingZoomOut">Zoom out</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" id="parkingFit">Fit plan</button>
+        <button type="button" class="btn btn-sm btn-outline-danger" id="parkingDeleteBay" disabled>Delete bay</button>
+      </div>
+      <p class="parking-admin__status" id="parkingMapStatus" role="status">Select an apartment.</p>
+      <div class="parking-admin__viewport is-pan" id="parkingMapViewport">
+        <div class="parking-admin__stage" id="parkingMapStage">
+          <img id="parkingMapImage" src="<%= imageUrl %>" alt="Compound parking plan" draggable="false" />
+          <svg id="parkingMapSvg" class="parking-admin__overlay" viewBox="0 0 100 100" preserveAspectRatio="none"></svg>
+          <div id="parkingMapHandles" class="parking-admin__handles"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/json" id="parkingMapAdminData"><%- JSON.stringify({ spots: spots, csrfToken: typeof csrfToken !== 'undefined' ? csrfToken : '' }).replace(/</g, '\\u003c') %></script>
+
+<div class="modal fade" id="parkingDeleteModal" tabindex="-1" aria-labelledby="parkingDeleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="parkingDeleteModalLabel">Remove parking bay</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Remove this parking bay for <strong id="parkingDeleteLabel"></strong>?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-white" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger" id="parkingDeleteConfirm">Remove bay</button>
+      </div>
+    </div>
+  </div>
+</div>

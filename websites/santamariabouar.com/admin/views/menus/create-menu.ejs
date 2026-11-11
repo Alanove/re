@@ -1,0 +1,141 @@
+<!-- BEGIN content area -->
+<div class="menu-editing">
+	<div class="row">
+		<div class="col-xl-12">
+			<!-- BEGIN panel -->
+			<div class="panel panel-inverse">
+				<div class="panel-heading">
+					<h4 class="panel-title">Create New Menu</h4>
+					<div class="panel-heading-btn">
+						<a href="/admin/menus" class="btn btn-xs btn-secondary">
+							<i class="fa fa-arrow-left"></i> Back to Menus
+						</a>
+					</div>
+				</div>
+				<div class="panel-body">
+				<form method="POST" action="/admin/menus/create">
+					<div class="row">
+						<div class="col-md-8">
+							<!-- Menu Details -->
+							<div class="card">
+								<div class="card-header">
+									<h5 class="card-title mb-0">
+										<i class="fa fa-bars me-2"></i>Menu Information
+									</h5>
+								</div>
+								<div class="card-body">
+									<div class="mb-3">
+										<label for="name" class="form-label">Menu Name <span class="text-danger">*</span></label>
+										<input type="text" class="form-control" id="name" name="name" value="<%= menu.name %>" required>
+										<div class="form-text">Enter a descriptive name for this menu (e.g., "Main Navigation", "Footer Menu")</div>
+									</div>
+									
+									<div class="mb-3">
+										<label for="description" class="form-label">Description <span class="text-danger">*</span></label>
+										<textarea class="form-control" id="description" name="description" rows="3" required><%= menu.description %></textarea>
+										<div class="form-text">Brief description of what this menu is used for</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-md-4">
+							<!-- Menu Preview -->
+							<div class="card">
+								<div class="card-header">
+									<h5 class="card-title mb-0">
+										<i class="fa fa-eye me-2"></i>Menu Preview
+									</h5>
+								</div>
+								<div class="card-body">
+									<div class="text-center text-muted py-4">
+										<i class="fa fa-bars fa-3x mb-3"></i>
+										<h6>Menu Preview</h6>
+										<p class="small">Menu items can be added after creation</p>
+									</div>
+								</div>
+							</div>
+							
+							<!-- Actions -->
+							<div class="card mt-3">
+								<div class="card-header">
+									<h5 class="card-title mb-0">
+										<i class="fa fa-cog me-2"></i>Actions
+									</h5>
+								</div>
+								<div class="card-body">
+									<div class="d-grid gap-2">
+										<button type="submit" class="btn btn-primary">
+											<i class="fa fa-save me-1"></i> Create Menu
+										</button>
+										<a href="/admin/menus" class="btn btn-secondary">
+											<i class="fa fa-times me-1"></i> Cancel
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			</div>
+		</div>
+		<!-- END panel -->
+	</div>
+</div>
+</div>
+<!-- END content area -->
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+	// Form validation
+	const form = document.querySelector('form');
+	const nameInput = document.getElementById('name');
+	const descriptionInput = document.getElementById('description');
+	
+	form.addEventListener('submit', function(e) {
+		let isValid = true;
+		
+		// Clear previous error states
+		[nameInput, descriptionInput].forEach(input => {
+			input.classList.remove('is-invalid');
+		});
+		
+		// Validate name
+		if (!nameInput.value.trim()) {
+			nameInput.classList.add('is-invalid');
+			isValid = false;
+		}
+		
+		// Validate description
+		if (!descriptionInput.value.trim()) {
+			descriptionInput.classList.add('is-invalid');
+			isValid = false;
+		}
+		
+		if (!isValid) {
+			e.preventDefault();
+			showToast({ message: 'Please fill in all required fields.', type: 'warning' });
+		}
+	});
+	
+	// Real-time validation
+	nameInput.addEventListener('input', function() {
+		if (this.value.trim()) {
+			this.classList.remove('is-invalid');
+			this.classList.add('is-valid');
+		} else {
+			this.classList.remove('is-valid');
+		}
+	});
+	
+	descriptionInput.addEventListener('input', function() {
+		if (this.value.trim()) {
+			this.classList.remove('is-invalid');
+			this.classList.add('is-valid');
+		} else {
+			this.classList.remove('is-valid');
+		}
+	});
+});
+</script>

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>About Us | LiteWeb Software Development</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-dim": "#d9dadb",
+                    "surface-container-high": "#e7e8e9",
+                    "secondary-fixed-dim": "#b5c8df",
+                    "on-secondary-fixed": "#091d2e",
+                    "surface-container": "#edeeef",
+                    "on-surface-variant": "#3f4850",
+                    "tertiary-fixed-dim": "#8bdb46",
+                    "primary-fixed-dim": "#92ccff",
+                    "secondary": "#4e6073",
+                    "on-secondary-container": "#526478",
+                    "surface-tint": "#006397",
+                    "error": "#ba1a1a",
+                    "outline": "#707881",
+                    "on-tertiary-container": "#163000",
+                    "background": "#f8f9fa",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed-variant": "#36485b",
+                    "tertiary-container": "#58a305",
+                    "on-tertiary-fixed": "#0c2000",
+                    "primary-container": "#3498db",
+                    "secondary-fixed": "#d1e4fb",
+                    "on-background": "#191c1d",
+                    "inverse-surface": "#2e3132",
+                    "surface-variant": "#e1e3e4",
+                    "inverse-primary": "#92ccff",
+                    "on-primary-fixed-variant": "#004b73",
+                    "surface-container-highest": "#e1e3e4",
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#f8f9fa",
+                    "surface-bright": "#f8f9fa",
+                    "on-error-container": "#93000a",
+                    "on-surface": "#191c1d",
+                    "tertiary-fixed": "#a6f85f",
+                    "on-secondary": "#ffffff",
+                    "on-primary-fixed": "#001d31",
+                    "on-tertiary-fixed-variant": "#285000",
+                    "on-primary-container": "#002d47",
+                    "on-error": "#ffffff",
+                    "primary-fixed": "#cce5ff",
+                    "secondary-container": "#cfe2f9",
+                    "on-tertiary": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "primary": "#006397",
+                    "inverse-on-surface": "#f0f1f2",
+                    "tertiary": "#376b00",
+                    "surface-container-low": "#f3f4f5",
+                    "outline-variant": "#bfc7d2"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "lg": "24px",
+                    "sm": "8px",
+                    "xl": "32px",
+                    "max-width": "1280px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "48px",
+                    "md": "16px",
+                    "xs": "4px",
+                    "gutter": "24px",
+                    "base": "4px"
+            },
+            "fontFamily": {
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Manrope"],
+                    "headline-lg-mobile": ["Manrope"],
+                    "body-md": ["Inter"],
+                    "headline-xl": ["Manrope"],
+                    "body-lg": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-md": ["Manrope"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(233, 236, 239, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopNavBar -->
+<nav class="bg-surface-container-lowest fixed top-0 w-full z-50 border-b border-outline-variant">
+<div class="flex justify-between items-center max-w-max-width mx-auto px-margin-desktop h-20">
+<div class="font-headline-md text-headline-md font-bold text-primary">LiteWeb</div>
+<div class="hidden md:flex items-center gap-xl">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Home</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Services</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Portfolio</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Pricing</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Blog</a>
+<a class="font-label-md text-label-md text-primary border-b-2 border-primary pb-1" href="#">About</a>
+</div>
+<button class="bg-primary-container text-on-primary-container px-lg py-sm rounded font-label-md active:scale-95 transition-transform">
+                Start a Project
+            </button>
+</div>
+</nav>
+<main class="pt-20">
+<!-- Section 1: Hero -->
+<section class="relative overflow-hidden bg-surface-container-low py-xl md:py-32">
+<div class="max-w-max-width mx-auto px-margin-desktop relative z-10 grid md:grid-cols-2 items-center gap-xl">
+<div>
+<span class="inline-block px-md py-xs bg-secondary-container text-on-secondary-container rounded-full font-label-sm mb-md">Our Mission</span>
+<h1 class="font-headline-xl text-headline-xl text-on-surface mb-lg leading-tight">
+                        Engineering the Future
+                    </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-xl max-w-xl">
+                        At LiteWeb, we bridge the gap between complex engineering and elegant user experiences. Our mission is to deliver premium software solutions that empower enterprises to lead in an ever-evolving digital landscape.
+                    </p>
+<div class="flex items-center gap-md">
+<div class="flex -space-x-3">
+<div class="w-10 h-10 rounded-full border-2 border-surface bg-slate-200 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a female software architect in a modern corporate setting, soft natural lighting, high-end photography, blurred tech office background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoiWaUDgn7o0WB0MGFRMobivEkzdw7rvhRBXBrZJGxHet7X6qEYNprdcq34V8GAmHc7l1nzu80wRwfIznVKwDLNdaNeLLCpK5dZdwINXuw6TrVhTjySuEQ_fBeBjzI9P88nEnfAndBTg9e8f2LbIy--W6zxtycVYzI1ThEVz94r7xaswhqJaxDN6_cMdJQxeVgC1AvJvYdZE96sEomU6O2idrNbXyqvEQbm4E0-HRRAi_79uqI_LWN"/>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-surface bg-slate-200 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a male lead developer with a friendly expression, modern minimalist studio lighting, corporate professional style, blue and white color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1sRc-6u9_FXZoZut7Hgu5e7B3iea_o5VdAmycgVFhQBqWeCgeXsrL2EbKZGrgOFhMb12nYtUh19OQb8TM7BevwUpNz1LtvJ_o5Q8aenBhH9hfMysEM29WvxF1kLXkg3E3sylmTIRRgqrfJxsyhGB0v3ScNE0NgoJ9RsxIQFVw9UznElVfRTIDBDoO-Ez13hFPX9WEj_gfHBPOaGRiv3BGorid50SmZtqdI_NbmqcxX5mef0wu_eGf"/>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-surface bg-slate-200 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a diverse female executive in a sleek office environment, crisp lighting, high quality portrait, corporate modern aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvtfb_tkvhzSIMrE1PUzdIAgVBwzRKHIM5gV3Els7g5Q2T7Pr2i3t_dUiiVY9GzgQBjFUYaOjXt3jdqDAKtI9IxyaCYVIc_thzKng3gffmHn4euEOULvcRifftOW8Mkf2XJ96DlB67Ed3m5p7ZbgT8s9k3wUI5a5qc4V1zWZwSs1UgpRbJ6QUgPX97l7-AOwML3tyokB4Mk0AvRthAS0KBC_9niI2baopjhpJOmwGDlFwTFJTGfEWT"/>
+</div>
+</div>
+<span class="font-label-md text-on-surface-variant">Trusted by 500+ Enterprises</span>
+</div>
+</div>
+<div class="relative hidden md:block">
+<div class="aspect-square rounded-xl overflow-hidden shadow-2xl relative">
+<img class="w-full h-full object-cover" data-alt="A wide-angle interior shot of a futuristic, high-tech software development studio with clean lines, professional blue lighting accents, glass partitions, and ergonomic workstations in a corporate environment. The mood is productive, systematic, and modern." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVB8MmumWeDFVCPDKe9sc59c5Q6l4wfEwQ3HY_6KXi4R6Avkij90blo1M0AUFRoNSoEWy3axodjoDFv4UM8XAijELRF-yHUTwLLDFRnNh3my34nTi5CNWHvAcfP4WXDIHl4vbq7QTFLvjQtioZ5y-5E9nyodgXxVQxuAMBJuxjrN-FqhCCRO75O2dlBfdLJVF_xPBTTnlmJ6eHM9B_g5IxFFb0t_B1ZWATKsVk01PCeFRqY9VShrkk"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent"></div>
+</div>
+<!-- Decorative element -->
+<div class="absolute -bottom-6 -left-6 bg-surface-container-highest p-lg rounded-xl shadow-lg border border-outline-variant max-w-[240px]">
+<div class="flex items-center gap-sm mb-xs">
+<span class="material-symbols-outlined text-tertiary">check_circle</span>
+<span class="font-label-md text-on-surface">99.9% Reliability</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Engineered for mission-critical operations.</p>
+</div>
+</div>
+</div>
+<!-- Background abstraction -->
+<div class="absolute top-0 right-0 w-1/3 h-full bg-primary/5 -skew-x-12 transform translate-x-20"></div>
+</section>
+<!-- Section 2: Our Values Grid -->
+<section class="py-xl md:py-32 bg-surface">
+<div class="max-w-max-width mx-auto px-margin-desktop">
+<div class="text-center mb-24">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-md">Our Values</h2>
+<div class="w-16 h-1 bg-primary mx-auto rounded-full"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-xl">
+<!-- Reliability -->
+<div class="bg-surface-container-lowest p-xl rounded-xl border border-outline-variant hover:border-primary transition-all group">
+<div class="w-12 h-12 bg-secondary-container rounded-lg flex items-center justify-center mb-lg group-hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl group-hover:text-on-primary-container">shield</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-md">Reliability</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            We build systems that don't just work, but endure. Our code is tested against extreme conditions to ensure zero downtime for your critical services.
+                        </p>
+</div>
+<!-- Innovation -->
+<div class="bg-surface-container-lowest p-xl rounded-xl border border-outline-variant hover:border-primary transition-all group">
+<div class="w-12 h-12 bg-tertiary-container rounded-lg flex items-center justify-center mb-lg group-hover:bg-tertiary transition-colors">
+<span class="material-symbols-outlined text-on-tertiary-container text-3xl group-hover:text-white">lightbulb</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-md">Innovation</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            Constantly pushing the boundaries of what's possible. We integrate AI and cloud-native architecture to keep your business ahead of the curve.
+                        </p>
+</div>
+<!-- Transparency -->
+<div class="bg-surface-container-lowest p-xl rounded-xl border border-outline-variant hover:border-primary transition-all group">
+<div class="w-12 h-12 bg-secondary-container rounded-lg flex items-center justify-center mb-lg group-hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl group-hover:text-on-primary-container">visibility</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-md">Transparency</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            Honest communication is our baseline. From roadmap planning to weekly sprints, you have full visibility into our process and progress.
+                        </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: The Team -->
+<section class="py-xl md:py-32 bg-surface-container-low">
+<div class="max-w-max-width mx-auto px-margin-desktop">
+<div class="flex flex-col md:flex-row justify-between items-end mb-24 gap-lg">
+<div class="max-w-2xl">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-md">The Visionaries</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+                            Led by industry veterans with a shared obsession for technical excellence and organizational growth.
+                        </p>
+</div>
+<button class="group flex items-center gap-xs font-label-md text-primary">
+                        Join our team
+                        <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-lg">
+<!-- Member 1 -->
+<div class="group">
+<div class="aspect-[3/4] rounded-xl overflow-hidden mb-md border border-outline-variant bg-surface-dim relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Corporate headshot of a male CEO, mid-40s, sharp suit, confident smile, minimalist white background, soft professional lighting, high resolution, modern executive portrait." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoWKCs4d-SWwk3_qb6xxK3EE7XjfpgPEoRV4gFqz43uBH3AfwbfhjKHTIKCItdUly7ff1V0pEfR1vLp_OYVb2z_MNCP-zEdSRYym8ryUiVVNVWhkpNt0N0WP81WydKTlX2g0uHbmUKwrSqbQnHL6i4OF-WjLPd_YZ7KW2qvY27bi2GUox3B-fkMwybRtSl01U_AbTN3i5VrGTiGQasX4OZ2irKqC4ZjCP669vKNv7PfzvgHz_HVBGJ"/>
+<div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<h4 class="font-headline-md text-headline-md text-on-surface mb-xs">David Chen</h4>
+<p class="font-label-md text-label-md text-primary mb-sm">Chief Executive Officer</p>
+<div class="flex gap-sm">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center cursor-pointer hover:bg-primary-container hover:text-on-primary-container transition-colors">
+<span class="material-symbols-outlined text-body-sm">link</span>
+</div>
+</div>
+</div>
+<!-- Member 2 -->
+<div class="group">
+<div class="aspect-[3/4] rounded-xl overflow-hidden mb-md border border-outline-variant bg-surface-dim relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Corporate headshot of a female CTO, glasses, intelligent expression, tech-focused office background with soft bokeh, high-end commercial photography, professional lighting, corporate blue tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGw7oALE9nY0amqC5Wx8ofPTp-mjYy-1p9yq2oOmM707_NbQnzwGZk7v5iKjQhZ6TKbf7-VUIvSA6tQ_J0sg_DhQz0Wn9LKUaUjwSPWU5Q0umRxngeeAFHbU8aYZxpSfGGwSL8Fx_BJHH0lrAs4c_CvK18VhMkaw0ZMpzmqWcKX8mb8v1QYR2UvIV51bdGpl43fjDE-aO2IW5bF5QXjzZzyKWVtp4phDdQ6K-jbVxvg7sAjTycUXd9"/>
+<div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<h4 class="font-headline-md text-headline-md text-on-surface mb-xs">Sarah Jenkins</h4>
+<p class="font-label-md text-label-md text-primary mb-sm">Chief Technology Officer</p>
+<div class="flex gap-sm">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center cursor-pointer hover:bg-primary-container hover:text-on-primary-container transition-colors">
+<span class="material-symbols-outlined text-body-sm">link</span>
+</div>
+</div>
+</div>
+<!-- Member 3 -->
+<div class="group">
+<div class="aspect-[3/4] rounded-xl overflow-hidden mb-md border border-outline-variant bg-surface-dim relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Corporate headshot of a male Head of Product, casual professional attire, warm lighting, creative office studio background, clean and modern aesthetic, high resolution portrait." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZEiaI_ppgLk3TvuT_DbHxUO2XHbUPOGE7B2EIijqE6lg4qIrUpXBC4O554ftuDf1LVyYmPfYcSP3Crsu9UAKD3l5Wno_R6X1XzQqpxWr_Yggqn7gIdZ9Ao0DB0yLFcRj2lqDsXkuA-XmuAgnzX1JorhKjZi21UJE8d9IDhVkBUlzEPcvxGeJEH2e5qVU9GJ4oA5UWf0Yx8BQctWOZGs6iHVUJFy03o3YuDuhw1WIoXP5oHEAH_vqJ"/>
+<div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<h4 class="font-headline-md text-headline-md text-on-surface mb-xs">Marcus Thorne</h4>
+<p class="font-label-md text-label-md text-primary mb-sm">Head of Design</p>
+<div class="flex gap-sm">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center cursor-pointer hover:bg-primary-container hover:text-on-primary-container transition-colors">
+<span class="material-symbols-outlined text-body-sm">link</span>
+</div>
+</div>
+</div>
+<!-- Member 4 -->
+<div class="group">
+<div class="aspect-[3/4] rounded-xl overflow-hidden mb-md border border-outline-variant bg-surface-dim relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Corporate headshot of a female VP of Operations, bright and airy office background, professional attire, crisp lighting, modern corporate vibe, friendly and authoritative expression." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOYThJydDGLFkzWLJ1nXjBwN6YBdIaVHy6EaUkHwQUu80iz0Kq1Gk8Vk9TSD4fvrsdLzsXCs4T2JMF---PBeXBSClSOiFDeGKN3ZXH97QEFlYJ2SzmSqRklNuRhT17l2r7VMUzO7OXr0i4R4jCRcYaVn-XF25YD_FRQTtUeYKp75CqO6mzUUhLC3-N4-86sbn0zAJT7oBkGU4SqsYbXLn1gxwNcVZZL5axN_IHwQ2LwGe37nGnb818"/>
+<div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<h4 class="font-headline-md text-headline-md text-on-surface mb-xs">Elena Rodriguez</h4>
+<p class="font-label-md text-label-md text-primary mb-sm">VP of Operations</p>
+<div class="flex gap-sm">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center cursor-pointer hover:bg-primary-container hover:text-on-primary-container transition-colors">
+<span class="material-symbols-outlined text-body-sm">link</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 4: Call to Action -->
+<section class="py-xl md:py-32 relative bg-primary-container overflow-hidden">
+<div class="absolute inset-0 pointer-events-none opacity-20">
+<div class="absolute top-0 right-0 w-[600px] h-[600px] bg-white rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3"></div>
+<div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-tertiary-fixed rounded-full blur-[100px] translate-y-1/2 -translate-x-1/4"></div>
+</div>
+<div class="max-w-max-width mx-auto px-margin-desktop text-center relative z-10">
+<h2 class="font-headline-xl text-headline-xl text-on-primary-container mb-lg">Ready to Scale Your Vision?</h2>
+<p class="font-body-lg text-body-lg text-on-primary-container opacity-90 mb-xl max-w-2xl mx-auto">
+                    Whether you're a startup looking for MVP development or an enterprise modernizing your stack, LiteWeb is your strategic engineering partner.
+                </p>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-md">
+<button class="w-full sm:w-auto bg-on-primary-container text-white px-xl py-md rounded-lg font-label-md hover:shadow-xl hover:-translate-y-0.5 transition-all active:scale-95">
+                        Work with us
+                    </button>
+<button class="w-full sm:w-auto border-2 border-on-primary-container text-on-primary-container px-xl py-md rounded-lg font-label-md hover:bg-on-primary-container hover:text-white transition-all">
+                        View Portfolio
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container border-t border-outline-variant">
+<div class="max-w-max-width mx-auto px-margin-desktop py-xl">
+<div class="flex flex-col md:flex-row justify-between items-start gap-xl mb-16">
+<div>
+<div class="font-headline-md text-headline-md font-bold text-on-surface mb-md">LiteWeb</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-xs">
+                        Engineering premium software solutions for the modern enterprise. Built with reliability, delivered with precision.
+                    </p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-xl w-full md:w-auto">
+<div class="flex flex-col gap-sm">
+<span class="font-label-md text-on-surface">Company</span>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Services</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Portfolio</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Pricing</a>
+</div>
+<div class="flex flex-col gap-sm">
+<span class="font-label-md text-on-surface">Support</span>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Blog</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">About</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Careers</a>
+</div>
+<div class="flex flex-col gap-sm">
+<span class="font-label-md text-on-surface">Legal</span>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+</div>
+</div>
+</div>
+<div class="flex flex-col md:flex-row justify-between items-center pt-lg border-t border-outline-variant gap-lg">
+<p class="font-body-sm text-body-sm text-on-surface-variant">© 2024 LiteWeb Software Development. All rights reserved.</p>
+<div class="flex gap-lg">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">public</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">chat</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">mail</span>
+</div>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interactions and scroll effects
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.remove('opacity-0', 'translate-y-10');
+                        entry.target.classList.add('opacity-100', 'translate-y-0');
+                    }
+                });
+            }, observerOptions);
+
+            // Apply fade-in to sections
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.add('transition-all', 'duration-700', 'ease-out');
+            });
+
+            // Smooth scroll for nav links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body></html>

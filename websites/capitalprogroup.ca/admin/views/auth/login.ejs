@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title><%= typeof siteTitle !== 'undefined' ? siteTitle : 'CMS' %> | Admin Login</title>
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+	<meta content="Admin login for <%= typeof siteTitle !== 'undefined' ? siteTitle : 'CMS' %>" name="description" />
+	<meta content="<%= typeof siteTitle !== 'undefined' ? siteTitle : 'CMS' %>" name="author" />
+	
+	<!-- ================== BEGIN core-css ================== -->
+	<link href="/admin/css/vendor.min.css" rel="stylesheet" />
+	<link href="/admin/css/app.min.css" rel="stylesheet" />
+	<!-- ================== END core-css ================== -->
+</head>
+<body class='pace-top'>
+	<!-- BEGIN #loader -->
+	<div id="loader" class="app-loader">
+		<span class="spinner"></span>
+	</div>
+	<!-- END #loader -->
+
+
+	<!-- BEGIN #app -->
+	<div id="app" class="app">
+		<!-- BEGIN login -->
+		<div class="login login-v1">
+			<!-- BEGIN login-container -->
+			<div class="login-container">
+				<!-- BEGIN login-header -->
+				<div class="login-header">
+					<div class="brand">
+						<div class="d-flex align-items-center">
+							<b class="me-1"><%= typeof siteTitle !== 'undefined' && siteTitle ? siteTitle : 'Admin Panel' %></b>
+						</div>
+						<small>Admin Panel</small>
+					</div>
+					<div class="icon">
+						<i class="fa fa-lock"></i>
+					</div>
+				</div>
+				<!-- END login-header -->
+				
+				<!-- BEGIN login-body -->
+				<div class="login-body">
+					<!-- BEGIN login-content -->
+					<div class="login-content fs-13px">
+						<% if (locals.error) { %>
+							<div class="alert alert-danger alert-dismissible fade show" role="alert">
+								<i class="fas fa-exclamation-triangle me-2"></i>
+								<%= error %>
+								<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+							</div>
+						<% } %>
+						
+						<% if (locals.success) { %>
+							<div class="alert alert-success alert-dismissible fade show" role="alert">
+								<i class="fas fa-check-circle me-2"></i>
+								<%= success %>
+								<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+							</div>
+						<% } %>
+						
+						<form
+							id="admin-login-form"
+							action="/admin/login"
+							method="POST"
+							data-bs-theme="dark"
+							<% if (locals.isDev && locals.devLoginEmail && locals.devLoginPassword) { %>
+							data-dev-email="<%= devLoginEmail %>"
+							data-dev-password="<%= devLoginPassword %>"
+							<% } %>
+						>
+							<div class="form-floating mb-20px">
+								<input type="email" class="form-control fs-13px h-45px" id="email" name="email" placeholder="Email Address" required />
+								<label for="email" class="d-flex align-items-center">Email Address</label>
+							</div>
+							<div class="form-floating mb-20px">
+								<input type="password" class="form-control fs-13px h-45px" id="password" name="password" placeholder="Password" required />
+								<label for="password" class="d-flex align-items-center">Password</label>
+							</div>
+							<div class="login-buttons">
+								<button type="submit" class="btn btn-theme h-45px d-block w-100 btn-lg">Sign me in</button>
+								<% if (locals.isDev) { %>
+								<button type="button" id="dev-login-btn" class="btn btn-outline-warning h-45px d-block w-100 btn-lg mt-10px">Dev login</button>
+								<% } %>
+							</div>
+						</form>
+					</div>
+					<!-- END login-content -->
+				</div>
+				<!-- END login-body -->
+			</div>
+			<!-- END login-container -->
+		</div>
+		<!-- END login -->
+		
+		<!-- BEGIN theme-panel -->
+		<%- include('partials/theme-panel') %>
+		<!-- END theme-panel -->
+		<!-- BEGIN scroll-top-btn -->
+		<a href="javascript:;" class="btn btn-icon btn-circle btn-theme btn-scroll-to-top" data-toggle="scroll-to-top"><i class="fa fa-angle-up"></i></a>
+		<!-- END scroll-top-btn -->
+	</div>
+	<!-- END #app -->
+	
+	<!-- ================== BEGIN core-js ================== -->
+	<script src="/admin/js/vendor.min.js"></script>
+	<script src="/admin/js/app.min.js"></script>
+	<!-- ================== END core-js ================== -->
+	
+	<!-- ================== BEGIN theme-js ================== -->
+	<script src="/admin/js/theme.js"></script>
+	<!-- ================== END theme-js ================== -->
+	<% if (locals.isDev) { %>
+	<script src="/admin/js/custom.js"></script>
+	<% } %>
+</body>
+</html> 

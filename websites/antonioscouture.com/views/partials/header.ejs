@@ -1,0 +1,549 @@
+<%
+    /**
+     * Build the top-level nav items for the luxury header (left / right of logo).
+     *
+     * When either CMS menu "Header Left" or "Header Right" has items
+     * (`menus.headerLeft` / `menus.headerRight`), those lists drive the two
+     * columns directly from the database.
+     *
+     * Otherwise (legacy):
+     *  1. CMS `items` (Main Menu) when populated.
+     *  2. Else synthesize from the active category tree (featured roots first).
+     *     Split the combined list in half for left / right.
+     */
+    function navItemFilter(it) {
+        return it && it.active !== false && (it.title || '').trim() !== '';
+    }
+
+    const headerLeftDb = (typeof menus !== 'undefined' && menus && Array.isArray(menus.headerLeft))
+        ? menus.headerLeft.filter(navItemFilter)
+        : [];
+    const headerRightDb = (typeof menus !== 'undefined' && menus && Array.isArray(menus.headerRight))
+        ? menus.headerRight.filter(navItemFilter)
+        : [];
+    const useHeaderSplitMenus = headerLeftDb.length > 0 || headerRightDb.length > 0;
+
+    let allItems = [];
+    let itemsLeft = [];
+    let itemsRight = [];
+
+    if (useHeaderSplitMenus) {
+        itemsLeft = headerLeftDb;
+        itemsRight = headerRightDb;
+        allItems = itemsLeft.concat(itemsRight);
+    } else {
+        allItems = (typeof items !== 'undefined' && Array.isArray(items))
+            ? items.filter(navItemFilter)
+            : [];
+
+        if (allItems.length === 0 && typeof categoryTree !== 'undefined' && Array.isArray(categoryTree) && categoryTree.length > 0) {
+            const rootCats = categoryTree.filter(c => c && c.is_active !== false);
+            const featured = rootCats.filter(c => c.is_featured);
+            const ordered = featured.length > 0 ? featured.concat(rootCats.filter(c => !c.is_featured)) : rootCats;
+            allItems = ordered.slice(0, 6).map(function (cat) {
+                return {
+                    title: cat.name,
+                    url: '/shop/category/' + cat.slug,
+                    key: 'category-' + cat.id,
+                    active: true,
+                    isCategory: true,
+                    category: cat,
+                    children: (cat.children || [])
+                        .filter(c => c.is_active !== false)
+                        .map(function (child) {
+                            return {
+                                title: child.name,
+                                url: '/shop/category/' + child.slug,
+                                key: 'category-' + child.id,
+                                active: true,
+                                isCategory: true,
+                                category: child
+                            };
+                        })
+                };
+            });
+        }
+
+        const halfPoint = Math.ceil(allItems.length / 2);
+        itemsLeft = allItems.slice(0, halfPoint);
+        itemsRight = allItems.slice(halfPoint);
+    }
+
+    /**
+     * Logo: this storefront IS Antonios Couture, so prefer the bundled brand
+     * asset. Admins can override via `siteSettings.logo` only when the
+     * filename starts with `antonios` (i.e. they intentionally uploaded a
+     * variant). Otherwise we always show the canonical PNG to avoid stale
+     * placeholders (e.g. the demo "BLUEBIRD" logo) leaking through.
+     */
+    const adminLogo = (typeof siteSettings !== 'undefined' && siteSettings && siteSettings.logo) ? String(siteSettings.logo) : '';
+    const adminLogoIsBrand = adminLogo && /antonios/i.test(adminLogo);
+    const resolvedLogo = adminLogoIsBrand ? adminLogo : '/images/antonios-couture-logo.png';
+
+    const siteName = (typeof siteSettings !== 'undefined' && siteSettings && siteSettings.siteTitle)
+        ? siteSettings.siteTitle
+        : ((typeof siteData !== 'undefined' && siteData && siteData.name) ? siteData.name : 'Antonios Couture');
+
+    // Optional promo strip text – only render when explicitly provided in
+    // siteSettings. No default text so the bar doesn't show stale messages.
+    const promoText = (typeof siteSettings !== 'undefined' && siteSettings && siteSettings.promoText)
+        ? String(siteSettings.promoText).trim()
+        : '';
+
+    // Mega-menu editorial image: re-use the random featured product image already loaded in middleware.
+    const megaMenuImage = (typeof randomFeaturedProduct !== 'undefined' && randomFeaturedProduct
+        && randomFeaturedProduct.images && randomFeaturedProduct.images.length > 0)
+        ? (randomFeaturedProduct.images[0].image_url || randomFeaturedProduct.images[0].thumb_url)
+        : '/images/site-image-1769270743381-174751291.png';
+
+    const luxHeaderCartCount = (function () {
+        var c = typeof cartCount !== 'undefined' ? Number(cartCount) : 0;
+        return (isNaN(c) || c < 0) ? 0 : Math.floor(c);
+    })();
+%>
+
+<% if (promoText) { %>
+<!-- Promo strip -->
+<div class="home-promo-strip" id="luxPromoStrip">
+    <%= promoText %>
+</div>
+<% } %>
+
+<!-- Luxury header (centered logo + split nav + mega menu) -->
+<header class="luxury-header" id="luxuryHeader">
+    <div class="lux-bar">
+        <!-- Left navigation cluster -->
+        <div class="lux-bar-section lux-bar-section--left lux-nav-desktop-only">
+            <button type="button" class="lux-nav-link lux-mobile-only-toggle" aria-label="Open menu" style="display:none;">
+                <i class="fas fa-bars"></i>
+            </button>
+            <% itemsLeft.forEach(function(item, idx) { %>
+                <%- include('header-mega-item', { item: item, index: 'L' + idx, megaMenuImage: megaMenuImage }) %>
+            <% }); %>
+        </div>
+
+        <!-- Mobile-only left cluster — Bootstrap Icons (thin stroke, aligns with BI loaded in layout) -->
+        <div class="lux-bar-section lux-bar-section--left lux-nav-mobile-only">
+            <button type="button" class="lux-util lux-toolbar-mobile" id="luxMobileMenuOpen" aria-label="Open menu">
+                <i class="bi bi-list" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="lux-util lux-toolbar-mobile" id="luxMobileSearchOpen" aria-label="Search">
+                <i class="bi bi-search" aria-hidden="true"></i>
+            </button>
+        </div>
+
+        <!-- Centered logo -->
+        <div class="lux-bar-section lux-bar-section--center">
+            <a href="/" class="lux-logo" aria-label="<%= siteName %>">
+                <% if (resolvedLogo) { %>
+                    <img src="<%= resolvedLogo %>" alt="<%= siteName %>" />
+                <% } else { %>
+                    <span><%= siteName %></span>
+                <% } %>
+            </a>
+        </div>
+
+        <!-- Right navigation + utilities -->
+        <div class="lux-bar-section lux-bar-section--right lux-nav-desktop-only">
+            <% itemsRight.forEach(function(item, idx) { %>
+                <%- include('header-mega-item', { item: item, index: 'R' + idx, megaMenuImage: megaMenuImage }) %>
+            <% }); %>
+
+            <div class="lux-utilities">
+                <button type="button" class="lux-util" id="luxDesktopSearchOpen" aria-label="Search">
+                    <i class="fas fa-search"></i>
+                    <span class="lux-util-label">Search</span>
+                </button>
+                <a class="lux-util" href="/cart">
+                    <span class="lux-util-label">Bag</span>
+                    <span class="lux-bag-count">(<%= (typeof cartCount !== 'undefined') ? cartCount : 0 %>)</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Mobile-only utilities (right) -->
+        <div class="lux-bar-section lux-bar-section--right lux-nav-mobile-only">
+            <a class="lux-util lux-util--icon lux-toolbar-mobile position-relative" href="/cart" aria-label="Shopping cart<%= luxHeaderCartCount ? ', ' + luxHeaderCartCount + ' items' : '' %>">
+                <i class="bi bi-bag" aria-hidden="true"></i>
+                <% if (luxHeaderCartCount > 0) { %>
+                <span class="lux-cart-badge" aria-hidden="true"><%= luxHeaderCartCount %></span>
+                <% } %>
+            </a>
+            <a class="lux-util lux-util--icon lux-toolbar-mobile" href="<%= (typeof user !== 'undefined' && user) ? '/customer/account' : '/customer/login' %>" aria-label="<%= (typeof user !== 'undefined' && user) ? 'Account' : 'Sign in' %>">
+                <i class="bi bi-person" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+</header>
+
+<!-- Mobile drawer — accordion submenus -->
+<aside class="lux-mobile-drawer" id="luxMobileDrawer" aria-hidden="true">
+    <div class="lux-mobile-header">
+        <button type="button" class="lux-mobile-close" id="luxMobileClose" aria-label="Close menu">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <div class="lux-mobile-body">
+        <ul class="lux-mobile-level1">
+            <% allItems.forEach(function(item, i) { %>
+                <% const hasChildren = item.children && item.children.length > 0; %>
+                <% if (hasChildren) { %>
+                <li class="lux-mobile-l1-item">
+                    <button type="button"
+                        class="lux-mobile-l1-trigger"
+                        id="luxMobileTrigger-<%= i %>"
+                        aria-expanded="false"
+                        aria-controls="luxMobileL2-<%= i %>">
+                        <%= item.title %>
+                    </button>
+                    <div class="lux-mobile-accordion-panel" id="luxMobileL2-<%= i %>" role="region" aria-labelledby="luxMobileTrigger-<%= i %>">
+                        <div class="lux-mobile-accordion-inner">
+                        <% if (item.isCategory) { %>
+                            <%
+                                const directChildrenM = (item.children || []).filter(function(c) { return c && c.active !== false; });
+                                const catSlugM = item.category && item.category.slug;
+                                const isFashionLineM = !!(catSlugM && typeof isFashionLineSlug !== 'undefined' && isFashionLineSlug(catSlugM));
+                                const yearGroupsM = (typeof groupCollectionsByYear !== 'undefined')
+                                    ? groupCollectionsByYear(directChildrenM, function(c) { return c.title || ''; })
+                                    : [{ year: 0, items: directChildrenM.map(function(c) { return { label: c.title, item: c }; }) }];
+                                const hasYearsM = yearGroupsM.some(function(g) { return g.year > 0; });
+                                const latestCardsM = [];
+                                directChildrenM.forEach(function(child) {
+                                    if (latestCardsM.length >= 3 || !child.category) return;
+                                    let img = '';
+                                    if (typeof categoryListingImageUrl === 'function') {
+                                        const resolved = categoryListingImageUrl(child.category);
+                                        if (resolved && resolved !== '/images/no-image.jpg') img = resolved;
+                                    }
+                                    if (!img) img = child.category.image_url || '';
+                                    if (img) latestCardsM.push({ url: child.url, title: child.title, img: img });
+                                });
+                                const yearsOnlyM = hasYearsM && yearGroupsM.every(function(g) { return !!g.yearLink; });
+                                const viewAllLabelM = isFashionLineM
+                                    ? (typeof t !== 'undefined' ? t('ecommerce.viewAllCollections') : 'View All Collections')
+                                    : ('View All ' + item.title);
+                                const viewAllUrlM = isFashionLineM ? (item.url + (item.url.indexOf('?') === -1 ? '?' : '&') + 'view=all') : item.url;
+                            %>
+                            <% if (latestCardsM.length > 0) { %>
+                            <div class="lux-mobile-cards" role="list">
+                                <% latestCardsM.forEach(function(card) { %>
+                                    <a href="<%= card.url %>" class="lux-mobile-card" role="listitem">
+                                        <img src="<%= card.img %>" alt="<%= card.title %>" loading="lazy" />
+                                        <span class="lux-mobile-card-label"><%= card.title %></span>
+                                    </a>
+                                <% }); %>
+                            </div>
+                            <% } %>
+                            <% if (directChildrenM.length > 0) { %>
+                            <div class="lux-mobile-level2-section lux-mobile-archive">
+                                <% if (yearsOnlyM) { %>
+                                    <div class="lux-mobile-archive-pills">
+                                        <% yearGroupsM.forEach(function(group) { %>
+                                            <a href="<%= group.yearLink.url %>" title="<%= group.yearLink.title %>"><%= group.year %></a>
+                                        <% }); %>
+                                    </div>
+                                <% } else if (hasYearsM) { %>
+                                    <% yearGroupsM.forEach(function(group) { %>
+                                        <div class="lux-mobile-archive-year">
+                                            <% if (group.yearLink) { %>
+                                                <a class="lux-mobile-archive-year-num lux-mobile-archive-year-link" href="<%= group.yearLink.url %>" title="<%= group.yearLink.title %>"><%= group.year %></a>
+                                            <% } else { %>
+                                                <span class="lux-mobile-archive-year-num"><%= group.year > 0 ? group.year : (typeof t !== 'undefined' ? t('ecommerce.more') : 'More') %></span>
+                                                <div class="lux-mobile-archive-pills">
+                                                    <% group.items.forEach(function(entry) { %>
+                                                        <a href="<%= entry.item.url %>" title="<%= entry.item.title %>"><%= entry.label %></a>
+                                                    <% }); %>
+                                                </div>
+                                            <% } %>
+                                        </div>
+                                    <% }); %>
+                                <% } else { %>
+                                    <ul>
+                                        <% directChildrenM.forEach(function(child) { %>
+                                            <li><a href="<%= child.url %>"><%= child.title %></a></li>
+                                        <% }); %>
+                                    </ul>
+                                <% } %>
+                            </div>
+                            <% } %>
+                            <a href="<%= viewAllUrlM %>" class="lux-mobile-viewall"><%= viewAllLabelM %></a>
+                        <% } else if (item.title === 'Antonio\'s Couture Products' || (item.children && item.children.some(c => c.children && c.children.length > 0))) { %>
+                            <% if (typeof categories !== 'undefined' && categories.length > 0) { %>
+                            <div class="lux-mobile-level2-section">
+                                <h4>Categories</h4>
+                                <ul>
+                                    <% categories.forEach(function(cat) { %>
+                                        <li><a href="/shop/category/<%= cat.slug %>"><%= cat.name %></a></li>
+                                    <% }); %>
+                                    <li><a href="/products">View All</a></li>
+                                </ul>
+                            </div>
+                            <% } %>
+                        <% } else if (item.children && item.children.length > 0) { %>
+                            <div class="lux-mobile-level2-section">
+                                <h4><%= item.title %></h4>
+                                <ul>
+                                    <% item.children.forEach(function(child) { %>
+                                        <% if (child.active !== false) { %>
+                                        <li><a href="<%= child.url %>"><%= child.title %></a></li>
+                                        <% } %>
+                                    <% }); %>
+                                </ul>
+                            </div>
+                        <% } else { %>
+                            <div class="lux-mobile-level2-section">
+                                <ul>
+                                    <li><a href="<%= item.url %>">View <%= item.title %></a></li>
+                                </ul>
+                            </div>
+                        <% } %>
+                        </div>
+                    </div>
+                </li>
+                <% } else { %>
+                <li class="lux-mobile-l1-item">
+                    <a href="<%= item.url %>"><%= item.title %></a>
+                </li>
+                <% } %>
+            <% }); %>
+            <li class="lux-mobile-l1-item"><a href="<%= (typeof user !== 'undefined' && user) ? '/customer/account' : '/customer/login' %>"><%= (typeof user !== 'undefined' && user) ? 'Account' : 'Sign In' %></a></li>
+            <li class="lux-mobile-l1-item"><a href="/contact-us">Customer Care</a></li>
+            <li class="lux-mobile-l1-item"><a href="/cart">Bag (<%= (typeof cartCount !== 'undefined') ? cartCount : 0 %>)</a></li>
+        </ul>
+    </div>
+</aside>
+
+<!-- Mobile / desktop search overlay -->
+<div class="lux-mobile-search" id="luxSearchOverlay" aria-hidden="true">
+    <form class="lux-search-header" action="/shop" method="get">
+        <i class="fa fa-search"></i>
+        <input type="text" name="search" placeholder="Search Here" autocomplete="off" />
+        <button type="button" class="lux-search-close" id="luxSearchClose" aria-label="Close search">
+            <i class="fas fa-times"></i>
+        </button>
+    </form>
+    <div class="lux-search-meta">
+        <div class="lux-search-meta-row">
+            <span class="lux-search-meta-label">Suggested terms:</span>
+            <a href="/shop?search=Dresses">Dresses</a>
+            <a href="/shop?search=Handbags">Handbags</a>
+            <a href="/shop?search=Gowns">Gowns</a>
+        </div>
+        <div class="lux-search-meta-row">
+            <span class="lux-search-meta-label">Quick links:</span>
+            <a href="/return-exchanges">Return &amp; Exchanges</a>
+            <a href="/bridal-services">Bridal Services</a>
+            <a href="/contact-us">Contact Us</a>
+        </div>
+    </div>
+</div>
+
+<!-- Lightweight script for the luxury header interactions -->
+<script>
+(function() {
+    var header = document.getElementById('luxuryHeader');
+    var promoStrip = document.getElementById('luxPromoStrip');
+    var drawer = document.getElementById('luxMobileDrawer');
+    var search = document.getElementById('luxSearchOverlay');
+    var tickingPin = false;
+
+    function pinThresholdPx() {
+        if (!header) return 80;
+        var raw = getComputedStyle(header).getPropertyValue('--lux-pin-threshold').trim();
+        var n = parseFloat(raw);
+        return isNaN(n) ? 80 : n;
+    }
+
+    function hasHeroOverlayHeader() {
+        return document.body.classList.contains('home')
+            || document.body.classList.contains('lux-hero-overlay');
+    }
+
+    function syncHomeHeaderPin() {
+        if (!header) return;
+        if (!hasHeroOverlayHeader()) {
+            header.classList.remove('lux-header--pinned');
+            return;
+        }
+        if (typeof window.matchMedia === 'function' && window.matchMedia('(max-width: 1150px)').matches) {
+            header.classList.remove('lux-header--pinned');
+            return;
+        }
+        var y = window.scrollY || document.documentElement.scrollTop;
+        header.classList.toggle('lux-header--pinned', y >= pinThresholdPx());
+    }
+
+    function scheduleHomeHeaderPin() {
+        if (!header || !hasHeroOverlayHeader()) return;
+        if (tickingPin) return;
+        tickingPin = true;
+        requestAnimationFrame(function() {
+            tickingPin = false;
+            syncHomeHeaderPin();
+        });
+    }
+
+    syncHomeHeaderPin();
+    window.addEventListener('scroll', scheduleHomeHeaderPin, { passive: true });
+    window.addEventListener('resize', syncHomeHeaderPin);
+
+    function resetMobileAccordion() {
+        if (!drawer) return;
+        drawer.querySelectorAll('.lux-mobile-accordion-panel.is-open').forEach(function(p) {
+            p.classList.remove('is-open');
+        });
+        drawer.querySelectorAll('.lux-mobile-l1-trigger').forEach(function(b) {
+            b.setAttribute('aria-expanded', 'false');
+        });
+    }
+
+    function openDrawer() {
+        if (!drawer) return;
+        resetMobileAccordion();
+        drawer.classList.add('is-open');
+        drawer.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('lux-menu-locked');
+    }
+    function closeDrawer() {
+        if (!drawer) return;
+        resetMobileAccordion();
+        drawer.classList.remove('is-open');
+        drawer.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('lux-menu-locked');
+    }
+    function openSearch() {
+        if (!search) return;
+        search.classList.add('is-open');
+        search.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('lux-menu-locked');
+        var input = search.querySelector('input[name="search"]');
+        if (input) setTimeout(function() { input.focus(); }, 50);
+    }
+    function closeSearch() {
+        if (!search) return;
+        search.classList.remove('is-open');
+        search.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('lux-menu-locked');
+    }
+
+    // Mobile menu open / close + accordion triggers
+    var openBtn = document.getElementById('luxMobileMenuOpen');
+    var closeBtn = document.getElementById('luxMobileClose');
+    if (openBtn) openBtn.addEventListener('click', openDrawer);
+    if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+
+    if (drawer) {
+        drawer.querySelectorAll('.lux-mobile-l1-trigger').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var panelId = btn.getAttribute('aria-controls');
+                var panel = panelId ? document.getElementById(panelId) : null;
+                var wasOpen = btn.getAttribute('aria-expanded') === 'true';
+
+                drawer.querySelectorAll('.lux-mobile-l1-trigger').forEach(function(other) {
+                    var oid = other.getAttribute('aria-controls');
+                    var op = oid ? document.getElementById(oid) : null;
+                    other.setAttribute('aria-expanded', 'false');
+                    if (op) op.classList.remove('is-open');
+                });
+
+                if (panel && !wasOpen) {
+                    btn.setAttribute('aria-expanded', 'true');
+                    panel.classList.add('is-open');
+                }
+            });
+        });
+    }
+
+    // Search overlay open / close
+    var searchOpenMobile = document.getElementById('luxMobileSearchOpen');
+    var searchOpenDesktop = document.getElementById('luxDesktopSearchOpen');
+    var searchClose = document.getElementById('luxSearchClose');
+    if (searchOpenMobile) searchOpenMobile.addEventListener('click', openSearch);
+    if (searchOpenDesktop) searchOpenDesktop.addEventListener('click', openSearch);
+    if (searchClose) searchClose.addEventListener('click', closeSearch);
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeDrawer();
+            closeSearch();
+            if (header) {
+                header.classList.remove('is-menu-open');
+                if (promoStrip) promoStrip.classList.remove('is-menu-open');
+                document.querySelectorAll('.lux-megamenu.is-open, .lux-nav-dropdown.is-open').forEach(function(p) { p.classList.remove('is-open'); });
+            }
+        }
+    });
+
+    // Desktop megamenu open/close on hover. Each .lux-nav-item carries a data-mega panel id.
+    if (header) {
+        var navItems = header.querySelectorAll('.lux-nav-item');
+        var openTimer = null;
+        var closeTimer = null;
+
+        function setOpen(isOpen) {
+            if (isOpen) {
+                header.classList.add('is-menu-open');
+                if (promoStrip) promoStrip.classList.add('is-menu-open');
+            } else {
+                header.classList.remove('is-menu-open');
+                if (promoStrip) promoStrip.classList.remove('is-menu-open');
+            }
+        }
+
+        function closeAllPanels() {
+            header.querySelectorAll('.lux-megamenu.is-open, .lux-nav-dropdown.is-open').forEach(function(p) { p.classList.remove('is-open'); });
+            header.querySelectorAll('.lux-nav-link.is-active').forEach(function(l) { l.classList.remove('is-active'); });
+            setOpen(false);
+        }
+
+        navItems.forEach(function(navItem) {
+            var trigger = navItem.querySelector('.lux-nav-link');
+            var panelId = navItem.getAttribute('data-mega') || navItem.getAttribute('data-dropdown');
+            if (!trigger || !panelId) return;
+            var panel = document.getElementById(panelId);
+            if (!panel) return;
+            var isMegaPanel = panel.classList.contains('lux-megamenu');
+
+            navItem.addEventListener('mouseenter', function() {
+                if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
+                openTimer = setTimeout(function() {
+                    closeAllPanels();
+                    panel.classList.add('is-open');
+                    trigger.classList.add('is-active');
+                    if (isMegaPanel) setOpen(true);
+                }, 60);
+            });
+            navItem.addEventListener('mouseleave', function() {
+                if (openTimer) { clearTimeout(openTimer); openTimer = null; }
+                closeTimer = setTimeout(closeAllPanels, 180);
+            });
+
+            // Keep open while hovering panel itself.
+            panel.addEventListener('mouseenter', function() {
+                if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
+            });
+            panel.addEventListener('mouseleave', function() {
+                closeTimer = setTimeout(closeAllPanels, 180);
+            });
+
+            // Click toggles for keyboard / touch users.
+            trigger.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (panel.classList.contains('is-open')) {
+                    closeAllPanels();
+                } else {
+                    closeAllPanels();
+                    panel.classList.add('is-open');
+                    trigger.classList.add('is-active');
+                    if (isMegaPanel) setOpen(true);
+                }
+            });
+        });
+
+        // Click outside closes
+        document.addEventListener('click', function(e) {
+            if (!header.contains(e.target)) closeAllPanels();
+        });
+    }
+})();
+</script>

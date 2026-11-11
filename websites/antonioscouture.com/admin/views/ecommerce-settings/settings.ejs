@@ -1,0 +1,897 @@
+<%- include('../partials/header') %>
+
+	<!-- BEGIN content area -->
+	<div class="row">
+		<div class="col-xl-12">
+			<!-- BEGIN panel -->
+			<div class="panel panel-inverse">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<%= typeof t !=='undefined' ? t('ecommerce.settings.title') : 'E-commerce Settings' %>
+					</h4>
+				</div>
+				<div class="panel-body">
+					<% if (typeof success !=='undefined' && success) { %>
+						<div class="alert alert-success alert-dismissible fade show" role="alert">
+							<strong>
+								<%= typeof t !=='undefined' ? t('messages.success') : 'Success!' %>
+							</strong>
+							<%= success %>
+								<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+						</div>
+						<% } %>
+
+							<% if (typeof error !=='undefined' && error) { %>
+								<div class="alert alert-danger alert-dismissible fade show" role="alert">
+									<strong>Error!</strong>
+									<%= error %>
+										<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+								</div>
+								<% } %>
+
+									<!-- Tabs -->
+									<ul class="nav nav-tabs mb-3" role="tablist">
+										<li class="nav-item" role="presentation">
+											<button class="nav-link active" id="general-tab" data-bs-toggle="tab"
+												data-bs-target="#general" type="button" role="tab">
+												General Settings
+											</button>
+										</li>
+										<li class="nav-item" role="presentation">
+											<button class="nav-link" id="shipping-tab" data-bs-toggle="tab"
+												data-bs-target="#shipping" type="button" role="tab">
+												Shipping Zones & Rates
+											</button>
+										</li>
+										<li class="nav-item" role="presentation">
+											<button class="nav-link" id="payment-tab" data-bs-toggle="tab"
+												data-bs-target="#payment" type="button" role="tab">
+												Payment Methods
+											</button>
+										</li>
+									</ul>
+
+									<div class="tab-content">
+										<!-- General Settings Tab -->
+										<div class="tab-pane fade show active" id="general" role="tabpanel">
+											<form method="POST" action="/admin/ecommerce-settings">
+												<input type="hidden" name="_csrf" value="<%= csrfToken %>">
+												<div class="card">
+													<div class="card-header">
+														<h5 class="mb-0">Store Information</h5>
+													</div>
+													<div class="card-body">
+														<div class="row">
+															<div class="col-md-6 mb-3">
+																<label for="store_name" class="form-label">Store
+																	Name</label>
+																<input type="text" class="form-control" id="store_name"
+																	name="store_name"
+																	value="<%= settings.store_name || '' %>" />
+															</div>
+															<div class="col-md-6 mb-3">
+																<label for="store_email" class="form-label">Store
+																	Email</label>
+																<input type="email" class="form-control"
+																	id="store_email" name="store_email"
+																	value="<%= settings.store_email || '' %>" />
+															</div>
+														</div>
+														<div class="row">
+															<div class="col-md-6 mb-3">
+																<label for="store_phone" class="form-label">Store
+																	Phone</label>
+																<input type="text" class="form-control" id="store_phone"
+																	name="store_phone"
+																	value="<%= settings.store_phone || '' %>" />
+															</div>
+															<div class="col-md-6 mb-3">
+																<label for="store_address" class="form-label">Store
+																	Address</label>
+																<input type="text" class="form-control"
+																	id="store_address" name="store_address"
+																	value="<%= settings.store_address || '' %>" />
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="card mt-3">
+													<div class="card-header">
+														<h5 class="mb-0">Currency & Tax</h5>
+													</div>
+													<div class="card-body">
+														<div class="row">
+															<div class="col-md-4 mb-3">
+																<label for="currency" class="form-label">Currency
+																	Code</label>
+																<input type="text" class="form-control" id="currency"
+																	name="currency"
+																	value="<%= settings.currency || 'USD' %>"
+																	placeholder="USD" />
+															</div>
+															<div class="col-md-4 mb-3">
+																<label for="currency_symbol" class="form-label">Currency
+																	Symbol</label>
+																<input type="text" class="form-control"
+																	id="currency_symbol" name="currency_symbol"
+																	value="<%= settings.currency_symbol || '$' %>"
+																	placeholder="$" />
+															</div>
+															<div class="col-md-4 mb-3">
+																<label for="default_shipping_zone"
+																	class="form-label">Default Shipping Zone</label>
+																<select class="form-select" id="default_shipping_zone"
+																	name="default_shipping_zone">
+																	<option value="">None</option>
+																	<% if (shippingZones && shippingZones.length> 0) {
+																		%>
+																		<% shippingZones.forEach(function(zone) { %>
+																			<option value="<%= zone.id %>"
+																				<%=settings.default_shipping_zone===zone.id
+																				? 'selected' : '' %>>
+																				<%= zone.name %>
+																			</option>
+																			<% }); %>
+																				<% } %>
+																</select>
+															</div>
+														</div>
+														<div class="row">
+															<div class="col-md-6 mb-3">
+																<div class="form-check form-switch">
+																	<input class="form-check-input" type="checkbox"
+																		id="tax_enabled" name="tax_enabled"
+																		<%=settings.tax_enabled ? 'checked' : '' %> />
+																	<label class="form-check-label" for="tax_enabled">
+																		Enable Tax
+																	</label>
+																</div>
+															</div>
+															<div class="col-md-6 mb-3">
+																<label for="tax_rate" class="form-label">Tax Rate
+																	(%)</label>
+																<input type="number" class="form-control" id="tax_rate"
+																	name="tax_rate"
+																	value="<%= settings.tax_rate || 0 %>" min="0"
+																	max="100" step="0.01" />
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="card mt-3">
+													<div class="card-header">
+														<h5 class="mb-0">Product prices (multiple variants)</h5>
+													</div>
+													<div class="card-body">
+														<p class="text-muted small mb-3">
+															When a product has more than one variant price, the storefront can show the lowest price only, a &ldquo;starting at&rdquo; label with the lowest price, or a min&ndash;max range. The shopping cart always uses the price for the selected variant.
+														</p>
+														<div class="row">
+															<div class="col-12 mb-2">
+																<div class="form-check">
+																	<input class="form-check-input" type="radio" name="multi_price_display"
+																		id="multi_price_display_lowest" value="lowest"
+																		<%= (!settings.multi_price_display || settings.multi_price_display === 'lowest') ? 'checked' : '' %> />
+																	<label class="form-check-label" for="multi_price_display_lowest">
+																		Show lowest price only
+																	</label>
+																</div>
+															</div>
+															<div class="col-12 mb-2">
+																<div class="form-check">
+																	<input class="form-check-input" type="radio" name="multi_price_display"
+																		id="multi_price_display_starting" value="starting"
+																		<%= settings.multi_price_display === 'starting' ? 'checked' : '' %> />
+																	<label class="form-check-label" for="multi_price_display_starting">
+																		Show starting price (lowest price with a &ldquo;Starting at&rdquo; label)
+																	</label>
+																</div>
+															</div>
+															<div class="col-12 mb-2">
+																<div class="form-check">
+																	<input class="form-check-input" type="radio" name="multi_price_display"
+																		id="multi_price_display_range" value="range"
+																		<%= settings.multi_price_display === 'range' ? 'checked' : '' %> />
+																	<label class="form-check-label" for="multi_price_display_range">
+																		Show price range (lowest &ndash; highest)
+																	</label>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="card mt-3">
+													<div class="card-header">
+														<h5 class="mb-0"><%= typeof t !== 'undefined' ? t('ecommerce.settings.facebookMetaTitle') : 'Facebook / Meta' %></h5>
+													</div>
+													<div class="card-body">
+														<div class="row">
+															<div class="col-md-6 mb-3">
+																<label for="facebook_app_id" class="form-label"><%= typeof t !== 'undefined' ? t('ecommerce.settings.facebookAppId') : 'Facebook App ID' %></label>
+																<input type="text" class="form-control" inputmode="numeric" autocomplete="off"
+																	id="facebook_app_id" name="facebook_app_id"
+																	value="<%= settings.facebook_app_id || '' %>"
+																	placeholder="123456789012345" />
+																<small class="text-muted d-block mt-1"><%= typeof t !== 'undefined' ? t('ecommerce.settings.facebookAppIdHelp') : '' %></small>
+															</div>
+														</div>
+														<div class="mb-3">
+															<label for="facebook_pixel_script" class="form-label"><%= typeof t !== 'undefined' ? t('ecommerce.settings.facebookPixelScript') : 'Meta (Facebook) Pixel script' %></label>
+															<textarea class="form-control font-monospace small" id="facebook_pixel_script" name="facebook_pixel_script"
+																rows="8"
+																placeholder="<%= typeof t !== 'undefined' ? t('ecommerce.settings.facebookPixelScriptPlaceholder') : '' %>"><%= settings.facebook_pixel_script || '' %></textarea>
+															<small class="text-muted d-block mt-1"><%= typeof t !== 'undefined' ? t('ecommerce.settings.facebookPixelScriptHelp') : '' %></small>
+														</div>
+													</div>
+												</div>
+
+												<div class="card mt-3">
+													<div class="card-header">
+														<h5 class="mb-0">Shipping Configuration</h5>
+													</div>
+													<div class="card-body">
+														<div class="row">
+															<div class="col-md-12 mb-3">
+																<div class="form-check form-switch mb-2">
+																	<input class="form-check-input" type="checkbox"
+																		id="shipping_zones_enabled"
+																		name="shipping_zones_enabled"
+																		<%=settings.shipping_zones_enabled ? 'checked'
+																		: '' %> />
+																	<label class="form-check-label"
+																		for="shipping_zones_enabled">
+																		Enable Shipping Zones & Rates
+																	</label>
+																</div>
+																<small class="text-muted d-block mb-3">
+																	If disabled, no shipping calculation will be
+																	performed (useful for digital products or catalogs).
+																</small>
+															</div>
+														</div>
+														<div class="row">
+															<div class="col-md-12 mb-3">
+																<div class="form-check form-switch">
+																	<input class="form-check-input" type="checkbox"
+																		id="shipping_test_mode" name="shipping_test_mode"
+																		value="true" <%= settings.shipping_test_mode ? 'checked' : '' %> />
+																	<label class="form-check-label" for="shipping_test_mode">
+																		Use shipping test mode (sandbox)
+																	</label>
+																</div>
+																<small class="text-muted d-block">
+																	When enabled, all shipping providers (e.g. Aramex) use their test/sandbox APIs. Use for development only.
+																</small>
+															</div>
+														</div>
+														<div class="row">
+															<div class="col-md-12">
+																<label class="form-label">Active Shipping
+																	Providers</label>
+																<div class="form-check mb-2">
+																	<input class="form-check-input" type="checkbox"
+																		id="method_custom" name="shipping_methods"
+																		value="custom" <%=settings.shipping_methods &&
+																		settings.shipping_methods.includes('custom')
+																		? 'checked' : '' %> />
+																	<label class="form-check-label" for="method_custom">
+																		Custom Shipping Rates (Database)
+																	</label>
+																</div>
+																<div class="form-check">
+																	<input class="form-check-input" type="checkbox"
+																		id="method_aramex" name="shipping_methods"
+																		value="aramex" <%=settings.shipping_methods &&
+																		settings.shipping_methods.includes('aramex')
+																		? 'checked' : '' %> />
+																	<label class="form-check-label" for="method_aramex">
+																		Aramex Shipping API
+																	</label>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="card mt-3">
+													<div class="card-header d-flex justify-content-between align-items-center">
+														<h5 class="mb-0">Aramex Settings</h5>
+														<button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#testAramexModal">
+															<i class="fa fa-truck"></i> Test shipping
+														</button>
+													</div>
+													<div class="card-body">
+														<p class="text-muted small mb-3">Shipper (origin) details used for rate calculation and shipments. Account credentials (username/password) are set via environment variables.</p>
+														<div class="row">
+															<div class="col-md-6 mb-2">
+																<label for="aramex_shipper_name" class="form-label">Shipper Name</label>
+																<input type="text" class="form-control" id="aramex_shipper_name" name="aramex_shipper_name"
+																	value="<%= (settings.aramex_shipper && settings.aramex_shipper.name) || '' %>" />
+															</div>
+															<div class="col-md-6 mb-2">
+																<label for="aramex_shipper_company" class="form-label">Company</label>
+																<input type="text" class="form-control" id="aramex_shipper_company" name="aramex_shipper_company"
+																	value="<%= (settings.aramex_shipper && settings.aramex_shipper.company) || '' %>" />
+															</div>
+														</div>
+														<div class="row">
+															<div class="col-md-12 mb-2">
+																<label for="aramex_shipper_address" class="form-label">Address</label>
+																<input type="text" class="form-control" id="aramex_shipper_address" name="aramex_shipper_address"
+																	value="<%= (settings.aramex_shipper && settings.aramex_shipper.address) || '' %>" />
+															</div>
+														</div>
+														<div class="row">
+															<div class="col-md-4 mb-2">
+																<label for="aramex_shipper_city" class="form-label">City</label>
+																<input type="text" class="form-control" id="aramex_shipper_city" name="aramex_shipper_city"
+																	value="<%= (settings.aramex_shipper && settings.aramex_shipper.city) || '' %>" />
+															</div>
+															<div class="col-md-4 mb-2">
+																<label for="aramex_shipper_state" class="form-label">State / Province</label>
+																<input type="text" class="form-control" id="aramex_shipper_state" name="aramex_shipper_state"
+																	value="<%= (settings.aramex_shipper && settings.aramex_shipper.state) || '' %>" />
+															</div>
+															<div class="col-md-4 mb-2">
+																<label for="aramex_shipper_postalcode" class="form-label">Postal Code</label>
+																<input type="text" class="form-control" id="aramex_shipper_postalcode" name="aramex_shipper_postalcode"
+																	value="<%= (settings.aramex_shipper && settings.aramex_shipper.postalcode) || '' %>" />
+															</div>
+														</div>
+														<div class="row">
+															<div class="col-md-4 mb-2">
+																<label for="aramex_shipper_country" class="form-label">Country Code (e.g. LB)</label>
+																<input type="text" class="form-control" id="aramex_shipper_country" name="aramex_shipper_country" maxlength="2"
+																	value="<%= (settings.aramex_shipper && settings.aramex_shipper.country) || '' %>" placeholder="LB" />
+															</div>
+															<div class="col-md-4 mb-2">
+																<label for="aramex_shipper_phone" class="form-label">Phone</label>
+																<input type="text" class="form-control" id="aramex_shipper_phone" name="aramex_shipper_phone"
+																	value="<%= (settings.aramex_shipper && settings.aramex_shipper.phone) || '' %>" />
+															</div>
+															<div class="col-md-4 mb-2">
+																<label for="aramex_shipper_email" class="form-label">Email</label>
+																<input type="email" class="form-control" id="aramex_shipper_email" name="aramex_shipper_email"
+																	value="<%= (settings.aramex_shipper && settings.aramex_shipper.email) || '' %>" />
+															</div>
+														</div>
+														<hr class="my-3" />
+														<label class="form-label">Account</label>
+														<div class="row">
+															<div class="col-md-4 mb-2">
+																<label for="aramex_account_number" class="form-label">Account Number</label>
+																<input type="text" class="form-control" id="aramex_account_number" name="aramex_account_number"
+																	value="<%= settings.aramex_account_number || '' %>" />
+															</div>
+															<div class="col-md-4 mb-2">
+																<label for="aramex_account_entity" class="form-label">Entity (e.g. BEY)</label>
+																<input type="text" class="form-control" id="aramex_account_entity" name="aramex_account_entity" maxlength="3"
+																	value="<%= settings.aramex_account_entity || '' %>" placeholder="BEY" />
+															</div>
+															<div class="col-md-4 mb-2">
+																<label for="aramex_account_country_code" class="form-label">Account Country Code</label>
+																<input type="text" class="form-control" id="aramex_account_country_code" name="aramex_account_country_code" maxlength="2"
+																	value="<%= settings.aramex_account_country_code || '' %>" placeholder="LB" />
+															</div>
+															<div class="col-md-4 mb-2">
+																<label for="aramex_account_pin" class="form-label">Account PIN</label>
+																<input type="text" class="form-control" id="aramex_account_pin" name="aramex_account_pin" autocomplete="off"
+																	value="<%= settings.aramex_account_pin || '' %>" placeholder="From env if blank" />
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="mt-3">
+													<button type="submit" class="btn btn-primary">
+														<i class="fa fa-save"></i>
+														<%= typeof t !=='undefined' ? t('common.save') : 'Save Settings'
+															%>
+													</button>
+												</div>
+											</form>
+
+											<!-- Test Aramex Shipping Modal -->
+											<div class="modal fade" id="testAramexModal" tabindex="-1" aria-labelledby="testAramexModalLabel" aria-hidden="true">
+												<div class="modal-dialog modal-lg">
+													<div class="modal-content">
+														<div class="modal-header">
+															<h5 class="modal-title" id="testAramexModalLabel">Test Aramex shipping</h5>
+															<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+														</div>
+														<div class="modal-body">
+															<p class="text-muted small">Uses current Aramex settings. Enter destination and weight to get rates.</p>
+															<form id="test-aramex-form">
+																<div class="row mb-2">
+																	<div class="col-md-4">
+																		<label class="form-label">Country code</label>
+																		<input type="text" class="form-control" name="country" id="test-aramex-country" value="LB" maxlength="2" placeholder="LB" />
+																	</div>
+																	<div class="col-md-4">
+																		<label class="form-label">City</label>
+																		<input type="text" class="form-control" name="city" id="test-aramex-city" value="Beirut" placeholder="Beirut" />
+																	</div>
+																	<div class="col-md-4">
+																		<label class="form-label">Weight (kg)</label>
+																		<input type="number" class="form-control" name="weightKg" id="test-aramex-weight" value="1.5" min="0.5" step="0.1" placeholder="1.5" />
+																	</div>
+																</div>
+																<div class="row mb-2">
+																	<div class="col-md-6">
+																		<label class="form-label">State / Province</label>
+																		<input type="text" class="form-control" name="state" id="test-aramex-state" value="" placeholder="Optional" />
+																	</div>
+																	<div class="col-md-6">
+																		<label class="form-label">Postal code</label>
+																		<input type="text" class="form-control" name="postcode" id="test-aramex-postcode" value="0000" placeholder="Optional" />
+																	</div>
+																</div>
+															</form>
+															<div id="test-aramex-result" class="mt-3 d-none"></div>
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+															<button type="button" class="btn btn-primary" id="test-aramex-submit">
+																<span class="btn-text">Calculate</span>
+																<span class="spinner-border spinner-border-sm d-none" role="status"></span>
+															</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<!-- Shipping Tab -->
+										<div class="tab-pane fade" id="shipping" role="tabpanel">
+											<div class="card">
+												<div
+													class="card-header d-flex justify-content-between align-items-center">
+													<h5 class="mb-0">Shipping Zones</h5>
+													<button type="button" class="btn btn-sm btn-success"
+														onclick="showCreateZoneModal()">
+														<i class="fa fa-plus"></i> Add Zone
+													</button>
+												</div>
+												<div class="card-body">
+													<% if (shippingZones && shippingZones.length> 0) { %>
+														<% shippingZones.forEach(function(zone) { %>
+															<div class="card mb-3">
+																<div
+																	class="card-header d-flex justify-content-between align-items-center">
+																	<div>
+																		<h6 class="mb-0">
+																			<%= zone.name %>
+																		</h6>
+																		<small class="text-muted">
+																			Countries: <%= Array.isArray(zone.countries)
+																				? zone.countries.join(', ') : zone.countries %>
+													</small>
+												</div>
+												<div>
+													<span class="badge <%= zone.is_active ? ' bg-success' : 'bg-secondary' %>">
+																				<%= zone.is_active ? 'Active'
+																					: 'Inactive' %>
+																					</span>
+																					<button type="button"
+																						class="btn btn-sm btn-primary ms-2"
+																						onclick="editZone(<%= zone.id %>)">
+																						<i class="fa fa-edit"></i>
+																					</button>
+																					<button type="button"
+																						class="btn btn-sm btn-danger"
+																						onclick="deleteZone(<%= zone.id %>)">
+																						<i class="fa fa-trash"></i>
+																					</button>
+																	</div>
+																</div>
+																<div class="card-body">
+																	<h6>Shipping Rates</h6>
+																	<% if (zone.rates && zone.rates.length> 0) { %>
+																		<table class="table table-sm">
+																			<thead>
+																				<tr>
+																					<th>Name</th>
+																					<th>Method</th>
+																					<th>Base Rate</th>
+																					<th>Status</th>
+																					<th>Actions</th>
+																				</tr>
+																			</thead>
+																			<tbody>
+																				<% zone.rates.forEach(function(rate) {
+																					%>
+																					<tr>
+																						<td>
+																							<%= rate.name %>
+																						</td>
+																						<td>
+																							<%= rate.method %>
+																						</td>
+																						<td>$<%= parseFloat(rate.base_rate).toFixed(2)
+																								%>
+																						</td>
+																						<td>
+																							<span
+																								class="badge <%= rate.is_active ? 'bg-success' : 'bg-secondary' %>">
+																								<%= rate.is_active
+																									? 'Active'
+																									: 'Inactive' %>
+																							</span>
+																						</td>
+																						<td>
+																							<button type="button"
+																								class="btn btn-xs btn-primary"
+																								onclick="editRate(<%= rate.id %>)">
+																								<i
+																									class="fa fa-edit"></i>
+																							</button>
+																							<button type="button"
+																								class="btn btn-xs btn-danger"
+																								onclick="deleteRate(<%= rate.id %>)">
+																								<i
+																									class="fa fa-trash"></i>
+																							</button>
+																						</td>
+																					</tr>
+																					<% }); %>
+																			</tbody>
+																		</table>
+																		<% } else { %>
+																			<p class="text-muted">No shipping rates
+																				configured</p>
+																			<% } %>
+																				<button type="button"
+																					class="btn btn-sm btn-success"
+																					onclick="showCreateRateModal(<%= zone.id %>)">
+																					<i class="fa fa-plus"></i> Add Rate
+																				</button>
+																</div>
+															</div>
+															<% }); %>
+																<% } else { %>
+																	<p class="text-muted text-center py-4">No shipping
+																		zones configured. Click "Add Zone" to create
+																		one.</p>
+																	<% } %>
+												</div>
+											</div>
+										</div>
+
+										<!-- Payment Methods Tab -->
+										<div class="tab-pane fade" id="payment" role="tabpanel">
+											<div class="card">
+												<div class="card-header">
+													<h5 class="mb-0">Payment Methods</h5>
+												</div>
+												<div class="card-body">
+													<% if (paymentMethods && paymentMethods.length> 0) { %>
+														<% paymentMethods.forEach(function(method) { %>
+															<div class="card mb-3">
+																<div
+																	class="card-header d-flex justify-content-between align-items-center">
+																	<div>
+																		<h6 class="mb-0">
+																			<%= method.name %>
+																		</h6>
+																		<small class="text-muted">
+																			<%= method.code %>
+																		</small>
+																	</div>
+																	<div class="form-check form-switch">
+																		<input class="form-check-input" type="checkbox"
+																			id="payment_<%= method.id %>"
+																			<%=method.is_active ? 'checked' : '' %>
+																		onchange="updatePaymentMethodStatus(<%=
+																			method.id %>, this.checked)" />
+																			<label class="form-check-label"
+																				for="payment_<%= method.id %>">
+																				<%= method.is_active ? 'Active'
+																					: 'Inactive' %>
+																			</label>
+																	</div>
+																</div>
+																<div class="card-body">
+																	<div class="mb-3">
+																		<label class="form-label">Display name (shown on checkout)</label>
+																		<input type="text" class="form-control" id="payment_name_<%= method.id %>"
+																			value="<%= (method.name || '').replace(/"/g, '&quot;') %>" placeholder="e.g. Cash on Delivery" />
+																	</div>
+																	<div class="mb-3">
+																		<label class="form-label">Description (optional)</label>
+																		<input type="text" class="form-control" id="payment_description_<%= method.id %>"
+																			value="<%= (method.description || '').replace(/"/g, '&quot;') %>" placeholder="Short description for customers" />
+																	</div>
+																	<button type="button" class="btn btn-sm btn-outline-primary mb-3" onclick="savePaymentNameDesc(<%= method.id %>)">Save name &amp; description</button>
+																	<% if (method.description) { %>
+																		<p class="text-muted small mb-2">
+																			<%= method.description %>
+																		</p>
+																		<% } %>
+																			<div class="mt-2">
+																				<% if (method.code==='cash_on_delivery'
+																					) { %>
+																					<div class="mb-2">
+																						<label
+																							class="form-label">Allowed
+																							Countries (ISO Codes, comma
+																							separated)</label>
+																						<input type="text"
+																							class="form-control"
+																							id="config_countries_<%= method.id %>"
+																							value="<%= (method.config && typeof method.config === 'object' && method.config.allowedCountries ? (Array.isArray(method.config.allowedCountries) ? method.config.allowedCountries.join(', ') : method.config.allowedCountries) : '') %>"
+																							placeholder="e.g. LB, AE (Leave empty for all)" />
+																						<small class="text-muted">Only
+																							show this method for these
+																							countries.</small>
+																					</div>
+																					<% } else if
+																						(method.type==='gateway' ) { %>
+																						<div
+																							class="alert alert-info py-1 px-2 mb-0">
+																							<small><i
+																									class="fa fa-info-circle"></i>
+																								Gateway configuration is
+																								managed via Environment
+																								Variables.</small>
+																						</div>
+																						<% } %>
+																			</div>
+																</div>
+																<% if (method.code === 'cash_on_delivery') { %>
+																<div class="card-footer bg-transparent">
+																	<button type="button" class="btn btn-sm btn-primary" onclick="savePaymentConfig(<%= method.id %>)">Save Config</button>
+																</div>
+																<% } %>
+															</div>
+															<% }); %>
+																<% } else { %>
+																	<p class="text-muted text-center py-4">No payment
+																		methods found</p>
+																	<% } %>
+												</div>
+											</div>
+										</div>
+									</div>
+				</div>
+			</div>
+			<!-- END panel -->
+		</div>
+	</div>
+	<!-- END content area -->
+
+	<script>
+		function getCsrfToken() {
+			return document.querySelector('input[name="_csrf"]')?.value || '';
+		}
+
+		function updatePaymentMethodStatus(methodId, isActive) {
+			fetch(`/admin/ecommerce-settings/payment-methods/${methodId}`, {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-CSRF-Token': getCsrfToken()
+				},
+				body: JSON.stringify({
+					is_active: isActive
+				})
+			})
+				.then(response => response.json())
+				.then(data => {
+					if (!data.success) {
+						if (typeof showErrorToast === 'function') showErrorToast(data.error || 'Failed to update payment method');
+						else alert('Error: ' + (data.error || 'Failed to update payment method'));
+						location.reload();
+					} else if (typeof showSuccessToast === 'function') {
+						showSuccessToast(isActive ? 'Payment method enabled' : 'Payment method disabled');
+					}
+				})
+				.catch(error => {
+					console.error('Error:', error);
+					if (typeof showErrorToast === 'function') showErrorToast('Error updating payment method');
+					else alert('Error updating payment method');
+					location.reload();
+				});
+		}
+
+		function savePaymentNameDesc(methodId) {
+			const nameEl = document.getElementById('payment_name_' + methodId);
+			const descEl = document.getElementById('payment_description_' + methodId);
+			const name = nameEl ? nameEl.value.trim() : '';
+			const description = descEl ? descEl.value.trim() : '';
+			if (!name) {
+				if (typeof showErrorToast === 'function') showErrorToast('Display name is required');
+				else alert('Display name is required');
+				return;
+			}
+			fetch(`/admin/ecommerce-settings/payment-methods/${methodId}`, {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-CSRF-Token': getCsrfToken()
+				},
+				body: JSON.stringify({ name: name, description: description || undefined })
+			})
+				.then(response => response.json())
+				.then(data => {
+					if (data.success) {
+						if (typeof showSuccessToast === 'function') showSuccessToast('Name and description saved.');
+						else alert('Name and description saved.');
+					} else {
+						if (typeof showErrorToast === 'function') showErrorToast(data.error || 'Failed to save');
+						else alert('Error: ' + (data.error || 'Failed to save'));
+					}
+				})
+				.catch(error => {
+					console.error('Error:', error);
+					if (typeof showErrorToast === 'function') showErrorToast('Error saving name and description');
+					else alert('Error saving name and description');
+				});
+		}
+
+		function savePaymentConfig(methodId) {
+			const countriesInput = document.getElementById(`config_countries_${methodId}`);
+			if (!countriesInput) return;
+
+			const allowedCountries = countriesInput.value.split(',').map(c => c.trim().toUpperCase()).filter(c => c);
+
+			const config = {
+				allowedCountries: allowedCountries.length > 0 ? allowedCountries : null
+			};
+
+			fetch(`/admin/ecommerce-settings/payment-methods/${methodId}`, {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-CSRF-Token': getCsrfToken()
+				},
+				body: JSON.stringify({
+					config: config
+				})
+			})
+				.then(response => response.json())
+				.then(data => {
+					if (data.success) {
+						if (typeof showSuccessToast === 'function') showSuccessToast('Configuration saved successfully');
+						else alert('Configuration saved successfully');
+					} else {
+						if (typeof showErrorToast === 'function') showErrorToast(data.error || 'Failed to update configuration');
+						else alert('Error: ' + (data.error || 'Failed to update configuration'));
+					}
+				})
+				.catch(error => {
+					console.error('Error:', error);
+					if (typeof showErrorToast === 'function') showErrorToast('Error updating configuration');
+					else alert('Error updating configuration');
+				});
+		}
+
+		function showCreateZoneModal() {
+			alert('Shipping zone creation modal - to be implemented');
+		}
+
+		function editZone(zoneId) {
+			alert('Edit zone modal - to be implemented for zone: ' + zoneId);
+		}
+
+		function deleteZone(zoneId) {
+			if (confirm('Are you sure you want to delete this shipping zone? All rates in this zone will also be deleted.')) {
+				fetch(`/admin/ecommerce-settings/shipping-zones/${zoneId}`, {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json',
+						'X-CSRF-Token': getCsrfToken()
+					}
+				})
+					.then(response => response.json())
+					.then(data => {
+						if (data.success) {
+							location.reload();
+						} else {
+							alert('Error: ' + (data.error || 'Failed to delete zone'));
+						}
+					})
+					.catch(error => {
+						console.error('Error:', error);
+						alert('Error deleting zone');
+					});
+			}
+		}
+
+		function showCreateRateModal(zoneId) {
+			alert('Create rate modal - to be implemented for zone: ' + zoneId);
+		}
+
+		function editRate(rateId) {
+			alert('Edit rate modal - to be implemented for rate: ' + rateId);
+		}
+
+		function deleteRate(rateId) {
+			if (confirm('Are you sure you want to delete this shipping rate?')) {
+				fetch(`/admin/ecommerce-settings/shipping-rates/${rateId}`, {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json',
+					}
+				})
+					.then(response => response.json())
+					.then(data => {
+						if (data.success) {
+							location.reload();
+						} else {
+							alert('Error: ' + (data.error || 'Failed to delete rate'));
+						}
+					})
+					.catch(error => {
+						console.error('Error:', error);
+						alert('Error deleting rate');
+					});
+			}
+		}
+
+		// Test Aramex shipping modal
+		document.getElementById('test-aramex-submit').addEventListener('click', function () {
+			var btn = this;
+			var btnText = btn.querySelector('.btn-text');
+			var spinner = btn.querySelector('.spinner-border');
+			var resultEl = document.getElementById('test-aramex-result');
+			var country = document.getElementById('test-aramex-country').value.trim() || 'LB';
+			var city = document.getElementById('test-aramex-city').value.trim() || 'Beirut';
+			var state = document.getElementById('test-aramex-state').value.trim();
+			var postcode = document.getElementById('test-aramex-postcode').value.trim();
+			var weightKg = parseFloat(document.getElementById('test-aramex-weight').value) || 1.5;
+			btn.disabled = true;
+			if (btnText) btnText.textContent = 'Calculating...';
+			if (spinner) spinner.classList.remove('d-none');
+			resultEl.classList.add('d-none');
+			resultEl.innerHTML = '';
+			fetch('/admin/api/test-aramex-shipping', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-CSRF-Token': getCsrfToken()
+				},
+				body: JSON.stringify({ country: country.toUpperCase().slice(0, 2), city: city, state: state, postcode: postcode, weightKg: weightKg })
+			})
+				.then(function (response) { return response.json(); })
+				.then(function (data) {
+					if (data.success && data.rates && data.rates.length > 0) {
+						var html = '<div class="alert alert-success"><strong>Success.</strong> Rates returned:<ul class="mb-0 mt-2">';
+						data.rates.forEach(function (r) {
+							html += '<li>' + (r.label || r.id) + ': ' + (r.cost != null ? r.cost.toFixed(2) : '') + ' ' + (r.currency || 'USD') + '</li>';
+						});
+						html += '</ul></div>';
+						resultEl.innerHTML = html;
+					} else if (data.success && data.rates && data.rates.length === 0) {
+						resultEl.innerHTML = '<div class="alert alert-warning">No rates returned for this destination.</div>';
+					} else {
+						var errHtml = '<div class="alert alert-danger"><strong>Error:</strong> ' + (data.error || 'Unknown error') + '</div>';
+						if (data.debug) {
+							errHtml += '<div class="alert alert-secondary mt-2 mb-0"><strong>What was sent (redacted):</strong><pre class="mb-0 mt-2 small overflow-auto" style="max-height: 220px;">' + (typeof data.debug === 'object' ? JSON.stringify(data.debug, null, 2) : String(data.debug)).replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</pre></div>';
+						}
+						if (data.details) {
+							errHtml += '<pre class="bg-dark text-light p-3 small overflow-auto mt-2" style="max-height: 200px;">' + (data.details || '').replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</pre>';
+						}
+						resultEl.innerHTML = errHtml;
+					}
+					resultEl.classList.remove('d-none');
+				})
+				.catch(function (err) {
+					resultEl.innerHTML = '<div class="alert alert-danger"><strong>Request failed:</strong> ' + (err.message || String(err)) + '</div>';
+					resultEl.classList.remove('d-none');
+				})
+				.finally(function () {
+					btn.disabled = false;
+					if (btnText) btnText.textContent = 'Calculate';
+					if (spinner) spinner.classList.add('d-none');
+				});
+		});
+		document.getElementById('testAramexModal').addEventListener('hidden.bs.modal', function () {
+			document.getElementById('test-aramex-result').innerHTML = '';
+			document.getElementById('test-aramex-result').classList.add('d-none');
+		});
+	</script>
+
+	<%- include('../partials/footer') %>

@@ -1,0 +1,797 @@
+// Homepage & listing layout styles — brand colors from variables
+
+.container {
+  position: relative;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+  box-sizing: border-box;
+
+  @media (min-width: $large-screen) {
+    padding: 0 2rem;
+  }
+}
+
+.section-heading {
+  text-align: center;
+  margin-bottom: 2.5rem;
+
+  h2 {
+    margin: 0 0 0.5rem;
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 700;
+    color: $dark-text;
+  }
+
+  p {
+    margin: 0;
+    color: $light-text;
+    font-size: 1.05rem;
+  }
+
+  &--row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    text-align: left;
+
+    > div h2 {
+      text-align: left;
+    }
+
+    > div p {
+      text-align: left;
+    }
+  }
+}
+
+.btn-view-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: $primary;
+  text-decoration: none;
+  border: 1px solid $primary;
+  border-radius: 4px;
+  transition: background 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    background: $primary;
+    color: $white;
+  }
+}
+
+// Welcome note (under slider) — about-inspired content panel + photo
+.home-welcome {
+  padding: 4.5rem 0;
+  background: $light-bg;
+
+  &__layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: stretch;
+
+    @media (min-width: $medium-screen) {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+      gap: 2.5rem;
+      align-items: center;
+    }
+  }
+
+  &__media {
+    position: relative;
+    min-height: 260px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: $golden-brown;
+    box-shadow: 0 4px 24px rgba(74, 55, 40, 0.08);
+
+    @media (min-width: $medium-screen) {
+      min-height: 380px;
+      align-self: stretch;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      position: absolute;
+      inset: 0;
+    }
+
+    &.has-image {
+      // Keep aspect when image loads via absolute fill
+      aspect-ratio: 4 / 3;
+
+      @media (min-width: $medium-screen) {
+        aspect-ratio: auto;
+        min-height: 420px;
+      }
+    }
+  }
+
+  &__placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: linear-gradient(135deg, $golden-brown 0%, $accent 100%);
+    color: rgba($white, 0.9);
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+
+    i {
+      font-size: 2.5rem;
+      opacity: 0.85;
+    }
+  }
+
+  &__content {
+    background: $white;
+    border: 1px solid $border-color;
+    border-radius: 10px;
+    padding: 2rem 1.5rem;
+    box-shadow: 0 4px 24px rgba(74, 55, 40, 0.06);
+
+    @media (min-width: $medium-screen) {
+      padding: 2.75rem 2.5rem;
+    }
+  }
+
+  &__title {
+    margin: 0 0 1.25rem;
+    font-size: clamp(1.75rem, 3vw, 2.15rem);
+    font-weight: 700;
+    color: $dark-text;
+    line-height: 1.2;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid $secondary;
+  }
+
+  &__body {
+    color: $dark-text;
+    font-size: 1.05rem;
+    line-height: 1.75;
+
+    h1, h2, h3, h4, h5, h6 {
+      color: $dark-text;
+      font-weight: 700;
+      line-height: 1.25;
+      margin: 1.75rem 0 0.75rem;
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+
+    h2 {
+      font-size: 1.35rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 2px solid $secondary;
+    }
+
+    p {
+      margin: 0 0 1.15rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .lead {
+      font-size: 1.15rem;
+      color: $dark-text;
+      font-weight: 500;
+    }
+
+    ul, ol {
+      margin: 0 0 1.15rem;
+      padding-left: 1.5rem;
+
+      li {
+        margin-bottom: 0.4rem;
+      }
+    }
+
+    a {
+      color: $primary;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s ease, color 0.2s ease;
+
+      &:hover {
+        color: $accent;
+        border-bottom-color: $accent;
+      }
+    }
+  }
+}
+
+// Discover / info
+.home-info {
+  padding: 4.5rem 0;
+  background: $white;
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+
+    @media (min-width: $small-screen) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  &__item {
+    text-align: center;
+    padding: 1.75rem 1.25rem;
+    background: $light-bg;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+
+    h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.15rem;
+      color: $dark-text;
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: $light-text;
+      line-height: 1.5;
+    }
+  }
+
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    margin-bottom: 1rem;
+    border-radius: 50%;
+    background: rgba($primary, 0.12);
+    color: $primary;
+    font-size: 1.4rem;
+  }
+}
+
+// Listings sections
+.home-listings {
+  padding: 4.5rem 0;
+  background: $light-bg;
+
+  &--alt {
+    background: $white;
+  }
+}
+
+.apartments-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+
+  @media (min-width: $small-screen) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: $medium-screen) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  &--home {
+    @media (min-width: $medium-screen) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+
+.apartment-card {
+  background: $white;
+  border: 1px solid $border-color;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+  &--link {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  &:hover {
+    box-shadow: 0 8px 24px rgba(74, 55, 40, 0.1);
+    transform: translateY(-2px);
+  }
+
+  &__media {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    background: $secondary;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  &__badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 0.3rem 0.7rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    border-radius: 3px;
+    color: $white;
+    background: $primary;
+
+    &--sale {
+      background: $golden-brown;
+    }
+
+    &--rent {
+      background: $primary;
+    }
+  }
+
+  &__body {
+    padding: 1.15rem 1.25rem 1.35rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  &__title {
+    margin: 0 0 0.5rem;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: $dark-text;
+  }
+
+  &__price {
+    margin: 0 0 0.65rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: $golden-brown;
+  }
+
+  &__chip {
+    display: inline-block;
+    margin-bottom: 0.75rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    background: rgba($primary, 0.12);
+    color: $primary;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.25rem;
+    margin: 0 0 1rem;
+    font-size: 0.9rem;
+    color: $light-text;
+
+    i {
+      margin-right: 0.25rem;
+      color: $primary;
+    }
+  }
+
+  &__link {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: $primary;
+    text-decoration: none;
+
+    &:hover {
+      color: $accent;
+    }
+  }
+}
+
+.compound-amenities {
+  margin-top: 3.5rem;
+  padding: 2.25rem 0 0;
+  border-top: 1px solid $border-color;
+  background: transparent;
+  color: $dark-text;
+
+  &__header {
+    margin-bottom: 1.75rem;
+    max-width: 36rem;
+  }
+
+  &__eyebrow {
+    margin: 0 0 0.45rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: $primary;
+  }
+
+  h2 {
+    margin: 0 0 0.45rem;
+    font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+    font-weight: 700;
+    color: $dark-text;
+    line-height: 1.25;
+  }
+
+  &__lede {
+    margin: 0;
+    color: $light-text;
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+
+    @media (min-width: $medium-screen) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 2.5rem;
+    }
+
+    @media (min-width: $large-screen) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  &__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.15rem 0;
+    border-bottom: 1px solid $border-color;
+    background: transparent;
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    background: rgba($primary, 0.1);
+    color: $primary;
+
+    i {
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+  }
+
+  &__text {
+    min-width: 0;
+
+    h3 {
+      margin: 0 0 0.3rem;
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: $dark-text;
+      line-height: 1.3;
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.92rem;
+      color: $light-text;
+      line-height: 1.55;
+    }
+  }
+}
+
+// Homepage contact
+.home-contact {
+  padding: 4.5rem 0 5rem;
+  background: $light-bg;
+
+  &__layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+
+    @media (min-width: $medium-screen) {
+      grid-template-columns: 1fr 1.2fr;
+      align-items: stretch;
+    }
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  &__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 1.15rem;
+    background: $white;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s ease;
+
+    &:hover {
+      border-color: $primary;
+    }
+
+    &--static:hover {
+      border-color: $border-color;
+    }
+
+    strong {
+      display: block;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: $light-text;
+      margin-bottom: 0.2rem;
+    }
+
+    span span,
+    span a {
+      color: $dark-text;
+      font-weight: 600;
+      font-size: 1.05rem;
+      text-decoration: none;
+    }
+
+    span a:hover {
+      color: $primary;
+    }
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba($primary, 0.12);
+    color: $primary;
+    font-size: 1.15rem;
+  }
+
+  &__empty {
+    margin: 0;
+    padding: 1.25rem;
+    background: $white;
+    border: 1px dashed $border-color;
+    border-radius: 8px;
+    color: $light-text;
+  }
+
+  &__map {
+    min-height: 280px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid $border-color;
+    background: $white;
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      min-height: 320px;
+      border: 0;
+      display: block;
+    }
+  }
+
+  &__map-placeholder {
+    height: 100%;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    color: $light-text;
+    padding: 2rem;
+    text-align: center;
+
+    i {
+      font-size: 2.5rem;
+      color: $secondary;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+}
+
+// Dedicated contact page
+.contact-page {
+  // Ensure page banner is full width (legacy body.contact targeted all header elements)
+  .inner-page__banner {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 100%;
+  }
+
+  &__intro {
+    margin: 0.75rem 0 0;
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 1.1rem;
+    max-width: 640px;
+  }
+
+  &__body {
+    .container {
+      max-width: 1100px;
+    }
+  }
+
+  &__alert {
+    margin-bottom: 1.5rem;
+  }
+
+  &__top {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+
+    @media (min-width: $medium-screen) {
+      grid-template-columns: 1fr 1.15fr;
+      align-items: stretch;
+    }
+  }
+
+  &__details {
+    margin: 0;
+  }
+
+  &__map {
+    min-height: 320px;
+  }
+
+  &__directions {
+    display: inline-block;
+    margin-top: 0.35rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: $primary;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__form-section {
+    background: $white !important;
+    color: $dark-text !important;
+    border: 1px solid $border-color;
+    border-radius: 12px;
+    padding: 1.75rem 1.5rem 2rem;
+    box-shadow: 0 4px 16px rgba(74, 55, 40, 0.05);
+    margin-bottom: 0;
+
+    @media (min-width: $medium-screen) {
+      padding: 2rem 2.25rem 2.5rem;
+    }
+
+    h2,
+    p,
+    label,
+    small,
+    .form-text {
+      color: inherit;
+    }
+  }
+
+  &__form-header {
+    margin-bottom: 1.25rem;
+
+    h2 {
+      margin: 0 0 0.35rem;
+      color: $dark-text;
+      font-size: 1.65rem;
+      font-weight: 700;
+    }
+
+    p {
+      margin: 0;
+      color: $light-text;
+      font-size: 0.95rem;
+    }
+  }
+
+  &__form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+
+    @media (min-width: $medium-screen) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  &__conditional {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-top: 0.25rem;
+    border-top: 1px dashed $border-color;
+  }
+
+  &__form-grid--conditional {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+
+    @media (min-width: $medium-screen) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  &__form-grid--conditional .account-field--full {
+    @media (min-width: $medium-screen) {
+      grid-column: 1 / -1;
+    }
+  }
+
+  &__actions {
+    margin-top: 0.25rem;
+  }
+
+  &__submit-spinner {
+    margin-left: 0.5rem;
+  }
+
+  &__required {
+    color: $accent;
+  }
+}

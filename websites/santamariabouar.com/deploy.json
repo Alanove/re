@@ -1,0 +1,10 @@
+{
+  "serverPath": "/www/wwwroot/santamariabouar.com",
+  "port": null,
+  "healthPath": "/",
+  "nodeBin": null,
+  "aapanelProject": "santamariabouar",
+  "restartCommand": null,
+  "protect": [],
+  "migrations": { "dir": "data-migration", "script": "migrate:production" }
+}

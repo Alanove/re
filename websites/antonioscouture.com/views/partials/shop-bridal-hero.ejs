@@ -1,0 +1,10 @@
+<% if (typeof bridalVideoUrl !== 'undefined' && bridalVideoUrl) { %>
+<section class="shop-bridal-hero" aria-label="Bridal collection video">
+    <div class="shop-bridal-hero-video">
+        <video muted loop playsinline autoplay preload="metadata"
+            <% if (typeof bridalVideoPosterUrl !== 'undefined' && bridalVideoPosterUrl) { %>poster="<%= bridalVideoPosterUrl %>"<% } %>>
+            <source src="<%= bridalVideoUrl %>" type="video/mp4" />
+        </video>
+    </div>
+</section>
+<% } %>

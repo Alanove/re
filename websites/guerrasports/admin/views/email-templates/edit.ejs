@@ -1,0 +1,78 @@
+<div id="content" class="content">
+    <!-- begin breadcrumb -->
+    <ol class="breadcrumb pull-right">
+        <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+        <li class="breadcrumb-item"><a href="javascript:;">Settings</a></li>
+        <li class="breadcrumb-item"><a href="/admin/email-templates">Email Templates</a></li>
+        <li class="breadcrumb-item active">Edit Template</li>
+    </ol>
+    <!-- end breadcrumb -->
+    <!-- begin page-header -->
+    <h1 class="page-header">Edit Template <small><%= template.name %></small></h1>
+    <!-- end page-header -->
+
+    <% if (typeof error !== 'undefined' && error) { %>
+        <div class="alert alert-danger fade show">
+            <span class="close" data-dismiss="alert">×</span>
+            <%= error %>
+        </div>
+    <% } %>
+
+    <% if (typeof success !== 'undefined' && success) { %>
+        <div class="alert alert-success fade show">
+            <span class="close" data-dismiss="alert">×</span>
+            <%= success %>
+        </div>
+    <% } %>
+
+    <div class="row">
+        <div class="col-xl-12">
+            <!-- begin panel -->
+            <div class="panel panel-inverse" data-sortable-id="form-plugins-1">
+                <!-- begin panel-heading -->
+                <div class="panel-heading">
+                    <h4 class="panel-title">Template Content</h4>
+                    <div class="panel-heading-btn">
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    </div>
+                </div>
+                <!-- end panel-heading -->
+                <!-- begin panel-body -->
+                <div class="panel-body panel-form">
+                    <form class="form-horizontal form-bordered" action="/admin/email-templates/<%= template.key %>/edit" method="POST">
+                        <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+                        
+                        <div class="form-group row">
+                            <label class="col-lg-2 col-form-label">Template Key</label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" value="<%= template.key %>" readonly disabled />
+                                <small class="text-muted">Currently editing: <%= template.key %>.html</small>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-lg-12 col-form-label">Content</label>
+                            <div class="col-lg-12">
+                                <div class="alert alert-info m-b-0">
+                                    <i class="fa fa-info-circle fa-lg m-r-5"></i> 
+                                    <b>Note:</b> This content represents the full HTML of the email. Use the "Source" button (<i class="fa fa-code"></i>) in the editor if you need to modify the HTML structure directly.
+                                </div>
+                                <br/>
+                                <textarea class="form-control rich-text" id="content" name="content" rows="20" placeholder="Enter email content..."><%= template.content %></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-lg-12">
+                                <button type="submit" class="btn btn-primary float-right">Save Changes</button>
+                                <a href="/admin/email-templates" class="btn btn-default float-right mr-2">Cancel</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- end panel-body -->
+            </div>
+            <!-- end panel -->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,263 @@
+<%
+  const settings = typeof siteSettings !== 'undefined' && siteSettings ? siteSettings : {};
+  const siteName = typeof siteData !== 'undefined' && siteData.name ? siteData.name : 'Santa Maria Bouar';
+  const phone = settings.contactPhone || '';
+  const whatsappRaw = settings.contactWhatsApp || '';
+  const whatsappDigits = String(whatsappRaw).replace(/\D/g, '');
+  const contactEmail = settings.contactEmail || '';
+  const address = settings.address || '';
+  const mapEmbed = settings.googleMaps && settings.googleMaps.embedUrl ? settings.googleMaps.embedUrl : '';
+  const directionsUrl = settings.googleMaps && settings.googleMaps.directionsUrl ? settings.googleMaps.directionsUrl : '';
+  const janitorName = settings.janitorName || '';
+  const janitorPhone = settings.janitorPhone || '';
+  const subjectOptions = typeof subjects !== 'undefined' && subjects ? subjects : {};
+  const prefillApartment = typeof apartmentPrefill !== 'undefined' ? apartmentPrefill : '';
+  const prefillSubject = typeof subjectPrefill !== 'undefined' ? subjectPrefill : '';
+  const apartmentOptions = typeof listedApartments !== 'undefined' && listedApartments ? listedApartments : [];
+  const showError = typeof queryError !== 'undefined' && queryError;
+  const showSuccess = typeof querySuccess !== 'undefined' && querySuccess;
+  const bannerImage = typeof pageImage !== 'undefined' && pageImage ? pageImage : '';
+%>
+<article class="inner-page contact-page">
+  <header class="inner-page__banner<%= bannerImage ? ' has-image' : '' %>"<% if (bannerImage) { %> style="background-image: url('<%= bannerImage %>');"<% } %>>
+    <div class="inner-page__banner-overlay"></div>
+    <div class="container">
+      <h1 class="inner-page__title">Contact Us</h1>
+      <p class="contact-page__intro">Reach the <%= siteName %> office, on-site coordinator, or send us a message.</p>
+    </div>
+  </header>
+
+  <div class="inner-page__body contact-page__body">
+    <div class="container">
+      <% if (showError) { %>
+        <div class="account-alert account-alert--error contact-page__alert" role="alert"><%= queryError %></div>
+      <% } %>
+      <% if (showSuccess) { %>
+        <div class="account-alert account-alert--success contact-page__alert" role="alert">
+          Your message has been sent. We will get back to you soon.
+        </div>
+      <% } %>
+
+      <div class="contact-page__top">
+        <div class="contact-page__details home-contact__details">
+          <% if (phone) { %>
+            <a class="home-contact__item" href="tel:<%= phone.replace(/\s/g, '') %>">
+              <span class="home-contact__icon"><i class="bi bi-telephone-fill"></i></span>
+              <span>
+                <strong>Phone</strong>
+                <span><%= phone %></span>
+              </span>
+            </a>
+          <% } %>
+          <% if (whatsappDigits) { %>
+            <a class="home-contact__item" href="https://wa.me/<%= whatsappDigits %>" target="_blank" rel="noopener noreferrer">
+              <span class="home-contact__icon"><i class="bi bi-whatsapp"></i></span>
+              <span>
+                <strong>WhatsApp</strong>
+                <span><%= whatsappRaw %></span>
+              </span>
+            </a>
+          <% } %>
+          <% if (contactEmail) { %>
+            <a class="home-contact__item" href="mailto:<%= contactEmail %>">
+              <span class="home-contact__icon"><i class="bi bi-envelope-fill"></i></span>
+              <span>
+                <strong>Email</strong>
+                <span><%= contactEmail %></span>
+              </span>
+            </a>
+          <% } %>
+          <% if (janitorName || janitorPhone) { %>
+            <div class="home-contact__item home-contact__item--static">
+              <span class="home-contact__icon"><i class="bi bi-person-badge-fill"></i></span>
+              <span>
+                <strong>Coordinator<%= janitorName ? ': ' + janitorName : '' %></strong>
+                <% if (janitorPhone) { %>
+                  <a href="tel:<%= janitorPhone.replace(/\s/g, '') %>"><%= janitorPhone %></a>
+                <% } else { %>
+                  <span>Contact details coming soon</span>
+                <% } %>
+              </span>
+            </div>
+          <% } %>
+          <% if (address) { %>
+            <div class="home-contact__item home-contact__item--static">
+              <span class="home-contact__icon"><i class="bi bi-geo-alt-fill"></i></span>
+              <span>
+                <strong>Address</strong>
+                <span><%= address %></span>
+                <% if (directionsUrl) { %>
+                  <a class="contact-page__directions" href="<%= directionsUrl %>" target="_blank" rel="noopener noreferrer">Get directions</a>
+                <% } %>
+              </span>
+            </div>
+          <% } %>
+          <% if (!phone && !whatsappDigits && !contactEmail && !janitorName && !janitorPhone && !address) { %>
+            <p class="home-contact__empty">Contact details will appear here once updated in site settings.</p>
+          <% } %>
+        </div>
+
+        <div class="contact-page__map home-contact__map">
+          <% if (mapEmbed) { %>
+            <iframe
+              src="<%= mapEmbed %>"
+              title="<%= siteName %> map"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              allowfullscreen
+            ></iframe>
+          <% } else { %>
+            <div class="home-contact__map-placeholder">
+              <i class="bi bi-map"></i>
+              <p>Map embed URL can be set in Site Settings</p>
+            </div>
+          <% } %>
+        </div>
+      </div>
+
+      <div class="account-card contact-page__form-section">
+        <div class="contact-page__form-header">
+          <h2>Send Us a Message</h2>
+          <p>Select a subject below. Additional fields appear when needed.</p>
+        </div>
+
+        <form class="account-form contact-page__form" id="contactForm" action="/contact" method="POST" enctype="multipart/form-data" novalidate>
+          <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>" />
+          <div class="contact-page__form-grid">
+            <div class="account-field">
+              <label for="fullName">Full Name <span class="contact-page__required">*</span></label>
+              <input type="text" id="fullName" name="fullName" required autocomplete="name" />
+            </div>
+            <div class="account-field">
+              <label for="email">Email <span class="contact-page__required">*</span></label>
+              <input type="email" id="email" name="email" required autocomplete="email" />
+            </div>
+            <div class="account-field">
+              <label for="phone">Phone <span class="contact-page__required">*</span></label>
+              <input type="tel" id="phone" name="phone" required autocomplete="tel" />
+            </div>
+          </div>
+
+          <div class="account-field">
+            <label for="subject">Subject <span class="contact-page__required">*</span></label>
+            <select id="subject" name="subject" required>
+              <option value="">Select a subject</option>
+              <% Object.keys(subjectOptions).forEach(function(key) { %>
+                <option value="<%= key %>"<%= prefillSubject === key ? ' selected' : '' %>><%= subjectOptions[key] %></option>
+              <% }); %>
+            </select>
+          </div>
+
+          <div class="contact-page__conditional" id="fieldApartment" hidden>
+            <div class="account-field">
+              <label for="apartment">Apartment <span class="contact-page__required">*</span></label>
+              <select id="apartment" name="apartment">
+                <option value="">Select an apartment</option>
+                <% apartmentOptions.forEach(function(apt) { %>
+                  <option value="<%= apt.id %>"<%= String(prefillApartment) === String(apt.id) ? ' selected' : '' %>><%= apt.label %></option>
+                <% }); %>
+              </select>
+            </div>
+          </div>
+
+          <div class="contact-page__conditional" id="fieldEvent" hidden>
+            <div class="contact-page__form-grid--conditional">
+              <div class="account-field">
+                <label for="eventDate">Event date</label>
+                <input type="date" id="eventDate" name="eventDate" />
+              </div>
+              <div class="account-field">
+                <label for="eventTime">Event time</label>
+                <input type="time" id="eventTime" name="eventTime" />
+              </div>
+            </div>
+            <small>For events or planned loud music, include date and time so neighbors can be informed.</small>
+          </div>
+
+          <div class="contact-page__conditional" id="fieldWork" hidden>
+            <div class="contact-page__form-grid--conditional">
+              <div class="account-field account-field--full">
+                <label for="workType">Type of work <span class="contact-page__required">*</span></label>
+                <input type="text" id="workType" name="workType"
+                       placeholder="e.g. plumbing, tiling, electrical" />
+              </div>
+              <div class="account-field">
+                <label for="workFrom">Duration from <span class="contact-page__required">*</span></label>
+                <input type="date" id="workFrom" name="workFrom" />
+              </div>
+              <div class="account-field">
+                <label for="workTo">Duration to <span class="contact-page__required">*</span></label>
+                <input type="date" id="workTo" name="workTo" />
+              </div>
+              <div class="account-field account-field--full">
+                <label for="mapPicture">Site map / location photo <span class="contact-page__required">*</span></label>
+                <input type="file" id="mapPicture" name="mapPicture" accept="image/*" />
+                <small>Upload a photo or marked map showing where the work will take place.</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-page__conditional" id="fieldPool" hidden>
+            <div class="contact-page__form-grid--conditional">
+              <div class="account-field">
+                <label for="poolDate">Date <span class="contact-page__required">*</span></label>
+                <input type="date" id="poolDate" name="poolDate" />
+              </div>
+              <div class="account-field">
+                <label for="poolTime">Time <span class="contact-page__required">*</span></label>
+                <input type="time" id="poolTime" name="poolTime" />
+              </div>
+            </div>
+          </div>
+
+          <div class="account-field">
+            <label for="message">Message <span class="contact-page__required">*</span></label>
+            <textarea id="message" name="message" rows="5" required
+                      placeholder="Please provide details about your inquiry…"></textarea>
+          </div>
+
+          <div class="contact-page__actions">
+            <button type="submit" class="account-btn account-btn--primary" id="contactSubmitBtn">
+              <span class="contact-page__submit-text">Send Message</span>
+              <span class="contact-page__submit-spinner" id="contactSubmitSpinner" hidden aria-hidden="true">…</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</article>
+
+<div class="modal fade" id="contactSuccessModal" tabindex="-1" aria-labelledby="contactSuccessModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="contactSuccessModalLabel">Message Sent</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="mb-0">Thank you. Your message has been sent to the <%= siteName %> administration.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="contactErrorModal" tabindex="-1" aria-labelledby="contactErrorModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="contactErrorModalLabel">Could Not Send</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="mb-0" id="contactErrorMessage">Something went wrong. Please try again.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

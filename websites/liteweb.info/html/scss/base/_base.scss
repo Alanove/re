@@ -1,0 +1,147 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.skip-link {
+  position: absolute;
+  inset-inline-start: $space-md;
+  top: -100px;
+  z-index: $z-whatsapp + 10;
+  padding: $space-sm $space-md;
+  background: $color-primary;
+  color: $color-white;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: $radius-button;
+
+  &:focus {
+    top: $space-sm;
+  }
+}
+
+body {
+  font-family: $font-body;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: $color-on-surface;
+  background-color: $color-neutral;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.is-locked {
+  overflow: hidden;
+}
+
+::selection {
+  background: $color-primary-fixed;
+  color: $color-primary-deep;
+}
+
+.page-main {
+  padding-top: $header-height;
+  // clip, not hidden: hidden would force overflow-y to auto and create a nested scrollbar
+  overflow-x: clip;
+}
+
+.section {
+  padding-block: $space-2xl;
+
+  @include respond-to(md) {
+    padding-block: $space-4xl;
+  }
+}
+
+.section--tight {
+  padding-block: $space-xl;
+
+  @include respond-to(md) {
+    padding-block: $space-2xl;
+  }
+}
+
+.section--surface {
+  background: $color-surface-low;
+}
+
+.section--white {
+  background: $color-white;
+}
+
+.section--dark {
+  background: $color-secondary;
+  color: $color-white;
+
+  .headline-xl,
+  .headline-lg,
+  .headline-md {
+    color: $color-white;
+  }
+
+  .body-lg,
+  .body-md {
+    color: rgba($color-white, 0.8);
+  }
+}
+
+.container {
+  @include container;
+}
+
+.sr-only {
+  @include visually-hidden;
+}
+
+.text-primary {
+  color: $color-primary;
+}
+
+.text-secondary {
+  color: $color-secondary;
+}
+
+.text-tertiary {
+  color: $color-tertiary;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.max-w-xl {
+  max-width: 36rem;
+}
+
+.max-w-2xl {
+  max-width: 42rem;
+}
+
+.max-w-3xl {
+  max-width: 48rem;
+}
+
+.mx-auto {
+  margin-inline: auto;
+}
+
+.mb-sm {
+  margin-bottom: $space-sm;
+}
+
+.mb-md {
+  margin-bottom: $space-md;
+}
+
+.mb-lg {
+  margin-bottom: $space-lg;
+}
+
+.mb-xl {
+  margin-bottom: $space-xl;
+}
+
+.mt-md {
+  margin-top: $space-md;
+}
+
+.mt-xl {
+  margin-top: $space-xl;
+}

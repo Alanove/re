@@ -1,0 +1,34 @@
+<div class="row">
+  <div class="col-xl-12">
+    <div class="panel panel-inverse">
+      <div class="panel-heading">
+        <h4 class="panel-title"><%= client ? 'Edit Client' : 'Add Client' %></h4>
+      </div>
+      <div class="panel-body">
+  <form action="<%= client ? ('/admin/clients/edit/' + client.id) : '/admin/clients/create' %>" method="POST" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="name" class="form-label">Client Name</label>
+            <input type="text" class="form-control" id="name" name="name" value="<%= client ? client.name : '' %>" required />
+          </div>
+          <div class="mb-3">
+            <label for="sortOrder" class="form-label">Sort Order</label>
+            <input type="number" class="form-control" id="sortOrder" name="sortOrder" value="<%= client ? (client.sortOrder !== undefined ? client.sortOrder : 0) : (typeof nextSortOrder !== 'undefined' ? nextSortOrder : 100) %>" min="0" />
+            <div class="form-text">Sort order for displaying clients. Lower numbers appear first. You can enter any positive number.</div>
+          </div>
+          <div class="mb-3">
+            <label for="image" class="form-label">Client Image <%= client ? '(leave blank to keep existing)' : '' %></label>
+            <% if (client && client.image) { %>
+              <div class="mb-2">
+                <img src="/images/clients/<%= client.image %>" alt="<%= client.name %>" style="max-width:120px;max-height:120px;border:1px solid #ddd;padding:4px;background:#fff;border-radius:4px;" />
+              </div>
+            <% } %>
+            <input type="file" class="form-control" id="image" name="image" <%= client ? '' : 'required' %> accept="image/*" />
+            <div class="form-text">Upload an image (max 5MB). Allowed: images only.</div>
+          </div>
+          <button type="submit" class="btn btn-success"><%= client ? 'Update' : 'Add' %> Client</button>
+          <a href="/admin/clients" class="btn btn-secondary ms-2">Cancel</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

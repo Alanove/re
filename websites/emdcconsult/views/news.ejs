@@ -1,0 +1,74 @@
+<!-- News Page -->
+<!-- News List Section -->
+<section id="news-list" class="inverted">
+  <div class="container">
+    <h2>Our News</h2>
+  </div>
+</section>
+
+<% if (typeof news !== 'undefined' && news && news.length > 0) { %>
+  <% news.forEach((newsItem, index) => { %>
+    <% const isInverted = index % 2 === 0; %>
+    <section id="news-<%= newsItem.key %>" class="news-item <%= isInverted ? 'inverted' : '' %>">
+      <div class="container">
+        <div class="news-content-wrapper">
+          <% if (newsItem.pageImage && newsItem.pageImage.trim() !== '') { %>
+            <div class="news-image-container">
+              <img src="<%= newsItem.pageImage %>" alt="<%= newsItem.title %>" class="news-image" />
+            </div>
+          <% } %>
+          <div class="news-text-container">
+            <h3><%= newsItem.title %></h3>
+            <% if (newsItem.lastUpdated) { %>
+              <p class="news-date">
+                <%= new Date(newsItem.lastUpdated).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+              </p>
+            <% } %>
+            <% if (newsItem.content) { %>
+              <div class="news-excerpt">
+                <% 
+                  // Extract text from HTML and truncate to 200 characters
+                  const textContent = newsItem.content.replace(/<[^>]*>/g, '').trim();
+                  const excerpt = textContent.length > 200 ? textContent.substring(0, 200) + '...' : textContent;
+                %>
+                <p><%= excerpt %></p>
+              </div>
+            <% } %>
+            <div class="news-read-more-container">
+              <a href="/news/<%= newsItem.key %>" class="btn-read-more">
+                Read More
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  <% }); %>
+  
+  <!-- Pagination -->
+  <% if (totalPages > 1) { %>
+    <section class="pagination-section <%= news.length % 2 === 0 ? 'inverted' : '' %>">
+      <div class="container">
+        <div class="pagination">
+          <% if (hasPrevPage) { %>
+            <a href="/news?page=<%= currentPage - 1 %>" class="pagination-link prev">Previous</a>
+          <% } %>
+          <span class="pagination-info">Page <%= currentPage %> of <%= totalPages %></span>
+          <% if (hasNextPage) { %>
+            <a href="/news?page=<%= currentPage + 1 %>" class="pagination-link next">Next</a>
+          <% } %>
+        </div>
+      </div>
+    </section>
+  <% } %>
+<% } else { %>
+  <!-- No news message -->
+  <section class="inverted">
+    <div class="container">
+      <div class="section-content">
+        <p>No news available at this time. Please check back later.</p>
+      </div>
+    </div>
+  </section>
+<% } %>
+

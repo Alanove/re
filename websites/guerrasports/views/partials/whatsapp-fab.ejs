@@ -1,0 +1,13 @@
+<%
+  const waRaw = (typeof siteSettings !== 'undefined' && siteSettings.contactWhatsapp)
+    ? String(siteSettings.contactWhatsapp).trim()
+    : (typeof siteData !== 'undefined' && siteData.whatsapp ? String(siteData.whatsapp).trim() : '');
+  const waDigits = waRaw.replace(/\D/g, '');
+%>
+<% if (waDigits) { %>
+<a href="https://wa.me/<%= waDigits %>" class="whatsapp-fab" target="_blank" rel="noopener noreferrer"
+  aria-label="<%= typeof t !== 'undefined' ? t('common.chatOnWhatsapp') : 'Chat on WhatsApp' %>"
+  title="<%= typeof t !== 'undefined' ? t('common.chatOnWhatsapp') : 'Chat on WhatsApp' %>">
+  <i class="fab fa-whatsapp" aria-hidden="true"></i>
+</a>
+<% } %>

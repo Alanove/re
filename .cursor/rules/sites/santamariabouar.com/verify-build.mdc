@@ -1,0 +1,43 @@
+---
+description: santamariabouar.com - run npm run build after TypeScript changes to verify compilation
+globs: websites/santamariabouar.com/**
+alwaysApply: false
+---
+
+# santamariabouar.com: verify TypeScript build after code changes
+
+Site rule for `websites/santamariabouar.com/`. It applies in addition to the global rules in `.cursor/rules/`; where they conflict, the global rules win. Paths are relative to the site folder.
+
+After modifying application code, **run `npm run build` from inside `websites/santamariabouar.com/` and fix all errors** before marking the task complete.
+
+## When to run
+
+Run `npm run build` when you change any of:
+
+- `src/**/*.ts`
+- `admin/**/*.ts` (controllers, services, routes; not one-off scripts unless asked)
+- `tsconfig.json`
+- Shared types or imports that affect the compile graph
+
+Skip the build check only when the change is limited to:
+
+- EJS views, static HTML, or markdown/docs
+- Compiled CSS already committed (`public/css/*.css`, `admin/public/css/*.css`)
+- `.env*` or deployment config with no TypeScript edits
+- `data-migration/` scripts run via `ts-node` (not part of `tsc` output unless you changed `tsconfig.json`)
+
+## Workflow
+
+1. Make the code change.
+2. Run:
+   ```bash
+   npm run build
+   ```
+3. If it fails, read the `tsc` errors, fix them, and **run `npm run build` again** until it exits with code 0.
+4. Report build success in your final response when TypeScript files were touched.
+
+## Notes
+
+- Build verification ensures production deploy works (`dist/src/app.js`). It does **not** replace `npm run dev` for local testing.
+- Do not commit the `dist/` folder; it stays gitignored.
+- `admin/scripts/` is excluded from `tsc`; one-off scripts there do not require a build pass unless you change `tsconfig.json` includes/excludes.

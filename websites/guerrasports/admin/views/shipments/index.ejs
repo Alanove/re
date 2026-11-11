@@ -1,0 +1,231 @@
+<!-- BEGIN content area -->
+<div class="row">
+	<div class="col-xl-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title"><%= typeof pageTitle !== 'undefined' ? pageTitle : 'Shipments' %></h4>
+			</div>
+			<div class="panel-body">
+				<p class="text-muted"><%= typeof t !== 'undefined' ? t('ecommerce.shipments.subtitle') : 'Orders with Aramex shipment created. Select orders and schedule a pickup.' %></p>
+
+				<form method="get" action="/admin/shipments" class="mb-4 p-3 border rounded bg-white" id="shipmentsFilterForm">
+					<div class="row g-2 align-items-end">
+						<div class="col-md-2">
+							<label class="form-label small mb-0">Shipped</label>
+							<select class="form-select form-select-sm" name="shipped" id="filterShipped">
+								<option value="not_shipped" <%= typeof filters !== 'undefined' && filters && filters.shipped === 'not_shipped' ? 'selected' : '' %>>Not shipped</option>
+								<option value="shipped" <%= typeof filters !== 'undefined' && filters && filters.shipped === 'shipped' ? 'selected' : '' %>>Shipped</option>
+								<option value="all" <%= typeof filters !== 'undefined' && filters && filters.shipped === 'all' ? 'selected' : '' %>>All</option>
+							</select>
+						</div>
+						<div class="col-md-2">
+							<label class="form-label small mb-0">Order #</label>
+							<input type="text" class="form-control form-control-sm" name="order_number" id="filterOrderNumber" placeholder="e.g. ORD-001" value="<%= typeof filters !== 'undefined' && filters && filters.order_number ? filters.order_number : '' %>" />
+						</div>
+						<div class="col-md-2">
+							<label class="form-label small mb-0">Customer</label>
+							<input type="text" class="form-control form-control-sm" name="customer" id="filterCustomer" placeholder="Email or name" value="<%= typeof filters !== 'undefined' && filters && filters.customer ? filters.customer : '' %>" />
+						</div>
+						<div class="col-md-2">
+							<label class="form-label small mb-0">Tracking #</label>
+							<input type="text" class="form-control form-control-sm" name="tracking" id="filterTracking" placeholder="Waybill" value="<%= typeof filters !== 'undefined' && filters && filters.tracking ? filters.tracking : '' %>" />
+						</div>
+						<div class="col-md-2">
+							<label class="form-label small mb-0">Pickup code</label>
+							<input type="text" class="form-control form-control-sm" name="pickup_code" id="filterPickupCode" placeholder="Aramex ref" value="<%= typeof filters !== 'undefined' && filters && filters.pickup_code ? filters.pickup_code : '' %>" />
+						</div>
+						<div class="col-md-2">
+							<button type="submit" class="btn btn-primary btn-sm me-1"><i class="fa fa-search"></i> Filter</button>
+							<a href="/admin/shipments" class="btn btn-outline-secondary btn-sm">Clear</a>
+						</div>
+					</div>
+				</form>
+
+				<div class="mb-3">
+					<button type="button" class="btn btn-success" id="schedulePickupBtn" disabled>
+						<i class="fa fa-truck"></i> <%= typeof t !== 'undefined' ? t('ecommerce.shipments.schedulePickup') : 'Schedule Pickup' %>
+					</button>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-striped table-bordered align-middle">
+						<thead>
+							<tr>
+								<th width="40"><input type="checkbox" id="selectAll" title="Select all (ready only)" /></th>
+								<th><%= typeof t !== 'undefined' ? t('ecommerce.orders.orderNumber') : 'Order #' %></th>
+								<th><%= typeof t !== 'undefined' ? t('ecommerce.orders.customer') : 'Customer' %></th>
+								<th>Tracking #</th>
+								<th>Pickup code</th>
+								<th>Product</th>
+								<th>Weight</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% if (typeof shipments !== 'undefined' && shipments && shipments.length > 0) { %>
+								<% shipments.forEach(function(s) {
+									const isPickupScheduled = !!(s.pickup_reference && s.pickup_reference.trim());
+									const canSelect = !isPickupScheduled;
+								%>
+									<tr class="<%= isPickupScheduled ? 'table-light' : '' %>">
+										<td>
+											<% if (canSelect) { %>
+												<input type="checkbox" class="shipment-check" data-order-id="<%= s.order_id %>" value="<%= s.order_id %>" />
+											<% } else { %>
+												<span class="text-muted" title="Pickup already scheduled">–</span>
+											<% } %>
+										</td>
+										<td><a href="/admin/orders/<%= s.order_id %>">#<%= s.order_number %></a></td>
+										<td><%= s.customer_email %></td>
+										<td><code><%= s.tracking_number %></code></td>
+										<td><% if (s.pickup_reference) { %><code><%= s.pickup_reference %></code><% } else { %>–<% } %></td>
+										<td><%= (s.product_group || '') + (s.product_type ? '/' + s.product_type : '') %></td>
+										<td><%= s.total_weight != null ? s.total_weight + ' kg' : '–' %></td>
+										<td><a href="/admin/orders/<%= s.order_id %>" class="btn btn-sm btn-outline-primary"><i class="fa fa-eye"></i></a></td>
+									</tr>
+								<% }); %>
+							<% } else { %>
+								<tr><td colspan="8" class="text-center text-muted"><%= typeof t !== 'undefined' ? t('ecommerce.shipments.noShipments') : 'No shipments yet. Create a shipment from an order detail first.' %></td></tr>
+							<% } %>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Schedule Pickup Modal -->
+<div class="modal fade" id="schedulePickupModal" tabindex="-1">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title"><%= typeof t !== 'undefined' ? t('ecommerce.shipments.schedulePickup') : 'Schedule Pickup' %></h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+			<div class="modal-body">
+				<form id="schedulePickupForm">
+					<div class="row mb-3">
+						<div class="col-md-6">
+							<label class="form-label">Date <span class="text-danger">*</span></label>
+							<input type="date" class="form-control" name="date" id="pickupDate" required />
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">Location</label>
+							<input type="text" class="form-control" name="location" id="pickupLocation" value="Reception" />
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-md-6">
+							<label class="form-label">Ready Time</label>
+							<div class="row g-2">
+								<div class="col-6"><input type="number" class="form-control" name="ready_hour" id="readyHour" min="0" max="23" value="10" placeholder="Hour" /></div>
+								<div class="col-6"><input type="number" class="form-control" name="ready_minute" id="readyMinute" min="0" max="59" value="0" placeholder="Min" /></div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">Closing Time</label>
+							<div class="row g-2">
+								<div class="col-6"><input type="number" class="form-control" name="closing_hour" id="closingHour" min="0" max="23" value="17" placeholder="Hour" /></div>
+								<div class="col-6"><input type="number" class="form-control" name="closing_minute" id="closingMinute" min="0" max="59" value="0" placeholder="Min" /></div>
+							</div>
+						</div>
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Vehicle</label>
+						<select class="form-select" name="vehicle" id="pickupVehicle">
+							<option value="Bike">Bike</option>
+							<option value="Car">Car</option>
+							<option value="Truck">Truck</option>
+						</select>
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Comments</label>
+						<textarea class="form-control" name="comments" id="pickupComments" rows="2"></textarea>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= typeof t !== 'undefined' ? t('common.cancel') : 'Cancel' %></button>
+				<button type="button" class="btn btn-success" id="submitSchedulePickupBtn"><i class="fa fa-truck"></i> <%= typeof t !== 'undefined' ? t('ecommerce.shipments.schedulePickup') : 'Schedule Pickup' %></button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+(function() {
+	const schedulePickupBtn = document.getElementById('schedulePickupBtn');
+	const selectAll = document.getElementById('selectAll');
+	const checks = document.querySelectorAll('.shipment-check');
+	const modal = document.getElementById('schedulePickupModal');
+	const form = document.getElementById('schedulePickupForm');
+	const submitBtn = document.getElementById('submitSchedulePickupBtn');
+
+	function updateScheduleBtn() {
+		const selected = document.querySelectorAll('.shipment-check:checked');
+		schedulePickupBtn.disabled = selected.length === 0;
+	}
+
+	if (selectAll) {
+		selectAll.addEventListener('change', function() {
+			document.querySelectorAll('.shipment-check').forEach(function(c) { c.checked = selectAll.checked; });
+			updateScheduleBtn();
+		});
+	}
+	document.querySelectorAll('.shipment-check').forEach(function(c) {
+		c.addEventListener('change', updateScheduleBtn);
+	});
+
+	if (schedulePickupBtn && modal) {
+		schedulePickupBtn.addEventListener('click', function() {
+			const today = new Date();
+			document.getElementById('pickupDate').value = today.toISOString().slice(0, 10);
+			const modalInst = new bootstrap.Modal(modal);
+			modalInst.show();
+		});
+	}
+
+	if (submitBtn && form) {
+		submitBtn.addEventListener('click', function() {
+			const orderIds = Array.from(document.querySelectorAll('.shipment-check:checked')).map(function(el) { return el.value; });
+			if (orderIds.length === 0) {
+				alert(typeof window.translations !== 'undefined' && window.translations.selectOrders ? window.translations.selectOrders : 'Select at least one order.');
+				return;
+			}
+			const payload = {
+				orderIds: orderIds,
+				date: document.getElementById('pickupDate').value,
+				ready_hour: document.getElementById('readyHour').value || '10',
+				ready_minute: document.getElementById('readyMinute').value || '0',
+				closing_hour: document.getElementById('closingHour').value || '17',
+				closing_minute: document.getElementById('closingMinute').value || '0',
+				location: document.getElementById('pickupLocation').value || 'Reception',
+				vehicle: document.getElementById('pickupVehicle').value || 'Bike',
+				comments: document.getElementById('pickupComments').value || ''
+			};
+			const headers = { 'Content-Type': 'application/json' };
+			if (typeof getCsrfToken === 'function' && getCsrfToken()) headers['X-CSRF-Token'] = getCsrfToken();
+			submitBtn.disabled = true;
+			fetch('/admin/shipments/schedule-pickup', { method: 'POST', headers: headers, body: JSON.stringify(payload) })
+				.then(function(r) { return r.json(); })
+				.then(function(data) {
+					if (data.success) {
+						bootstrap.Modal.getInstance(modal).hide();
+						var msg = data.message || ('Pickup scheduled. Reference: ' + (data.pickupId || ''));
+						if (typeof showSuccessToast === 'function') {
+							showSuccessToast(msg);
+							setTimeout(function() { location.reload(); }, 1500);
+						} else {
+							alert(msg);
+							location.reload();
+						}
+					} else {
+						alert(data.error || 'Failed to schedule pickup');
+					}
+				})
+				.catch(function() { alert('Request failed'); })
+				.finally(function() { submitBtn.disabled = false; });
+		});
+	}
+})();
+</script>

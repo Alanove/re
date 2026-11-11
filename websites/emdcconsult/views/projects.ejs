@@ -1,0 +1,102 @@
+<div class="projects-page">
+  <%- include('partials/projects-sidebar') %>
+  <div class="projects-masonry-grid">
+    <% if (typeof projects !== 'undefined' && projects && projects.projects && projects.projects.length > 0) { %>
+      <% projects.projects.forEach(project => { 
+        // Build project data object for modal
+        const projectData = {
+          title: project.title,
+          categories: project.categories,
+          image: projectsService.getProjectImagePath(project),
+          country: project.country,
+          bau: project.bau,
+          area: project.area,
+          size: project.size,
+          quantity: project.quantity,
+          contractor: project.contractor,
+          architect: project.architect,
+          client: project.client,
+          scope: project.scope,
+          land: project.land,
+          capacity: project.capacity,
+          districts: project.districts,
+          owner: project.owner,
+          consultant: project.consultant,
+          all_text: project.all_text,
+          works: project.works ? project.works.map(work => ({
+            details: work.details,
+            scope_of_work: work.scope_of_work,
+            images: work.images ? work.images.map(img => ({
+              url: projectsService.getWorkImagePath(project, work, img)
+            })) : []
+          })) : []
+        };
+      %>
+        <div class="masonry-item">
+        <a href="#" class="project-link" data-project='<%- JSON.stringify(projectData) %>'>
+          <div class="project-image-wrapper">
+            <img src="<%= projectsService.getProjectImagePath(project) %>" alt="<%= project.title %>" loading="lazy" />
+            <div class="project-overlay">
+              <div class="project-info">
+                <div class="project-title"><%= project.title %></div>
+                <div class="project-categories">
+                  <% if (project.categories && project.categories.length > 0) { %>
+                    <% project.categories.slice(0, 5).forEach(category => { %>
+                      <span class="category"><%= category %></span>
+                    <% }); %>
+                  <% } else { %>
+                    <span class="category">General</span>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    <% }); %>
+    <% } else { %>
+      <div class="no-projects-message">
+        <div class="text-center">
+          <i class="bi bi-inbox fa-3x text-muted mb-3"></i>
+          <h3>No Projects Found</h3>
+          <p class="text-muted">No projects are currently available. Please check back later.</p>
+        </div>
+      </div>
+    <% } %>
+  </div>
+
+  <!-- Project Modal -->
+  <div class="project-modal-overlay" id="projectModalOverlay">
+    <div class="project-modal" id="projectModal">
+      <div class="project-modal-header">
+        <button class="project-modal-close" id="projectModalClose"></button>
+      </div>
+      <div class="project-modal-content">
+        <div class="project-modal-left">
+          <div class="project-modal-loading" id="projectModalLoading">
+            <div class="spinner"></div>
+          </div>
+          <div class="project-modal-details" id="projectModalDetails" style="display: none;">
+            <!-- Project details will be loaded here -->
+          </div>
+        </div>
+        <div class="project-modal-right">
+          <img class="project-modal-image" id="projectModalImage" alt="Project Image" />
+        </div>
+      </div>
+      <div class="project-modal-footer">
+        <button class="project-nav-btn project-nav-prev" id="projectNavPrev" title="Previous Project">
+          <i class="bi bi-chevron-left" aria-hidden="true"></i>
+          <span class="fallback-arrow">‹</span>
+        </button>
+        <div class="project-nav-info">
+          <span class="project-nav-counter" id="projectNavCounter">1 / 10</span>
+        </div>
+        <button class="project-nav-btn project-nav-next" id="projectNavNext" title="Next Project">
+          <i class="bi bi-chevron-right" aria-hidden="true"></i>
+          <span class="fallback-arrow">›</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div> 

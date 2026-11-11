@@ -1,0 +1,54 @@
+{
+  "slides": [
+    {
+      "id": "slide-advisory",
+      "image": "/uploads/pages/advisory-banner.jpg",
+      "alt": "Advisory",
+      "order": 1,
+      "active": true,
+      "title": "Advisory",
+      "headlineLine1": "Your Goals, Our Guidance",
+      "link": "/companies/advisory"
+    },
+    {
+      "id": "slide-taxes",
+      "image": "/uploads/pages/taxes-banner.jpg",
+      "alt": "Taxes",
+      "order": 2,
+      "active": true,
+      "title": "Taxes",
+      "headlineLine1": "Tax Filing Made Simpler",
+      "link": "/companies/taxes"
+    },
+    {
+      "id": "slide-bookkeeping",
+      "image": "/uploads/pages/bookkeeping-banner.jpg",
+      "alt": "Bookkeeping",
+      "order": 3,
+      "active": true,
+      "title": "Bookkeeping",
+      "headlineLine1": "Take Control of Your Business",
+      "link": "/companies/bookkeeping"
+    },
+    {
+      "id": "slide-wealth",
+      "image": "/uploads/pages/wealth-banner.jpg",
+      "alt": "Wealth",
+      "order": 4,
+      "active": true,
+      "title": "Wealth",
+      "headlineLine1": "Maximize Your Wealth",
+      "link": "/companies/wealth-management"
+    },
+    {
+      "id": "slide-insure",
+      "image": "/uploads/pages/insure-banner.jpg",
+      "alt": "Insure",
+      "order": 5,
+      "active": true,
+      "title": "Insure",
+      "headlineLine1": "Protect Your Family",
+      "link": "/companies/income-replacement"
+    }
+  ]
+}

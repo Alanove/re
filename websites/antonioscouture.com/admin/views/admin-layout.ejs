@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="<%= typeof htmlLang !== 'undefined' ? htmlLang : 'en' %>"
+	dir="<%= typeof htmlDir !== 'undefined' ? htmlDir : 'ltr' %>">
+
+<head>
+	<meta charset="utf-8" />
+	<title>
+		<%= typeof title !=='undefined' ? title : (typeof siteTitle !=='undefined' ? siteTitle : 'CMS' ) + ' Admin' %>
+	</title>
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+	<meta
+		content="<%= typeof pageDescription !== 'undefined' ? pageDescription : (typeof siteTitle !== 'undefined' ? siteTitle : 'CMS') + ' Admin Panel' %>"
+		name="description" />
+	<meta content="<%= typeof siteTitle !== 'undefined' ? siteTitle : 'CMS' %>" name="author" />
+	<meta name="csrf-token" content="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>" />
+
+	<!-- ================== BEGIN core-css ================== -->
+	<link href="/admin/css/vendor.min.css" rel="stylesheet" />
+	<link href="/admin/css/app.min.css" rel="stylesheet" />
+	<link href="/admin/css/admin.css" rel="stylesheet" />
+	<link href="/admin/css/custom.css" rel="stylesheet" />
+	<!-- ================== END core-css ================== -->
+
+	<!-- ================== BEGIN custom-editor ================== -->
+	<% if (typeof includeCustomEditor !=='undefined' && includeCustomEditor) { %>
+		<link href="/admin/editor/custom-editor.css" rel="stylesheet">
+		<% } %>
+			<!-- ================== END custom-editor ================== -->
+
+			<!-- ================== BEGIN page-css ================== -->
+			<% if (typeof pageCSS !=='undefined' && pageCSS) { %>
+				<style>
+					<%- pageCSS %>
+				</style>
+				<% } %>
+					<!-- ================== END page-css ================== -->
+</head>
+
+<body class='pace-top<%= typeof bodyClass !== "undefined" && bodyClass ? " " + bodyClass : "" %><%= typeof themeClasses !== "undefined" ? " " + themeClasses : "" %>'>
+	<!-- BEGIN #loader -->
+	<div id="loader" class="app-loader">
+		<span class="spinner"></span>
+	</div>
+	<!-- END #loader -->
+
+	<!-- BEGIN #app -->
+	<div id="app" class="app app-header-fixed app-sidebar-fixed">
+		<!-- BEGIN #header -->
+		<% if (typeof include==='function' ) { %>
+			<%- include('partials/header', { siteTitle: typeof siteTitle !=='undefined' && siteTitle ? siteTitle
+				: 'Admin Panel' }) %>
+				<% } else { %>
+					<!-- Fallback header (include helper unavailable) -->
+					<div id="header" class="app-header">
+						<div class="navbar-header">
+							<a href="/admin/dashboard" class="navbar-brand">
+								<b class="me-3px">
+									<%= (typeof siteTitle !=='undefined' && siteTitle ? siteTitle : 'Admin' ) %> <span
+											class="text-muted fs-12px fw-normal">Admin Panel</span>
+								</b>
+							</a>
+						</div>
+					</div>
+					<% } %>
+						<!-- END #header -->
+
+						<!-- BEGIN #sidebar -->
+						<%- include('partials/sidebar') %>
+
+							<!-- END #sidebar -->
+
+							<!-- BEGIN #content -->
+							<div id="content" class="app-content">
+								<!-- BEGIN container -->
+								<div class="container-fluid">
+									<!-- BEGIN row -->
+									<div class="row">
+										<!-- BEGIN col-12 -->
+										<div class="col-xl-12">
+											<% if (typeof showBreadcrumb !=='undefined' && showBreadcrumb !==false) { %>
+												<!-- BEGIN breadcrumb -->
+												<ol class="breadcrumb">
+													<li class="breadcrumb-item"><a href="/admin/dashboard">
+															<%= typeof t !=='undefined' ? t('breadcrumb.home') : 'Home'
+																%>
+														</a></li>
+													<% if (typeof breadcrumbItems !=='undefined' && breadcrumbItems) {
+														%>
+														<% breadcrumbItems.forEach(item=> { %>
+															<% if (item.active) { %>
+																<li class="breadcrumb-item active">
+																	<%= item.text %>
+																</li>
+																<% } else { %>
+																	<li class="breadcrumb-item"><a
+																			href="<%= item.url %>">
+																			<%= item.text %>
+																		</a></li>
+																	<% } %>
+																		<% }) %>
+																			<% } else { %>
+																				<li class="breadcrumb-item active">
+																					<%= typeof pageTitle !=='undefined'
+																						? pageTitle : 'Page' %>
+																				</li>
+																				<% } %>
+												</ol>
+												<!-- END breadcrumb -->
+												<% } %>
+
+													<% if (typeof showPageHeader !=='undefined' && showPageHeader
+														!==false) { %>
+														<!-- BEGIN page-header -->
+														<h1 class="page-header">
+															<%= typeof pageTitle !=='undefined' ? pageTitle : 'Page' %>
+																<% if (typeof pageSubtitle !=='undefined' &&
+																	pageSubtitle) { %>
+																	<small>
+																		<%= pageSubtitle %>
+																	</small>
+																	<% } %>
+														</h1>
+														<!-- END page-header -->
+														<% } %>
+
+															<!-- BEGIN content area -->
+															<%- body %>
+																<!-- END content area -->
+										</div>
+										<!-- END col-12 -->
+									</div>
+									<!-- END row -->
+								</div>
+								<!-- END container -->
+							</div>
+							<!-- END #content -->
+
+
+							<!-- BEGIN scroll-top-btn -->
+							<a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top"
+								data-toggle="scroll-to-top">
+								<i class="fa fa-angle-up"></i>
+							</a>
+							<!-- END scroll-top-btn -->
+	</div>
+	<!-- END #app -->
+
+	<!-- BEGIN generic action modal -->
+	<div class="modal fade" id="modal-dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="modalDialogTitle">
+						<%= typeof t !=='undefined' ? t('modals.modalDialog') : 'Modal Dialog' %>
+					</h4>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+				</div>
+				<div class="modal-body" id="modalDialogBody">
+					...
+				</div>
+				<div class="modal-footer">
+					<a href="javascript:;" class="btn btn-white" data-bs-dismiss="modal">
+						<%= typeof t !=='undefined' ? t('common.cancel') : 'Cancel' %>
+					</a>
+					<a href="javascript:;" class="btn btn-success" id="modalDialogActionBtn">
+						<%= typeof t !=='undefined' ? t('common.action') : 'Action' %>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END generic action modal -->
+
+	<!-- ================== BEGIN translations-js ================== -->
+	<script>
+		// Global translations object for use in custom.js and other scripts
+		window.translations = {
+			delete: '<%- typeof t !== "undefined" ? t("common.delete") : "Delete" %>',
+			cancel: '<%- typeof t !== "undefined" ? t("common.cancel") : "Cancel" %>',
+			loading: '<%- typeof t !== "undefined" ? t("common.loading") : "Loading..." %>',
+			processing: '<%- typeof t !== "undefined" ? t("common.loading") : "Processing..." %>',
+			confirmDelete: '<%- typeof t !== "undefined" ? t("modals.areYouSure") : "Are you sure?" %>',
+			deleteConfirm: '<%- typeof t !== "undefined" ? t("modals.thisActionCannotBeUndone") : "This action cannot be undone" %>',
+			deleteItemConfirm: '<%- typeof t !== "undefined" ? t("common.delete") + "?" : "Delete?" %>',
+			deleteItemMessage: '<%- typeof t !== "undefined" ? t("modals.areYouSure") + " " + t("modals.thisActionCannotBeUndone") : "Are you sure? This action cannot be undone." %>',
+			itemDeletedSuccess: '<%- typeof t !== "undefined" ? t("messages.deleted") : "Deleted successfully" %>',
+			userDeletedSuccess: '<%- typeof t !== "undefined" ? t("messages.deleted") : "User deleted successfully" %>',
+			pageDeletedSuccess: '<%- typeof t !== "undefined" ? t("messages.deleted") : "Page deleted successfully" %>',
+			projectDeletedSuccess: '<%- typeof t !== "undefined" ? t("messages.deleted") : "Project deleted successfully" %>',
+			clientDeletedSuccess: '<%- typeof t !== "undefined" ? t("messages.deleted") : "Client deleted successfully" %>',
+			deleteError: '<%- typeof t !== "undefined" ? t("messages.deleteError") : "Error deleting" %>',
+			errorOccurred: '<%- typeof t !== "undefined" ? t("messages.error") : "An error occurred" %>',
+			// Page-specific translations
+			deletePage: '<%- typeof t !== "undefined" ? t("pages.deletePage") : "Delete Page" %>',
+			deletePageConfirm: '<%- typeof t !== "undefined" ? t("pages.deletePageConfirm") : "Are you sure you want to delete this page?" %>',
+			deletePageWarning: '<%- typeof t !== "undefined" ? t("pages.deletePageWarning") : "This action cannot be undone. The page will be permanently removed from the system." %>',
+			// User-specific translations
+			deleteUser: '<%- typeof t !== "undefined" ? t("users.deleteUser") : "Delete User" %>',
+			deleteUserConfirm: '<%- typeof t !== "undefined" ? t("users.deleteUserConfirm") : "Are you sure you want to delete this user?" %>',
+			deleteUserWarning: '<%- typeof t !== "undefined" ? t("users.deleteUserWarning") : "This action cannot be undone. The user will be permanently removed from the system." %>',
+			// Video embed translations
+			embedVideo: '<%- typeof t !== "undefined" ? t("pages.embedVideo") : "Embed Video" %>',
+			videoUrl: '<%- typeof t !== "undefined" ? t("pages.videoUrl") : "Video URL" %>',
+			videoUrlPlaceholder: '<%- typeof t !== "undefined" ? t("pages.videoUrlPlaceholder") : "https://www.youtube.com/watch?v=... or https://vimeo.com/... or https://rutube.ru/video/..." %>',
+			fetchVideo: '<%- typeof t !== "undefined" ? t("pages.fetchVideo") : "Fetch Video" %>',
+			fetchingVideo: '<%- typeof t !== "undefined" ? t("pages.fetchingVideo") : "Fetching..." %>',
+			insertVideo: '<%- typeof t !== "undefined" ? t("pages.insertVideo") : "Insert Video" %>',
+			loadingVideoInfo: '<%- typeof t !== "undefined" ? t("pages.loadingVideoInfo") : "Loading video information..." %>',
+			videoError: '<%- typeof t !== "undefined" ? t("pages.videoError") : "Please enter a video URL" %>',
+			videoFetchError: '<%- typeof t !== "undefined" ? t("pages.videoFetchError") : "Failed to fetch video information" %>',
+			videoInfoError: '<%- typeof t !== "undefined" ? t("pages.videoInfoError") : "Error fetching video information. Please try again." %>'
+		};
+	</script>
+	<!-- ================== END translations-js ================== -->
+
+	<!-- ================== BEGIN core-js ================== -->
+	<script src="/admin/js/vendor.min.js"></script>
+	<script src="/admin/js/app.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+	<script src="/admin/js/custom.js"></script>
+	<script src="/admin/js/chat-unread-badge.js"></script>
+	<% if (typeof chatPage !== 'undefined' && chatPage) { %>
+	<script src="/js/socket.io.js"></script>
+	<script src="/admin/js/chat-admin.js"></script>
+	<% } %>
+	<!-- ================== END core-js ================== -->
+
+	<!-- ================== BEGIN custom-editor ================== -->
+	<% if (typeof includeCustomEditor !=='undefined' && includeCustomEditor) { %>
+		<script src="/admin/editor/custom-editor.js"></script>
+		<% } %>
+			<!-- ================== END custom-editor ================== -->
+
+			<!-- ================== BEGIN theme-js ================== -->
+			<script src="/admin/js/theme.js"></script>
+			<!-- ================== END theme-js ================== -->
+
+			<!-- ================== BEGIN submenu-js ================== -->
+			<script>
+				// Handle submenu toggle - improved to prevent conflicts
+				// Comprehensive function to expand menus with active children
+				function initializeMenuExpansion() {
+					// Method 1: Check for has-active-child or current class (set by template)
+					document.querySelectorAll('.menu-item.has-sub.has-active-child, .menu-item.has-sub.current').forEach(function (parentMenu) {
+						parentMenu.classList.add('expand');
+						const submenu = parentMenu.querySelector('.menu-submenu');
+						if (submenu) {
+							submenu.style.display = 'block';
+							submenu.style.visibility = 'visible';
+							submenu.removeAttribute('style'); // Remove any inline styles that might hide it
+							submenu.style.display = 'block';
+						}
+					});
+
+					// Method 2: Find all active/current children and expand their parents
+					document.querySelectorAll('.menu-submenu .menu-item.active, .menu-submenu .menu-item.current').forEach(function (activeChild) {
+						const parentMenu = activeChild.closest('.menu-item.has-sub');
+						if (parentMenu) {
+							parentMenu.classList.add('expand');
+							parentMenu.classList.add('has-active-child');
+							const submenu = parentMenu.querySelector('.menu-submenu');
+							if (submenu) {
+								submenu.style.display = 'block';
+								submenu.style.visibility = 'visible';
+							}
+						}
+					});
+
+					// Method 3: Check all submenus for active items (most reliable)
+					document.querySelectorAll('.menu-item.has-sub').forEach(function (parentMenu) {
+						const submenu = parentMenu.querySelector('.menu-submenu');
+						if (submenu) {
+							const hasActive = submenu.querySelector('.menu-item.active') || submenu.querySelector('.menu-item.current');
+							if (hasActive && !parentMenu.classList.contains('expand')) {
+								parentMenu.classList.add('expand');
+								parentMenu.classList.add('has-active-child');
+								submenu.style.display = 'block';
+								submenu.style.visibility = 'visible';
+							}
+						}
+					});
+				}
+
+				// Run immediately if DOM is ready
+				if (document.readyState === 'loading') {
+					document.addEventListener('DOMContentLoaded', function () {
+						// initializeMenuExpansion();
+						// Run again after a delay to catch any late-loading scripts
+						// setTimeout(initializeMenuExpansion, 200);
+					});
+				} else {
+					// initializeMenuExpansion();
+					// setTimeout(initializeMenuExpansion, 200);
+				}
+
+				// Run on window load as well
+				window.addEventListener('load', function () {
+					// setTimeout(initializeMenuExpansion, 100);
+				});
+
+				// Use MutationObserver to catch any dynamic changes
+				if (typeof MutationObserver !== 'undefined') {
+					const observer = new MutationObserver(function (mutations) {
+						let shouldCheck = false;
+						mutations.forEach(function (mutation) {
+							if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+								shouldCheck = true;
+							}
+							if (mutation.addedNodes.length > 0) {
+								shouldCheck = true;
+							}
+						});
+						if (shouldCheck) {
+							// setTimeout(initializeMenuExpansion, 50);
+						}
+					});
+
+					// Observe the menu container
+					const menuContainer = document.querySelector('.app-sidebar .menu');
+					if (menuContainer) {
+						observer.observe(menuContainer, {
+							childList: true,
+							subtree: true,
+							attributes: true,
+							attributeFilter: ['class']
+						});
+					}
+				}
+
+				document.addEventListener('DOMContentLoaded', function () {
+
+					// Remove any existing event listeners first
+					const subMenuItems = document.querySelectorAll('.menu-item.has-sub > .menu-link');
+
+					subMenuItems.forEach(function (item) {
+						// Remove any existing onclick handlers
+						item.onclick = null;
+
+						// Add our click handler
+						item.addEventListener('click', function (e) {
+							e.preventDefault();
+							e.stopPropagation();
+							e.stopImmediatePropagation();
+
+							const parentItem = this.parentElement;
+							// Don't toggle if this menu has an active child (keep it open)
+							if (parentItem.classList.contains('has-active-child')) {
+								return false;
+							}
+
+							const submenu = parentItem.querySelector('.menu-submenu');
+							const isExpanded = parentItem.classList.contains('expand');
+
+							// Close all other submenus first (except those with active children)
+							document.querySelectorAll('.menu-item.has-sub').forEach(function (otherItem) {
+								if (otherItem !== parentItem && !otherItem.classList.contains('has-active-child')) {
+									otherItem.classList.remove('expand');
+									const otherSubmenu = otherItem.querySelector('.menu-submenu');
+									if (otherSubmenu) {
+										otherSubmenu.style.display = 'none';
+									}
+								}
+							});
+
+							// Toggle current submenu
+							if (!isExpanded) {
+								parentItem.classList.add('expand');
+								if (submenu) {
+									submenu.style.display = 'block';
+								}
+							} else {
+								parentItem.classList.remove('expand');
+								if (submenu) {
+									submenu.style.display = 'none';
+								}
+							}
+
+							return false;
+						}, { capture: true });
+					});
+
+					// Auto-expand Pages menu if we're on any pages route - DISABLED (Using server-side current class)
+					/*
+					const currentPath = window.location.pathname;
+					if (currentPath === '/admin/pages' || currentPath.startsWith('/admin/pages/')) {
+						// Find all menu items with submenu
+						const allSubMenus = document.querySelectorAll('.menu-item.has-sub');
+						allSubMenus.forEach(function (parentMenu) {
+							// Check if this menu item links to /admin/pages or contains a link to it
+							const menuLink = parentMenu.querySelector('.menu-link');
+							const submenu = parentMenu.querySelector('.menu-submenu');
+							if (submenu) {
+								// Check if submenu contains a link to /admin/pages
+								const hasPagesLink = submenu.querySelector('a[href="/admin/pages"]') ||
+									submenu.querySelector('a[href*="/admin/pages"]');
+								if (hasPagesLink) {
+									parentMenu.classList.add('expand');
+									submenu.style.display = 'block';
+								}
+							}
+						});
+					}
+					*/
+
+					// Prevent click event from bubbling up on submenu items
+					document.querySelectorAll('.menu-submenu .menu-link').forEach(function (link) {
+						link.addEventListener('click', function (e) {
+							e.stopPropagation();
+						});
+					});
+				});
+			</script>
+			<!-- ================== END submenu-js ================== -->
+
+			<!-- ================== BEGIN page-js ================== -->
+			<% if (typeof pageJS !=='undefined' && pageJS) { %>
+				<script>
+			<%- pageJS %>
+				</script>
+				<% } %>
+			<% if (typeof includeHomePageBuilder !== 'undefined' && includeHomePageBuilder) { %>
+				<script src="/admin/js/home-page-builder.js"></script>
+			<% } %>
+					<!-- ================== END page-js ================== -->
+
+					<!-- ================== BEGIN loader-fix ================== -->
+					<script>
+							// Ensure loader is hidden when page is fully loaded
+							document.addEventListener('DOMContentLoaded', function () {
+								setTimeout(function () {
+									const loader = document.getElementById('loader');
+									if (loader) {
+										loader.classList.add('loaded');
+									}
+								}, 500);
+							});
+
+						// Also hide loader when window is fully loaded
+						window.addEventListener('load', function () {
+							const loader = document.getElementById('loader');
+							if (loader) {
+								loader.classList.add('loaded');
+							}
+						});
+
+						// Fallback: hide loader after 2 seconds regardless
+						setTimeout(function () {
+							const loader = document.getElementById('loader');
+							if (loader) {
+								loader.classList.add('loaded');
+							}
+						}, 2000);
+					</script>
+					<!-- ================== END loader-fix ================== -->
+
+					<!-- ================== BEGIN csrf-helper ================== -->
+					<script>
+						/**
+						 * Get CSRF token from meta tag (global helper function)
+						 * @returns {string} CSRF token
+						 */
+						function getCsrfToken() {
+							const meta = document.querySelector('meta[name="csrf-token"]');
+							return meta ? meta.getAttribute('content') : '';
+						}
+
+						/**
+						 * Get headers object with CSRF token for fetch requests
+						 * @param {Object} additionalHeaders - Additional headers to include
+						 * @returns {Object} Headers object with CSRF token
+						 */
+						function getCsrfHeaders(additionalHeaders = {}) {
+							const headers = { ...additionalHeaders };
+							const csrfToken = getCsrfToken();
+							if (csrfToken) {
+								headers['X-CSRF-Token'] = csrfToken;
+							}
+							return headers;
+						}
+
+						/**
+						 * Update CSRF token in form and meta tag
+						 * Call this after AJAX requests to ensure form has latest token
+						 */
+						function updateCsrfToken(newToken) {
+							if (!newToken) return;
+
+							const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+							const csrfInputs = document.querySelectorAll('input[name="_csrf"]');
+
+							if (csrfMeta) {
+								csrfMeta.setAttribute('content', newToken);
+							}
+
+							csrfInputs.forEach(input => {
+								input.setAttribute('value', newToken);
+							});
+						}
+
+						/**
+						 * Refresh CSRF token from meta tag to all forms
+						 * Call this before form submission to ensure latest token
+						 */
+						function refreshCsrfTokenInForms() {
+							const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+							if (!csrfMeta) return;
+
+							const latestToken = csrfMeta.getAttribute('content');
+							if (!latestToken) return;
+
+							const csrfInputs = document.querySelectorAll('input[name="_csrf"]');
+							csrfInputs.forEach(input => {
+								input.setAttribute('value', latestToken);
+							});
+						}
+
+						// Auto-refresh CSRF token in forms before submission
+						document.addEventListener('submit', function (e) {
+							refreshCsrfTokenInForms();
+						});
+
+						// Intercept all fetch responses to update CSRF token if provided
+						// This ensures CSRF tokens are always up-to-date after API calls
+						const originalFetch = window.fetch;
+						window.fetch = function (...args) {
+							return originalFetch.apply(this, args).then(async response => {
+								// Check if it's a JSON response and a POST/PUT/DELETE request
+								const isStateChanging = args[1] && ['POST', 'PUT', 'DELETE', 'PATCH'].includes(args[1].method);
+								const contentType = response.headers.get('content-type');
+
+								if (isStateChanging && contentType && contentType.includes('application/json')) {
+									try {
+										// Clone response to read it without consuming the original
+										const clonedResponse = response.clone();
+										const data = await clonedResponse.json();
+
+										// Update CSRF token if provided in response
+										if (data && data.csrfToken) {
+											updateCsrfToken(data.csrfToken);
+											console.log('CSRF token updated from API response');
+										}
+									} catch (err) {
+										// Response might not be JSON or already consumed, ignore
+									}
+								}
+
+								return response;
+							});
+						};
+					</script>
+					<!-- ================== END csrf-helper ================== -->
+</body>
+
+</html>

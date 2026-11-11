@@ -1,0 +1,64 @@
+// Interior storefront pages: align main content horizontal edges with `.luxury-header .lux-bar`.
+
+// Horizontal clip lives on `.main-page` (below header in `layout.ejs`), not on `.main`,
+// so `position: sticky` on `#luxuryHeader` is not clipped by overflow.
+body:not(.home) .main-page {
+    min-width: 0;
+    overflow-x: hidden;
+}
+
+$_lux-site-shell-exclude: ':not(.page-hero-container):not(.p-0):not(.px-0)';
+
+// Interior `body` renders inside `.main-page` (see layout.ejs); match that, not `.main >` (header is the only direct sibling).
+body:not(.home) .main-page > .container-fluid#{$_lux-site-shell-exclude},
+body:not(.home) .main-page > .site-footer.container-fluid {
+    // Cap width in flex/nested contexts; keeps rows from forcing page-wide horizontal growth.
+    box-sizing: border-box;
+    max-width: 100%;
+    min-width: 0;
+    padding-left: $lux-site-gutter-x-mobile !important;
+    padding-right: $lux-site-gutter-x-mobile !important;
+
+    @media (min-width: $lux-header-desktop-min) {
+        padding-left: $lux-site-gutter-x !important;
+        padding-right: $lux-site-gutter-x !important;
+    }
+}
+
+// Let flex columns shrink past intrinsic content width (prevents “infinite” horizontal expansion / scroll).
+body:not(.home) .main-page > .container-fluid#{$_lux-site-shell-exclude} .row > [class^='col-'],
+body:not(.home) .main-page > .container-fluid#{$_lux-site-shell-exclude} .row > .col,
+body:not(.home) .main-page > .site-footer.container-fluid .row > [class^='col-'],
+body:not(.home) .main-page > .site-footer.container-fluid .row > .col {
+    min-width: 0;
+}
+
+// Rows / `.px-xl-5` wrappers no longer contribute horizontal inset (container-fluid owns it).
+body:not(.home) .main-page > .container-fluid#{$_lux-site-shell-exclude} > .row,
+body:not(.home) .main-page > .site-footer.container-fluid > .row {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+body:not(.home)
+    .main-page
+    > .container-fluid#{$_lux-site-shell-exclude}
+    > div[class*='px-xl-']:not(.row) {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+// Nested `.container-fluid` (e.g. product detail “related” stripe) — avoid stacking default Bootstrap padding.
+body:not(.home) .main-page > .container-fluid#{$_lux-site-shell-exclude} .container-fluid {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+// Category hero video — edge-to-edge, not inset with content gutters.
+body:not(.home) .main-page > section.shop-category-hero {
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    padding: 0 !important;
+}

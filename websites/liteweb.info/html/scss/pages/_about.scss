@@ -1,0 +1,137 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.about-hero {
+  background: $color-surface-low;
+  padding-block: $space-xl;
+
+  @include respond-to(md) {
+    padding-block: $space-2xl;
+  }
+
+  &__grid {
+    display: grid;
+    gap: $space-xl;
+    align-items: center;
+
+    @include respond-to(md) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  &__media {
+    position: relative;
+    margin-bottom: 2rem;
+
+    img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-radius: $radius-xl;
+    }
+  }
+
+  &__badge {
+    padding: $space-lg;
+    max-width: 240px;
+    @include brand-box;
+
+    & {
+      position: absolute;
+      bottom: -1.25rem;
+      inset-inline-start: 1rem;
+    }
+
+    @include respond-to(md) {
+      inset-inline-start: -1rem;
+      bottom: -1.5rem;
+    }
+  }
+}
+
+.value-card {
+  &--innovation .card__icon {
+    background: rgba($color-tertiary, 0.15);
+    color: $color-tertiary-dark;
+  }
+}
+
+.team-card {
+  &__media {
+    aspect-ratio: 3 / 4;
+    border-radius: $radius-xl;
+    overflow: hidden;
+    margin-bottom: $space-md;
+    border: 1px solid $color-outline-variant;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s $ease-default;
+    }
+  }
+
+  &:hover &__media img {
+    transform: scale(1.05);
+  }
+
+  &__name {
+    font-family: $font-headline;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: $color-secondary;
+  }
+
+  &__role {
+    font-size: 0.875rem;
+    color: $color-primary;
+  }
+}
+
+.about-cta {
+  background: $color-primary-deep;
+  color: $color-white;
+  padding: $space-2xl $space-lg;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+
+  .headline-lg {
+    color: $color-white;
+  }
+
+  .body-lg,
+  .body-md,
+  p {
+    color: rgba($color-white, 0.85);
+  }
+
+  .btn--outline {
+    border-color: rgba($color-white, 0.4);
+    color: $color-white;
+
+    &:hover {
+      background: rgba($color-white, 0.08);
+    }
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    inset-inline-start: 0;
+    width: 400px;
+    height: 400px;
+    background: rgba($color-tertiary, 0.2);
+    border-radius: $radius-full;
+    filter: blur(100px);
+    transform: translate(-25%, 50%);
+    pointer-events: none;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+  }
+}

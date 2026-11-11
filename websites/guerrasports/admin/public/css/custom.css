@@ -1,0 +1,510 @@
+/* Admin Custom CSS */
+
+/* Ensure proper spacing and layout */
+.page-header {
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* Fix breadcrumb alignment */
+.breadcrumb {
+    background: none;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+/* Ensure proper card styling */
+.card {
+    border-radius: 0.375rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    margin-bottom: 1.5rem;
+}
+
+.card-header {
+    background-color: rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    padding: 0.75rem 1.25rem;
+}
+
+.card-body {
+    padding: 1.25rem;
+}
+
+/* Badge styling */
+.badge {
+    font-size: 0.75em;
+    font-weight: 600;
+}
+
+.badge-success {
+    background-color: #28a745;
+}
+
+.badge-danger {
+    background-color: #dc3545;
+}
+
+.badge-info {
+    background-color: #17a2b8;
+}
+
+.badge-secondary {
+    background-color: #6c757d;
+}
+
+/* Button styling */
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
+
+/* Table styling */
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Account specific styles */
+.account-balance {
+    font-weight: bold;
+    color: #28a745;
+}
+
+.account-balance.negative {
+    color: #dc3545;
+}
+
+.account-status.active {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+}
+
+.account-status.inactive {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+}
+
+/* Info box styles for compatibility */
+.info-box {
+    background: #fff;
+    border-radius: 0.25rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    display: flex;
+    margin-bottom: 1rem;
+    min-height: 80px;
+    padding: 0.5rem;
+}
+
+.info-box-icon {
+    border-radius: 0.25rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 70px;
+    margin-right: 1rem;
+}
+
+.info-box-icon.bg-success {
+    background-color: #28a745;
+}
+
+.info-box-icon.bg-danger {
+    background-color: #dc3545;
+}
+
+.info-box-icon.bg-info {
+    background-color: #17a2b8;
+}
+
+.info-box-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+}
+
+.info-box-text {
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+}
+
+.info-box-number {
+    font-size: 1.125rem;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+.progress-description {
+    color: #6c757d;
+    font-size: 0.75rem;
+}
+
+/* Fix dropdown arrows for all select elements */
+select.form-control,
+select.form-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+    padding-right: 2.5rem;
+}
+
+/* Dark background select fix */
+select.form-control:focus,
+select.form-select:focus {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+}
+
+/* Form spacing and styling improvements */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-top: 0.75rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #495057;
+    font-size: 0.95rem;
+}
+
+.form-group label:first-child {
+    margin-top: 0;
+}
+
+.form-control,
+.form-select {
+    margin-bottom: 0.25rem;
+}
+
+.form-text {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+/* Better spacing for form sections */
+.special-category-section {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid #e9ecef;
+}
+
+.special-category-section h5 {
+    margin-bottom: 1rem;
+}
+
+/* Input group spacing */
+.input-group {
+    margin-bottom: 0.25rem;
+}
+
+/* Textarea spacing */
+textarea.form-control {
+    margin-bottom: 0.25rem;
+}
+
+/* Checkbox and radio spacing */
+.form-check {
+    margin-bottom: 0.75rem;
+    padding-left: 1.5rem;
+}
+
+.form-check-input {
+    margin-top: 0.25rem;
+}
+
+.form-check-label {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* File input spacing */
+input[type="file"].form-control {
+    padding: 0.375rem 0.75rem;
+}
+
+/* Better spacing for nested form groups */
+.card-body .form-group:last-child {
+    margin-bottom: 0;
+}
+
+/* Modal form spacing */
+.modal-body .form-group {
+    margin-bottom: 1.25rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .float-end {
+        float: none !important;
+    }
+    
+    .breadcrumb {
+        margin-top: 1rem;
+    }
+    
+    .info-box {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .info-box-icon {
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+        width: 100%;
+        height: 50px;
+    }
+    
+    .form-group {
+        margin-bottom: 1.25rem;
+    }
+}
+
+/* RTL Support for Arabic */
+[dir="rtl"] {
+    direction: rtl;
+    text-align: right;
+}
+
+[dir="rtl"] .breadcrumb {
+    padding-right: 0;
+    padding-left: 0.5rem;
+}
+
+[dir="rtl"] .breadcrumb-item + .breadcrumb-item::before {
+    float: right;
+    padding-right: 0;
+    padding-left: 0.5rem;
+}
+
+[dir="rtl"] .navbar-nav {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .dropdown-menu-end {
+    right: auto;
+    left: 0;
+}
+
+[dir="rtl"] .dropdown-item {
+    text-align: right;
+}
+
+[dir="rtl"] .dropdown-item i.fa-check {
+    margin-left: 0;
+    margin-right: 0.5rem;
+    float: left;
+}
+
+[dir="rtl"] .form-control,
+[dir="rtl"] .form-select {
+    text-align: right;
+}
+
+[dir="rtl"] select.form-control,
+[dir="rtl"] select.form-select {
+    background-position: left 0.75rem center;
+    padding-left: 2.5rem;
+    padding-right: 0.75rem;
+}
+
+[dir="rtl"] .input-group-text {
+    border-left: none;
+    border-right: 1px solid #ced4da;
+}
+
+[dir="rtl"] .input-group > .form-control {
+    border-right: none;
+    border-left: 1px solid #ced4da;
+}
+
+[dir="rtl"] .form-check {
+    padding-right: 1.5rem;
+    padding-left: 0;
+}
+
+[dir="rtl"] .form-check-input {
+    margin-right: -1.5rem;
+    margin-left: 0;
+    float: right;
+}
+
+[dir="rtl"] .btn-group > .btn:not(:first-child) {
+    margin-right: -1px;
+    margin-left: 0;
+}
+
+[dir="rtl"] .float-end {
+    float: left !important;
+}
+
+[dir="rtl"] .float-start {
+    float: right !important;
+}
+
+[dir="rtl"] .text-start {
+    text-align: right !important;
+}
+
+[dir="rtl"] .text-end {
+    text-align: left !important;
+}
+
+[dir="rtl"] .me-1 { margin-right: 0 !important; margin-left: 0.25rem !important; }
+[dir="rtl"] .me-2 { margin-right: 0 !important; margin-left: 0.5rem !important; }
+[dir="rtl"] .me-3 { margin-right: 0 !important; margin-left: 1rem !important; }
+[dir="rtl"] .ms-1 { margin-left: 0 !important; margin-right: 0.25rem !important; }
+[dir="rtl"] .ms-2 { margin-left: 0 !important; margin-right: 0.5rem !important; }
+[dir="rtl"] .ms-3 { margin-left: 0 !important; margin-right: 1rem !important; }
+[dir="rtl"] .ps-1 { padding-right: 0 !important; padding-left: 0.25rem !important; }
+[dir="rtl"] .ps-2 { padding-right: 0 !important; padding-left: 0.5rem !important; }
+[dir="rtl"] .pe-1 { padding-left: 0 !important; padding-right: 0.25rem !important; }
+[dir="rtl"] .pe-2 { padding-left: 0 !important; padding-right: 0.5rem !important; }
+
+[dir="rtl"] .info-box-icon {
+    margin-right: 0;
+    margin-left: 1rem;
+}
+
+/* Photo Gallery Styles */
+.photo-gallery-container {
+    min-height: 200px;
+}
+
+.photo-item {
+    cursor: move;
+    transition: opacity 0.2s;
+}
+
+.photo-item:hover {
+    opacity: 0.8;
+}
+
+.photo-item img {
+    cursor: move;
+}
+
+.photo-item.dragging {
+    opacity: 0.5;
+}
+
+/* Autocomplete Styles */
+.autocomplete-wrapper {
+    position: relative;
+}
+
+.autocomplete-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ced4da;
+    border-top: none;
+    border-radius: 0 0 0.375rem 0.375rem;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    margin-top: -1px;
+}
+
+.autocomplete-item {
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.autocomplete-item:last-child {
+    border-bottom: none;
+}
+
+.autocomplete-item:hover,
+.autocomplete-item.active {
+    background-color: #e9ecef;
+    color: #495057;
+}
+
+.autocomplete-no-results {
+    color: #6c757d;
+    font-style: italic;
+    cursor: default;
+}
+
+.autocomplete-no-results:hover {
+    background-color: transparent;
+}
+
+.autocomplete-wrapper .spinner-border {
+    z-index: 1;
+}
+
+/* Auto-expand parent menu when current (CSS only, no JavaScript) */
+/* When a menu item has the 'current' class, show its submenu */
+.menu-item.has-sub.current > .menu-submenu,
+.menu-item.has-sub.current .menu-submenu,
+.app-sidebar .menu .menu-item.has-sub.current > .menu-submenu {
+    display: block !important;
+    max-height: none !important;
+    visibility: visible !important;
+}
+
+/* Rotate caret to show expanded state when current */
+.menu-item.has-sub.current > .menu-link .menu-caret:before,
+.app-sidebar .menu .menu-item.has-sub.current > .menu-link .menu-caret:before {
+    opacity: 1 !important;
+    transform: rotate(90deg) !important;
+}
+
+/* Bold current menu item link text */
+.menu-item.current > .menu-link .menu-text,
+.app-sidebar .menu .menu-item.current > .menu-link .menu-text,
+.menu-item.active > .menu-link .menu-text {
+    font-weight: 700 !important;
+    color: #fff !important; /* Optional: Ensure high contrast if needed, or keep inherited */
+}
+
+/* RTL support */
+[dir="rtl"] .menu-item.has-sub.current > .menu-link .menu-caret:before,
+[dir="rtl"] .app-sidebar .menu .menu-item.has-sub.current > .menu-link .menu-caret:before {
+    transform: rotate(-90deg) !important;
+}
+
+/* Sticky Actions Footer */
+.sticky-actions-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 990; /* Below sidebar (typically 1020) */
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Fix back to top button overlap with sticky footer */
+.btn-scroll-to-top, .scroll-to-top-btn, a.scroll-to-top-btn, .btn-scroll-top {
+    bottom: 80px !important;
+}
+
+/* Collapsible Card Styles */
+.card-header[data-bs-toggle="collapse"] .fa-chevron-down {
+    transition: transform 0.3s ease;
+}
+
+.card-header[data-bs-toggle="collapse"][aria-expanded="true"] .fa-chevron-down {
+    transform: rotate(180deg);
+}

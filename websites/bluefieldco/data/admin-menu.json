@@ -1,0 +1,48 @@
+{
+  "menu": [
+    {
+      "id": "dashboard",
+      "text": "Dashboard",
+      "icon": "fa fa-laptop",
+      "url": "/admin/dashboard",
+      "active": false
+    },
+    {
+      "id": "pages",
+      "text": "Pages",
+      "icon": "fa fa-file-alt",
+      "url": "/admin/pages"
+    },
+    {
+      "id": "news",
+      "text": "News",
+      "icon": "fa fa-newspaper",
+      "url": "/admin/news"
+    },
+    {
+      "id": "slider",
+      "text": "Home Page Slider",
+      "icon": "fa fa-images",
+      "url": "/admin/slider"
+    },
+    {
+      "id": "menus",
+      "text": "Menus",
+      "icon": "fa fa-bars",
+      "url": "/admin/menus"
+    },
+    {
+      "id": "users",
+      "text": "Users",
+      "icon": "fa fa-users",
+      "url": "/admin/users",
+      "active": true
+    },
+    {
+      "id": "site-settings",
+      "text": "Site Settings",
+      "icon": "fa fa-cog",
+      "url": "/admin/site-settings"
+    }
+  ]
+} 

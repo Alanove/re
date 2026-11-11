@@ -1,0 +1,298 @@
+<!-- BEGIN row -->
+<div class="row">
+	<!-- BEGIN col-3 -->
+	<div class="col-xl-3 col-md-6">
+		<!-- BEGIN card -->
+		<div class="card mb-3 dashboard-stats-card">
+			<div class="card-body">
+				<div class="d-flex fw-bold">
+					<div class="flex-grow-1">
+						<div class="stats-label">TOTAL PAGES</div>
+						<div class="stats-number text-dark"><%= statistics.totalPages %></div>
+					</div>
+					<div class="flex-shrink-0 ms-3">
+						<div class="stats-icon bg-primary bg-opacity-10">
+							<i class="fa fa-file-text text-primary"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END card -->
+	</div>
+	<!-- END col-3 -->
+	
+	<!-- BEGIN col-3 -->
+	<div class="col-xl-3 col-md-6">
+		<!-- BEGIN card -->
+		<div class="card mb-3 dashboard-stats-card">
+			<div class="card-body">
+				<div class="d-flex fw-bold">
+					<div class="flex-grow-1">
+						<div class="stats-label">PUBLISHED PAGES</div>
+						<div class="stats-number text-success"><%= statistics.publishedPages %></div>
+					</div>
+					<div class="flex-shrink-0 ms-3">
+						<div class="stats-icon bg-success bg-opacity-10">
+							<i class="fa fa-check-circle text-success"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END card -->
+	</div>
+	<!-- END col-3 -->
+	
+	<!-- BEGIN col-3 -->
+	<div class="col-xl-3 col-md-6">
+		<!-- BEGIN card -->
+		<div class="card mb-3 dashboard-stats-card">
+			<div class="card-body">
+				<div class="d-flex fw-bold">
+					<div class="flex-grow-1">
+						<div class="stats-label">DRAFT PAGES</div>
+						<div class="stats-number text-warning"><%= statistics.draftPages %></div>
+					</div>
+					<div class="flex-shrink-0 ms-3">
+						<div class="stats-icon bg-warning bg-opacity-10">
+							<i class="fa fa-edit text-warning"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END card -->
+	</div>
+	<!-- END col-3 -->
+	
+</div>
+<!-- END row -->
+
+<!-- BEGIN row -->
+<div class="row">
+	<!-- BEGIN col-12 -->
+	<div class="col-xl-12">
+		<!-- BEGIN panel -->
+		<div class="panel panel-inverse quick-actions-panel" data-sortable-id="index-1">
+			<div class="panel-heading">
+				<h4 class="panel-title">Quick Actions</h4>
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-6">
+						<a href="/admin/pages/create" class="btn btn-primary btn-lg w-100 mb-3">
+							<i class="fa fa-plus me-2"></i>Create New Page
+						</a>
+					</div>
+					<div class="col-md-6">
+						<a href="/admin/news/create" class="btn btn-success btn-lg w-100 mb-3">
+							<i class="fa fa-plus me-2"></i>Create News Article
+						</a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<a href="/admin/pages" class="btn btn-outline-primary w-100 mb-3">
+							<i class="fa fa-list me-2"></i>Manage All Pages
+						</a>
+					</div>
+					<div class="col-md-6">
+						<a href="/admin/news" class="btn btn-outline-success w-100 mb-3">
+							<i class="fa fa-list me-2"></i>Manage News
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END panel -->
+	</div>
+	<!-- END col-12 -->
+</div>
+<!-- END row -->
+
+
+
+<!-- BEGIN row -->
+<div class="row">
+	<!-- BEGIN col-12 -->
+	<div class="col-xl-12">
+		<!-- BEGIN panel -->
+		<div class="panel panel-inverse" data-sortable-id="index-2">
+			<div class="panel-heading">
+				<h4 class="panel-title">Recently Updated Pages</h4>
+			</div>
+			<div class="panel-body">
+				<% if (recentPages && recentPages.length > 0) { %>
+					<div class="table-responsive recent-items-table">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th>Title</th>
+									<th>Status</th>
+									<th>Last Updated</th>
+									<th>Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% recentPages.forEach(function(page) { %>
+									<tr>
+										<td>
+											<strong><%= page.title %></strong>
+											<div class="text-muted small"><%= page.url %></div>
+										</td>
+										<td>
+											<% if (page.status === 'published') { %>
+												<span class="badge bg-success">Published</span>
+											<% } else { %>
+												<span class="badge bg-warning">Draft</span>
+											<% } %>
+										</td>
+										<td>
+											<small class="text-muted">
+												<% if (page.lastUpdated) { %>
+													<%= new Date(page.lastUpdated).toLocaleDateString() %>
+												<% } else { %>
+													No date
+												<% } %>
+											</small>
+										</td>
+										<td>
+											<a href="/admin/pages/<%= page.key %>/edit" class="btn btn-sm btn-outline-primary">
+												<i class="fa fa-edit"></i>
+											</a>
+											<a href="<%= page.url %>" target="_blank" class="btn btn-sm btn-outline-secondary">
+												<i class="fa fa-external-link"></i>
+											</a>
+										</td>
+									</tr>
+								<% }); %>
+							</tbody>
+						</table>
+					</div>
+					<div class="text-center mt-3">
+						<a href="/admin/pages" class="btn btn-outline-primary">View All Pages</a>
+					</div>
+				<% } else { %>
+					<div class="empty-state">
+						<div class="empty-icon">
+							<i class="fa fa-file-text"></i>
+						</div>
+						<div class="empty-text">No pages found</div>
+						<a href="/admin/pages/create" class="btn btn-primary">Create Your First Page</a>
+					</div>
+				<% } %>
+			</div>
+		</div>
+		<!-- END panel -->
+	</div>
+	<!-- END col-12 -->
+</div>
+<!-- END row -->
+
+<!-- BEGIN row -->
+<div class="row">
+	<!-- BEGIN col-6 -->
+	<div class="col-xl-6">
+		<!-- BEGIN panel -->
+		<div class="panel panel-inverse system-info-panel" data-sortable-id="index-4">
+			<div class="panel-heading">
+				<h4 class="panel-title">System Information</h4>
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-6">
+						<h5>Site Settings</h5>
+						<ul class="list-unstyled">
+							<li><strong>Site Title:</strong> <%= siteTitle %></li>
+							<li><strong>Total Pages:</strong> <%= statistics.totalPages %></li>
+							<li><strong>Menus:</strong> <%= menuStatistics.totalMenus %></li>
+						</ul>
+					</div>
+					<div class="col-md-6">
+						<h5>Quick Links</h5>
+						<ul class="list-unstyled">
+							<li><a href="/admin/site-settings" class="text-decoration-none"><i class="fa fa-cog me-2"></i>Site Settings</a></li>
+							<li><a href="/admin/profile" class="text-decoration-none"><i class="fa fa-user me-2"></i>User Profile</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END panel -->
+	</div>
+	<!-- END col-6 -->
+	
+	<!-- BEGIN col-6 -->
+	<div class="col-xl-6">
+		<!-- BEGIN panel -->
+		<div class="panel panel-inverse menu-section-panel" data-sortable-id="index-1-5">
+			<div class="panel-heading">
+				<h4 class="panel-title">Menu Management</h4>
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="menu-stats-card text-center p-3 border rounded">
+							<div class="menu-stats-icon mb-2">
+								<i class="fa fa-bars fa-2x text-primary"></i>
+							</div>
+							<div class="menu-stats-number h3 text-dark mb-1"><%= menuStatistics.totalMenus %></div>
+							<div class="menu-stats-label text-muted">Total Menus</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="menu-stats-card text-center p-3 border rounded">
+							<div class="menu-stats-icon mb-2">
+								<i class="fa fa-link fa-2x text-success"></i>
+							</div>
+							<div class="menu-stats-number h3 text-dark mb-1"><%= menuStatistics.totalItems %></div>
+							<div class="menu-stats-label text-muted">Total Menu Items</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="menu-stats-card text-center p-3 border rounded">
+							<div class="menu-stats-icon mb-2">
+								<i class="fa fa-cog fa-2x text-info"></i>
+							</div>
+							<div class="menu-stats-number h3 text-dark mb-1"><%= menuStatistics.menuNames.length > 0 ? menuStatistics.menuNames.length : 0 %></div>
+							<div class="menu-stats-label text-muted">Active Menus</div>
+						</div>
+					</div>
+				</div>
+				<div class="row mt-4">
+					<div class="col-md-6">
+						<a href="/admin/menus" class="btn btn-outline-primary w-100 mb-3">
+							<i class="fa fa-bars me-2"></i>Manage All Menus
+						</a>
+					</div>
+					<div class="col-md-6">
+						<a href="/admin/menus/create" class="btn btn-primary w-100 mb-3">
+							<i class="fa fa-plus me-2"></i>Create New Menu
+						</a>
+					</div>
+				</div>
+				<% if (allMenus && allMenus.length > 0) { %>
+					<div class="row mt-3">
+						<div class="col-12">
+							<h6 class="text-muted mb-2">Available Menus:</h6>
+							<div class="d-flex flex-wrap gap-2">
+								<% allMenus.forEach(function(menu) { %>
+									<span class="badge bg-light text-dark border menu-badge" data-menu-id="<%= menu.id %>">
+										<%= menu.name %>
+										<a href="/admin/menus/<%= menu.id %>/edit" class="text-decoration-none ms-1" title="Edit <%= menu.name %>">
+											<i class="fa fa-edit text-primary"></i>
+										</a>
+									</span>
+								<% }); %>
+							</div>
+						</div>
+					</div>
+				<% } %>
+			</div>
+		</div>
+		<!-- END panel -->
+	</div>
+	<!-- END col-6 -->
+</div>
+<!-- END row --> 

@@ -1,0 +1,345 @@
+// Header styles
+header {
+  position: absolute;
+  // Force small screen padding on all screen sizes (like projects page)
+  top: $small-screen-padding !important;
+  left: $small-screen-padding !important;
+  width: calc(100vw - #{$small-screen-padding * 2}) !important;
+  height: 45px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  // On larger screens, center the menu
+  @media (min-width: $medium-screen) {
+    justify-content: center;
+
+    .logo {
+      position: absolute;
+      left: 0;
+    }
+  }
+
+
+  // Logo styles
+  .logo {
+    img {
+      height: 45px;
+      width: auto;
+      border-radius: 8px;
+    }
+  }
+
+  // Horizontal menu styles
+  
+  .horizontal-menu,
+  nav ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    // Hide on screens smaller than medium-screen
+    @media (max-width: #{$medium-screen - 1px}) {
+      display: none;
+    }
+
+    li {
+      position: relative;
+
+      &.has-submenu {
+        &:hover {
+          .submenu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+          }
+        }
+      }
+    }
+
+    a {
+      font-weight: bold;
+      color: $white;
+      opacity: 0.8;
+      transition: 0.3s all;
+      text-decoration: none;
+      margin: 0 20px;
+      border: none;
+      background: none;
+      transition: 0.3s all;
+
+      &:hover,
+      &.active {
+        opacity: 1;
+        text-decoration: none;
+        border: none;
+      }
+    }
+
+    .submenu {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 8px;
+      padding: 8px 0;
+      min-width: 180px;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 1000;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+
+      // Small arrow on top
+      &::before {
+        content: "";
+        position: absolute;
+        top: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-bottom: 6px solid rgba(255, 255, 255, 0.1);
+      }
+
+      // Arrow border
+      &::after {
+        content: "";
+        position: absolute;
+        top: -7px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 7px solid transparent;
+        border-right: 7px solid transparent;
+        border-bottom: 7px solid rgba(255, 255, 255, 0.2);
+      }
+
+      li {
+        margin: 0;
+        width: 100%;
+
+        a {
+          color: $white;
+          padding: 8px 16px;
+          margin: 0;
+          display: block;
+          font-size: 0.9em;
+          font-weight: 400;
+          transition: all 0.3s ease;
+          border-radius: 4px;
+          margin: 2px 8px;
+          width: calc(100% - 16px);
+          position: relative;
+          white-space: nowrap;
+
+          &:hover {
+            opacity: 1;
+            text-decoration: underline;
+          }
+
+          &.active {
+            opacity: 1;
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+
+  .burger-menu {
+    display: flex; // Always flex as requested
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: fixed;
+    top: 30px !important;
+    right: $small-screen-padding;
+    z-index: 10010;
+    transition: 0.3s all;
+    opacity: 1;
+
+    // Display is always flex as requested by user
+
+    // Responsive positioning - keep at 75px for all screen sizes
+    @media (min-width: $medium-screen) {
+      right: $medium-screen-padding;
+      opacity: 0;
+    }
+
+    @media (min-width: $large-screen) {
+      right: $large-screen-padding;
+    }
+
+    @media (min-width: $ultra-screen) {
+      right: $ultra-large-screen-padding;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+
+    // Burger lines - three stacked lines
+    .burger-line {
+      width: 100%;
+      height: 3px;
+      background: $white;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transition: all 0.3s ease;
+      transform-origin: center;
+      box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+
+      &:nth-child(1) {
+        transform: translateY(-12px);
+      }
+
+      &:nth-child(2) {
+        transform: translateY(-50%);
+      }
+
+      &:nth-child(3) {
+        transform: translateY(9px);
+      }
+    }
+
+    // Active state - transform to X
+    &.active {
+      .burger-line {
+        &:nth-child(1) {
+          transform: rotate(45deg) translateY(-50%);
+        }
+
+        &:nth-child(2) {
+          opacity: 0;
+          transform: translateY(-50%) scale(0);
+        }
+
+        &:nth-child(3) {
+          transform: rotate(-45deg) translateY(-50%);
+        }
+      }
+    }
+  }
+
+  // Header classes for burger menu
+  &.inverted {
+    .burger-menu {
+      .burger-line {
+        background: $dark;
+      }
+    }
+  }
+
+  &.has-burger-menu {
+    .burger-menu {
+      opacity: 1;
+
+      @media (min-width: $medium-screen) {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+// ============================================================================
+// LIGHT BACKGROUND THEME STYLES
+// ============================================================================
+// When body has light-background class, make menu elements dark
+body.light-background {
+  header {
+    // Horizontal menu links - dark color for light background
+    .horizontal-menu a,
+    nav ul a {
+      color: $dark;
+      opacity: 0.8;
+
+      &:hover,
+      &.active {
+        opacity: 1;
+        text-decoration: none;
+        border: none;
+        // Remove shadows and background effects on hover
+        box-shadow: none;
+        background: none;
+      }
+    }
+
+    // Submenu styling for light background
+    .horizontal-menu .submenu,
+    nav ul .submenu {
+      background: brand-rgba( 0.9);
+      backdrop-filter: blur(10px);
+      border: 1px solid brand-rgba( 0.3);
+
+      // Arrow styling for dark submenu
+      &::before {
+        border-bottom-color: brand-rgba( 0.9);
+      }
+
+      &::after {
+        border-bottom-color: brand-rgba( 0.3);
+      }
+
+      li a {
+        color: $white;
+        padding: 8px 16px;
+        margin: 0;
+        display: block;
+        font-size: 0.9em;
+        font-weight: 400;
+        transition: all 0.3s ease;
+        border-radius: 4px;
+        margin: 2px 8px;
+        width: calc(100% - 16px);
+        position: relative;
+        white-space: nowrap;
+
+        &:hover {
+          opacity: 1;
+          text-decoration: underline;
+          // Remove shadows and background effects on hover
+          box-shadow: none;
+          background: none;
+        }
+
+        &.active {
+          opacity: 1;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+// ============================================================================
+// ABOVE HERO BURGER MENU STYLING
+// ============================================================================
+// When burger menu is above hero section on light background, use dark color
+body.light-background header.above-hero .burger-menu .burger-line {
+  background: $dark !important; // Dark blue for visibility on light background above hero
+}
+
+  // ============================================================================
+  // RESPONSIVE HEADER STYLES - REMOVED
+  // ============================================================================
+  // Header positioning is now forced to small-screen-padding globally
+  // (matching projects page behavior)

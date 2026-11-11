@@ -1,0 +1,357 @@
+// Major Clients page styles
+.major-clients-page {
+  .page-header {
+    background: linear-gradient(135deg, rgba($primary, 0.8), rgba($accent, 0.8));
+    color: white;
+    padding: 3rem 0;
+    text-align: center;
+    margin-bottom: 3rem;
+    
+    p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+  }
+  
+  .clients-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    
+    .clients-intro {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 2.5rem;
+      margin-bottom: 3rem;
+      text-align: center;
+      
+      h2 {
+        color: $brand-blue;
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      p {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        color: $text;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+    }
+    
+    .clients-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+      
+      .client-card {
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        padding: 2rem;
+        text-align: center;
+        transition: transform 0.3s ease;
+        
+        &:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .client-logo {
+          width: 120px;
+          height: 120px;
+          margin: 0 auto 1.5rem;
+          background: rgba(255,255,255,0.1);
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 2rem;
+          color: $accent;
+        }
+        
+        .client-name {
+          color: $brand-blue;
+          font-size: 1.4rem;
+          font-weight: 600;
+          margin-bottom: 1rem;
+        }
+        
+        .client-industry {
+          color: $text;
+          font-size: 1rem;
+          margin-bottom: 1rem;
+          opacity: 0.8;
+        }
+        
+        .client-description {
+          color: $text;
+          line-height: 1.6;
+          font-size: 0.95rem;
+        }
+        
+        .client-projects {
+          margin-top: 1.5rem;
+          padding-top: 1.5rem;
+          border-top: 1px solid rgba(255,255,255,0.1);
+          
+          .project-count {
+            color: $accent;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+          }
+          
+          .project-label {
+            color: $text;
+            font-size: 0.9rem;
+            opacity: 0.8;
+          }
+        }
+      }
+    }
+    
+    .client-categories {
+      background: rgba($background, 0.8);
+      padding: 3rem 0;
+      margin: 3rem 0;
+      
+      .categories-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        
+        h2 {
+          color: $brand-blue;
+          font-size: 2rem;
+          text-align: center;
+          margin-bottom: 2rem;
+        }
+        
+        .categories-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 2rem;
+          
+          .category {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            
+            .category-icon {
+              font-size: 3rem;
+              color: $accent;
+              margin-bottom: 1rem;
+            }
+            
+            h3 {
+              color: $brand-blue;
+              font-size: 1.3rem;
+              margin-bottom: 1rem;
+            }
+            
+            .client-list {
+              list-style: none;
+              padding: 0;
+              margin: 0;
+              
+              li {
+                color: $text;
+                padding: 0.5rem 0;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+                
+                &:last-child {
+                  border-bottom: none;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    
+    .testimonials-section {
+      margin: 3rem 0;
+      
+      .testimonials-container {
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        padding: 2.5rem;
+        
+        h2 {
+          color: $brand-blue;
+          font-size: 1.8rem;
+          text-align: center;
+          margin-bottom: 2rem;
+        }
+        
+        .testimonials-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+          gap: 2rem;
+          
+          .testimonial {
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 2rem;
+            
+            .testimonial-content {
+              font-style: italic;
+              color: $text;
+              line-height: 1.6;
+              margin-bottom: 1.5rem;
+              font-size: 1rem;
+            }
+            
+            .testimonial-author {
+              display: flex;
+              align-items: center;
+              gap: 1rem;
+              
+              .author-avatar {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                background: $accent;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: bold;
+              }
+              
+              .author-info {
+                .author-name {
+                  color: $brand-blue;
+                  font-weight: 600;
+                  font-size: 1.1rem;
+                }
+                
+                .author-title {
+                  color: $text;
+                  font-size: 0.9rem;
+                  opacity: 0.8;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    
+    .partnership-highlights {
+      background: linear-gradient(135deg, rgba($primary, 0.1), rgba($accent, 0.1));
+      padding: 3rem 0;
+      margin: 3rem 0;
+      
+      .highlights-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        text-align: center;
+        
+        h2 {
+          color: $brand-blue;
+          font-size: 2rem;
+          margin-bottom: 2rem;
+        }
+        
+        .highlights-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 2rem;
+          
+          .highlight {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 2rem;
+            
+            .highlight-number {
+              font-size: 3rem;
+              font-weight: 700;
+              color: $accent;
+              margin-bottom: 1rem;
+            }
+            
+            h3 {
+              color: $brand-blue;
+              font-size: 1.3rem;
+              margin-bottom: 1rem;
+            }
+            
+            p {
+              color: $text;
+              line-height: 1.6;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Client category specific styles
+.category {
+  &.government {
+    border-left: 4px solid #e74c3c;
+  }
+  
+  &.commercial {
+    border-left: 4px solid #f39c12;
+  }
+  
+  &.residential {
+    border-left: 4px solid #C87E2F;
+  }
+  
+  &.healthcare {
+    border-left: 4px solid #1abc9c;
+  }
+  
+  &.education {
+    border-left: 4px solid #9b59b6;
+  }
+  
+  &.industrial {
+    border-left: 4px solid #34495e;
+  }
+}
+
+// Responsive adjustments for Major Clients page
+@media (max-width: 768px) {
+  .major-clients-page {
+    .clients-content {
+      padding: 0 1rem;
+      
+      .clients-intro {
+        padding: 2rem 1.5rem;
+      }
+      
+      .clients-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      
+      .categories-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .testimonials-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .highlights-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+}

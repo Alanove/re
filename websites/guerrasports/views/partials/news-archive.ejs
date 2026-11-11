@@ -1,0 +1,214 @@
+<div class="news-archive-sidebar">
+  <div class="archive-section">
+    <h3 class="archive-title">Архив</h3>
+    
+    <!-- Calendar -->
+    <div class="archive-calendar">
+      <div class="calendar-header">
+        <button class="calendar-nav-btn" id="prevMonth" type="button" aria-label="Предыдущий месяц">
+          <i class="bi bi-chevron-left"></i>
+        </button>
+        <div class="calendar-month-year" id="calendarMonthYear"></div>
+        <button class="calendar-nav-btn" id="nextMonth" type="button" aria-label="Следующий месяц">
+          <i class="bi bi-chevron-right"></i>
+        </button>
+      </div>
+      <div class="calendar-weekdays">
+        <div class="calendar-weekday">Пн</div>
+        <div class="calendar-weekday">Вт</div>
+        <div class="calendar-weekday">Ср</div>
+        <div class="calendar-weekday">Чт</div>
+        <div class="calendar-weekday">Пт</div>
+        <div class="calendar-weekday">Сб</div>
+        <div class="calendar-weekday">Вс</div>
+      </div>
+      <div class="calendar-days" id="calendarDays"></div>
+    </div>
+    
+    <!-- Year/Month Dropdown -->
+    <div class="archive-dropdown-section">
+      <label for="archiveSelect" class="archive-dropdown-label">Выберите год или месяц:</label>
+      <select id="archiveSelect" class="archive-select">
+        <option value="">-- Выберите --</option>
+        <% 
+          if (typeof archiveDates !== 'undefined' && archiveDates && archiveDates.length > 0) {
+            let currentYear = null;
+            let yearStarted = false;
+            archiveDates.forEach(function(item, index) {
+              if (currentYear !== item.year) {
+                if (yearStarted && currentYear !== null) {
+                  // Close previous year group
+        %>
+        </optgroup>
+        <% 
+                }
+                currentYear = item.year;
+                yearStarted = true;
+        %>
+        <optgroup label="<%= item.year %>">
+          <% 
+            let isYearSelected = false;
+            if (typeof filterType !== 'undefined' && filterType === 'year' && typeof filterValue !== 'undefined') {
+              // filterValue is a number for year filter
+              isYearSelected = (filterValue == item.year);
+            }
+          %>
+          <option value="/novosti/year/<%= item.year %>" <%= isYearSelected ? 'selected' : '' %>><%= item.year %> - Все месяцы</option>
+        <% } %>
+          <% 
+            let isMonthSelected = false;
+            if (typeof filterType !== 'undefined' && filterType === 'month' && typeof filterValue !== 'undefined' && filterValue.month !== undefined && filterValue.year !== undefined) {
+              // filterValue is an object { month, year } for month filter
+              isMonthSelected = (filterValue.month == item.month && filterValue.year == item.year);
+            }
+          %>
+          <option value="/novosti/month/<%= item.month %>-<%= item.year %>" <%= isMonthSelected ? 'selected' : '' %>><%= item.year %> - <%= item.monthName %></option>
+        <% 
+              // Close last optgroup
+              if (index === archiveDates.length - 1 && yearStarted) {
+        %>
+        </optgroup>
+        <% 
+              }
+            });
+          }
+        %>
+      </select>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  // News dates from server
+  const newsDates = <%- JSON.stringify(typeof newsDates !== 'undefined' ? newsDates : []) %>;
+  const newsDatesSet = new Set(newsDates);
+  
+  // Filter information from server
+  const filterType = <%- JSON.stringify(typeof filterType !== 'undefined' ? filterType : null) %>;
+  const filterValue = <%- JSON.stringify(typeof filterValue !== 'undefined' ? filterValue : null) %>;
+  
+  // Calendar state - initialize based on filter or current date
+  let currentDate = new Date();
+  let currentMonth = currentDate.getMonth();
+  let currentYear = currentDate.getFullYear();
+  
+  // If there's a filter, set calendar to show the filtered month/year
+  if (filterType && filterValue) {
+    if (filterType === 'day' && filterValue.day && filterValue.month && filterValue.year) {
+      // For day filter, show the month of that day
+      currentMonth = filterValue.month - 1; // JavaScript months are 0-indexed
+      currentYear = filterValue.year;
+    } else if (filterType === 'month' && filterValue.month && filterValue.year) {
+      // For month filter, show that month
+      currentMonth = filterValue.month - 1; // JavaScript months are 0-indexed
+      currentYear = filterValue.year;
+    } else if (filterType === 'year' && filterValue) {
+      // For year filter, show January of that year (or first month with news if available)
+      currentYear = filterValue;
+      currentMonth = 0; // January
+    }
+  }
+  
+  // Month names in Russian
+  const monthNames = [
+    'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+    'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
+  ];
+  
+  // Day names in Russian (abbreviated)
+  const dayNames = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+  
+  function formatDate(year, month, day) {
+    const m = String(month + 1).padStart(2, '0');
+    const d = String(day).padStart(2, '0');
+    return `${year}-${m}-${d}`;
+  }
+  
+  function renderCalendar() {
+    const monthYearEl = document.getElementById('calendarMonthYear');
+    const daysEl = document.getElementById('calendarDays');
+    
+    // Update month/year header
+    monthYearEl.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+    
+    // Clear previous days
+    daysEl.innerHTML = '';
+    
+    // Get first day of month and number of days
+    const firstDay = new Date(currentYear, currentMonth, 1);
+    const lastDay = new Date(currentYear, currentMonth + 1, 0);
+    const daysInMonth = lastDay.getDate();
+    const startingDayOfWeek = firstDay.getDay();
+    // Adjust for Monday = 0 (instead of Sunday = 0)
+    const adjustedStartingDay = startingDayOfWeek === 0 ? 6 : startingDayOfWeek - 1;
+    
+    // Add empty cells for days before the first day of the month
+    for (let i = 0; i < adjustedStartingDay; i++) {
+      const emptyCell = document.createElement('div');
+      emptyCell.className = 'calendar-day empty';
+      daysEl.appendChild(emptyCell);
+    }
+    
+    // Add cells for each day of the month
+    for (let day = 1; day <= daysInMonth; day++) {
+      const dayCell = document.createElement('div');
+      dayCell.className = 'calendar-day';
+      
+      const dateStr = formatDate(currentYear, currentMonth, day);
+      const hasNews = newsDatesSet.has(dateStr);
+      
+      if (hasNews) {
+        dayCell.classList.add('has-news');
+        dayCell.innerHTML = `<a href="/novosti/day/${day}-${currentMonth + 1}-${currentYear}" class="calendar-day-link">${day}</a>`;
+      } else {
+        dayCell.textContent = day;
+      }
+      
+      // Highlight today
+      const today = new Date();
+      if (day === today.getDate() && 
+          currentMonth === today.getMonth() && 
+          currentYear === today.getFullYear()) {
+        dayCell.classList.add('today');
+      }
+      
+      daysEl.appendChild(dayCell);
+    }
+  }
+  
+  // Navigation buttons
+  document.getElementById('prevMonth').addEventListener('click', function() {
+    currentMonth--;
+    if (currentMonth < 0) {
+      currentMonth = 11;
+      currentYear--;
+    }
+    renderCalendar();
+  });
+  
+  document.getElementById('nextMonth').addEventListener('click', function() {
+    currentMonth++;
+    if (currentMonth > 11) {
+      currentMonth = 0;
+      currentYear++;
+    }
+    renderCalendar();
+  });
+  
+  // Archive dropdown
+  const archiveSelect = document.getElementById('archiveSelect');
+  if (archiveSelect) {
+    archiveSelect.addEventListener('change', function() {
+      const value = this.value;
+      if (value) {
+        window.location.href = value;
+      }
+    });
+  }
+  
+  // Initial render
+  renderCalendar();
+})();
+</script>
+

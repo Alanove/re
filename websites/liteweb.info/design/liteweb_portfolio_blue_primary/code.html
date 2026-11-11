@@ -1,0 +1,424 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Portfolio | LiteWeb Engineering</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .project-card-shadow {
+            box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .project-card-shadow:hover {
+            box-shadow: 0 20px 40px -4px rgba(114, 192, 44, 0.15);
+            transform: translateY(-4px);
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .shimmer-text {
+            background: linear-gradient(90deg, #000 0%, #72c02c 50%, #000 100%);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: shimmer 4s linear infinite;
+        }
+        .accent-green { color: rgb(114, 192, 44); }
+        .bg-accent-green { background-color: rgb(114, 192, 44); }
+        .border-accent-green { border-color: rgb(114, 192, 44); }
+        .accent-blue { color: #3498db; }
+        .bg-accent-blue { background-color: #3498db; }
+        .border-accent-blue { border-color: #3498db; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "on-background": "#191c1e",
+                      "tertiary": "#72c02c",
+                      "primary": "#000000",
+                      "on-tertiary-fixed": "#001a42",
+                      "inverse-on-surface": "#eff1f3",
+                      "surface-container-low": "#f2f4f6",
+                      "on-primary-fixed-variant": "#3f465c",
+                      "surface-variant": "#e0e3e5",
+                      "on-secondary-fixed-variant": "#3a485b",
+                      "tertiary-fixed": "#e8f5e9",
+                      "on-secondary-container": "#57657a",
+                      "inverse-primary": "#bec6e0",
+                      "on-secondary-fixed": "#0d1c2e",
+                      "surface": "#f7f9fb",
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary-fixed": "#131b2e",
+                      "surface-container-highest": "#e0e3e5",
+                      "secondary-container": "#f1f8e9",
+                      "error": "#ba1a1a",
+                      "tertiary-fixed-dim": "#adc6ff",
+                      "inverse-surface": "#2d3133",
+                      "surface-container-high": "#e6e8ea",
+                      "on-primary-container": "#7c839b",
+                      "primary-fixed": "#dae2fd",
+                      "surface-tint": "#565e74",
+                      "outline": "#76777d",
+                      "primary-fixed-dim": "#bec6e0",
+                      "on-secondary": "#ffffff",
+                      "secondary-fixed-dim": "#b9c7df",
+                      "surface-dim": "#d8dadc",
+                      "tertiary-container": "#001a42",
+                      "secondary": "#3498db",
+                      "outline-variant": "#c6c6cd",
+                      "secondary-fixed": "#d5e3fc",
+                      "on-tertiary-container": "#72c02c",
+                      "on-error": "#ffffff",
+                      "background": "#f7f9fb",
+                      "surface-bright": "#f7f9fb",
+                      "surface-container": "#eceef0",
+                      "on-tertiary-fixed-variant": "#004395",
+                      "error-container": "#ffdad6",
+                      "primary-container": "#131b2e",
+                      "on-surface-variant": "#45464d",
+                      "on-surface": "#191c1e"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "md": "24px",
+                      "lg": "48px",
+                      "xs": "4px",
+                      "gutter": "32px",
+                      "base": "8px",
+                      "sm": "12px",
+                      "xl": "80px",
+                      "container-max": "1280px"
+              },
+              "fontFamily": {
+                      "headline-md": ["Geist"],
+                      "body-lg": ["Inter"],
+                      "headline-xl-mobile": ["Geist"],
+                      "label-md": ["Geist"],
+                      "display-lg-mobile": ["Geist"],
+                      "headline-xl": ["Geist"],
+                      "display-lg": ["Geist"],
+                      "body-md": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-md": ["30px", {"lineHeight": "1.3", "fontWeight": "500"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-xl-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                      "label-md": ["14px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "display-lg-mobile": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "headline-xl": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "display-lg": ["72px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md selection:bg-tertiary-fixed">
+<!-- TopNavBar -->
+<nav class="fixed top-0 left-0 w-full z-50 bg-surface/80 backdrop-blur-md dark:bg-surface-dim/80 shadow-sm dark:shadow-none border-b border-outline-variant/30 dark:border-outline/20">
+<div class="max-w-container-max mx-auto px-gutter py-4 flex justify-between items-center">
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed flex items-center gap-2">
+<span class="w-8 h-8 bg-accent-green rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-xl">bolt</span>
+</span>
+                LiteWeb
+            </div>
+<div class="hidden md:flex items-center space-x-md">
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-secondary-fixed-variant hover:accent-green transition-colors" href="#">Home</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-secondary-fixed-variant hover:accent-green transition-colors" href="#">Services</a>
+<a class="font-label-md text-label-md accent-green dark:text-tertiary font-bold border-b-2 border-accent-green pb-1" href="#">Portfolio</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-secondary-fixed-variant hover:accent-green transition-colors" href="#">Pricing</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-secondary-fixed-variant hover:accent-green transition-colors" href="#">Blog</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-secondary-fixed-variant hover:accent-green transition-colors" href="#">About</a>
+</div>
+<button class="bg-accent-blue text-on-primary px-md py-sm rounded-lg font-label-md text-label-md hover:scale-95 transition-transform duration-150 shadow-lg shadow-blue-500/10">
+                Start a Project
+            </button>
+</div>
+</nav>
+<main class="pt-xl pb-xl">
+<!-- Hero Section -->
+<section class="max-w-container-max mx-auto px-gutter py-xl">
+<div class="max-w-3xl">
+<span class="font-label-md text-label-md accent-green uppercase tracking-widest mb-base block flex items-center gap-2">
+<span class="w-4 h-[1px] bg-accent-green"></span> Our Work
+</span>
+<h1 class="font-display-lg text-display-lg mb-md leading-tight">Engineering Digital <span class="shimmer-text">Excellence.</span></h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+                    Explore how we've helped industry leaders redefine their digital presence through rigorous design standards and performance-first engineering.
+                </p>
+</div>
+</section>
+<!-- Filters Section -->
+<section class="max-w-container-max mx-auto px-gutter mb-xl">
+<div class="flex flex-wrap items-center gap-sm pb-base border-b border-outline-variant">
+<button class="px-md py-base rounded-full bg-accent-blue text-white font-label-md text-label-md transition-colors filter-btn active">All Industries</button>
+<button class="px-md py-base rounded-full hover:bg-surface-container-high transition-colors font-label-md text-label-md text-on-surface-variant filter-btn">Healthcare</button>
+<button class="px-md py-base rounded-full hover:bg-surface-container-high transition-colors font-label-md text-label-md text-on-surface-variant filter-btn">Finance</button>
+<button class="px-md py-base rounded-full hover:bg-surface-container-high transition-colors font-label-md text-label-md text-on-surface-variant filter-btn">Real Estate</button>
+<button class="px-md py-base rounded-full hover:bg-surface-container-high transition-colors font-label-md text-label-md text-on-surface-variant filter-btn">Retail</button>
+<button class="px-md py-base rounded-full hover:bg-surface-container-high transition-colors font-label-md text-label-md text-on-surface-variant filter-btn">Technology</button>
+</div>
+</section>
+<!-- Portfolio Grid -->
+<section class="max-w-container-max mx-auto px-gutter">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-lg">
+<!-- Project 1: Healthcare -->
+<article class="bg-surface-container-lowest rounded-[24px] overflow-hidden project-card-shadow flex flex-col group">
+<div class="relative aspect-video overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A sophisticated medical dashboard interface with clean white surfaces and professional blue accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQwFczboLmUV_DdlZ6urD0I4jEbruPGymLwCWRMV-b3-jyXTTparkB-GkBjBPRCcH9wG8ISNaE7jMU2zDxHh9_p2m1bG7vJNVdXzrCzXRZQNv9xIAJKr9IivtmShU0BMaTkLimVf5R0L-bhc3GxMOXrjcQuWbxVbPHvULHFxrnN5PZVWU4utznXG7CEYu6K5HTgkTN8FdyXpvEIP-iyMyxOUXNJBhord_ZiRw5mac0vrM77eH7m-Fr">
+<div class="absolute top-md right-md">
+<span class="bg-white/95 backdrop-blur accent-blue px-sm py-xs rounded-lg font-label-md text-label-md border border-outline-variant shadow-sm">Healthcare</span>
+</div>
+</div>
+<div class="p-lg flex-1">
+<h3 class="font-headline-md text-headline-md mb-md group-hover:accent-blue transition-colors">PulseCare Telehealth</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md mb-lg">
+<div>
+<h4 class="font-label-md text-label-md text-outline uppercase mb-xs">Challenge</h4>
+<p class="text-on-surface-variant text-sm">Outdated legacy system causing 12-second latency in doctor-patient video sync.</p>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-outline uppercase mb-xs">Solution</h4>
+<p class="text-on-surface-variant text-sm">Micro-frontend architecture with WebRTC optimization and custom design system.</p>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-outline uppercase mb-xs">Result</h4>
+<p class="accent-green font-bold text-lg">50% Faster Workflows</p>
+</div>
+</div>
+<div class="flex items-center justify-between pt-md border-t border-outline-variant/30">
+<div class="flex items-center space-x-sm">
+<span class="w-2 h-2 rounded-full bg-accent-blue"></span>
+<span class="font-label-md text-label-md accent-blue">Live Platform Case Study</span>
+</div>
+<button class="flex items-center space-x-xs accent-green font-bold hover:translate-x-1 transition-transform">
+<span class="font-label-md text-label-md">View Outcome</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Project 2: Finance -->
+<article class="bg-surface-container-lowest rounded-[24px] overflow-hidden project-card-shadow flex flex-col group lg:mt-lg">
+<div class="relative aspect-video overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A dark-mode premium fintech interface with deep slate tones and vibrant cyan data streams." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCLxe3IDVJBWgpVIsnBWz-4qGKlHA3Q1b0K5ltWq-SOpT2PMUoXSt8SN7byRmKokWHkfvJ4Q4YHUjNx4SOynooaTYj39rC4wjdlPI4jRlM4vrdiPd5wOpGwMdWNkzU8VA4EgWpE41IFZ0i1re8h4lp2BtXyxeV_VkTA_sSePUMnNoS3YNTQPjskcUnlEaD3mM3fpc5MUoSECtvCSvy8v7j4n9fByi5RXgi4VSmEKQtGsJf_W7y3kA6">
+<div class="absolute top-md right-md">
+<span class="bg-white/95 backdrop-blur accent-blue px-sm py-xs rounded-lg font-label-md text-label-md border border-outline-variant shadow-sm">Finance</span>
+</div>
+</div>
+<div class="p-lg flex-1">
+<h3 class="font-headline-md text-headline-md mb-md group-hover:accent-blue transition-colors">Nexus Wealth Management</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md mb-lg">
+<div>
+<h4 class="font-label-md text-label-md text-outline uppercase mb-xs">Challenge</h4>
+<p class="text-on-surface-variant text-sm">Complex data silos preventing high-net-worth clients from seeing unified ROI.</p>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-outline uppercase mb-xs">Solution</h4>
+<p class="text-on-surface-variant text-sm">Unified GraphQL layer integrating 14 different banking APIs into a single UI.</p>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-outline uppercase mb-xs">Result</h4>
+<p class="accent-green font-bold text-lg">200% Conversion Lift</p>
+</div>
+</div>
+<div class="flex items-center justify-between pt-md border-t border-outline-variant/30">
+<div class="flex items-center space-x-sm">
+<span class="w-2 h-2 rounded-full bg-accent-blue"></span>
+<span class="font-label-md text-label-md accent-blue">Architecture Breakdown</span>
+</div>
+<button class="flex items-center space-x-xs accent-green font-bold hover:translate-x-1 transition-transform">
+<span class="font-label-md text-label-md">View Outcome</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Project 3: Real Estate -->
+<article class="bg-surface-container-lowest rounded-[24px] overflow-hidden project-card-shadow flex flex-col group">
+<div class="relative aspect-video overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="An elegant real estate property discovery application featuring expansive high-resolution photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoqvMvQdXvYI_tYKKlHzBeLHBQcNMqLheFCmvnPFh_SK1rRIlhntpozbIVi72lkOlObk7-gC61QvZ-6TfyYy1PFXMIFdquQK-NitNxveG347wP-EAnHhDANWM1l8yjIN2sPBXwgrb8o3qxlA5DPYWjJNPKk-pXZdA1ufd6_UlmqnJEWbfQ0r0HCCm0Q5S_LvU-UFKNL1dx2Fe-1KgG_GeuNMB0b0CYK_1Tv7COecossB2IfCAvNej9">
+<div class="absolute top-md right-md">
+<span class="bg-white/95 backdrop-blur accent-blue px-sm py-xs rounded-lg font-label-md text-label-md border border-outline-variant shadow-sm">Real Estate</span>
+</div>
+</div>
+<div class="p-lg flex-1">
+<h3 class="font-headline-md text-headline-md mb-md group-hover:accent-blue transition-colors">Estates Collective</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md mb-lg">
+<div>
+<h4 class="font-label-md text-label-md text-outline uppercase mb-xs">Challenge</h4>
+<p class="text-on-surface-variant text-sm">Low engagement on property listings due to poor visual hierarchy and load speeds.</p>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-outline uppercase mb-xs">Solution</h4>
+<p class="text-on-surface-variant text-sm">Next.js SSR implementation with dynamic image optimization and spatial search.</p>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-outline uppercase mb-xs">Result</h4>
+<p class="accent-green font-bold text-lg">3x Viewing Requests</p>
+</div>
+</div>
+<div class="flex items-center justify-between pt-md border-t border-outline-variant/30">
+<div class="flex items-center space-x-sm">
+<span class="w-2 h-2 rounded-full bg-accent-blue"></span>
+<span class="font-label-md text-label-md accent-blue">Frontend Deep-Dive</span>
+</div>
+<button class="flex items-center space-x-xs accent-green font-bold hover:translate-x-1 transition-transform">
+<span class="font-label-md text-label-md">View Outcome</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Project 4: Retail -->
+<article class="bg-surface-container-lowest rounded-[24px] overflow-hidden project-card-shadow flex flex-col group lg:mt-lg">
+<div class="relative aspect-video overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A modern e-commerce checkout experience featuring a multi-step progress bar." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8_AWGXjLyBTi93_ikp55nghgbzqoCRY5mLrGPT6rv_w0YzQpVCtRVt1hgC0bqVFtH_i-XOLt3FcARUvDdhrDLt2Y77VkIEHulw816Z4Zhhk6wU29_dEgWuCfSICCIuMdBSmbohseoi6nX4y0d-FioLIMlMuz6Upv2Kwrgf3u-VWPAjYy8v_2BQ4swdsuh4xDUWjDVwY3kChBQhQzc5uvA7wiCCZfb4djPEcg-mmALx8lPGo5C50Xb">
+<div class="absolute top-md right-md">
+<span class="bg-white/95 backdrop-blur accent-blue px-sm py-xs rounded-lg font-label-md text-label-md border border-outline-variant shadow-sm">Retail</span>
+</div>
+</div>
+<div class="p-lg flex-1">
+<h3 class="font-headline-md text-headline-md mb-md group-hover:accent-blue transition-colors">Vanguard Apparel</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md mb-lg">
+<div>
+<h4 class="font-label-md text-label-md text-outline uppercase mb-xs">Challenge</h4>
+<p class="text-on-surface-variant text-sm">Cart abandonment rates exceeding 75% on mobile devices due to slow checkout.</p>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-outline uppercase mb-xs">Solution</h4>
+<p class="text-on-surface-variant text-sm">One-click checkout flow using Stripe integration and headless commerce backend.</p>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-outline uppercase mb-xs">Result</h4>
+<p class="accent-green font-bold text-lg">40% Less Abandonment</p>
+</div>
+</div>
+<div class="flex items-center justify-between pt-md border-t border-outline-variant/30">
+<div class="flex items-center space-x-sm">
+<span class="w-2 h-2 rounded-full bg-accent-blue"></span>
+<span class="font-label-md text-label-md accent-blue">Conversion Audit</span>
+</div>
+<button class="flex items-center space-x-xs accent-green font-bold hover:translate-x-1 transition-transform">
+<span class="font-label-md text-label-md">View Outcome</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="max-w-container-max mx-auto px-gutter py-xl mt-xl">
+<div class="bg-primary text-on-primary rounded-[32px] p-xl text-center relative overflow-hidden group">
+<div class="absolute inset-0 opacity-15 pointer-events-none">
+<div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(52,152,219,0.3)_0%,transparent_60%)]"></div>
+</div>
+<div class="relative z-10">
+<h2 class="font-headline-xl text-headline-xl mb-md">Ready for your next milestone?</h2>
+<p class="font-body-lg text-body-lg text-white/70 max-w-xl mx-auto mb-lg">
+                        We don't just build websites. We engineer business outcomes through world-class technical execution.
+                    </p>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-md">
+<button class="px-xl py-md bg-accent-blue text-white rounded-lg font-bold hover:scale-95 transition-all shadow-lg shadow-blue-500/20">Start a Project</button>
+<button class="px-xl py-md border border-white/20 text-white rounded-lg font-bold hover:bg-white/10 transition-all">Talk to an Architect</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-dim border-t border-outline-variant dark:border-outline">
+<div class="max-w-container-max mx-auto py-xl px-gutter grid grid-cols-1 md:grid-cols-4 gap-lg">
+<div class="col-span-1 md:col-span-1">
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed mb-md flex items-center gap-2">
+<span class="w-6 h-6 bg-accent-green rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-sm">bolt</span>
+</span>
+                    LiteWeb
+                </div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xs">
+                    High-end engineering for high-stakes enterprise digital solutions.
+                </p>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-primary font-bold mb-md">Navigation</h4>
+<ul class="space-y-sm">
+<li><a class="font-body-md text-body-md text-on-surface-variant dark:text-on-secondary-fixed-variant hover:accent-green hover:underline transition-all" href="#">Services</a></li>
+<li><a class="font-body-md text-body-md accent-green font-semibold" href="#">Portfolio</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant dark:text-on-secondary-fixed-variant hover:accent-green hover:underline transition-all" href="#">Pricing</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant dark:text-on-secondary-fixed-variant hover:accent-green hover:underline transition-all" href="#">Blog</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-primary font-bold mb-md">Legal</h4>
+<ul class="space-y-sm">
+<li><a class="font-body-md text-body-md text-on-surface-variant dark:text-on-secondary-fixed-variant hover:accent-green hover:underline transition-all" href="#">Privacy Policy</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant dark:text-on-secondary-fixed-variant hover:accent-green hover:underline transition-all" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-primary font-bold mb-md">Connect</h4>
+<p class="font-body-md text-body-md text-on-surface-variant mb-md">hello@liteweb.engineering</p>
+<div class="flex space-x-md">
+<span class="material-symbols-outlined text-outline cursor-pointer hover:accent-green transition-colors">public</span>
+<span class="material-symbols-outlined text-outline cursor-pointer hover:accent-green transition-colors">code</span>
+<span class="material-symbols-outlined text-outline cursor-pointer hover:accent-green transition-colors">hub</span>
+</div>
+</div>
+</div>
+<div class="max-w-container-max mx-auto px-gutter py-md border-t border-outline-variant/30 text-center">
+<p class="font-body-md text-body-md text-on-surface-variant">© 2024 LiteWeb Engineering. All rights reserved.</p>
+</div>
+</footer>
+<script>
+        // Micro-interactions
+        document.querySelectorAll('button, a').forEach(el => {
+            el.addEventListener('mousedown', () => {
+                el.classList.add('scale-95');
+            });
+            el.addEventListener('mouseup', () => {
+                el.classList.remove('scale-95');
+            });
+            el.addEventListener('mouseleave', () => {
+                el.classList.remove('scale-95');
+            });
+        });
+
+        // Filter functionality simulation
+        const filterButtons = document.querySelectorAll('button.filter-btn');
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => {
+                    b.classList.remove('bg-accent-blue', 'text-white', 'active');
+                    b.classList.add('text-on-surface-variant', 'hover:bg-surface-container-high');
+                });
+                btn.classList.add('bg-accent-blue', 'text-white', 'active');
+                btn.classList.remove('text-on-surface-variant', 'hover:bg-surface-container-high');
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,15 @@
+<%- include('partials/page-title', { heading: query ? 'Search: ' + query : 'Search' }) %>
+<section>
+  <div class="container">
+    <% if (typeof results !== 'undefined' && results.length) { %>
+      <% results.forEach(function(item) { %>
+        <div class="mb-4">
+          <h3 class="h5"><a href="<%= item.url %>"><%= item.title %></a></h3>
+          <p><%= item.excerpt || '' %></p>
+        </div>
+      <% }); %>
+    <% } else { %>
+      <p>No results found.</p>
+    <% } %>
+  </div>
+</section>

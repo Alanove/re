@@ -1,0 +1,457 @@
+<div class="container-fluid p-0 mb-3">
+    <div id="header-carousel" class="carousel slide carousel-fade mb-30 mb-lg-0" data-interval="false">
+        <ol class="carousel-indicators">
+            <% if (typeof slides !=='undefined' && slides && slides.length> 0) { %>
+                <% slides.forEach((slide, index)=> { %>
+                    <li data-target="#header-carousel" data-slide-to="<%= index %>"
+                        class="<%= index === 0 ? 'active' : '' %>"></li>
+                    <% }); %>
+                        <% } %>
+        </ol>
+        <div class="carousel-inner">
+            <% if (typeof slides !=='undefined' && slides && slides.length> 0) { %>
+                <% slides.forEach((slide, index)=> { %>
+                    <div class="carousel-item position-relative <%= index === 0 ? 'active' : '' %>" data-slide-duration-sec="<%= (slide.durationSeconds && slide.durationSeconds > 0) ? Math.min(600, slide.durationSeconds) : 5 %>">
+                        <% const posterSrc=slide.posterImage ? (slide.posterImage.startsWith('http') ||
+                            slide.posterImage.startsWith('/') ? slide.posterImage : '/images/slide/' +
+                            slide.posterImage) : (slide.image ? (slide.image.startsWith('http') ||
+                            slide.image.startsWith('/') ? slide.image : '/images/slide/' + slide.image) : '' );
+                            %>
+                        <% if (slide.mediaType==='video' && slide.videoUrl) { %>
+                            <% const videoSrc=slide.videoUrl.startsWith('http') || slide.videoUrl.startsWith('/') ?
+                                slide.videoUrl : '/images/slide/' + slide.videoUrl; %>
+                                    <%# Same as CMS: real <source> in HTML. Production loads app.min.js; defer-only injection broke if minify/deploy drifted. JS in app.js only plays + handles slide changes. %>
+                                    <video class="position-absolute w-100 h-100 hero-carousel-video" style="object-fit: cover;"
+                                        muted loop playsinline preload="metadata" poster="<%= posterSrc %>"
+                                        <% if (index === 0) { %>fetchpriority="high"<% } %>>
+                                        <source src="<%= videoSrc %>" type="video/mp4" />
+                                        Your browser does not support the video tag.
+                                    </video>
+                                    <% } else { %>
+                                        <% const imgSrc=slide.image.startsWith('http') || slide.image.startsWith('/') ?
+                                            slide.image : '/images/slide/' + slide.image; %>
+                                            <img class="position-absolute w-100 h-100" src="<%= imgSrc %>"
+                                                style="object-fit: cover;" alt="<%= slide.alt || slide.title %>">
+                                            <% } %>
+                                                <div
+                                                    class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                                                    <div class="p-3" style="max-width: 700px;">
+                                                        <% if (slide.title) { %>
+                                                            <h1
+                                                                class="display-4 text-white mb-3 animate__animated animate__fadeInDown">
+                                                                <%- typeof formatTrademarks !== 'undefined' ? formatTrademarks(slide.title) : slide.title %>
+                                                            </h1>
+                                                            <% } %>
+                                                                <% if (slide.subtitle) { %>
+                                                                    <p
+                                                                        class="mx-md-5 px-5 animate__animated animate__bounceIn">
+                                                                        <%- typeof formatTrademarks !== 'undefined' ? formatTrademarks(slide.subtitle) : slide.subtitle %>
+                                                                    </p>
+                                                                    <% } %>
+                                                                        <% if (slide.link && slide.buttonText) { %>
+                                                                            <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp"
+                                                                                href="<%= slide.link %>">
+                                                                                <%- typeof formatTrademarks !== 'undefined' ? formatTrademarks(slide.buttonText) : slide.buttonText %>
+                                                                            </a>
+                                                                            <% } %>
+                                                    </div>
+                                                </div>
+                    </div>
+                    <% }); %>
+                        <% } else { %>
+                            <div class="carousel-item position-relative active" style="height: 430px;">
+                                <img class="position-absolute w-100 h-100" src="/MultiShop/img/carousel-1.jpg"
+                                    style="object-fit: cover;">
+                                <div
+                                    class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                                    <div class="p-3" style="max-width: 700px;">
+                                        <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">
+                                            Welcome to Guerra Sports</h1>
+                                        <p class="mx-md-5 px-5 animate__animated animate__bounceIn">Discover premium
+                                            sports equipment and apparel</p>
+                                        <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp"
+                                            href="/shop">Shop Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+        </div>
+    </div>
+</div>
+<!-- Carousel End -->
+
+<!-- Featured Products Start -->
+<%# --- Catch of the Day / featured products section (commented out) --- %>
+<% if (typeof featuredProducts !=='undefined' && featuredProducts && featuredProducts.length> 0) { %>
+    <div class="container-fluid pt-5 pb-3">
+        <div class="section-header-row d-flex justify-content-between align-items-baseline mx-xl-5 mb-4">
+            <h2 class="section-title position-relative text-uppercase mb-0"><span class="bg-secondary pr-3">New Products</span></h2>
+            <a href="/products?featured=true" class="section-view-all-link text-decoration-none">View All</a>
+        </div>
+        <div class="swiper product-carousel px-xl-5">
+            <div class="swiper-wrapper">
+            <% featuredProducts.forEach(function(product) { %>
+                <div class="swiper-slide">
+                <div class="product-item product-item-home bg-light mb-4">
+                    <div class="product-img position-relative overflow-hidden">
+                        <% if (product.images && product.images.length> 0) { %>
+                            <a href="/shop/product/<%= product.slug %>">
+                                <img class="img-fluid w-100 product-card-img" src="<%= product.images[0].thumb_url || product.images[0].image_url %>"
+                                    alt="<%= product.name %>" data-default-src="<%= product.images[0].image_url %>">
+                            </a>
+                            <% } else { %>
+                                <a href="/shop/product/<%= product.slug %>">
+                                    <img class="img-fluid w-100 product-card-img" src="<%= siteImage %>"
+                                        alt="<%= product.name %>" data-default-src="<%= siteImage %>">
+                                </a>
+                                <% } %>
+                                    <div class="product-action">
+                                        <a class="btn btn-outline-dark btn-square add-to-wishlist-btn" href="#"
+                                            data-product-id="<%= product.id %>"><i class="far fa-heart"></i></a>
+                                        <a class="btn btn-outline-dark btn-square add-to-cart-btn" href="#"
+                                            data-product-id="<%= product.id %>"
+                                            data-has-variants="<%= !!product.has_variants %>"
+                                            data-slug="<%= product.slug %>"><i class="fa fa-shopping-cart"></i></a>
+                                    </div>
+                    </div>
+                    <div class="text-left py-3 px-2 product-card-body">
+                        <a class="product-card-title text-decoration-none text-truncate d-block" href="/shop/product/<%= product.slug %>">
+                            <%= product.name %>
+                        </a>
+                        <% if (product.short_description && product.short_description.trim()) { %>
+                            <p class="product-card-desc text-truncate mb-1"><%= product.short_description.trim() %></p>
+                        <% } %>
+                        <div class="d-flex align-items-center justify-content-start mt-1 money product-card-price">
+                            <%- include('partials/product-listing-price', { product, customClass: '', multi_price_display: (typeof ecommerceSettings !== 'undefined' && ecommerceSettings && ecommerceSettings.multi_price_display) ? ecommerceSettings.multi_price_display : '' }) %>
+                        </div>
+                        <% if (product.color_options && product.color_options.length > 0) { %>
+                            <div class="product-color-swatches d-flex justify-content-start align-items-center pl-0 pr-0">
+                                <% const maxSwatches = 3; const opts = product.color_options; const showOpts = opts.slice(0, maxSwatches); const rest = opts.length - maxSwatches; %>
+                                <% showOpts.forEach(function(opt) { %>
+                                    <button type="button" class="product-color-swatch border-0" aria-label="<%= opt.value %>"
+                                        style="background-color: <%= opt.color_code || '#ddd' %>;"
+                                        data-image-url="<%= opt.image_url %>"
+                                        <% if (opt.value_id) { %>data-attribute-value-id="<%= opt.value_id %>"<% } %>
+                                        data-option-value="<%= opt.value %>"
+                                        title="<%= opt.value %>">
+                                        <img src="<%= opt.swatch_image_url || opt.image_url %>" alt="" class="product-color-swatch-img" width="90" height="90">
+                                    </button>
+                                <% }); %>
+                                <% if (rest > 0) { %><span class="product-color-more text-muted ml-1"><%= rest %>+</span><% } %>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+                </div>
+                <% }); %>
+            </div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </div>
+    <% } %>
+
+        <!-- Featured Products End -->
+
+        <!-- Shop by Category Start -->
+        <% if (typeof featuredCategories !=='undefined' && featuredCategories && featuredCategories.length> 0) { %>
+            <div class="container-fluid pt-5 shop-by-category-section">
+                <div class="section-header-row d-flex justify-content-between align-items-baseline mx-xl-5 mb-4">
+                    <h2 class="section-title position-relative text-uppercase mb-0"><span class="bg-secondary pr-3">Shop by Category</span></h2>
+                    <a href="/shop" class="section-view-all-link text-decoration-none">View All</a>
+                </div>
+                <div class="category-tabs mx-xl-5 mb-4 d-flex flex-nowrap align-items-center overflow-auto">
+                    <% featuredCategories.forEach(function(category, idx) { %>
+                        <a href="#" class="category-tab text-decoration-none <%= idx === 0 ? 'active' : '' %>" data-category-index="<%= idx %>" data-category-slug="<%= category.slug %>"><%= category.name %></a>
+                    <% }); %>
+                </div>
+                <div class="category-products-wrapper mx-xl-5 pb-3">
+                    <% featuredCategories.forEach(function(category, idx) { %>
+                        <% const catProducts = (typeof categoryProductsMap !== 'undefined' && categoryProductsMap && categoryProductsMap[category.id]) ? categoryProductsMap[category.id] : []; %>
+                        <div class="category-carousel-wrap <%= idx === 0 ? '' : 'd-none' %>" data-category-index="<%= idx %>">
+                            <% if (catProducts.length > 0) { %>
+                            <div class="swiper product-carousel category-products-carousel">
+                                    <div class="swiper-wrapper">
+                                    <% catProducts.forEach(function(product) { %>
+                                        <div class="swiper-slide">
+                                        <div class="product-item product-item-home bg-light mb-4">
+                                            <div class="product-img position-relative overflow-hidden">
+                                                <% if (product.images && product.images.length> 0) { %>
+                                                    <a href="/shop/product/<%= product.slug %>">
+                                                        <img class="img-fluid w-100 product-card-img" src="<%= product.images[0].thumb_url || product.images[0].image_url %>" alt="<%= product.name %>" data-default-src="<%= product.images[0].image_url %>">
+                                                    </a>
+                                                <% } else { %>
+                                                    <a href="/shop/product/<%= product.slug %>">
+                                                        <img class="img-fluid w-100 product-card-img" src="<%= typeof siteImage !== 'undefined' ? siteImage : '/images/placeholder.png' %>" alt="<%= product.name %>" data-default-src="<%= typeof siteImage !== 'undefined' ? siteImage : '/images/placeholder.png' %>">
+                                                    </a>
+                                                <% } %>
+                                                <div class="product-action">
+                                                    <a class="btn btn-outline-dark btn-square add-to-wishlist-btn" href="#" data-product-id="<%= product.id %>"><i class="far fa-heart"></i></a>
+                                                    <a class="btn btn-outline-dark btn-square add-to-cart-btn" href="#"
+                                                        data-product-id="<%= product.id %>"
+                                                        data-has-variants="<%= !!product.has_variants %>"
+                                                        data-slug="<%= product.slug %>"><i class="fa fa-shopping-cart"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="text-left py-3 px-2 product-card-body">
+                                                <a class="product-card-title text-decoration-none text-truncate d-block" href="/shop/product/<%= product.slug %>"><%= product.name %></a>
+                                                <% if (product.short_description && product.short_description.trim()) { %>
+                                                    <p class="product-card-desc text-truncate mb-1"><%= product.short_description.trim() %></p>
+                                                <% } %>
+                                                <div class="d-flex align-items-center justify-content-start mt-1 money product-card-price">
+                                                    <%- include('partials/product-listing-price', { product, customClass: '', multi_price_display: (typeof ecommerceSettings !== 'undefined' && ecommerceSettings && ecommerceSettings.multi_price_display) ? ecommerceSettings.multi_price_display : '' }) %>
+                                                </div>
+                                                <% if (product.color_options && product.color_options.length > 0) { %>
+                                                    <div class="product-color-swatches d-flex justify-content-start align-items-center pl-0 pr-0">
+                                                        <% const maxSwatchesCat = 3; const optsCat = product.color_options; const showOptsCat = optsCat.slice(0, maxSwatchesCat); const restCat = optsCat.length - maxSwatchesCat; %>
+                                                        <% showOptsCat.forEach(function(opt) { %>
+                                                            <button type="button" class="product-color-swatch border-0" aria-label="<%= opt.value %>"
+                                                                style="background-color: <%= opt.color_code || '#ddd' %>;"
+                                                                data-image-url="<%= opt.image_url %>"
+                                                                <% if (opt.value_id) { %>data-attribute-value-id="<%= opt.value_id %>"<% } %>
+                                                                data-option-value="<%= opt.value %>"
+                                                                title="<%= opt.value %>">
+                                                                <img src="<%= opt.swatch_image_url || opt.image_url %>" alt="" class="product-color-swatch-img" width="90" height="90">
+                                                            </button>
+                                                        <% }); %>
+                                                        <% if (restCat > 0) { %><span class="product-color-more text-muted ml-1"><%= restCat %>+</span><% } %>
+                                                    </div>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    <% }); %>
+                                    </div>
+                                    <div class="swiper-button-prev"></div>
+                                    <div class="swiper-button-next"></div>
+                            </div>
+                            <% } else { %>
+                            <div class="category-no-products text-center py-5 text-muted">No products in this category yet.</div>
+                            <% } %>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        <% } %>
+        <!-- Shop by Category End -->
+
+                        <!-- Shop Banner Start -->
+                                <div class="container-fluid p-0 mb-5">
+                                    <div class="shop-banner position-relative"
+                                        style="height: 400px; background-image: url('/images/Firefly-2.jpg');">
+                                        <div class="shop-banner-overlay position-absolute w-100 h-100 d-flex align-items-end justify-content-end"
+                                            style="background: rgba(0, 0, 0, 0.4);">
+                                            <a href="/products" class="btn btn-primary shop-banner-btn">
+                                                SHOP GUERRA PRODUCTS
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Shop Banner End -->
+
+                                <!-- Events Start -->
+                                <% if (typeof eventPages !=='undefined' && eventPages && eventPages.length> 0) { %>
+                                    <div class="container-fluid pt-5 pb-2">
+                                        <div class="section-header-row d-flex justify-content-between align-items-baseline mx-xl-5 mb-4">
+                                            <h2 class="section-title position-relative text-uppercase mb-0"><span class="bg-secondary pr-3">Events</span></h2>
+                                            <a href="/events" class="section-view-all-link text-decoration-none">View All</a>
+                                        </div>
+                                        <div class="swiper product-carousel events-carousel px-xl-5">
+                                            <div class="swiper-wrapper">
+                                            <% eventPages.forEach(function(event) { %>
+                                                <div class="swiper-slide">
+                                                <div class="product-item bg-light mb-4">
+                                                    <div class="product-img position-relative overflow-hidden">
+                                                        <% if (event.pageImage) { %>
+                                                            <a href="/<%= event.slug %>">
+                                                                <img class="img-fluid w-100"
+                                                                    src="<%= event.pageImageThumb || event.pageImage %>"
+                                                                    alt="<%= event.title %>"
+                                                                    style="height: 300px; object-fit: cover;"
+                                                                    loading="lazy">
+                                                            </a>
+                                                            <% } else { %>
+                                                                <a href="/<%= event.slug %>">
+                                                                    <img class="img-fluid w-100"
+                                                                        src="<%= siteImage %>"
+                                                                        alt="<%= event.title %>"
+                                                                        style="height: 300px; object-fit: cover;">
+                                                                </a>
+                                                                <% } %>
+                                                    </div>
+                                                    <div class="text-center py-4">
+                                                        <a class="h6 text-decoration-none text-truncate"
+                                                            href="/<%= event.slug %>">
+                                                            <%= event.title %>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                                <% }); %>
+                                            </div>
+                                            <div class="swiper-button-prev"></div>
+                                            <div class="swiper-button-next"></div>
+                                        </div>
+                                    </div>
+                                    <% } %>
+                                        <!-- Events End -->
+
+                                        <!-- Sub Brands Start -->
+                                        <% if (typeof brands !=='undefined' && brands && brands.length> 0) { %>
+                                            <div class="container-fluid pt-3 pb-3">
+                                                <div class="section-header-row d-flex justify-content-between align-items-baseline mx-xl-5 mb-4">
+                                                    <h2 class="section-title position-relative text-uppercase mb-0"><span class="bg-secondary pr-3">Our Brands</span></h2>
+                                                </div>
+                                                <div class="swiper sub-brands-carousel px-xl-5">
+                                                    <div class="swiper-wrapper">
+                                                    <% brands.forEach(function(brand) { %>
+                                                        <div class="swiper-slide">
+                                                        <%
+                                                        let logoUrl = (brand.logo_url || '').trim();
+                                                        logoUrl = logoUrl.replace(/\\/g, '/');
+                                                        logoUrl = logoUrl.replace(/^\/+/, '/');
+                                                        if (logoUrl && !logoUrl.startsWith('/') && !logoUrl.startsWith('http')) {
+                                                            logoUrl = '/' + logoUrl;
+                                                        }
+                                                        logoUrl = logoUrl.replace(/\/+/g, '/');
+                                                        const hasLogo = logoUrl && (logoUrl.startsWith('/') || logoUrl.startsWith('http'));
+                                                        const brandSlug = (brand.slug || '').trim() || '';
+                                                        const brandName = (brand.name || '').trim() || '';
+                                                        %>
+                                                        <div class="text-center">
+                                                            <a href="/shop/brand/<%= brandSlug %>"
+                                                                title="<%= brandName %>">
+                                                                <% if (hasLogo) { %>
+                                                                <img class="img-fluid sub-brands-logo" src="<%= logoUrl %>"
+                                                                    alt="<%= brandName %>"
+                                                                    style="object-fit: contain; filter: grayscale(100%); opacity: 0.7; transition: all 0.3s ease;"
+                                                                    onmouseover="this.style.filter='grayscale(0%)'; this.style.opacity='1';"
+                                                                    onmouseout="this.style.filter='grayscale(100%)'; this.style.opacity='0.7';">
+                                                                <% } else { %>
+                                                                <span class="text-muted"><%= brandName %></span>
+                                                                <% } %>
+                                                            </a>
+                                                        </div>
+                                                        </div>
+                                                        <% }); %>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% } %>
+                                                <!-- Sub Brands End -->
+                                                <!-- Sub Brands End -->
+
+                                                <% if (typeof galleryPhotos !== 'undefined' && galleryPhotos && galleryPhotos.length > 0) { %>
+                                                <div class="container-fluid pt-5 pb-3">
+                                                    <div class="section-header-row d-flex justify-content-between align-items-baseline mx-xl-5 mb-4">
+                                                        <h2 class="section-title position-relative text-uppercase mb-0"><span class="bg-secondary pr-3">Gallery</span></h2>
+                                                    </div>
+                                                    <div class="row px-xl-5 mx-xl-n2">
+                                                        <% galleryPhotos.forEach(function(photo) { %>
+                                                        <div class="col-6 col-md-3 mb-3 px-2">
+                                                            <a href="/<%= photo.gallerySlug %>" class="d-block text-decoration-none">
+                                                                <img src="<%= photo.thumbSrc || photo.filePath %>" alt="<%= photo.galleryTitle || 'Gallery' %>" class="img-fluid w-100 rounded" loading="lazy" style="height: 200px; object-fit: cover;">
+                                                            </a>
+                                                        </div>
+                                                        <% }); %>
+                                                    </div>
+                                                </div>
+                                                <% } %>
+
+                                                <!-- Featured Start -->
+                                                <div class="container-fluid pt-5 featured">
+                                                    <div class="row px-xl-5 pb-3">
+                                                        <div class="col-6 col-md-6 col-lg-3 pb-1">
+                                                            <div class="d-flex align-items-center bg-light mb-4">
+                                                                <h1 class="fa fa-mobile-alt text-primary m-0 mr-3"></h1>
+                                                                <div>
+                                                                    <h5 class="font-weight-semi-bold m-0">Shop Online
+                                                                        24/7</h5>
+                                                                    <small class="m-0">Shop with your smartphone</small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6 col-md-6 col-lg-3 pb-1">
+                                                            <div class="d-flex align-items-center bg-light mb-4">
+                                                                <h1 class="fa fa-medal text-primary m-0 mr-3"></h1>
+                                                                <div>
+                                                                    <h5 class="font-weight-semi-bold m-0">Quality
+                                                                        Products</h5>
+                                                                    <small class="m-0">Fit for Champions</small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6 col-md-6 col-lg-3 pb-1">
+                                                            <div class="d-flex align-items-center bg-light mb-4">
+                                                                <h1 class="fa fa-globe text-primary m-0 mr-3"></h1>
+                                                                <div>
+                                                                    <h5 class="font-weight-semi-bold m-0">Worldwide
+                                                                        Shipping</h5>
+                                                                    <small class="m-0">All over the world</small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6 col-md-6 col-lg-3 pb-1">
+                                                            <div class="d-flex align-items-center bg-light mb-4">
+                                                                <h1 class="fa fa-lock text-primary m-0 mr-3"></h1>
+                                                                <div>
+                                                                    <h5 class="font-weight-semi-bold m-0">Secure
+                                                                        Shopping</h5>
+                                                                    <small class="m-0">You’re in safe hands</small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Featured End -->
+
+<script>
+(function() {
+  function handleSwatchClick(e) {
+    var swatch = e.target.closest('.product-color-swatch');
+    if (!swatch) return;
+    e.preventDefault();
+    e.stopPropagation();
+    var url = swatch.getAttribute('data-image-url');
+    if (!url) {
+      var innerImg = swatch.querySelector('.product-color-swatch-img');
+      if (innerImg && innerImg.src) url = innerImg.src;
+    }
+    if (!url) return;
+    var item = swatch.closest('.product-item');
+    if (!item) return;
+    var img = item.querySelector('.product-img .product-card-img');
+    if (img) img.src = url;
+    var container = swatch.closest('.product-color-swatches');
+    if (container) {
+      container.querySelectorAll('.product-color-swatch').forEach(function(s) { s.classList.remove('selected'); });
+      swatch.classList.add('selected');
+    }
+  }
+  function initSelectedSwatches() {
+    document.querySelectorAll('.product-item .product-color-swatches').forEach(function(container) {
+      var first = container.querySelector('.product-color-swatch');
+      if (first) first.classList.add('selected');
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener('click', handleSwatchClick);
+      initSelectedSwatches();
+    });
+  } else {
+    document.addEventListener('click', handleSwatchClick);
+    initSelectedSwatches();
+  }
+})();
+</script>
+
+<%# Hero carousel video: initialized in public/js/app.js (after jQuery + Bootstrap 4) %>
+
+<%# Confirmation modal for Add to Cart / Add to Wishlist on home page %>
+<% 
+var showHomeConfirmationModal = (typeof featuredProducts !== 'undefined' && featuredProducts && featuredProducts.length > 0) || (typeof featuredCategories !== 'undefined' && featuredCategories && featuredCategories.length > 0); 
+if (showHomeConfirmationModal) { %>
+<%- include('partials/confirmation-modal') %>
+<%- include('partials/variant-selection-modal') %>
+<% } %>

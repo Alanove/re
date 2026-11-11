@@ -1,0 +1,73 @@
+<!-- Settings -->
+<div class="card mb-3">
+	<div class="card-header d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#collapseSettings" aria-expanded="true" style="cursor: pointer;">
+		<h5 class="mb-0">Settings</h5>
+		<i class="fa fa-chevron-down"></i>
+	</div>
+	<div id="collapseSettings" class="collapse show">
+		<div class="card-body">
+			<div class="mb-3">
+				<label class="form-label">Categories</label>
+				<div class="card bg-light">
+					<div class="card-body"
+						style="max-height: 300px; overflow-y: auto;">
+						<div id="categories-tree">
+							<!-- Categories will be loaded here -->
+							<div class="text-center text-muted">Loading
+								categories...</div>
+						</div>
+					</div>
+				</div>
+				<small class="form-text text-muted">Select one or more
+					categories</small>
+			</div>
+
+			<%- include('product-categories-script') %>
+
+			<div class="mb-3">
+				<label for="status" class="form-label">Status</label>
+				<select class="form-select" id="status" name="status">
+					<option value="draft" <%= typeof product !== 'undefined' && product.status === 'draft' ? 'selected' : '' %>>
+						<%= typeof t !=='undefined' ? t('ecommerce.products.draft') : 'Draft' %>
+					</option>
+					<option value="published" <%= typeof product !== 'undefined' && product.status === 'published' ? 'selected' : '' %>>
+						<%= typeof t !=='undefined' ? t('ecommerce.products.published') : 'Published' %>
+					</option>
+				</select>
+			</div>
+
+			<div class="mb-3">
+				<div class="form-check form-switch">
+					<input class="form-check-input" type="checkbox" id="is_featured"
+						name="is_featured" <%= typeof product !== 'undefined' && product.is_featured ? 'checked' : '' %> />
+					<label class="form-check-label" for="is_featured">
+						<%= typeof t !=='undefined' ? t('ecommerce.products.featured') : 'Featured Product' %>
+					</label>
+				</div>
+			</div>
+
+			<div class="mb-3">
+				<div class="form-check form-switch">
+					<input class="form-check-input" type="checkbox" id="is_active"
+						name="is_active" <%= typeof product !== 'undefined' && product.is_active ? 'checked' : (typeof product === 'undefined' ? 'checked' : '') %> />
+					<label class="form-check-label" for="is_active">
+						<%= typeof t !=='undefined' ? t('common.active') : 'Active' %>
+					</label>
+				</div>
+			</div>
+
+			<div class="mb-3">
+				<div class="form-check form-switch">
+					<input class="form-check-input" type="checkbox" id="include_in_auto_ads"
+						name="include_in_auto_ads" <%= (typeof product === 'undefined' || !product.id) ? 'checked' : (product.include_in_auto_ads ? 'checked' : '') %> />
+					<label class="form-check-label" for="include_in_auto_ads">
+						<%= typeof t !=='undefined' ? t('ecommerce.products.includeInAutoAds') : 'Include in Auto Ads' %>
+					</label>
+				</div>
+				<small class="form-text text-muted">
+					<%= typeof t !=='undefined' ? t('ecommerce.products.includeInAutoAdsHelp') : 'When checked, this product appears in the Meta product feed (product-feed.xml).' %>
+				</small>
+			</div>
+		</div>
+	</div>
+</div>

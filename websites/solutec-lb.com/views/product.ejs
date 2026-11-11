@@ -1,0 +1,15 @@
+<article class="solu-product">
+  <div class="solu-wrap">
+    <div class="solu-product-layout">
+      <div>
+        <% if (product.image) { %><img src="<%= product.image %>" alt="<%= product.title %>"><% } %>
+        <% (product.gallery || []).forEach(function(image) { %><img src="<%= image %>" alt=""><% }) %>
+      </div>
+      <div>
+        <% if (product.sku) { %><p>SKU: <%= product.sku %></p><% } %>
+        <% if (product.excerpt) { %><div><%- product.excerpt %></div><% } %>
+        <div class="solu-product-body"><%- product.content || '' %></div>
+      </div>
+    </div>
+  </div>
+</article>

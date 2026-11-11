@@ -1,0 +1,83 @@
+<%
+    function stripHtml(html) {
+        if (!html) return '';
+        return String(html).replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
+    }
+    function homeContentMediaUrl(u) {
+        if (!u) return '';
+        var s = String(u).trim();
+        if (s.indexOf('http') === 0 || s.indexOf('https') === 0 || s.indexOf('/') === 0) return s;
+        return '/images/home-content/' + s;
+    }
+%>
+<% if (block && block.config && block.config.displayMode === 'shop_the_look' && block.category && block.products && block.products.length > 0) { %>
+    <% var category = block.category; %>
+    <% var lookProducts = block.products.slice(0, 3); %>
+    <% var reverse = (typeof blockIndex !== 'undefined' && blockIndex % 2 === 1); %>
+    <%
+        var fallbackImg = (typeof siteImage !== 'undefined' ? siteImage : '/images/no-image.jpg');
+        var productHero = function(p) {
+            if (p && p.images && p.images.length > 0) {
+                return p.images[0].image_url || p.images[0].thumb_url || fallbackImg;
+            }
+            return fallbackImg;
+        };
+        var productThumb = function(p) {
+            if (p && p.images && p.images.length > 0) {
+                return p.images[0].image_url || p.images[0].thumb_url || fallbackImg;
+            }
+            return fallbackImg;
+        };
+        var firstProduct = lookProducts[0];
+        var total = lookProducts.length;
+        var padded = function(n) { return n < 10 ? ('0' + n) : String(n); };
+    %>
+    <section class="home-shop-look">
+        <div class="home-shop-look-row <%= reverse ? 'home-shop-look-row--reverse' : '' %>" data-shop-look data-total="<%= total %>">
+            <div class="home-shop-look-content">
+                <div class="home-shop-look-header">
+                    <h3 class="home-shop-look-title">
+                        <span class="home-shop-look-title-tag">Shop The Look</span>
+                        <span class="home-shop-look-title-category"><%= category.name %></span>
+                    </h3>
+                    <% if (category.description) { %>
+                        <p><%= stripHtml(category.description).slice(0, 320) %></p>
+                    <% } %>
+                </div>
+                <div class="home-shop-look-controls">
+                    <div class="home-shop-look-controls-row">
+                        <span class="home-shop-look-eyebrow">Shop The Look</span>
+                        <div class="home-shop-look-nav">
+                            <span class="home-shop-look-counter">
+                                Look <span class="home-shop-look-current">01</span> / <span class="home-shop-look-total"><%= padded(total) %></span>
+                            </span>
+                            <button type="button" class="home-shop-look-arrow home-shop-look-prev" aria-label="Previous look"<% if (total <= 1) { %> disabled<% } %>>
+                                <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M15 5l-7 7 7 7"/></svg>
+                            </button>
+                            <button type="button" class="home-shop-look-arrow home-shop-look-next" aria-label="Next look"<% if (total <= 1) { %> disabled<% } %>>
+                                <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="home-shop-look-tiles">
+                        <% lookProducts.forEach(function(product, pIdx) { %>
+                            <button type="button"
+                                class="home-shop-look-tile<%= pIdx === 0 ? ' is-active' : '' %>"
+                                data-shop-look-tile
+                                data-index="<%= pIdx %>"
+                                    data-image="<%= productHero(product) %>"
+                                    data-href="/shop/product/<%= product.slug %>"
+                                    data-alt="<%= product.name %>"
+                                    aria-label="Select <%= product.name %>">
+                                    <img src="<%= productThumb(product) %>" alt="<%= product.name %>" loading="lazy" />
+                            </button>
+                        <% }); %>
+                    </div>
+                </div>
+            </div>
+            <a class="home-shop-look-image" href="/shop/product/<%= firstProduct.slug %>" data-shop-look-image aria-label="<%= firstProduct.name %>">
+                <img src="<%= productHero(firstProduct) %>" alt="<%= firstProduct.name %>" loading="lazy" />
+            </a>
+        </div>
+    </section>
+<% } %>

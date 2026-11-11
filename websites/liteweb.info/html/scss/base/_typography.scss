@@ -1,0 +1,83 @@
+@use "../abstracts/variables" as *;
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  vertical-align: middle;
+  font-size: 1.25rem;
+  line-height: 1;
+
+  &.is-filled {
+    font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
+  }
+}
+
+.eyebrow {
+  display: inline-block;
+  font-family: $font-body;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: $color-primary;
+  padding: 0;
+  margin-bottom: $space-md;
+}
+
+.eyebrow--green {
+  color: $color-tertiary;
+}
+
+.headline-xl {
+  font-family: $font-headline;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: $color-secondary;
+}
+
+.headline-lg {
+  font-family: $font-headline;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: $color-secondary;
+}
+
+.headline-md {
+  font-family: $font-headline;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.33;
+  color: $color-secondary;
+}
+
+.body-lg {
+  font-family: $font-body;
+  font-size: 1.125rem;
+  line-height: 1.55;
+  color: $color-on-surface-variant;
+}
+
+.body-md {
+  font-family: $font-body;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: $color-on-surface-variant;
+}
+
+.body-sm {
+  font-family: $font-body;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: $color-on-surface-variant;
+}
+
+.label-md {
+  font-family: $font-body;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+}

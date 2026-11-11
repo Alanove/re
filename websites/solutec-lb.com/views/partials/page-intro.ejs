@@ -1,0 +1,13 @@
+<% const crumbs = typeof introCrumbs !== 'undefined' && introCrumbs ? introCrumbs : []; %>
+<div class="man_intro man_image_bck" data-image="" data-color="#ffffff" data-repeat="no-repeat" data-position="center center" data-attachment="" data-size="cover">
+  <div class="man_over"></div>
+  <div class="man_intro_cont">
+    <h1><%= introTitle %></h1>
+    <div class="breadcrumbs" typeof="BreadcrumbList" vocab="http://schema.org/">
+      <li class="home"><span property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" title="Go to Solutec." href="/" class="home"><span property="name">Solutec</span></a><meta property="position" content="1"></span></li>
+      <% crumbs.forEach(function(crumb, index) { %>
+      <li class="<%= index === crumbs.length - 1 ? 'post post-page current-item' : '' %>"><span property="itemListElement" typeof="ListItem"><% if (crumb.href && index !== crumbs.length - 1) { %><a property="item" typeof="WebPage" href="<%= crumb.href %>"><span property="name"><%= crumb.label %></span></a><% } else { %><span property="name" class="post post-page current-item"><%= crumb.label %></span><% } %><meta property="position" content="<%= index + 2 %>"></span></li>
+      <% }) %>
+    </div>
+  </div>
+</div>

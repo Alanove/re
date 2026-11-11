@@ -1,0 +1,265 @@
+
+<!-- Breadcrumb Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark" href="/">Home</a>
+                <span class="breadcrumb-item active">Sponsorship Form for Events</span>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Sponsorship Form Start -->
+<div class="container-fluid">
+    <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Sponsorship Form for Events</span></h2>
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <div class="contact-form bg-light sponsorship-form-page">
+                <% if (typeof successMessage !== 'undefined' && successMessage) { %>
+                    <div class="alert alert-success mb-4 text-center p-5">
+                        <i class="fa fa-check-circle fa-3x mb-3 text-success"></i>
+                        <h4>Form Submitted!</h4>
+                        <p class="mb-0"><%= successMessage %></p>
+                        <a href="/shop" class="btn btn-primary mt-3">Continue Shopping</a>
+                    </div>
+                <% } else { %>
+                    <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+                        <div class="alert alert-danger mb-4"><%= errorMessage %></div>
+                    <% } %>
+                    <form id="sponsorshipFormEvent" action="/sponsorship/event" method="POST" enctype="multipart/form-data" novalidate>
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <input type="hidden" name="formType" value="event">
+
+                        <section class="sponsorship-form-section">
+                            <h3 class="sponsorship-section-title">Personal Information</h3>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="mb-3">
+                                        <label for="event-name" class="form-label">Name <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="event-name" name="name" required value="<%= typeof formData !== 'undefined' && formData.name ? formData.name : '' %>" />
+                                        <div class="invalid-feedback">Please enter your name</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="event-nickname" class="form-label">Nickname</label>
+                                        <input type="text" class="form-control" id="event-nickname" name="nickname" value="<%= typeof formData !== 'undefined' && formData.nickname ? formData.nickname : '' %>" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="event-dateOfBirth" class="form-label">Date of Birth</label>
+                                        <input type="date" class="form-control" id="event-dateOfBirth" name="dateOfBirth" value="<%= typeof formData !== 'undefined' && formData.dateOfBirth ? formData.dateOfBirth : '' %>" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="event-age" class="form-label">Age</label>
+                                        <input type="number" class="form-control" id="event-age" name="age" min="1" max="150" step="1" placeholder="e.g. 25" value="<%= typeof formData !== 'undefined' && formData.age ? formData.age : '' %>" />
+                                        <div class="invalid-feedback">Age must be a number between 1 and 150</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="mb-3">
+                                        <label for="event-occupation" class="form-label">Occupation</label>
+                                        <input type="text" class="form-control" id="event-occupation" name="occupation" value="<%= typeof formData !== 'undefined' && formData.occupation ? formData.occupation : '' %>" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="event-otherOccupation" class="form-label">Other occupation</label>
+                                        <input type="text" class="form-control" id="event-otherOccupation" name="otherOccupation" value="<%= typeof formData !== 'undefined' && formData.otherOccupation ? formData.otherOccupation : '' %>" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="event-placeOfBirth" class="form-label">Place of birth</label>
+                                        <input type="text" class="form-control" id="event-placeOfBirth" name="placeOfBirth" value="<%= typeof formData !== 'undefined' && formData.placeOfBirth ? formData.placeOfBirth : '' %>" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="event-nationalId" class="form-label">National ID</label>
+                                        <input type="text" class="form-control" id="event-nationalId" name="nationalId" value="<%= typeof formData !== 'undefined' && formData.nationalId ? formData.nationalId : '' %>" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-lg-4">
+                                    <div class="mb-3">
+                                        <label for="event-address" class="form-label">Address</label>
+                                        <textarea class="form-control" id="event-address" name="address" rows="4"><%= typeof formData !== 'undefined' && formData.address ? formData.address : '' %></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="sponsorship-form-section">
+                            <h3 class="sponsorship-section-title">Contact Details</h3>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="mb-3">
+                                        <label for="event-phone" class="form-label">Phone</label>
+                                        <input type="text" class="form-control" id="event-phone" name="phone" value="<%= typeof formData !== 'undefined' && formData.phone ? formData.phone : '' %>" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="event-fax" class="form-label">Fax</label>
+                                        <input type="text" class="form-control" id="event-fax" name="fax" value="<%= typeof formData !== 'undefined' && formData.fax ? formData.fax : '' %>" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="event-mobile" class="form-label">Mobile</label>
+                                        <input type="text" class="form-control" id="event-mobile" name="mobile" value="<%= typeof formData !== 'undefined' && formData.mobile ? formData.mobile : '' %>" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="mb-3">
+                                        <label for="event-email" class="form-label">E-mail <span class="text-danger">*</span></label>
+                                        <input type="email" class="form-control" id="event-email" name="email" required value="<%= typeof formData !== 'undefined' && formData.email ? formData.email : '' %>" />
+                                        <div class="invalid-feedback">Please enter a valid email</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="event-officialWebsite" class="form-label">Official Website</label>
+                                        <input type="url" class="form-control" id="event-officialWebsite" name="officialWebsite" value="<%= typeof formData !== 'undefined' && formData.officialWebsite ? formData.officialWebsite : '' %>" />
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="sponsorship-form-section">
+                            <h3 class="sponsorship-section-title">Social & Media</h3>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-3">
+                                    <div class="mb-3">
+                                        <label for="event-mediaAssociatedWith" class="form-label">Media Associated with</label>
+                                        <input type="text" class="form-control" id="event-mediaAssociatedWith" name="mediaAssociatedWith" value="<%= typeof formData !== 'undefined' && formData.mediaAssociatedWith ? formData.mediaAssociatedWith : '' %>" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-3">
+                                    <div class="mb-3">
+                                        <label for="event-facebookPage" class="form-label">Facebook Page</label>
+                                        <input type="text" class="form-control" id="event-facebookPage" name="facebookPage" value="<%= typeof formData !== 'undefined' && formData.facebookPage ? formData.facebookPage : '' %>" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-3">
+                                    <div class="mb-3">
+                                        <label for="event-facebookPrivateAccount" class="form-label">Facebook Private Account</label>
+                                        <input type="text" class="form-control" id="event-facebookPrivateAccount" name="facebookPrivateAccount" value="<%= typeof formData !== 'undefined' && formData.facebookPrivateAccount ? formData.facebookPrivateAccount : '' %>" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-3">
+                                    <div class="mb-3">
+                                        <label for="event-instagram" class="form-label">Instagram</label>
+                                        <input type="text" class="form-control" id="event-instagram" name="instagram" value="<%= typeof formData !== 'undefined' && formData.instagram ? formData.instagram : '' %>" />
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="sponsorship-form-section">
+                            <h3 class="sponsorship-section-title">Training & Record</h3>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-3">
+                                    <div class="mb-3">
+                                        <label for="event-yearsOfTraining" class="form-label">Years of training</label>
+                                        <input type="text" class="form-control" id="event-yearsOfTraining" name="yearsOfTraining" value="<%= typeof formData !== 'undefined' && formData.yearsOfTraining ? formData.yearsOfTraining : '' %>" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="event-styleOfFighting" class="form-label">Style of fighting</label>
+                                        <input type="text" class="form-control" id="event-styleOfFighting" name="styleOfFighting" value="<%= typeof formData !== 'undefined' && formData.styleOfFighting ? formData.styleOfFighting : '' %>" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="event-organizationsEventsPartOf" class="form-label">Organizations, events part of</label>
+                                        <input type="text" class="form-control" id="event-organizationsEventsPartOf" name="organizationsEventsPartOf" value="<%= typeof formData !== 'undefined' && formData.organizationsEventsPartOf ? formData.organizationsEventsPartOf : '' %>" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-3">
+                                    <div class="mb-3">
+                                        <label for="event-fightingRecord" class="form-label">Fighting Record</label>
+                                        <input type="text" class="form-control" id="event-fightingRecord" name="fightingRecord" value="<%= typeof formData !== 'undefined' && formData.fightingRecord ? formData.fightingRecord : '' %>" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="event-otherRecord" class="form-label">Other record</label>
+                                        <input type="text" class="form-control" id="event-otherRecord" name="otherRecord" value="<%= typeof formData !== 'undefined' && formData.otherRecord ? formData.otherRecord : '' %>" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="event-hoursTrainingPerDay" class="form-label">Hours of training a day</label>
+                                        <input type="text" class="form-control" id="event-hoursTrainingPerDay" name="hoursTrainingPerDay" value="<%= typeof formData !== 'undefined' && formData.hoursTrainingPerDay ? formData.hoursTrainingPerDay : '' %>" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="event-daysTrainingPerWeek" class="form-label">Days of training per week</label>
+                                        <input type="text" class="form-control" id="event-daysTrainingPerWeek" name="daysTrainingPerWeek" value="<%= typeof formData !== 'undefined' && formData.daysTrainingPerWeek ? formData.daysTrainingPerWeek : '' %>" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="event-achievements" class="form-label">Achievements</label>
+                                        <textarea class="form-control" id="event-achievements" name="achievements" rows="4"><%= typeof formData !== 'undefined' && formData.achievements ? formData.achievements : '' %></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="sponsorship-form-section">
+                            <h3 class="sponsorship-section-title">Professional</h3>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="mb-3">
+                                        <label for="event-title" class="form-label">Title</label>
+                                        <input type="text" class="form-control" id="event-title" name="title" value="<%= typeof formData !== 'undefined' && formData.title ? formData.title : '' %>" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="event-endorsement" class="form-label">Endorsement</label>
+                                        <input type="text" class="form-control" id="event-endorsement" name="endorsement" value="<%= typeof formData !== 'undefined' && formData.endorsement ? formData.endorsement : '' %>" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="mb-3">
+                                        <label for="event-manager" class="form-label">Manager</label>
+                                        <input type="text" class="form-control" id="event-manager" name="manager" value="<%= typeof formData !== 'undefined' && formData.manager ? formData.manager : '' %>" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="event-headCoach" class="form-label">Head Coach</label>
+                                        <input type="text" class="form-control" id="event-headCoach" name="headCoach" value="<%= typeof formData !== 'undefined' && formData.headCoach ? formData.headCoach : '' %>" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="mb-3">
+                                        <label for="event-team" class="form-label">Team</label>
+                                        <input type="text" class="form-control" id="event-team" name="team" value="<%= typeof formData !== 'undefined' && formData.team ? formData.team : '' %>" />
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="sponsorship-form-section">
+                            <h3 class="sponsorship-section-title">Signature & Upload</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="event-signature" class="form-label">Type your full name (signature)</label>
+                                        <input type="text" class="form-control" id="event-signature" name="signature" value="<%= typeof formData !== 'undefined' && formData.signature ? formData.signature : '' %>" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="event-attachment" class="form-label">Attach a PDF or image of your form (optional)</label>
+                                        <input type="file" class="form-control" id="event-attachment" name="attachment" accept=".pdf,image/jpeg,image/png,image/gif,image/webp" />
+                                        <small class="text-muted">Max 10 MB. Accepted: PDF, JPG, PNG, GIF, WebP</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <div class="mt-4">
+                            <button class="btn btn-primary py-2 px-4" type="submit">Submit</button>
+                        </div>
+                    </form>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            var form = document.getElementById('sponsorshipFormEvent');
+                            if (form) {
+                                form.addEventListener('submit', function(event) {
+                                    if (!form.checkValidity()) {
+                                        event.preventDefault();
+                                        event.stopPropagation();
+                                    }
+                                    form.classList.add('was-validated');
+                                }, false);
+                            }
+                        });
+                    </script>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Sponsorship Form End -->

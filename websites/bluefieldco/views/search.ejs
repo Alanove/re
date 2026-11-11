@@ -1,0 +1,56 @@
+<main id="primary" class="site-main search_page">
+  <article>
+    <section class="breadcrumb_wrapper">
+      <div class="container">
+        <h1 class="title big white">Search Results</h1>
+        <div class="breadcrumb">
+          <p id="breadcrumbs">
+            <span>
+              <span><a href="/"><img src="/themes/bluefieldco/images/home.png" alt="Home" onerror="this.style.display='none'"/></a></span>
+              » <span class="breadcrumb_last" aria-current="page">Search</span>
+            </span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <form role="search" method="get" class="search-form" action="/search" style="margin-bottom: 2rem;">
+          <label>
+            <span class="screen-reader-text">Search for:</span>
+            <input type="search" class="search-field" placeholder="Search …" name="s" value="<%= typeof query !== 'undefined' ? query : '' %>">
+          </label>
+          <input type="submit" class="search-submit" value="Search">
+        </form>
+
+        <% if (typeof query !== 'undefined' && query) { %>
+          <p class="search-query-label" style="margin-bottom: 1.5rem;">
+            <% if (typeof results !== 'undefined' && results.length > 0) { %>
+              Showing results for <strong>"<%= query %>"</strong> (<%= results.length %>)
+            <% } else { %>
+              No results found for <strong>"<%= query %>"</strong>
+            <% } %>
+          </p>
+
+          <% if (typeof results !== 'undefined' && results.length > 0) { %>
+            <% results.forEach(function(result) { %>
+              <article class="search-result-item" style="margin-bottom: 2rem;">
+                <h2 class="entry-title">
+                  <a href="<%= result.url %>"><%= result.title %></a>
+                </h2>
+                <% if (result.excerpt) { %>
+                  <div class="entry-summary">
+                    <p><%= result.excerpt %></p>
+                  </div>
+                <% } %>
+              </article>
+            <% }); %>
+          <% } %>
+        <% } else { %>
+          <p>Enter a search term above to find pages and news on this site.</p>
+        <% } %>
+      </div>
+    </section>
+  </article>
+</main>

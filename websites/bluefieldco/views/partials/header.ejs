@@ -1,0 +1,81 @@
+<a class="skip-link screen-reader-text" href="#primary">Skip to content</a>
+<header id="masthead" class="site-header header">
+  <div class="header-first">
+    <div class="container">
+      <div class="align-right d-flex sr-right">
+        <% const utilityItems = typeof utilityMenu !== 'undefined' ? utilityMenu : []; %>
+        <% utilityItems.forEach(function(item) { %>
+          <% if (item.active) { %>
+            <div class="pre-header">
+              <a href="<%= item.url %>"><%= item.title %></a>
+            </div>
+          <% } %>
+        <% }); %>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white py-0">
+      <div class="container-fluid px-0">
+        <a href="/" class="custom-logo-link sr-left" rel="home">
+          <img width="300" height="100"
+            src="<%= typeof siteData !== 'undefined' && siteData.logo ? siteData.logo : '/themes/bluefieldco/images/bluefield_logo.svg' %>"
+            class="custom-logo"
+            alt="<%= typeof siteData !== 'undefined' && siteData.name ? siteData.name : 'BlueField' %>"
+            decoding="async">
+        </a>
+        <button class="navbar-toggler sr-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse flex-row-reverse" id="navbarNav">
+          <ul class="navbar-nav sr-right">
+            <div class="navbar-collapse">
+              <ul id="primary-menu" class="nav navbar-nav">
+                <% const mainItems = typeof mainMenu !== 'undefined' ? mainMenu : (typeof items !== 'undefined' ? items : []); %>
+                <% mainItems.forEach(function(item) { %>
+                  <% if (item.active) { %>
+                    <li class="nav-item menu-item<%= item.children && item.children.length ? ' menu-item-has-children' : '' %>">
+                      <a href="<%= item.url %>" class="nav-link<%= typeof selected !== 'undefined' && selected === item.key ? ' active' : '' %>"><%= item.title %></a>
+                      <% if (item.children && item.children.length) { %>
+                        <ul class="sub-menu">
+                          <% item.children.forEach(function(child) { %>
+                            <% if (child.active) { %>
+                              <li class="menu-item">
+                                <a href="<%= child.url %>" class="nav-link"><%= child.title %></a>
+                              </li>
+                            <% } %>
+                          <% }); %>
+                        </ul>
+                      <% } %>
+                    </li>
+                  <% } %>
+                <% }); %>
+              </ul>
+            </div>
+            <li class="search_li search_wrapping">
+              <div class="tm-search">
+                <img class="tm-search-icon search" src="/themes/bluefieldco/images/Search.jpg" alt="Search" title="Search" onerror="this.style.display='none'">
+                <img class="tm-search-icon close close_search" src="/themes/bluefieldco/images/close_icon.png" alt="close" title="close" onerror="this.style.display='none'">
+                <div class="searching_form">
+                  <form role="search" method="get" class="search-form" action="/search">
+                    <label>
+                      <span class="screen-reader-text">Search for:</span>
+                      <input type="search" class="search-field" placeholder="Search …" name="s">
+                    </label>
+                    <input type="submit" class="search-submit" value="Search">
+                  </form>
+                </div>
+              </div>
+            </li>
+            <li class="search_li inquiry_wrap">
+              <div class="inquiry_btn blue">
+                <a href="/#submit_your_inquiry">Inquiry</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>

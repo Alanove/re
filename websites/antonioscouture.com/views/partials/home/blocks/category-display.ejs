@@ -1,0 +1,7 @@
+<% if (block && block.config) { %>
+    <% if (block.config.displayMode === 'video') { %>
+        <%- include('./category-video', { block }) %>
+    <% } else { %>
+        <%- include('./shop-the-look', { block, blockIndex }) %>
+    <% } %>
+<% } %>

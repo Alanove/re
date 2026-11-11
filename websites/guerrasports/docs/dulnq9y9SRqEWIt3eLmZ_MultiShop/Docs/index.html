@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Documentation by HTML Codex</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Libraries Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/prism.min.css" rel="stylesheet">
+    <link href="css/docs.css" rel="stylesheet">
+</head>
+
+<body id="top" data-spy="scroll" data-offset="51">
+
+    <!-- Offcanvas Start -->
+    <button class="btn btn-lg btn-primary btn-offcanvas" type="button" data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasSidebar"
+        aria-labelledby="offcanvasSidebarLabel">
+        <div class="offcanvas-header border-bottom">
+            <a href="https://htmlcodex.com/online-shop-website-template/">
+                <h2 class="fw-bold mb-0">MultiShop</h2>
+            </a>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="flex-shrink-0 bg-white">
+                <ul class="list-unstyled ps-0">
+                    <li class="mb-1">
+                        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
+                            data-bs-target="#home-collapse" aria-expanded="true">
+                            Getting Started
+                        </button>
+                        <div class="collapse show" id="home-collapse">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                <li><a href="#introduction" class="text-body rounded">Introduction</a></li>
+                                <li><a href="#file-structure" class="text-body rounded">File Structure</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="mb-1">
+                        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
+                            data-bs-target="#collapse-2" aria-expanded="false">
+                            Customization
+                        </button>
+                        <div class="collapse" id="collapse-2">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                <li><a href="#html-css" class="text-body rounded">HTML & CSS</a></li>
+                                <li><a href="#text-editing" class="text-body rounded">Text Editing</a></li>
+                                <li><a href="#image-editing" class="text-body rounded">Image Editing</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="mb-1">
+                        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
+                            data-bs-target="#collapse-3" aria-expanded="false">
+                            Components
+                        </button>
+                        <div class="collapse" id="collapse-3">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                <li><a href="#color" class="text-body rounded">Template Colors</a></li>
+                                <li><a href="#typography" class="text-body rounded">Typography</a></li>
+                                <li><a href="#buttons" class="text-body rounded">Buttons</a></li>
+                                <li><a href="#list-group" class="text-body rounded">List Group</a></li>
+                                <li><a href="#accordion" class="text-body rounded">Accordion</a></li>
+                                <li><a href="#nav-tab" class="text-body rounded">Navs, Tabs, Pills</a></li>
+
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="mb-1">
+                        <a class="btn w-100 text-start" href="#contact-form">Contact Form</a>
+                    </li>
+                    <li class="mb-1">
+                        <a class="btn w-100 text-start" href="#uploading">Uploading</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="offcanvas-footer border-top text-center mt-auto p-3">
+            <small>&copy; <a href="https://htmlcodex.com">HTML Codex</a>. All Rights Reserved.
+            </small>
+        </div>
+    </div>
+    <!-- Offcanvas End -->
+
+
+    <!-- Header Start -->
+    <div class="container-fluid bg-primary py-5 mb-5">
+        <div class="row">
+            <div class="col-12 text-center">
+                <a href="https://htmlcodex.com/online-shop-website-template/">
+                    <h1 class="display-4 fw-bold text-white mb-4"><i class="fa fa-laptop-code me-3"></i>MultiShop</h1>
+                </a>
+                <h2 class="text-white mb-4">Online Shop Website Template</h2>
+                <h4 class="text-white mb-4">Designed by <a class="text-white border-bottom"
+                        href="https://htmlcodex.com">HTML Codex</a></h4>
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+
+
+    <!-- Introduction Start -->
+    <div class="container py-5" id="introduction">
+        <h1 class="fw-bold">Introduction</h1>
+        <h4 class="lh-base">Thank you for purchasing our <b>MultiShop</b> template. In this
+            manual we will show you how to manage this template, edit it, set up and create a ready-to-use website. We
+            did our best to simplify this instruction and make it clear and easy to use.</h4>
+
+        <br>
+
+        <h4 class="fw-bold">Software</h4>
+        <p>Before proceeding with this template installation and customization, you need to prepare. We
+            recommend that you download all the required software to edit this template. Software Required is
+            listed below:</p>
+        <p>1. First, you need proper unzipping software for ZIP package extracting. You may use WinZip (Windows) and
+            Stuffit Expander (Mac).</p>
+        <p>2. You need also code editor, i. e. Visual Studio Code, Sublime Text, Notepad++, Atom, etc. to edit the
+            source code of the template files.</p>
+        <p>3. You might also require Adobe Photoshop. It is required for editing template graphic design and images.</p>
+        <p>4. For files uploading to your hosting server FTP manager will be also needed, like Total Commander,
+            FileZilla, CuteFTP, etc.</p>
+    </div>
+    <!-- Introduction End -->
+
+
+    <!-- File Structure Start -->
+    <div class="container py-5" id="file-structure">
+        <h1 class="fw-bold">File Structure</h1>
+        <p>After template extracting you'll see the following files & folders structure:</p>
+        <pre class="language-treeview line-numbers mb-5">
+            <code>
+                MultiShop/
+                ├── css/
+                │   ├── bootstrap.min.css
+                |   ├── style.css
+                ├── img/
+                |   ├── .jpg
+                |   ├── .png
+                ├── js/
+                │   ├── main.js
+                ├── lib/
+                │   ├── animate/
+                |   ├── counterup/
+                |   ├── and more...
+                ├── scss/
+                │   ├── bootstrap/
+                |   ├── bootstrap.scss
+                ├── index.html
+                ├── about.html
+                ├── and more...
+            </code>
+        </pre>
+    </div>
+    <!-- File Structure End -->
+
+
+    <!-- HTML & CSS Start -->
+    <div class="container py-5" id="html-css">
+        <h1 class="fw-bold">HTML & CSS File Editing</h1>
+        <p>All of the HTML files are located at MultiShop folder (index.html, about.html, etc.). Every HTML file
+            represents separate template page.</p>
+        <p>Visual Studio Code is an advised application for HTML files content editing, but you may also use any other
+            suitable software.</p>
+        <p>In order to open HTML file with Visual Studio Code software, click on the file with right mouse button and
+            select Open with > Visual Studio Code in the dropdown menu. After file opening you can edit it.</p>
+        <p>CSS files are used to change template appearance, i.e., fonts (font-family, size, font-face, etc.), color,
+            background, width, etc. CSS files can be edited with Visual Studio Code software.</p>
+    </div>
+    <!-- HTML & CSS End -->
+
+
+    <!-- Text Editing Start -->
+    <div class="container py-5" id="text-editing">
+        <h1 class="fw-bold">Text Editing</h1>
+        <p>As previously stated, all site content is inserted to HTML files. You'll need minimal skills on orienting
+            within code.</p>
+        <p>In order to replace “lipsum” (filling text) with your own one, please do the following:</p>
+        <p>1. Navigate to "MultiShop" folder within template package.</p>
+        <p>2. Open index.html file with HTML editor.</p>
+        <p>3. You may use search function (CTRL+F) to check for required text.</p>
+        <p>4. Edit text with HTML editor. Save changes and open your file in browser to see them applied.</p>
+    </div>
+    <!-- Text Editing End -->
+
+
+    <!-- Image Editing Start -->
+    <div class="container py-5" id="image-editing">
+        <h1 class="fw-bold">Image Editing</h1>
+        <p>Navigate to 'MultiShop/img' folder. First way is to upload new images keeping the original filenames and
+            extensions, simply replacing them.</p>
+        <p>Second way is to upload custom images specifying your own filenames and extensions.</p>
+        <p>Next you'll also need to change image filename in HTML file. Please do the following:</p>
+        <p>1. Open HTML file within MultiShop folder by using HTML editor for this purpose.</p>
+        <p>2. Use search function (CTRL+F) to locate an image in HTML file.</p>
+        <p>3. Edit image filename and extension. Save changes and open your file in browser to see them applied.</p>
+    </div>
+    <!-- Image Editing End -->
+
+
+    <!-- Template Colors Start -->
+    <div class="container py-5" id="color">
+        <h1 class="fw-bold">Template Colors</h1>
+        <p>MultiShop comes with a lot of template colors that enable more comprehensive customization and extension for any
+            project.</p>
+        <br>
+        <h4 class="fw-bold">Background Colors</h4>
+        <p>You can set the background color of any element using "bg-*" class.</p>
+        <div class="border rounded p-4 mb-3">
+            <div class="row g-3">
+                <div class="col-lg-3 col-md-6">
+                    <div class="p-3 bg-primary text-dark">Primary</div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="p-3 bg-secondary text-white">Secondary</div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="p-3 bg-success text-white">Success</div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="p-3 bg-danger text-white">Danger</div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="p-3 bg-warning text-dark">Warning</div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="p-3 bg-info text-white">Info</div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="p-3 bg-light text-dark">Light</div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="p-3 bg-dark text-white">Dark</div>
+                </div>
+            </div>
+        </div>
+        <pre class="language-html line-numbers mb-5">
+            <code><!--
+                <div class="p-3 mb-2 bg-primary text-white">.bg-primary</div>
+                <div class="p-3 mb-2 bg-secondary text-white">.bg-secondary</div>
+                <div class="p-3 mb-2 bg-success text-white">.bg-success</div>
+                <div class="p-3 mb-2 bg-danger text-white">.bg-danger</div>
+                <div class="p-3 mb-2 bg-warning text-dark">.bg-warning</div>
+                <div class="p-3 mb-2 bg-info text-dark">.bg-info</div>
+                <div class="p-3 mb-2 bg-light text-dark">.bg-light</div>
+                <div class="p-3 mb-2 bg-dark text-white">.bg-dark</div>
+                <div class="p-3 mb-2 bg-body text-dark">.bg-body</div>
+                <div class="p-3 mb-2 bg-white text-dark">.bg-white</div>
+                <div class="p-3 mb-2 bg-transparent text-dark">.bg-transparent</div>
+            --></code>
+        </pre>
+
+        <h4 class="fw-bold">Text Colors</h4>
+        <p>Colorize text with color utilities.</p>
+        <div class="border rounded p-4 mb-3">
+            <p class="text-primary">.text-primary</p>
+            <p class="text-secondary">.text-secondary</p>
+            <p class="text-success">.text-success</p>
+            <p class="text-danger">.text-danger</p>
+            <p class="text-warning bg-dark">.text-warning</p>
+            <p class="text-info bg-dark">.text-info</p>
+            <p class="text-light bg-dark">.text-light</p>
+            <p class="text-dark">.text-dark</p>
+            <p class="text-body">.text-body</p>
+            <p class="text-muted">.text-muted</p>
+            <p class="text-white bg-dark">.text-white</p>
+            <p class="text-black-50">.text-black-50</p>
+            <p class="text-white-50 bg-dark">.text-white-50</p>
+        </div>
+        <pre class="language-html line-numbers mb-5">
+            <code><!--
+                <p class="text-primary">.text-primary</p>
+                <p class="text-secondary">.text-secondary</p>
+                <p class="text-success">.text-success</p>
+                <p class="text-danger">.text-danger</p>
+                <p class="text-warning bg-dark">.text-warning</p>
+                <p class="text-info bg-dark">.text-info</p>
+                <p class="text-light bg-dark">.text-light</p>
+                <p class="text-dark">.text-dark</p>
+                <p class="text-body">.text-body</p>
+                <p class="text-muted">.text-muted</p>
+                <p class="text-white bg-dark">.text-white</p>
+                <p class="text-black-50">.text-black-50</p>
+                <p class="text-white-50 bg-dark">.text-white-50</p>
+            --></code>
+        </pre>
+    </div>
+    <!-- Template Colors End -->
+
+
+    <!-- Typography Start -->
+    <div class="container py-5" id="typography">
+        <h1 class="fw-bold">Typography</h1>
+        <p>Documentation for typography, including global settings, headings, body text, lists, and more.</p>
+        <br>
+        <h4 class="fw-bold">Default Headings</h4>
+        <p>All HTML headings, <b>h1</b> through <b>h6</b>, are available.</p>
+        <div class="border rounded p-4 mb-3">
+            <h1>h1. This is a heading</h1>
+            <h2>h2. This is a heading</h2>
+            <h3>h3. This is a heading</h3>
+            <h4>h4. This is a heading</h4>
+            <h5>h5. This is a heading</h5>
+            <h6>h6. This is a heading</h6>
+        </div>
+        <pre class="language-html line-numbers mb-5">
+            <code><!--
+                <h1>h1. This is a heading</h1>
+                <h2>h2. This is a heading</h2>
+                <h3>h3. This is a heading</h3>
+                <h4>h4. This is a heading</h4>
+                <h5>h5. This is a heading</h5>
+                <h6>h6. This is a heading</h6>
+            --></code>
+        </pre>
+
+        <h4 class="fw-bold">Display Headings</h4>
+        <p>When you need a heading to stand out, consider using a display heading — a larger, slightly more opinionated
+            heading style.</p>
+        <div class="border rounded p-4 mb-3">
+            <h1 class="display-1">Display 1 Heading</h1>
+            <h1 class="display-2">Display 2 Heading</h1>
+            <h1 class="display-3">Display 3 Heading</h1>
+            <h1 class="display-4">Display 4 Heading</h1>
+            <h1 class="display-5">Display 5 Heading</h1>
+            <h1 class="display-6">Display 6 Heading</h1>
+        </div>
+        <pre class="language-html line-numbers mb-5">
+            <code><!-- 
+                <h1 class="display-1">Display 1 Heading</h1>
+                <h1 class="display-2">Display 2 Heading</h1>
+                <h1 class="display-3">Display 3 Heading</h1>
+                <h1 class="display-4">Display 4 Heading</h1>
+                <h1 class="display-5">Display 5 Heading</h1>
+                <h1 class="display-6">Display 6 Heading</h1> 
+            --></code>
+        </pre>
+
+        <h4 class="fw-bold">Misc Typography</h4>
+        <p>Styling for common inline HTML5 elements.</p>
+        <div class="border rounded p-4 mb-3">
+            <p><strong>This is a paragraph.</strong> Magna lorem justo ea dolore nonumy, vero at et sea lorem. Amet
+                eirmod rebum dolores elitr kasd diam elitr tempor sit. Nonumy dolores dolores accusam ut vero sed dolore
+                ipsum magna, consetetur eirmod amet magna clita amet consetetur eirmod est, et elitr eirmod ea rebum
+                clita consetetur dolore. Ut et sed eos amet lorem et elitr. Ipsum voluptua ea nonumy dolor sadipscing
+                ipsum rebum amet, dolor takimata ut elitr gubergren est ipsum eirmod, rebum diam lorem et elitr magna
+                dolores ipsum sed. Sanctus diam aliquyam diam sed diam nonumy takimata. Sadipscing dolore accusam eirmod
+                erat et. Dolore lorem lorem sit.</p>
+            <br>
+            <p class="lead">
+                This is a lead paragraph. It stands out from regular paragraphs.
+            </p>
+            <br>
+            <p>You can use the mark tag to <mark>highlight</mark> text.</p>
+            <p><del>This line of text is meant to be treated as deleted text.</del></p>
+            <p><s>This line of text is meant to be treated as no longer accurate.</s></p>
+            <p><ins>This line of text is meant to be treated as an addition to the document.</ins></p>
+            <p><u>This line of text will render as underlined.</u></p>
+            <p><small>This line of text is meant to be treated as fine print.</small></p>
+            <p><strong>This line rendered as bold text.</strong></p>
+            <p><em>This line rendered as italicized text.</em></p>
+            <br>
+            <figure class="border-start border-5 border-primary ps-3">
+                <blockquote class="blockquote">
+                    <p>A well-known quote, contained in a blockquote element.</p>
+                </blockquote>
+                <figcaption class="blockquote-footer">
+                    Someone famous in <cite title="Source Title">Source Title</cite>
+                </figcaption>
+            </figure>
+            <br>
+            <ul class="list-unstyled">
+                <li>This is a list.</li>
+                <li>It appears completely unstyled.</li>
+                <li>Structurally, it's still a list.</li>
+                <li>However, this style only applies to immediate child elements.</li>
+                <li>Nested lists:
+                    <ul>
+                        <li>are unaffected by this style</li>
+                        <li>will still show a bullet</li>
+                        <li>and have appropriate left margin</li>
+                    </ul>
+                </li>
+                <li>This may still come in handy in some situations.</li>
+            </ul>
+        </div>
+        <pre class="language-html line-numbers mb-5">
+            <code><!-- 
+                <p><strong>This is a paragraph.</strong> Magna lorem justo ea dolore nonumy, vero at et sea lorem. Amet eirmod rebum dolores elitr kasd diam elitr tempor sit. Nonumy dolores dolores accusam ut vero sed dolore ipsum magna, consetetur eirmod amet magna clita amet consetetur eirmod est, et elitr eirmod ea rebum clita consetetur dolore. Ut et sed eos amet lorem et elitr. Ipsum voluptua ea nonumy dolor sadipscing ipsum rebum amet, dolor takimata ut elitr gubergren est ipsum eirmod, rebum diam lorem et elitr magna dolores ipsum sed. Sanctus diam aliquyam diam sed diam nonumy takimata. Sadipscing dolore accusam eirmod erat et. Dolore lorem lorem sit.</p>
+                <br>
+                <p class="lead">
+                    This is a lead paragraph. It stands out from regular paragraphs.
+                </p>
+                <br>
+                <p>You can use the mark tag to <mark>highlight</mark> text.</p>
+                <p><del>This line of text is meant to be treated as deleted text.</del></p>
+                <p><s>This line of text is meant to be treated as no longer accurate.</s></p>
+                <p><ins>This line of text is meant to be treated as an addition to the document.</ins></p>
+                <p><u>This line of text will render as underlined.</u></p>
+                <p><small>This line of text is meant to be treated as fine print.</small></p>
+                <p><strong>This line rendered as bold text.</strong></p>
+                <p><em>This line rendered as italicized text.</em></p>
+                <br>
+                <figure class="border-start border-5 border-primary ps-3">
+                    <blockquote class="blockquote">
+                        <p>A well-known quote, contained in a blockquote element.</p>
+                    </blockquote>
+                    <figcaption class="blockquote-footer">
+                        Someone famous in <cite title="Source Title">Source Title</cite>
+                    </figcaption>
+                </figure>
+                <br>
+                <ul class="list-unstyled">
+                    <li>This is a list.</li>
+                    <li>It appears completely unstyled.</li>
+                    <li>Structurally, it's still a list.</li>
+                    <li>However, this style only applies to immediate child elements.</li>
+                    <li>Nested lists:
+                        <ul>
+                            <li>are unaffected by this style</li>
+                            <li>will still show a bullet</li>
+                            <li>and have appropriate left margin</li>
+                        </ul>
+                    </li>
+                    <li>This may still come in handy in some situations.</li>
+                </ul> 
+            --></code>
+        </pre>
+    </div>
+    <!-- Typography End -->
+
+
+    <!-- Buttons Start -->
+    <div class="container py-5" id="buttons">
+        <h1 class="fw-bold">Buttons</h1>
+        <p>Use template’s custom button styles for actions in forms, dialogs, and more with support for multiple sizes,
+            states, and more.</p>
+        <br>
+        <h4 class="fw-bold">Default Buttons</h4>
+        <p>Default button styles, each serving its own semantic purpose, with a few extras thrown in for more control.
+        </p>
+        <div class="button-example border rounded p-4 mb-3">
+            <button type="button" class="btn btn-primary">Primary</button>
+            <button type="button" class="btn btn-secondary">Secondary</button>
+            <button type="button" class="btn btn-success">Success</button>
+            <button type="button" class="btn btn-danger">Danger</button>
+            <button type="button" class="btn btn-warning">Warning</button>
+            <button type="button" class="btn btn-info">Info</button>
+            <button type="button" class="btn btn-light">Light</button>
+            <button type="button" class="btn btn-dark">Dark</button>
+            <button type="button" class="btn btn-link">Link</button>
+        </div>
+        <pre class="language-html line-numbers mb-5">
+            <code><!--
+                <button type="button" class="btn btn-primary">Primary</button>
+                <button type="button" class="btn btn-secondary">Secondary</button>
+                <button type="button" class="btn btn-success">Success</button>
+                <button type="button" class="btn btn-danger">Danger</button>
+                <button type="button" class="btn btn-warning">Warning</button>
+                <button type="button" class="btn btn-info">Info</button>
+                <button type="button" class="btn btn-light">Light</button>
+                <button type="button" class="btn btn-dark">Dark</button>
+                <button type="button" class="btn btn-link">Link</button> 
+            --></code>
+        </pre>
+
+        <h4 class="fw-bold">Outline buttons</h4>
+        <p>Replace the default modifier classes with the ".btn-outline-*" ones to remove all background images and
+            colors on any button.</p>
+        <div class="button-example border rounded p-4 mb-3">
+            <button type="button" class="btn btn-outline-primary">Primary</button>
+            <button type="button" class="btn btn-outline-secondary">Secondary</button>
+            <button type="button" class="btn btn-outline-success">Success</button>
+            <button type="button" class="btn btn-outline-danger">Danger</button>
+            <button type="button" class="btn btn-outline-warning">Warning</button>
+            <button type="button" class="btn btn-outline-info">Info</button>
+            <button type="button" class="btn btn-outline-light text-body">Light</button>
+            <button type="button" class="btn btn-outline-dark">Dark</button>
+        </div>
+        <pre class="language-html line-numbers mb-5">
+            <code><!--
+                <button type="button" class="btn btn-outline-primary">Primary</button>
+                <button type="button" class="btn btn-outline-secondary">Secondary</button>
+                <button type="button" class="btn btn-outline-success">Success</button>
+                <button type="button" class="btn btn-outline-danger">Danger</button>
+                <button type="button" class="btn btn-outline-warning">Warning</button>
+                <button type="button" class="btn btn-outline-info">Info</button>
+                <button type="button" class="btn btn-outline-light text-body">Light</button>
+                <button type="button" class="btn btn-outline-dark">Dark</button> 
+            --></code>
+        </pre>
+
+        <h4 class="fw-bold">Buttons Sizes</h4>
+        <p>Fancy larger or smaller buttons? Add ".btn-lg" or ".btn-sm" for additional sizes.</p>
+        <div class="button-example border rounded p-4 mb-3">
+            <button type="button" class="btn btn-primary btn-lg">Large button</button>
+            <button type="button" class="btn btn-secondary btn-lg">Large button</button>
+            <button type="button" class="btn btn-primary btn-sm">Small button</button>
+            <button type="button" class="btn btn-secondary btn-sm">Small button</button>
+        </div>
+        <pre class="language-html line-numbers mb-5">
+            <code><!-- 
+                <button type="button" class="btn btn-primary btn-lg">Large button</button>
+                <button type="button" class="btn btn-secondary btn-lg">Large button</button>
+                <button type="button" class="btn btn-primary btn-sm">Small button</button>
+                <button type="button" class="btn btn-secondary btn-sm">Small button</button> 
+            --></code>
+        </pre>
+    </div>
+    <!-- Buttons End -->
+
+
+    <!-- List Group Start -->
+    <div class="container py-5" id="list-group">
+        <h1 class="fw-bold">List Group</h1>
+        <p>List groups are a flexible and powerful component for displaying a series of content. Modify and extend them
+            to support just about any content within.</p>
+        <br>
+        <h4 class="fw-bold">Basic List Group</h4>
+        <p>The most basic list group is an unordered list with list items and the proper classes.</p>
+        <div class="border rounded p-4 mb-3">
+            <ul class="list-group" style="max-width: 300px;">
+                <li class="list-group-item">An item</li>
+                <li class="list-group-item">A second item</li>
+                <li class="list-group-item">A third item</li>
+                <li class="list-group-item">A fourth item</li>
+                <li class="list-group-item">And a fifth one</li>
+            </ul>
+        </div>
+        <pre class="language-html line-numbers mb-5">
+            <code><!--                 
+                <ul class="list-group">
+                    <li class="list-group-item">An item</li>
+                    <li class="list-group-item">A second item</li>
+                    <li class="list-group-item">A third item</li>
+                    <li class="list-group-item">A fourth item</li>
+                    <li class="list-group-item">And a fifth one</li>
+                </ul> 
+            --></code>
+        </pre>
+
+        <h4 class="fw-bold">Active List Group</h4>
+        <p>Add the ".active" class to a ".list-group-item" to indicate the current active selection.</p>
+        <div class="border rounded p-4 mb-3">
+            <ul class="list-group" style="max-width: 300px;">
+                <li class="list-group-item active" aria-current="true">An active item</li>
+                <li class="list-group-item">A second item</li>
+                <li class="list-group-item">A third item</li>
+                <li class="list-group-item">A fourth item</li>
+                <li class="list-group-item">And a fifth one</li>
+            </ul>
+        </div>
+        <pre class="language-html line-numbers mb-5">
+            <code><!-- 
+                <ul class="list-group">
+                    <li class="list-group-item active" aria-current="true">An active item</li>
+                    <li class="list-group-item">A second item</li>
+                    <li class="list-group-item">A third item</li>
+                    <li class="list-group-item">A fourth item</li>
+                    <li class="list-group-item">And a fifth one</li>
+                </ul> 
+            --></code>
+        </pre>
+
+        <h4 class="fw-bold">Numbered List Group</h4>
+        <p>Add the ".list-group-numbered" class to the ".list-group" class. Numbers are generated via CSS.</p>
+        <div class="border rounded p-4 mb-3">
+            <ol class="list-group list-group-numbered" style="max-width: 300px;">
+                <li class="list-group-item">Cras justo odio</li>
+                <li class="list-group-item">Cras justo odio</li>
+                <li class="list-group-item">Cras justo odio</li>
+                <li class="list-group-item">Cras justo odio</li>
+                <li class="list-group-item">Cras justo odio</li>
+            </ol>
+        </div>
+        <pre class="language-html line-numbers mb-5">
+            <code><!-- 
+                <ol class="list-group list-group-numbered">
+                    <li class="list-group-item">Cras justo odio</li>
+                    <li class="list-group-item">Cras justo odio</li>
+                    <li class="list-group-item">Cras justo odio</li>
+                    <li class="list-group-item">Cras justo odio</li>
+                    <li class="list-group-item">Cras justo odio</li>
+                </ol> 
+            --></code>
+        </pre>
+
+        <h4 class="fw-bold">Flush List Group</h4>
+        <p>Add ".list-group-flush" to remove some borders and rounded corners to render list group items.</p>
+        <div class="border rounded p-4 mb-3">
+            <ul class="list-group list-group-flush" style="max-width: 300px;">
+                <li class="list-group-item">An item</li>
+                <li class="list-group-item">A second item</li>
+                <li class="list-group-item">A third item</li>
+                <li class="list-group-item">A fourth item</li>
+                <li class="list-group-item">And a fifth one</li>
+            </ul>
+        </div>
+        <pre class="language-html line-numbers mb-5">
+            <code><!-- 
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">An item</li>
+                    <li class="list-group-item">A second item</li>
+                    <li class="list-group-item">A third item</li>
+                    <li class="list-group-item">A fourth item</li>
+                    <li class="list-group-item">And a fifth one</li>
+                </ul> 
+            --></code>
+        </pre>
+
+        <h4 class="fw-bold">List Group With Badges</h4>
+        <p>Add badges to any list group item to show unread counts, activity, and more.</p>
+        <div class="border rounded p-4 mb-3">
+            <ul class="list-group" style="max-width: 300px;">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    A list item
+                    <span class="badge bg-primary rounded-pill">10</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    A second list item
+                    <span class="badge bg-primary rounded-pill">20</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    A third list item
+                    <span class="badge bg-primary rounded-pill">30</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    A fourth list item
+                    <span class="badge bg-primary rounded-pill">40</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    A fifth list item
+                    <span class="badge bg-primary rounded-pill">50</span>
+                </li>
+            </ul>
+        </div>
+        <pre class="language-html line-numbers mb-5">
+            <code><!-- 
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        A list item
+                        <span class="badge bg-primary rounded-pill">10</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        A second list item
+                        <span class="badge bg-primary rounded-pill">20</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        A third list item
+                        <span class="badge bg-primary rounded-pill">30</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        A fourth list item
+                        <span class="badge bg-primary rounded-pill">40</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        A fifth list item
+                        <span class="badge bg-primary rounded-pill">50</span>
+                    </li>
+                </ul> 
+            --></code>
+        </pre>
+
+        <h4 class="fw-bold">With Checkbox and Radio</h4>
+        <p>Place checkboxes and radios within list group items and customize as needed.</p>
+        <div class="border rounded p-4 mb-3">
+            <div class="list-group" style="max-width: 300px;">
+                <label class="list-group-item">
+                    <input class="form-check-input me-1" type="checkbox" value="">
+                    First checkbox
+                </label>
+                <label class="list-group-item">
+                    <input class="form-check-input me-1" type="checkbox" value="">
+                    Second checkbox
+                </label>
+                <label class="list-group-item">
+                    <input class="form-check-input me-1" type="checkbox" value="">
+                    Third checkbox
+                </label>
+                <label class="list-group-item">
+                    <input class="form-check-input me-1" type="checkbox" value="">
+                    Fourth checkbox
+                </label>
+                <label class="list-group-item">
+                    <input class="form-check-input me-1" type="checkbox" value="">
+                    Fifth checkbox
+                </label>
+            </div>
+        </div>
+        <pre class="language-html line-numbers mb-5">
+            <code><!-- 
+                <div class="list-group">
+                    <label class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="">
+                        First checkbox
+                    </label>
+                    <label class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="">
+                        Second checkbox
+                    </label>
+                    <label class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="">
+                        Third checkbox
+                    </label>
+                    <label class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="">
+                        Fourth checkbox
+                    </label>
+                    <label class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="">
+                        Fifth checkbox
+                    </label>
+                </div> 
+            --></code>
+        </pre>
+
+        <h4 class="fw-bold">With Custom content</h4>
+        <p>Add nearly any HTML within, even for linked list groups like the one below.</p>
+        <div class="border rounded p-4 mb-3">
+            <div class="list-group" style="max-width: 400px;">
+                <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">This is heading</h5>
+                        <small>3 days ago</small>
+                    </div>
+                    <p class="mb-1">Some content in a paragraph.</p>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">This is heading</h5>
+                        <small class="text-muted">3 days ago</small>
+                    </div>
+                    <p class="mb-1">Some content in a paragraph.</p>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">This is heading</h5>
+                        <small class="text-muted">3 days ago</small>
+                    </div>
+                    <p class="mb-1">Some content in a paragraph.</p>
+                </a>
+            </div>
+        </div>
+        <pre class="language-html line-numbers mb-5">
+            <code><!-- 
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">This is heading</h5>
+                            <small>3 days ago</small>
+                        </div>
+                        <p class="mb-1">Some content in a paragraph.</p>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">This is heading</h5>
+                            <small class="text-muted">3 days ago</small>
+                        </div>
+                        <p class="mb-1">Some content in a paragraph.</p>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">This is heading</h5>
+                            <small class="text-muted">3 days ago</small>
+                        </div>
+                        <p class="mb-1">Some content in a paragraph.</p>
+                    </a>
+                </div> 
+            --></code>
+        </pre>
+    </div>
+    <!-- List Group End -->
+
+
+    <!-- Accordion Start -->
+    <div class="container py-5" id="accordion">
+        <h1 class="fw-bold">Accordion</h1>
+        <p>Build vertically collapsing accordions in combination with Collapse JavaScript plugin. The accordion uses
+            collapse internally to make it collapsible.</p>
+        <br>
+        <h4 class="fw-bold">Default Accordion</h4>
+        <p>Click the accordions below to expand/collapse the accordion content.</p>
+        <div class="border rounded p-4 mb-3">
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button fs-5" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Accordion Item #1
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                        data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore
+                            et at sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et
+                            dolore eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore
+                            sanctus sed et. Takimata takimata sanctus sed.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button fs-5 collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Accordion Item #2
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                        data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore
+                            et at sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et
+                            dolore eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore
+                            sanctus sed et. Takimata takimata sanctus sed.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button fs-5 collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Accordion Item #3
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                        data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore
+                            et at sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et
+                            dolore eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore
+                            sanctus sed et. Takimata takimata sanctus sed.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <pre class="language-html line-numbers mb-5">
+            <code><!-- 
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button fs-5" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Accordion Item #1
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed et. Takimata takimata sanctus sed.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button fs-5 collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Accordion Item #2
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed et. Takimata takimata sanctus sed.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingThree">
+                            <button class="accordion-button fs-5 collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Accordion Item #3
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed et. Takimata takimata sanctus sed.
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            --></code>
+        </pre>
+
+        <h4 class="fw-bold">Flush Accordion</h4>
+        <p>Add ".accordion-flush" class to create a flush accordion.</p>
+        <div class="border rounded p-4 mb-3">
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button fs-5" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Accordion Item #1
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                        data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore
+                            et at sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et
+                            dolore eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore
+                            sanctus sed et. Takimata takimata sanctus sed.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button fs-5 collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Accordion Item #2
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                        data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore
+                            et at sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et
+                            dolore eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore
+                            sanctus sed et. Takimata takimata sanctus sed.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button fs-5 collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Accordion Item #3
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                        data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore
+                            et at sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et
+                            dolore eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore
+                            sanctus sed et. Takimata takimata sanctus sed.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <pre class="language-html line-numbers mb-5">
+            <code><!-- 
+                <div class="accordion accordion-flush" id="accordionFlushExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button fs-5" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Accordion Item #1
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                            data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">
+                                Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed et. Takimata takimata sanctus sed.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button fs-5 collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Accordion Item #2
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                            data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">
+                                Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed et. Takimata takimata sanctus sed.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingThree">
+                            <button class="accordion-button fs-5 collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Accordion Item #3
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                            data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">
+                                Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed et. Takimata takimata sanctus sed.
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            --></code>
+        </pre>
+    </div>
+    <!-- Accordion End -->
+
+
+    <!-- Navs, Tabs, Pills Start -->
+    <div class="container py-5" id="nav-tab">
+        <h1 class="fw-bold">Navs, Tabs, Pills</h1>
+        <p>The base ".nav" component is built with flexbox and provide a strong foundation for building all types of
+            navigation components. It includes some style overrides, some link padding for larger hit areas, and basic
+            disabled styling.</p>
+        <br>
+        <h4 class="fw-bold">Default Navs and tabs</h4>
+        <p>Use the basic nav and adds the ".nav-tabs" class to generate a tabbed interface.</p>
+        <div class="border rounded p-4 mb-3">
+            <nav>
+                <div class="nav nav-tabs justify-content-center mb-3" id="nav-tab" role="tablist">
+                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
+                        type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
+                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
+                        type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
+                    <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact"
+                        type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at sea
+                    ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore eirmod et.
+                    Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed et. Takimata
+                    takimata sanctus sed.
+                </div>
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                    Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at sea
+                    ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore eirmod et.
+                    Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed et. Takimata
+                    takimata sanctus sed.
+                </div>
+                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                    Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at sea
+                    ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore eirmod et.
+                    Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed et. Takimata
+                    takimata sanctus sed.
+                </div>
+            </div>
+        </div>
+        <pre class="language-html line-numbers mb-5">
+            <code><!-- 
+                <nav>
+                    <div class="nav nav-tabs justify-content-center mb-3" id="nav-tab" role="tablist">
+                        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
+                        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
+                        <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                        Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed et. Takimata takimata sanctus sed.
+                    </div>
+                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                        Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed et. Takimata takimata sanctus sed.
+                    </div>
+                    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                        Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed et. Takimata takimata sanctus sed.
+                    </div>
+                </div> 
+            --></code>
+        </pre>
+
+        <h4 class="fw-bold">Horizontal Pills</h4>
+        <p>Take that same HTML, but use ".nav-pills" instead.</p>
+        <div class="border rounded p-4 mb-3">
+            <ul class="nav nav-pills justify-content-center mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
+                        data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
+                        aria-selected="true">Home</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
+                        data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile"
+                        aria-selected="false">Profile</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill"
+                        data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact"
+                        aria-selected="false">Contact</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                    Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at sea
+                    ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore eirmod et.
+                    Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed et. Takimata
+                    takimata sanctus sed.
+                </div>
+                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at sea
+                    ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore eirmod et.
+                    Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed et. Takimata
+                    takimata sanctus sed.
+                </div>
+                <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                    Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at sea
+                    ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore eirmod et.
+                    Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed et. Takimata
+                    takimata sanctus sed.
+                </div>
+            </div>
+        </div>
+        <pre class="language-html line-numbers mb-5">
+            <code><!-- 
+                <ul class="nav nav-pills justify-content-center mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Home</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Profile</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Contact</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                        Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed et. Takimata takimata sanctus sed.
+                    </div>
+                    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                        Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed et. Takimata takimata sanctus sed.
+                    </div>
+                    <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                        Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed et. Takimata takimata sanctus sed.
+                    </div>
+                </div> 
+            --></code>
+        </pre>
+
+        <h4 class="fw-bold">Vertical Pills</h4>
+        <p>You can use vertical pills.</p>
+        <div class="border rounded p-4 mb-3">
+            <div class="d-flex align-items-start">
+                <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill"
+                        data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home"
+                        aria-selected="true">Home</button>
+                    <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill"
+                        data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile"
+                        aria-selected="false">Profile</button>
+                    <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill"
+                        data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages"
+                        aria-selected="false">Messages</button>
+                    <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill"
+                        data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings"
+                        aria-selected="false">Settings</button>
+                </div>
+                <div class="tab-content" id="v-pills-tabContent">
+                    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
+                        aria-labelledby="v-pills-home-tab">
+                        Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at
+                        sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore
+                        eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed
+                        et. Takimata takimata sanctus sed.
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
+                        aria-labelledby="v-pills-profile-tab">
+                        Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at
+                        sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore
+                        eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed
+                        et. Takimata takimata sanctus sed.
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
+                        aria-labelledby="v-pills-messages-tab">
+                        Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at
+                        sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore
+                        eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed
+                        et. Takimata takimata sanctus sed.
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-settings" role="tabpanel"
+                        aria-labelledby="v-pills-settings-tab">
+                        Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at
+                        sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore
+                        eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed
+                        et. Takimata takimata sanctus sed.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <pre class="language-html line-numbers mb-5">
+            <code><!-- 
+                <div class="d-flex align-items-start">
+                    <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</button>
+                        <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Profile</button>
+                        <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</button>
+                        <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</button>
+                    </div>
+                    <div class="tab-content" id="v-pills-tabContent">
+                        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                            Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed et. Takimata takimata sanctus sed.
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                            Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed et. Takimata takimata sanctus sed.
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                            Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed et. Takimata takimata sanctus sed.
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+                            Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed et. Takimata takimata sanctus sed.
+                        </div>
+                    </div>
+                </div> 
+            --></code>
+        </pre>
+    </div>
+    <!-- Navs, Tabs, Pills End -->
+
+
+    <!-- Contact Form Start -->
+    <div class="container py-5" id="contact-form">
+        <h1 class="fw-bold">Contact Form</h1>
+        <p>MultiShop comes with a fully working and functional Contact Form script with Ajax & PHP. This form enables you to
+            send mails effortlessly using both the PHP mail() function and the SMTP system.</p>
+        <br>
+        <h4 class="fw-bold">Requirements</h4>
+        <p>The Contact Form requires at last PHP version 5.5 in your hosting server. Your hosting should allow you to
+            send emails with using the PHP mail() function. You can use SMTP method if the mail() function is not
+            supported.</p>
+        <br>
+        <h4 class="fw-bold">Activation</h4>
+        <p>You need to activate it to make it work. Follow the instructions below step by step.</p>
+        <p>1. Open the "contact.form.php" file from the "mailer" folder.</p>
+        <p>2. Change the recipient name and email address and save the file.</p>
+
+        <pre class="language-php line-numbers">
+            <code>
+                // Recipient name. Change this name to your
+                $recipientName = "Joe User";
+
+                // Recipient email. Change this email to your
+                $recipientEmail = "joe@example.com";
+            </code>
+        </pre>
+
+        <p>Now your Contact Form is ready. Upload the template to the web host and test it. You should receive the test
+            message in your email shortly.</p>
+        <br>
+        <h4 class="fw-bold" id="smtp-settings">SMTP Settings</h4>
+        <p>The Contact Form utilizes the PHP mail() function as its default mailing method. However, it also includes a
+            configuration for SMTP in case your hosting doesn't support the PHP mail() function for sending emails. If
+            your hosting doesn't support the PHP mail() or you prefer to use the SMTP system, you'll need to enable it
+            and add your SMTP credentials. Please follow the instructions below for guidance.</p>
+        <p>1. Open the "contact.form.php" file. Look for the word "useSMTP" and remove the word "false," then type in
+            "true" instead.</p>
+
+        <pre class="language-php line-numbers mb-4">
+            <code>
+                // Set mailer to use SMTP or PHP's mail() function
+                // If you use SMTP, it will be "true". Otherwise, it will be "false"
+                $useSMTP = true;
+            </code>
+        </pre>
+
+        <p>2. You need to provide the following SMTP-related information. Don't forget to save the file after making the
+            changes.</p>
+
+        <pre class="language-php line-numbers">
+            <code>
+                // SMTP Settings
+				$mail->isSMTP();
+				$mail->Host       = 'smtp.gmail.com';               // Change to your SMTP host
+				$mail->SMTPAuth   = true;
+				$mail->Username   = 'yourname@gmail.com';           // SMTP username
+				$mail->Password   = 'your-app-password';            // SMTP password or App Password
+				$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // or PHPMailer::ENCRYPTION_SMTPS
+				$mail->Port       = 587;                            // 465 for SSL
+            </code>
+        </pre>
+
+        <ul class="list-unstyled p-0 mb-5">
+            <li><b>Host:</b> The hostname or IP address of the SMTP server you want to use for sending emails.</li>
+            <li><b>Username:</b> The username or email address used to authenticate with the SMTP server.</li>
+            <li><b>Password:</b> The password associated with the SMTP username for authentication. Gmail may require an app password instead of your regular password.</li>
+            <li><b>SMTPSecure:</b> The encryption type to secure the connection between your script and the SMTP server. Common options are SSL, TLS, or none.</li>
+            <li><b>Port:</b> The port number used for the SMTP server. The default ports for secure SSL/TLS connections are 465 and 587. For non-secure connections, port 25 is often used.</li>
+        </ul>
+
+        <h4 class="fw-bold">Mobile Number</h4>
+        <p>By default, the mobile number field is enabled. If you prefer not to use the mobile field, you can simply remove it.</p>
+        <p>1. Open the "contact.html" file and remove the HTML code for mobile number field mentioned below.</p>
+        <pre class="language-html line-numbers mb-4">
+            <code><!--
+                <div class="col-sm-6 control-group">
+                    <div class="form-floating">
+                        <input type="text" class="form-control py-2" id="mobile" placeholder="Mobile" required="required" data-validation-required-message="Please enter your mobile number" pattern="^(?![-. ])[\d().+\- ]{6,14}\d$" data-validation-pattern-message="Not a valid mobile number" />
+                        <label for="mobile">Mobile</label>
+                    </div>
+                    <p class="help-block text-danger"></p>
+                </div>
+            --></code>
+        </pre>
+
+        <p>2. Don't forget to change the CSS class for the subject field from "col-sm-6" to "col-12". See the below example.</p>
+        <pre class="language-html line-numbers mb-5">
+            <code><!--
+                <div class="col-12 control-group">
+                    <div class="form-floating">
+                        <input type="text" class="form-control py-2" id="subject" placeholder="Subject" required="required" data-validation-required-message="Please enter a subject" />
+                        <label for="subject">Subject</label>
+                    </div>
+                    <p class="help-block text-danger"></p>
+                </div>
+            --></code>
+        </pre>
+
+        <h4 class="fw-bold">Error Messages</h4>
+        <p>To customize the error messages, it's easy to do so. Just open your "contact.html" file, locate the "data-validation-required-message", and customize the error messages as desired.</p>
+        <pre class="language-html line-numbers mb-5">
+            <code><!--
+                <input type="text" data-validation-required-message="Please enter your name" />
+            --></code>
+        </pre>
+
+        <h4 class="fw-bold">Troubleshooting</h4>
+        <p>Although the Contact Form is 100% error-free, it may not work in some cases. If you face any problems while
+            using it, please find your solution in the FAQ below. Please <a href="https://htmlcodex.com/contact" target="_blank"><b>contact us</b></a> if no solution is found. Our team
+            will try to solve your problem within a short time.</p>
+        <div class="accordion mb-5" id="accordionForTroubleshooting">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Email could not be sent. What could be the issue?
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                    data-bs-parent="#accordionForTroubleshooting">
+                    <div class="accordion-body">
+                        First, make sure that your Contact Form is set up correctly and that all the required fields are filled out. Next, check your email settings to make sure that you are using the correct recipient name and email address. If you use SMTP method then check the <a href="#smtp-settings">SMTP settings</a> are correctly configured.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button fw-bold collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        My server does not support PHP mail(). What should I do now?
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                    data-bs-parent="#accordionForTroubleshooting">
+                    <div class="accordion-body">
+                        If your server does not support the PHP mail() function, you still have an alternative option to enable email functionality on your website. You can use the SMTP method easily. Please see the instruction <a href="#smtp-settings">here</a> on how to configure the SMTP system.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button fw-bold collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        My server supports PHP mail() but, the email is not being sent. What could be the issue?
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                    data-bs-parent="#accordionForTroubleshooting">
+                    <div class="accordion-body">
+                        <p>Even if your server supports the mail() function, there may be some reasons why the email is not being sent.</p>
+                        <ul>
+                            <li>Make sure that your Contact Form is set up correctly.</li>
+                            <li>Check your email settings to make sure that you are using the correct recipient name and email address.</li>
+                            <li>Some hosting providers don't allow external recipients when using PHP mail().</li>
+                            <li>Please change the recipient email address to an email address from the server's domain. For example, if your server domain is "www.yourdomain.com", then the recipient's email should be "someone@yourdomain.com".</li>
+                            <li>Please test the Contact Form with the same email as used for the recipient if not working.</li>
+                            <li>If it's still not working, you should use the SMTP method. Please see the instruction <a href="#smtp-settings">here</a> on how to configure the SMTP system.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFour">
+                    <button class="accordion-button fw-bold collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        The form submits, but I'm not receiving any emails. What could be the issue?
+                    </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
+                    data-bs-parent="#accordionForTroubleshooting">
+                    <div class="accordion-body">
+                        <p>There are a few potential reasons.</p>
+                        <ul>
+                            <li>Ensure that your server supports the mail() function or that SMTP settings are correctly configured.</li>
+                            <li>Double-check your SMTP configuration (server, port, username, password, encryption) and verify that the email addresses are valid.</li>
+                            <li>Check your spam folder in case emails are getting flagged as spam by your email provider.</li>
+                            <li>Firewall or Antivirus Blocking: In some cases, firewalls or antivirus software might be blocking the outgoing emails. Verify if there are any security programs causing interference and adjust their settings if needed.</li>
+                            <li>IP Address Blocking: If there were previous unethical behaviors from the IP address, the server might have temporarily blocked the IP for security reasons. In this case, waiting for a while and trying again might resolve the issue.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFive">
+                    <button class="accordion-button fw-bold collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                        Email could not be sent. SMTP Error: Could not authenticate. What could be the issue?
+                    </button>
+                </h2>
+                <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive"
+                    data-bs-parent="#accordionForTroubleshooting">
+                    <div class="accordion-body">
+                        <p>The error message "SMTP Error: Could not authenticate" indicates that there was a problem with the authentication process while attempting to send an email through the Simple Mail Transfer Protocol (SMTP). There are a few possible reasons for this issue:</p>
+                        <ul>
+                            <li>Incorrect Username or Password: The most common reason for this error is that the username and/or password used for authentication are incorrect. Double-check the login credentials you are using to ensure they are accurate.</li>
+                            <li>Authentication Method: SMTP servers often support different authentication methods, such as plain text, encrypted (SSL/TLS), or secure methods like OAuth. Ensure that you are using the correct authentication method as required by the SMTP server you are connecting to.</li>
+                            <li>Firewall or Antivirus Blocking: In some cases, firewalls or antivirus software might be blocking the outgoing connection to the SMTP server, leading to authentication failure. Verify if there are any security programs causing interference and adjust their settings if needed.</li>
+                            <li>SMTP Server Configuration: The issue might be on the server-side. Check if the SMTP server settings, including the server address, port number, and encryption method, are set up correctly.</li>
+                            <li>Account Access: Ensure that the account you are trying to use for authentication has the necessary permissions to send emails via the SMTP server.</li>
+                            <li>IP Address Blocking: If there were previous failed login attempts from the same IP address, the SMTP server might have temporarily blocked the IP for security reasons. In this case, waiting for a while and trying again might resolve the issue.</li>
+                            <li>Two-Factor Authentication (2FA): If the email service provider or server enforces 2FA, you may need to generate an app-specific password or provide additional authentication credentials.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingSix">
+                    <button class="accordion-button fw-bold collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                        Do I need an app password for Gmail SMTP configuration?
+                    </button>
+                </h2>
+                <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix"
+                    data-bs-parent="#accordionForTroubleshooting">
+                    <div class="accordion-body">
+                        An App password is a 16-digit passcode that gives an app or device permission to access your Google Account. If you use 2-Step Verification and are seeing a "password incorrect" or "Cannot connect to SMTP Server" error when trying to access your Google Account, an App password may solve the problem.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingSeven">
+                    <button class="accordion-button fw-bold collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                        How to create an app password on my Google Account?
+                    </button>
+                </h2>
+                <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven"
+                    data-bs-parent="#accordionForTroubleshooting">
+                    <div class="accordion-body">
+                        <p>To create an app password, you need 2-Step Verification on your Google Account. Here's a step-by-step guide to generate an app password for Gmail:</p>
+                        <h6>Enable Two-Step Verification:</h6>
+                        <ul>
+                            <li>Go to your Google Account settings (https://myaccount.google.com/).</li>
+                            <li>Navigate to the "Security" section.</li>
+                            <li>Under the "Signing in to Google" section, click on "2-Step Verification."</li>
+                            <li>Follow the prompts to enable two-step verification for your Google account.</li>
+                        </ul>
+                        <h6>Generate App Password:</h6>
+                        <ul>
+                            <li>After enabling two-step verification, go back to the "Security" section in your Google Account settings.</li>
+                            <li>Look for the "Signing in to Google" section again, and this time click on "App passwords."</li>
+                            <li>You might be prompted to enter your Google account password again.</li>
+                            <li>In the "Select app" dropdown, choose "mailer" (or "Other (Custom name)") if the "mailer" option is not available.</li>
+                            <li>In the "Select device" dropdown, choose "Other (Custom name)."</li>
+                            <li>Enter a custom name for your app password (e.g., "Contact Form").</li>
+                            <li>Click on the "Generate" button.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Contact Form End -->
+
+
+    <!-- Uploading Start -->
+    <div class="container py-5" id="uploading">
+        <h1 class="fw-bold">Uploading</h1>
+        <p>You can run HTML file directly from MultiShop folder, but it won't let you explore all template functionality.
+            You should upload all the content of "MultiShop" folder from your local computer to your hosting server in order
+            to display a fully working website and make your site "live".</p>
+        <p>For files uploading to your hosting server FTP manager will be needed, like Total Commander, FileZilla,
+            CuteFTP, etc.</p>
+        <p>In case you have existing server already, please check if it meets all the requirements. For most templates
+            PHP 5.4+ version is the only one required.</p>
+        <p>Your website root depends on the directory structure on your hosting server. If you upload the "MultiShop" folder
+            itself into your server, the root to your website will be "http://your_domain_name/MultiShop". To avoid this and
+            make the website root "http://your_domain_name/" please open the "MultiShop" folder and upload the folder
+            content.</p>
+    </div>
+    <!-- Uploading End -->
+
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-primary text-center py-4 mt-5">
+        <h5 class="text-white mb-3">Thank you for using our MultiShop template.</h5>
+        <p class="text-white mb-0">Copyright &copy; <a class="text-white border-bottom" href="https://htmlcodex.com">HTML Codex</a>, All Rights Reserved.</p>
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Back to Top -->
+    <a href="#top" class="btn btn-primary fs-4 py-1 back-to-top">&uarr;</a>
+
+
+    <!-- Libraries JavaScript -->
+    <script src="js/jquery-3.7.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/prism.min.js"></script>
+
+
+    <!-- Docs Javascript -->
+    <script src="js/docs.js"></script>
+</body>
+
+</html>

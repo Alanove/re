@@ -1,0 +1,2210 @@
+[2025-12-07 03:48:03] === Starting OCR-based Project Data Extraction ===
+[2025-12-07 03:48:03] Base directory: C:\Work\Rawad\EMDC\emdc-website
+[2025-12-07 03:48:03] Tesseract OCR is available
+[2025-12-07 03:48:03] Loaded 82 projects
+[2025-12-07 03:48:03] Found 13 slide files
+[2025-12-07 03:48:03] 
+
+=== Processing category: Airports & Stations ===
+[2025-12-07 03:48:03] Found 8 projects in category: Airports & Stations
+[2025-12-07 03:48:03] 
+=== Processing slide: Airports & Stations .jpg ===
+[2025-12-07 03:48:03] Processing OCR for: Airports & Stations .jpg
+[2025-12-07 03:48:04] Extracted 1316 characters of text
+[2025-12-07 03:48:04] Extracted 1316 characters of text
+[2025-12-07 03:48:04] Debug OCR text saved to: ocr_debug_Airports & Stations .txt
+[2025-12-07 03:48:04] First 15 lines of OCR text:
+[2025-12-07 03:48:04]   Line 0: Airports&Stations
+[2025-12-07 03:48:04]   Line 1: ae 2 eee LP
+[2025-12-07 03:48:04]   Line 2: : ir ar OS a
+[2025-12-07 03:48:04]   Line 3: et .foa WE Mpg
+[2025-12-07 03:48:04]   Line 4: 7 se. NaN Sect a Unhtpoy reese .
+[2025-12-07 03:48:04]   Line 5: ProjectKingAbdulAzizInternationalAirport Project.MiddleEuphratesInternationalAirportProject.AbhaAirport ProjectJAXMultistoryCarParks
+[2025-12-07 03:48:04]   Line 6: CountrySaudiArabia CountryIraq CountrySaudiArabia CountrySaudiArabia
+[2025-12-07 03:48:04]   Line 7: BUA 300,000m2 BUA 200,000m2 BUA 87,000m BUA 10,650m
+[2025-12-07 03:48:04]   Line 8: ContractorSBG/Vision ConsultantADPi Architect.EdgeArch Architect-EdgeArch
+[2025-12-07 03:48:04]   Line 9: ScopeM&EShopDrawings{PTBZoneD} ScopeM&ELoadCenters&PTB ScopeM&EDetailedDesign ScopeM&EDetailedDesign{REVITWorks}
+[2025-12-07 03:48:04]   Line 10: &PowerDiscriminationStudy InfrastructureDetailedDesign PTB&Parking{REVITWorks}
+[2025-12-07 03:48:04]   Line 11: ae Linea
+[2025-12-07 03:48:04]   Line 12: : m - SED, wih
+[2025-12-07 03:48:04]   Line 13: ee er az 7 :
+[2025-12-07 03:48:04]   Line 14: ACA 4 ee Pema
+[2025-12-07 03:48:04] Lines containing 'project' (2):
+[2025-12-07 03:48:04]   Line 5: ProjectKingAbdulAzizInternationalAirport Project.MiddleEuphratesInternationalAirportProject.AbhaAirport ProjectJAXMultistoryCarParks
+[2025-12-07 03:48:04]   Line 20: ProjectATCLYacht-Club&Marina Project.HaramainHighSpeedRailKAECStation ProjectRiyadhMetroStations,Line5&6Project-RiyadhMetroPark&Ride
+[2025-12-07 03:48:04] Trying direct project title matching in OCR text...
+[2025-12-07 03:48:04]   Direct no-spaces match: 'King AbdulAziz International Airport' in line 5
+[2025-12-07 03:48:04]   Direct no-spaces match: 'Middle Euphrates International Airport' in line 5
+[2025-12-07 03:48:04]   Direct no-spaces match: 'Abha Airport' in line 5
+[2025-12-07 03:48:04]   Direct no-spaces match: 'ATCL Yacht Club & Marina' in line 20
+[2025-12-07 03:48:04]   Direct no-spaces match: 'Riyadh Metro Park & Ride' in line 20
+[2025-12-07 03:48:04]   Direct no-spaces match: 'Riyadh Metro Stations, Line 5 & 6' in line 20
+[2025-12-07 03:48:04]   Direct no-spaces match: 'JAX Multistory Car Parks' in line 5
+[2025-12-07 03:48:04] Direct matching found 7 projects
+[2025-12-07 03:48:04]   Found 'Project' line 5: 'KingAbdulAzizInternationalAirport'
+[2025-12-07 03:48:04]   Found partial 'Project' name 5: 'KingAbdul' (from: 'KingAbdulAzizInternationalAirport')
+[2025-12-07 03:48:04]   Found partial 'Project' name 5: 'KingAbdulAziz' (from: 'KingAbdulAzizInternationalAirport')
+[2025-12-07 03:48:04]   Found partial 'Project' name 5: 'KingAbdulAzizInternational' (from: 'KingAbdulAzizInternationalAirport')
+[2025-12-07 03:48:04]   Found partial 'Project' name 5: 'KingAbdulAzizInternationalAirport' (from: 'KingAbdulAzizInternationalAirport')
+[2025-12-07 03:48:04]   Found word 'Project' name 5: 'International' (from: 'KingAbdulAzizInternationalAirport')
+[2025-12-07 03:48:04]   Found word 'Project' name 5: 'Airport' (from: 'KingAbdulAzizInternationalAirport')
+[2025-12-07 03:48:04]   Found 'Project' line 5: 'MiddleEuphratesInternationalAirport'
+[2025-12-07 03:48:04]   Found partial 'Project' name 5: 'Middle' (from: 'MiddleEuphratesInternationalAirport')
+[2025-12-07 03:48:04]   Found partial 'Project' name 5: 'MiddleEuphrates' (from: 'MiddleEuphratesInternationalAirport')
+[2025-12-07 03:48:04]   Found partial 'Project' name 5: 'MiddleEuphratesInternational' (from: 'MiddleEuphratesInternationalAirport')
+[2025-12-07 03:48:04]   Found partial 'Project' name 5: 'MiddleEuphratesInternationalAirport' (from: 'MiddleEuphratesInternationalAirport')
+[2025-12-07 03:48:04]   Found word 'Project' name 5: 'Middle' (from: 'MiddleEuphratesInternationalAirport')
+[2025-12-07 03:48:04]   Found word 'Project' name 5: 'Euphrates' (from: 'MiddleEuphratesInternationalAirport')
+[2025-12-07 03:48:04]   Found word 'Project' name 5: 'International' (from: 'MiddleEuphratesInternationalAirport')
+[2025-12-07 03:48:04]   Found word 'Project' name 5: 'Airport' (from: 'MiddleEuphratesInternationalAirport')
+[2025-12-07 03:48:04]   Found 'Project' line 5: 'AbhaAirport'
+[2025-12-07 03:48:04]   Found partial 'Project' name 5: 'AbhaAirport' (from: 'AbhaAirport')
+[2025-12-07 03:48:04]   Found word 'Project' name 5: 'Airport' (from: 'AbhaAirport')
+[2025-12-07 03:48:04]   Found 'Project' line 5: 'JAXMultistoryCarParks'
+[2025-12-07 03:48:04]   Found partial 'Project' name 5: 'JAXMultistory' (from: 'JAXMultistoryCarParks')
+[2025-12-07 03:48:04]   Found partial 'Project' name 5: 'JAXMultistoryCar' (from: 'JAXMultistoryCarParks')
+[2025-12-07 03:48:04]   Found partial 'Project' name 5: 'JAXMultistoryCarParks' (from: 'JAXMultistoryCarParks')
+[2025-12-07 03:48:04]   Found word 'Project' name 5: 'Multistory' (from: 'JAXMultistoryCarParks')
+[2025-12-07 03:48:04]   Found 'Project' line 20: 'ATCLYacht-Club&Marina'
+[2025-12-07 03:48:04]   Found partial 'Project' name 20: 'ATCLYacht' (from: 'ATCLYacht-Club&Marina')
+[2025-12-07 03:48:04]   Found partial 'Project' name 20: 'ATCLYachtClub' (from: 'ATCLYacht-Club&Marina')
+[2025-12-07 03:48:04]   Found partial 'Project' name 20: 'ATCLYachtClubMarina' (from: 'ATCLYacht-Club&Marina')
+[2025-12-07 03:48:04]   Found word 'Project' name 20: 'Marina' (from: 'ATCLYacht-Club&Marina')
+[2025-12-07 03:48:04]   Found 'Project' line 20: 'HaramainHighSpeedRailKAECStation'
+[2025-12-07 03:48:04]   Found partial 'Project' name 20: 'Haramain' (from: 'HaramainHighSpeedRailKAECStation')
+[2025-12-07 03:48:04]   Found partial 'Project' name 20: 'HaramainHigh' (from: 'HaramainHighSpeedRailKAECStation')
+[2025-12-07 03:48:04]   Found partial 'Project' name 20: 'HaramainHighSpeed' (from: 'HaramainHighSpeedRailKAECStation')
+[2025-12-07 03:48:04]   Found partial 'Project' name 20: 'HaramainHighSpeedRail' (from: 'HaramainHighSpeedRailKAECStation')
+[2025-12-07 03:48:04]   Found partial 'Project' name 20: 'HaramainHighSpeedRailKAEC' (from: 'HaramainHighSpeedRailKAECStation')
+[2025-12-07 03:48:04]   Found word 'Project' name 20: 'Haramain' (from: 'HaramainHighSpeedRailKAECStation')
+[2025-12-07 03:48:04]   Found word 'Project' name 20: 'Station' (from: 'HaramainHighSpeedRailKAECStation')
+[2025-12-07 03:48:04]   Found 'Project' line 20: 'RiyadhMetroStations,Line5&6'
+[2025-12-07 03:48:04]   Found partial 'Project' name 20: 'Riyadh' (from: 'RiyadhMetroStations,Line5&6')
+[2025-12-07 03:48:04]   Found partial 'Project' name 20: 'RiyadhMetro' (from: 'RiyadhMetroStations,Line5&6')
+[2025-12-07 03:48:04]   Found partial 'Project' name 20: 'RiyadhMetroStations' (from: 'RiyadhMetroStations,Line5&6')
+[2025-12-07 03:48:04]   Found partial 'Project' name 20: 'RiyadhMetroStationsLine' (from: 'RiyadhMetroStations,Line5&6')
+[2025-12-07 03:48:04]   Found word 'Project' name 20: 'Riyadh' (from: 'RiyadhMetroStations,Line5&6')
+[2025-12-07 03:48:04]   Found word 'Project' name 20: 'Stations' (from: 'RiyadhMetroStations,Line5&6')
+[2025-12-07 03:48:04]   Found 'Project' line 20: 'RiyadhMetroPark&Ride'
+[2025-12-07 03:48:04]   Found partial 'Project' name 20: 'Riyadh' (from: 'RiyadhMetroPark&Ride')
+[2025-12-07 03:48:04]   Found partial 'Project' name 20: 'RiyadhMetro' (from: 'RiyadhMetroPark&Ride')
+[2025-12-07 03:48:04]   Found partial 'Project' name 20: 'RiyadhMetroPark' (from: 'RiyadhMetroPark&Ride')
+[2025-12-07 03:48:04]   Found partial 'Project' name 20: 'RiyadhMetroParkRide' (from: 'RiyadhMetroPark&Ride')
+[2025-12-07 03:48:04]   Found word 'Project' name 20: 'Riyadh' (from: 'RiyadhMetroPark&Ride')
+[2025-12-07 03:48:04] Found 50 'Project' lines in OCR text
+[2025-12-07 03:48:04] Total projects matched: 7
+[2025-12-07 03:48:04] Found 7 projects in slide
+[2025-12-07 03:48:04] 
+Extracting data for: King AbdulAziz International Airport
+[2025-12-07 03:48:04]   Found at line 5: King AbdulAziz International Airport
+[2025-12-07 03:48:04]   Processing section (15 lines)
+[2025-12-07 03:48:04] Extracted data: {
+  "bau": "300,000m2 BUA 200,000m2 BUA 87,000m BUA 10,650m",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "SBG/Vision ConsultantADPi Architect.EdgeArch Architect-EdgeArch",
+  "architect": ".EdgeArch Architect-EdgeArch",
+  "client": "",
+  "scope": "M&EShopDrawings{PTBZoneD} ScopeM&ELoadCenters&PTB ScopeM&EDetailedDesign ScopeM&EDetailedDesign{REVITWorks}",
+  "country": "SaudiArabia CountryIraq CountrySaudiArabia CountrySaudiArabia"
+}
+[2025-12-07 03:48:05] 
+Extracting data for: Middle Euphrates International Airport
+[2025-12-07 03:48:05]   Found at line 5: Middle Euphrates International Airport
+[2025-12-07 03:48:05]   Processing section (15 lines)
+[2025-12-07 03:48:05] Extracted data: {
+  "bau": "300,000m2 BUA 200,000m2 BUA 87,000m BUA 10,650m",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "SBG/Vision ConsultantADPi Architect.EdgeArch Architect-EdgeArch",
+  "architect": ".EdgeArch Architect-EdgeArch",
+  "client": "",
+  "scope": "M&EShopDrawings{PTBZoneD} ScopeM&ELoadCenters&PTB ScopeM&EDetailedDesign ScopeM&EDetailedDesign{REVITWorks}",
+  "country": "SaudiArabia CountryIraq CountrySaudiArabia CountrySaudiArabia"
+}
+[2025-12-07 03:48:05] 
+Extracting data for: Abha Airport
+[2025-12-07 03:48:05]   Found at line 5: Abha Airport
+[2025-12-07 03:48:05]   Processing section (15 lines)
+[2025-12-07 03:48:05] Extracted data: {
+  "bau": "300,000m2 BUA 200,000m2 BUA 87,000m BUA 10,650m",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "SBG/Vision ConsultantADPi Architect.EdgeArch Architect-EdgeArch",
+  "architect": ".EdgeArch Architect-EdgeArch",
+  "client": "",
+  "scope": "M&EShopDrawings{PTBZoneD} ScopeM&ELoadCenters&PTB ScopeM&EDetailedDesign ScopeM&EDetailedDesign{REVITWorks}",
+  "country": "SaudiArabia CountryIraq CountrySaudiArabia CountrySaudiArabia"
+}
+[2025-12-07 03:48:05] 
+Extracting data for: ATCL Yacht Club & Marina
+[2025-12-07 03:48:05]   Found at line 20: ATCL Yacht Club & Marina
+[2025-12-07 03:48:05]   Processing section (8 lines)
+[2025-12-07 03:48:05] Extracted data: {
+  "bau": "100,000m ContractorFCCIndustrial Quantity3Stations",
+  "area": "250Berthsand77YachtsPedestals.BUA 100,000m ContractorFCCIndustrial Quantity3Stations",
+  "size": "",
+  "quantity": "3Stations",
+  "contractor": "FCCIndustrial Quantity3Stations",
+  "architect": "",
+  "client": "AutomobileetTouringClubduLibanContractorElSeifEngineering ScopeM&EShopDwgs&As-BuiltDwgs ContractorFreyssinetSaudiArabia",
+  "scope": "M&EShopDwgs&As-BuiltDwgs ContractorFreyssinetSaudiArabia",
+  "country": "Lebanon CountrySaudiArabia CountrySaudiArabia CountrySaudiArabia"
+}
+[2025-12-07 03:48:05] 
+Extracting data for: Riyadh Metro Park & Ride
+[2025-12-07 03:48:05]   Found at line 20: Riyadh Metro Park & Ride
+[2025-12-07 03:48:05]   Processing section (8 lines)
+[2025-12-07 03:48:05] Extracted data: {
+  "bau": "100,000m ContractorFCCIndustrial Quantity3Stations",
+  "area": "250Berthsand77YachtsPedestals.BUA 100,000m ContractorFCCIndustrial Quantity3Stations",
+  "size": "",
+  "quantity": "3Stations",
+  "contractor": "FCCIndustrial Quantity3Stations",
+  "architect": "",
+  "client": "AutomobileetTouringClubduLibanContractorElSeifEngineering ScopeM&EShopDwgs&As-BuiltDwgs ContractorFreyssinetSaudiArabia",
+  "scope": "M&EShopDwgs&As-BuiltDwgs ContractorFreyssinetSaudiArabia",
+  "country": "Lebanon CountrySaudiArabia CountrySaudiArabia CountrySaudiArabia"
+}
+[2025-12-07 03:48:05] 
+Extracting data for: Riyadh Metro Stations, Line 5 & 6
+[2025-12-07 03:48:05]   Found at line 20: Riyadh Metro Stations, Line 5 & 6
+[2025-12-07 03:48:05]   Processing section (8 lines)
+[2025-12-07 03:48:05] Extracted data: {
+  "bau": "100,000m ContractorFCCIndustrial Quantity3Stations",
+  "area": "250Berthsand77YachtsPedestals.BUA 100,000m ContractorFCCIndustrial Quantity3Stations",
+  "size": "",
+  "quantity": "3Stations",
+  "contractor": "FCCIndustrial Quantity3Stations",
+  "architect": "",
+  "client": "AutomobileetTouringClubduLibanContractorElSeifEngineering ScopeM&EShopDwgs&As-BuiltDwgs ContractorFreyssinetSaudiArabia",
+  "scope": "M&EShopDwgs&As-BuiltDwgs ContractorFreyssinetSaudiArabia",
+  "country": "Lebanon CountrySaudiArabia CountrySaudiArabia CountrySaudiArabia"
+}
+[2025-12-07 03:48:05] 
+Extracting data for: JAX Multistory Car Parks
+[2025-12-07 03:48:05]   Found at line 5: JAX Multistory Car Parks
+[2025-12-07 03:48:05]   Processing section (15 lines)
+[2025-12-07 03:48:05] Extracted data: {
+  "bau": "300,000m2 BUA 200,000m2 BUA 87,000m BUA 10,650m",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "SBG/Vision ConsultantADPi Architect.EdgeArch Architect-EdgeArch",
+  "architect": ".EdgeArch Architect-EdgeArch",
+  "client": "",
+  "scope": "M&EShopDrawings{PTBZoneD} ScopeM&ELoadCenters&PTB ScopeM&EDetailedDesign ScopeM&EDetailedDesign{REVITWorks}",
+  "country": "SaudiArabia CountryIraq CountrySaudiArabia CountrySaudiArabia"
+}
+[2025-12-07 03:48:05] Updated King AbdulAziz International Airport: architect: .EdgeArch Architect-EdgeArch
+[2025-12-07 03:48:05] Updated Middle Euphrates International Airport: contractor: SBG/Vision ConsultantADPi Architect.EdgeArch Architect-EdgeArch, architect: .EdgeArch Architect-EdgeArch
+[2025-12-07 03:48:05] Updated Abha Airport: contractor: SBG/Vision ConsultantADPi Architect.EdgeArch Architect-EdgeArch
+[2025-12-07 03:48:05] Updated ATCL Yacht Club & Marina: bau: 100,000m ContractorFCCIndustrial Quantity3Stations, quantity: 3Stations, contractor: FCCIndustrial Quantity3Stations
+[2025-12-07 03:48:05] Updated Riyadh Metro Park & Ride: bau: 100,000m ContractorFCCIndustrial Quantity3Stations, area: 250Berthsand77YachtsPedestals.BUA 100,000m ContractorFCCIndustrial Quantity3Stations, client: AutomobileetTouringClubduLibanContractorElSeifEngineering ScopeM&EShopDwgs&As-BuiltDwgs ContractorFreyssinetSaudiArabia
+[2025-12-07 03:48:05] Updated Riyadh Metro Stations, Line 5 & 6: bau: 100,000m ContractorFCCIndustrial Quantity3Stations, area: 250Berthsand77YachtsPedestals.BUA 100,000m ContractorFCCIndustrial Quantity3Stations, quantity: 3Stations, client: AutomobileetTouringClubduLibanContractorElSeifEngineering ScopeM&EShopDwgs&As-BuiltDwgs ContractorFreyssinetSaudiArabia
+[2025-12-07 03:48:05] Updated JAX Multistory Car Parks: contractor: SBG/Vision ConsultantADPi Architect.EdgeArch Architect-EdgeArch
+[2025-12-07 03:48:05] 
+
+=== Processing category: Civic & Religious ===
+[2025-12-07 03:48:05] Found 7 projects in category: Civic & Religious
+[2025-12-07 03:48:05] 
+=== Processing slide: Civic & Religious.jpg ===
+[2025-12-07 03:48:05] Processing OCR for: Civic & Religious.jpg
+[2025-12-07 03:48:06] Extracted 1130 characters of text
+[2025-12-07 03:48:06] Extracted 1130 characters of text
+[2025-12-07 03:48:06] Debug OCR text saved to: ocr_debug_Civic & Religious.txt
+[2025-12-07 03:48:06] First 15 lines of OCR text:
+[2025-12-07 03:48:06]   Line 0: Civic&Religious
+[2025-12-07 03:48:06]   Line 1: - SSaa
+[2025-12-07 03:48:06]   Line 2: . s ss . ee
+[2025-12-07 03:48:06]   Line 3: ProjectBaghdadCouncilofMinisters ProjectUYOConventionalCenter ProjectSamawahCulturalCenter ProjectGACAHeadquarters.
+[2025-12-07 03:48:06]   Line 4: CountryIraq CountryNigeria CountryIraq CountrySaudiArabia
+[2025-12-07 03:48:06]   Line 5: BUA 178,000m2 BUA 14,500-n BUA 12,000m BUA 108,000m2
+[2025-12-07 03:48:06]   Line 6: ArchitectCAP ContractorITBNigeria ArchitectCAP ContractarBinDayel
+[2025-12-07 03:48:06]   Line 7: ScopeM&EDetailedDesign&FollowUp ScopeElecDetailedDesign&FollowUp Scope M8&EDetailedDesign ScopeM&EDetailedDesign
+[2025-12-07 03:48:06]   Line 8: REVITWorksforTechRooms
+[2025-12-07 03:48:06]   Line 9: Pp caer Ba :
+[2025-12-07 03:48:06]   Line 10: Be EoSSn, Lee .
+[2025-12-07 03:48:06]   Line 11: Bee fe SS. ap 7. r a -, { ae
+[2025-12-07 03:48:06]   Line 12: Se Tats - PRYPecceemeethitiegOh ik, ST, at.
+[2025-12-07 03:48:06]   Line 13: pgp sy: Y wn rag a rs sey ,
+[2025-12-07 03:48:06]   Line 14: . aD mnt o oat )Wrrog . -. . sa
+[2025-12-07 03:48:06] Lines containing 'project' (2):
+[2025-12-07 03:48:06]   Line 3: ProjectBaghdadCouncilofMinisters ProjectUYOConventionalCenter ProjectSamawahCulturalCenter ProjectGACAHeadquarters.
+[2025-12-07 03:48:06]   Line 17: ProjectKingAbdullahinternationalGardensProsect. BusinessParkofKingAbdullah ProjectCiteMarie ProjectAlNourMosque
+[2025-12-07 03:48:06] Trying direct project title matching in OCR text...
+[2025-12-07 03:48:06]   Direct no-spaces match: 'Baghdad Council of Ministers' in line 3
+[2025-12-07 03:48:06]   Direct no-spaces match: 'UYO Conventional Center' in line 3
+[2025-12-07 03:48:06]   Direct no-spaces match: 'Samawah Cultural Center' in line 3
+[2025-12-07 03:48:06]   Direct no-spaces match: 'King Abdullah International Gardens' in line 17
+[2025-12-07 03:48:06]   Direct no-spaces match: 'GACA Headquarters' in line 3
+[2025-12-07 03:48:06] Direct matching found 5 projects
+[2025-12-07 03:48:06]   Found 'Project' line 3: 'BaghdadCouncilofMinisters'
+[2025-12-07 03:48:06]   Found partial 'Project' name 3: 'Baghdad' (from: 'BaghdadCouncilofMinisters')
+[2025-12-07 03:48:06]   Found partial 'Project' name 3: 'BaghdadCouncilof' (from: 'BaghdadCouncilofMinisters')
+[2025-12-07 03:48:06]   Found partial 'Project' name 3: 'BaghdadCouncilofMinisters' (from: 'BaghdadCouncilofMinisters')
+[2025-12-07 03:48:06]   Found word 'Project' name 3: 'Baghdad' (from: 'BaghdadCouncilofMinisters')
+[2025-12-07 03:48:06]   Found word 'Project' name 3: 'Councilof' (from: 'BaghdadCouncilofMinisters')
+[2025-12-07 03:48:06]   Found word 'Project' name 3: 'Ministers' (from: 'BaghdadCouncilofMinisters')
+[2025-12-07 03:48:06]   Found 'Project' line 3: 'UYOConventionalCenter'
+[2025-12-07 03:48:06]   Found partial 'Project' name 3: 'UYOConventional' (from: 'UYOConventionalCenter')
+[2025-12-07 03:48:06]   Found partial 'Project' name 3: 'UYOConventionalCenter' (from: 'UYOConventionalCenter')
+[2025-12-07 03:48:06]   Found word 'Project' name 3: 'Conventional' (from: 'UYOConventionalCenter')
+[2025-12-07 03:48:06]   Found word 'Project' name 3: 'Center' (from: 'UYOConventionalCenter')
+[2025-12-07 03:48:06]   Found 'Project' line 3: 'SamawahCulturalCenter'
+[2025-12-07 03:48:06]   Found partial 'Project' name 3: 'Samawah' (from: 'SamawahCulturalCenter')
+[2025-12-07 03:48:06]   Found partial 'Project' name 3: 'SamawahCultural' (from: 'SamawahCulturalCenter')
+[2025-12-07 03:48:06]   Found partial 'Project' name 3: 'SamawahCulturalCenter' (from: 'SamawahCulturalCenter')
+[2025-12-07 03:48:06]   Found word 'Project' name 3: 'Samawah' (from: 'SamawahCulturalCenter')
+[2025-12-07 03:48:06]   Found word 'Project' name 3: 'Cultural' (from: 'SamawahCulturalCenter')
+[2025-12-07 03:48:06]   Found word 'Project' name 3: 'Center' (from: 'SamawahCulturalCenter')
+[2025-12-07 03:48:06]   Found 'Project' line 3: 'GACAHeadquarters'
+[2025-12-07 03:48:06]   Found partial 'Project' name 3: 'GACAHeadquarters' (from: 'GACAHeadquarters')
+[2025-12-07 03:48:06]   Found word 'Project' name 3: 'Headquarters' (from: 'GACAHeadquarters')
+[2025-12-07 03:48:06]   Found 'Project' line 17: 'KingAbdullahinternationalGardensProsect. BusinessParkofKingAbdullah'
+[2025-12-07 03:48:06]   Found partial 'Project' name 17: 'KingAbdullahinternational' (from: 'KingAbdullahinternationalGardensProsect. BusinessParkofKingAbdullah')
+[2025-12-07 03:48:06]   Found partial 'Project' name 17: 'KingAbdullahinternationalGardens' (from: 'KingAbdullahinternationalGardensProsect. BusinessParkofKingAbdullah')
+[2025-12-07 03:48:06]   Found partial 'Project' name 17: 'KingAbdullahinternationalGardensProsect' (from: 'KingAbdullahinternationalGardensProsect. BusinessParkofKingAbdullah')
+[2025-12-07 03:48:06]   Found partial 'Project' name 17: 'KingAbdullahinternationalGardensProsectBusiness' (from: 'KingAbdullahinternationalGardensProsect. BusinessParkofKingAbdullah')
+[2025-12-07 03:48:06]   Found word 'Project' name 17: 'Abdullahinternational' (from: 'KingAbdullahinternationalGardensProsect. BusinessParkofKingAbdullah')
+[2025-12-07 03:48:06]   Found word 'Project' name 17: 'Gardens' (from: 'KingAbdullahinternationalGardensProsect. BusinessParkofKingAbdullah')
+[2025-12-07 03:48:06]   Found word 'Project' name 17: 'Prosect' (from: 'KingAbdullahinternationalGardensProsect. BusinessParkofKingAbdullah')
+[2025-12-07 03:48:06]   Found word 'Project' name 17: 'Business' (from: 'KingAbdullahinternationalGardensProsect. BusinessParkofKingAbdullah')
+[2025-12-07 03:48:06]   Found word 'Project' name 17: 'Parkof' (from: 'KingAbdullahinternationalGardensProsect. BusinessParkofKingAbdullah')
+[2025-12-07 03:48:06]   Found word 'Project' name 17: 'Abdullah' (from: 'KingAbdullahinternationalGardensProsect. BusinessParkofKingAbdullah')
+[2025-12-07 03:48:06]   Found 'Project' line 17: 'CiteMarie'
+[2025-12-07 03:48:06]   Found partial 'Project' name 17: 'CiteMarie' (from: 'CiteMarie')
+[2025-12-07 03:48:06]   Found 'Project' line 17: 'AlNourMosque'
+[2025-12-07 03:48:06]   Found partial 'Project' name 17: 'AlNour' (from: 'AlNourMosque')
+[2025-12-07 03:48:06]   Found partial 'Project' name 17: 'AlNourMosque' (from: 'AlNourMosque')
+[2025-12-07 03:48:06]   Found word 'Project' name 17: 'Mosque' (from: 'AlNourMosque')
+[2025-12-07 03:48:06] Found 39 'Project' lines in OCR text
+[2025-12-07 03:48:06] Matched: 'CiteMarie' -> 'Cité Marie' (score: 75.0)
+[2025-12-07 03:48:06] Total projects matched: 6
+[2025-12-07 03:48:06] Found 6 projects in slide
+[2025-12-07 03:48:06] 
+Extracting data for: Baghdad Council of Ministers
+[2025-12-07 03:48:06]   Found at line 3: Baghdad Council of Ministers
+[2025-12-07 03:48:06]   Processing section (15 lines)
+[2025-12-07 03:48:06] Extracted data: {
+  "bau": "178,000m2 BUA 14,500-n BUA 12,000m BUA 108,000m2",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "ITBNigeria ArchitectCAP ContractarBinDayel",
+  "architect": "CAP ContractorITBNigeria ArchitectCAP ContractarBinDayel",
+  "client": "",
+  "scope": "M&EDetailedDesign&FollowUp ScopeElecDetailedDesign&FollowUp Scope M8&EDetailedDesign ScopeM&EDetailedDesign",
+  "country": "Iraq CountryNigeria CountryIraq CountrySaudiArabia"
+}
+[2025-12-07 03:48:06] 
+Extracting data for: UYO Conventional Center
+[2025-12-07 03:48:06]   Found at line 3: UYO Conventional Center
+[2025-12-07 03:48:06]   Processing section (15 lines)
+[2025-12-07 03:48:06] Extracted data: {
+  "bau": "178,000m2 BUA 14,500-n BUA 12,000m BUA 108,000m2",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "ITBNigeria ArchitectCAP ContractarBinDayel",
+  "architect": "CAP ContractorITBNigeria ArchitectCAP ContractarBinDayel",
+  "client": "",
+  "scope": "M&EDetailedDesign&FollowUp ScopeElecDetailedDesign&FollowUp Scope M8&EDetailedDesign ScopeM&EDetailedDesign",
+  "country": "Iraq CountryNigeria CountryIraq CountrySaudiArabia"
+}
+[2025-12-07 03:48:06] 
+Extracting data for: Samawah Cultural Center
+[2025-12-07 03:48:06]   Found at line 3: Samawah Cultural Center
+[2025-12-07 03:48:06]   Processing section (15 lines)
+[2025-12-07 03:48:06] Extracted data: {
+  "bau": "178,000m2 BUA 14,500-n BUA 12,000m BUA 108,000m2",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "ITBNigeria ArchitectCAP ContractarBinDayel",
+  "architect": "CAP ContractorITBNigeria ArchitectCAP ContractarBinDayel",
+  "client": "",
+  "scope": "M&EDetailedDesign&FollowUp ScopeElecDetailedDesign&FollowUp Scope M8&EDetailedDesign ScopeM&EDetailedDesign",
+  "country": "Iraq CountryNigeria CountryIraq CountrySaudiArabia"
+}
+[2025-12-07 03:48:06] 
+Extracting data for: King Abdullah International Gardens
+[2025-12-07 03:48:06]   Found at line 17: King Abdullah International Gardens
+[2025-12-07 03:48:06]   Processing section (1 lines)
+[2025-12-07 03:48:06] Extracted data: {
+  "bau": "",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "",
+  "architect": "",
+  "client": "",
+  "scope": "",
+  "country": ""
+}
+[2025-12-07 03:48:06] 
+Extracting data for: GACA Headquarters
+[2025-12-07 03:48:06]   Found at line 3: GACA Headquarters
+[2025-12-07 03:48:06]   Processing section (15 lines)
+[2025-12-07 03:48:06] Extracted data: {
+  "bau": "178,000m2 BUA 14,500-n BUA 12,000m BUA 108,000m2",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "ITBNigeria ArchitectCAP ContractarBinDayel",
+  "architect": "CAP ContractorITBNigeria ArchitectCAP ContractarBinDayel",
+  "client": "",
+  "scope": "M&EDetailedDesign&FollowUp ScopeElecDetailedDesign&FollowUp Scope M8&EDetailedDesign ScopeM&EDetailedDesign",
+  "country": "Iraq CountryNigeria CountryIraq CountrySaudiArabia"
+}
+[2025-12-07 03:48:06] 
+Extracting data for: Cité Marie
+[2025-12-07 03:48:06]   Found at line 17: CiteMarie
+[2025-12-07 03:48:06]   Processing section (1 lines)
+[2025-12-07 03:48:06] Extracted data: {
+  "bau": "",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "",
+  "architect": "",
+  "client": "",
+  "scope": "",
+  "country": ""
+}
+[2025-12-07 03:48:06] Updated Baghdad Council of Ministers: contractor: ITBNigeria ArchitectCAP ContractarBinDayel
+[2025-12-07 03:48:06] Updated UYO Conventional Center: architect: CAP ContractorITBNigeria ArchitectCAP ContractarBinDayel
+[2025-12-07 03:48:06] Updated Samawah Cultural Center: contractor: ITBNigeria ArchitectCAP ContractarBinDayel
+[2025-12-07 03:48:06] Updated GACA Headquarters: architect: CAP ContractorITBNigeria ArchitectCAP ContractarBinDayel
+[2025-12-07 03:48:06] 
+
+=== Processing category: Education & Leisure ===
+[2025-12-07 03:48:06] Found 5 projects in category: Education & Leisure
+[2025-12-07 03:48:06] 
+=== Processing slide: Education & Leisure.jpg ===
+[2025-12-07 03:48:06] Processing OCR for: Education & Leisure.jpg
+[2025-12-07 03:48:07] Extracted 1048 characters of text
+[2025-12-07 03:48:07] Extracted 1048 characters of text
+[2025-12-07 03:48:07] Debug OCR text saved to: ocr_debug_Education & Leisure.txt
+[2025-12-07 03:48:07] First 15 lines of OCR text:
+[2025-12-07 03:48:07]   Line 0: Education&Leisure
+[2025-12-07 03:48:07]   Line 1: ental .
+[2025-12-07 03:48:07]   Line 2: Sage) er Bree, Se
+[2025-12-07 03:48:07]   Line 3: B Hg { Pe,
+[2025-12-07 03:48:07]   Line 4: J Q fe ( eT
+[2025-12-07 03:48:07]   Line 5: Ee: wi ee oe
+[2025-12-07 03:48:07]   Line 6: . Se :
+[2025-12-07 03:48:07]   Line 7: : - ais
+[2025-12-07 03:48:07]   Line 8: ProjectPrincessNouraUniversity ProjectGEMSWorldAcademy Project.AmericaninternationalSchool ProjectRoad&TransportResearchCenter
+[2025-12-07 03:48:07]   Line 9: CountrySaudiArabia CountrySaudiArabia CountrySaudiArabia CountrySaudiArabia
+[2025-12-07 03:48:07]   Line 10: BLA 120,000m2 BUA 22,000-m BUA 32,000m2 BUA 38,000m
+[2025-12-07 03:48:07]   Line 11: ContractorSaudiOger ClientKAEC ClientlayanFinancingCompany ArchitectSETS
+[2025-12-07 03:48:07]   Line 12: ScopeElecShopDrawings ScopeM&EDetailedDesign ScopeM&EDetailedDesign ScopeM&EDetailedDesign
+[2025-12-07 03:48:07]   Line 13: {Hospitaland2Faculties)
+[2025-12-07 03:48:07]   Line 14: 1 : v
+[2025-12-07 03:48:07] Lines containing 'project' (2):
+[2025-12-07 03:48:07]   Line 8: ProjectPrincessNouraUniversity ProjectGEMSWorldAcademy Project.AmericaninternationalSchool ProjectRoad&TransportResearchCenter
+[2025-12-07 03:48:07]   Line 22: ProjectHappyChildhoodvillage ProjectAlFuratTVBroadcastingStation ProjectTripoliinternationalOlympicStadiumProject.BayelsaAuditorium
+[2025-12-07 03:48:07] Trying direct project title matching in OCR text...
+[2025-12-07 03:48:07]   Direct no-spaces match: 'American International School' in line 8
+[2025-12-07 03:48:07]   Direct no-spaces match: 'Bayelsa Auditorium' in line 22
+[2025-12-07 03:48:07]   Direct no-spaces match: 'Al Furat TV Broadcasting Station' in line 22
+[2025-12-07 03:48:07]   Direct no-spaces match: 'Happy Childhood Village' in line 22
+[2025-12-07 03:48:07]   Direct no-spaces match: 'Princess Noura University' in line 8
+[2025-12-07 03:48:07] Direct matching found 5 projects
+[2025-12-07 03:48:07]   Found 'Project' line 8: 'PrincessNouraUniversity'
+[2025-12-07 03:48:07]   Found partial 'Project' name 8: 'Princess' (from: 'PrincessNouraUniversity')
+[2025-12-07 03:48:07]   Found partial 'Project' name 8: 'PrincessNoura' (from: 'PrincessNouraUniversity')
+[2025-12-07 03:48:07]   Found partial 'Project' name 8: 'PrincessNouraUniversity' (from: 'PrincessNouraUniversity')
+[2025-12-07 03:48:07]   Found word 'Project' name 8: 'Princess' (from: 'PrincessNouraUniversity')
+[2025-12-07 03:48:07]   Found word 'Project' name 8: 'University' (from: 'PrincessNouraUniversity')
+[2025-12-07 03:48:07]   Found 'Project' line 8: 'GEMSWorldAcademy'
+[2025-12-07 03:48:07]   Found partial 'Project' name 8: 'GEMSWorld' (from: 'GEMSWorldAcademy')
+[2025-12-07 03:48:07]   Found partial 'Project' name 8: 'GEMSWorldAcademy' (from: 'GEMSWorldAcademy')
+[2025-12-07 03:48:07]   Found word 'Project' name 8: 'Academy' (from: 'GEMSWorldAcademy')
+[2025-12-07 03:48:07]   Found 'Project' line 8: 'AmericaninternationalSchool'
+[2025-12-07 03:48:07]   Found partial 'Project' name 8: 'Americaninternational' (from: 'AmericaninternationalSchool')
+[2025-12-07 03:48:07]   Found partial 'Project' name 8: 'AmericaninternationalSchool' (from: 'AmericaninternationalSchool')
+[2025-12-07 03:48:07]   Found word 'Project' name 8: 'Americaninternational' (from: 'AmericaninternationalSchool')
+[2025-12-07 03:48:07]   Found word 'Project' name 8: 'School' (from: 'AmericaninternationalSchool')
+[2025-12-07 03:48:07]   Found 'Project' line 8: 'Road&TransportResearchCenter'
+[2025-12-07 03:48:07]   Found partial 'Project' name 8: 'RoadTransport' (from: 'Road&TransportResearchCenter')
+[2025-12-07 03:48:07]   Found partial 'Project' name 8: 'RoadTransportResearch' (from: 'Road&TransportResearchCenter')
+[2025-12-07 03:48:07]   Found partial 'Project' name 8: 'RoadTransportResearchCenter' (from: 'Road&TransportResearchCenter')
+[2025-12-07 03:48:07]   Found word 'Project' name 8: 'Transport' (from: 'Road&TransportResearchCenter')
+[2025-12-07 03:48:07]   Found word 'Project' name 8: 'Research' (from: 'Road&TransportResearchCenter')
+[2025-12-07 03:48:07]   Found word 'Project' name 8: 'Center' (from: 'Road&TransportResearchCenter')
+[2025-12-07 03:48:07]   Found 'Project' line 22: 'HappyChildhoodvillage'
+[2025-12-07 03:48:07]   Found partial 'Project' name 22: 'Happy' (from: 'HappyChildhoodvillage')
+[2025-12-07 03:48:07]   Found partial 'Project' name 22: 'HappyChildhoodvillage' (from: 'HappyChildhoodvillage')
+[2025-12-07 03:48:07]   Found word 'Project' name 22: 'Childhoodvillage' (from: 'HappyChildhoodvillage')
+[2025-12-07 03:48:07]   Found 'Project' line 22: 'AlFuratTVBroadcastingStation'
+[2025-12-07 03:48:07]   Found partial 'Project' name 22: 'AlFurat' (from: 'AlFuratTVBroadcastingStation')
+[2025-12-07 03:48:07]   Found partial 'Project' name 22: 'AlFuratTV' (from: 'AlFuratTVBroadcastingStation')
+[2025-12-07 03:48:07]   Found partial 'Project' name 22: 'AlFuratTVBroadcasting' (from: 'AlFuratTVBroadcastingStation')
+[2025-12-07 03:48:07]   Found partial 'Project' name 22: 'AlFuratTVBroadcastingStation' (from: 'AlFuratTVBroadcastingStation')
+[2025-12-07 03:48:07]   Found word 'Project' name 22: 'Broadcasting' (from: 'AlFuratTVBroadcastingStation')
+[2025-12-07 03:48:07]   Found word 'Project' name 22: 'Station' (from: 'AlFuratTVBroadcastingStation')
+[2025-12-07 03:48:07]   Found 'Project' line 22: 'TripoliinternationalOlympicStadium'
+[2025-12-07 03:48:07]   Found partial 'Project' name 22: 'Tripoliinternational' (from: 'TripoliinternationalOlympicStadium')
+[2025-12-07 03:48:07]   Found partial 'Project' name 22: 'TripoliinternationalOlympic' (from: 'TripoliinternationalOlympicStadium')
+[2025-12-07 03:48:07]   Found partial 'Project' name 22: 'TripoliinternationalOlympicStadium' (from: 'TripoliinternationalOlympicStadium')
+[2025-12-07 03:48:07]   Found word 'Project' name 22: 'Tripoliinternational' (from: 'TripoliinternationalOlympicStadium')
+[2025-12-07 03:48:07]   Found word 'Project' name 22: 'Olympic' (from: 'TripoliinternationalOlympicStadium')
+[2025-12-07 03:48:07]   Found word 'Project' name 22: 'Stadium' (from: 'TripoliinternationalOlympicStadium')
+[2025-12-07 03:48:07]   Found 'Project' line 22: 'BayelsaAuditorium'
+[2025-12-07 03:48:07]   Found partial 'Project' name 22: 'Bayelsa' (from: 'BayelsaAuditorium')
+[2025-12-07 03:48:07]   Found partial 'Project' name 22: 'BayelsaAuditorium' (from: 'BayelsaAuditorium')
+[2025-12-07 03:48:07]   Found word 'Project' name 22: 'Bayelsa' (from: 'BayelsaAuditorium')
+[2025-12-07 03:48:07]   Found word 'Project' name 22: 'Auditorium' (from: 'BayelsaAuditorium')
+[2025-12-07 03:48:07] Found 45 'Project' lines in OCR text
+[2025-12-07 03:48:07] Total projects matched: 5
+[2025-12-07 03:48:07] Found 5 projects in slide
+[2025-12-07 03:48:07] 
+Extracting data for: American International School
+[2025-12-07 03:48:07]   Found at line 8: American International School
+[2025-12-07 03:48:07]   Processing section (14 lines)
+[2025-12-07 03:48:07] Extracted data: {
+  "bau": "22,000-m BUA 32,000m2 BUA 38,000m",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "SaudiOger ClientKAEC ClientlayanFinancingCompany ArchitectSETS",
+  "architect": "SETS",
+  "client": "KAEC ClientlayanFinancingCompany ArchitectSETS",
+  "scope": "ElecShopDrawings ScopeM&EDetailedDesign ScopeM&EDetailedDesign ScopeM&EDetailedDesign",
+  "country": "SaudiArabia CountrySaudiArabia CountrySaudiArabia CountrySaudiArabia"
+}
+[2025-12-07 03:48:07] 
+Extracting data for: Bayelsa Auditorium
+[2025-12-07 03:48:07]   Found at line 22: Bayelsa Auditorium
+[2025-12-07 03:48:07]   Processing section (7 lines)
+[2025-12-07 03:48:07] Extracted data: {
+  "bau": "10,000 Capacity22,400Seats BUA 5,000ne",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "",
+  "architect": "ARK ArchitectCAP Client 4BandBECT ArchitectARK",
+  "client": "4BandBECT ArchitectARK",
+  "scope": "ElecDetailedDesign ScopeElecDetailedDesign ScopeM&EDetailedDesign ScopeM&EDetailedDesign",
+  "country": "Tanzania countryIraq CountryLebanon CountryNigeria"
+}
+[2025-12-07 03:48:07] 
+Extracting data for: Al Furat TV Broadcasting Station
+[2025-12-07 03:48:07]   Found at line 22: Al Furat TV Broadcasting Station
+[2025-12-07 03:48:07]   Processing section (7 lines)
+[2025-12-07 03:48:07] Extracted data: {
+  "bau": "10,000 Capacity22,400Seats BUA 5,000ne",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "",
+  "architect": "ARK ArchitectCAP Client 4BandBECT ArchitectARK",
+  "client": "4BandBECT ArchitectARK",
+  "scope": "ElecDetailedDesign ScopeElecDetailedDesign ScopeM&EDetailedDesign ScopeM&EDetailedDesign",
+  "country": "Tanzania countryIraq CountryLebanon CountryNigeria"
+}
+[2025-12-07 03:48:07] 
+Extracting data for: Happy Childhood Village
+[2025-12-07 03:48:07]   Found at line 22: Happy Childhood Village
+[2025-12-07 03:48:07]   Processing section (7 lines)
+[2025-12-07 03:48:07] Extracted data: {
+  "bau": "10,000 Capacity22,400Seats BUA 5,000ne",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "",
+  "architect": "ARK ArchitectCAP Client 4BandBECT ArchitectARK",
+  "client": "4BandBECT ArchitectARK",
+  "scope": "ElecDetailedDesign ScopeElecDetailedDesign ScopeM&EDetailedDesign ScopeM&EDetailedDesign",
+  "country": "Tanzania countryIraq CountryLebanon CountryNigeria"
+}
+[2025-12-07 03:48:07] 
+Extracting data for: Princess Noura University
+[2025-12-07 03:48:07]   Found at line 8: Princess Noura University
+[2025-12-07 03:48:07]   Processing section (14 lines)
+[2025-12-07 03:48:07] Extracted data: {
+  "bau": "22,000-m BUA 32,000m2 BUA 38,000m",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "SaudiOger ClientKAEC ClientlayanFinancingCompany ArchitectSETS",
+  "architect": "SETS",
+  "client": "KAEC ClientlayanFinancingCompany ArchitectSETS",
+  "scope": "ElecShopDrawings ScopeM&EDetailedDesign ScopeM&EDetailedDesign ScopeM&EDetailedDesign",
+  "country": "SaudiArabia CountrySaudiArabia CountrySaudiArabia CountrySaudiArabia"
+}
+[2025-12-07 03:48:07] Updated American International School: contractor: SaudiOger ClientKAEC ClientlayanFinancingCompany ArchitectSETS, architect: SETS
+[2025-12-07 03:48:07] Updated Bayelsa Auditorium: client: 4BandBECT ArchitectARK
+[2025-12-07 03:48:07] Updated Al Furat TV Broadcasting Station: client: 4BandBECT ArchitectARK
+[2025-12-07 03:48:07] Updated Happy Childhood Village: bau: 10,000 Capacity22,400Seats BUA 5,000ne, client: 4BandBECT ArchitectARK
+[2025-12-07 03:48:07] Updated Princess Noura University: architect: SETS, client: KAEC ClientlayanFinancingCompany ArchitectSETS
+[2025-12-07 03:48:07] 
+
+=== Processing category: Healthcare ===
+[2025-12-07 03:48:07] Found 6 projects in category: Healthcare
+[2025-12-07 03:48:07] 
+=== Processing slide: Healthcare.jpg ===
+[2025-12-07 03:48:07] Processing OCR for: Healthcare.jpg
+[2025-12-07 03:48:08] Extracted 949 characters of text
+[2025-12-07 03:48:08] Extracted 949 characters of text
+[2025-12-07 03:48:08] Debug OCR text saved to: ocr_debug_Healthcare.txt
+[2025-12-07 03:48:08] First 15 lines of OCR text:
+[2025-12-07 03:48:08]   Line 0: Healthcare
+[2025-12-07 03:48:08]   Line 1: fs :
+[2025-12-07 03:48:08]   Line 2: 4 a AgGet.gergele oa Me
+[2025-12-07 03:48:08]   Line 3: g 1 i a we
+[2025-12-07 03:48:08]   Line 4: NexNY
+[2025-12-07 03:48:08]   Line 5: ProjectIbnSinaHospital ProjectPNLMedicalHospital ProjectBaghdadTeachingHospital ProjectCMRCHospital
+[2025-12-07 03:48:08]   Line 6: CountryIraq CountrySaudiArabia CountryIraq CountrySaudiArabia
+[2025-12-07 03:48:08]   Line 7: BUA79,000.m BUA120,000m BUA59,000me BUA8525.nF
+[2025-12-07 03:48:08]   Line 8: ArchitectCAP ContractorAlFayhaa/Oger ArchitectCAP ClientCambridgeMedical&RehabCenter
+[2025-12-07 03:48:08]   Line 9: ScopeElecSchematicDesign ScopeElecShopDrawings Scope ElecDetailedDesign Scope M&EValueEngineering
+[2025-12-07 03:48:08]   Line 10: M&ERedesign&Supervision
+[2025-12-07 03:48:08]   Line 11: Fie et
+[2025-12-07 03:48:08]   Line 12: u rite print : yf j
+[2025-12-07 03:48:08]   Line 13: i ve a it Z
+[2025-12-07 03:48:08]   Line 14: ee oUt a Fine bh
+[2025-12-07 03:48:08] Lines containing 'project' (2):
+[2025-12-07 03:48:08]   Line 5: ProjectIbnSinaHospital ProjectPNLMedicalHospital ProjectBaghdadTeachingHospital ProjectCMRCHospital
+[2025-12-07 03:48:08]   Line 15: ProjectCMRCHospitalI ProjectSaviorMedicalCenter ProjectClinicalSkillsDevetopmentCenter ProjectBaaqoubaTeachingHospital
+[2025-12-07 03:48:08] Trying direct project title matching in OCR text...
+[2025-12-07 03:48:08]   Direct no-spaces match: 'Ibn Sina Hospital' in line 5
+[2025-12-07 03:48:08]   Direct keyword match: 'PNU Medical Hospital' (matched 2/2 words: ['Medical', 'Hospital']) in line 5
+[2025-12-07 03:48:08]   Direct no-spaces match: 'Baghdad Teaching Hospital' in line 5
+[2025-12-07 03:48:08]   Direct no-spaces match: 'Savior Medical Center' in line 15
+[2025-12-07 03:48:08]   Direct no-spaces match: 'CMRC Hospital I' in line 15
+[2025-12-07 03:48:08]   Direct keyword match: 'CMRC Hospital II' (matched 2/2 words: ['CMRC', 'Hospital']) in line 5
+[2025-12-07 03:48:08] Direct matching found 6 projects
+[2025-12-07 03:48:08]   Found 'Project' line 5: 'IbnSinaHospital'
+[2025-12-07 03:48:08]   Found partial 'Project' name 5: 'IbnSina' (from: 'IbnSinaHospital')
+[2025-12-07 03:48:08]   Found partial 'Project' name 5: 'IbnSinaHospital' (from: 'IbnSinaHospital')
+[2025-12-07 03:48:08]   Found word 'Project' name 5: 'Hospital' (from: 'IbnSinaHospital')
+[2025-12-07 03:48:08]   Found 'Project' line 5: 'PNLMedicalHospital'
+[2025-12-07 03:48:08]   Found partial 'Project' name 5: 'PNLMedical' (from: 'PNLMedicalHospital')
+[2025-12-07 03:48:08]   Found partial 'Project' name 5: 'PNLMedicalHospital' (from: 'PNLMedicalHospital')
+[2025-12-07 03:48:08]   Found word 'Project' name 5: 'Medical' (from: 'PNLMedicalHospital')
+[2025-12-07 03:48:08]   Found word 'Project' name 5: 'Hospital' (from: 'PNLMedicalHospital')
+[2025-12-07 03:48:08]   Found 'Project' line 5: 'BaghdadTeachingHospital'
+[2025-12-07 03:48:08]   Found partial 'Project' name 5: 'Baghdad' (from: 'BaghdadTeachingHospital')
+[2025-12-07 03:48:08]   Found partial 'Project' name 5: 'BaghdadTeaching' (from: 'BaghdadTeachingHospital')
+[2025-12-07 03:48:08]   Found partial 'Project' name 5: 'BaghdadTeachingHospital' (from: 'BaghdadTeachingHospital')
+[2025-12-07 03:48:08]   Found word 'Project' name 5: 'Baghdad' (from: 'BaghdadTeachingHospital')
+[2025-12-07 03:48:08]   Found word 'Project' name 5: 'Teaching' (from: 'BaghdadTeachingHospital')
+[2025-12-07 03:48:08]   Found word 'Project' name 5: 'Hospital' (from: 'BaghdadTeachingHospital')
+[2025-12-07 03:48:08]   Found 'Project' line 5: 'CMRCHospital'
+[2025-12-07 03:48:08]   Found partial 'Project' name 5: 'CMRCHospital' (from: 'CMRCHospital')
+[2025-12-07 03:48:08]   Found word 'Project' name 5: 'Hospital' (from: 'CMRCHospital')
+[2025-12-07 03:48:08]   Found 'Project' line 15: 'CMRCHospitalI'
+[2025-12-07 03:48:08]   Found partial 'Project' name 15: 'CMRCHospital' (from: 'CMRCHospitalI')
+[2025-12-07 03:48:08]   Found partial 'Project' name 15: 'CMRCHospitalI' (from: 'CMRCHospitalI')
+[2025-12-07 03:48:08]   Found word 'Project' name 15: 'Hospital' (from: 'CMRCHospitalI')
+[2025-12-07 03:48:08]   Found 'Project' line 15: 'SaviorMedicalCenter'
+[2025-12-07 03:48:08]   Found partial 'Project' name 15: 'Savior' (from: 'SaviorMedicalCenter')
+[2025-12-07 03:48:08]   Found partial 'Project' name 15: 'SaviorMedical' (from: 'SaviorMedicalCenter')
+[2025-12-07 03:48:08]   Found partial 'Project' name 15: 'SaviorMedicalCenter' (from: 'SaviorMedicalCenter')
+[2025-12-07 03:48:08]   Found word 'Project' name 15: 'Savior' (from: 'SaviorMedicalCenter')
+[2025-12-07 03:48:08]   Found word 'Project' name 15: 'Medical' (from: 'SaviorMedicalCenter')
+[2025-12-07 03:48:08]   Found word 'Project' name 15: 'Center' (from: 'SaviorMedicalCenter')
+[2025-12-07 03:48:08]   Found 'Project' line 15: 'ClinicalSkillsDevetopmentCenter'
+[2025-12-07 03:48:08]   Found partial 'Project' name 15: 'Clinical' (from: 'ClinicalSkillsDevetopmentCenter')
+[2025-12-07 03:48:08]   Found partial 'Project' name 15: 'ClinicalSkills' (from: 'ClinicalSkillsDevetopmentCenter')
+[2025-12-07 03:48:08]   Found partial 'Project' name 15: 'ClinicalSkillsDevetopment' (from: 'ClinicalSkillsDevetopmentCenter')
+[2025-12-07 03:48:08]   Found partial 'Project' name 15: 'ClinicalSkillsDevetopmentCenter' (from: 'ClinicalSkillsDevetopmentCenter')
+[2025-12-07 03:48:08]   Found word 'Project' name 15: 'Clinical' (from: 'ClinicalSkillsDevetopmentCenter')
+[2025-12-07 03:48:08]   Found word 'Project' name 15: 'Skills' (from: 'ClinicalSkillsDevetopmentCenter')
+[2025-12-07 03:48:08]   Found word 'Project' name 15: 'Devetopment' (from: 'ClinicalSkillsDevetopmentCenter')
+[2025-12-07 03:48:08]   Found word 'Project' name 15: 'Center' (from: 'ClinicalSkillsDevetopmentCenter')
+[2025-12-07 03:48:08]   Found 'Project' line 15: 'BaaqoubaTeachingHospital'
+[2025-12-07 03:48:08]   Found partial 'Project' name 15: 'Baaqouba' (from: 'BaaqoubaTeachingHospital')
+[2025-12-07 03:48:08]   Found partial 'Project' name 15: 'BaaqoubaTeaching' (from: 'BaaqoubaTeachingHospital')
+[2025-12-07 03:48:08]   Found partial 'Project' name 15: 'BaaqoubaTeachingHospital' (from: 'BaaqoubaTeachingHospital')
+[2025-12-07 03:48:08]   Found word 'Project' name 15: 'Baaqouba' (from: 'BaaqoubaTeachingHospital')
+[2025-12-07 03:48:08]   Found word 'Project' name 15: 'Teaching' (from: 'BaaqoubaTeachingHospital')
+[2025-12-07 03:48:08]   Found word 'Project' name 15: 'Hospital' (from: 'BaaqoubaTeachingHospital')
+[2025-12-07 03:48:08] Found 46 'Project' lines in OCR text
+[2025-12-07 03:48:08] Total projects matched: 6
+[2025-12-07 03:48:08] Found 6 projects in slide
+[2025-12-07 03:48:08] 
+Extracting data for: Ibn Sina Hospital
+[2025-12-07 03:48:08]   Found at line 5: Ibn Sina Hospital
+[2025-12-07 03:48:08]   Processing section (10 lines)
+[2025-12-07 03:48:08] Extracted data: {
+  "bau": "79,000.m BUA120,000m BUA59,000me BUA8525.nF",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "AlFayhaa/Oger ArchitectCAP ClientCambridgeMedical&RehabCenter",
+  "architect": "CAP ContractorAlFayhaa/Oger ArchitectCAP ClientCambridgeMedical&RehabCenter",
+  "client": "CambridgeMedical&RehabCenter",
+  "scope": "ElecSchematicDesign ScopeElecShopDrawings Scope ElecDetailedDesign Scope M&EValueEngineering",
+  "country": "Iraq CountrySaudiArabia CountryIraq CountrySaudiArabia"
+}
+[2025-12-07 03:48:08] 
+Extracting data for: PNU Medical Hospital
+[2025-12-07 03:48:08]   Found at line 5: PNU Medical Hospital
+[2025-12-07 03:48:08]   Processing section (10 lines)
+[2025-12-07 03:48:08] Extracted data: {
+  "bau": "79,000.m BUA120,000m BUA59,000me BUA8525.nF",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "AlFayhaa/Oger ArchitectCAP ClientCambridgeMedical&RehabCenter",
+  "architect": "CAP ContractorAlFayhaa/Oger ArchitectCAP ClientCambridgeMedical&RehabCenter",
+  "client": "CambridgeMedical&RehabCenter",
+  "scope": "ElecSchematicDesign ScopeElecShopDrawings Scope ElecDetailedDesign Scope M&EValueEngineering",
+  "country": "Iraq CountrySaudiArabia CountryIraq CountrySaudiArabia"
+}
+[2025-12-07 03:48:08] 
+Extracting data for: Baghdad Teaching Hospital
+[2025-12-07 03:48:08]   Found at line 5: Baghdad Teaching Hospital
+[2025-12-07 03:48:08]   Processing section (10 lines)
+[2025-12-07 03:48:08] Extracted data: {
+  "bau": "79,000.m BUA120,000m BUA59,000me BUA8525.nF",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "AlFayhaa/Oger ArchitectCAP ClientCambridgeMedical&RehabCenter",
+  "architect": "CAP ContractorAlFayhaa/Oger ArchitectCAP ClientCambridgeMedical&RehabCenter",
+  "client": "CambridgeMedical&RehabCenter",
+  "scope": "ElecSchematicDesign ScopeElecShopDrawings Scope ElecDetailedDesign Scope M&EValueEngineering",
+  "country": "Iraq CountrySaudiArabia CountryIraq CountrySaudiArabia"
+}
+[2025-12-07 03:48:08] 
+Extracting data for: Savior Medical Center
+[2025-12-07 03:48:08]   Found at line 15: Savior Medical Center
+[2025-12-07 03:48:08]   Processing section (7 lines)
+[2025-12-07 03:48:08] Extracted data: {
+  "bau": "11,450m2 BUA49,300.m BUA23,000m BUA58,000m",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "SBG/VISION ArchitectCAP",
+  "architect": "PlanR ContractorSBG/VISION ArchitectCAP",
+  "client": "Richmond ArchitectPlanR ContractorSBG/VISION ArchitectCAP",
+  "scope": "M&EDetalledDesign{REVITWorks}-Scope-ElecSchematicDesign ScopeM&EShopDrawings ScopeElecDetailedDesign",
+  "country": "SaudiArabia CountryLebanon CountrySaudiArabia CountryIraq"
+}
+[2025-12-07 03:48:08] 
+Extracting data for: CMRC Hospital I
+[2025-12-07 03:48:08]   Found at line 15: CMRC Hospital I
+[2025-12-07 03:48:08]   Processing section (7 lines)
+[2025-12-07 03:48:08] Extracted data: {
+  "bau": "11,450m2 BUA49,300.m BUA23,000m BUA58,000m",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "SBG/VISION ArchitectCAP",
+  "architect": "PlanR ContractorSBG/VISION ArchitectCAP",
+  "client": "Richmond ArchitectPlanR ContractorSBG/VISION ArchitectCAP",
+  "scope": "M&EDetalledDesign{REVITWorks}-Scope-ElecSchematicDesign ScopeM&EShopDrawings ScopeElecDetailedDesign",
+  "country": "SaudiArabia CountryLebanon CountrySaudiArabia CountryIraq"
+}
+[2025-12-07 03:48:08] 
+Extracting data for: CMRC Hospital II
+[2025-12-07 03:48:08]   Found at line 5: CMRC Hospital II
+[2025-12-07 03:48:08]   Processing section (10 lines)
+[2025-12-07 03:48:08] Extracted data: {
+  "bau": "79,000.m BUA120,000m BUA59,000me BUA8525.nF",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "AlFayhaa/Oger ArchitectCAP ClientCambridgeMedical&RehabCenter",
+  "architect": "CAP ContractorAlFayhaa/Oger ArchitectCAP ClientCambridgeMedical&RehabCenter",
+  "client": "CambridgeMedical&RehabCenter",
+  "scope": "ElecSchematicDesign ScopeElecShopDrawings Scope ElecDetailedDesign Scope M&EValueEngineering",
+  "country": "Iraq CountrySaudiArabia CountryIraq CountrySaudiArabia"
+}
+[2025-12-07 03:48:08] Updated Ibn Sina Hospital: contractor: AlFayhaa/Oger ArchitectCAP ClientCambridgeMedical&RehabCenter, client: CambridgeMedical&RehabCenter
+[2025-12-07 03:48:08] Updated PNU Medical Hospital: architect: CAP ContractorAlFayhaa/Oger ArchitectCAP ClientCambridgeMedical&RehabCenter, client: CambridgeMedical&RehabCenter
+[2025-12-07 03:48:08] Updated Baghdad Teaching Hospital: contractor: AlFayhaa/Oger ArchitectCAP ClientCambridgeMedical&RehabCenter, architect: CAP ContractorAlFayhaa/Oger ArchitectCAP ClientCambridgeMedical&RehabCenter, client: CambridgeMedical&RehabCenter
+[2025-12-07 03:48:08] Updated Savior Medical Center: contractor: SBG/VISION ArchitectCAP, architect: PlanR ContractorSBG/VISION ArchitectCAP, client: Richmond ArchitectPlanR ContractorSBG/VISION ArchitectCAP
+[2025-12-07 03:48:08] Updated CMRC Hospital I: contractor: SBG/VISION ArchitectCAP, architect: PlanR ContractorSBG/VISION ArchitectCAP
+[2025-12-07 03:48:08] Updated CMRC Hospital II: contractor: AlFayhaa/Oger ArchitectCAP ClientCambridgeMedical&RehabCenter, architect: CAP ContractorAlFayhaa/Oger ArchitectCAP ClientCambridgeMedical&RehabCenter
+[2025-12-07 03:48:08] 
+
+=== Processing category: Hospitality ===
+[2025-12-07 03:48:08] Found 8 projects in category: Hospitality
+[2025-12-07 03:48:08] 
+=== Processing slide: Hospitality.jpg ===
+[2025-12-07 03:48:08] Processing OCR for: Hospitality.jpg
+[2025-12-07 03:48:09] Extracted 1294 characters of text
+[2025-12-07 03:48:09] Extracted 1294 characters of text
+[2025-12-07 03:48:09] Debug OCR text saved to: ocr_debug_Hospitality.txt
+[2025-12-07 03:48:09] First 15 lines of OCR text:
+[2025-12-07 03:48:09]   Line 0: Hospitality
+[2025-12-07 03:48:09]   Line 1: rE. i 4 x7
+[2025-12-07 03:48:09]   Line 2: ce pain
+[2025-12-07 03:48:09]   Line 3: eresl.PSee (ant 7
+[2025-12-07 03:48:09]   Line 4: ie... 1 eS pool: ap PatarteSlg
+[2025-12-07 03:48:09]   Line 5: i aoe . rive ue oil Lat ecote
+[2025-12-07 03:48:09]   Line 6: at . \ BLL I OAUUTUATsa rae tas
+[2025-12-07 03:48:09]   Line 7: Xgat - liber s 3 ab a fated a
+[2025-12-07 03:48:09]   Line 8: a BBE eee a aed
+[2025-12-07 03:48:09]   Line 9: ProjectShuraIsland-HotelWesti1 ProjectKingAbdullahWAQFTowerHotel ProjectVOCO-IHGHotel(234Keys) ProjectSheratonLagosHotel
+[2025-12-07 03:48:09]   Line 10: CountrySaudiArabia CountrySaudiArabia CountrySaudiArabia CountryNigeria
+[2025-12-07 03:48:09]   Line 11: BUA 22,500-m BUA 100,000m2 BUA 44,000-m BUA 22,200
+[2025-12-07 03:48:10]   Line 12: ClientFirstGulfCompany ClientSaudiOger Client-Richmond ContractorITBNigeria
+[2025-12-07 03:48:10]   Line 13: ScopeM&EShopDrawings(REVITWorks) ScopeElecShopDrawings ScopeMR&EDetailedDesign(REVITWorks) ScopeElecDetailedDesign
+[2025-12-07 03:48:10]   Line 14: Loa - .
+[2025-12-07 03:48:10] Lines containing 'project' (2):
+[2025-12-07 03:48:10]   Line 9: ProjectShuraIsland-HotelWesti1 ProjectKingAbdullahWAQFTowerHotel ProjectVOCO-IHGHotel(234Keys) ProjectSheratonLagosHotel
+[2025-12-07 03:48:10]   Line 24: ProjectMAADComplexHospitalityTowers ProjectHotelComplexOasis(1001Keys) ProjectRocadelEsteHotel1 ProjectHamptonS7Hotel
+[2025-12-07 03:48:10] Trying direct project title matching in OCR text...
+[2025-12-07 03:48:10]   Direct no-spaces match: 'MAAD Complex Hospitality Towers' in line 24
+[2025-12-07 03:48:10]   Direct no-spaces match: 'Sheraton Lagos Hotel' in line 9
+[2025-12-07 03:48:10]   Direct keyword match: 'Roca del Este Hotel I' (matched 3/3 words: ['Roca', 'Este', 'Hotel']) in line 24
+[2025-12-07 03:48:10]   Direct no-spaces match: 'King Abdullah WAQF Tower Hotel' in line 9
+[2025-12-07 03:48:10]   Direct no-spaces match: 'Hampton S7 Hotel' in line 24
+[2025-12-07 03:48:10]   Direct keyword match: 'Shura Island - Hotel West #1' (matched 4/4 words: ['Shura', 'Island', 'Hotel', 'West']) in line 9
+[2025-12-07 03:48:10] Direct matching found 6 projects
+[2025-12-07 03:48:10]   Found 'Project' line 9: 'ShuraIsland-HotelWesti1'
+[2025-12-07 03:48:10]   Found partial 'Project' name 9: 'Shura' (from: 'ShuraIsland-HotelWesti1')
+[2025-12-07 03:48:10]   Found partial 'Project' name 9: 'ShuraIsland' (from: 'ShuraIsland-HotelWesti1')
+[2025-12-07 03:48:10]   Found partial 'Project' name 9: 'ShuraIslandHotel' (from: 'ShuraIsland-HotelWesti1')
+[2025-12-07 03:48:10]   Found partial 'Project' name 9: 'ShuraIslandHotelWesti' (from: 'ShuraIsland-HotelWesti1')
+[2025-12-07 03:48:10]   Found word 'Project' name 9: 'Island' (from: 'ShuraIsland-HotelWesti1')
+[2025-12-07 03:48:10]   Found 'Project' line 9: 'KingAbdullahWAQFTowerHotel'
+[2025-12-07 03:48:10]   Found partial 'Project' name 9: 'KingAbdullah' (from: 'KingAbdullahWAQFTowerHotel')
+[2025-12-07 03:48:10]   Found partial 'Project' name 9: 'KingAbdullahWAQF' (from: 'KingAbdullahWAQFTowerHotel')
+[2025-12-07 03:48:10]   Found partial 'Project' name 9: 'KingAbdullahWAQFTower' (from: 'KingAbdullahWAQFTowerHotel')
+[2025-12-07 03:48:10]   Found partial 'Project' name 9: 'KingAbdullahWAQFTowerHotel' (from: 'KingAbdullahWAQFTowerHotel')
+[2025-12-07 03:48:10]   Found word 'Project' name 9: 'Abdullah' (from: 'KingAbdullahWAQFTowerHotel')
+[2025-12-07 03:48:10]   Found 'Project' line 9: 'VOCO-IHGHotel(234Keys'
+[2025-12-07 03:48:10]   Found partial 'Project' name 9: 'VOCIHG' (from: 'VOCO-IHGHotel(234Keys')
+[2025-12-07 03:48:10]   Found partial 'Project' name 9: 'VOCIHGHotel' (from: 'VOCO-IHGHotel(234Keys')
+[2025-12-07 03:48:10]   Found partial 'Project' name 9: 'VOCIHGHotelKeys' (from: 'VOCO-IHGHotel(234Keys')
+[2025-12-07 03:48:10]   Found 'Project' line 9: 'SheratonLagosHotel'
+[2025-12-07 03:48:10]   Found partial 'Project' name 9: 'Sheraton' (from: 'SheratonLagosHotel')
+[2025-12-07 03:48:10]   Found partial 'Project' name 9: 'SheratonLagos' (from: 'SheratonLagosHotel')
+[2025-12-07 03:48:10]   Found partial 'Project' name 9: 'SheratonLagosHotel' (from: 'SheratonLagosHotel')
+[2025-12-07 03:48:10]   Found word 'Project' name 9: 'Sheraton' (from: 'SheratonLagosHotel')
+[2025-12-07 03:48:10]   Found 'Project' line 24: 'MAADComplexHospitalityTowers'
+[2025-12-07 03:48:10]   Found partial 'Project' name 24: 'MAADComplex' (from: 'MAADComplexHospitalityTowers')
+[2025-12-07 03:48:10]   Found partial 'Project' name 24: 'MAADComplexHospitality' (from: 'MAADComplexHospitalityTowers')
+[2025-12-07 03:48:10]   Found partial 'Project' name 24: 'MAADComplexHospitalityTowers' (from: 'MAADComplexHospitalityTowers')
+[2025-12-07 03:48:10]   Found word 'Project' name 24: 'Complex' (from: 'MAADComplexHospitalityTowers')
+[2025-12-07 03:48:10]   Found word 'Project' name 24: 'Hospitality' (from: 'MAADComplexHospitalityTowers')
+[2025-12-07 03:48:10]   Found word 'Project' name 24: 'Towers' (from: 'MAADComplexHospitalityTowers')
+[2025-12-07 03:48:10]   Found 'Project' line 24: 'HotelComplexOasis(1001Keys'
+[2025-12-07 03:48:10]   Found partial 'Project' name 24: 'Hotel' (from: 'HotelComplexOasis(1001Keys')
+[2025-12-07 03:48:10]   Found partial 'Project' name 24: 'HotelComplex' (from: 'HotelComplexOasis(1001Keys')
+[2025-12-07 03:48:10]   Found partial 'Project' name 24: 'HotelComplexOasis' (from: 'HotelComplexOasis(1001Keys')
+[2025-12-07 03:48:10]   Found partial 'Project' name 24: 'HotelComplexOasisKeys' (from: 'HotelComplexOasis(1001Keys')
+[2025-12-07 03:48:10]   Found word 'Project' name 24: 'Complex' (from: 'HotelComplexOasis(1001Keys')
+[2025-12-07 03:48:10]   Found 'Project' line 24: 'RocadelEsteHotel1'
+[2025-12-07 03:48:10]   Found partial 'Project' name 24: 'Rocadel' (from: 'RocadelEsteHotel1')
+[2025-12-07 03:48:10]   Found partial 'Project' name 24: 'RocadelEste' (from: 'RocadelEsteHotel1')
+[2025-12-07 03:48:10]   Found partial 'Project' name 24: 'RocadelEsteHotel' (from: 'RocadelEsteHotel1')
+[2025-12-07 03:48:10]   Found word 'Project' name 24: 'Rocadel' (from: 'RocadelEsteHotel1')
+[2025-12-07 03:48:10]   Found 'Project' line 24: 'HamptonS7Hotel'
+[2025-12-07 03:48:10]   Found partial 'Project' name 24: 'Hampton' (from: 'HamptonS7Hotel')
+[2025-12-07 03:48:10]   Found partial 'Project' name 24: 'HamptonHotel' (from: 'HamptonS7Hotel')
+[2025-12-07 03:48:10]   Found word 'Project' name 24: 'Hampton' (from: 'HamptonS7Hotel')
+[2025-12-07 03:48:10] Found 43 'Project' lines in OCR text
+[2025-12-07 03:48:10] Matched: 'VOCO-IHGHotel(234Keys' -> 'VOCO - IHG Hotel (234 Keys)' (score: 95.0)
+[2025-12-07 03:48:10] Matched: 'VOCIHGHotelKeys' -> 'Hotel Complex Oasis (1001 Keys)' (score: 49.0)
+[2025-12-07 03:48:10] Total projects matched: 8
+[2025-12-07 03:48:10] Found 8 projects in slide
+[2025-12-07 03:48:10] 
+Extracting data for: MAAD Complex Hospitality Towers
+[2025-12-07 03:48:10]   Found at line 24: MAAD Complex Hospitality Towers
+[2025-12-07 03:48:10]   Processing section (8 lines)
+[2025-12-07 03:48:10] Extracted data: {
+  "bau": "225,700m BUA 128,500 BUA 47,000m BUA 18,500n",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "BouyguesBatiment ContractorBouyguesBatiment ClientMAEC",
+  "architect": "",
+  "client": "MAAD/AHJamed ContractorBouyguesBatiment ContractorBouyguesBatiment ClientMAEC",
+  "scope": "M&EDesign&ShopDrawings ScopeM&ESchematicDesign{REVIT} ScopeM&ESchematicDesign ScopeM&EDetailedDesign{REVITWorks)",
+  "country": "SaudiArabia CountryCuba CountryCuba CountrySaudiArabia"
+}
+[2025-12-07 03:48:10] 
+Extracting data for: Sheraton Lagos Hotel
+[2025-12-07 03:48:10]   Found at line 9: Sheraton Lagos Hotel
+[2025-12-07 03:48:10]   Processing section (15 lines)
+[2025-12-07 03:48:10] Extracted data: {
+  "bau": "22,500-m BUA 100,000m2 BUA 44,000-m BUA 22,200",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "ITBNigeria",
+  "architect": "",
+  "client": "FirstGulfCompany ClientSaudiOger Client-Richmond ContractorITBNigeria",
+  "scope": "M&EShopDrawings(REVITWorks) ScopeElecShopDrawings ScopeMR&EDetailedDesign(REVITWorks) ScopeElecDetailedDesign",
+  "country": "SaudiArabia CountrySaudiArabia CountrySaudiArabia CountryNigeria"
+}
+[2025-12-07 03:48:10] 
+Extracting data for: Roca del Este Hotel I
+[2025-12-07 03:48:10]   Found at line 24: Roca del Este Hotel I
+[2025-12-07 03:48:10]   Processing section (8 lines)
+[2025-12-07 03:48:10] Extracted data: {
+  "bau": "225,700m BUA 128,500 BUA 47,000m BUA 18,500n",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "BouyguesBatiment ContractorBouyguesBatiment ClientMAEC",
+  "architect": "",
+  "client": "MAAD/AHJamed ContractorBouyguesBatiment ContractorBouyguesBatiment ClientMAEC",
+  "scope": "M&EDesign&ShopDrawings ScopeM&ESchematicDesign{REVIT} ScopeM&ESchematicDesign ScopeM&EDetailedDesign{REVITWorks)",
+  "country": "SaudiArabia CountryCuba CountryCuba CountrySaudiArabia"
+}
+[2025-12-07 03:48:10] 
+Extracting data for: King Abdullah WAQF Tower Hotel
+[2025-12-07 03:48:10]   Found at line 9: King Abdullah WAQF Tower Hotel
+[2025-12-07 03:48:10]   Processing section (15 lines)
+[2025-12-07 03:48:10] Extracted data: {
+  "bau": "22,500-m BUA 100,000m2 BUA 44,000-m BUA 22,200",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "ITBNigeria",
+  "architect": "",
+  "client": "FirstGulfCompany ClientSaudiOger Client-Richmond ContractorITBNigeria",
+  "scope": "M&EShopDrawings(REVITWorks) ScopeElecShopDrawings ScopeMR&EDetailedDesign(REVITWorks) ScopeElecDetailedDesign",
+  "country": "SaudiArabia CountrySaudiArabia CountrySaudiArabia CountryNigeria"
+}
+[2025-12-07 03:48:10] 
+Extracting data for: Hampton S7 Hotel
+[2025-12-07 03:48:10]   Found at line 24: Hampton S7 Hotel
+[2025-12-07 03:48:10]   Processing section (8 lines)
+[2025-12-07 03:48:10] Extracted data: {
+  "bau": "225,700m BUA 128,500 BUA 47,000m BUA 18,500n",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "BouyguesBatiment ContractorBouyguesBatiment ClientMAEC",
+  "architect": "",
+  "client": "MAAD/AHJamed ContractorBouyguesBatiment ContractorBouyguesBatiment ClientMAEC",
+  "scope": "M&EDesign&ShopDrawings ScopeM&ESchematicDesign{REVIT} ScopeM&ESchematicDesign ScopeM&EDetailedDesign{REVITWorks)",
+  "country": "SaudiArabia CountryCuba CountryCuba CountrySaudiArabia"
+}
+[2025-12-07 03:48:10] 
+Extracting data for: Shura Island - Hotel West #1
+[2025-12-07 03:48:10]   Found at line 9: Shura Island - Hotel West #1
+[2025-12-07 03:48:10]   Processing section (15 lines)
+[2025-12-07 03:48:10] Extracted data: {
+  "bau": "22,500-m BUA 100,000m2 BUA 44,000-m BUA 22,200",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "ITBNigeria",
+  "architect": "",
+  "client": "FirstGulfCompany ClientSaudiOger Client-Richmond ContractorITBNigeria",
+  "scope": "M&EShopDrawings(REVITWorks) ScopeElecShopDrawings ScopeMR&EDetailedDesign(REVITWorks) ScopeElecDetailedDesign",
+  "country": "SaudiArabia CountrySaudiArabia CountrySaudiArabia CountryNigeria"
+}
+[2025-12-07 03:48:10] 
+Extracting data for: VOCO - IHG Hotel (234 Keys)
+[2025-12-07 03:48:10]   Found at line 9: VOCO-IHGHotel(234Keys
+[2025-12-07 03:48:10]   Processing section (15 lines)
+[2025-12-07 03:48:10] Extracted data: {
+  "bau": "22,500-m BUA 100,000m2 BUA 44,000-m BUA 22,200",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "ITBNigeria",
+  "architect": "",
+  "client": "FirstGulfCompany ClientSaudiOger Client-Richmond ContractorITBNigeria",
+  "scope": "M&EShopDrawings(REVITWorks) ScopeElecShopDrawings ScopeMR&EDetailedDesign(REVITWorks) ScopeElecDetailedDesign",
+  "country": "SaudiArabia CountrySaudiArabia CountrySaudiArabia CountryNigeria"
+}
+[2025-12-07 03:48:10] 
+Extracting data for: Hotel Complex Oasis (1001 Keys)
+[2025-12-07 03:48:10]   Found at line 9: VOCIHGHotelKeys
+[2025-12-07 03:48:10]   Processing section (15 lines)
+[2025-12-07 03:48:10] Extracted data: {
+  "bau": "22,500-m BUA 100,000m2 BUA 44,000-m BUA 22,200",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "ITBNigeria",
+  "architect": "",
+  "client": "FirstGulfCompany ClientSaudiOger Client-Richmond ContractorITBNigeria",
+  "scope": "M&EShopDrawings(REVITWorks) ScopeElecShopDrawings ScopeMR&EDetailedDesign(REVITWorks) ScopeElecDetailedDesign",
+  "country": "SaudiArabia CountrySaudiArabia CountrySaudiArabia CountryNigeria"
+}
+[2025-12-07 03:48:10] Updated MAAD Complex Hospitality Towers: contractor: BouyguesBatiment ContractorBouyguesBatiment ClientMAEC
+[2025-12-07 03:48:10] Updated Sheraton Lagos Hotel: contractor: ITBNigeria, client: FirstGulfCompany ClientSaudiOger Client-Richmond ContractorITBNigeria
+[2025-12-07 03:48:10] Updated Roca del Este Hotel I: contractor: BouyguesBatiment ContractorBouyguesBatiment ClientMAEC, client: MAAD/AHJamed ContractorBouyguesBatiment ContractorBouyguesBatiment ClientMAEC
+[2025-12-07 03:48:10] Updated King Abdullah WAQF Tower Hotel: contractor: ITBNigeria
+[2025-12-07 03:48:10] Updated Hampton S7 Hotel: contractor: BouyguesBatiment ContractorBouyguesBatiment ClientMAEC
+[2025-12-07 03:48:10] Updated Shura Island - Hotel West #1: contractor: ITBNigeria
+[2025-12-07 03:48:10] Updated VOCO - IHG Hotel (234 Keys): contractor: ITBNigeria
+[2025-12-07 03:48:10] Updated Hotel Complex Oasis (1001 Keys): client: FirstGulfCompany ClientSaudiOger Client-Richmond ContractorITBNigeria
+[2025-12-07 03:48:10] 
+
+=== Processing category: Industrial ===
+[2025-12-07 03:48:10] Found 6 projects in category: Industrial
+[2025-12-07 03:48:10] 
+=== Processing slide: Industrial.jpg ===
+[2025-12-07 03:48:10] Processing OCR for: Industrial.jpg
+[2025-12-07 03:48:11] Extracted 947 characters of text
+[2025-12-07 03:48:11] Extracted 947 characters of text
+[2025-12-07 03:48:11] Debug OCR text saved to: ocr_debug_Industrial.txt
+[2025-12-07 03:48:11] First 15 lines of OCR text:
+[2025-12-07 03:48:11]   Line 0: Industrial
+[2025-12-07 03:48:11]   Line 1: Se 2 - 3 5a . :
+[2025-12-07 03:48:11]   Line 2: SSSA i - ee Ki he 2k
+[2025-12-07 03:48:11]   Line 3: ESEEESWeeohe 7 66 my Pd sega
+[2025-12-07 03:48:11]   Line 4: a ; Se . . aCCEaSee
+[2025-12-07 03:48:11]   Line 5: Ve ; J - ; ,
+[2025-12-07 03:48:11]   Line 6: as 3 - 165, ne
+[2025-12-07 03:48:11]   Line 7: vo wee pee pee
+[2025-12-07 03:48:11]   Line 8: 2 RSS XS
+[2025-12-07 03:48:11]   Line 9: ProjectVerticalIndoorFarms ProjectNew-JetPropulsionCenter ProjectEniCenterofExcellence
+[2025-12-07 03:48:11]   Line 10: CountryCanada CountrySaudiArabia Countrycongo
+[2025-12-07 03:48:11]   Line 11: BLA 15,700m2415,900m2 BUA 60,000m BUA 10,200m
+[2025-12-07 03:48:11]   Line 12: ContractorKolostat ContractorFreyssinetSaudiArabia ContractorZerock
+[2025-12-07 03:48:11]   Line 13: ScopeMechConstruction&FabricationDrawings(REVITWorks)ScopeM&EShopDrawings ScopeElecShopDrawings
+[2025-12-07 03:48:11]   Line 14: Feels eal eye
+[2025-12-07 03:48:11] Lines containing 'project' (2):
+[2025-12-07 03:48:11]   Line 9: ProjectVerticalIndoorFarms ProjectNew-JetPropulsionCenter ProjectEniCenterofExcellence
+[2025-12-07 03:48:11]   Line 19: ProjectAlgorithmPharmaceuticals ProjectIndustrialBiofuelAgriHub ProjectCerveceriaCubana
+[2025-12-07 03:48:11] Trying direct project title matching in OCR text...
+[2025-12-07 03:48:11]   Direct no-spaces match: 'New Jet Propulsion Center' in line 9
+[2025-12-07 03:48:11]   Direct no-spaces match: 'Algorithm Pharmaceuticals' in line 19
+[2025-12-07 03:48:11]   Direct no-spaces match: 'Eni Center of Excellence' in line 9
+[2025-12-07 03:48:11]   Direct no-spaces match: 'Vertical Indoor Farms' in line 9
+[2025-12-07 03:48:11]   Direct no-spaces match: 'Industrial Biofuel Agri Hub' in line 19
+[2025-12-07 03:48:11] Direct matching found 5 projects
+[2025-12-07 03:48:11]   Found 'Project' line 9: 'VerticalIndoorFarms'
+[2025-12-07 03:48:11]   Found partial 'Project' name 9: 'Vertical' (from: 'VerticalIndoorFarms')
+[2025-12-07 03:48:11]   Found partial 'Project' name 9: 'VerticalIndoor' (from: 'VerticalIndoorFarms')
+[2025-12-07 03:48:11]   Found partial 'Project' name 9: 'VerticalIndoorFarms' (from: 'VerticalIndoorFarms')
+[2025-12-07 03:48:11]   Found word 'Project' name 9: 'Vertical' (from: 'VerticalIndoorFarms')
+[2025-12-07 03:48:11]   Found word 'Project' name 9: 'Indoor' (from: 'VerticalIndoorFarms')
+[2025-12-07 03:48:11]   Found 'Project' line 9: 'New-JetPropulsionCenter'
+[2025-12-07 03:48:11]   Found partial 'Project' name 9: 'NewJet' (from: 'New-JetPropulsionCenter')
+[2025-12-07 03:48:11]   Found partial 'Project' name 9: 'NewJetPropulsion' (from: 'New-JetPropulsionCenter')
+[2025-12-07 03:48:11]   Found partial 'Project' name 9: 'NewJetPropulsionCenter' (from: 'New-JetPropulsionCenter')
+[2025-12-07 03:48:11]   Found word 'Project' name 9: 'Propulsion' (from: 'New-JetPropulsionCenter')
+[2025-12-07 03:48:11]   Found word 'Project' name 9: 'Center' (from: 'New-JetPropulsionCenter')
+[2025-12-07 03:48:11]   Found 'Project' line 9: 'EniCenterofExcellence'
+[2025-12-07 03:48:11]   Found partial 'Project' name 9: 'EniCenterof' (from: 'EniCenterofExcellence')
+[2025-12-07 03:48:11]   Found partial 'Project' name 9: 'EniCenterofExcellence' (from: 'EniCenterofExcellence')
+[2025-12-07 03:48:11]   Found word 'Project' name 9: 'Centerof' (from: 'EniCenterofExcellence')
+[2025-12-07 03:48:11]   Found word 'Project' name 9: 'Excellence' (from: 'EniCenterofExcellence')
+[2025-12-07 03:48:11]   Found 'Project' line 19: 'AlgorithmPharmaceuticals'
+[2025-12-07 03:48:11]   Found partial 'Project' name 19: 'Algorithm' (from: 'AlgorithmPharmaceuticals')
+[2025-12-07 03:48:11]   Found partial 'Project' name 19: 'AlgorithmPharmaceuticals' (from: 'AlgorithmPharmaceuticals')
+[2025-12-07 03:48:11]   Found word 'Project' name 19: 'Algorithm' (from: 'AlgorithmPharmaceuticals')
+[2025-12-07 03:48:11]   Found word 'Project' name 19: 'Pharmaceuticals' (from: 'AlgorithmPharmaceuticals')
+[2025-12-07 03:48:11]   Found 'Project' line 19: 'IndustrialBiofuelAgriHub'
+[2025-12-07 03:48:11]   Found partial 'Project' name 19: 'Industrial' (from: 'IndustrialBiofuelAgriHub')
+[2025-12-07 03:48:11]   Found partial 'Project' name 19: 'IndustrialBiofuel' (from: 'IndustrialBiofuelAgriHub')
+[2025-12-07 03:48:11]   Found partial 'Project' name 19: 'IndustrialBiofuelAgri' (from: 'IndustrialBiofuelAgriHub')
+[2025-12-07 03:48:11]   Found partial 'Project' name 19: 'IndustrialBiofuelAgriHub' (from: 'IndustrialBiofuelAgriHub')
+[2025-12-07 03:48:11]   Found word 'Project' name 19: 'Industrial' (from: 'IndustrialBiofuelAgriHub')
+[2025-12-07 03:48:11]   Found word 'Project' name 19: 'Biofuel' (from: 'IndustrialBiofuelAgriHub')
+[2025-12-07 03:48:11]   Found 'Project' line 19: 'CerveceriaCubana'
+[2025-12-07 03:48:11]   Found partial 'Project' name 19: 'Cerveceria' (from: 'CerveceriaCubana')
+[2025-12-07 03:48:11]   Found partial 'Project' name 19: 'CerveceriaCubana' (from: 'CerveceriaCubana')
+[2025-12-07 03:48:11]   Found word 'Project' name 19: 'Cerveceria' (from: 'CerveceriaCubana')
+[2025-12-07 03:48:11]   Found word 'Project' name 19: 'Cubana' (from: 'CerveceriaCubana')
+[2025-12-07 03:48:11] Found 34 'Project' lines in OCR text
+[2025-12-07 03:48:11] Matched: 'CerveceriaCubana' -> 'Cervecería' (score: 70.0)
+[2025-12-07 03:48:11] Total projects matched: 6
+[2025-12-07 03:48:11] Found 6 projects in slide
+[2025-12-07 03:48:11] 
+Extracting data for: New Jet Propulsion Center
+[2025-12-07 03:48:11]   Found at line 9: New Jet Propulsion Center
+[2025-12-07 03:48:11]   Processing section (10 lines)
+[2025-12-07 03:48:11] Extracted data: {
+  "bau": "60,000m BUA 10,200m",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "Kolostat ContractorFreyssinetSaudiArabia ContractorZerock",
+  "architect": "",
+  "client": "",
+  "scope": "MechConstruction&FabricationDrawings(REVITWorks)ScopeM&EShopDrawings ScopeElecShopDrawings",
+  "country": "Canada CountrySaudiArabia Countrycongo"
+}
+[2025-12-07 03:48:11] 
+Extracting data for: Algorithm Pharmaceuticals
+[2025-12-07 03:48:11]   Found at line 19: Algorithm Pharmaceuticals
+[2025-12-07 03:48:11]   Processing section (8 lines)
+[2025-12-07 03:48:11] Extracted data: {
+  "bau": "15,000m BUA 6,800m2 BUA 15,000me",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "Betabat ContractorZerock ClientBouyguesConstruction",
+  "architect": "",
+  "client": "BouyguesConstruction",
+  "scope": "M&EShopDrawings ScopeFlectricalDetailDesign ScopeM&EDesign,ShopDrawings&As-BuiltDrawings",
+  "country": "Lebanon CountryCongo CountrytatinAmerica"
+}
+[2025-12-07 03:48:11] 
+Extracting data for: Eni Center of Excellence
+[2025-12-07 03:48:11]   Found at line 9: Eni Center of Excellence
+[2025-12-07 03:48:11]   Processing section (10 lines)
+[2025-12-07 03:48:11] Extracted data: {
+  "bau": "60,000m BUA 10,200m",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "Kolostat ContractorFreyssinetSaudiArabia ContractorZerock",
+  "architect": "",
+  "client": "",
+  "scope": "MechConstruction&FabricationDrawings(REVITWorks)ScopeM&EShopDrawings ScopeElecShopDrawings",
+  "country": "Canada CountrySaudiArabia Countrycongo"
+}
+[2025-12-07 03:48:11] 
+Extracting data for: Vertical Indoor Farms
+[2025-12-07 03:48:11]   Found at line 9: Vertical Indoor Farms
+[2025-12-07 03:48:11]   Processing section (10 lines)
+[2025-12-07 03:48:11] Extracted data: {
+  "bau": "60,000m BUA 10,200m",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "Kolostat ContractorFreyssinetSaudiArabia ContractorZerock",
+  "architect": "",
+  "client": "",
+  "scope": "MechConstruction&FabricationDrawings(REVITWorks)ScopeM&EShopDrawings ScopeElecShopDrawings",
+  "country": "Canada CountrySaudiArabia Countrycongo"
+}
+[2025-12-07 03:48:11] 
+Extracting data for: Industrial Biofuel Agri Hub
+[2025-12-07 03:48:11]   Found at line 19: Industrial Biofuel Agri Hub
+[2025-12-07 03:48:11]   Processing section (8 lines)
+[2025-12-07 03:48:11] Extracted data: {
+  "bau": "15,000m BUA 6,800m2 BUA 15,000me",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "Betabat ContractorZerock ClientBouyguesConstruction",
+  "architect": "",
+  "client": "BouyguesConstruction",
+  "scope": "M&EShopDrawings ScopeFlectricalDetailDesign ScopeM&EDesign,ShopDrawings&As-BuiltDrawings",
+  "country": "Lebanon CountryCongo CountrytatinAmerica"
+}
+[2025-12-07 03:48:11] 
+Extracting data for: Cervecería
+[2025-12-07 03:48:11]   Found at line 19: CerveceriaCubana
+[2025-12-07 03:48:11]   Processing section (8 lines)
+[2025-12-07 03:48:11] Extracted data: {
+  "bau": "15,000m BUA 6,800m2 BUA 15,000me",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "Betabat ContractorZerock ClientBouyguesConstruction",
+  "architect": "",
+  "client": "BouyguesConstruction",
+  "scope": "M&EShopDrawings ScopeFlectricalDetailDesign ScopeM&EDesign,ShopDrawings&As-BuiltDrawings",
+  "country": "Lebanon CountryCongo CountrytatinAmerica"
+}
+[2025-12-07 03:48:11] Updated New Jet Propulsion Center: contractor: Kolostat ContractorFreyssinetSaudiArabia ContractorZerock, scope: MechConstruction&FabricationDrawings(REVITWorks)ScopeM&EShopDrawings ScopeElecShopDrawings
+[2025-12-07 03:48:11] Updated Algorithm Pharmaceuticals: contractor: Betabat ContractorZerock ClientBouyguesConstruction, client: BouyguesConstruction, scope: M&EShopDrawings ScopeFlectricalDetailDesign ScopeM&EDesign,ShopDrawings&As-BuiltDrawings
+[2025-12-07 03:48:11] Updated Eni Center of Excellence: contractor: Kolostat ContractorFreyssinetSaudiArabia ContractorZerock
+[2025-12-07 03:48:11] Updated Vertical Indoor Farms: contractor: Kolostat ContractorFreyssinetSaudiArabia ContractorZerock
+[2025-12-07 03:48:11] Updated Industrial Biofuel Agri Hub: contractor: Betabat ContractorZerock ClientBouyguesConstruction, client: BouyguesConstruction
+[2025-12-07 03:48:11] Updated Cervecería: contractor: Betabat ContractorZerock ClientBouyguesConstruction, client: BouyguesConstruction
+[2025-12-07 03:48:11] 
+
+=== Processing category: Infrastructure ===
+[2025-12-07 03:48:11] Found 6 projects in category: Infrastructure
+[2025-12-07 03:48:11] 
+=== Processing slide: Infrastructure.jpg ===
+[2025-12-07 03:48:11] Processing OCR for: Infrastructure.jpg
+[2025-12-07 03:48:12] Extracted 1130 characters of text
+[2025-12-07 03:48:12] Extracted 1130 characters of text
+[2025-12-07 03:48:12] Debug OCR text saved to: ocr_debug_Infrastructure.txt
+[2025-12-07 03:48:12] First 15 lines of OCR text:
+[2025-12-07 03:48:12]   Line 0: infrastructure
+[2025-12-07 03:48:12]   Line 1: PeSoeaeeeele APE ne
+[2025-12-07 03:48:12]   Line 2: - ees rH pee Te shina age i
+[2025-12-07 03:48:12]   Line 3: Ss PONTE La ete ie Y er i ,eeen
+[2025-12-07 03:48:12]   Line 4: are Seen ea
+[2025-12-07 03:48:12]   Line 5: Pan ae Ww oe we ad race a PT}
+[2025-12-07 03:48:12]   Line 6: ProjectRiyadhMetroLine4,5&6 ProjectJannatBaghdadDevelopment ProjectSaafatElBasraCity
+[2025-12-07 03:48:12]   Line 7: CountrySaudiArabia CountryIraq CountryIraq
+[2025-12-07 03:48:12]   Line 8: ContractorFAST/Samsung Area 28-clustersof720Residences, Area 600,000m2
+[2025-12-07 03:48:12]   Line 9: ScopeRoadSafetyStudy 42.Schools&20Mixed-tseBuildings GlientAlSagrAlJareh
+[2025-12-07 03:48:12]   Line 10: ArchitectCAP ScopeM&EInfrastructureDetailedDesign
+[2025-12-07 03:48:12]   Line 11: ScopeMInfrastructureSchematicDesign ArchitectureandM&EBuildingsDetailedDesign
+[2025-12-07 03:48:12]   Line 12: 5B oN -s Sa erry
+[2025-12-07 03:48:12]   Line 13: ahs ae eka ak aye etic.
+[2025-12-07 03:48:12]   Line 14: gee coment, e Cae) 2 eevee
+[2025-12-07 03:48:12] Lines containing 'project' (2):
+[2025-12-07 03:48:12]   Line 6: ProjectRiyadhMetroLine4,5&6 ProjectJannatBaghdadDevelopment ProjectSaafatElBasraCity
+[2025-12-07 03:48:12]   Line 20: ProjectWasitWater&SanitationStations ProjectDiriyahSquare-MegaCarPark ProjectVenanHousingProject
+[2025-12-07 03:48:12] Trying direct project title matching in OCR text...
+[2025-12-07 03:48:12]   Direct keyword match: 'Riyadh Metro – Line 4, 5 &amp; 6' (matched 3/4 words: ['Riyadh', 'Metro', 'Line']) in line 6
+[2025-12-07 03:48:12]   Direct no-spaces match: 'Saafat El Basra City' in line 6
+[2025-12-07 03:48:12]   Direct no-spaces match: 'Jannat Baghdad Development' in line 6
+[2025-12-07 03:48:12]   Direct no-spaces match: 'Venan Housing Project' in line 20
+[2025-12-07 03:48:12]   Direct keyword match: 'Wasit Water &amp; Sanitation Stations' (matched 4/5 words: ['Wasit', 'Water', 'Sanitation', 'Stations']) in line 20
+[2025-12-07 03:48:12]   Direct no-spaces match: 'Diriyah' in line 20
+[2025-12-07 03:48:12] Direct matching found 6 projects
+[2025-12-07 03:48:12]   Found 'Project' line 6: 'RiyadhMetroLine4,5&6'
+[2025-12-07 03:48:12]   Found partial 'Project' name 6: 'Riyadh' (from: 'RiyadhMetroLine4,5&6')
+[2025-12-07 03:48:12]   Found partial 'Project' name 6: 'RiyadhMetro' (from: 'RiyadhMetroLine4,5&6')
+[2025-12-07 03:48:12]   Found partial 'Project' name 6: 'RiyadhMetroLine' (from: 'RiyadhMetroLine4,5&6')
+[2025-12-07 03:48:12]   Found word 'Project' name 6: 'Riyadh' (from: 'RiyadhMetroLine4,5&6')
+[2025-12-07 03:48:12]   Found 'Project' line 6: 'JannatBaghdadDevelopment'
+[2025-12-07 03:48:12]   Found partial 'Project' name 6: 'Jannat' (from: 'JannatBaghdadDevelopment')
+[2025-12-07 03:48:12]   Found partial 'Project' name 6: 'JannatBaghdad' (from: 'JannatBaghdadDevelopment')
+[2025-12-07 03:48:12]   Found partial 'Project' name 6: 'JannatBaghdadDevelopment' (from: 'JannatBaghdadDevelopment')
+[2025-12-07 03:48:12]   Found word 'Project' name 6: 'Jannat' (from: 'JannatBaghdadDevelopment')
+[2025-12-07 03:48:12]   Found word 'Project' name 6: 'Baghdad' (from: 'JannatBaghdadDevelopment')
+[2025-12-07 03:48:12]   Found word 'Project' name 6: 'Development' (from: 'JannatBaghdadDevelopment')
+[2025-12-07 03:48:12]   Found 'Project' line 6: 'SaafatElBasraCity'
+[2025-12-07 03:48:12]   Found partial 'Project' name 6: 'Saafat' (from: 'SaafatElBasraCity')
+[2025-12-07 03:48:12]   Found partial 'Project' name 6: 'SaafatEl' (from: 'SaafatElBasraCity')
+[2025-12-07 03:48:12]   Found partial 'Project' name 6: 'SaafatElBasra' (from: 'SaafatElBasraCity')
+[2025-12-07 03:48:12]   Found partial 'Project' name 6: 'SaafatElBasraCity' (from: 'SaafatElBasraCity')
+[2025-12-07 03:48:12]   Found word 'Project' name 6: 'Saafat' (from: 'SaafatElBasraCity')
+[2025-12-07 03:48:12]   Found 'Project' line 20: 'WasitWater&SanitationStations'
+[2025-12-07 03:48:12]   Found partial 'Project' name 20: 'Wasit' (from: 'WasitWater&SanitationStations')
+[2025-12-07 03:48:12]   Found partial 'Project' name 20: 'WasitWater' (from: 'WasitWater&SanitationStations')
+[2025-12-07 03:48:12]   Found partial 'Project' name 20: 'WasitWaterSanitation' (from: 'WasitWater&SanitationStations')
+[2025-12-07 03:48:12]   Found partial 'Project' name 20: 'WasitWaterSanitationStations' (from: 'WasitWater&SanitationStations')
+[2025-12-07 03:48:12]   Found word 'Project' name 20: 'Sanitation' (from: 'WasitWater&SanitationStations')
+[2025-12-07 03:48:12]   Found word 'Project' name 20: 'Stations' (from: 'WasitWater&SanitationStations')
+[2025-12-07 03:48:12]   Found 'Project' line 20: 'DiriyahSquare-MegaCarPark'
+[2025-12-07 03:48:12]   Found partial 'Project' name 20: 'Diriyah' (from: 'DiriyahSquare-MegaCarPark')
+[2025-12-07 03:48:12]   Found partial 'Project' name 20: 'DiriyahSquare' (from: 'DiriyahSquare-MegaCarPark')
+[2025-12-07 03:48:12]   Found partial 'Project' name 20: 'DiriyahSquareMega' (from: 'DiriyahSquare-MegaCarPark')
+[2025-12-07 03:48:12]   Found partial 'Project' name 20: 'DiriyahSquareMegaCar' (from: 'DiriyahSquare-MegaCarPark')
+[2025-12-07 03:48:12]   Found partial 'Project' name 20: 'DiriyahSquareMegaCarPark' (from: 'DiriyahSquare-MegaCarPark')
+[2025-12-07 03:48:12]   Found word 'Project' name 20: 'Diriyah' (from: 'DiriyahSquare-MegaCarPark')
+[2025-12-07 03:48:12]   Found word 'Project' name 20: 'Square' (from: 'DiriyahSquare-MegaCarPark')
+[2025-12-07 03:48:12]   Found 'Project' line 20: 'VenanHousing'
+[2025-12-07 03:48:12]   Found partial 'Project' name 20: 'Venan' (from: 'VenanHousing')
+[2025-12-07 03:48:12]   Found partial 'Project' name 20: 'VenanHousing' (from: 'VenanHousing')
+[2025-12-07 03:48:12]   Found word 'Project' name 20: 'Housing' (from: 'VenanHousing')
+[2025-12-07 03:48:12] Found 37 'Project' lines in OCR text
+[2025-12-07 03:48:12] Total projects matched: 6
+[2025-12-07 03:48:12] Found 6 projects in slide
+[2025-12-07 03:48:12] 
+Extracting data for: Riyadh Metro – Line 4, 5 &amp; 6
+[2025-12-07 03:48:12]   Found at line 6: Riyadh Metro – Line 4, 5 &amp; 6
+[2025-12-07 03:48:12]   Processing section (14 lines)
+[2025-12-07 03:48:12] Extracted data: {
+  "bau": "",
+  "area": "28-clustersof720Residences, Area 600,000m2",
+  "size": "",
+  "quantity": "",
+  "contractor": "FAST/Samsung Area 28-clustersof720Residences, Area 600,000m2",
+  "architect": "CAP ScopeM&EInfrastructureDetailedDesign",
+  "client": "",
+  "scope": "RoadSafetyStudy 42.Schools&20Mixed-tseBuildings GlientAlSagrAlJareh",
+  "country": "SaudiArabia CountryIraq CountryIraq"
+}
+[2025-12-07 03:48:12] 
+Extracting data for: Saafat El Basra City
+[2025-12-07 03:48:12]   Found at line 6: Saafat El Basra City
+[2025-12-07 03:48:12]   Processing section (14 lines)
+[2025-12-07 03:48:12] Extracted data: {
+  "bau": "",
+  "area": "28-clustersof720Residences, Area 600,000m2",
+  "size": "",
+  "quantity": "",
+  "contractor": "FAST/Samsung Area 28-clustersof720Residences, Area 600,000m2",
+  "architect": "CAP ScopeM&EInfrastructureDetailedDesign",
+  "client": "",
+  "scope": "RoadSafetyStudy 42.Schools&20Mixed-tseBuildings GlientAlSagrAlJareh",
+  "country": "SaudiArabia CountryIraq CountryIraq"
+}
+[2025-12-07 03:48:12] 
+Extracting data for: Jannat Baghdad Development
+[2025-12-07 03:48:12]   Found at line 6: Jannat Baghdad Development
+[2025-12-07 03:48:12]   Processing section (14 lines)
+[2025-12-07 03:48:12] Extracted data: {
+  "bau": "",
+  "area": "28-clustersof720Residences, Area 600,000m2",
+  "size": "",
+  "quantity": "",
+  "contractor": "FAST/Samsung Area 28-clustersof720Residences, Area 600,000m2",
+  "architect": "CAP ScopeM&EInfrastructureDetailedDesign",
+  "client": "",
+  "scope": "RoadSafetyStudy 42.Schools&20Mixed-tseBuildings GlientAlSagrAlJareh",
+  "country": "SaudiArabia CountryIraq CountryIraq"
+}
+[2025-12-07 03:48:12] 
+Extracting data for: Venan Housing Project
+[2025-12-07 03:48:12]   Found at line 20: Venan Housing Project
+[2025-12-07 03:48:12]   Processing section (7 lines)
+[2025-12-07 03:48:12] Extracted data: {
+  "bau": "450,000m",
+  "area": "330,000m2 BUA 450,000m",
+  "size": "",
+  "quantity": "",
+  "contractor": "FirstGulfCompany AtchitectEdgeArch",
+  "architect": "",
+  "client": "",
+  "scope": "Drainage&RainwaterInfrastructure Scope MEPShopDrawings(REVITWorks} ScopeM&EInfrastructure&BuildingsDetailedDesign",
+  "country": "traq CountrySaudiArabia CountrySaudiArabia"
+}
+[2025-12-07 03:48:12] 
+Extracting data for: Wasit Water &amp; Sanitation Stations
+[2025-12-07 03:48:12]   Found at line 20: Wasit Water &amp; Sanitation Stations
+[2025-12-07 03:48:12]   Processing section (7 lines)
+[2025-12-07 03:48:12] Extracted data: {
+  "bau": "450,000m",
+  "area": "330,000m2 BUA 450,000m",
+  "size": "",
+  "quantity": "",
+  "contractor": "FirstGulfCompany AtchitectEdgeArch",
+  "architect": "",
+  "client": "",
+  "scope": "Drainage&RainwaterInfrastructure Scope MEPShopDrawings(REVITWorks} ScopeM&EInfrastructure&BuildingsDetailedDesign",
+  "country": "traq CountrySaudiArabia CountrySaudiArabia"
+}
+[2025-12-07 03:48:12] 
+Extracting data for: Diriyah
+[2025-12-07 03:48:12]   Found at line 20: Diriyah
+[2025-12-07 03:48:12]   Processing section (7 lines)
+[2025-12-07 03:48:12] Extracted data: {
+  "bau": "450,000m",
+  "area": "330,000m2 BUA 450,000m",
+  "size": "",
+  "quantity": "",
+  "contractor": "FirstGulfCompany AtchitectEdgeArch",
+  "architect": "",
+  "client": "",
+  "scope": "Drainage&RainwaterInfrastructure Scope MEPShopDrawings(REVITWorks} ScopeM&EInfrastructure&BuildingsDetailedDesign",
+  "country": "traq CountrySaudiArabia CountrySaudiArabia"
+}
+[2025-12-07 03:48:12] Updated Riyadh Metro – Line 4, 5 &amp; 6: area: 28-clustersof720Residences, Area 600,000m2, architect: CAP ScopeM&EInfrastructureDetailedDesign, scope: RoadSafetyStudy 42.Schools&20Mixed-tseBuildings GlientAlSagrAlJareh
+[2025-12-07 03:48:12] Updated Saafat El Basra City: contractor: FAST/Samsung Area 28-clustersof720Residences, Area 600,000m2
+[2025-12-07 03:48:12] Updated Jannat Baghdad Development: area: 28-clustersof720Residences, Area 600,000m2, contractor: FAST/Samsung Area 28-clustersof720Residences, Area 600,000m2, scope: RoadSafetyStudy 42.Schools&20Mixed-tseBuildings GlientAlSagrAlJareh
+[2025-12-07 03:48:12] Updated Venan Housing Project: area: 330,000m2 BUA 450,000m, contractor: FirstGulfCompany AtchitectEdgeArch
+[2025-12-07 03:48:12] Updated Wasit Water &amp; Sanitation Stations: bau: 450,000m, area: 330,000m2 BUA 450,000m, contractor: FirstGulfCompany AtchitectEdgeArch, scope: Drainage&RainwaterInfrastructure Scope MEPShopDrawings(REVITWorks} ScopeM&EInfrastructure&BuildingsDetailedDesign
+[2025-12-07 03:48:12] 
+
+=== Processing category: Mixed Use ===
+[2025-12-07 03:48:12] Found 5 projects in category: Mixed Use
+[2025-12-07 03:48:12] 
+=== Processing slide: Mixed Use.jpg ===
+[2025-12-07 03:48:12] Processing OCR for: Mixed Use.jpg
+[2025-12-07 03:48:13] Extracted 960 characters of text
+[2025-12-07 03:48:13] Extracted 960 characters of text
+[2025-12-07 03:48:13] Debug OCR text saved to: ocr_debug_Mixed Use.txt
+[2025-12-07 03:48:13] First 15 lines of OCR text:
+[2025-12-07 03:48:13]   Line 0: MixedUse
+[2025-12-07 03:48:13]   Line 1: . { - inaag
+[2025-12-07 03:48:13]   Line 2: gees
+[2025-12-07 03:48:13]   Line 3: . H mets Berle - z Ls
+[2025-12-07 03:48:13]   Line 4: ,. c.Sagemnel ; & : dS
+[2025-12-07 03:48:13]   Line 5: ; a 2eegeelaraomtgTe { at itl me
+[2025-12-07 03:48:14]   Line 6: ProjectEKOTowerIl ProjectKarbalaOasisDevelopment J aay
+[2025-12-07 03:48:14]   Line 7: {Residential&MedicalCentre) (Mall&Hotel) i . 4
+[2025-12-07 03:48:14]   Line 8: CountryNigeria CountryIraq if I . ia
+[2025-12-07 03:48:14]   Line 9: BUA35,500-n BUA200,000m 4 ereeee
+[2025-12-07 03:48:14]   Line 10: ClientITE.Nigeria ArchitectCAP iil aan
+[2025-12-07 03:48:14]   Line 11: ScopeElecDetailedDesign&Followup ScopeMB&EDetailedDesign \}I 5 eat
+[2025-12-07 03:48:14]   Line 12: - Nae 1 a, sed ae a
+[2025-12-07 03:48:14]   Line 13: cotas- - JES Bita.hEa- : matenty]
+[2025-12-07 03:48:14]   Line 14: ae a SON ir ect
+[2025-12-07 03:48:14] Lines containing 'project' (2):
+[2025-12-07 03:48:14]   Line 6: ProjectEKOTowerIl ProjectKarbalaOasisDevelopment J aay
+[2025-12-07 03:48:14]   Line 20: ProjectAzuriPeninsula ProjectPalmTowers ProjectLawyers&NotariesTower
+[2025-12-07 03:48:14] Trying direct project title matching in OCR text...
+[2025-12-07 03:48:14]   Direct no-spaces match: 'Azuri Peninsula' in line 20
+[2025-12-07 03:48:14]   Direct keyword match: 'Lawyers &amp; Notaries Tower' (matched 3/4 words: ['Lawyers', 'Notaries', 'Tower']) in line 20
+[2025-12-07 03:48:14]   Direct keyword match: 'EKO Tower II' (matched 1/1 words: ['Tower']) in line 6
+[2025-12-07 03:48:14]   Direct no-spaces match: 'Karbala Oasis Development' in line 6
+[2025-12-07 03:48:14]   Direct no-spaces match: 'Palm Towers' in line 20
+[2025-12-07 03:48:14] Direct matching found 5 projects
+[2025-12-07 03:48:14]   Found 'Project' line 6: 'EKOTowerIl'
+[2025-12-07 03:48:14]   Found partial 'Project' name 6: 'EKOTower' (from: 'EKOTowerIl')
+[2025-12-07 03:48:14]   Found partial 'Project' name 6: 'EKOTowerIl' (from: 'EKOTowerIl')
+[2025-12-07 03:48:14]   Found 'Project' line 6: 'KarbalaOasisDevelopment J aay'
+[2025-12-07 03:48:14]   Found partial 'Project' name 6: 'Karbala' (from: 'KarbalaOasisDevelopment J aay')
+[2025-12-07 03:48:14]   Found partial 'Project' name 6: 'KarbalaOasis' (from: 'KarbalaOasisDevelopment J aay')
+[2025-12-07 03:48:14]   Found partial 'Project' name 6: 'KarbalaOasisDevelopment' (from: 'KarbalaOasisDevelopment J aay')
+[2025-12-07 03:48:14]   Found word 'Project' name 6: 'Karbala' (from: 'KarbalaOasisDevelopment J aay')
+[2025-12-07 03:48:14]   Found word 'Project' name 6: 'Development' (from: 'KarbalaOasisDevelopment J aay')
+[2025-12-07 03:48:14]   Found 'Project' line 20: 'AzuriPeninsula'
+[2025-12-07 03:48:14]   Found partial 'Project' name 20: 'Azuri' (from: 'AzuriPeninsula')
+[2025-12-07 03:48:14]   Found partial 'Project' name 20: 'AzuriPeninsula' (from: 'AzuriPeninsula')
+[2025-12-07 03:48:14]   Found word 'Project' name 20: 'Peninsula' (from: 'AzuriPeninsula')
+[2025-12-07 03:48:14]   Found 'Project' line 20: 'PalmTowers'
+[2025-12-07 03:48:14]   Found partial 'Project' name 20: 'PalmTowers' (from: 'PalmTowers')
+[2025-12-07 03:48:14]   Found word 'Project' name 20: 'Towers' (from: 'PalmTowers')
+[2025-12-07 03:48:14]   Found 'Project' line 20: 'Lawyers&NotariesTower'
+[2025-12-07 03:48:14]   Found partial 'Project' name 20: 'Lawyers' (from: 'Lawyers&NotariesTower')
+[2025-12-07 03:48:14]   Found partial 'Project' name 20: 'LawyersNotaries' (from: 'Lawyers&NotariesTower')
+[2025-12-07 03:48:14]   Found partial 'Project' name 20: 'LawyersNotariesTower' (from: 'Lawyers&NotariesTower')
+[2025-12-07 03:48:14]   Found word 'Project' name 20: 'Lawyers' (from: 'Lawyers&NotariesTower')
+[2025-12-07 03:48:14]   Found word 'Project' name 20: 'Notaries' (from: 'Lawyers&NotariesTower')
+[2025-12-07 03:48:14] Found 22 'Project' lines in OCR text
+[2025-12-07 03:48:14] Total projects matched: 5
+[2025-12-07 03:48:14] Found 5 projects in slide
+[2025-12-07 03:48:14] 
+Extracting data for: Azuri Peninsula
+[2025-12-07 03:48:14]   Found at line 20: Azuri Peninsula
+[2025-12-07 03:48:14]   Processing section (8 lines)
+[2025-12-07 03:48:14] Extracted data: {
+  "bau": "123,000m2 BUA 11,400m BUA 200,000m2",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "",
+  "architect": ".ACT Client-NGC",
+  "client": "ITBNigeria Architect.ACT Client-NGC",
+  "scope": "ElectricalValueEngineering&ShopDrawings ScopeM&EDetailedDesign/M&EShopDrawings ScopeM&EDetailledDesign",
+  "country": "Nigeria CountryC6tedIvoire CountryIraq"
+}
+[2025-12-07 03:48:14] 
+Extracting data for: Lawyers &amp; Notaries Tower
+[2025-12-07 03:48:14]   Found at line 20: Lawyers &amp; Notaries Tower
+[2025-12-07 03:48:14]   Processing section (8 lines)
+[2025-12-07 03:48:14] Extracted data: {
+  "bau": "123,000m2 BUA 11,400m BUA 200,000m2",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "",
+  "architect": ".ACT Client-NGC",
+  "client": "ITBNigeria Architect.ACT Client-NGC",
+  "scope": "ElectricalValueEngineering&ShopDrawings ScopeM&EDetailedDesign/M&EShopDrawings ScopeM&EDetailledDesign",
+  "country": "Nigeria CountryC6tedIvoire CountryIraq"
+}
+[2025-12-07 03:48:14] 
+Extracting data for: EKO Tower II
+[2025-12-07 03:48:14]   Found at line 6: EKO Tower II
+[2025-12-07 03:48:14]   Processing section (14 lines)
+[2025-12-07 03:48:14] Extracted data: {
+  "bau": "35,500-n BUA200,000m 4 ereeee",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "",
+  "architect": "CAP iil aan",
+  "client": "ITE.Nigeria ArchitectCAP iil aan",
+  "scope": "ElecDetailedDesign&Followup ScopeMB&EDetailedDesign \\}I 5 eat",
+  "country": "Nigeria CountryIraq if I . ia"
+}
+[2025-12-07 03:48:14] 
+Extracting data for: Karbala Oasis Development
+[2025-12-07 03:48:14]   Found at line 6: Karbala Oasis Development
+[2025-12-07 03:48:14]   Processing section (14 lines)
+[2025-12-07 03:48:14] Extracted data: {
+  "bau": "35,500-n BUA200,000m 4 ereeee",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "",
+  "architect": "CAP iil aan",
+  "client": "ITE.Nigeria ArchitectCAP iil aan",
+  "scope": "ElecDetailedDesign&Followup ScopeMB&EDetailedDesign \\}I 5 eat",
+  "country": "Nigeria CountryIraq if I . ia"
+}
+[2025-12-07 03:48:14] 
+Extracting data for: Palm Towers
+[2025-12-07 03:48:14]   Found at line 20: Palm Towers
+[2025-12-07 03:48:14]   Processing section (8 lines)
+[2025-12-07 03:48:14] Extracted data: {
+  "bau": "123,000m2 BUA 11,400m BUA 200,000m2",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "",
+  "architect": ".ACT Client-NGC",
+  "client": "ITBNigeria Architect.ACT Client-NGC",
+  "scope": "ElectricalValueEngineering&ShopDrawings ScopeM&EDetailedDesign/M&EShopDrawings ScopeM&EDetailledDesign",
+  "country": "Nigeria CountryC6tedIvoire CountryIraq"
+}
+[2025-12-07 03:48:14] Updated Azuri Peninsula: architect: .ACT Client-NGC
+[2025-12-07 03:48:14] Updated Lawyers &amp; Notaries Tower: architect: .ACT Client-NGC
+[2025-12-07 03:48:14] Updated EKO Tower II: architect: CAP iil aan
+[2025-12-07 03:48:14] Updated Karbala Oasis Development: client: ITE.Nigeria ArchitectCAP iil aan
+[2025-12-07 03:48:14] Updated Palm Towers: client: ITBNigeria Architect.ACT Client-NGC
+[2025-12-07 03:48:14] 
+
+=== Processing category: Offices ===
+[2025-12-07 03:48:14] Found 7 projects in category: Offices
+[2025-12-07 03:48:14] 
+=== Processing slide: Offices.jpg ===
+[2025-12-07 03:48:14] Processing OCR for: Offices.jpg
+[2025-12-07 03:48:15] Extracted 1111 characters of text
+[2025-12-07 03:48:15] Extracted 1111 characters of text
+[2025-12-07 03:48:15] Debug OCR text saved to: ocr_debug_Offices.txt
+[2025-12-07 03:48:15] First 15 lines of OCR text:
+[2025-12-07 03:48:15]   Line 0: Offices
+[2025-12-07 03:48:15]   Line 1: - aiid 4 a
+[2025-12-07 03:48:15]   Line 2: SS SPE - :
+[2025-12-07 03:48:15]   Line 3: 5 Ee F i 2 :
+[2025-12-07 03:48:15]   Line 4: -. - CLL le eee } Par.
+[2025-12-07 03:48:15]   Line 5: ProjectCrystalTower ProjectGardenHeights ProjectEKOTowerI ProjectJeddahCornicheParkTower
+[2025-12-07 03:48:15]   Line 6: CountryNigeria CountryNigeria (TOTALHeadquarters) CountrySaudiArabia
+[2025-12-07 03:48:15]   Line 7: BUA 18,000:m BUA 20,0002 CountryNigeria BUA 170,000m2
+[2025-12-07 03:48:15]   Line 8: ClientRMCKConstruction ArchitectArchicoConsultants BUA 44,000m ContractorFreyssinetSaudiArabia
+[2025-12-07 03:48:15]   Line 9: ScopeM&EDetailedDesign ScopeM&EDetailedDesign ClientITBNigeria ScopeDesign&ShopDrawings
+[2025-12-07 03:48:15]   Line 10: ScopeElecDetailedDesign&Followup
+[2025-12-07 03:48:15]   Line 11: Peaattiiitnaal egelgtPI
+[2025-12-07 03:48:15]   Line 12: hee ras . reef]
+[2025-12-07 03:48:15]   Line 13: fm BoaSe fi lide aig W i ae rf Hl
+[2025-12-07 03:48:15]   Line 14: caren - esos I} i eo i
+[2025-12-07 03:48:15] Lines containing 'project' (2):
+[2025-12-07 03:48:15]   Line 5: ProjectCrystalTower ProjectGardenHeights ProjectEKOTowerI ProjectJeddahCornicheParkTower
+[2025-12-07 03:48:15]   Line 19: ProjectKingswayTower ProjectTheCarnelian ProjectOtunbaOffices ProjectWorldBank
+[2025-12-07 03:48:15] Trying direct project title matching in OCR text...
+[2025-12-07 03:48:15]   Direct no-spaces match: 'Crystal Tower' in line 5
+[2025-12-07 03:48:15]   Direct no-spaces match: 'EKO Tower I' in line 5
+[2025-12-07 03:48:15]   Direct no-spaces match: 'Kingsway Tower' in line 19
+[2025-12-07 03:48:15]   Direct no-spaces match: 'Otunba Offices' in line 19
+[2025-12-07 03:48:15]   Direct no-spaces match: 'The Carnelian' in line 19
+[2025-12-07 03:48:15]   Direct no-spaces match: 'Garden Heights' in line 5
+[2025-12-07 03:48:15]   Direct no-spaces match: 'World Bank' in line 19
+[2025-12-07 03:48:15] Direct matching found 7 projects
+[2025-12-07 03:48:15]   Found 'Project' line 5: 'CrystalTower'
+[2025-12-07 03:48:15]   Found partial 'Project' name 5: 'Crystal' (from: 'CrystalTower')
+[2025-12-07 03:48:15]   Found partial 'Project' name 5: 'CrystalTower' (from: 'CrystalTower')
+[2025-12-07 03:48:15]   Found word 'Project' name 5: 'Crystal' (from: 'CrystalTower')
+[2025-12-07 03:48:15]   Found 'Project' line 5: 'GardenHeights'
+[2025-12-07 03:48:15]   Found partial 'Project' name 5: 'Garden' (from: 'GardenHeights')
+[2025-12-07 03:48:15]   Found partial 'Project' name 5: 'GardenHeights' (from: 'GardenHeights')
+[2025-12-07 03:48:15]   Found word 'Project' name 5: 'Garden' (from: 'GardenHeights')
+[2025-12-07 03:48:15]   Found word 'Project' name 5: 'Heights' (from: 'GardenHeights')
+[2025-12-07 03:48:15]   Found 'Project' line 5: 'EKOTowerI'
+[2025-12-07 03:48:15]   Found partial 'Project' name 5: 'EKOTower' (from: 'EKOTowerI')
+[2025-12-07 03:48:15]   Found partial 'Project' name 5: 'EKOTowerI' (from: 'EKOTowerI')
+[2025-12-07 03:48:15]   Found 'Project' line 5: 'JeddahCornicheParkTower'
+[2025-12-07 03:48:15]   Found partial 'Project' name 5: 'Jeddah' (from: 'JeddahCornicheParkTower')
+[2025-12-07 03:48:15]   Found partial 'Project' name 5: 'JeddahCorniche' (from: 'JeddahCornicheParkTower')
+[2025-12-07 03:48:15]   Found partial 'Project' name 5: 'JeddahCornichePark' (from: 'JeddahCornicheParkTower')
+[2025-12-07 03:48:15]   Found partial 'Project' name 5: 'JeddahCornicheParkTower' (from: 'JeddahCornicheParkTower')
+[2025-12-07 03:48:15]   Found word 'Project' name 5: 'Jeddah' (from: 'JeddahCornicheParkTower')
+[2025-12-07 03:48:15]   Found word 'Project' name 5: 'Corniche' (from: 'JeddahCornicheParkTower')
+[2025-12-07 03:48:15]   Found 'Project' line 19: 'KingswayTower'
+[2025-12-07 03:48:15]   Found partial 'Project' name 19: 'Kingsway' (from: 'KingswayTower')
+[2025-12-07 03:48:15]   Found partial 'Project' name 19: 'KingswayTower' (from: 'KingswayTower')
+[2025-12-07 03:48:15]   Found word 'Project' name 19: 'Kingsway' (from: 'KingswayTower')
+[2025-12-07 03:48:15]   Found 'Project' line 19: 'TheCarnelian'
+[2025-12-07 03:48:15]   Found partial 'Project' name 19: 'TheCarnelian' (from: 'TheCarnelian')
+[2025-12-07 03:48:15]   Found word 'Project' name 19: 'Carnelian' (from: 'TheCarnelian')
+[2025-12-07 03:48:15]   Found 'Project' line 19: 'OtunbaOffices'
+[2025-12-07 03:48:15]   Found partial 'Project' name 19: 'Otunba' (from: 'OtunbaOffices')
+[2025-12-07 03:48:15]   Found partial 'Project' name 19: 'OtunbaOffices' (from: 'OtunbaOffices')
+[2025-12-07 03:48:15]   Found word 'Project' name 19: 'Otunba' (from: 'OtunbaOffices')
+[2025-12-07 03:48:15]   Found word 'Project' name 19: 'Offices' (from: 'OtunbaOffices')
+[2025-12-07 03:48:15]   Found 'Project' line 19: 'WorldBank'
+[2025-12-07 03:48:15]   Found partial 'Project' name 19: 'World' (from: 'WorldBank')
+[2025-12-07 03:48:15]   Found partial 'Project' name 19: 'WorldBank' (from: 'WorldBank')
+[2025-12-07 03:48:15] Found 34 'Project' lines in OCR text
+[2025-12-07 03:48:15] Total projects matched: 7
+[2025-12-07 03:48:15] Found 7 projects in slide
+[2025-12-07 03:48:15] 
+Extracting data for: Crystal Tower
+[2025-12-07 03:48:15]   Found at line 5: Crystal Tower
+[2025-12-07 03:48:15]   Processing section (14 lines)
+[2025-12-07 03:48:15] Extracted data: {
+  "bau": "18,000:m BUA 20,0002 CountryNigeria BUA 170,000m2",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "FreyssinetSaudiArabia",
+  "architect": "ArchicoConsultants BUA 44,000m ContractorFreyssinetSaudiArabia",
+  "client": "RMCKConstruction ArchitectArchicoConsultants BUA 44,000m ContractorFreyssinetSaudiArabia",
+  "scope": "M&EDetailedDesign ScopeM&EDetailedDesign ClientITBNigeria ScopeDesign&ShopDrawings",
+  "country": "Nigeria CountryNigeria (TOTALHeadquarters) CountrySaudiArabia"
+}
+[2025-12-07 03:48:15] 
+Extracting data for: EKO Tower I
+[2025-12-07 03:48:15]   Found at line 5: EKO Tower I
+[2025-12-07 03:48:15]   Processing section (14 lines)
+[2025-12-07 03:48:15] Extracted data: {
+  "bau": "18,000:m BUA 20,0002 CountryNigeria BUA 170,000m2",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "FreyssinetSaudiArabia",
+  "architect": "ArchicoConsultants BUA 44,000m ContractorFreyssinetSaudiArabia",
+  "client": "RMCKConstruction ArchitectArchicoConsultants BUA 44,000m ContractorFreyssinetSaudiArabia",
+  "scope": "M&EDetailedDesign ScopeM&EDetailedDesign ClientITBNigeria ScopeDesign&ShopDrawings",
+  "country": "Nigeria CountryNigeria (TOTALHeadquarters) CountrySaudiArabia"
+}
+[2025-12-07 03:48:15] 
+Extracting data for: Kingsway Tower
+[2025-12-07 03:48:15]   Found at line 19: Kingsway Tower
+[2025-12-07 03:48:15]   Processing section (8 lines)
+[2025-12-07 03:48:15] Extracted data: {
+  "bau": "33,000m2 BUA 8,000r BUA 4,200m2",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "ITBNigeria ScopeM&EDetailedDesign ScopeM&EDetailedDesign ScopeElecShopDrawings",
+  "architect": "ArchicoConsultants ArchitectDomainePublicArchitects ClientITBNigeria",
+  "client": "ITBNigeria",
+  "scope": "M&EDetailedDesign ScopeM&EDetailedDesign ScopeElecShopDrawings",
+  "country": "Nigeria CountryNigeria CountryNigeria"
+}
+[2025-12-07 03:48:15] 
+Extracting data for: Otunba Offices
+[2025-12-07 03:48:15]   Found at line 19: Otunba Offices
+[2025-12-07 03:48:15]   Processing section (8 lines)
+[2025-12-07 03:48:15] Extracted data: {
+  "bau": "33,000m2 BUA 8,000r BUA 4,200m2",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "ITBNigeria ScopeM&EDetailedDesign ScopeM&EDetailedDesign ScopeElecShopDrawings",
+  "architect": "ArchicoConsultants ArchitectDomainePublicArchitects ClientITBNigeria",
+  "client": "ITBNigeria",
+  "scope": "M&EDetailedDesign ScopeM&EDetailedDesign ScopeElecShopDrawings",
+  "country": "Nigeria CountryNigeria CountryNigeria"
+}
+[2025-12-07 03:48:15] 
+Extracting data for: The Carnelian
+[2025-12-07 03:48:15]   Found at line 19: The Carnelian
+[2025-12-07 03:48:15]   Processing section (8 lines)
+[2025-12-07 03:48:15] Extracted data: {
+  "bau": "33,000m2 BUA 8,000r BUA 4,200m2",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "ITBNigeria ScopeM&EDetailedDesign ScopeM&EDetailedDesign ScopeElecShopDrawings",
+  "architect": "ArchicoConsultants ArchitectDomainePublicArchitects ClientITBNigeria",
+  "client": "ITBNigeria",
+  "scope": "M&EDetailedDesign ScopeM&EDetailedDesign ScopeElecShopDrawings",
+  "country": "Nigeria CountryNigeria CountryNigeria"
+}
+[2025-12-07 03:48:15] 
+Extracting data for: Garden Heights
+[2025-12-07 03:48:15]   Found at line 5: Garden Heights
+[2025-12-07 03:48:15]   Processing section (14 lines)
+[2025-12-07 03:48:15] Extracted data: {
+  "bau": "18,000:m BUA 20,0002 CountryNigeria BUA 170,000m2",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "FreyssinetSaudiArabia",
+  "architect": "ArchicoConsultants BUA 44,000m ContractorFreyssinetSaudiArabia",
+  "client": "RMCKConstruction ArchitectArchicoConsultants BUA 44,000m ContractorFreyssinetSaudiArabia",
+  "scope": "M&EDetailedDesign ScopeM&EDetailedDesign ClientITBNigeria ScopeDesign&ShopDrawings",
+  "country": "Nigeria CountryNigeria (TOTALHeadquarters) CountrySaudiArabia"
+}
+[2025-12-07 03:48:15] 
+Extracting data for: World Bank
+[2025-12-07 03:48:15]   Found at line 19: World Bank
+[2025-12-07 03:48:15]   Processing section (8 lines)
+[2025-12-07 03:48:15] Extracted data: {
+  "bau": "33,000m2 BUA 8,000r BUA 4,200m2",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "ITBNigeria ScopeM&EDetailedDesign ScopeM&EDetailedDesign ScopeElecShopDrawings",
+  "architect": "ArchicoConsultants ArchitectDomainePublicArchitects ClientITBNigeria",
+  "client": "ITBNigeria",
+  "scope": "M&EDetailedDesign ScopeM&EDetailedDesign ScopeElecShopDrawings",
+  "country": "Nigeria CountryNigeria CountryNigeria"
+}
+[2025-12-07 03:48:15] Updated Crystal Tower: contractor: FreyssinetSaudiArabia, architect: ArchicoConsultants BUA 44,000m ContractorFreyssinetSaudiArabia
+[2025-12-07 03:48:15] Updated EKO Tower I: contractor: FreyssinetSaudiArabia, architect: ArchicoConsultants BUA 44,000m ContractorFreyssinetSaudiArabia
+[2025-12-07 03:48:15] Updated Kingsway Tower: architect: ArchicoConsultants ArchitectDomainePublicArchitects ClientITBNigeria, client: ITBNigeria
+[2025-12-07 03:48:15] Updated Otunba Offices: contractor: ITBNigeria ScopeM&EDetailedDesign ScopeM&EDetailedDesign ScopeElecShopDrawings, client: ITBNigeria
+[2025-12-07 03:48:15] Updated The Carnelian: contractor: ITBNigeria ScopeM&EDetailedDesign ScopeM&EDetailedDesign ScopeElecShopDrawings, architect: ArchicoConsultants ArchitectDomainePublicArchitects ClientITBNigeria, client: ITBNigeria
+[2025-12-07 03:48:15] Updated Garden Heights: contractor: FreyssinetSaudiArabia, architect: ArchicoConsultants BUA 44,000m ContractorFreyssinetSaudiArabia, client: RMCKConstruction ArchitectArchicoConsultants BUA 44,000m ContractorFreyssinetSaudiArabia
+[2025-12-07 03:48:15] Updated World Bank: contractor: ITBNigeria ScopeM&EDetailedDesign ScopeM&EDetailedDesign ScopeElecShopDrawings, architect: ArchicoConsultants ArchitectDomainePublicArchitects ClientITBNigeria
+[2025-12-07 03:48:15] 
+
+=== Processing category: Power Plants & Data Centers ===
+[2025-12-07 03:48:15] Found 8 projects in category: Power Plants & Data Centers
+[2025-12-07 03:48:15] 
+=== Processing slide: Power Plants & Data Centers.jpg ===
+[2025-12-07 03:48:15] Processing OCR for: Power Plants & Data Centers.jpg
+[2025-12-07 03:48:17] Extracted 1446 characters of text
+[2025-12-07 03:48:17] Extracted 1446 characters of text
+[2025-12-07 03:48:17] Debug OCR text saved to: ocr_debug_Power Plants & Data Centers.txt
+[2025-12-07 03:48:17] First 15 lines of OCR text:
+[2025-12-07 03:48:17]   Line 0: PowerPlants&DataCenters
+[2025-12-07 03:48:17]   Line 1: faldilattag . ie, a
+[2025-12-07 03:48:17]   Line 2: inf aa
+[2025-12-07 03:48:17]   Line 3: : Tt4 Sue. ove bh Hl Babs mere
+[2025-12-07 03:48:17]   Line 4: 1 f d Moa os een t 3 ns
+[2025-12-07 03:48:17]   Line 5: a-s)teieemalEIei : : ee ane :
+[2025-12-07 03:48:17]   Line 6: otSaeoeweseeeternatSoeeoae 2. .EEoe - il
+[2025-12-07 03:48:17]   Line 7: : : ee iegeee ape oeerrroeF : PI 1 rr
+[2025-12-07 03:48:17]   Line 8: eee ieee .o ica
+[2025-12-07 03:48:17]   Line 9: eerste Sd ee asi
+[2025-12-07 03:48:17]   Line 10: ProjectRiyadhPowerPlantPP1O ProjectAl-QassimPPExtension42 ProjectAl-QassimPPExtension3 ProjectKingKhaledInternationalAirport
+[2025-12-07 03:48:17]   Line 11: CountrySaudiArabia CountrySaudiArabia CountrySaudiArabia AGLSubstations
+[2025-12-07 03:48:17]   Line 12: Sie 2,500MWPowerGeneration size 560MWPowerGeneration size 560MWPowerGeneration CountrySaudiArabia
+[2025-12-07 03:48:17]   Line 13: ContractorArabianBemcoContracting ContractorArabianBemcoContracting ContractorArabianBemcoContracting sie 4MWPowerGeneration
+[2025-12-07 03:48:17]   Line 14: ScopeM&EDetailedDesign(IndustrialBldgs}.ScopeM&EDesign(IndustrialBldgs} ScopeM&EDesign{IndustrialBldgs} ContractorAlmabani
+[2025-12-07 03:48:17] Lines containing 'project' (2):
+[2025-12-07 03:48:17]   Line 10: ProjectRiyadhPowerPlantPP1O ProjectAl-QassimPPExtension42 ProjectAl-QassimPPExtension3 ProjectKingKhaledInternationalAirport
+[2025-12-07 03:48:17]   Line 25: ProjectKAIADataCenters1&2 ProjectTotalHeadquartersDataCenter ProjectAfricaDataCenters ProjecteStruxtureDataCenter
+[2025-12-07 03:48:17] Trying direct project title matching in OCR text...
+[2025-12-07 03:48:17]   Direct keyword match: 'Riyadh Power Plant PP10' (matched 3/4 words: ['Riyadh', 'Power', 'Plant']) in line 10
+[2025-12-07 03:48:17]   Direct keyword match: 'Al-Qassim PP Extension #2' (matched 2/2 words: ['Al-Qassim', 'Extension']) in line 10
+[2025-12-07 03:48:17]   Direct keyword match: 'Al-Qassim PP Extension #3' (matched 2/2 words: ['Al-Qassim', 'Extension']) in line 10
+[2025-12-07 03:48:17]   Direct no-spaces match: 'Africa Data Centers' in line 25
+[2025-12-07 03:48:17]   Direct no-spaces match: 'eStruxture' in line 25
+[2025-12-07 03:48:17]   Direct keyword match: 'KAIA Data Centers 1&amp;2' (matched 3/4 words: ['KAIA', 'Data', 'Centers']) in line 25
+[2025-12-07 03:48:17]   Direct no-spaces match: 'Total Headquarters Data Center' in line 25
+[2025-12-07 03:48:17]   Direct no-spaces match: 'King Khaled International Airport' in line 10
+[2025-12-07 03:48:17] Direct matching found 8 projects
+[2025-12-07 03:48:17]   Found 'Project' line 10: 'RiyadhPowerPlantPP1O'
+[2025-12-07 03:48:17]   Found partial 'Project' name 10: 'Riyadh' (from: 'RiyadhPowerPlantPP1O')
+[2025-12-07 03:48:17]   Found partial 'Project' name 10: 'RiyadhPower' (from: 'RiyadhPowerPlantPP1O')
+[2025-12-07 03:48:17]   Found partial 'Project' name 10: 'RiyadhPowerPlant' (from: 'RiyadhPowerPlantPP1O')
+[2025-12-07 03:48:17]   Found partial 'Project' name 10: 'RiyadhPowerPlantP' (from: 'RiyadhPowerPlantPP1O')
+[2025-12-07 03:48:17]   Found partial 'Project' name 10: 'RiyadhPowerPlantPO' (from: 'RiyadhPowerPlantPP1O')
+[2025-12-07 03:48:17]   Found word 'Project' name 10: 'Riyadh' (from: 'RiyadhPowerPlantPP1O')
+[2025-12-07 03:48:17]   Found 'Project' line 10: 'Al-QassimPPExtension42'
+[2025-12-07 03:48:17]   Found partial 'Project' name 10: 'AlQassim' (from: 'Al-QassimPPExtension42')
+[2025-12-07 03:48:17]   Found partial 'Project' name 10: 'AlQassimPP' (from: 'Al-QassimPPExtension42')
+[2025-12-07 03:48:17]   Found partial 'Project' name 10: 'AlQassimPPExtension' (from: 'Al-QassimPPExtension42')
+[2025-12-07 03:48:17]   Found word 'Project' name 10: 'Qassim' (from: 'Al-QassimPPExtension42')
+[2025-12-07 03:48:17]   Found word 'Project' name 10: 'Extension' (from: 'Al-QassimPPExtension42')
+[2025-12-07 03:48:17]   Found 'Project' line 10: 'Al-QassimPPExtension3'
+[2025-12-07 03:48:17]   Found partial 'Project' name 10: 'AlQassim' (from: 'Al-QassimPPExtension3')
+[2025-12-07 03:48:17]   Found partial 'Project' name 10: 'AlQassimPP' (from: 'Al-QassimPPExtension3')
+[2025-12-07 03:48:17]   Found partial 'Project' name 10: 'AlQassimPPExtension' (from: 'Al-QassimPPExtension3')
+[2025-12-07 03:48:17]   Found word 'Project' name 10: 'Qassim' (from: 'Al-QassimPPExtension3')
+[2025-12-07 03:48:17]   Found word 'Project' name 10: 'Extension' (from: 'Al-QassimPPExtension3')
+[2025-12-07 03:48:17]   Found 'Project' line 10: 'KingKhaledInternationalAirport'
+[2025-12-07 03:48:17]   Found partial 'Project' name 10: 'KingKhaled' (from: 'KingKhaledInternationalAirport')
+[2025-12-07 03:48:17]   Found partial 'Project' name 10: 'KingKhaledInternational' (from: 'KingKhaledInternationalAirport')
+[2025-12-07 03:48:17]   Found partial 'Project' name 10: 'KingKhaledInternationalAirport' (from: 'KingKhaledInternationalAirport')
+[2025-12-07 03:48:17]   Found word 'Project' name 10: 'Khaled' (from: 'KingKhaledInternationalAirport')
+[2025-12-07 03:48:17]   Found word 'Project' name 10: 'International' (from: 'KingKhaledInternationalAirport')
+[2025-12-07 03:48:17]   Found word 'Project' name 10: 'Airport' (from: 'KingKhaledInternationalAirport')
+[2025-12-07 03:48:17]   Found 'Project' line 25: 'KAIADataCenters1&2'
+[2025-12-07 03:48:17]   Found partial 'Project' name 25: 'KAIAData' (from: 'KAIADataCenters1&2')
+[2025-12-07 03:48:17]   Found partial 'Project' name 25: 'KAIADataCenters' (from: 'KAIADataCenters1&2')
+[2025-12-07 03:48:17]   Found word 'Project' name 25: 'Centers' (from: 'KAIADataCenters1&2')
+[2025-12-07 03:48:17]   Found 'Project' line 25: 'TotalHeadquartersDataCenter'
+[2025-12-07 03:48:17]   Found partial 'Project' name 25: 'Total' (from: 'TotalHeadquartersDataCenter')
+[2025-12-07 03:48:17]   Found partial 'Project' name 25: 'TotalHeadquarters' (from: 'TotalHeadquartersDataCenter')
+[2025-12-07 03:48:17]   Found partial 'Project' name 25: 'TotalHeadquartersData' (from: 'TotalHeadquartersDataCenter')
+[2025-12-07 03:48:17]   Found partial 'Project' name 25: 'TotalHeadquartersDataCenter' (from: 'TotalHeadquartersDataCenter')
+[2025-12-07 03:48:17]   Found word 'Project' name 25: 'Headquarters' (from: 'TotalHeadquartersDataCenter')
+[2025-12-07 03:48:17]   Found word 'Project' name 25: 'Center' (from: 'TotalHeadquartersDataCenter')
+[2025-12-07 03:48:17]   Found 'Project' line 25: 'AfricaDataCenters'
+[2025-12-07 03:48:17]   Found partial 'Project' name 25: 'Africa' (from: 'AfricaDataCenters')
+[2025-12-07 03:48:17]   Found partial 'Project' name 25: 'AfricaData' (from: 'AfricaDataCenters')
+[2025-12-07 03:48:17]   Found partial 'Project' name 25: 'AfricaDataCenters' (from: 'AfricaDataCenters')
+[2025-12-07 03:48:17]   Found word 'Project' name 25: 'Africa' (from: 'AfricaDataCenters')
+[2025-12-07 03:48:17]   Found word 'Project' name 25: 'Centers' (from: 'AfricaDataCenters')
+[2025-12-07 03:48:17]   Found 'Project' line 25: 'eStruxtureDataCenter'
+[2025-12-07 03:48:17]   Found partial 'Project' name 25: 'Struxture' (from: 'eStruxtureDataCenter')
+[2025-12-07 03:48:17]   Found partial 'Project' name 25: 'StruxtureData' (from: 'eStruxtureDataCenter')
+[2025-12-07 03:48:17]   Found partial 'Project' name 25: 'StruxtureDataCenter' (from: 'eStruxtureDataCenter')
+[2025-12-07 03:48:17]   Found word 'Project' name 25: 'Struxture' (from: 'eStruxtureDataCenter')
+[2025-12-07 03:48:17]   Found word 'Project' name 25: 'Center' (from: 'eStruxtureDataCenter')
+[2025-12-07 03:48:17] Found 49 'Project' lines in OCR text
+[2025-12-07 03:48:17] Total projects matched: 8
+[2025-12-07 03:48:17] Found 8 projects in slide
+[2025-12-07 03:48:17] 
+Extracting data for: Riyadh Power Plant PP10
+[2025-12-07 03:48:17]   Found at line 10: Riyadh Power Plant PP10
+[2025-12-07 03:48:17]   Processing section (15 lines)
+[2025-12-07 03:48:17] Extracted data: {
+  "bau": "",
+  "area": "",
+  "size": "560MWPowerGeneration size 560MWPowerGeneration CountrySaudiArabia",
+  "quantity": "",
+  "contractor": "ArabianBemcoContracting ContractorArabianBemcoContracting ContractorArabianBemcoContracting sie 4MWPowerGeneration",
+  "architect": "ureandM&EShopDrawings",
+  "client": "",
+  "scope": "M&EDetailedDesign(IndustrialBldgs}.ScopeM&EDesign(IndustrialBldgs} ScopeM&EDesign{IndustrialBldgs} ContractorAlmabani",
+  "country": "SaudiArabia CountrySaudiArabia CountrySaudiArabia AGLSubstations"
+}
+[2025-12-07 03:48:17] 
+Extracting data for: Al-Qassim PP Extension #2
+[2025-12-07 03:48:17]   Found at line 10: Al-Qassim PP Extension #2
+[2025-12-07 03:48:17]   Processing section (15 lines)
+[2025-12-07 03:48:17] Extracted data: {
+  "bau": "",
+  "area": "",
+  "size": "560MWPowerGeneration size 560MWPowerGeneration CountrySaudiArabia",
+  "quantity": "",
+  "contractor": "ArabianBemcoContracting ContractorArabianBemcoContracting ContractorArabianBemcoContracting sie 4MWPowerGeneration",
+  "architect": "ureandM&EShopDrawings",
+  "client": "",
+  "scope": "M&EDetailedDesign(IndustrialBldgs}.ScopeM&EDesign(IndustrialBldgs} ScopeM&EDesign{IndustrialBldgs} ContractorAlmabani",
+  "country": "SaudiArabia CountrySaudiArabia CountrySaudiArabia AGLSubstations"
+}
+[2025-12-07 03:48:17] 
+Extracting data for: Al-Qassim PP Extension #3
+[2025-12-07 03:48:17]   Found at line 10: Al-Qassim PP Extension #3
+[2025-12-07 03:48:17]   Processing section (15 lines)
+[2025-12-07 03:48:17] Extracted data: {
+  "bau": "",
+  "area": "",
+  "size": "560MWPowerGeneration size 560MWPowerGeneration CountrySaudiArabia",
+  "quantity": "",
+  "contractor": "ArabianBemcoContracting ContractorArabianBemcoContracting ContractorArabianBemcoContracting sie 4MWPowerGeneration",
+  "architect": "ureandM&EShopDrawings",
+  "client": "",
+  "scope": "M&EDetailedDesign(IndustrialBldgs}.ScopeM&EDesign(IndustrialBldgs} ScopeM&EDesign{IndustrialBldgs} ContractorAlmabani",
+  "country": "SaudiArabia CountrySaudiArabia CountrySaudiArabia AGLSubstations"
+}
+[2025-12-07 03:48:17] 
+Extracting data for: Africa Data Centers
+[2025-12-07 03:48:17]   Found at line 25: Africa Data Centers
+[2025-12-07 03:48:17]   Processing section (7 lines)
+[2025-12-07 03:48:17] Extracted data: {
+  "bau": "",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "SBG/Vision ContractorITBNigeria ContractorITBNigeria ContractorKolostat",
+  "architect": "",
+  "client": "",
+  "scope": "M&EShopDrawings ScopeElecDetailedDesign ScopeElectricalshopDrawings ScapeMechanicalShopDrawings",
+  "country": "SaudiArabia CountryNigeria CountryNigeria CountryCanada"
+}
+[2025-12-07 03:48:17] 
+Extracting data for: eStruxture
+[2025-12-07 03:48:17]   Found at line 25: eStruxture
+[2025-12-07 03:48:17]   Processing section (7 lines)
+[2025-12-07 03:48:17] Extracted data: {
+  "bau": "",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "SBG/Vision ContractorITBNigeria ContractorITBNigeria ContractorKolostat",
+  "architect": "",
+  "client": "",
+  "scope": "M&EShopDrawings ScopeElecDetailedDesign ScopeElectricalshopDrawings ScapeMechanicalShopDrawings",
+  "country": "SaudiArabia CountryNigeria CountryNigeria CountryCanada"
+}
+[2025-12-07 03:48:17] 
+Extracting data for: KAIA Data Centers 1&amp;2
+[2025-12-07 03:48:17]   Found at line 25: KAIA Data Centers 1&amp;2
+[2025-12-07 03:48:17]   Processing section (7 lines)
+[2025-12-07 03:48:17] Extracted data: {
+  "bau": "",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "SBG/Vision ContractorITBNigeria ContractorITBNigeria ContractorKolostat",
+  "architect": "",
+  "client": "",
+  "scope": "M&EShopDrawings ScopeElecDetailedDesign ScopeElectricalshopDrawings ScapeMechanicalShopDrawings",
+  "country": "SaudiArabia CountryNigeria CountryNigeria CountryCanada"
+}
+[2025-12-07 03:48:17] 
+Extracting data for: Total Headquarters Data Center
+[2025-12-07 03:48:17]   Found at line 25: Total Headquarters Data Center
+[2025-12-07 03:48:17]   Processing section (7 lines)
+[2025-12-07 03:48:17] Extracted data: {
+  "bau": "",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "SBG/Vision ContractorITBNigeria ContractorITBNigeria ContractorKolostat",
+  "architect": "",
+  "client": "",
+  "scope": "M&EShopDrawings ScopeElecDetailedDesign ScopeElectricalshopDrawings ScapeMechanicalShopDrawings",
+  "country": "SaudiArabia CountryNigeria CountryNigeria CountryCanada"
+}
+[2025-12-07 03:48:17] 
+Extracting data for: King Khaled International Airport
+[2025-12-07 03:48:17]   Found at line 10: King Khaled International Airport
+[2025-12-07 03:48:17]   Processing section (15 lines)
+[2025-12-07 03:48:17] Extracted data: {
+  "bau": "",
+  "area": "",
+  "size": "560MWPowerGeneration size 560MWPowerGeneration CountrySaudiArabia",
+  "quantity": "",
+  "contractor": "ArabianBemcoContracting ContractorArabianBemcoContracting ContractorArabianBemcoContracting sie 4MWPowerGeneration",
+  "architect": "ureandM&EShopDrawings",
+  "client": "",
+  "scope": "M&EDetailedDesign(IndustrialBldgs}.ScopeM&EDesign(IndustrialBldgs} ScopeM&EDesign{IndustrialBldgs} ContractorAlmabani",
+  "country": "SaudiArabia CountrySaudiArabia CountrySaudiArabia AGLSubstations"
+}
+[2025-12-07 03:48:17] Updated Riyadh Power Plant PP10: size: 560MWPowerGeneration size 560MWPowerGeneration CountrySaudiArabia, contractor: ArabianBemcoContracting ContractorArabianBemcoContracting ContractorArabianBemcoContracting sie 4MWPowerGeneration, architect: ureandM&EShopDrawings
+[2025-12-07 03:48:17] Updated Al-Qassim PP Extension #2: size: 560MWPowerGeneration size 560MWPowerGeneration CountrySaudiArabia, contractor: ArabianBemcoContracting ContractorArabianBemcoContracting ContractorArabianBemcoContracting sie 4MWPowerGeneration, architect: ureandM&EShopDrawings
+[2025-12-07 03:48:17] Updated Al-Qassim PP Extension #3: size: 560MWPowerGeneration size 560MWPowerGeneration CountrySaudiArabia, contractor: ArabianBemcoContracting ContractorArabianBemcoContracting ContractorArabianBemcoContracting sie 4MWPowerGeneration, architect: ureandM&EShopDrawings
+[2025-12-07 03:48:17] Updated Africa Data Centers: contractor: SBG/Vision ContractorITBNigeria ContractorITBNigeria ContractorKolostat, scope: M&EShopDrawings ScopeElecDetailedDesign ScopeElectricalshopDrawings ScapeMechanicalShopDrawings
+[2025-12-07 03:48:17] Updated Total Headquarters Data Center: contractor: SBG/Vision ContractorITBNigeria ContractorITBNigeria ContractorKolostat
+[2025-12-07 03:48:17] Updated King Khaled International Airport: size: 560MWPowerGeneration size 560MWPowerGeneration CountrySaudiArabia, contractor: ArabianBemcoContracting ContractorArabianBemcoContracting ContractorArabianBemcoContracting sie 4MWPowerGeneration
+[2025-12-07 03:48:17] 
+
+=== Processing category: Residential ===
+[2025-12-07 03:48:17] Found 4 projects in category: Residential
+[2025-12-07 03:48:17] 
+=== Processing slide: Residential.jpg ===
+[2025-12-07 03:48:17] Processing OCR for: Residential.jpg
+[2025-12-07 03:48:19] Extracted 663 characters of text
+[2025-12-07 03:48:19] Extracted 663 characters of text
+[2025-12-07 03:48:19] Debug OCR text saved to: ocr_debug_Residential.txt
+[2025-12-07 03:48:19] First 15 lines of OCR text:
+[2025-12-07 03:48:19]   Line 0: Residential
+[2025-12-07 03:48:19]   Line 1: . 1 ,
+[2025-12-07 03:48:19]   Line 2: S(aaei: : toot ee
+[2025-12-07 03:48:19]   Line 3: abel 5 Jf BT yen
+[2025-12-07 03:48:19]   Line 4: aK Aimee as a i i - Hy 2
+[2025-12-07 03:48:19]   Line 5: qe tes ae: Bee 5
+[2025-12-07 03:48:19]   Line 6: . seageg mal . es vou Mt ye a
+[2025-12-07 03:48:19]   Line 7: epntaeeSEAESeeg ae hat
+[2025-12-07 03:48:19]   Line 8: - eae nw ail }
+[2025-12-07 03:48:19]   Line 9: . men\- a i
+[2025-12-07 03:48:19]   Line 10: ProjectMeydanIStaffAccommodation re EA \
+[2025-12-07 03:48:19]   Line 11: CountryUAE ewe) ig, - \
+[2025-12-07 03:48:19]   Line 12: BUA 62,500-m2 Voy r a - Jj
+[2025-12-07 03:48:19]   Line 13: ClientEMW eh Zia: } b
+[2025-12-07 03:48:19]   Line 14: Scope M&eEShopDrawings 4 4 4 - ee i
+[2025-12-07 03:48:19] Lines containing 'project' (2):
+[2025-12-07 03:48:19]   Line 10: ProjectMeydanIStaffAccommodation re EA \
+[2025-12-07 03:48:19]   Line 19: ProjectSkyTower ProjectKuramoBeachResidence ProjectTwinTower
+[2025-12-07 03:48:19] Trying direct project title matching in OCR text...
+[2025-12-07 03:48:19]   Direct no-spaces match: 'Sky Tower' in line 19
+[2025-12-07 03:48:19]   Direct no-spaces match: 'Meydan I Staff Accommodation' in line 10
+[2025-12-07 03:48:19]   Direct no-spaces match: 'Kuramo Beach Residence' in line 19
+[2025-12-07 03:48:19]   Direct no-spaces match: 'Twin Tower' in line 19
+[2025-12-07 03:48:19] Direct matching found 4 projects
+[2025-12-07 03:48:19]   Found 'Project' line 10: 'MeydanIStaffAccommodation re EA '
+[2025-12-07 03:48:19]   Found partial 'Project' name 10: 'Meydan' (from: 'MeydanIStaffAccommodation re EA ')
+[2025-12-07 03:48:19]   Found partial 'Project' name 10: 'MeydanI' (from: 'MeydanIStaffAccommodation re EA ')
+[2025-12-07 03:48:19]   Found partial 'Project' name 10: 'MeydanIStaff' (from: 'MeydanIStaffAccommodation re EA ')
+[2025-12-07 03:48:19]   Found partial 'Project' name 10: 'MeydanIStaffAccommodation' (from: 'MeydanIStaffAccommodation re EA ')
+[2025-12-07 03:48:19]   Found partial 'Project' name 10: 'MeydanIStaffAccommodationE' (from: 'MeydanIStaffAccommodation re EA ')
+[2025-12-07 03:48:19]   Found word 'Project' name 10: 'Meydan' (from: 'MeydanIStaffAccommodation re EA ')
+[2025-12-07 03:48:19]   Found word 'Project' name 10: 'Accommodation' (from: 'MeydanIStaffAccommodation re EA ')
+[2025-12-07 03:48:19]   Found 'Project' line 19: 'SkyTower'
+[2025-12-07 03:48:19]   Found partial 'Project' name 19: 'SkyTower' (from: 'SkyTower')
+[2025-12-07 03:48:19]   Found 'Project' line 19: 'KuramoBeachResidence'
+[2025-12-07 03:48:19]   Found partial 'Project' name 19: 'Kuramo' (from: 'KuramoBeachResidence')
+[2025-12-07 03:48:19]   Found partial 'Project' name 19: 'KuramoBeach' (from: 'KuramoBeachResidence')
+[2025-12-07 03:48:19]   Found partial 'Project' name 19: 'KuramoBeachResidence' (from: 'KuramoBeachResidence')
+[2025-12-07 03:48:19]   Found word 'Project' name 19: 'Kuramo' (from: 'KuramoBeachResidence')
+[2025-12-07 03:48:19]   Found word 'Project' name 19: 'Residence' (from: 'KuramoBeachResidence')
+[2025-12-07 03:48:19]   Found 'Project' line 19: 'TwinTower'
+[2025-12-07 03:48:19]   Found partial 'Project' name 19: 'TwinTower' (from: 'TwinTower')
+[2025-12-07 03:48:19] Found 18 'Project' lines in OCR text
+[2025-12-07 03:48:19] Total projects matched: 4
+[2025-12-07 03:48:19] Found 4 projects in slide
+[2025-12-07 03:48:19] 
+Extracting data for: Sky Tower
+[2025-12-07 03:48:19]   Found at line 19: Sky Tower
+[2025-12-07 03:48:19]   Processing section (8 lines)
+[2025-12-07 03:48:19] Extracted data: {
+  "bau": "32,700m BUA 71,500n BUA 41,500m",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "",
+  "architect": "",
+  "client": "NGC Client ITBNigeria Client RMCK",
+  "scope": "M&EDetailedDesign ScopeEleeShopDrawings ScopeM&EDetailledDesign",
+  "country": "Nigeria CountryNigeria CountryNigeria"
+}
+[2025-12-07 03:48:19] 
+Extracting data for: Meydan I Staff Accommodation
+[2025-12-07 03:48:19]   Found at line 10: Meydan I Staff Accommodation
+[2025-12-07 03:48:19]   Processing section (9 lines)
+[2025-12-07 03:48:19] Extracted data: {
+  "bau": "62,500-m2 Voy r a - Jj",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "",
+  "architect": "",
+  "client": "EMW eh Zia: } b",
+  "scope": "M&eEShopDrawings 4 4 4 - ee i",
+  "country": "UAE ewe) ig, - \\"
+}
+[2025-12-07 03:48:19] 
+Extracting data for: Kuramo Beach Residence
+[2025-12-07 03:48:19]   Found at line 19: Kuramo Beach Residence
+[2025-12-07 03:48:19]   Processing section (8 lines)
+[2025-12-07 03:48:19] Extracted data: {
+  "bau": "32,700m BUA 71,500n BUA 41,500m",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "",
+  "architect": "",
+  "client": "NGC Client ITBNigeria Client RMCK",
+  "scope": "M&EDetailedDesign ScopeEleeShopDrawings ScopeM&EDetailledDesign",
+  "country": "Nigeria CountryNigeria CountryNigeria"
+}
+[2025-12-07 03:48:19] 
+Extracting data for: Twin Tower
+[2025-12-07 03:48:19]   Found at line 19: Twin Tower
+[2025-12-07 03:48:19]   Processing section (8 lines)
+[2025-12-07 03:48:19] Extracted data: {
+  "bau": "32,700m BUA 71,500n BUA 41,500m",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "",
+  "architect": "",
+  "client": "NGC Client ITBNigeria Client RMCK",
+  "scope": "M&EDetailedDesign ScopeEleeShopDrawings ScopeM&EDetailledDesign",
+  "country": "Nigeria CountryNigeria CountryNigeria"
+}
+[2025-12-07 03:48:19] Updated Twin Tower: scope: M&EDetailedDesign ScopeEleeShopDrawings ScopeM&EDetailledDesign
+[2025-12-07 03:48:19] 
+
+=== Processing category: Retail ===
+[2025-12-07 03:48:19] Found 6 projects in category: Retail
+[2025-12-07 03:48:19] 
+=== Processing slide: Retail.jpg ===
+[2025-12-07 03:48:19] Processing OCR for: Retail.jpg
+[2025-12-07 03:48:22] Extracted 824 characters of text
+[2025-12-07 03:48:22] Extracted 824 characters of text
+[2025-12-07 03:48:22] Debug OCR text saved to: ocr_debug_Retail.txt
+[2025-12-07 03:48:22] First 15 lines of OCR text:
+[2025-12-07 03:48:22]   Line 0: Retail
+[2025-12-07 03:48:22]   Line 1: geno
+[2025-12-07 03:48:22]   Line 2: eager wpaeedae -
+[2025-12-07 03:48:22]   Line 3: ,meeeenre ox:eegialEy
+[2025-12-07 03:48:22]   Line 4: at a Las i fo liebe,
+[2025-12-07 03:48:22]   Line 5: ie - - dE SerMMe)GGtaeb ie -
+[2025-12-07 03:48:22]   Line 6: ies me: PRaees)eea a
+[2025-12-07 03:48:22]   Line 7: gri gat goose
+[2025-12-07 03:48:22]   Line 8: Saeteewetl cable. a
+[2025-12-07 03:48:22]   Line 9: Project.ZouhourBaghdadMall ProjectKirkukMall ProjectBaghdadMall
+[2025-12-07 03:48:22]   Line 10: CountryIraq CountryIraq CountryIraq
+[2025-12-07 03:48:22]   Line 11: BUA 150,000m2 BUA 62,500m BUA 750,000-m2
+[2025-12-07 03:48:22]   Line 12: ArchitectCAP ArchitectCAP Client NGC
+[2025-12-07 03:48:22]   Line 13: ScopeM&EDetailedDesign ScopeM&EDetailedDesign ScopeElecDesignReview
+[2025-12-07 03:48:22]   Line 14: a ey a -
+[2025-12-07 03:48:22] Lines containing 'project' (2):
+[2025-12-07 03:48:22]   Line 9: Project.ZouhourBaghdadMall ProjectKirkukMall ProjectBaghdadMall
+[2025-12-07 03:48:22]   Line 20: ProjectMarchesUrbainsetRegionaux ProjectKirkukLandmarkMall ProjectErbilCityCenter
+[2025-12-07 03:48:22] Trying direct project title matching in OCR text...
+[2025-12-07 03:48:22]   Direct no-spaces match: 'Zouhour Baghdad Mall' in line 9
+[2025-12-07 03:48:22]   Direct no-spaces match: 'Baghdad Mall' in line 9
+[2025-12-07 03:48:22]   Direct no-spaces match: 'Kirkuk Mall' in line 9
+[2025-12-07 03:48:22]   Direct keyword match: 'M&amp;E Detailed Design' (matched 2/3 words: ['Detailed', 'Design']) in line 13
+[2025-12-07 03:48:22]   Direct no-spaces match: 'Erbil City Center' in line 20
+[2025-12-07 03:48:22] Direct matching found 5 projects
+[2025-12-07 03:48:22]   Found 'Project' line 9: 'ZouhourBaghdadMall'
+[2025-12-07 03:48:22]   Found partial 'Project' name 9: 'Zouhour' (from: 'ZouhourBaghdadMall')
+[2025-12-07 03:48:22]   Found partial 'Project' name 9: 'ZouhourBaghdad' (from: 'ZouhourBaghdadMall')
+[2025-12-07 03:48:22]   Found partial 'Project' name 9: 'ZouhourBaghdadMall' (from: 'ZouhourBaghdadMall')
+[2025-12-07 03:48:22]   Found word 'Project' name 9: 'Zouhour' (from: 'ZouhourBaghdadMall')
+[2025-12-07 03:48:22]   Found word 'Project' name 9: 'Baghdad' (from: 'ZouhourBaghdadMall')
+[2025-12-07 03:48:22]   Found 'Project' line 9: 'KirkukMall'
+[2025-12-07 03:48:22]   Found partial 'Project' name 9: 'Kirkuk' (from: 'KirkukMall')
+[2025-12-07 03:48:22]   Found partial 'Project' name 9: 'KirkukMall' (from: 'KirkukMall')
+[2025-12-07 03:48:22]   Found word 'Project' name 9: 'Kirkuk' (from: 'KirkukMall')
+[2025-12-07 03:48:22]   Found 'Project' line 9: 'BaghdadMall'
+[2025-12-07 03:48:22]   Found partial 'Project' name 9: 'Baghdad' (from: 'BaghdadMall')
+[2025-12-07 03:48:22]   Found partial 'Project' name 9: 'BaghdadMall' (from: 'BaghdadMall')
+[2025-12-07 03:48:22]   Found word 'Project' name 9: 'Baghdad' (from: 'BaghdadMall')
+[2025-12-07 03:48:22]   Found 'Project' line 20: 'MarchesUrbainsetRegionaux'
+[2025-12-07 03:48:22]   Found partial 'Project' name 20: 'Marches' (from: 'MarchesUrbainsetRegionaux')
+[2025-12-07 03:48:22]   Found partial 'Project' name 20: 'MarchesUrbainset' (from: 'MarchesUrbainsetRegionaux')
+[2025-12-07 03:48:22]   Found partial 'Project' name 20: 'MarchesUrbainsetRegionaux' (from: 'MarchesUrbainsetRegionaux')
+[2025-12-07 03:48:22]   Found word 'Project' name 20: 'Marches' (from: 'MarchesUrbainsetRegionaux')
+[2025-12-07 03:48:22]   Found word 'Project' name 20: 'Urbainset' (from: 'MarchesUrbainsetRegionaux')
+[2025-12-07 03:48:22]   Found word 'Project' name 20: 'Regionaux' (from: 'MarchesUrbainsetRegionaux')
+[2025-12-07 03:48:22]   Found 'Project' line 20: 'KirkukLandmarkMall'
+[2025-12-07 03:48:22]   Found partial 'Project' name 20: 'Kirkuk' (from: 'KirkukLandmarkMall')
+[2025-12-07 03:48:22]   Found partial 'Project' name 20: 'KirkukLandmark' (from: 'KirkukLandmarkMall')
+[2025-12-07 03:48:22]   Found partial 'Project' name 20: 'KirkukLandmarkMall' (from: 'KirkukLandmarkMall')
+[2025-12-07 03:48:22]   Found word 'Project' name 20: 'Kirkuk' (from: 'KirkukLandmarkMall')
+[2025-12-07 03:48:22]   Found word 'Project' name 20: 'Landmark' (from: 'KirkukLandmarkMall')
+[2025-12-07 03:48:22]   Found 'Project' line 20: 'ErbilCityCenter'
+[2025-12-07 03:48:22]   Found partial 'Project' name 20: 'Erbil' (from: 'ErbilCityCenter')
+[2025-12-07 03:48:22]   Found partial 'Project' name 20: 'ErbilCity' (from: 'ErbilCityCenter')
+[2025-12-07 03:48:22]   Found partial 'Project' name 20: 'ErbilCityCenter' (from: 'ErbilCityCenter')
+[2025-12-07 03:48:22]   Found word 'Project' name 20: 'Center' (from: 'ErbilCityCenter')
+[2025-12-07 03:48:22] Found 32 'Project' lines in OCR text
+[2025-12-07 03:48:22] Matched: 'MarchesUrbainsetRegionaux' -> 'Marchés Urbains et Régionaux' (score: 70.0)
+[2025-12-07 03:48:22] Total projects matched: 6
+[2025-12-07 03:48:22] Found 6 projects in slide
+[2025-12-07 03:48:22] 
+Extracting data for: Zouhour Baghdad Mall
+[2025-12-07 03:48:22]   Found at line 9: Zouhour Baghdad Mall
+[2025-12-07 03:48:22]   Processing section (11 lines)
+[2025-12-07 03:48:22] Extracted data: {
+  "bau": "150,000m2 BUA 62,500m BUA 750,000-m2",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "",
+  "architect": "CAP ArchitectCAP Client NGC",
+  "client": "NGC",
+  "scope": "M&EDetailedDesign ScopeM&EDetailedDesign ScopeElecDesignReview",
+  "country": "Iraq CountryIraq CountryIraq"
+}
+[2025-12-07 03:48:22] 
+Extracting data for: Baghdad Mall
+[2025-12-07 03:48:22]   Found at line 9: Baghdad Mall
+[2025-12-07 03:48:22]   Processing section (11 lines)
+[2025-12-07 03:48:22] Extracted data: {
+  "bau": "150,000m2 BUA 62,500m BUA 750,000-m2",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "",
+  "architect": "CAP ArchitectCAP Client NGC",
+  "client": "NGC",
+  "scope": "M&EDetailedDesign ScopeM&EDetailedDesign ScopeElecDesignReview",
+  "country": "Iraq CountryIraq CountryIraq"
+}
+[2025-12-07 03:48:22] 
+Extracting data for: Kirkuk Mall
+[2025-12-07 03:48:22]   Found at line 9: Kirkuk Mall
+[2025-12-07 03:48:22]   Processing section (11 lines)
+[2025-12-07 03:48:22] Extracted data: {
+  "bau": "150,000m2 BUA 62,500m BUA 750,000-m2",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "",
+  "architect": "CAP ArchitectCAP Client NGC",
+  "client": "NGC",
+  "scope": "M&EDetailedDesign ScopeM&EDetailedDesign ScopeElecDesignReview",
+  "country": "Iraq CountryIraq CountryIraq"
+}
+[2025-12-07 03:48:22] 
+Extracting data for: M&amp;E Detailed Design
+[2025-12-07 03:48:22]   Found at line 13: M&amp;E Detailed Design
+[2025-12-07 03:48:22]   Processing section (7 lines)
+[2025-12-07 03:48:22] Extracted data: {
+  "bau": "",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "",
+  "architect": "",
+  "client": "",
+  "scope": "M&EDetailedDesign ScopeM&EDetailedDesign ScopeElecDesignReview",
+  "country": ""
+}
+[2025-12-07 03:48:22] 
+Extracting data for: Erbil City Center
+[2025-12-07 03:48:22]   Found at line 20: Erbil City Center
+[2025-12-07 03:48:22]   Processing section (7 lines)
+[2025-12-07 03:48:22] Extracted data: {
+  "bau": "9MarketsDistricts BUA 55,500m BUA 637,750m2",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "ITBNigeria ArchitectCAP ClientNGC",
+  "architect": "CAP ClientNGC",
+  "client": "NGC",
+  "scope": "M&EShopDrawings ScopeMB&EDetailedDesign ScopeElecDetailedDesign",
+  "country": "Benin CountryIraq CountryIraq"
+}
+[2025-12-07 03:48:22] 
+Extracting data for: Marchés Urbains et Régionaux
+[2025-12-07 03:48:22]   Found at line 20: MarchesUrbainsetRegionaux
+[2025-12-07 03:48:22]   Processing section (7 lines)
+[2025-12-07 03:48:22] Extracted data: {
+  "bau": "9MarketsDistricts BUA 55,500m BUA 637,750m2",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "ITBNigeria ArchitectCAP ClientNGC",
+  "architect": "CAP ClientNGC",
+  "client": "NGC",
+  "scope": "M&EShopDrawings ScopeMB&EDetailedDesign ScopeElecDetailedDesign",
+  "country": "Benin CountryIraq CountryIraq"
+}
+[2025-12-07 03:48:22] Updated Zouhour Baghdad Mall: client: NGC
+[2025-12-07 03:48:22] Updated Baghdad Mall: architect: CAP ArchitectCAP Client NGC
+[2025-12-07 03:48:22] Updated Kirkuk Mall: client: NGC
+[2025-12-07 03:48:22] Updated Erbil City Center: contractor: ITBNigeria ArchitectCAP ClientNGC, architect: CAP ClientNGC
+[2025-12-07 03:48:22] Updated Marchés Urbains et Régionaux: architect: CAP ClientNGC, client: NGC
+[2025-12-07 03:48:22] 
+
+=== Processing category: Value Engineering & Peer Review ===
+[2025-12-07 03:48:22] Found 4 projects in category: Value Engineering & Peer Review
+[2025-12-07 03:48:22] 
+=== Processing slide: Value Engineering & Peer Review.jpg ===
+[2025-12-07 03:48:22] Processing OCR for: Value Engineering & Peer Review.jpg
+[2025-12-07 03:48:24] Extracted 809 characters of text
+[2025-12-07 03:48:24] Extracted 809 characters of text
+[2025-12-07 03:48:24] Debug OCR text saved to: ocr_debug_Value Engineering & Peer Review.txt
+[2025-12-07 03:48:24] First 15 lines of OCR text:
+[2025-12-07 03:48:24]   Line 0: ValueEngineering&PeerReview
+[2025-12-07 03:48:24]   Line 1: Peaeesiaaie eer lita aH a
+[2025-12-07 03:48:24]   Line 2: eee 4 4 tH .
+[2025-12-07 03:48:24]   Line 3: ry, Si nm ml tH euphi aaa an
+[2025-12-07 03:48:24]   Line 4: y Ray, ima ty fui BE a
+[2025-12-07 03:48:24]   Line 5: est i -
+[2025-12-07 03:48:24]   Line 6: ProjectJezanAirport ProjectAlKhalidiaPalace . . eee .
+[2025-12-07 03:48:24]   Line 7: CountrySaudiArabia CountryUAE OF Pei , aE
+[2025-12-07 03:48:24]   Line 8: BUA 60,000.m2 Area 28,000m2 Ay pee a ay ss
+[2025-12-07 03:48:24]   Line 9: ArchitectEdgeArch ClientArchitectureCorner y we oe
+[2025-12-07 03:48:24]   Line 10: ScopeM&EValueEngineering ScopeM&EValueEngineering a i ares
+[2025-12-07 03:48:24]   Line 11: 2 4 Pia
+[2025-12-07 03:48:24]   Line 12: i . 2aa degree. eS tat
+[2025-12-07 03:48:24]   Line 13: F oj ntissarTower 0 iceroyTower
+[2025-12-07 03:48:24]   Line 14: ProjectMBLResidence ProjectMAG5Boulevard (Residential&LuxuryHotel) Country UAE
+[2025-12-07 03:48:24] Lines containing 'project' (2):
+[2025-12-07 03:48:24]   Line 6: ProjectJezanAirport ProjectAlKhalidiaPalace . . eee .
+[2025-12-07 03:48:24]   Line 14: ProjectMBLResidence ProjectMAG5Boulevard (Residential&LuxuryHotel) Country UAE
+[2025-12-07 03:48:24] Trying direct project title matching in OCR text...
+[2025-12-07 03:48:24]   Direct no-spaces match: 'MAG 5 Boulevard' in line 14
+[2025-12-07 03:48:24]   Direct no-spaces match: 'MBL Residence' in line 14
+[2025-12-07 03:48:24] Direct matching found 2 projects
+[2025-12-07 03:48:24]   Found 'Project' line 6: 'JezanAirport'
+[2025-12-07 03:48:24]   Found partial 'Project' name 6: 'Jezan' (from: 'JezanAirport')
+[2025-12-07 03:48:24]   Found partial 'Project' name 6: 'JezanAirport' (from: 'JezanAirport')
+[2025-12-07 03:48:24]   Found word 'Project' name 6: 'Airport' (from: 'JezanAirport')
+[2025-12-07 03:48:24]   Found 'Project' line 6: 'AlKhalidiaPalace . . eee '
+[2025-12-07 03:48:24]   Found partial 'Project' name 6: 'AlKhalidia' (from: 'AlKhalidiaPalace . . eee ')
+[2025-12-07 03:48:24]   Found partial 'Project' name 6: 'AlKhalidiaPalace' (from: 'AlKhalidiaPalace . . eee ')
+[2025-12-07 03:48:24]   Found word 'Project' name 6: 'Khalidia' (from: 'AlKhalidiaPalace . . eee ')
+[2025-12-07 03:48:25]   Found word 'Project' name 6: 'Palace' (from: 'AlKhalidiaPalace . . eee ')
+[2025-12-07 03:48:25]   Found 'Project' line 14: 'MBLResidence'
+[2025-12-07 03:48:25]   Found partial 'Project' name 14: 'MBLResidence' (from: 'MBLResidence')
+[2025-12-07 03:48:25]   Found word 'Project' name 14: 'Residence' (from: 'MBLResidence')
+[2025-12-07 03:48:25]   Found 'Project' line 14: 'MAG5Boulevard (Residential&LuxuryHotel) Country UAE'
+[2025-12-07 03:48:25]   Found partial 'Project' name 14: 'MABoulevard' (from: 'MAG5Boulevard (Residential&LuxuryHotel) Country UAE')
+[2025-12-07 03:48:25]   Found partial 'Project' name 14: 'MABoulevardResidential' (from: 'MAG5Boulevard (Residential&LuxuryHotel) Country UAE')
+[2025-12-07 03:48:25]   Found partial 'Project' name 14: 'MABoulevardResidentialLuxury' (from: 'MAG5Boulevard (Residential&LuxuryHotel) Country UAE')
+[2025-12-07 03:48:25]   Found partial 'Project' name 14: 'MABoulevardResidentialLuxuryHotel' (from: 'MAG5Boulevard (Residential&LuxuryHotel) Country UAE')
+[2025-12-07 03:48:25]   Found word 'Project' name 14: 'Boulevard' (from: 'MAG5Boulevard (Residential&LuxuryHotel) Country UAE')
+[2025-12-07 03:48:25]   Found word 'Project' name 14: 'Residential' (from: 'MAG5Boulevard (Residential&LuxuryHotel) Country UAE')
+[2025-12-07 03:48:25]   Found word 'Project' name 14: 'Luxury' (from: 'MAG5Boulevard (Residential&LuxuryHotel) Country UAE')
+[2025-12-07 03:48:25]   Found word 'Project' name 14: 'Country' (from: 'MAG5Boulevard (Residential&LuxuryHotel) Country UAE')
+[2025-12-07 03:48:25] Found 21 'Project' lines in OCR text
+[2025-12-07 03:48:25] Total projects matched: 2
+[2025-12-07 03:48:25] Found 2 projects in slide
+[2025-12-07 03:48:25] 
+Extracting data for: MAG 5 Boulevard
+[2025-12-07 03:48:25]   Found at line 14: MAG 5 Boulevard
+[2025-12-07 03:48:25]   Processing section (8 lines)
+[2025-12-07 03:48:25] Extracted data: {
+  "bau": "70,600m2 BUA 140,000m2 CountryUAE BUA 140,000-o",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "",
+  "architect": "",
+  "client": "",
+  "scope": "M&EValueEngineering",
+  "country": "UAE"
+}
+[2025-12-07 03:48:25] 
+Extracting data for: MBL Residence
+[2025-12-07 03:48:25]   Found at line 14: MBL Residence
+[2025-12-07 03:48:25]   Processing section (8 lines)
+[2025-12-07 03:48:25] Extracted data: {
+  "bau": "70,600m2 BUA 140,000m2 CountryUAE BUA 140,000-o",
+  "area": "",
+  "size": "",
+  "quantity": "",
+  "contractor": "",
+  "architect": "",
+  "client": "",
+  "scope": "M&EValueEngineering",
+  "country": "UAE"
+}
+[2025-12-07 03:48:25] Updated MAG 5 Boulevard: scope: M&EValueEngineering
+[2025-12-07 03:48:25] 
+✓ Saved updated projects.json
+[2025-12-07 03:48:25] ✓ Report saved to: C:\Work\Rawad\EMDC\emdc-website\docs\Project Slides\ocr_extraction_report.md
+[2025-12-07 03:48:25] 
+=== Extraction Complete ===
+[2025-12-07 03:48:25] Slides processed: 13
+[2025-12-07 03:48:25] Projects updated: 66
+[2025-12-07 03:48:25] Total field updates: 119
+[2025-12-07 03:48:25] 
+Log saved to: C:\Work\Rawad\EMDC\emdc-website\docs\Project Slides\extract-data\ocr_extraction_log.txt
+[2025-12-07 03:48:25] Report saved to: C:\Work\Rawad\EMDC\emdc-website\docs\Project Slides\ocr_extraction_report.md

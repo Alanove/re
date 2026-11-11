@@ -1,0 +1,41 @@
+// Default styles and resets
+html {
+    overflow-x: hidden;
+    width: 100%;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    color: $text-color;
+    overflow-x: hidden;
+    width: 100%;
+}
+
+.container {
+    position: relative;
+    padding: $small-screen-padding;
+    width: calc(100vw - #{$small-screen-padding * 2});
+    margin:auto;
+
+    // Responsive padding and width following header calculations
+    @media (min-width: $medium-screen) {
+        padding: $medium-screen-padding;
+        width: calc(100vw - #{$medium-screen-padding * 2});
+        padding-right:120px;
+    }
+
+    @media (min-width: $large-screen) {
+        padding: $large-screen-padding;
+        width: calc(100vw - #{$large-screen-padding * 2});
+    }
+
+    @media (min-width: $ultra-screen) {
+        padding: $ultra-large-screen-padding;
+        width: calc(100vw - #{$ultra-large-screen-padding * 2});
+    }
+}
+

@@ -15,6 +15,10 @@ export const optionalTrimmed = (max: number) =>
     .optional()
     .transform((value) => value ?? '');
 
+/** GET filter forms send unselected options as ""; treat that the same as an absent parameter. */
+export const emptyAsUndefined = <T extends z.ZodType>(schema: T) =>
+  z.preprocess((value) => (typeof value === 'string' && value.trim() === '' ? undefined : value), schema);
+
 export const requiredTrimmed = (max: number, label: string) =>
   z.string({ error: `${label} is required` }).trim().min(1, `${label} is required`).max(max, `Must be ${max} characters or fewer`);
 

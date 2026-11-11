@@ -1,0 +1,36 @@
+<!-- Clients Header Section (Inverted) -->
+<section id="clients-header" class="inverted">
+    <div class="container">
+        <h2>Our Clients</h2>
+        <div class="section-content">
+            <p>Meet our valued clients who trust us with their projects worldwide.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Clients Grid Section -->
+<section id="clients-grid">
+    <div class="container">
+        <div class="clients-grid">
+            <% if (clients && clients.length > 0) { %>
+                <% clients.forEach(client => { %>
+                    <div class="client-logo">
+                        <% if (client.website) { %>
+                            <a href="<%= client.website %>" target="_blank" rel="noopener">
+                                <img src="/images/clients/<%= client.image %>" alt="<%= client.name %> Logo"
+                                    loading="lazy" />
+                            </a>
+                            <% } else { %>
+                                <img src="/images/clients/<%= client.image %>" alt="<%= client.name %> Logo"
+                                    loading="lazy" />
+                                <% } %>
+                    </div>
+                    <% }) %>
+                    <% } else { %>
+                        <div class="no-clients">
+                            <p>No clients to display at this time.</p>
+                        </div>
+                    <% } %>
+        </div>
+    </div>
+</section>

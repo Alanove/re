@@ -1,0 +1,24 @@
+---
+description: antonioscouture.com - storefront luxury header uses shared SCSS tokens and a 1150px breakpoint, no magic numbers in header partials
+globs: websites/antonioscouture.com/public/css/**/*.scss,websites/antonioscouture.com/views/partials/header*.ejs
+alwaysApply: false
+---
+
+# antonioscouture.com: luxury header tokens
+
+Site rule for `websites/antonioscouture.com/`. It applies in addition to the global rules in `.cursor/rules/`; where they conflict, the global rules win. Paths are relative to the site folder.
+
+## Breakpoint
+
+- **Mobile / icon bar:** `max-width: $lux-header-breakpoint-max` (**1150px**).
+- **Desktop / split nav + megamenu:** `min-width: $lux-header-desktop-min` (**1151px**).
+- Do **not** use Bootstrap `d-lg-*` for `.luxury-header` layout; use `.lux-nav-desktop-only` / `.lux-nav-mobile-only` (defined in `public/css/home/_header.scss`).
+
+## Colors and chrome
+
+- Header and megamenu chrome (background, text, borders, hover link tones via `$lux-header-link-hover` / `$lux-megamenu-link-hover`, shadows, pin threshold, mobile icon scale) must use variables from `public/css/_variables.scss` under **Luxury storefront header** (`$lux-header-*`, `$lux-megamenu-*`, `$lux-home-*`; sitewide text hovers often use `$link-hover-text`).
+- Avoid introducing new raw hex values in `public/css/home/_header.scss` or `views/partials/header.ejs` for these concerns. Add or extend a `$lux-*` token first, then reference it.
+
+## Markup
+
+- `views/partials/header.ejs` should stay aligned with the classes and behavior assumed in `_header.scss` (pinned class `lux-header--pinned` on `#luxuryHeader`, mega `is-menu-open`, etc.).

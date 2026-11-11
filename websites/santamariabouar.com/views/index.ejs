@@ -1,0 +1,257 @@
+<!-- Hero Section with Slideshow -->
+<section id="home" class="hero-section">
+  <div id="slideshow" class="slideshow fullscreen-slideshow">
+    <div class="slide-wrapper">
+      <% if (typeof slides !== 'undefined' && slides && slides.length > 0) { %>
+        <% slides.forEach((slide, index) => { %>
+          <div class="slide-container <%= index === 0 ? 'active' : '' %>" data-media-type="<%= slide.mediaType || 'image' %>">
+            <% if (slide.mediaType === 'video') { %>
+              <video class="slide-video"
+                     autoplay
+                     muted
+                     loop
+                     playsinline
+                     <% if (slide.posterImage) { %>poster="/images/slide/<%= slide.posterImage %>"<% } %>
+                     preload="metadata">
+                <source src="/images/slide/<%= slide.videoUrl || slide.image %>" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            <% } else { %>
+              <img src="/images/slide/<%= slide.image %>"
+                   class="slide-img"
+                   alt="<%= slide.alt %>"
+                   <% if (index > 0) { %>loading="lazy"<% } %> />
+            <% } %>
+            <div class="slide-overlay">
+              <div class="slide-content">
+                <h2 class="slide-title"><%= slide.title || slide.alt %></h2>
+                <% if (slide.subtitle) { %>
+                  <p class="slide-subtitle"><%= slide.subtitle %></p>
+                <% } %>
+                <a href="<%= slide.link || '/apartments-for-rent' %>" class="slide-btn">
+                  <%= slide.buttonText || 'Explore Now' %>
+                </a>
+              </div>
+            </div>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <div class="slide-container active" data-media-type="image">
+          <img src="/images/default-hero.jpg" class="slide-img" alt="Santa Maria Bouar" />
+          <div class="slide-overlay">
+            <div class="slide-content">
+              <h2 class="slide-title">Welcome to Santa Maria Bouar</h2>
+              <p class="slide-subtitle">Your Premier Residential Compound</p>
+              <a href="/apartments-for-rent" class="slide-btn">Explore Now</a>
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </div>
+    <% if (typeof slides !== 'undefined' && slides && slides.length > 1) { %>
+      <button class="slide-arrow left" id="slidePrev" aria-label="Previous slide">
+        <img src="/images/icons/arrow.svg" alt="Previous" />
+      </button>
+      <button class="slide-arrow right" id="slideNext" aria-label="Next slide">
+        <img src="/images/icons/arrow.svg" alt="Next" />
+      </button>
+    <% } %>
+  </div>
+
+  <div class="scroll-arrow-container">
+    <button class="scroll-arrow" id="scrollToContent" aria-label="Scroll to content">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
+    </button>
+  </div>
+</section>
+
+<!-- Welcome Note -->
+<section class="home-welcome" id="mainContent">
+  <div class="container">
+    <div class="home-welcome__layout">
+      <div class="home-welcome__media<%= typeof welcomeImage !== 'undefined' && welcomeImage ? ' has-image' : '' %>">
+        <% if (typeof welcomeImage !== 'undefined' && welcomeImage) { %>
+          <img src="<%= welcomeImage %>" alt="<%= typeof welcomeTitle !== 'undefined' && welcomeTitle ? welcomeTitle : 'Santa Maria Bouar' %>" />
+        <% } else { %>
+          <div class="home-welcome__placeholder" aria-hidden="true">
+            <i class="bi bi-image"></i>
+            <span>Photo coming soon</span>
+          </div>
+        <% } %>
+      </div>
+      <div class="home-welcome__content">
+        <h2 class="home-welcome__title"><%= typeof welcomeTitle !== 'undefined' && welcomeTitle ? welcomeTitle : 'Welcome' %></h2>
+        <% if (typeof welcomeContent !== 'undefined' && welcomeContent) { %>
+          <div class="home-welcome__body">
+            <%- welcomeContent %>
+          </div>
+        <% } else { %>
+          <div class="home-welcome__body">
+            <p class="lead">Welcome to Santa Maria Bouar — a calm residential compound with a welcoming, family-friendly atmosphere.</p>
+            <p><a href="/about">Learn more about the compound</a></p>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Discover / Info -->
+<section class="home-info">
+  <div class="container">
+    <div class="section-heading">
+      <h2>Discover Santa Maria Bouar</h2>
+      <p>A secure residential compound designed for comfortable family living</p>
+    </div>
+    <div class="home-info__grid">
+      <div class="home-info__item">
+        <div class="home-info__icon"><i class="bi bi-shield-lock-fill"></i></div>
+        <h3>Gated Community</h3>
+        <p>Secure, controlled access for your family's safety and peace of mind</p>
+      </div>
+      <div class="home-info__item">
+        <div class="home-info__icon"><i class="bi bi-droplet-fill"></i></div>
+        <h3>Swimming Pool</h3>
+        <p>Beautiful swimming pool for relaxation and family fun</p>
+      </div>
+      <div class="home-info__item">
+        <div class="home-info__icon"><i class="bi bi-heart-fill"></i></div>
+        <h3>Children Play Areas</h3>
+        <p>Spacious areas designed for children to play and run safely</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<% if (typeof apartmentsForRent !== 'undefined' && apartmentsForRent && apartmentsForRent.length > 0) { %>
+<section class="home-listings">
+  <div class="container">
+    <div class="section-heading section-heading--row">
+      <div>
+        <h2>Apartments for Rent</h2>
+        <p>Recently listed units available to rent</p>
+      </div>
+      <a href="/for-rent" class="btn-view-all">View all <i class="bi bi-arrow-right"></i></a>
+    </div>
+    <div class="apartments-grid apartments-grid--home">
+      <% apartmentsForRent.forEach(function(apartment) { %>
+        <%- include('partials/apartment-card', { apartment: apartment }) %>
+      <% }); %>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<% if (typeof apartmentsForSale !== 'undefined' && apartmentsForSale && apartmentsForSale.length > 0) { %>
+<section class="home-listings home-listings--alt">
+  <div class="container">
+    <div class="section-heading section-heading--row">
+      <div>
+        <h2>Apartments for Sale</h2>
+        <p>Recently listed units available to buy</p>
+      </div>
+      <a href="/for-sale" class="btn-view-all">View all <i class="bi bi-arrow-right"></i></a>
+    </div>
+    <div class="apartments-grid apartments-grid--home">
+      <% apartmentsForSale.forEach(function(apartment) { %>
+        <%- include('partials/apartment-card', { apartment: apartment }) %>
+      <% }); %>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<!-- Contact Us -->
+<%
+  const settings = typeof siteSettings !== 'undefined' && siteSettings ? siteSettings : {};
+  const phone = settings.contactPhone || '';
+  const whatsappRaw = settings.contactWhatsApp || '';
+  const whatsappDigits = String(whatsappRaw).replace(/\D/g, '');
+  const address = settings.address || '';
+  const mapEmbed = settings.googleMaps && settings.googleMaps.embedUrl ? settings.googleMaps.embedUrl : '';
+  const janitorName = settings.janitorName || '';
+  const janitorPhone = settings.janitorPhone || '';
+%>
+<section class="home-contact" id="contact">
+  <div class="container">
+    <div class="section-heading">
+      <h2>Contact Us</h2>
+      <p>Reach the compound office or the on-site coordinator</p>
+    </div>
+    <div class="home-contact__layout">
+      <div class="home-contact__details">
+        <% if (phone) { %>
+          <a class="home-contact__item" href="tel:<%= phone.replace(/\s/g, '') %>">
+            <span class="home-contact__icon"><i class="bi bi-telephone-fill"></i></span>
+            <span>
+              <strong>Phone</strong>
+              <span><%= phone %></span>
+            </span>
+          </a>
+        <% } %>
+        <% if (whatsappDigits) { %>
+          <a class="home-contact__item" href="https://wa.me/<%= whatsappDigits %>" target="_blank" rel="noopener noreferrer">
+            <span class="home-contact__icon"><i class="bi bi-whatsapp"></i></span>
+            <span>
+              <strong>WhatsApp</strong>
+              <span><%= whatsappRaw %></span>
+            </span>
+          </a>
+        <% } %>
+        <% if (janitorName || janitorPhone) { %>
+          <div class="home-contact__item home-contact__item--static">
+            <span class="home-contact__icon"><i class="bi bi-person-badge-fill"></i></span>
+            <span>
+              <strong>Coordinator<%= janitorName ? ': ' + janitorName : '' %></strong>
+              <% if (janitorPhone) { %>
+                <a href="tel:<%= janitorPhone.replace(/\s/g, '') %>"><%= janitorPhone %></a>
+              <% } else { %>
+                <span>Contact details coming soon</span>
+              <% } %>
+            </span>
+          </div>
+        <% } %>
+        <% if (address) { %>
+          <div class="home-contact__item home-contact__item--static">
+            <span class="home-contact__icon"><i class="bi bi-geo-alt-fill"></i></span>
+            <span>
+              <strong>Address</strong>
+              <span><%= address %></span>
+            </span>
+          </div>
+        <% } %>
+        <% if (!phone && !whatsappDigits && !janitorName && !janitorPhone && !address) { %>
+          <p class="home-contact__empty">Contact details will appear here once updated in site settings.</p>
+        <% } %>
+      </div>
+      <div class="home-contact__map">
+        <% if (mapEmbed) { %>
+          <iframe
+            src="<%= mapEmbed %>"
+            title="Santa Maria Bouar map"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen
+          ></iframe>
+        <% } else { %>
+          <div class="home-contact__map-placeholder">
+            <i class="bi bi-map"></i>
+            <p>Map embed URL can be set in Site Settings</p>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+document.getElementById('scrollToContent')?.addEventListener('click', function() {
+  document.getElementById('mainContent')?.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+});
+</script>

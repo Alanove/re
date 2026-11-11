@@ -1,0 +1,62 @@
+<%
+  // Renders list/card price: respects ecommerceSettings.multi_price_display when product.has_multi_prices.
+  // Expects: product, optional customClass, optional multi_price_display override.
+  // Cart lines should keep using partials/price with the line item (selected variant) price.
+  const set = (typeof ecommerceSettings !== 'undefined' && ecommerceSettings) ? ecommerceSettings : {};
+  // Prefer explicit include arg, then res.locals (MySQL/serialization may not reach nested includes in all EJS paths).
+  const modeFromArg = (typeof multi_price_display !== 'undefined' && multi_price_display != null && String(multi_price_display) !== '') ? String(multi_price_display) : '';
+  const modeFromSet = (set.multi_price_display != null && String(set.multi_price_display) !== '') ? String(set.multi_price_display) : '';
+  const modeStrRaw = (modeFromArg || modeFromSet || 'lowest').toLowerCase().trim();
+  const mode = (modeStrRaw === 'starting' || modeStrRaw === 'range' || modeStrRaw === 'lowest') ? modeStrRaw : 'lowest';
+  const sym = (typeof currency !== 'undefined' && currency)
+    ? currency
+    : (set.currency_symbol || '$');
+  const hasMulti = product && (
+    product.has_multi_prices === true
+    || product.has_multi_prices === 1
+    || String(product.has_multi_prices) === '1'
+    || String(product.has_multi_prices) === 'true'
+  );
+  const fmtMoney = typeof formatMoneyAmount === 'function'
+    ? formatMoneyAmount
+    : function (v) {
+        const x = parseFloat(String(v));
+        if (!Number.isFinite(x)) return '0';
+        const s = x.toFixed(2);
+        return s.endsWith('.00') ? s.slice(0, -3) : s;
+      };
+  const vmin = hasMulti && product.variant_price_min != null ? Number(product.variant_price_min) : NaN;
+  const vmax = hasMulti && product.variant_price_max != null ? Number(product.variant_price_max) : NaN;
+%>
+
+<% if (!hasMulti || !Number.isFinite(vmin) || !Number.isFinite(vmax)) { %>
+  <%- include('partials/price', {
+    price: product.price,
+    compare_at_price: product.compare_at_price,
+    currency: sym,
+    customClass: typeof customClass !== 'undefined' ? customClass : '',
+    suppressZero: true
+  }) %>
+<% } else if (mode === 'range' && Math.abs(vmax - vmin) > 0.0001) { %>
+  <% if (vmin <= 0 && vmax <= 0) { %>
+  <% } else if (vmin <= 0) { %>
+  <span class="<%= typeof customClass !== 'undefined' ? customClass : '' %>">
+    <span><%= sym %><%= fmtMoney(vmax) %></span>
+  </span>
+  <% } else { %>
+  <span class="<%= typeof customClass !== 'undefined' ? customClass : '' %> d-inline-flex align-items-baseline flex-wrap justify-content-center">
+    <span><%= sym %><%= fmtMoney(vmin) %></span>
+    <span class="text-muted mx-1"><%= typeof t !== 'undefined' ? t('ecommerce.listing.priceRangeSeparator') : '–' %></span>
+    <span><%= sym %><%= fmtMoney(vmax) %></span>
+  </span>
+  <% } %>
+<% } else if (mode === 'starting') { %>
+  <% if (Number.isFinite(vmin) && vmin > 0) { %>
+  <span class="<%= typeof customClass !== 'undefined' ? customClass : '' %> d-inline-flex flex-column align-items-center">
+    <span class="text-muted small product-price-starting-label"><%= typeof t !== 'undefined' ? t('ecommerce.listing.startingAt') : 'Starting at' %></span>
+    <span><%= sym %><%= fmtMoney(vmin) %></span>
+  </span>
+  <% } %>
+<% } else { %>
+  <%- include('partials/price', { price: vmin, compare_at_price: null, currency: sym, customClass: typeof customClass !== 'undefined' ? customClass : '', suppressZero: true }) %>
+<% } %>

@@ -1,0 +1,76 @@
+<header>
+  <div id="top-bar">
+    <div class="container-fluid px-lg-1-6 px-xl-2-5 px-xxl-2-9">
+      <div class="row">
+        <div class="col-md-9 col-xs-12">
+          <div class="top-bar-info">
+            <ul class="ps-0">
+              <% const phone = (typeof currentPage !== 'undefined' && currentPage && currentPage.helpPhone) ? currentPage.helpPhone : (typeof siteSettings !== 'undefined' && siteSettings.contactPhone ? siteSettings.contactPhone : ''); %>
+              <% const email = (typeof currentPage !== 'undefined' && currentPage && currentPage.helpEmail) ? currentPage.helpEmail : (typeof siteSettings !== 'undefined' && siteSettings.contactEmail ? siteSettings.contactEmail : ''); %>
+              <% if (phone) { %><li><a href="tel:<%= String(phone).replace(/[^\d+]/g, '') %>"><i class="ti-mobile"></i><%= phone %></a></li><% } %>
+              <% if (email) { %>
+              <li>
+                <a href="mailto:<%= email %>"><i class="ti-email"></i><%= email %></a>
+              </li>
+              <% } %>
+            </ul>
+          </div>
+        </div>
+        <div class="col-xs-12 col-md-3">
+          <ul class="top-social-icon ps-0">
+            <% const social = (typeof siteSettings !== 'undefined' && siteSettings.socialMedia) ? siteSettings.socialMedia : {}; %>
+            <% if (social.facebook) { %><li><a href="<%= social.facebook %>" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a></li><% } %>
+            <% if (social.twitter) { %><li><a href="<%= social.twitter %>" target="_blank" rel="noopener" title="X"><span class="x-social">X</span></a></li><% } %>
+            <% if (social.instagram) { %><li><a href="<%= social.instagram %>" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a></li><% } %>
+            <% if (social.linkedin) { %><li><a href="<%= social.linkedin %>" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a></li><% } %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="navbar-default">
+    <div class="container-fluid px-lg-1-6 px-xl-2-5 px-xxl-2-9">
+      <div class="row align-items-center">
+        <div class="col-12 col-lg-12">
+          <div class="menu_area alt-font">
+            <nav class="navbar navbar-expand-lg navbar-light p-0">
+              <div class="navbar-header navbar-header-custom d-flex align-items-center">
+                <% const headerLogo = (typeof currentPage !== 'undefined' && currentPage && currentPage.logo) ? currentPage.logo : (typeof siteData !== 'undefined' && siteData.logo ? siteData.logo : '/images/capital-group-logo.svg'); %>
+                <a href="/" class="navbar-brand logodefault">
+                  <img id="logo" src="<%= headerLogo %>" alt="<%= typeof siteData !== 'undefined' && siteData.name ? siteData.name : 'Capital Pro Group' %>">
+                </a>
+                <% if (typeof currentPage !== 'undefined' && currentPage && currentPage.secondaryLogo) { %>
+                  <span class="investia-logo ms-3">
+                    <img src="<%= currentPage.secondaryLogo %>" alt="">
+                  </span>
+                <% } %>
+              </div>
+              <div class="navbar-toggler"></div>
+              <div class="main-menu ms-auto mainMenu">
+                <ul class="navbar-nav ms-auto">
+                  <% const mainItems = typeof mainMenu !== 'undefined' ? mainMenu : (typeof items !== 'undefined' ? items : []); %>
+                  <% mainItems.forEach(function(item) { %>
+                    <% if (item.active) { %>
+                      <li class="nav-item<%= item.children && item.children.length ? ' dropdown' : '' %><%= typeof selected !== 'undefined' && selected === item.key ? ' current' : '' %>">
+                        <a href="<%= item.url %>"><%= item.title %></a>
+                        <% if (item.children && item.children.length) { %>
+                          <ul>
+                            <% item.children.forEach(function(child) { %>
+                              <% if (child.active) { %>
+                                <li><a href="<%= child.url %>"><%= child.title %></a></li>
+                              <% } %>
+                            <% }); %>
+                          </ul>
+                        <% } %>
+                      </li>
+                    <% } %>
+                  <% }); %>
+                </ul>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

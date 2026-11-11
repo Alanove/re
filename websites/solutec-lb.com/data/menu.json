@@ -1,0 +1,135 @@
+{
+  "menus": [
+    {
+      "id": "main-menu",
+      "name": "Main Menu",
+      "description": "Primary navigation",
+      "items": [
+        {
+          "id": "home",
+          "title": "Home",
+          "type": "page",
+          "link": "home",
+          "sort": 1,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "about-us",
+          "title": "About Us",
+          "type": "page",
+          "link": "about-us",
+          "sort": 2,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "products",
+          "title": "Products",
+          "type": "page",
+          "link": "products",
+          "sort": 3,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "services",
+          "title": "Services",
+          "type": "page",
+          "link": "services",
+          "sort": 4,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "news",
+          "title": "News",
+          "type": "external",
+          "link": "/category/news",
+          "sort": 5,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "support",
+          "title": "Support",
+          "type": "page",
+          "link": "support",
+          "sort": 6,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "contact-us",
+          "title": "Contact Us",
+          "type": "page",
+          "link": "contact-us",
+          "sort": 7,
+          "active": true,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "footer-menu",
+      "name": "Footer Menu",
+      "description": "Footer navigation",
+      "items": [
+        {
+          "id": "footer-home",
+          "title": "Home",
+          "type": "page",
+          "link": "home",
+          "sort": 1,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "footer-about-us",
+          "title": "About us",
+          "type": "page",
+          "link": "about-us",
+          "sort": 2,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "footer-services",
+          "title": "Services",
+          "type": "page",
+          "link": "services",
+          "sort": 3,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "footer-news",
+          "title": "News",
+          "type": "external",
+          "link": "/category/news",
+          "sort": 4,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "footer-support",
+          "title": "Support",
+          "type": "page",
+          "link": "support",
+          "sort": 5,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "footer-contact-us",
+          "title": "Contact Us",
+          "type": "page",
+          "link": "contact-us",
+          "sort": 6,
+          "active": true,
+          "children": []
+        }
+      ]
+    }
+  ]
+}

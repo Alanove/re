@@ -1,0 +1,198 @@
+<div class="row mb-3">
+    <div class="col-sm-6">
+        <h1 class="page-header">Edit Invoice</h1>
+    </div>
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-end">
+            <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="/admin/invoices">Invoices</a></li>
+            <li class="breadcrumb-item active">Edit</li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Edit Invoice #<%= invoice.id %></h3>
+            </div>
+            <div class="card-body">
+                <form id="editInvoiceForm">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Block *</label>
+                                <select id="blockSelect" class="form-select" required>
+                                    <option value="">Select Block</option>
+                                    <% 
+                                    const currentApartment = apartments.find(apt => apt.id === invoice.apartmentId);
+                                    const uniqueBlocks = [...new Set(apartments.map(apt => apt.block))].sort();
+                                    uniqueBlocks.forEach(block => { %>
+                                        <option value="<%= block %>" <%= currentApartment && currentApartment.block === block ? 'selected' : '' %>><%= block %></option>
+                                    <% }); %>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Apartment *</label>
+                                <select name="apartmentId" id="apartmentSelect" class="form-select" required>
+                                    <option value="">Select Block First</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Category *</label>
+                                <select name="categoryId" class="form-select" required>
+                                    <option value="">Select Category</option>
+                                    <% categories.forEach(cat => { %>
+                                        <option value="<%= cat.id %>" <%= invoice.categoryId === cat.id ? 'selected' : '' %>>
+                                            <%= cat.name %>
+                                        </option>
+                                    <% }); %>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Hidden div to store apartment data for JavaScript -->
+                    <%
+                    const apartmentsDataForJS = apartments.map(apt => {
+                        const owner = users.find(u => u.id === apt.ownerId);
+                        return {
+                            id: apt.id,
+                            block: apt.block || '',
+                            unitNumberOfficial: apt.unitNumberOfficial || '',
+                            unitNumberUnofficial: apt.unitNumberUnofficial || '',
+                            ownerName: owner ? (owner.name || 'Unknown Owner') : 'Unknown Owner'
+                        };
+                    });
+                    %>
+                    <script>
+                    window.apartmentsData = <%- JSON.stringify(apartmentsDataForJS) %>;
+                    </script>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Amount *</label>
+                                <input type="number" name="amount" class="form-control" step="0.01" min="0" value="<%= invoice.amount %>" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Year</label>
+                                <input type="number" name="year" class="form-control" min="2000" max="2100" value="<%= invoice.year || '' %>" placeholder="e.g., 2025">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Invoice Date *</label>
+                                <input type="date" name="invoiceDate" class="form-control" value="<%= invoice.invoiceDate %>" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Due Date</label>
+                                <input type="date" name="dueDate" class="form-control" value="<%= invoice.dueDate || '' %>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea name="description" class="form-control" rows="3"><%= invoice.description || '' %></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Notes</label>
+                        <textarea name="notes" class="form-control" rows="2"><%= invoice.notes || '' %></textarea>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <a href="/admin/invoices" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Update Invoice</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Get apartments data (already loaded in window.apartmentsData)
+const apartmentsData = window.apartmentsData || [];
+const blockSelect = document.getElementById('blockSelect');
+const apartmentSelect = document.getElementById('apartmentSelect');
+
+// Filter apartments by block
+blockSelect.addEventListener('change', function() {
+    const selectedBlock = this.value;
+    apartmentSelect.innerHTML = '<option value="">Select Apartment</option>';
+    
+    if (selectedBlock) {
+        // Filter and sort apartments for selected block
+        const blockApartments = apartmentsData
+            .filter(apt => apt.block === selectedBlock)
+            .sort((a, b) => {
+                const aNum = parseInt(a.unitNumberOfficial) || 0;
+                const bNum = parseInt(b.unitNumberOfficial) || 0;
+                return aNum - bNum;
+            });
+        
+        blockApartments.forEach(apt => {
+            const option = document.createElement('option');
+            option.value = apt.id;
+            option.textContent = `${apt.unitNumberOfficial}${apt.unitNumberUnofficial ? ' (' + apt.unitNumberUnofficial + ')' : ''} - ${apt.ownerName}`;
+            if (apt.id === <%= invoice.apartmentId %>) {
+                option.selected = true;
+            }
+            apartmentSelect.appendChild(option);
+        });
+    }
+});
+
+// Initialize on page load
+const currentApartment = apartmentsData.find(apt => apt.id === <%= invoice.apartmentId %>);
+if (currentApartment) {
+    blockSelect.value = currentApartment.block;
+    blockSelect.dispatchEvent(new Event('change'));
+}
+
+// Form submission
+document.getElementById('editInvoiceForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    // Ensure apartment is selected
+    if (!apartmentSelect.value) {
+        alert('Please select an apartment');
+        return;
+    }
+    
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData);
+    
+    try {
+        const response = await fetch('/admin/invoices/<%= invoice.id %>/update', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        if (result.success) {
+            window.location.href = '/admin/invoices?success=Invoice updated successfully';
+        } else {
+            alert('Error: ' + (result.message || 'Failed to update invoice'));
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error updating invoice');
+    }
+});
+</script>
+
+
+

@@ -1,0 +1,72 @@
+<div class="account-page account-page--portal">
+  <div class="account-shell">
+    <%- include('partials/sidebar') %>
+    <div class="account-main">
+      <div class="account-main__header">
+        <h1>Account Settings</h1>
+      </div>
+
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="account-alert account-alert--error"><%= error %></div>
+      <% } %>
+      <% if (typeof success !== 'undefined' && success) { %>
+        <div class="account-alert account-alert--success"><%= success %></div>
+      <% } %>
+
+      <div class="account-panel">
+        <div class="account-panel__title">
+          <h2><%= hasPassword ? 'Change Password' : 'Set a Password' %></h2>
+        </div>
+
+        <% if (!hasPassword) { %>
+          <p class="account-meta">
+            Your account currently signs in with Google only. Set a password to also sign in
+            with your email or phone.
+          </p>
+        <% } %>
+
+        <form method="POST" action="/account/settings/password" class="account-form">
+          <% if (hasPassword) { %>
+            <div class="account-field">
+              <label for="currentPassword">Current Password</label>
+              <input type="password" id="currentPassword" name="currentPassword" required autocomplete="current-password" />
+              <small>Enter your current password to confirm it's you.</small>
+            </div>
+          <% } %>
+          <div class="account-field">
+            <label for="newPassword">New Password</label>
+            <input type="password" id="newPassword" name="newPassword" required minlength="8" autocomplete="new-password" />
+            <small>At least 8 characters.</small>
+          </div>
+          <div class="account-field">
+            <label for="confirmPassword">Confirm New Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required minlength="8" autocomplete="new-password" />
+          </div>
+          <button type="submit" class="account-btn account-btn--primary">
+            <%= hasPassword ? 'Update Password' : 'Set Password' %>
+          </button>
+        </form>
+      </div>
+
+      <div class="account-panel">
+        <div class="account-panel__title">
+          <h2>Email &amp; Phone</h2>
+        </div>
+        <div class="account-info-list">
+          <div>
+            <span>Email</span>
+            <strong><%= member.email || '—' %></strong>
+          </div>
+          <div>
+            <span>Phone</span>
+            <strong><%= member.phone || '—' %></strong>
+          </div>
+        </div>
+        <p class="account-meta">
+          These are your sign-in identifiers and cannot be changed here. To update them,
+          please <a href="/contact">contact us</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

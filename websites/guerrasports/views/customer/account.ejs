@@ -1,0 +1,122 @@
+<!-- Account Page -->
+
+<!-- Breadcrumb Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark" href="/">Home</a>
+                <span class="breadcrumb-item active"><%= typeof t !== 'undefined' ? t('ecommerce.customer.account') : 'My Account' %></span>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Account Start -->
+<div class="container-fluid pb-5">
+    <div class="row px-xl-5">
+        <div class="col-lg-3 mb-5">
+            <%- include('../partials/account-sidebar') %>
+        </div>
+
+        <!-- Account Content -->
+        <div class="col-lg-9">
+            <div class="bg-light">
+                <h4 class="mb-4"><%= typeof t !== 'undefined' ? t('ecommerce.customer.profile') : 'Profile Information' %></h4>
+                
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <strong>Email:</strong> <%= user.email %>
+                        </div>
+                        <!-- <div class="mb-3">
+                            <strong>Username:</strong> <%= user.username %>
+                        </div> -->
+                        <% if (user.name) { %>
+                            <div class="mb-3">
+                                <strong>Name:</strong> <%= user.name %>
+                            </div>
+                        <% } %>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <strong>Member Since:</strong> <%= user.createdAt ? new Date(user.createdAt).toLocaleDateString() : '—' %>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <h5 class="mb-3"><%= typeof t !== 'undefined' ? t('ecommerce.customer.recentOrders') : 'Recent Orders' %></h5>
+                <% if (recentOrders && recentOrders.length > 0) { %>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Order #</th>
+                                    <th>Date</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% recentOrders.forEach(function(order) { %>
+                                    <tr>
+                                        <td>#<%= order.order_number %></td>
+                                        <td><%= new Date(order.created_at).toLocaleDateString() %></td>
+                                        <td>$<%= formatMoneyAmount(order.total_amount) %></td>
+                                        <td><span class="badge badge-info"><%= order.status %></span></td>
+                                        <td>
+                                            <a href="/customer/orders/<%= order.order_number %>" class="btn btn-sm btn-primary">
+                                                <%= typeof t !== 'undefined' ? t('common.view') : 'View' %>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <a href="/customer/orders" class="btn btn-primary mt-3">
+                        <%= typeof t !== 'undefined' ? t('ecommerce.customer.viewAllOrders') : 'View All Orders' %>
+                    </a>
+                <% } else { %>
+                    <p class="text-muted"><%= typeof t !== 'undefined' ? t('ecommerce.customer.noOrders') : 'No orders yet' %></p>
+                <% } %>
+
+                <hr class="my-4">
+
+                <h5 class="mb-3"><%= typeof t !== 'undefined' ? t('ecommerce.customer.defaultAddress') : 'Default Address' %></h5>
+                <% if (defaultAddress) { %>
+                    <address class="mb-0">
+                        <strong><%= defaultAddress.first_name %> <%= defaultAddress.last_name %></strong><br>
+                        <%= defaultAddress.address_line_1 %><br>
+                        <% if (defaultAddress.address_line_2) { %>
+                            <%= defaultAddress.address_line_2 %><br>
+                        <% } %>
+                        <%= defaultAddress.city %>, <%= defaultAddress.state %> <%= defaultAddress.postal_code %><br>
+                        <%= defaultAddress.country %><br>
+                        <% if (defaultAddress.phone) { %>
+                            <%= defaultAddress.phone %>
+                        <% } %>
+                    </address>
+                    <a href="/customer/addresses" class="btn btn-sm btn-primary mt-2">
+                        <%= typeof t !== 'undefined' ? t('ecommerce.customer.manageAddresses') : 'Manage Addresses' %>
+                    </a>
+                <% } else { %>
+                    <p class="text-muted"><%= typeof t !== 'undefined' ? t('ecommerce.customer.noAddresses') : 'No saved addresses' %></p>
+                    <a href="/customer/addresses" class="btn btn-primary">
+                        <%= typeof t !== 'undefined' ? t('ecommerce.customer.addAddress') : 'Add Address' %>
+                    </a>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Account End -->
+
+
+
+
+

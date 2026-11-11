@@ -1,0 +1,54 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.process-step {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: $space-md;
+  }
+
+  &__num {
+    font-family: $font-headline;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: rgba($color-primary, 0.2);
+  }
+}
+
+.cta-banner {
+  background: $color-primary-deep;
+  color: $color-white;
+  padding-block: $space-xl;
+
+  @include respond-to(md) {
+    padding-block: $space-2xl;
+  }
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: $space-lg;
+    align-items: center;
+    text-align: center;
+
+    @include respond-to(md) {
+      flex-direction: row;
+      justify-content: space-between;
+      text-align: start;
+    }
+  }
+
+  .headline-lg {
+    color: $color-white;
+  }
+
+  .body-md {
+    color: rgba($color-white, 0.9);
+  }
+}

@@ -1,0 +1,211 @@
+<%
+    /**
+     * Single top-level nav item with its associated mega-menu panel.
+     * Expects locals: item, index, megaMenuImage.
+     *
+     * Mega panel content rules:
+     *  - When `item.isCategory` is true, `item.children` are the category's active
+     *    subcategories (filled automatically by pagesService, newest season first):
+     *      Left  — every subcategory grouped by year (no cap); a year with a single
+     *              season-less collection (e.g. "Bridal 2009") links the year itself.
+     *              "View All Collections" (?view=all grid) sits underneath.
+     *      Right — the latest three subcategories as portrait image cards.
+     *  - When the item explicitly is the storefront entry (Antonio\'s Couture Products /
+     *    Shop / Store): render a multi-column grid of the global root
+     *    categories.
+     *  - Otherwise: when `item.children` is present, render them as a single
+     *    "section heading + links" column. Items without children render as
+     *    a flat link with no panel.
+     */
+    const isStoreItem = item && (item.title === 'Antonio\'s Couture Products' || item.title === 'Shop' || item.title === 'Store');
+    const isCustomerCareItem = item && item.title === 'Customer Care';
+    const isCategoryItem = !!(item && item.isCategory);
+    const hasChildren = item && Array.isArray(item.children) && item.children.length > 0;
+    const showDropdown = isCustomerCareItem && hasChildren;
+    const showMega = !showDropdown && (isStoreItem || isCategoryItem || hasChildren);
+    const panelId = 'luxMega-' + index;
+
+    function chunk(arr, size) {
+        const out = [];
+        for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
+        return out;
+    }
+
+    function resolveCategoryImage(cat) {
+        if (!cat) return '';
+        if (typeof categoryListingImageUrl === 'function') {
+            const resolved = categoryListingImageUrl(cat);
+            if (resolved && resolved !== '/images/no-image.jpg') return resolved;
+        }
+        return cat.image_url || '';
+    }
+
+    /**
+     * Portrait editorial cards for the mega panel right strip.
+     * Category nav: up to three featured child images; otherwise parent / fallback.
+     */
+    const panelVisuals = [];
+    const seenVisualUrls = {};
+
+    function pushVisual(url, title, href) {
+        if (!url || seenVisualUrls[url]) return;
+        seenVisualUrls[url] = true;
+        panelVisuals.push({ url: url, title: title || '', href: href || '#' });
+    }
+
+    if (isCategoryItem && item.category) {
+        const directChildren = (item.children || []).filter(function(c) { return c && c.active !== false; });
+        const sortableForVisuals = directChildren.map(function(c) {
+            return {
+                item: c,
+                name: (c.category && c.category.name) ? c.category.name : (c.title || ''),
+                order_index: (c.category && c.category.order_index != null) ? c.category.order_index : 0
+            };
+        });
+        const sortedForVisuals = (typeof sortCollectionsBySeason !== 'undefined')
+            ? sortCollectionsBySeason(sortableForVisuals).map(function(x) { return x.item; })
+            : directChildren;
+
+        sortedForVisuals.forEach(function(child) {
+            if (panelVisuals.length >= 3) return;
+            const img = resolveCategoryImage(child && child.category);
+            if (img) pushVisual(img, child.title, child.url);
+        });
+
+        if (panelVisuals.length === 0) {
+            const parentImg = resolveCategoryImage(item.category);
+            if (parentImg) pushVisual(parentImg, item.title, item.url);
+        }
+    }
+
+    if (panelVisuals.length === 0 && !isCustomerCareItem) {
+        const fallback = megaMenuImage || '/images/site-image-1769270743381-174751291.png';
+        pushVisual(fallback, item.title, item.url);
+    }
+%>
+
+<% if (showDropdown) { %>
+    <div class="lux-nav-item lux-nav-item--dropdown" data-dropdown="<%= panelId %>">
+        <a href="<%= item.url %>" class="lux-nav-link"><%= item.title %></a>
+
+        <div class="lux-nav-dropdown" id="<%= panelId %>">
+            <ul class="lux-nav-dropdown-list">
+                <% item.children.forEach(function(child) { %>
+                    <% if (child.active !== false) { %>
+                        <li><a href="<%= child.url %>"><%= child.title %></a></li>
+                    <% } %>
+                <% }); %>
+            </ul>
+        </div>
+    </div>
+<% } else if (showMega) { %>
+    <div class="lux-nav-item" data-mega="<%= panelId %>">
+        <a href="<%= item.url %>" class="lux-nav-link"><%= item.title %></a>
+
+        <div class="lux-megamenu<%= panelVisuals.length === 0 ? ' lux-megamenu--no-visual' : '' %><%= isCategoryItem ? ' lux-megamenu--category' : '' %>" id="<%= panelId %>">
+            <div class="lux-megamenu-grid">
+                <div class="lux-megamenu-cols">
+                    <% if (isCategoryItem) { %>
+                        <%
+                            const cat = item.category || {};
+                            const isFashionLine = !!(cat.slug && typeof isFashionLineSlug !== 'undefined' && isFashionLineSlug(cat.slug));
+                            const directChildren = (item.children || []).filter(function(c) { return c && c.active !== false; });
+                            const yearGroups = (typeof groupCollectionsByYear !== 'undefined')
+                                ? groupCollectionsByYear(directChildren, function(c) { return c.title || ''; })
+                                : [{ year: 0, items: directChildren.map(function(c) { return { label: c.title, item: c }; }) }];
+                            const hasYears = yearGroups.some(function(g) { return g.year > 0; });
+                            const yearsOnly = hasYears && yearGroups.every(function(g) { return !!g.yearLink; });
+                            const viewAllLabel = isFashionLine
+                                ? (typeof t !== 'undefined' ? t('ecommerce.viewAllCollections') : 'View All Collections')
+                                : ('View All ' + (cat.name || item.title));
+                            const viewAllUrl = isFashionLine ? (item.url + (item.url.indexOf('?') === -1 ? '?' : '&') + 'view=all') : item.url;
+                        %>
+                        <div class="lux-megamenu-archive">
+                            <% if (directChildren.length > 0) { %>
+                                <% if (yearsOnly) { %>
+                                    <ul class="lux-archive-years lux-archive-years--compact">
+                                        <% yearGroups.forEach(function(group) { %>
+                                            <li><a class="lux-archive-year-link" href="<%= group.yearLink.url %>" title="<%= group.yearLink.title %>"><%= group.year %></a></li>
+                                        <% }); %>
+                                    </ul>
+                                <% } else if (hasYears) { %>
+                                    <ul class="lux-archive-years">
+                                        <% yearGroups.forEach(function(group) { %>
+                                            <li class="lux-archive-year">
+                                                <% if (group.yearLink) { %>
+                                                    <a class="lux-archive-year-num lux-archive-year-link" href="<%= group.yearLink.url %>" title="<%= group.yearLink.title %>"><%= group.year %></a>
+                                                    <span></span>
+                                                <% } else { %>
+                                                    <span class="lux-archive-year-num"><%= group.year > 0 ? group.year : (typeof t !== 'undefined' ? t('ecommerce.more') : 'More') %></span>
+                                                    <span class="lux-archive-seasons">
+                                                        <% group.items.forEach(function(entry, ei) { %>
+                                                            <% if (ei > 0) { %><span class="lux-archive-sep" aria-hidden="true">&middot;</span><% } %>
+                                                            <a href="<%= entry.item.url %>" title="<%= entry.item.title %>"><%= entry.label %></a>
+                                                        <% }); %>
+                                                    </span>
+                                                <% } %>
+                                            </li>
+                                        <% }); %>
+                                    </ul>
+                                <% } else { %>
+                                    <ul class="lux-archive-list">
+                                        <% directChildren.forEach(function(child) { %>
+                                            <li><a href="<%= child.url %>"><%= child.title %></a></li>
+                                        <% }); %>
+                                    </ul>
+                                <% } %>
+                            <% } %>
+                            <div class="lux-megamenu-archive-foot">
+                                <a class="lux-megamenu-viewall" href="<%= viewAllUrl %>"><%= viewAllLabel %></a>
+                            </div>
+                        </div>
+                    <% } else if (isStoreItem && typeof categories !== 'undefined' && categories.length > 0) { %>
+                        <%
+                            const cats = categories.slice(0, 12);
+                            const colCount = Math.min(4, Math.max(1, cats.length));
+                            const perCol = Math.ceil(cats.length / colCount);
+                            const cols = chunk(cats, perCol);
+                        %>
+                        <% cols.forEach(function(group, gi) { %>
+                            <div class="lux-megamenu-col">
+                                <h4><%= gi === 0 ? 'Featured' : 'Categories' %></h4>
+                                <ul>
+                                    <% group.forEach(function(c) { %>
+                                        <li><a href="/shop/category/<%= c.slug %>"><%= c.name %></a></li>
+                                    <% }); %>
+                                    <% if (gi === cols.length - 1) { %>
+                                        <li><a href="/products">View All</a></li>
+                                    <% } %>
+                                </ul>
+                            </div>
+                        <% }); %>
+                    <% } else if (hasChildren) { %>
+                        <div class="lux-megamenu-col">
+                            <h4><%= item.title %></h4>
+                            <ul>
+                                <% item.children.forEach(function(child) { %>
+                                    <% if (child.active !== false) { %>
+                                        <li><a href="<%= child.url %>"><%= child.title %></a></li>
+                                    <% } %>
+                                <% }); %>
+                            </ul>
+                        </div>
+                    <% } %>
+                </div>
+
+                <% if (panelVisuals.length > 0) { %>
+                <div class="lux-megamenu-visual" aria-hidden="false">
+                    <% panelVisuals.forEach(function(visual) { %>
+                        <a href="<%= visual.href %>" class="lux-megamenu-visual-card" aria-label="<%= visual.title %>">
+                            <img src="<%= visual.url %>" alt="<%= visual.title %>" loading="lazy" />
+                            <span class="lux-megamenu-visual-label"><%= visual.title %></span>
+                        </a>
+                    <% }); %>
+                </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+<% } else if (item) { %>
+    <a href="<%= item.url %>" class="lux-nav-link"><%= item.title %></a>
+<% } %>

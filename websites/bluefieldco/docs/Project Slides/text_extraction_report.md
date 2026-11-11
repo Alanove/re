@@ -1,0 +1,627 @@
+# Text Extraction Report - Complete Rebuild
+Generated: 2025-12-08 04:08:05
+
+Categories processed: 13
+Projects created: 99
+
+## Summary by Category
+
+### Airports & Stations (8 projects)
+- **King AbdulAziz International Airport**
+  - Country: Saudi Arabia
+  - BUA: 300,000 m2
+  - Contractor: SBG/Vision
+  - Architect: N/A
+  - Scope: M&E Shop Drawings (PTB Zone D)  & Power Discrimination Study
+- **ATCL Yacht Club & Marina**
+  - Country: Lebanon
+  - BUA: N/A
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: Automobile et Touring Club du Liban Quay and Sports Fields Area Lighting M&E Infrastructure Detailed Design
+- **Middle Euphrates International Airport**
+  - Country: Iraq
+  - BUA: 200,000 m2
+  - Contractor: ADPi
+  - Architect: N/A
+  - Scope: M&E Load Centers & PTB Infrastructure Detailed Design
+- **Haramain High Speed Rail KAEC Station**
+  - Country: Saudi Arabia
+  - BUA: 100,000 m2
+  - Contractor: El Seif Engineering
+  - Architect: N/A
+  - Scope: M&E Shop Drawings
+- **Abha Airport**
+  - Country: Saudi Arabia
+  - BUA: 87,000 m2
+  - Contractor: N/A
+  - Architect: Edge Arch
+  - Scope: M&E Detailed Design PTB & Parking (REVIT Works)
+- **Riyadh Metro Stations, Line 5 & 6**
+  - Country: Saudi Arabia
+  - BUA: N/A
+  - Contractor: FCC Industrial
+  - Architect: N/A
+  - Scope: M&E Shop Dwgs & As-Built Dwgs (REVIT Works for Technical Rooms)
+- **JAX Multistory Car Parks**
+  - Country: Saudi Arabia
+  - BUA: 10,650 m2
+  - Contractor: N/A
+  - Architect: Edge Arch
+  - Scope: M&E Detailed Design (REVIT Works)
+- **Riyadh Metro Park & Ride**
+  - Country: Saudi Arabia
+  - BUA: N/A
+  - Contractor: Freyssinet Saudi Arabia
+  - Architect: N/A
+  - Scope: M&E Shop Drawings
+
+### Civic & Religious (9 projects)
+- **Baghdad Council of Ministers**
+  - Country: Iraq
+  - BUA: 178,000 m2
+  - Contractor: N/A
+  - Architect: CAP
+  - Scope: M&E Detailed Design & Follow Up
+- **King Abdullah International Gardens**
+  - Country: Saudi Arabia
+  - BUA: N/A
+  - Contractor: ZHBG
+  - Architect: N/A
+  - Scope: M&E Infrastructure and Buildings Detailed Designs & Shop Drawings Arch and M&E REVIT Works for Energy Center
+- **UYO Conventional Center**
+  - Country: Nigeria
+  - BUA: 14,500 m2
+  - Contractor: ITB Nigeria
+  - Architect: N/A
+  - Scope: Elec Detailed Design & Follow Up
+- **Business Park of King Abdullah Economic City**
+  - Country: Saudi Arabia
+  - BUA: 258,000 m2
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: Contractor Freyssinet Saudi Arabia Scope M&E Detailed Design
+- **Samawah Cultural Center**
+  - Country: N/A
+  - BUA: 12,000 m2
+  - Contractor: N/A
+  - Architect: CAP
+  - Scope: M&E Detailed Design
+- **Cite Marie**
+  - Country: Lebanon
+  - BUA: 31,500 m2
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: M&E Design
+- **GACA Headquarters**
+  - Country: Saudi Arabia
+  - BUA: 108,000  m2
+  - Contractor: BinDayel
+  - Architect: N/A
+  - Scope: M&E Detailed Design REVIT Works for Tech Rooms
+- **Al Nour Mosque**
+  - Country: Lebanon
+  - BUA: 6,500 m2
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: M&E Design
+- **Al-Maamour Mosque**
+  - Country: Saudi Arabia
+  - BUA: 5,200 m2
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: M&E Detailed Design
+
+### Education & Leisure (10 projects)
+- **Princess Noura University**
+  - Country: Saudi Arabia
+  - BUA: 120,000 m2
+  - Contractor: Saudi Oger
+  - Architect: N/A
+  - Scope: Elec Shop Drawings (Hospital and 2 Faculties)
+- **Happy Childhood Village**
+  - Country: Tanzania
+  - BUA: N/A
+  - Contractor: N/A
+  - Architect: ARK
+  - Scope: Elec Detailed Design
+- **GEMS World Academy**
+  - Country: Saudi Arabia
+  - BUA: 22,000 m2
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: M&E Detailed Design
+- **Al Furat TV Broadcasting Station**
+  - Country: Iraq
+  - BUA: 10,000 m2
+  - Contractor: N/A
+  - Architect: CAP
+  - Scope: Elec Detailed Design
+- **American International School**
+  - Country: Saudi Arabia
+  - BUA: 32,000 m2
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: M&E Detailed Design
+- **Tripoli International Olympic Stadium**
+  - Country: Lebanon
+  - BUA: N/A
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: M&E Detailed Design
+- **Road & Transport Research Center**
+  - Country: Saudi Arabia
+  - BUA: 38,000 m2
+  - Contractor: N/A
+  - Architect: SETS
+  - Scope: M&E Detailed Design
+- **Bayelsa Auditorium**
+  - Country: Nigeria
+  - BUA: 5,000 m2
+  - Contractor: N/A
+  - Architect: ARK
+  - Scope: M& E Detailed Design
+- **Dhahran Expo Convention Center**
+  - Country: Saudi Arabia
+  - BUA: 12,000 m2
+  - Contractor: MIMAR
+  - Architect: N/A
+  - Scope: M&E Detailed Design
+- **Qiddiya Speed Park**
+  - Country: Saudi Arabia
+  - BUA: 123,000 m2
+  - Contractor: Jamed
+  - Architect: N/A
+  - Scope: M&E Shop Drawings (Revit Works)
+
+### Healthcare (8 projects)
+- **Ibn Sina Hospital**
+  - Country: Iraq
+  - BUA: 79,000 m2
+  - Contractor: N/A
+  - Architect: CAP
+  - Scope: Elec Schematic Design
+- **CMRC Hospital II**
+  - Country: Saudi Arabia
+  - BUA: 11,450 m2
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: M&E Detailed Design (REVIT Works)
+- **PNU Medical Hospital**
+  - Country: Saudi Arabia
+  - BUA: 120,000 m2
+  - Contractor: Al Fayhaa / Oger
+  - Architect: N/A
+  - Scope: Elec Shop Drawings
+- **Savior Medical Center**
+  - Country: Lebanon
+  - BUA: 49,300 m2
+  - Contractor: N/A
+  - Architect: Plan R
+  - Scope: Elec Schematic Design
+- **Baghdad Teaching Hospital**
+  - Country: Iraq
+  - BUA: 59,000 m2
+  - Contractor: N/A
+  - Architect: CAP
+  - Scope: Elec Detailed Design
+- **Clinical Skills Development Center**
+  - Country: Saudi Arabia
+  - BUA: 23,000 m2
+  - Contractor: SBG/VISION
+  - Architect: N/A
+  - Scope: M&E Shop Drawings
+- **CMRC Hospital I**
+  - Country: Saudi Arabia
+  - BUA: 6,525 m2
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: M&E Value Engineering M&E Redesign & Supervision
+- **Baaqouba Teaching Hospital**
+  - Country: Iraq
+  - BUA: 58,000 m2
+  - Contractor: N/A
+  - Architect: CAP
+  - Scope: Elec Detailed Design
+
+### Hospitality (8 projects)
+- **Shura Island - Hotel West #1**
+  - Country: Saudi Arabia
+  - BUA: 22,500 m2
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: M&E Shop Drawings (REVIT Works)
+- **MAAD Complex Hospitality Towers**
+  - Country: Saudi Arabia
+  - BUA: 225,700 m2
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: M&E Design & Shop Drawings REVIT Works (Tech Floors)
+- **King Abdullah WAQF Tower Hotel**
+  - Country: Saudi Arabia
+  - BUA: 100,000 m2
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: Elec Shop Drawings
+- **Hotel Complex Oasis (1001 Keys)**
+  - Country: Latin America
+  - BUA: 128,500 m2
+  - Contractor: Bouygues Bâtiment
+  - Architect: N/A
+  - Scope: M&E Schematic Design (REVIT)
+- **VOCO - IHG Hotel (234 Keys)**
+  - Country: Saudi Arabia
+  - BUA: 44,000 m2
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: M&E Detailed Design (REVIT Works)
+- **Roca del Este Hotel I**
+  - Country: Latin America
+  - BUA: 47,000 m2
+  - Contractor: Bouygues Bâtiment
+  - Architect: N/A
+  - Scope: M&E Schematic Design
+- **Sheraton Lagos Hotel**
+  - Country: Nigeria
+  - BUA: 22,200 m2
+  - Contractor: ITB Nigeria
+  - Architect: N/A
+  - Scope: Elec Detailed Design
+- **Hampton S7 Hotel**
+  - Country: Saudi Arabia
+  - BUA: 18,500 m2
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: M&E Detailed Design (REVIT Works)
+
+### Industrial (6 projects)
+- **Vertical Indoor Farms**
+  - Country: Canada
+  - BUA: 15,700 m2 + 15,900 m2
+  - Contractor: Kolostat
+  - Architect: N/A
+  - Scope: Mech Construction & Fabrication Drawings (REVIT Works)
+- **Algorithm Pharmaceuticals**
+  - Country: Lebanon
+  - BUA: 15,000 m2
+  - Contractor: Betabat
+  - Architect: N/A
+  - Scope: M&E Shop Drawings
+- **New Jet Propulsion Center**
+  - Country: Saudi Arabia
+  - BUA: 60,000 m2
+  - Contractor: Freyssinet Saudi Arabia
+  - Architect: N/A
+  - Scope: M&E Shop Drawings
+- **Industrial Biofuel Agri Hub**
+  - Country: Congo
+  - BUA: 6,800 m2
+  - Contractor: Zerock
+  - Architect: N/A
+  - Scope: Electrical Detail Design
+- **Eni Center of Excellence**
+  - Country: Congo
+  - BUA: 10,200 m2
+  - Contractor: Zerock
+  - Architect: N/A
+  - Scope: Elec Shop Drawings
+- **Cervecería Cubana**
+  - Country: Latin America
+  - BUA: 15,000 m2
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: M&E Design, Shop Drawings & As-Built Drawings (REVIT Works)
+
+### Infrastructure (6 projects)
+- **Riyadh Metro – Line 4, 5 & 6**
+  - Country: Saudi Arabia
+  - BUA: N/A
+  - Contractor: FAST / Samsung
+  - Architect: N/A
+  - Scope: Road Safety Study
+- **Wasit Water & Sanitation Stations**
+  - Country: Iraq
+  - BUA: N/A
+  - Contractor: CAP
+  - Architect: N/A
+  - Scope: Drainage & Rainwater Infrastructure
+- **Jannat Baghdad Development**
+  - Country: Iraq
+  - BUA: N/A
+  - Contractor: N/A
+  - Architect: CAP
+  - Scope: M&E Infrastructure Schematic  Design
+- **Diriyah Square – Mega Car Park**
+  - Country: Saudi Arabia
+  - BUA: N/A
+  - Contractor: First Gulf Company
+  - Architect: N/A
+  - Scope: MEP Shop Drawings (REVIT Works)
+- **Saafat El Basra City**
+  - Country: Iraq
+  - BUA: N/A
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: M&E Infrastructure Detailed Design Architecture and M&E Buildings Detailed Design
+- **Venan Housing Project**
+  - Country: Saudi Arabia
+  - BUA: 450,000 m2
+  - Contractor: N/A
+  - Architect: Edge Arch
+  - Scope: M&E Infrastructure & Buildings Detailed Design
+
+### Mixed Use (6 projects)
+- **Carplex Mixed Use (Mall &amp; Hotel)**
+  - Country: Saudi Arabia
+  - BUA: 30,000 m 2
+  - Contractor: N/A
+  - Architect: MDC
+  - Scope: M&amp;E Detailed Design
+- **EKO Tower II (Residential & Medical Centre)**
+  - Country: Nigeria
+  - BUA: 35,500 m2
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: Elec Detailed Design & Follow up
+- **Azuri Peninsula (Residential & Offices)**
+  - Country: Nigeria
+  - BUA: 123,000 m2
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: Electrical Value Engineering & Shop Drawings
+- **Karbala Oasis Development (Mall & Hotel)**
+  - Country: Iraq
+  - BUA: 200,000 m2
+  - Contractor: N/A
+  - Architect: CAP
+  - Scope: M&E Detailed Design
+- **Palm Towers (Residential & Offices)**
+  - Country: Côte d’Ivoire
+  - BUA: 11,400 m2
+  - Contractor: N/A
+  - Architect: AOT
+  - Scope: M&E Detailed Design / M&E Shop Drawings
+- **Lawyers & Notaries Tower (Hotel & Offices)**
+  - Country: Iraq
+  - BUA: 200,000  m2
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: M&E Detailed Design
+
+### Offices (8 projects)
+- **Crystal Tower**
+  - Country: Nigeria
+  - BUA: 18,000 m2
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: M&E Detailed Design
+- **Kingsway Tower (Microsoft & Facebook Offices)**
+  - Country: Nigeria
+  - BUA: 14,830 m2
+  - Contractor: ITB Nigeria
+  - Architect: N/A
+  - Scope: Elec Shop Drawings
+- **Garden Heights**
+  - Country: Nigeria
+  - BUA: 20,000 m2
+  - Contractor: N/A
+  - Architect: Archico Consultants
+  - Scope: M&E Detailed Design
+- **The Carnelian**
+  - Country: Nigeria
+  - BUA: 33,000 m2
+  - Contractor: N/A
+  - Architect: Archico Consultants
+  - Scope: M&E Detailed Design
+- **EKO Tower I (TOTAL Headquarters)**
+  - Country: Nigeria
+  - BUA: 44,000 m2
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: Elec Detailed Design & Follow up
+- **Otunba Offices**
+  - Country: Nigeria
+  - BUA: 8,000 m2
+  - Contractor: N/A
+  - Architect: Domaine Public Architects
+  - Scope: M&E Detailed Design
+- **Jeddah Corniche Park Tower**
+  - Country: Saudi Arabia
+  - BUA: 170,000 m2
+  - Contractor: Freyssinet Saudi Arabia
+  - Architect: N/A
+  - Scope: Design & Shop Drawings
+- **World Bank**
+  - Country: Nigeria
+  - BUA: 4,200 m2
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: Elec Shop Drawings
+
+### Power Plants & Data Centers (8 projects)
+- **Riyadh Power Plant PP10**
+  - Country: Saudi Arabia
+  - BUA: N/A
+  - Contractor: Arabian Bemco Contracting
+  - Architect: N/A
+  - Scope: M&E Detailed Design (Industrial Bldgs) Outdoor & Road Lighting
+- **KAIA Data Centers 1&2**
+  - Country: Saudi Arabia
+  - BUA: N/A
+  - Contractor: SBG/Vision
+  - Architect: N/A
+  - Scope: M&E Shop Drawings
+- **Al-Qassim PP Extension #2**
+  - Country: Saudi Arabia
+  - BUA: N/A
+  - Contractor: Arabian Bemco Contracting
+  - Architect: N/A
+  - Scope: M&E Design (Industrial Bldgs) Outdoor & Road Lighting
+- **Total Headquarters Data Center**
+  - Country: Nigeria
+  - BUA: N/A
+  - Contractor: ITB Nigeria
+  - Architect: N/A
+  - Scope: Elec Detailed Design
+- **Al-Qassim PP Extension #3**
+  - Country: N/A
+  - BUA: N/A
+  - Contractor: Arabian Bemco Contracting
+  - Architect: N/A
+  - Scope: M&E Design (Industrial Bldgs) Outdoor & Road Lighting
+- **Africa Data Centers**
+  - Country: Nigeria
+  - BUA: N/A
+  - Contractor: ITB Nigeria
+  - Architect: N/A
+  - Scope: Electrical Shop Drawings
+- **King Khaled International Airport AGL Substations**
+  - Country: Saudi Arabia
+  - BUA: N/A
+  - Contractor: Almabani
+  - Architect: N/A
+  - Scope: Architecture and M&E Shop Drawings
+- **eStruxture Data Center**
+  - Country: Canada
+  - BUA: N/A
+  - Contractor: Kolostat
+  - Architect: N/A
+  - Scope: Mechanical Shop Drawings
+
+### Residential (7 projects)
+- **Meydan I Staff Accommodation**
+  - Country: UAE
+  - BUA: 62,500  m2
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: M&E Shop Drawings
+- **Sky Tower**
+  - Country: Nigeria
+  - BUA: 32,700 m2
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: M&E Detailed Design
+- **Kuramo Beach Residence**
+  - Country: Nigeria
+  - BUA: 71,500 m2
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: Elec Shop Drawings (REVIT for Elec Rooms)
+- **Twin Tower**
+  - Country: Nigeria
+  - BUA: 41,500 m2
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: M&E Detailed Design
+- **Roshn Show Villas**
+  - Country: Saudi Arabia
+  - BUA: N/A
+  - Contractor: ARAC
+  - Architect: N/A
+  - Scope: M&E Detailed Design (Revit Works)
+- **Darco Shatea Residences**
+  - Country: Saudi Arabia
+  - BUA: 514 Units
+  - Contractor: MDC
+  - Architect: N/A
+  - Scope: M&E Detailed Design
+- **Bin Mahfouz Residential Compound**
+  - Country: Saudi Arabia
+  - BUA: N/A
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: M&E Detailed Design
+
+### Retail (9 projects)
+- **Zouhour Baghdad Mall**
+  - Country: Iraq
+  - BUA: 150,000 m2
+  - Contractor: N/A
+  - Architect: CAP
+  - Scope: M&E Detailed Design
+- **Marchés Urbains et Régionaux**
+  - Country: Benin
+  - BUA: 9 Markets Districts
+  - Contractor: ITB Nigeria
+  - Architect: N/A
+  - Scope: M&E Shop Drawings
+- **Kirkuk Mall**
+  - Country: Iraq
+  - BUA: 62,500 m2
+  - Contractor: N/A
+  - Architect: CAP
+  - Scope: M&E Detailed Design
+- **Kirkuk Landmark Mall**
+  - Country: Iraq
+  - BUA: 55,500 m2
+  - Contractor: N/A
+  - Architect: CAP
+  - Scope: M&E Detailed Design
+- **Baghdad Mall**
+  - Country: Iraq
+  - BUA: 750,000 m2
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: Elec Design Review
+- **Erbil City Center**
+  - Country: Iraq
+  - BUA: 637,750 m2
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: Elec Detailed Design
+- **Sultan Boulevard Commercial Center**
+  - Country: Saudi Arabia
+  - BUA: 30,000 m 2
+  - Contractor: N/A
+  - Architect: MDC
+  - Scope: M&E Detailed Design
+- **Villaggio II**
+  - Country: Saudi Arabia
+  - BUA: 9,000 m 2
+  - Contractor: Richmond
+  - Architect: N/A
+  - Scope: M&E Detailed Design
+- **Patchi Waterway**
+  - Country: Egypt
+  - BUA: N/A
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: Architecture and M&E Detailed Design
+
+### Value Engineering & Peer Review (6 projects)
+- **Jezan Airport**
+  - Country: Saudi Arabia
+  - BUA: 60,000 m2
+  - Contractor: N/A
+  - Architect: Edge Arch
+  - Scope: M&E Value Engineering
+- **Al Khalidia Palace**
+  - Country: UAE
+  - BUA: N/A
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: M&E Value Engineering
+- **MBL Residence**
+  - Country: UAE
+  - BUA: 70,600 m2
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: M&E Value Engineering
+- **MAG 5 Boulevard**
+  - Country: UAE
+  - BUA: 140,000 m2
+  - Contractor: N/A
+  - Architect: N/A
+  - Scope: M&E Value Engineering
+- **Entissar Tower (Residential & Luxury Hotel)**
+  - Country: UAE
+  - BUA: 270,500 m2  (570 m height)
+  - Contractor: WSP / ae7
+  - Architect: N/A
+  - Scope: M&E Value Engineering
+- **Viceroy Tower**
+  - Country: UAE
+  - BUA: 140,000 m2
+  - Contractor: Atkins
+  - Architect: N/A
+  - Scope: M&E Value Engineering

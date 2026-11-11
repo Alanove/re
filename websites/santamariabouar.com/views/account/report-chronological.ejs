@@ -1,0 +1,79 @@
+<div class="account-page account-page--portal">
+  <div class="account-shell">
+    <%- include('partials/sidebar') %>
+    <div class="account-main">
+      <div class="account-main__header">
+        <h1>All Compound Payments<% if (selectedYear && selectedYear !== 'all') { %> <span class="account-meta">— <%= selectedYear %></span><% } %></h1>
+        <p class="account-meta">All income and expenses for the whole compound.</p>
+      </div>
+
+      <div class="account-panel">
+        <form method="GET" action="/account/transactions-chronological" class="account-filter">
+          <label for="year">Year</label>
+          <select id="year" name="year" class="js-year-filter">
+            <option value="all" <%= selectedYear === 'all' ? 'selected' : '' %>>All Years</option>
+            <% (availableYears || []).forEach(function(y) { %>
+              <option value="<%= y %>" <%= selectedYear === String(y) ? 'selected' : '' %>><%= y %></option>
+            <% }); %>
+          </select>
+        </form>
+
+        <div class="account-summary">
+          <div class="account-summary__item">
+            <span>Total Income</span>
+            <strong>$<%= Number(totalIncome || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></strong>
+          </div>
+          <div class="account-summary__item">
+            <span>Total Expenses</span>
+            <strong>$<%= Number(totalExpenses || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></strong>
+          </div>
+          <div class="account-summary__item">
+            <span>Balance</span>
+            <strong>$<%= Number(balance || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></strong>
+          </div>
+          <div class="account-summary__item">
+            <span>Transactions</span>
+            <strong><%= transactionCount %></strong>
+          </div>
+        </div>
+
+        <% if (transactions && transactions.length) { %>
+          <div class="table-responsive">
+            <table class="account-table">
+              <thead>
+                <tr>
+                  <th class="account-col-date">Date</th>
+                  <th class="account-col-apartment">Apartment</th>
+                  <th class="account-col-category">Category</th>
+                  <th class="account-col-description">Description</th>
+                  <th class="account-col-receipt">Receipt</th>
+                  <th class="account-col-money text-end">Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% transactions.forEach(function(tx) { %>
+                  <tr class="<%= tx.type === 'income' ? 'account-row--income' : 'account-row--expense' %>">
+                    <td data-label="Date"><%= tx.date %></td>
+                    <td data-label="Apartment"><%= tx.apartmentLabel %></td>
+                    <td data-label="Category">
+                      <span class="account-cat-dot" style="background: <%= tx.categoryColor %>;"></span><%= tx.categoryName %>
+                    </td>
+                    <td data-label="Description"><%= tx.description || '—' %></td>
+                    <td data-label="Receipt"><% if (tx.receiptImage) { %><%- include('partials/receipt-link', { receiptImage: tx.receiptImage }) %><% } else { %>—<% } %></td>
+                    <td data-label="Amount" class="text-end">
+                      <span class="<%= tx.type === 'income' ? 'account-amount--income' : 'account-amount--expense' %>">
+                        <%= tx.type === 'income' ? '+' : '-' %>$<%= Number(tx.amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+                      </span>
+                    </td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        <% } else { %>
+          <p class="account-empty">No transactions found for the selected period.</p>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>

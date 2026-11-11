@@ -1,0 +1,1511 @@
+<!-- BEGIN content area -->
+<div class="menu-editing">
+	<div class="row">
+		<div class="col-xl-12">
+			<!-- BEGIN panel -->
+			<div class="panel panel-inverse">
+				<div class="panel-heading">
+					<h4 class="panel-title"><%= typeof t !== 'undefined' ? t('menus.editMenu') : 'Edit Menu' %>: <%= menu.name %></h4>
+					<div class="panel-heading-btn">
+						<a href="/admin/menus" class="btn btn-xs btn-secondary">
+							<i class="fa fa-arrow-left"></i> <%= typeof t !== 'undefined' ? t('menus.backToMenus') : 'Back to Menus' %>
+						</a>
+					</div>
+				</div>
+				<div class="panel-body">
+				<div class="row">
+					<div class="col-md-4">
+						<!-- Menu Details -->
+						<div class="card">
+							<div class="card-header">
+								<h5 class="card-title mb-0">
+									<i class="fa fa-bars me-2"></i><%= typeof t !== 'undefined' ? t('menus.menuInformation') : 'Menu Information' %>
+								</h5>
+							</div>
+							<div class="card-body">
+								<form method="POST" action="/admin/menus/<%= menu.id %>/edit">
+									<input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+									<div class="mb-3">
+										<label for="name" class="form-label"><%= typeof t !== 'undefined' ? t('menus.menuName') : 'Menu Name' %> <span class="text-danger">*</span></label>
+										<input type="text" class="form-control" id="name" name="name" value="<%= menu.name %>" required>
+									</div>
+									
+								<div class="mb-3">
+									<label for="description" class="form-label"><%= typeof t !== 'undefined' ? t('menus.description') : 'Description' %></label>
+									<textarea class="form-control" id="description" name="description" rows="3"><%= menu.description %></textarea>
+								</div>
+									
+									<div class="d-grid">
+										<button type="submit" class="btn btn-primary">
+											<i class="fa fa-save me-1"></i> <%= typeof t !== 'undefined' ? t('menus.updateMenu') : 'Update Menu' %>
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+						
+						<!-- Add Menu Item Button -->
+						<div class="card mt-3">
+							<div class="card-body">
+								<div class="d-grid">
+									<button type="button" class="btn btn-success" id="addMenuItemBtn">
+										<i class="fa fa-plus me-1"></i> <%= typeof t !== 'undefined' ? t('menus.addMenuItem') : 'Add Menu Item' %>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-md-8">
+						<!-- Menu Items -->
+						<div class="card">
+							<div class="card-header">
+								<h5 class="card-title mb-0">
+									<i class="fa fa-list me-2"></i><%= typeof t !== 'undefined' ? t('menus.menuItems') : 'Menu Items' %>
+								</h5>
+								<div class="card-header-btn">
+									<button type="button" class="btn btn-xs btn-outline-secondary" id="expandAll">
+										<i class="fa fa-expand"></i> <%= typeof t !== 'undefined' ? t('menus.expandAll') : 'Expand All' %>
+									</button>
+									<button type="button" class="btn btn-xs btn-outline-secondary" id="collapseAll">
+										<i class="fa fa-compress"></i> <%= typeof t !== 'undefined' ? t('menus.collapseAll') : 'Collapse All' %>
+									</button>
+								</div>
+							</div>
+							<div class="card-body">
+								<div id="menuItemsContainer">
+									<div class="text-center text-muted py-4" id="noItemsMessage">
+										<i class="fa fa-list fa-3x mb-3"></i>
+										<h6><%= typeof t !== 'undefined' ? t('menus.noMenuItems') : 'No menu items' %></h6>
+										<p><%= typeof t !== 'undefined' ? t('menus.addFirstMenuItem') : 'Add your first menu item to get started.' %></p>
+									</div>
+									<div id="menuItemsList" style="display: none;"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END panel -->
+	</div>
+</div>
+</div>
+<!-- END content area -->
+
+<!-- Edit Menu Item Modal -->
+<div class="modal fade" id="editMenuItemModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title"><%= typeof t !== 'undefined' ? t('menus.editMenuItem') : 'Edit Menu Item' %></h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+			<div class="modal-body">
+				<form id="editMenuItemForm">
+					<input type="hidden" id="editItemId">
+					<div class="mb-3">
+						<label for="editItemTitle" class="form-label"><%= typeof t !== 'undefined' ? t('menus.itemTitle') : 'Title' %> <span class="text-danger">*</span></label>
+						<input type="text" class="form-control" id="editItemTitle" required>
+					</div>
+					
+					<div class="mb-3">
+						<label for="editParentItem" class="form-label"><%= typeof t !== 'undefined' ? t('menus.parentItem') : 'Parent Item' %></label>
+						<select class="form-select" id="editParentItem">
+							<option value=""><%= typeof t !== 'undefined' ? t('menus.noParent') : 'No Parent (Top Level)' %></option>
+						</select>
+						<div class="form-text"><%= typeof t !== 'undefined' ? t('menus.changeParentHint') : 'Move this item under another parent or to the top level.' %></div>
+					</div>
+					
+					<div class="mb-3">
+						<label for="editItemType" class="form-label"><%= typeof t !== 'undefined' ? t('menus.itemType') : 'Type' %></label>
+						<select class="form-select" id="editItemType">
+							<option value=""><%= typeof t !== 'undefined' ? t('menus.parentMenuItem') : 'Parent Menu Item (No Link)' %></option>
+							<option value="page"><%= typeof t !== 'undefined' ? t('menus.page') : 'Page' %></option>
+							<option value="file"><%= typeof t !== 'undefined' ? t('menus.file') : 'File' %></option>
+							<option value="external"><%= typeof t !== 'undefined' ? t('menus.externalLink') : 'External Link' %></option>
+						</select>
+					</div>
+					
+					<!-- Page Selection (shown when type is 'page') -->
+					<div class="mb-3" id="editPageSelectionDiv" style="display: none;">
+						<label for="editItemPageAutocomplete" class="form-label"><%= typeof t !== 'undefined' ? t('menus.selectPage') : 'Select Page' %> <span class="text-danger">*</span></label>
+						<div class="autocomplete-wrapper position-relative">
+							<input type="text" class="form-control" id="editItemPageAutocomplete" 
+								   placeholder="<%= typeof t !== 'undefined' ? t('menus.searchPages') || 'Search pages...' : 'Search pages...' %>" 
+								   autocomplete="off">
+							<input type="hidden" id="editItemPageKey">
+							<div class="autocomplete-dropdown" id="editItemPageDropdown" style="display: none;"></div>
+							<div class="spinner-border spinner-border-sm position-absolute" id="editItemPageSpinner" style="display: none; right: 10px; top: 50%; transform: translateY(-50%);" role="status">
+								<span class="visually-hidden">Loading...</span>
+							</div>
+						</div>
+					</div>
+					
+					<!-- File Upload (shown when type is 'file') -->
+					<div class="mb-3" id="editFileUploadDiv" style="display: none;">
+						<label for="editItemFileUpload" class="form-label"><%= typeof t !== 'undefined' ? t('menus.uploadFile') : 'Upload File' %> <span class="text-danger">*</span></label>
+						<div class="input-group">
+							<input type="file" class="form-control" id="editItemFileUpload" accept="*/*">
+							<button type="button" class="btn btn-outline-secondary" id="editUploadFileBtn">
+								<i class="fa fa-upload"></i> <%= typeof t !== 'undefined' ? t('common.upload') : 'Upload' %>
+							</button>
+						</div>
+						<div class="form-text"><%= typeof t !== 'undefined' ? t('menus.uploadFileDescription') : 'Upload a file to the downloads folder' %></div>
+					</div>
+					
+					<!-- External Link (shown when type is 'external') -->
+					<div class="mb-3" id="editExternalLinkDiv" style="display: none;">
+						<label for="editItemLink" class="form-label"><%= typeof t !== 'undefined' ? t('menus.externalUrl') : 'External URL' %> <span class="text-danger">*</span></label>
+						<input type="url" class="form-control" id="editItemLink" placeholder="https://example.com">
+						<div class="form-text"><%= typeof t !== 'undefined' ? t('menus.externalUrlDescription') : 'Enter the full URL (e.g., "https://example.com")' %></div>
+					</div>
+					
+					<div class="mb-3">
+						<label for="editItemSort" class="form-label"><%= typeof t !== 'undefined' ? t('menus.sortOrder') : 'Sort Order' %></label>
+						<input type="number" class="form-control" id="editItemSort" min="1">
+					</div>
+					
+					<div class="mb-3">
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" id="editItemActive" checked>
+							<label class="form-check-label" for="editItemActive">
+								<%= typeof t !== 'undefined' ? t('common.active') : 'Active' %>
+							</label>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= typeof t !== 'undefined' ? t('common.cancel') : 'Cancel' %></button>
+				<button type="button" class="btn btn-primary" id="saveEditItem"><%= typeof t !== 'undefined' ? t('menus.saveChanges') : 'Save Changes' %></button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteItemModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title"><%= typeof t !== 'undefined' ? t('menus.deleteMenuItem') : 'Delete Menu Item' %></h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+			<div class="modal-body">
+				<p><%= typeof t !== 'undefined' ? t('menus.deleteItemConfirm').replace('{name}', '') : 'Are you sure you want to delete the menu item "' %><strong id="deleteItemName"></strong><%= typeof t !== 'undefined' ? '"?' : '"?' %></p>
+				<p class="text-danger"><small><%= typeof t !== 'undefined' ? t('menus.deleteItemWarning') : 'This action cannot be undone. All child items will also be deleted.' %></small></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= typeof t !== 'undefined' ? t('common.cancel') : 'Cancel' %></button>
+				<button type="button" class="btn btn-danger" id="confirmDeleteItem"><%= typeof t !== 'undefined' ? t('common.delete') : 'Delete' %> <%= typeof t !== 'undefined' ? t('common.item') || 'Item' : 'Item' %></button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- File Upload Modal -->
+<div class="modal fade" id="fileUploadModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title"><%= typeof t !== 'undefined' ? t('menus.fileUpload') : 'Upload File' %></h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+			<div class="modal-body">
+				<div class="mb-3">
+					<label for="modalFileUpload" class="form-label"><%= typeof t !== 'undefined' ? t('menus.selectFile') : 'Select File' %> <span class="text-danger">*</span></label>
+					<input type="file" class="form-control" id="modalFileUpload" accept="*/*">
+				</div>
+				<div class="mb-3">
+					<label for="modalFileName" class="form-label"><%= typeof t !== 'undefined' ? t('menus.fileName') : 'File Name (Optional)' %></label>
+					<input type="text" class="form-control" id="modalFileName" placeholder="<%= typeof t !== 'undefined' ? t('menus.fileNamePlaceholder') : 'Leave empty to use original filename' %>">
+				</div>
+				<div class="alert alert-info">
+					<small>
+						<i class="fa fa-info-circle"></i>
+						<%= typeof t !== 'undefined' ? t('menus.fileUploadNote') : 'Files will be uploaded to the downloads folder and can be accessed via /downloads/filename' %>
+					</small>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= typeof t !== 'undefined' ? t('common.cancel') : 'Cancel' %></button>
+				<button type="button" class="btn btn-primary" id="confirmFileUpload"><%= typeof t !== 'undefined' ? t('menus.confirmFileUpload') : 'Upload File' %></button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Add Menu Item Modal -->
+<div class="modal fade" id="addMenuItemModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title"><%= typeof t !== 'undefined' ? t('menus.addMenuItem') : 'Add Menu Item' %></h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+			<div class="modal-body">
+				<form id="addMenuItemForm">
+					<div class="mb-3">
+						<label for="parentItem" class="form-label"><%= typeof t !== 'undefined' ? t('menus.parentItem') : 'Parent Item (Optional)' %></label>
+						<select class="form-select" id="parentItem">
+							<option value=""><%= typeof t !== 'undefined' ? t('menus.noParent') : 'No Parent (Top Level)' %></option>
+						</select>
+					</div>
+					
+					<div class="mb-3">
+						<label for="itemType" class="form-label"><%= typeof t !== 'undefined' ? t('menus.itemType') : 'Type' %></label>
+						<select class="form-select" id="itemType">
+							<option value=""><%= typeof t !== 'undefined' ? t('menus.parentMenuItem') : 'Parent Menu Item (No Link)' %></option>
+							<option value="page"><%= typeof t !== 'undefined' ? t('menus.page') : 'Page' %></option>
+							<option value="file"><%= typeof t !== 'undefined' ? t('menus.file') : 'File' %></option>
+							<option value="external"><%= typeof t !== 'undefined' ? t('menus.externalLink') : 'External Link' %></option>
+						</select>
+					</div>
+					
+					<!-- Page Selection (shown when type is 'page') -->
+					<div class="mb-3" id="pageSelectionDiv" style="display: none;">
+						<label for="itemPageAutocomplete" class="form-label"><%= typeof t !== 'undefined' ? t('menus.selectPage') : 'Select Page' %> <span class="text-danger">*</span></label>
+						<div class="autocomplete-wrapper position-relative">
+							<input type="text" class="form-control" id="itemPageAutocomplete" 
+								   placeholder="<%= typeof t !== 'undefined' ? t('menus.searchPages') || 'Search pages...' : 'Search pages...' %>" 
+								   autocomplete="off">
+							<input type="hidden" id="itemPageKey">
+							<div class="autocomplete-dropdown" id="itemPageDropdown" style="display: none;"></div>
+							<div class="spinner-border spinner-border-sm position-absolute" id="itemPageSpinner" style="display: none; right: 10px; top: 50%; transform: translateY(-50%);" role="status">
+								<span class="visually-hidden">Loading...</span>
+							</div>
+						</div>
+					</div>
+					
+					<!-- File Upload (shown when type is 'file') -->
+					<div class="mb-3" id="fileUploadDiv" style="display: none;">
+						<label for="itemFileUpload" class="form-label"><%= typeof t !== 'undefined' ? t('menus.uploadFile') : 'Upload File' %> <span class="text-danger">*</span></label>
+						<input type="file" class="form-control" id="itemFileUpload" accept="*/*">
+						<div id="fileUploadStatus" class="mt-2" style="display: none;">
+							<div class="spinner-border spinner-border-sm text-primary" role="status">
+								<span class="visually-hidden">Uploading...</span>
+							</div>
+							<span class="ms-2" id="fileUploadStatusText">Uploading...</span>
+						</div>
+						<div id="fileUploadSuccess" class="mt-2 text-success" style="display: none;">
+							<i class="fa fa-check-circle"></i> <span id="fileUploadSuccessText"></span>
+						</div>
+						<div class="form-text"><%= typeof t !== 'undefined' ? t('menus.uploadFileDescription') : 'Select a file to upload automatically' %></div>
+					</div>
+					
+					<!-- External Link (shown when type is 'external') -->
+					<div class="mb-3" id="externalLinkDiv" style="display: none;">
+						<label for="itemLink" class="form-label"><%= typeof t !== 'undefined' ? t('menus.externalUrl') : 'External URL' %> <span class="text-danger">*</span></label>
+						<input type="url" class="form-control" id="itemLink" placeholder="https://example.com">
+						<div class="form-text"><%= typeof t !== 'undefined' ? t('menus.externalUrlDescription') : 'Enter the full URL (e.g., "https://example.com")' %></div>
+					</div>
+					
+					<div class="mb-3">
+						<label for="itemTitle" class="form-label"><%= typeof t !== 'undefined' ? t('menus.itemTitle') : 'Title' %> <span class="text-danger">*</span></label>
+						<input type="text" class="form-control" id="itemTitle" required>
+					</div>
+					
+					<div class="mb-3">
+						<label for="itemSort" class="form-label"><%= typeof t !== 'undefined' ? t('menus.sortOrder') : 'Sort Order' %></label>
+						<input type="number" class="form-control" id="itemSort" value="1" min="1">
+					</div>
+					
+					<div class="mb-3">
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" id="itemActive" checked>
+							<label class="form-check-label" for="itemActive">
+								<%= typeof t !== 'undefined' ? t('common.active') : 'Active' %>
+							</label>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= typeof t !== 'undefined' ? t('common.cancel') : 'Cancel' %></button>
+				<button type="button" class="btn btn-success" id="saveAddItem"><%= typeof t !== 'undefined' ? t('menus.addItem') : 'Add Item' %></button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+	const menuId = '<%= menu.id %>';
+	let menuItems = <%- JSON.stringify(menu.items) %>;
+	const allMenus = <%- JSON.stringify(typeof allMenus !== 'undefined' ? allMenus : [menu]) %>;
+	const currentMenuLabel = <%- JSON.stringify(menu.name) %>;
+	let itemToDelete = null;
+	
+	// Autocomplete debounce timeout
+	let autocompleteTimeout = null;
+	const autocompleteDelay = 300; // milliseconds
+	
+	// Initialize modals
+	const editModal = new bootstrap.Modal(document.getElementById('editMenuItemModal'));
+	const deleteModal = new bootstrap.Modal(document.getElementById('deleteItemModal'));
+	const fileUploadModalElement = document.getElementById('fileUploadModal');
+	if (!fileUploadModalElement) {
+		console.error('File upload modal element not found!');
+	}
+	const fileUploadModal = new bootstrap.Modal(fileUploadModalElement);
+	const addMenuItemModal = new bootstrap.Modal(document.getElementById('addMenuItemModal'));
+	
+	// Initialize Sortable.js for drag and drop
+	let sortableInstance = null;
+	let childSortableInstances = [];
+	
+	// Autocomplete functionality
+	function initAutocomplete(inputId, hiddenInputId, dropdownId, spinnerId, titleInputId) {
+		const input = document.getElementById(inputId);
+		const hiddenInput = document.getElementById(hiddenInputId);
+		const dropdown = document.getElementById(dropdownId);
+		const spinner = document.getElementById(spinnerId);
+		const titleInput = titleInputId ? document.getElementById(titleInputId) : null;
+		let selectedPage = null;
+		
+		if (!input || !hiddenInput || !dropdown) return;
+		
+		// Search pages function
+		function searchPages(query) {
+			if (!query || query.trim().length < 2) {
+				dropdown.style.display = 'none';
+				return;
+			}
+			
+			spinner.style.display = 'block';
+			
+			fetch(`/admin/api/pages?search=${encodeURIComponent(query)}`)
+				.then(response => response.json())
+				.then(data => {
+					spinner.style.display = 'none';
+					if (data.success && data.pages && data.pages.length > 0) {
+						dropdown.innerHTML = '';
+						data.pages.forEach(page => {
+							const item = document.createElement('div');
+							item.className = 'autocomplete-item';
+							item.textContent = page.title;
+							item.dataset.key = page.key;
+							item.dataset.title = page.title;
+							item.addEventListener('click', function() {
+								input.value = page.title;
+								hiddenInput.value = page.key;
+								selectedPage = page;
+								dropdown.style.display = 'none';
+								if (titleInput) {
+									titleInput.value = page.title;
+								}
+							});
+							dropdown.appendChild(item);
+						});
+						dropdown.style.display = 'block';
+					} else {
+						dropdown.innerHTML = '<div class="autocomplete-item autocomplete-no-results">No pages found</div>';
+						dropdown.style.display = 'block';
+					}
+				})
+				.catch(error => {
+					console.error('Error searching pages:', error);
+					spinner.style.display = 'none';
+					dropdown.style.display = 'none';
+				});
+		}
+		
+		// Debounced search
+		input.addEventListener('input', function() {
+			clearTimeout(autocompleteTimeout);
+			const query = this.value.trim();
+			
+			if (query.length === 0) {
+				hiddenInput.value = '';
+				selectedPage = null;
+				dropdown.style.display = 'none';
+				return;
+			}
+			
+			autocompleteTimeout = setTimeout(() => {
+				searchPages(query);
+			}, autocompleteDelay);
+		});
+		
+		// Hide dropdown when clicking outside
+		document.addEventListener('click', function(e) {
+			if (!input.contains(e.target) && !dropdown.contains(e.target)) {
+				dropdown.style.display = 'none';
+			}
+		});
+		
+		// Handle keyboard navigation
+		input.addEventListener('keydown', function(e) {
+			const items = dropdown.querySelectorAll('.autocomplete-item:not(.autocomplete-no-results)');
+			if (items.length === 0) return;
+			
+			const currentIndex = Array.from(items).findIndex(item => item.classList.contains('active'));
+			
+			if (e.key === 'ArrowDown') {
+				e.preventDefault();
+				items.forEach(item => item.classList.remove('active'));
+				const nextIndex = currentIndex < items.length - 1 ? currentIndex + 1 : 0;
+				items[nextIndex].classList.add('active');
+				items[nextIndex].scrollIntoView({ block: 'nearest' });
+			} else if (e.key === 'ArrowUp') {
+				e.preventDefault();
+				items.forEach(item => item.classList.remove('active'));
+				const prevIndex = currentIndex > 0 ? currentIndex - 1 : items.length - 1;
+				items[prevIndex].classList.add('active');
+				items[prevIndex].scrollIntoView({ block: 'nearest' });
+			} else if (e.key === 'Enter') {
+				e.preventDefault();
+				const activeItem = dropdown.querySelector('.autocomplete-item.active');
+				if (activeItem) {
+					activeItem.click();
+				}
+			} else if (e.key === 'Escape') {
+				dropdown.style.display = 'none';
+			}
+		});
+		
+		// Return function to get selected value
+		return function() {
+			return hiddenInput.value || null;
+		};
+	}
+	
+	// Initialize autocomplete for add and edit modals
+	let getItemPageValue = null;
+	let getEditItemPageValue = null;
+	
+	// Load menu items
+	function loadMenuItems() {
+		const container = document.getElementById('menuItemsList');
+		const noItemsMessage = document.getElementById('noItemsMessage');
+		
+		if (menuItems.length === 0) {
+			container.style.display = 'none';
+			noItemsMessage.style.display = 'block';
+			return;
+		}
+		
+		container.style.display = 'block';
+		noItemsMessage.style.display = 'none';
+		
+		// Sort items by sort order
+		menuItems.sort((a, b) => a.sort - b.sort);
+		
+		container.innerHTML = renderMenuItems(menuItems);
+		
+		// Initialize sortable - destroy existing instances first
+		if (sortableInstance) {
+			sortableInstance.destroy();
+		}
+		childSortableInstances.forEach(instance => {
+			if (instance) instance.destroy();
+		});
+		childSortableInstances = [];
+		
+		// Initialize sortable on main container
+		sortableInstance = Sortable.create(container, {
+			group: 'menu-items',
+			animation: 150,
+			draggable: '.menu-item',
+			handle: '.menu-item-handle',
+			onEnd: function(evt) {
+				handleItemMove(evt);
+			}
+		});
+		
+		// Initialize sortable on all child containers
+		const childContainers = container.querySelectorAll('.menu-item-children');
+		childContainers.forEach(childContainer => {
+			const childInstance = new Sortable(childContainer, {
+				group: 'menu-items',
+				animation: 150,
+				draggable: '.menu-item',
+				handle: '.menu-item-handle',
+				onEnd: function(evt) {
+					handleItemMove(evt);
+				}
+			});
+			childSortableInstances.push(childInstance);
+		});
+		
+		// Update parent item dropdown
+		updateParentItemDropdown();
+	}
+	
+	function renderMenuItems(items, level = 0) {
+		return items.map(item => `
+			<div class="menu-item" data-item-id="${item.id}" data-sort="${item.sort}">
+				<div class="menu-item-content">
+					<div class="menu-item-handle">
+						<i class="fa fa-grip-vertical text-muted"></i>
+					</div>
+					<div class="menu-item-info">
+						<div class="menu-item-title">${item.title}</div>
+						<div class="menu-item-details">
+							<span class="badge bg-${getTypeBadgeColor(item.type)}">${item.type === '' ? 'Parent' : item.type}</span>
+							<span class="text-muted">${item.type === '' ? 'No link' : item.link}</span>
+							${item.active ? '<span class="badge bg-success">Active</span>' : '<span class="badge bg-secondary">Inactive</span>'}
+						</div>
+					</div>
+					<div class="menu-item-actions">
+						<button type="button" class="btn btn-xs btn-primary edit-item" data-item-id="${item.id}">
+							<i class="fa fa-edit"></i>
+						</button>
+						<button type="button" class="btn btn-xs btn-success add-child" data-item-id="${item.id}">
+							<i class="fa fa-plus"></i>
+						</button>
+						<button type="button" class="btn btn-xs btn-danger delete-item" data-item-id="${item.id}" data-item-title="${item.title}">
+							<i class="fa fa-trash"></i>
+						</button>
+					</div>
+				</div>
+				${item.children && item.children.length > 0 ? `
+					<div class="menu-item-children" style="margin-left: ${(level + 1) * 20}px;">
+						${renderMenuItems(item.children, level + 1)}
+					</div>
+				` : ''}
+			</div>
+		`).join('');
+	}
+	
+	function getTypeBadgeColor(type) {
+		switch(type) {
+			case 'page': return 'primary';
+			case 'file': return 'info';
+			case 'external': return 'warning';
+			case '': return 'secondary';
+			default: return 'secondary';
+		}
+	}
+	
+	function appendParentOptionsFromAllMenus(dropdown, excludeIds) {
+		dropdown.innerHTML = '';
+		const opt0 = document.createElement('option');
+		opt0.value = '';
+		opt0.textContent = 'No Parent (Top Level) — ' + currentMenuLabel;
+		dropdown.appendChild(opt0);
+		
+		for (const m of allMenus) {
+			const mid = String(m.id);
+			if (mid !== String(menuId)) {
+				if (!excludeIds.has(mid)) {
+					const o = document.createElement('option');
+					o.value = mid;
+					o.textContent = 'Top level — ' + m.name;
+					dropdown.appendChild(o);
+				}
+			}
+			function walk(items, depth) {
+				(items || []).forEach(item => {
+					if (excludeIds.has(String(item.id))) return;
+					const o = document.createElement('option');
+					o.value = item.id;
+					o.textContent = m.name + ': ' + '\u2014'.repeat(depth) + ' ' + item.title;
+					dropdown.appendChild(o);
+					if (item.children && item.children.length) walk(item.children, depth + 1);
+				});
+			}
+			walk(m.items || [], 0);
+		}
+	}
+	
+	function updateParentItemDropdown() {
+		appendParentOptionsFromAllMenus(document.getElementById('parentItem'), new Set());
+	}
+	
+	function collectSubtreeIds(item) {
+		const ids = [String(item.id)];
+		(item.children || []).forEach(c => {
+			collectSubtreeIds(c).forEach(id => ids.push(id));
+		});
+		return ids;
+	}
+	
+	function findParentIdOfItem(items, childId, parentRef = null) {
+		for (const item of items) {
+			if (String(item.id) === String(childId)) return parentRef;
+			if (item.children && item.children.length > 0) {
+				const found = findParentIdOfItem(item.children, childId, item.id);
+				if (found !== undefined) return found;
+			}
+		}
+		return undefined;
+	}
+	
+	function updateEditParentItemDropdown(editingItemId) {
+		const editingItem = findMenuItem(menuItems, editingItemId);
+		const exclude = new Set(editingItem ? collectSubtreeIds(editingItem) : [String(editingItemId)]);
+		appendParentOptionsFromAllMenus(document.getElementById('editParentItem'), exclude);
+	}
+	
+	// Handle item type change
+	document.getElementById('itemType').addEventListener('change', function() {
+		const pageSelectionDiv = document.getElementById('pageSelectionDiv');
+		const fileUploadDiv = document.getElementById('fileUploadDiv');
+		const externalLinkDiv = document.getElementById('externalLinkDiv');
+		
+		// Hide all divs first
+		pageSelectionDiv.style.display = 'none';
+		fileUploadDiv.style.display = 'none';
+		externalLinkDiv.style.display = 'none';
+		
+		switch(this.value) {
+			case '':
+				// Parent menu item - no additional fields needed
+				break;
+			case 'page':
+				pageSelectionDiv.style.display = 'block';
+				break;
+			case 'file':
+				fileUploadDiv.style.display = 'block';
+				// Reset file upload status
+				document.getElementById('fileUploadStatus').style.display = 'none';
+				document.getElementById('fileUploadSuccess').style.display = 'none';
+				window.uploadedFilePath = null;
+				break;
+			case 'external':
+				externalLinkDiv.style.display = 'block';
+				break;
+		}
+	});
+	
+	// Handle edit item type change
+	document.getElementById('editItemType').addEventListener('change', function() {
+		const editPageSelectionDiv = document.getElementById('editPageSelectionDiv');
+		const editFileUploadDiv = document.getElementById('editFileUploadDiv');
+		const editExternalLinkDiv = document.getElementById('editExternalLinkDiv');
+		
+		// Hide all divs first
+		editPageSelectionDiv.style.display = 'none';
+		editFileUploadDiv.style.display = 'none';
+		editExternalLinkDiv.style.display = 'none';
+		
+		switch(this.value) {
+			case '':
+				// Parent menu item - no additional fields needed
+				break;
+			case 'page':
+				editPageSelectionDiv.style.display = 'block';
+				break;
+			case 'file':
+				editFileUploadDiv.style.display = 'block';
+				break;
+			case 'external':
+				editExternalLinkDiv.style.display = 'block';
+				break;
+		}
+	});
+	
+	// Initialize autocomplete when modals are shown
+	addMenuItemModal._element.addEventListener('shown.bs.modal', function() {
+		if (!getItemPageValue) {
+			getItemPageValue = initAutocomplete('itemPageAutocomplete', 'itemPageKey', 'itemPageDropdown', 'itemPageSpinner', 'itemTitle');
+		}
+	});
+	
+	editModal._element.addEventListener('shown.bs.modal', function() {
+		if (!getEditItemPageValue) {
+			getEditItemPageValue = initAutocomplete('editItemPageAutocomplete', 'editItemPageKey', 'editItemPageDropdown', 'editItemPageSpinner', 'editItemTitle');
+		}
+	});
+	
+	// Handle file upload - upload immediately when file is selected
+	document.getElementById('itemFileUpload').addEventListener('change', function(e) {
+		const fileInput = this;
+		const file = fileInput.files && fileInput.files[0];
+		
+		if (!file) {
+			return;
+		}
+		
+		// Show upload status
+		const uploadStatus = document.getElementById('fileUploadStatus');
+		const uploadStatusText = document.getElementById('fileUploadStatusText');
+		const uploadSuccess = document.getElementById('fileUploadSuccess');
+		const uploadSuccessText = document.getElementById('fileUploadSuccessText');
+		
+		if (uploadStatus) uploadStatus.style.display = 'block';
+		if (uploadStatusText) uploadStatusText.textContent = 'Uploading ' + file.name + '...';
+		if (uploadSuccess) uploadSuccess.style.display = 'none';
+		
+		const formData = new FormData();
+		formData.append('file', file);
+		
+		fetch('/admin/upload-file', {
+			method: 'POST',
+			headers: getCsrfHeaders({
+				'X-Requested-With': 'XMLHttpRequest'
+			}),
+			body: formData
+		})
+		.then(async response => {
+			// Check if response is JSON
+			const contentType = response.headers.get('content-type');
+			if (!contentType || !contentType.includes('application/json')) {
+				if (response.status === 403) {
+					showToast({ message: 'Access denied. You do not have permission to upload files.', type: 'error' });
+					return { success: false, error: 'Access denied' };
+				}
+				const text = await response.text();
+				console.error('Non-JSON response:', text);
+				showToast({ message: 'Server error. Please try again.', type: 'error' });
+				return { success: false, error: 'Server error' };
+			}
+			return response.json();
+		})
+		.then(data => {
+			if (!data) return;
+			
+			if (data.success) {
+				// Set the file path
+				window.uploadedFilePath = data.filePath;
+				
+				// Set the title to the original filename
+				const itemTitleInput = document.getElementById('itemTitle');
+				if (itemTitleInput && !itemTitleInput.value.trim()) {
+					itemTitleInput.value = data.originalName || file.name;
+				}
+				
+				// Hide upload status, show success
+				if (uploadStatus) uploadStatus.style.display = 'none';
+				if (uploadSuccess) uploadSuccess.style.display = 'block';
+				if (uploadSuccessText) uploadSuccessText.textContent = 'File uploaded: ' + (data.originalName || file.name);
+				
+				showToast({ message: 'File uploaded successfully!', type: 'success' });
+			} else {
+				const errorMessage = data.error || 'Unknown error occurred';
+				if (uploadStatus) uploadStatus.style.display = 'none';
+				showToast({ message: 'Error: ' + errorMessage, type: 'error' });
+				fileInput.value = ''; // Clear the file input
+			}
+		})
+		.catch(error => {
+			console.error('Error uploading file:', error);
+			if (uploadStatus) uploadStatus.style.display = 'none';
+			showToast({ message: 'Failed to upload file: ' + error.message, type: 'error' });
+			fileInput.value = ''; // Clear the file input
+		});
+	});
+	
+	// Handle file upload confirmation
+	document.getElementById('confirmFileUpload').addEventListener('click', function() {
+		const fileInput = document.getElementById('modalFileUpload');
+		const fileNameInput = document.getElementById('modalFileName');
+		const file = fileInput.files[0];
+		
+		if (!file) {
+			showToast({ message: 'Please select a file to upload', type: 'warning' });
+			return;
+		}
+		
+		const formData = new FormData();
+		formData.append('file', file);
+		if (fileNameInput.value.trim()) {
+			formData.append('customName', fileNameInput.value.trim());
+		}
+		
+		// Show loading state
+		const uploadBtn = this;
+		const originalText = uploadBtn.innerHTML;
+		uploadBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Uploading...';
+		uploadBtn.disabled = true;
+		
+		fetch('/admin/upload-file', {
+			method: 'POST',
+			headers: getCsrfHeaders({
+				'X-Requested-With': 'XMLHttpRequest'
+			}),
+			body: formData
+		})
+		.then(async response => {
+			// Check if response is JSON
+			const contentType = response.headers.get('content-type');
+			if (!contentType || !contentType.includes('application/json')) {
+				if (response.status === 403) {
+					showToast({ message: 'Access denied. You do not have permission to upload files.', type: 'error' });
+					return { success: false, error: 'Access denied' };
+				}
+				const text = await response.text();
+				console.error('Non-JSON response:', text);
+				showToast({ message: 'Server error. Please try again.', type: 'error' });
+				return { success: false, error: 'Server error' };
+			}
+			return response.json();
+		})
+		.then(data => {
+			if (!data) return;
+			
+			if (data.success) {
+				// Set the file path in the appropriate input
+				const currentType = document.getElementById('itemType')?.value;
+				if (currentType === 'file') {
+					const itemTitleInput = document.getElementById('itemTitle');
+					if (itemTitleInput) {
+						itemTitleInput.value = file.name;
+					}
+					// We'll set the link when the form is submitted
+					window.uploadedFilePath = data.filePath;
+					console.log('File uploaded, path saved:', data.filePath);
+				}
+				
+				// Also check edit form
+				const editType = document.getElementById('editItemType')?.value;
+				if (editType === 'file') {
+					const editItemTitleInput = document.getElementById('editItemTitle');
+					if (editItemTitleInput) {
+						editItemTitleInput.value = file.name;
+					}
+					window.editUploadedFilePath = data.filePath;
+					console.log('File uploaded for edit, path saved:', data.filePath);
+				}
+				
+				fileUploadModal.hide();
+				showToast({ message: 'File uploaded successfully! Path: ' + data.filePath, type: 'success' });
+			} else {
+				const errorMessage = data.error || 'Unknown error occurred';
+				showToast({ message: 'Error: ' + errorMessage, type: 'error' });
+			}
+		})
+		.catch(error => {
+			console.error('Error uploading file:', error);
+			showToast({ message: 'Failed to upload file: ' + error.message, type: 'error' });
+		})
+		.finally(() => {
+			uploadBtn.innerHTML = originalText;
+			uploadBtn.disabled = false;
+			fileInput.value = '';
+			fileNameInput.value = '';
+		});
+	});
+	
+	// Add menu item button click
+	document.getElementById('addMenuItemBtn').addEventListener('click', function() {
+		// Reset form and populate dropdowns
+		document.getElementById('addMenuItemForm').reset();
+		document.getElementById('itemSort').value = '1';
+		document.getElementById('parentItem').value = '';
+		
+		// Ensure Active checkbox is checked by default
+		setTimeout(() => {
+			document.getElementById('itemActive').checked = true;
+		}, 0);
+		
+		// Populate dropdowns
+		updateParentItemDropdown();
+		
+		// Initialize autocomplete if not already done
+		if (!getItemPageValue) {
+			getItemPageValue = initAutocomplete('itemPageAutocomplete', 'itemPageKey', 'itemPageDropdown', 'itemPageSpinner', 'itemTitle');
+		}
+		
+		// Show modal
+		addMenuItemModal.show();
+	});
+	
+	// Add child menu item (clicking + button)
+	document.addEventListener('click', function(e) {
+		if (e.target.closest('.add-child')) {
+			const itemId = e.target.closest('.add-child').dataset.itemId;
+			const item = findMenuItem(menuItems, itemId);
+			
+			if (item) {
+				// Reset form and populate dropdowns
+				document.getElementById('addMenuItemForm').reset();
+				document.getElementById('itemSort').value = '1';
+				
+				// Ensure Active checkbox is checked by default
+				setTimeout(() => {
+					document.getElementById('itemActive').checked = true;
+				}, 0);
+				
+				// Populate dropdowns first
+				updateParentItemDropdown();
+				
+				// Initialize autocomplete if not already done
+				if (!getItemPageValue) {
+					getItemPageValue = initAutocomplete('itemPageAutocomplete', 'itemPageKey', 'itemPageDropdown', 'itemPageSpinner', 'itemTitle');
+				}
+				
+				// Set the parent to the clicked item after dropdown is populated
+				document.getElementById('parentItem').value = itemId;
+				
+				// Show modal
+				addMenuItemModal.show();
+			}
+		}
+	});
+	
+	// Save add menu item
+	document.getElementById('saveAddItem').addEventListener('click', function() {
+		const type = document.getElementById('itemType').value;
+		const title = document.getElementById('itemTitle').value.trim();
+		
+		// Validate title
+		if (!title) {
+			showToast({ message: 'Please enter a title for the menu item', type: 'error' });
+			return;
+		}
+		
+		let link = '';
+		
+		// Get link based on type and validate
+		switch(type) {
+			case '':
+				// Parent menu item - no link needed
+				link = '';
+				break;
+			case 'page':
+				link = document.getElementById('itemPageKey').value || '';
+				if (!link) {
+					showToast({ message: 'Please select a page', type: 'error' });
+					return;
+				}
+				break;
+			case 'file':
+				link = window.uploadedFilePath || '';
+				if (!link) {
+					showToast({ message: 'Please upload a file first', type: 'error' });
+					return;
+				}
+				break;
+			case 'external':
+				link = document.getElementById('itemLink').value.trim();
+				if (!link) {
+					showToast({ message: 'Please enter an external URL', type: 'error' });
+					return;
+				}
+				break;
+		}
+		
+		const activeStatus = document.getElementById('itemActive').checked;
+		
+		const formData = {
+			title: title,
+			type: type,
+			link: link,
+			sort: parseInt(document.getElementById('itemSort').value),
+			active: activeStatus,
+			parentId: document.getElementById('parentItem').value || null
+		};
+		
+		fetch(`/admin/menus/${menuId}/items`, {
+			method: 'POST',
+			headers: getCsrfHeaders({
+				'Content-Type': 'application/json',
+				'Accept': 'application/json',
+				'X-Requested-With': 'XMLHttpRequest'
+			}),
+			body: JSON.stringify(formData)
+		})
+		.then(async response => {
+			// Check if response is JSON
+			const contentType = response.headers.get('content-type');
+			if (!contentType || !contentType.includes('application/json')) {
+				if (response.status === 403) {
+					showToast({ message: 'Access denied. You do not have permission to add menu items.', type: 'error' });
+					return { success: false, errors: ['Access denied'] };
+				}
+				showToast({ message: 'Server error. Please try again.', type: 'error' });
+				return { success: false, errors: ['Server error'] };
+			}
+			return response.json();
+		})
+		.then(data => {
+			if (!data) return;
+			
+			if (data.success) {
+				// Show success message
+				showToast({ message: 'Menu item added successfully!', type: 'success' });
+				
+				// Reload menu items
+				fetch(`/admin/menus/${menuId}/items`)
+					.then(response => response.json())
+					.then(data => {
+						if (data.success) {
+							menuItems = data.items;
+							loadMenuItems();
+							addMenuItemModal.hide();
+						} else {
+							console.error('Error reloading menu items:', data.errors);
+							// Even if reload fails, the add was successful
+							addMenuItemModal.hide();
+							// Try to reload the page to ensure UI is in sync
+							location.reload();
+						}
+					})
+					.catch(error => {
+						console.error('Error reloading menu items:', error);
+						// Even if reload fails, the add was successful
+						addMenuItemModal.hide();
+						// Try to reload the page to ensure UI is in sync
+						location.reload();
+					});
+			} else {
+				const errorMessage = (data.errors && Array.isArray(data.errors)) 
+					? data.errors.join(', ') 
+					: (data.error || 'Unknown error occurred');
+				showToast({ message: 'Error: ' + errorMessage, type: 'error' });
+			}
+		})
+		.catch(error => {
+			console.error('Error:', error);
+			showToast({ message: 'Failed to add menu item', type: 'error' });
+		});
+	});
+	
+	// Edit menu item
+	document.addEventListener('click', function(e) {
+		if (e.target.closest('.edit-item')) {
+			const itemId = e.target.closest('.edit-item').dataset.itemId;
+			const item = findMenuItem(menuItems, itemId);
+			
+			if (item) {
+				// Initialize autocomplete if not already done
+				if (!getEditItemPageValue) {
+					getEditItemPageValue = initAutocomplete('editItemPageAutocomplete', 'editItemPageKey', 'editItemPageDropdown', 'editItemPageSpinner', 'editItemTitle');
+				}
+				
+				// Store the current item link for file type items
+				window.currentEditItemLink = item.link || '';
+				
+				const editItemId = document.getElementById('editItemId');
+				const editItemTitle = document.getElementById('editItemTitle');
+				const editItemType = document.getElementById('editItemType');
+				const editItemSort = document.getElementById('editItemSort');
+				const editItemActive = document.getElementById('editItemActive');
+				
+				if (editItemId) editItemId.value = item.id || '';
+				if (editItemTitle) editItemTitle.value = item.title || '';
+				if (editItemType) editItemType.value = item.type || '';
+				if (editItemSort) editItemSort.value = item.sort || '';
+				if (editItemActive) editItemActive.checked = item.active !== false;
+				
+				updateEditParentItemDropdown(itemId);
+				const editParentItemEl = document.getElementById('editParentItem');
+				if (editParentItemEl) {
+					const parentRef = findParentIdOfItem(menuItems, itemId);
+					editParentItemEl.value = parentRef === null || parentRef === undefined ? '' : String(parentRef);
+				}
+				
+				// Handle different types
+				const editPageSelectionDiv = document.getElementById('editPageSelectionDiv');
+				const editFileUploadDiv = document.getElementById('editFileUploadDiv');
+				const editExternalLinkDiv = document.getElementById('editExternalLinkDiv');
+				
+				// Hide all divs first
+				if (editPageSelectionDiv) editPageSelectionDiv.style.display = 'none';
+				if (editFileUploadDiv) editFileUploadDiv.style.display = 'none';
+				if (editExternalLinkDiv) editExternalLinkDiv.style.display = 'none';
+				
+				switch(item.type) {
+					case 'page':
+						if (editPageSelectionDiv) editPageSelectionDiv.style.display = 'block';
+						// Set the page key and display the title
+						const editItemPageKey = document.getElementById('editItemPageKey');
+						const editItemPageAutocomplete = document.getElementById('editItemPageAutocomplete');
+						if (editItemPageKey) editItemPageKey.value = item.link || '';
+						if (editItemPageAutocomplete) editItemPageAutocomplete.value = item.title || '';
+						break;
+					case 'file':
+						if (editFileUploadDiv) editFileUploadDiv.style.display = 'block';
+						// For existing files, show the current path in a read-only input
+						const fileInput = document.getElementById('editItemFileUpload');
+						if (fileInput && fileInput.parentElement) {
+							// Create a read-only display of the current file path
+							const currentFilePath = document.createElement('div');
+							currentFilePath.className = 'form-control-plaintext';
+							currentFilePath.textContent = item.link || 'No file selected';
+							currentFilePath.style.backgroundColor = '#f8f9fa';
+							currentFilePath.style.border = '1px solid #dee2e6';
+							currentFilePath.style.borderRadius = '0.375rem';
+							currentFilePath.style.padding = '0.375rem 0.75rem';
+							currentFilePath.style.marginBottom = '0.5rem';
+							
+							// Replace the file input with the display
+							const fileInputContainer = fileInput.parentElement;
+							fileInputContainer.innerHTML = '';
+							fileInputContainer.appendChild(currentFilePath);
+							
+							// Add a note about uploading a new file
+							const note = document.createElement('div');
+							note.className = 'form-text';
+							note.textContent = 'Upload a new file to replace the current one';
+							fileInputContainer.appendChild(note);
+						}
+						break;
+					case 'external':
+						if (editExternalLinkDiv) editExternalLinkDiv.style.display = 'block';
+						const editItemLink = document.getElementById('editItemLink');
+						if (editItemLink) editItemLink.value = item.link || '';
+						break;
+				}
+				
+				editModal.show();
+			}
+		}
+	});
+	
+	// Save edit
+	document.getElementById('saveEditItem').addEventListener('click', function() {
+		const editItemId = document.getElementById('editItemId');
+		const editItemType = document.getElementById('editItemType');
+		const editItemTitle = document.getElementById('editItemTitle');
+		const editItemSort = document.getElementById('editItemSort');
+		const editItemActive = document.getElementById('editItemActive');
+		
+		if (!editItemId || !editItemType || !editItemTitle || !editItemSort || !editItemActive) {
+			showToast({ message: 'Error: Form elements not found', type: 'error' });
+			return;
+		}
+		
+		const itemId = editItemId.value;
+		const type = editItemType.value;
+		let link = '';
+		
+		// Get link based on type
+		switch(type) {
+			case '':
+				// Parent menu item - no link needed
+				link = '';
+				break;
+			case 'page':
+				const editItemPageKey = document.getElementById('editItemPageKey');
+				link = editItemPageKey ? editItemPageKey.value || '' : '';
+				break;
+			case 'file':
+				// Use newly uploaded file path if available, otherwise keep existing link
+				link = window.editUploadedFilePath || window.currentEditItemLink || '';
+				break;
+			case 'external':
+				const editItemLink = document.getElementById('editItemLink');
+				link = editItemLink ? editItemLink.value || '' : '';
+				break;
+		}
+		
+		const activeStatus = editItemActive.checked;
+		
+		const editParentItemEl = document.getElementById('editParentItem');
+		const formData = {
+			title: editItemTitle.value || '',
+			type: type,
+			link: link,
+			sort: parseInt(editItemSort.value) || 1,
+			active: activeStatus,
+			parentId: editParentItemEl && editParentItemEl.value !== '' ? editParentItemEl.value : null
+		};
+		
+		fetch(`/admin/menus/${menuId}/items/${itemId}`, {
+			method: 'PUT',
+			headers: getCsrfHeaders({
+				'Content-Type': 'application/json',
+				'Accept': 'application/json',
+				'X-Requested-With': 'XMLHttpRequest'
+			}),
+			body: JSON.stringify(formData)
+		})
+		.then(async response => {
+			// Check if response is JSON
+			const contentType = response.headers.get('content-type');
+			if (!contentType || !contentType.includes('application/json')) {
+				if (response.status === 403) {
+					showToast({ message: 'Access denied. You do not have permission to update menu items.', type: 'error' });
+					return { success: false, errors: ['Access denied'] };
+				}
+				showToast({ message: 'Server error. Please try again.', type: 'error' });
+				return { success: false, errors: ['Server error'] };
+			}
+			return response.json();
+		})
+		.then(data => {
+			if (!data) return;
+			
+			if (data.success) {
+				// Show success message
+				showToast({ message: 'Menu item updated successfully!', type: 'success' });
+				
+				// Reload menu items
+				fetch(`/admin/menus/${menuId}/items`)
+					.then(response => response.json())
+					.then(data => {
+						if (data.success) {
+							menuItems = data.items;
+							loadMenuItems();
+							editModal.hide();
+						} else {
+							console.error('Error reloading menu items:', data.errors);
+							// Even if reload fails, the update was successful
+							editModal.hide();
+							// Try to reload the page to ensure UI is in sync
+							location.reload();
+						}
+					})
+					.catch(error => {
+						console.error('Error reloading menu items:', error);
+						// Even if reload fails, the update was successful
+						editModal.hide();
+						// Try to reload the page to ensure UI is in sync
+						location.reload();
+					});
+			} else {
+				const errorMessage = (data.errors && Array.isArray(data.errors)) 
+					? data.errors.join(', ') 
+					: (data.error || 'Unknown error occurred');
+				showToast({ message: 'Error: ' + errorMessage, type: 'error' });
+			}
+		})
+		.catch(error => {
+			console.error('Error:', error);
+			showToast({ message: 'Failed to update menu item', type: 'error' });
+		});
+	});
+	
+	// Delete menu item
+	document.addEventListener('click', function(e) {
+		if (e.target.closest('.delete-item')) {
+			const button = e.target.closest('.delete-item');
+			itemToDelete = button.dataset.itemId;
+			const deleteItemNameEl = document.getElementById('deleteItemName');
+			if (deleteItemNameEl) {
+				deleteItemNameEl.textContent = button.dataset.itemTitle || '';
+			}
+			deleteModal.show();
+		}
+	});
+	
+	document.getElementById('confirmDeleteItem').addEventListener('click', function() {
+		if (itemToDelete) {
+			fetch(`/admin/menus/${menuId}/items/${itemToDelete}`, {
+				method: 'DELETE',
+				headers: getCsrfHeaders({
+					'Accept': 'application/json',
+					'X-Requested-With': 'XMLHttpRequest'
+				})
+			})
+			.then(async response => {
+				// Check if response is JSON
+				const contentType = response.headers.get('content-type');
+				if (!contentType || !contentType.includes('application/json')) {
+					if (response.status === 403) {
+						showToast({ message: 'Access denied. You do not have permission to delete menu items.', type: 'error' });
+						return { success: false, errors: ['Access denied'] };
+					}
+					showToast({ message: 'Server error. Please try again.', type: 'error' });
+					return { success: false, errors: ['Server error'] };
+				}
+				return response.json();
+			})
+			.then(data => {
+				if (!data) return;
+				
+				if (data.success) {
+					// Show success message
+					showToast({ message: 'Menu item deleted successfully!', type: 'success' });
+					
+					// Reload menu items
+					fetch(`/admin/menus/${menuId}/items`)
+						.then(response => response.json())
+						.then(data => {
+							if (data.success) {
+								menuItems = data.items;
+								loadMenuItems();
+								deleteModal.hide();
+							} else {
+								console.error('Error reloading menu items:', data.errors);
+								// Even if reload fails, the deletion was successful
+								deleteModal.hide();
+								// Try to reload the page to ensure UI is in sync
+								location.reload();
+							}
+						})
+						.catch(error => {
+							console.error('Error reloading menu items:', error);
+							// Even if reload fails, the deletion was successful
+							deleteModal.hide();
+							// Try to reload the page to ensure UI is in sync
+							location.reload();
+						});
+				} else {
+					const errorMessage = (data.errors && Array.isArray(data.errors)) 
+						? data.errors.join(', ') 
+						: (data.error || 'Unknown error occurred');
+					showToast({ message: 'Error: ' + errorMessage, type: 'error' });
+				}
+			})
+			.catch(error => {
+				console.error('Error:', error);
+				showToast({ message: 'Failed to delete menu item', type: 'error' });
+			});
+		}
+	});
+	
+	// Handle drag and drop
+	function handleItemMove(evt) {
+		const itemId = evt.item.dataset.itemId;
+		const newIndex = evt.newIndex;
+		
+		// Determine the parent based on the container
+		// If the container has class 'menu-item-children', find its parent menu-item
+		// Otherwise, it's a top-level item (parent is the menuId)
+		let newParentId = null;
+		const targetContainer = evt.to;
+		
+		if (targetContainer.classList.contains('menu-item-children')) {
+			// Find the parent menu-item element
+			const parentMenuItem = targetContainer.closest('.menu-item');
+			if (parentMenuItem) {
+				newParentId = parentMenuItem.dataset.itemId;
+			}
+		}
+		// If targetContainer is the main menuItemsList, parent is the menuId (which will be null in the database)
+		// Top-level items have parent_id = menuId (but we pass null since the database stores menu items with parent_id pointing to menu)
+		
+		fetch(`/admin/menus/${menuId}/items/${itemId}/move`, {
+			method: 'POST',
+			headers: getCsrfHeaders({
+				'Content-Type': 'application/json',
+				'Accept': 'application/json',
+				'X-Requested-With': 'XMLHttpRequest'
+			}),
+			body: JSON.stringify({
+				newSort: newIndex + 1,
+				newParentId: newParentId
+			})
+		})
+		.then(async response => {
+			// Check if response is JSON
+			const contentType = response.headers.get('content-type');
+			if (!contentType || !contentType.includes('application/json')) {
+				if (response.status === 403) {
+					showToast({ message: 'Access denied. You do not have permission to move menu items.', type: 'error' });
+					return { success: false, errors: ['Access denied'] };
+				}
+				showToast({ message: 'Server error. Please try again.', type: 'error' });
+				return { success: false, errors: ['Server error'] };
+			}
+			return response.json();
+		})
+		.then(data => {
+			if (!data) return;
+			
+			if (data.success) {
+				// Reload menu items
+				fetch(`/admin/menus/${menuId}/items`)
+					.then(response => response.json())
+					.then(data => {
+						if (data.success) {
+							menuItems = data.items;
+							loadMenuItems();
+						} else {
+							console.error('Error reloading menu items:', data.errors);
+							// Even if reload fails, the move was successful
+							// Try to reload the page to ensure UI is in sync
+							location.reload();
+						}
+					})
+					.catch(error => {
+						console.error('Error reloading menu items:', error);
+						// Even if reload fails, the move was successful
+						// Try to reload the page to ensure UI is in sync
+						location.reload();
+					});
+			} else {
+				const errorMessage = (data.errors && Array.isArray(data.errors)) 
+					? data.errors.join(', ') 
+					: (data.error || 'Unknown error occurred');
+				showToast({ message: 'Error: ' + errorMessage, type: 'error' });
+			}
+		})
+		.catch(error => {
+			console.error('Error:', error);
+			showToast({ message: 'Failed to move menu item', type: 'error' });
+		});
+	}
+	
+	// Helper function to find menu item
+	function findMenuItem(items, id) {
+		for (const item of items) {
+			if (item.id === id) return item;
+			if (item.children && item.children.length > 0) {
+				const found = findMenuItem(item.children, id);
+				if (found) return found;
+			}
+		}
+		return null;
+	}
+	
+	// Expand/Collapse all
+	document.getElementById('expandAll').addEventListener('click', function() {
+		const childrenContainers = document.querySelectorAll('.menu-item-children');
+		childrenContainers.forEach(container => {
+			container.style.display = 'block';
+		});
+		showToast({ message: 'All menu items expanded', type: 'success' });
+	});
+	
+	document.getElementById('collapseAll').addEventListener('click', function() {
+		const childrenContainers = document.querySelectorAll('.menu-item-children');
+		childrenContainers.forEach(container => {
+			container.style.display = 'none';
+		});
+		showToast({ message: 'All menu items collapsed', type: 'success' });
+	});
+	
+	// Initial load
+	loadMenuItems();
+	
+	// Reset form when modal is hidden
+	editModal._element.addEventListener('hidden.bs.modal', function() {
+		// Reset uploaded file path and current item link
+		window.editUploadedFilePath = null;
+		window.currentEditItemLink = null;
+		
+		// Reset autocomplete fields
+		document.getElementById('editItemPageAutocomplete').value = '';
+		document.getElementById('editItemPageKey').value = '';
+		document.getElementById('editItemPageDropdown').style.display = 'none';
+		
+		// Restore file input for next use
+		const editFileUploadDiv = document.getElementById('editFileUploadDiv');
+		if (editFileUploadDiv) {
+			const fileInputContainer = editFileUploadDiv.querySelector('.input-group');
+			if (fileInputContainer) {
+				fileInputContainer.innerHTML = `
+					<input type="file" class="form-control" id="editItemFileUpload" accept="*/*">
+					<button type="button" class="btn btn-outline-secondary" id="editUploadFileBtn">
+						<i class="fa fa-upload"></i> Upload
+					</button>
+				`;
+			}
+		}
+	});
+	
+	addMenuItemModal._element.addEventListener('hidden.bs.modal', function() {
+		// Reset uploaded file path
+		window.uploadedFilePath = null;
+		
+		// Reset form
+		document.getElementById('addMenuItemForm').reset();
+		document.getElementById('itemSort').value = '1';
+		document.getElementById('parentItem').value = '';
+		document.getElementById('itemPageAutocomplete').value = '';
+		document.getElementById('itemPageKey').value = '';
+		document.getElementById('itemPageDropdown').style.display = 'none';
+		
+		// Ensure Active checkbox is checked by default
+		setTimeout(() => {
+			document.getElementById('itemActive').checked = true;
+		}, 0);
+		
+		// Hide all type-specific divs
+		document.getElementById('pageSelectionDiv').style.display = 'none';
+		document.getElementById('fileUploadDiv').style.display = 'none';
+		document.getElementById('externalLinkDiv').style.display = 'none';
+	});
+	
+	fileUploadModal._element.addEventListener('hidden.bs.modal', function() {
+		// Reset uploaded file path
+		window.uploadedFilePath = null;
+	});
+});
+</script>

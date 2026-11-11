@@ -1,0 +1,1491 @@
+<!-- Breadcrumb Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark" href="/">Home</a>
+                <a class="breadcrumb-item text-dark" href="/shop">
+                    <%= typeof t !=='undefined' ? t('ecommerce.productCatalog') : 'Shop' %>
+                </a>
+                <% if (product.category) { %>
+                    <a class="breadcrumb-item text-dark" href="/shop/category/<%= product.category.slug %>">
+                        <%= product.category.name %>
+                    </a>
+                    <% } %>
+                        <span class="breadcrumb-item active">
+                            <%= product.name %>
+                        </span>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Shop Detail Start -->
+<div class="container-fluid pb-5">
+    <div class="row px-xl-5">
+        <!-- Product Images -->
+        <div class="col-lg-5 mb-30">
+            <% if (product.images && product.images.length> 0) { %>
+                <div id="product-carousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner bg-light">
+                        <% product.images.forEach(function(image, index) { %>
+                            <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+                                <img class="w-100 h-100 product-carousel-img" src="<%= image.image_url %>"
+                                    alt="<%= image.alt_text || product.name %>">
+                            </div>
+                            <% }); %>
+                    </div>
+                    <% if (product.images.length> 1) { %>
+                        <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
+                            <i class="fa fa-2x fa-angle-left text-dark"></i>
+                        </a>
+                        <a class="carousel-control-next" href="#product-carousel" data-slide="next">
+                            <i class="fa fa-2x fa-angle-right text-dark"></i>
+                        </a>
+                        <% } %>
+                </div>
+                <!-- Thumbnail Gallery -->
+                <% if (product.images.length> 1) { %>
+                    <div class="thumbnail-carousel-container mt-3 position-relative">
+                        <button class="thumbnail-carousel-btn thumbnail-carousel-btn-prev" type="button" aria-label="Previous thumbnails">
+                            <i class="fa fa-angle-left"></i>
+                        </button>
+                        <div class="thumbnail-carousel-wrapper">
+                            <div class="thumbnail-carousel-track">
+                                <% product.images.forEach(function(image, index) { %>
+                                    <div class="thumbnail-item">
+                                        <img src="<%= image.image_url %>" alt="<%= image.alt_text || product.name %>"
+                                            class="img-fluid thumbnail-img <%= index === 0 ? 'active' : '' %>" data-target="#product-carousel"
+                                            data-slide-to="<%= index %>">
+                                    </div>
+                                <% }); %>
+                            </div>
+                        </div>
+                        <button class="thumbnail-carousel-btn thumbnail-carousel-btn-next" type="button" aria-label="Next thumbnails">
+                            <i class="fa fa-angle-right"></i>
+                        </button>
+                    </div>
+                    <% } %>
+                        <% }  %>
+        </div>
+
+        <!-- Product Info -->
+        <div class="col-lg-7 h-auto mb-30">
+            <div class="h-100 bg-light py-30">
+                <h3>
+                    <%= product.name %>
+                </h3>
+
+                <!-- Brand (with logo if available) -->
+                <% if (product.brand) { %>
+                    <div class="product-brand mb-3">
+                        <a href="/shop/brand/<%= product.brand.slug %>" class="text-decoration-none d-inline-flex align-items-center">
+                            <% if (product.brand.logo_url && product.brand.logo_url.trim()) { %>
+                                <img src="<%= product.brand.logo_url.trim() %>" alt="<%= product.brand.name %>" class="product-brand-logo img-fluid mr-2" style="max-height: 36px; max-width: 120px; object-fit: contain;">
+                            <% } %>
+                            <span class="text-muted small"><%= product.brand.name %></span>
+                        </a>
+                    </div>
+                <% } %>
+
+                <!-- Rating -->
+                <div class="d-flex mb-3">
+                    <div class="text-primary mr-2">
+                        <% const rating=product.rating_average || 0; const fullStars=Math.floor(rating); const
+                            hasHalfStar=rating % 1>= 0.5;
+                            for (let i = 0; i < 5; i++) { if (i < fullStars) { %>
+                                <small class="fas fa-star"></small>
+                                <% } else if (i===fullStars && hasHalfStar) { %>
+                                    <small class="fas fa-star-half-alt"></small>
+                                    <% } else { %>
+                                        <small class="far fa-star"></small>
+                                        <% } } %>
+                    </div>
+                    <small class="pt-1">(<%= product.rating_count || 0 %>
+                            <%= typeof t !=='undefined' ? t('ecommerce.reviews') : 'Reviews' %>)</small>
+                </div>
+
+                <!-- Price (updated client-side when a variant is selected) -->
+                <h3 class="font-weight-semi-bold mb-4 money" id="product-price-heading">
+                    <span id="product-price-container">
+                    <%- include('partials/product-listing-price', { product, customClass: '', multi_price_display: (typeof ecommerceSettings !== 'undefined' && ecommerceSettings && ecommerceSettings.multi_price_display) ? ecommerceSettings.multi_price_display : '' }) %>
+                    </span>
+                </h3>
+
+                <!-- Short Description -->
+                <% if (product.short_description) { %>
+                    <p class="mb-4">
+                        <%= product.short_description %>
+                    </p>
+                    <% } %>
+
+                        <!-- Stock Status -->
+                        <div class="mb-3">
+                            <% if (product.stock_quantity <=0) { %>
+                                <span class="badge badge-danger">
+                                    <%= typeof t !=='undefined' ? t('ecommerce.outOfStock') : 'Out of Stock' %>
+                                </span>
+                                <% } else if (product.stock_quantity < 10) { %>
+                                    <span class="badge badge-warning">
+                                        <%= typeof t !=='undefined' ? t('ecommerce.lowStock') : 'Low Stock' %> (<%=
+                                                product.stock_quantity %>
+                                                <%= typeof t !=='undefined' ? t('ecommerce.left') : 'left' %>)
+                                    </span>
+                                    <% } else { %>
+                                        <span class="badge badge-success">
+                                            <%= typeof t !=='undefined' ? t('ecommerce.inStock') : 'In Stock' %>
+                                        </span>
+                                        <% } %>
+                        </div>
+
+                        <!-- Variants (canonical groups from variantDisplayService) -->
+                        <% if (typeof variantDisplay !== 'undefined' && variantDisplay && variantDisplay.groups && variantDisplay.groups.length > 0) { %>
+                            <% variantDisplay.groups.forEach(function(group) { %>
+                                <% const storageKey = group.storageKey; %>
+                                <% const labelName = group.displayName || storageKey; %>
+                                <div class="d-flex mb-4 align-items-center">
+                                    <strong class="text-dark mr-3" style="min-width: 60px;">
+                                        <%= labelName.charAt(0).toUpperCase() + labelName.slice(1) %>:
+                                    </strong>
+                                    <div class="d-flex flex-wrap">
+                                        <% group.options.forEach(function(option, index) { 
+                                            const safeId = String(storageKey).replace(/[^a-zA-Z0-9_-]/g, '_') + '-' + index;
+                                            const isColor = /colou?r/i.test(labelName || ''); 
+                                            const imgUrl = option.resolved_image_url || option.image_url || '';
+                                            const colorCode = option.color_code || '';
+                                        %>
+                                            <div class="variant-option-wrapper mr-2 mb-2">
+                                                <input type="radio" class="d-none variant-input"
+                                                    id="<%= safeId %>" name="<%= storageKey %>"
+                                                    value="<%= option.value %>"
+                                                    data-attribute-name="<%= storageKey %>"
+                                                    data-attribute-value="<%= option.value %>">
+                                                
+                                                <% if (imgUrl) { %>
+                                                    <label class="variant-box variant-image-box variant-image-box-bg"
+                                                        for="<%= safeId %>"
+                                                        title="<%= option.value %>"
+                                                        data-image-url="<%= imgUrl %>"
+                                                        style="background-image: url('<%= imgUrl %>');">
+                                                    </label>
+                                                <% } else { %>
+                                                    <label class="variant-box <%= isColor ? 'variant-color-box' : '' %>"
+                                                        for="<%= safeId %>"
+                                                        style="<%= isColor && colorCode ? `background-color: ${colorCode};` : (isColor ? 'background-color: #ddd;' : '') %>"
+                                                        title="<%= option.value %>">
+                                                        <% if (!isColor) { %>
+                                                            <%= option.value %>
+                                                        <% } else if (!colorCode) { %>
+                                                            <span class="small text-muted"><%= (option.value || '').charAt(0).toUpperCase() %></span>
+                                                        <% } %>
+                                                    </label>
+                                                <% } %>
+                                            </div>
+                                        <% }); %>
+                                    </div>
+                                </div>
+                            <% }); %>
+                        <% } %>
+
+                                            <!-- Quantity and Add to Cart -->
+                                            <div class="d-flex align-items-center mb-4 pt-2">
+                                                <div class="input-group quantity mr-3 quantity-input-group">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-primary btn-minus">
+                                                            <i class="fa fa-minus"></i>
+                                                        </button>
+                                                    </div>
+                                                    <input type="text"
+                                                        class="form-control bg-secondary border-0 text-center"
+                                                        id="product-quantity" value="1" min="1"
+                                                        max="<%= product.stock_quantity %>">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-primary btn-plus">
+                                                            <i class="fa fa-plus"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <button class="btn btn-primary px-3" id="add-to-cart-btn"
+                                                    data-product-id="<%= product.id %>" <%=product.stock_quantity <=0
+                                                    ? 'disabled' : '' %>>
+                                                    <i class="fa fa-shopping-cart mr-1"></i>
+                                                    <%= typeof t !=='undefined' ? t('ecommerce.cart.addToCart')
+                                                        : 'Add To Cart' %>
+                                                </button>
+                                                <button class="btn btn-outline-dark btn-square ml-2" id="add-to-wishlist-btn"
+                                                    data-product-id="<%= product.id %>"
+                                                    title="<%= typeof t !== 'undefined' ? t('ecommerce.addToWishlist') : 'Add to Wishlist' %>">
+                                                    <i class="far fa-heart"></i>
+                                                </button>
+                                                <input type="hidden" id="selected-variant-id" name="variant_id" value="">
+                                            </div>
+
+                                            <!-- Share -->
+                                            <div class="d-flex pt-2">
+                                                <strong class="text-dark mr-2">
+                                                    <%= typeof t !=='undefined' ? t('ecommerce.shareOn') : 'Share on:'
+                                                        %>
+                                                </strong>
+                                                <div class="d-inline-flex">
+                                                    <a class="text-dark px-2"
+                                                        href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent(currentFullUrl) %>"
+                                                        target="_blank">
+                                                        <i class="fab fa-facebook-f"></i>
+                                                    </a>
+                                                    <a class="text-dark px-2"
+                                                        href="https://twitter.com/intent/tweet?url=<%= encodeURIComponent(currentFullUrl) %>"
+                                                        target="_blank">
+                                                        <i class="fab fa-twitter"></i>
+                                                    </a>
+                                                    <a class="text-dark px-2"
+                                                        href="https://www.linkedin.com/shareArticle?url=<%= encodeURIComponent(currentFullUrl) %>"
+                                                        target="_blank">
+                                                        <i class="fab fa-linkedin-in"></i>
+                                                    </a>
+                                                    <a class="text-dark px-2"
+                                                        href="https://pinterest.com/pin/create/button/?url=<%= encodeURIComponent(currentFullUrl) %>"
+                                                        target="_blank">
+                                                        <i class="fab fa-pinterest"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Details Tabs -->
+    <div class="row px-xl-5">
+        <div class="col">
+            <div class="nav nav-tabs border-secondary mb-4">
+                <a class="nav-item nav-link text-dark active" data-toggle="tab" href="#tab-pane-1">
+                    <%= typeof t !=='undefined' ? t('ecommerce.productDescription') : 'Description' %>
+                </a>
+                <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-2">
+                    <%= typeof t !=='undefined' ? t('ecommerce.additionalInformation') : 'Information' %>
+                </a>
+                <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-3">
+                    <%= typeof t !=='undefined' ? t('ecommerce.reviews') : 'Reviews' %> (<%= product.rating_count || 0
+                            %>)
+                </a>
+            </div>
+            <div class="tab-content">
+                <!-- Description Tab -->
+                <div class="tab-pane fade show active" id="tab-pane-1">
+                    <h4 class="mb-3">
+                        <%= typeof t !=='undefined' ? t('ecommerce.productDescription') : 'Product Description' %>
+                    </h4>
+                    <% if (product.description) { %>
+                        <div><%- product.description %></div>
+                        <% } else if (product.short_description) { %>
+                            <p>
+                                <%= product.short_description %>
+                            </p>
+                            <% } else { %>
+                                <p>
+                                    <%= typeof t !=='undefined' ? t('ecommerce.noDescription')
+                                        : 'No description available.' %>
+                                </p>
+                                <% } %>
+                </div>
+
+                <!-- Additional Information Tab -->
+                <div class="tab-pane fade" id="tab-pane-2">
+                    <h4 class="mb-3">
+                        <%= typeof t !=='undefined' ? t('ecommerce.additionalInformation') : 'Additional Information' %>
+                    </h4>
+                    <table class="table table-bordered">
+                        <% if (product.sku) { %>
+                            <tr>
+                                <th>
+                                    <%= typeof t !=='undefined' ? t('ecommerce.products.sku') : 'SKU' %>
+                                </th>
+                                <td>
+                                    <%= product.sku %>
+                                </td>
+                            </tr>
+                            <% } %>
+                                <% if (product.weight) { %>
+                                    <tr>
+                                        <th>
+                                            <%= typeof t !=='undefined' ? t('ecommerce.weight') : 'Weight' %>
+                                        </th>
+                                        <td>
+                                            <%= product.weight %> kg
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                                        <% if (product.length && product.width && product.height) { %>
+                                            <tr>
+                                                <th>
+                                                    <%= typeof t !=='undefined' ? t('ecommerce.dimensions')
+                                                        : 'Dimensions' %>
+                                                </th>
+                                                <td>
+                                                    <%= product.length %> x <%= product.width %> x <%= product.height %>
+                                                                cm
+                                                </td>
+                                            </tr>
+                                            <% } %>
+                                                <tr>
+                                                    <th>
+                                                        <%= typeof t !=='undefined' ? t('ecommerce.products.stock')
+                                                            : 'Stock' %>
+                                                    </th>
+                                                    <td>
+                                                        <%= product.stock_quantity %>
+                                                    </td>
+                                                </tr>
+                                                <% if (product.categories && product.categories.length> 0) { %>
+                                                    <tr>
+                                                        <th>
+                                                            <%= typeof t !=='undefined' ?
+                                                                t('ecommerce.categories.title') : 'Categories' %>
+                                                        </th>
+                                                        <td>
+                                                            <% product.categories.forEach(function(cat, index) { %>
+                                                                <a href="/shop/category/<%= cat.slug %>">
+                                                                    <%= cat.name %>
+                                                                </a>
+                                                                <%= index < product.categories.length - 1 ? ', ' : '' %>
+                                                                    <% }); %>
+                                                        </td>
+                                                    </tr>
+                                                    <% } else if (product.category) { %>
+                                                        <tr>
+                                                            <th>
+                                                                <%= typeof t !=='undefined' ?
+                                                                    t('ecommerce.categories.title') : 'Category' %>
+                                                            </th>
+                                                            <td><a href="/shop/category/<%= product.category.slug %>">
+                                                                    <%= product.category.name %>
+                                                                </a></td>
+                                                        </tr>
+                                                        <% } %>
+                                                <% if (product.brand) { %>
+                                                    <tr>
+                                                        <th>
+                                                            <%= typeof t !== 'undefined' ? t('ecommerce.brand') : 'Brand' %>
+                                                        </th>
+                                                        <td>
+                                                            <a href="/shop/brand/<%= product.brand.slug %>" class="text-decoration-none d-inline-flex align-items-center">
+                                                                <% if (product.brand.logo_url && product.brand.logo_url.trim()) { %>
+                                                                    <img src="<%= product.brand.logo_url.trim() %>" alt="<%= product.brand.name %>" class="product-brand-logo img-fluid" style="max-height: 80px; max-width: 200px; object-fit: contain;">
+                                                                <% } else { %>
+                                                                    <%= product.brand.name %>
+                                                                <% } %>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                <% } %>
+                    </table>
+                </div>
+
+                <!-- Reviews Tab -->
+                <div class="tab-pane fade" id="tab-pane-3">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="mb-4">
+                                <%= product.rating_count || 0 %>
+                                    <%= typeof t !=='undefined' ? t('ecommerce.reviewFor') : 'review for' %> "<%=
+                                            product.name %>"
+                            </h4>
+                            <!-- Reviews will be loaded here -->
+                            <div id="reviews-list">
+                                <% if (reviews && reviews.length> 0) { %>
+                                    <% reviews.forEach(function(review) { %>
+                                        <div class="mb-4 pb-3 border-bottom">
+                                            <div class="d-flex justify-content-between mb-2">
+                                                <div>
+                                                    <strong>
+                                                        <%= review.reviewer_name %>
+                                                    </strong>
+                                                    <% if (review.is_verified_purchase) { %>
+                                                        <span class="badge badge-success ml-2">
+                                                            <%= typeof t !=='undefined' ?
+                                                                t('ecommerce.verifiedPurchase') : 'Verified Purchase' %>
+                                                        </span>
+                                                        <% } %>
+                                                </div>
+                                                <div class="text-primary">
+                                                    <% for (let i=1; i <=5; i++) { %>
+                                                        <% if (i <=review.rating) { %>
+                                                            <i class="fas fa-star"></i>
+                                                            <% } else { %>
+                                                                <i class="far fa-star"></i>
+                                                                <% } %>
+                                                                    <% } %>
+                                                </div>
+                                            </div>
+                                            <% if (review.title) { %>
+                                                <h6 class="mb-2">
+                                                    <%= review.title %>
+                                                </h6>
+                                                <% } %>
+                                                    <p class="mb-2">
+                                                        <%= review.review_text %>
+                                                    </p>
+                                                    <small class="text-muted">
+                                                        <%= new Date(review.created_at).toLocaleDateString() %>
+                                                    </small>
+                                        </div>
+                                        <% }); %>
+                                            <% } else { %>
+                                                <p class="text-muted">
+                                                    <%= typeof t !=='undefined' ? t('ecommerce.noReviewsYet')
+                                                        : 'No reviews yet. Be the first to review this product!' %>
+                                                </p>
+                                                <% } %>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="mb-4">
+                                <%= typeof t !=='undefined' ? t('ecommerce.leaveReview') : 'Leave a review' %>
+                            </h4>
+                            <small>
+                                <%= typeof t !=='undefined' ? t('ecommerce.reviewPrivacy')
+                                    : 'Your email address will not be published. Required fields are marked *' %>
+                            </small>
+                            <form id="review-form" class="mt-3">
+                                <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+                                <div class="d-flex my-3">
+                                    <p class="mb-0 mr-2">
+                                        <%= typeof t !=='undefined' ? t('ecommerce.yourRating') : 'Your Rating' %> * :
+                                    </p>
+                                    <div class="text-primary" id="rating-stars">
+                                        <% for (let i=1; i <=5; i++) { %>
+                                            <i class="far fa-star rating-star rating-star-clickable" data-rating="<%= i %>"></i>
+                                            <% } %>
+                                    </div>
+                                    <input type="hidden" id="rating-value" name="rating" value="0" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="review-message">
+                                        <%= typeof t !=='undefined' ? t('ecommerce.yourReview') : 'Your Review' %> *
+                                    </label>
+                                    <textarea id="review-message" name="message" cols="30" rows="5" class="form-control"
+                                        required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="review-name">
+                                        <%= typeof t !=='undefined' ? t('ecommerce.yourName') : 'Your Name' %> *
+                                    </label>
+                                    <input type="text" class="form-control" id="review-name" name="name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="review-email">
+                                        <%= typeof t !=='undefined' ? t('ecommerce.yourEmail') : 'Your Email' %> *
+                                    </label>
+                                    <input type="email" class="form-control" id="review-email" name="email" required>
+                                </div>
+                                <input type="hidden" name="product_id" value="<%= product.id %>">
+                                <div class="form-group mb-0">
+                                    <input type="submit"
+                                        value="<%= typeof t !== 'undefined' ? t('ecommerce.submitReview') : 'Leave Your Review' %>"
+                                        class="btn btn-primary px-3">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Products -->
+    <% if (relatedProducts && relatedProducts.length> 0) { %>
+        <div class="container-fluid pt-5 pb-3" style="margin:0 -30px">
+            <div class="row px-xl-5">
+                <div class="col">
+                    <div class="px-3">
+                    <h2 class="section-title position-relative text-uppercase mb-4"><span class="bg-secondary pr-3">
+                            <%= typeof t !=='undefined' ? t('ecommerce.relatedProducts') : 'Related Products' %>
+                        </span></h2>
+                    <div class="swiper product-carousel px-xl-5">
+                        <div class="swiper-wrapper">
+                <% relatedProducts.forEach(function(relatedProduct) { %>
+                    <div class="swiper-slide">
+                    <div class="product-item bg-light mb-4">
+                        <div class="product-img position-relative overflow-hidden">
+                            <% if (relatedProduct.images && relatedProduct.images.length> 0) { %>
+                                <a href="/shop/product/<%= relatedProduct.slug %>">
+                                    <img class="img-fluid w-100" src="<%= relatedProduct.images[0].thumb_url || relatedProduct.images[0].image_url %>" alt="<%= relatedProduct.name %>">
+                                </a>
+                            <% } else { %>
+                                <a href="/shop/product/<%= relatedProduct.slug %>">
+                                    <img class="img-fluid w-100" src="<%= siteImage %>" alt="<%= relatedProduct.name %>">
+                                </a>
+                            <% } %>
+                            <div class="product-action">
+                                <a class="btn btn-outline-dark btn-square add-to-cart-btn" href="#" data-product-id="<%= relatedProduct.id %>" data-has-variants="<%= relatedProduct.has_variants %>" data-slug="<%= relatedProduct.slug %>"><i class="fa fa-shopping-cart"></i></a>
+                                <a class="btn btn-outline-dark btn-square add-to-wishlist-btn" href="#" data-product-id="<%= relatedProduct.id %>"><i class="far fa-heart"></i></a>
+                                <a class="btn btn-outline-dark btn-square" href="/shop/product/<%= relatedProduct.slug %>"><i class="fa fa-search"></i></a>
+                            </div>
+                        </div>
+                        <div class="text-center py-4">
+                            <a class="h6 text-decoration-none text-truncate" href="/shop/product/<%= relatedProduct.slug %>"><%= relatedProduct.name %></a>
+                            <div class="d-flex align-items-center justify-content-center mt-2 money">
+                                <%- include('partials/product-listing-price', { product: relatedProduct, customClass: 'h5', multi_price_display: (typeof ecommerceSettings !== 'undefined' && ecommerceSettings && ecommerceSettings.multi_price_display) ? ecommerceSettings.multi_price_display : '' }) %>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-center mb-1 rating">
+                                <% 
+                                const rating = relatedProduct.rating_average || 0;
+                                for (let i = 1; i <= 5; i++) {
+                                    if (i <= Math.floor(rating)) { %>
+                                        <small class="fa fa-star text-primary mr-1"></small>
+                                    <% } else if (i === Math.ceil(rating) && rating % 1 >= 0.5) { %>
+                                        <small class="fa fa-star-half-alt text-primary mr-1"></small>
+                                    <% } else { %>
+                                        <small class="far fa-star text-primary mr-1"></small>
+                                    <% } 
+                                } %>
+                                <small>(<%= relatedProduct.rating_count || 0 %>)</small>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                <% }); %>
+                        </div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% } %>
+</div>
+<!-- Shop Detail End -->
+
+<%- include('partials/confirmation-modal') %>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Quantity controls
+        const quantityInput = document.getElementById('product-quantity');
+        const btnMinus = document.querySelector('.btn-minus');
+        const btnPlus = document.querySelector('.btn-plus');
+        const maxQuantity = <%= product.stock_quantity %>;
+
+        btnMinus.addEventListener('click', function (e) {
+            e.preventDefault();
+            let currentValue = parseInt(quantityInput.value) || 1;
+            if (currentValue > 1) {
+                quantityInput.value = currentValue - 1;
+            }
+        });
+
+        btnPlus.addEventListener('click', function (e) {
+            e.preventDefault();
+            let currentValue = parseInt(quantityInput.value) || 1;
+            if (currentValue < maxQuantity) {
+                quantityInput.value = currentValue + 1;
+            }
+        });
+
+        // Add to cart
+        // Add to cart
+        const addToCartBtn = document.getElementById('add-to-cart-btn');
+        // Variant Logic
+        const allVariants = <%- JSON.stringify(product.variants || []) %>;
+        const baseProductPrice = <%- JSON.stringify(parseFloat(String(product.price)) || 0) %>;
+        const baseCompareAt = <%- JSON.stringify(
+            (product.compare_at_price != null && String(product.compare_at_price) !== '')
+                ? parseFloat(String(product.compare_at_price))
+                : null
+        ) %>;
+        const currencySymbol = <%- JSON.stringify(
+            (typeof ecommerceSettings !== 'undefined' && ecommerceSettings && ecommerceSettings.currency_symbol)
+                ? ecommerceSettings.currency_symbol
+                : '$'
+        ) %>;
+        const pdpMultiPrice = <%- JSON.stringify({
+            mode: (() => {
+                const raw = (typeof ecommerceSettings !== 'undefined' && ecommerceSettings && ecommerceSettings.multi_price_display)
+                    ? String(ecommerceSettings.multi_price_display) : 'lowest';
+                const m = raw.toLowerCase().trim();
+                return (m === 'range' || m === 'starting' || m === 'lowest') ? m : 'lowest';
+            })(),
+            hasMulti: !!(product.has_multi_prices === true || product.has_multi_prices === 1),
+            min: (product.variant_price_min != null && product.variant_price_min !== '') ? Number(product.variant_price_min) : null,
+            max: (product.variant_price_max != null && product.variant_price_max !== '') ? Number(product.variant_price_max) : null
+        }) %>;
+        const pdpStartingAtText = <%- JSON.stringify(typeof t !== 'undefined' ? t('ecommerce.listing.startingAt') : 'Starting at') %>;
+        const pdpRangeSep = <%- JSON.stringify(typeof t !== 'undefined' ? t('ecommerce.listing.priceRangeSeparator') : '–') %>;
+        let pdpUserChangedVariant = false;
+        const variantInputs = document.querySelectorAll('.variant-input');
+        const selectedVariantInput = document.getElementById('selected-variant-id');
+
+        function formatMoneyClient(v) {
+            const x = parseFloat(String(v));
+            if (!Number.isFinite(x)) return '0';
+            const s = x.toFixed(2);
+            return s.endsWith('.00') ? s.slice(0, -3) : s;
+        }
+
+        function renderProductPriceInPlace(current, compareAt) {
+            const container = document.getElementById('product-price-container');
+            if (!container) return;
+            const sym = currencySymbol;
+            const cur = parseFloat(String(current));
+            const c = Number.isFinite(cur) ? cur : 0;
+            const oldRaw = compareAt;
+            const oldP = oldRaw != null && String(oldRaw) !== '' ? parseFloat(String(oldRaw)) : null;
+            if (oldP != null && Number.isFinite(oldP) && oldP > c) {
+                container.innerHTML = '<span>' + sym + formatMoneyClient(c) + '</span><span class="text-muted ml-2 product-price-compare"><del>' + sym + formatMoneyClient(oldP) + '</del></span>';
+            } else {
+                container.innerHTML = '<span>' + sym + formatMoneyClient(c) + '</span>';
+            }
+        }
+
+        function pdpShowMultiPriceBeforeUserPicks() {
+            if (!pdpMultiPrice || !pdpMultiPrice.hasMulti) return false;
+            if (pdpUserChangedVariant) return false;
+            const lo = pdpMultiPrice.min;
+            const hi = pdpMultiPrice.max;
+            if (lo == null || hi == null || !Number.isFinite(Number(lo)) || !Number.isFinite(Number(hi))) return false;
+            if (pdpMultiPrice.mode === 'starting') return true;
+            if (pdpMultiPrice.mode === 'lowest') return true;
+            if (pdpMultiPrice.mode === 'range' && Math.abs(Number(hi) - Number(lo)) > 0.0001) return true;
+            return false;
+        }
+
+        function renderPdpListPrice() {
+            const container = document.getElementById('product-price-container');
+            if (!container) return;
+            const sym = currencySymbol;
+            const lo = Number(pdpMultiPrice.min);
+            const hi = Number(pdpMultiPrice.max);
+            if (pdpMultiPrice.mode === 'range' && Math.abs(hi - lo) > 0.0001) {
+                container.innerHTML = '<span class="d-inline-flex align-items-baseline flex-wrap justify-content-center">' +
+                    '<span>' + sym + formatMoneyClient(lo) + '</span>' +
+                    '<span class="text-muted mx-1">' + pdpRangeSep + '</span>' +
+                    '<span>' + sym + formatMoneyClient(hi) + '</span></span>';
+            } else if (pdpMultiPrice.mode === 'starting') {
+                container.innerHTML = '<span class="d-inline-flex flex-column align-items-center">' +
+                    '<span class="text-muted small product-price-starting-label">' + pdpStartingAtText.replace(/</g, '&lt;') + '</span>' +
+                    '<span>' + sym + formatMoneyClient(lo) + '</span></span>';
+            } else {
+                container.innerHTML = '<span>' + sym + formatMoneyClient(lo) + '</span>';
+            }
+        }
+
+        function updateDisplayedPrice(matchedVariant) {
+            if (allVariants.length === 0) return;
+            if (pdpShowMultiPriceBeforeUserPicks()) {
+                renderPdpListPrice();
+                return;
+            }
+            let current = baseProductPrice;
+            let oldC = baseCompareAt;
+            if (matchedVariant) {
+                if (matchedVariant.price != null && String(matchedVariant.price) !== '') {
+                    const pv = parseFloat(String(matchedVariant.price));
+                    if (Number.isFinite(pv)) {
+                        current = pv;
+                    }
+                }
+                if (matchedVariant.compare_at_price != null && String(matchedVariant.compare_at_price) !== '') {
+                    const cv = parseFloat(String(matchedVariant.compare_at_price));
+                    if (Number.isFinite(cv)) {
+                        oldC = cv;
+                    }
+                } else {
+                    oldC = baseCompareAt;
+                }
+            }
+            renderProductPriceInPlace(current, oldC);
+        }
+
+        function parseVariantAttrs(v) {
+            try {
+                const a = typeof v.attributes === 'string' ? JSON.parse(v.attributes) : v.attributes;
+                return a && typeof a === 'object' ? a : {};
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function variantComboExists(partial) {
+            return allVariants.some(function (v) {
+                const a = parseVariantAttrs(v);
+                return Object.keys(partial).every(function (k) {
+                    return String(a[k]) === String(partial[k]);
+                });
+            });
+        }
+
+        function getVariantGroupKeys() {
+            const keys = [];
+            variantInputs.forEach(function (inp) {
+                if (keys.indexOf(inp.name) < 0) keys.push(inp.name);
+            });
+            return keys;
+        }
+
+        function getSelectedAttributeMap() {
+            const m = {};
+            variantInputs.forEach(function (inp) {
+                if (inp.checked) m[inp.name] = inp.getAttribute('data-attribute-value');
+            });
+            return m;
+        }
+
+        function optionEnabledForInput(input) {
+            const gk = input.name;
+            const val = input.getAttribute('data-attribute-value');
+            const partial = {};
+            partial[gk] = val;
+            getVariantGroupKeys().forEach(function (ok) {
+                if (ok === gk) return;
+                const checked = Array.prototype.find.call(variantInputs, function (i) {
+                    return i.name === ok && i.checked;
+                });
+                if (checked) partial[ok] = checked.getAttribute('data-attribute-value');
+            });
+            return variantComboExists(partial);
+        }
+
+        /**
+         * Pick the first valid option in each attribute group (DOM order) so a full variant is selected on load.
+         * Each choice must form part of an existing variant together with prior groups — works for single-option
+         * attributes and multi-attribute products alike.
+         */
+        function selectDefaultVariantSelections() {
+            if (allVariants.length === 0 || variantInputs.length === 0) return;
+            variantInputs.forEach(function (inp) {
+                inp.checked = false;
+            });
+            const groupKeys = getVariantGroupKeys();
+            groupKeys.forEach(function (gk) {
+                const inputsInGroup = Array.prototype.filter.call(variantInputs, function (i) {
+                    return i.name === gk;
+                });
+                for (let j = 0; j < inputsInGroup.length; j++) {
+                    const inp = inputsInGroup[j];
+                    if (optionEnabledForInput(inp)) {
+                        inp.checked = true;
+                        break;
+                    }
+                }
+            });
+        }
+
+        function updateVariantAvailability() {
+            if (allVariants.length === 0 || variantInputs.length === 0) return;
+            let guard = 0;
+            while (guard++ < 25) {
+                let changed = false;
+                variantInputs.forEach(function (input) {
+                    const enabled = optionEnabledForInput(input);
+                    input.disabled = !enabled;
+                    const wrap = input.closest('.variant-option-wrapper');
+                    const label = document.querySelector('label[for="' + input.id + '"]');
+                    if (wrap) wrap.classList.toggle('variant-option--disabled', !enabled);
+                    if (label) label.classList.toggle('variant-option--disabled', !enabled);
+                    if (!enabled && input.checked) {
+                        input.checked = false;
+                        changed = true;
+                    }
+                });
+                if (!changed) break;
+            }
+            updateSelectedVariant();
+            variantInputs.forEach(function (rad) {
+                const lab = document.querySelector('label[for="' + rad.id + '"]');
+                if (lab) {
+                    if (rad.checked) {
+                        lab.classList.add('active-variant');
+                        lab.style.border = '2px solid #3D464D';
+                    } else {
+                        lab.classList.remove('active-variant');
+                        lab.style.border = '1px solid #ddd';
+                    }
+                }
+            });
+        }
+
+        function updateSelectedVariant() {
+            if (allVariants.length === 0) return;
+
+            const selectedAttributes = {};
+            const groups = new Set();
+            variantInputs.forEach(i => groups.add(i.name));
+
+            let allSelected = true;
+            groups.forEach(group => {
+                const checked = document.querySelector(`input[name="${group}"]:checked`);
+                if (checked) {
+                    selectedAttributes[group] = checked.getAttribute('data-attribute-value');
+                } else {
+                    allSelected = false;
+                }
+            });
+
+            if (allSelected) {
+                const matchedVariant = allVariants.find(variant => {
+                    const attrs = parseVariantAttrs(variant);
+                    return getVariantGroupKeys().every(function (k) {
+                        return String(attrs[k]) === String(selectedAttributes[k]);
+                    });
+                });
+
+                if (matchedVariant) {
+                    selectedVariantInput.value = matchedVariant.id;
+                    updateDisplayedPrice(matchedVariant);
+                } else {
+                    selectedVariantInput.value = '';
+                    updateDisplayedPrice(null);
+                }
+            } else {
+                selectedVariantInput.value = '';
+                updateDisplayedPrice(null);
+            }
+        }
+
+        variantInputs.forEach(input => {
+            input.addEventListener('change', function (e) {
+                if (e && e.isTrusted) {
+                    pdpUserChangedVariant = true;
+                }
+                updateVariantAvailability();
+            });
+        });
+
+        if (variantInputs.length > 0) {
+            selectDefaultVariantSelections();
+            updateVariantAvailability();
+        }
+
+        addToCartBtn.addEventListener('click', function () {
+            const productId = this.getAttribute('data-product-id');
+            const quantity = parseInt(quantityInput.value) || 1;
+            
+            // Validation
+            if (allVariants.length > 0) {
+                 const groups = new Set();
+                 variantInputs.forEach(i => groups.add(i.name));
+                 
+                 const missingAttributes = [];
+                 for (const group of groups) {
+                     if (!document.querySelector(`input[name="${group}"]:checked`)) {
+                         // Capitalize first letter for display
+                         missingAttributes.push(group.charAt(0).toUpperCase() + group.slice(1));
+                     }
+                 }
+                 
+                 if (missingAttributes.length > 0) {
+                     const attributesStr = missingAttributes.join(' <%= typeof t !== "undefined" ? t("ecommerce.and") : "and" %> ');
+                     showAlert('<%= typeof t !== "undefined" ? t("ecommerce.pleaseSelect") : "Please select" %> ' + attributesStr, '<%= typeof t !== "undefined" ? t("ecommerce.attention") : "Attention" %>');
+                     return;
+                 }
+                 
+                 if (!selectedVariantInput.value) {
+                     showAlert('Combination not available. Please select different options.', 'Unavailable');
+                     return;
+                 }
+            }
+
+            const selectedVariantId = selectedVariantInput.value;
+
+            // Loading state
+            const originalContent = addToCartBtn.innerHTML;
+            addToCartBtn.disabled = true;
+            addToCartBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Adding...';
+
+            fetch('/api/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'CSRF-Token': '<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>'
+                },
+                body: JSON.stringify({
+                    product_id: parseInt(productId),
+                    variant_id: selectedVariantId ? parseInt(selectedVariantId) : null,
+                    quantity: quantity
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        if (data.meta && typeof window.MetaPixel !== 'undefined') {
+                            window.MetaPixel.trackAddToCart(data.meta);
+                        }
+                        // Update cart badge
+                        const cartBadge = document.getElementById('cartBadge');
+                        if (cartBadge) {
+                            cartBadge.innerText = data.cartCount;
+                            cartBadge.classList.remove('d-none');
+                        }
+
+                        // Show success message
+                        if (typeof showConfirmationModal === 'function') {
+                            showConfirmationModal('Product added to cart!', function() {
+                                window.location.href = '/cart';
+                            }, {
+                                title: 'Success',
+                                confirmText: 'View Cart',
+                                showCancel: true,
+                                cancelText: 'Continue Shopping',
+                                confirmClass: 'btn-primary'
+                            });
+                        } else {
+                             // Fallback if modal not available (should not happen if included)
+                             window.location.href = '/cart';
+                        }
+                    } else {
+                        showAlert('Error: ' + (data.message || data.error || 'Failed to add product to cart'), 'Error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showAlert('Error adding product to cart', 'Error');
+                })
+                .finally(() => {
+                    // Reset button state
+                    addToCartBtn.disabled = false;
+                    addToCartBtn.innerHTML = originalContent;
+                });
+        });
+
+        // Add to wishlist functionality
+        const addToWishlistBtn = document.getElementById('add-to-wishlist-btn');
+        if (addToWishlistBtn) {
+            addToWishlistBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const productId = this.getAttribute('data-product-id');
+                const selectedVariantInput = document.getElementById('selected-variant-id');
+                const selectedVariantId = selectedVariantInput ? selectedVariantInput.value : null;
+
+                // Add to wishlist via API
+                fetch('/api/customer/wishlist/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'CSRF-Token': '<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>'
+                    },
+                    body: JSON.stringify({
+                        product_id: parseInt(productId),
+                        variant_id: selectedVariantId ? parseInt(selectedVariantId) : null
+                    })
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(data => {
+                                throw new Error(data.error || 'Failed to add product to wishlist');
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success) {
+                             showConfirmationModal('Product added to wishlist!', function() {
+                                window.location.href = '/wishlist';
+                            }, {
+                                title: 'Success',
+                                confirmText: 'Go to Wishlist',
+                                showCancel: true,
+                                cancelText: 'Continue Shopping',
+                                confirmClass: 'btn-success'
+                            });
+                        } else {
+                             showAlert('Error: ' + (data.error || data.message || 'Failed to add product to wishlist'), 'Error');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        showAlert('Error: ' + error.message, 'Error');
+                    });
+            });
+        }
+
+
+        // Rating stars
+        const ratingStars = document.querySelectorAll('.rating-star');
+        const ratingValue = document.getElementById('rating-value');
+        let selectedRating = 0;
+
+        ratingStars.forEach((star, index) => {
+            star.addEventListener('mouseenter', function () {
+                highlightStars(index + 1);
+            });
+            star.addEventListener('click', function () {
+                selectedRating = index + 1;
+                ratingValue.value = selectedRating;
+                highlightStars(selectedRating);
+            });
+        });
+
+        document.getElementById('rating-stars').addEventListener('mouseleave', function () {
+            highlightStars(selectedRating);
+        });
+
+        function highlightStars(count) {
+            ratingStars.forEach((star, index) => {
+                if (index < count) {
+                    star.classList.remove('far');
+                    star.classList.add('fas');
+                } else {
+                    star.classList.remove('fas');
+                    star.classList.add('far');
+                }
+            });
+        }
+
+        // Review form submission
+        document.getElementById('review-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const productId = <%= product.id %>;
+            const rating = parseInt(ratingValue.value);
+
+            if (rating === 0) {
+                showAlert('<%= typeof t !== 'undefined' ? t('ecommerce.pleaseSelectRating') : 'Please select a rating' %>', 'Rating Required');
+                return;
+            }
+            <% if (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey && typeof isDevelopment !== 'undefined' && !isDevelopment) { %>
+            if (!formData.get('cf-turnstile-response')) {
+                document.getElementById('review-turnstile-error').style.display = 'block';
+                return;
+            }
+            <% } %>
+            const csrfToken = formData.get('_csrf') || '';
+            fetch('/api/reviews/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'CSRF-Token': csrfToken
+                },
+                body: JSON.stringify({
+                    _csrf: csrfToken,
+                    product_id: productId,
+                    rating: rating,
+                    review_text: formData.get('message'),
+                    reviewer_name: formData.get('name'),
+                    reviewer_email: formData.get('email'),
+                    title: formData.get('title') || null,
+                    cf_turnstile_response: formData.get('cf-turnstile-response') || ''
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showAlert('<%= typeof t !== 'undefined' ? t('ecommerce.reviewSubmitted') : 'Review submitted successfully! It will be published after approval.' %>', 'Success');
+                        e.target.reset();
+                        selectedRating = 0;
+                        highlightStars(0);
+                        ratingValue.value = '0';
+                    } else {
+                        showAlert('Error: ' + (data.error || 'Failed to submit review'), 'Error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showAlert('Error submitting review', 'Error');
+                });
+        });
+
+        // Thumbnail Carousel Navigation (define variables first)
+        const thumbnailTrack = document.querySelector('.thumbnail-carousel-track');
+        const thumbnailPrevBtn = document.querySelector('.thumbnail-carousel-btn-prev');
+        const thumbnailNextBtn = document.querySelector('.thumbnail-carousel-btn-next');
+        const thumbnailWrapper = document.querySelector('.thumbnail-carousel-wrapper');
+        
+        let thumbnailScrollPosition = 0;
+        
+        const updateThumbnailButtons = () => {
+            if (!thumbnailTrack || !thumbnailWrapper || !thumbnailPrevBtn || !thumbnailNextBtn) return;
+            const maxScroll = thumbnailTrack.scrollWidth - thumbnailWrapper.clientWidth;
+            thumbnailPrevBtn.disabled = thumbnailScrollPosition <= 0;
+            thumbnailNextBtn.disabled = thumbnailScrollPosition >= maxScroll - 1;
+        };
+        
+        const scrollThumbnailToActive = (activeThumb) => {
+            if (!activeThumb || !thumbnailTrack || !thumbnailWrapper) return;
+            
+            const thumbnailItem = activeThumb.closest('.thumbnail-item');
+            if (!thumbnailItem) return;
+            
+            const itemLeft = thumbnailItem.offsetLeft;
+            const itemWidth = thumbnailItem.offsetWidth;
+            const wrapperWidth = thumbnailWrapper.clientWidth;
+            
+            // Check if thumbnail is out of view
+            if (itemLeft < thumbnailScrollPosition) {
+                // Scroll to show thumbnail on the left
+                thumbnailScrollPosition = Math.max(0, itemLeft - 8);
+            } else if (itemLeft + itemWidth > thumbnailScrollPosition + wrapperWidth) {
+                // Scroll to show thumbnail on the right
+                thumbnailScrollPosition = itemLeft + itemWidth - wrapperWidth + 8;
+            }
+            
+            thumbnailTrack.style.transform = `translateX(-${thumbnailScrollPosition}px)`;
+            updateThumbnailButtons();
+        };
+        
+        // Carousel Logic
+        // 1. Highlight thumbnail when carousel slides
+        $('#product-carousel').on('slide.bs.carousel', function (e) {
+            const index = e.to;
+            document.querySelectorAll('.thumbnail-img').forEach(t => {
+                t.style.border = '2px solid transparent';
+            });
+            const activeThumb = document.querySelector(`.thumbnail-img[data-slide-to="${index}"]`);
+            if (activeThumb) {
+                activeThumb.style.border = '2px solid #007bff';
+                // Scroll active thumbnail into view
+                setTimeout(() => scrollThumbnailToActive(activeThumb), 50);
+            }
+        });
+
+        // 2. Thumbnail click
+        document.querySelectorAll('.thumbnail-img').forEach(img => {
+            img.addEventListener('click', function () {
+                // The carousel handles the slide, but we want to confirm the highlight immediately
+                document.querySelectorAll('.thumbnail-img').forEach(t => {
+                    t.style.border = '2px solid transparent';
+                });
+                this.style.border = '2px solid #007bff';
+            });
+        });
+
+        // Thumbnail Carousel Navigation - Button handlers
+        if (thumbnailTrack && thumbnailPrevBtn && thumbnailNextBtn && thumbnailWrapper) {
+            const scrollAmount = 100; // pixels to scroll
+            
+            thumbnailPrevBtn.addEventListener('click', () => {
+                thumbnailScrollPosition = Math.max(0, thumbnailScrollPosition - scrollAmount);
+                thumbnailTrack.style.transform = `translateX(-${thumbnailScrollPosition}px)`;
+                updateThumbnailButtons();
+            });
+            
+            thumbnailNextBtn.addEventListener('click', () => {
+                const maxScroll = thumbnailTrack.scrollWidth - thumbnailWrapper.clientWidth;
+                thumbnailScrollPosition = Math.min(maxScroll, thumbnailScrollPosition + scrollAmount);
+                thumbnailTrack.style.transform = `translateX(-${thumbnailScrollPosition}px)`;
+                updateThumbnailButtons();
+            });
+            
+            // Touch Swipe Implementation
+            let touchStartX = 0;
+            let touchCurrentX = 0;
+            let initialTransformX = 0;
+            let isDragging = false;
+
+            thumbnailTrack.addEventListener('touchstart', (e) => {
+                if (thumbnailTrack.scrollWidth <= thumbnailWrapper.clientWidth) return; // No scroll needed
+                
+                touchStartX = e.touches[0].clientX;
+                initialTransformX = -thumbnailScrollPosition;
+                isDragging = true;
+                thumbnailTrack.style.transition = 'none'; // Disable transition for direct follow
+            }, { passive: true });
+
+            thumbnailTrack.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                
+                touchCurrentX = e.touches[0].clientX;
+                const diffX = touchCurrentX - touchStartX;
+                let newTransformX = initialTransformX + diffX;
+                
+                // Resistance at edges
+                const maxScroll = thumbnailTrack.scrollWidth - thumbnailWrapper.clientWidth;
+                if (newTransformX > 0) {
+                    newTransformX = newTransformX * 0.3;
+                } else if (newTransformX < -maxScroll) {
+                    newTransformX = -maxScroll + (newTransformX + maxScroll) * 0.3;
+                }
+                
+                thumbnailTrack.style.transform = `translateX(${newTransformX}px)`;
+            }, { passive: true });
+
+            thumbnailTrack.addEventListener('touchend', (e) => {
+                if (!isDragging) return;
+                isDragging = false;
+                thumbnailTrack.style.transition = 'transform 0.3s ease-out';
+                
+                const touchEndX = e.changedTouches[0].clientX;
+                const diffX = touchEndX - touchStartX;
+                
+                // If it was just a tap (small movement), let click events handle it
+                if (Math.abs(diffX) < 5) {
+                    thumbnailTrack.style.transform = `translateX(-${thumbnailScrollPosition}px)`;
+                    return;
+                }
+
+                // Apply movement to scroll position
+                thumbnailScrollPosition -= diffX;
+                
+                // Clamp scroll position
+                const maxScroll = thumbnailTrack.scrollWidth - thumbnailWrapper.clientWidth;
+                thumbnailScrollPosition = Math.max(0, Math.min(thumbnailScrollPosition, maxScroll));
+                
+                thumbnailTrack.style.transform = `translateX(-${thumbnailScrollPosition}px)`;
+                updateThumbnailButtons();
+            });
+
+            // Initial button state
+            updateThumbnailButtons();
+            
+            // Also update when window resizes
+            window.addEventListener('resize', () => {
+                thumbnailScrollPosition = 0;
+                thumbnailTrack.style.transform = 'translateX(0)';
+                updateThumbnailButtons();
+            });
+        }
+
+        // 3. Variant Image Click
+        document.querySelectorAll('.variant-image-box').forEach(box => {
+            box.addEventListener('click', function() {
+                const imageUrl = this.getAttribute('data-image-url');
+                if (imageUrl) {
+                    const normalizeUrl = (url) => {
+                        if (!url) return '';
+                        return url.replace(/^\//, '').replace(/\\/g, '/').split('?')[0];
+                    };
+                    
+                    const targetUrl = normalizeUrl(imageUrl);
+                    const slides = document.querySelectorAll('.carousel-item img');
+                    let foundIndex = -1;
+                    
+                    // Try to find existing slide
+                    for (let i = 0; i < slides.length; i++) {
+                        const slideUrl = normalizeUrl(slides[i].getAttribute('src'));
+                        if (slideUrl === targetUrl || slideUrl.endsWith(targetUrl) || targetUrl.endsWith(slideUrl)) {
+                            foundIndex = i;
+                            break;
+                        }
+                    }
+
+                    if (foundIndex !== -1) {
+                        $('#product-carousel').carousel(foundIndex);
+                    } else {
+                        // Image not in carousel, add it dynamically
+                        const carouselInner = document.querySelector('.carousel-inner');
+                        if (carouselInner) {
+                            // Create new carousel item
+                            const newItem = document.createElement('div');
+                            newItem.className = 'carousel-item';
+                            
+                            const newImg = document.createElement('img');
+                            newImg.className = 'w-100 h-100 product-carousel-img';
+                            newImg.src = imageUrl;
+                            newImg.alt = this.title || 'Product Variant';
+                            
+                            // Add zoom behavior to new image
+                            newItem.style.overflow = 'hidden';
+                            newImg.style.transition = 'transform 0.1s ease-out';
+                            newImg.style.cursor = 'zoom-in';
+                            
+                            newImg.addEventListener('mousemove', function(e) {
+                                const { left, top, width, height } = this.getBoundingClientRect();
+                                const x = (e.clientX - left) / width * 100;
+                                const y = (e.clientY - top) / height * 100;
+                                
+                                this.style.transformOrigin = `${x}% ${y}%`;
+                                this.style.transform = 'scale(2)';
+                            });
+                            
+                            newImg.addEventListener('mouseleave', function() {
+                                this.style.transform = 'scale(1)';
+                                setTimeout(() => {
+                                    this.style.transformOrigin = 'center center';
+                                }, 100);
+                            });
+                            
+                            newItem.appendChild(newImg);
+                            carouselInner.appendChild(newItem);
+                            
+                            // Add to thumbnails if they exist
+                            const thumbnailTrack = document.querySelector('.thumbnail-carousel-track');
+                            if (thumbnailTrack) {
+                                const newIndex = document.querySelectorAll('.carousel-item').length - 1;
+                                const thumbItem = document.createElement('div');
+                                thumbItem.className = 'thumbnail-item';
+                                
+                                const thumbImg = document.createElement('img');
+                                thumbImg.src = imageUrl;
+                                thumbImg.className = 'img-fluid thumbnail-img';
+                                thumbImg.setAttribute('data-target', '#product-carousel');
+                                thumbImg.setAttribute('data-slide-to', newIndex);
+                                
+                                // Add click event to new thumbnail
+                                thumbImg.addEventListener('click', function() {
+                                    document.querySelectorAll('.thumbnail-img').forEach(t => {
+                                        t.style.border = '2px solid transparent';
+                                    });
+                                    this.style.border = '2px solid #007bff';
+                                });
+                                
+                                thumbItem.appendChild(thumbImg);
+                                thumbnailTrack.appendChild(thumbItem);
+                                
+                                // Update scroll buttons state
+                                if (typeof updateThumbnailButtons === 'function') {
+                                    updateThumbnailButtons();
+                                    // Scroll to end to show new thumb
+                                    const maxScroll = thumbnailTrack.scrollWidth - thumbnailWrapper.clientWidth;
+                                    if (maxScroll > 0) {
+                                       thumbnailTrack.style.transform = `translateX(-${maxScroll}px)`;
+                                       thumbnailScrollPosition = maxScroll;
+                                    }
+                                }
+                            }
+                            
+                            // Navigate to new item
+                             const resultIndex = document.querySelectorAll('.carousel-item').length - 1;
+                            $('#product-carousel').carousel(resultIndex);
+                        }
+                    }
+                }
+            });
+        });
+
+        // Magnifier Logic
+        const carouselInner = document.querySelector('.carousel-inner');
+        
+        // Create magnifier lens
+        const lens = document.createElement('div');
+        lens.classList.add('magnifier-lens');
+        // Style the lens (hidden by default)
+        Object.assign(lens.style, {
+            position: 'absolute',
+            border: '1px solid #d4d4d4',
+            width: '100px',
+            height: '100px',
+            backgroundColor: 'rgba(255, 255, 255, 0.4)',
+            pointerEvents: 'none',
+            display: 'none',
+            zIndex: '1000'
+        });
+        
+        // Create result container (optional, or zoom inplace)
+        // For this requirements "zoom in using a magnifier", usually means an inplace zoom or a side window.
+        // Let's implement an inner zoom effect where the image scales up within the container or a lens overlay.
+        // A common simple pattern is "zoom on hover" where the mouse position determines the background position of a zoomed version.
+        
+        // Let's try a simpler robust approach: transform scale on hover + transform origin based on mouse position.
+        
+        const zoomImages = document.querySelectorAll('.carousel-item img');
+        
+        zoomImages.forEach(img => {
+            img.parentElement.style.overflow = 'hidden'; // Ensure it doesn't overflow parent
+            img.style.transition = 'transform 0.1s ease-out';
+            img.style.cursor = 'zoom-in';
+            
+            img.addEventListener('mousemove', function(e) {
+                const { left, top, width, height } = this.getBoundingClientRect();
+                const x = (e.clientX - left) / width * 100;
+                const y = (e.clientY - top) / height * 100;
+                
+                this.style.transformOrigin = `${x}% ${y}%`;
+                this.style.transform = 'scale(2)'; // Zoom level
+            });
+            
+            img.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+                setTimeout(() => {
+                    this.style.transformOrigin = 'center center';
+                }, 100);
+            });
+        });
+
+        // General Add to Cart Buttons (e.g. Related Products)
+        const generalAddToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+        generalAddToCartButtons.forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                const productId = this.getAttribute('data-product-id');
+                const hasVariants = this.getAttribute('data-has-variants') === 'true';
+                const slug = this.getAttribute('data-slug');
+
+                if (hasVariants && slug) {
+                    window.location.href = '/shop/product/' + slug;
+                    return;
+                }
+
+                // Add to cart via API
+                fetch('/api/cart/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'CSRF-Token': '<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>'
+                    },
+                    body: JSON.stringify({
+                        product_id: parseInt(productId),
+                        quantity: 1
+                    })
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(data => {
+                                throw new Error(data.error || 'Failed to add product to cart');
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                         if (data.success) {
+                            if (data.meta && typeof window.MetaPixel !== 'undefined') {
+                                window.MetaPixel.trackAddToCart(data.meta);
+                            }
+                            // Update cart badge
+                            const cartBadge = document.getElementById('cartBadge');
+                            if (cartBadge) {
+                                cartBadge.innerText = data.cartCount;
+                                cartBadge.classList.remove('d-none');
+                            }
+
+                            // Show success message
+                            if (typeof showConfirmationModal === 'function') {
+                                showConfirmationModal('Product added to cart!', function() {
+                                    window.location.href = '/cart';
+                                }, {
+                                    title: 'Success',
+                                    confirmText: 'View Cart',
+                                    showCancel: true,
+                                    cancelText: 'Continue Shopping',
+                                    confirmClass: 'btn-primary'
+                                });
+                            } else {
+                                alert('Product added to cart!');
+                            }
+                        } else {
+                            if (typeof showAlert === 'function') {
+                                showAlert('Error: ' + (data.error || data.message || 'Failed to add product to cart'), 'Error');
+                            } else {
+                                alert('Error: ' + (data.error || data.message || 'Failed to add product to cart'));
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                         if (typeof showAlert === 'function') {
+                             showAlert('Error: ' + error.message, 'Error');
+                         } else {
+                             alert('Error: ' + error.message);
+                         }
+                    });
+            });
+        });
+    });
+</script>
+<% if (typeof metaViewContent !== 'undefined' && metaViewContent) { %>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var payload = {
+        content_ids: [<%- JSON.stringify(metaViewContent.contentId) %>],
+        content_type: 'product',
+        value: <%= metaViewContent.value %>,
+        currency: <%- JSON.stringify(metaViewContent.currency) %>
+    };
+    if (typeof window.MetaPixel !== 'undefined') {
+        window.MetaPixel.track('ViewContent', payload);
+    } else if (typeof window.fbq === 'function') {
+        window.fbq('track', 'ViewContent', payload);
+    }
+});
+</script>
+<% } %>

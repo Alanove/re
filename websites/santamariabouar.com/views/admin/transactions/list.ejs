@@ -1,0 +1,300 @@
+<%- contentFor('styles') %>
+<style>
+.transaction-item {
+    border-left: 4px solid;
+    padding: 15px;
+    margin-bottom: 10px;
+    background: white;
+    border-radius: 0 8px 8px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.transaction-income {
+    border-left-color: #28a745;
+    background: linear-gradient(90deg, rgba(40, 167, 69, 0.05) 0%, white 100%);
+}
+
+.transaction-expense {
+    border-left-color: #dc3545;
+    background: linear-gradient(90deg, rgba(220, 53, 69, 0.05) 0%, white 100%);
+}
+
+.transaction-amount {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.transaction-amount.income {
+    color: #28a745;
+}
+
+.transaction-amount.expense {
+    color: #dc3545;
+}
+
+.summary-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+}
+
+.summary-value {
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.category-badge {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+}
+
+.transaction-meta {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.filter-section {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+</style>
+
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Transactions</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Transactions</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Summary Cards -->
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>$<%= summary.totalIncome.toFixed(2) %></h3>
+                            <p>Total Income</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-arrow-up"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="small-box bg-danger">
+                        <div class="inner">
+                            <h3>$<%= summary.totalExpenses.toFixed(2) %></h3>
+                            <p>Total Expenses</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-arrow-down"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="small-box bg-<%= summary.balance >= 0 ? 'success' : 'warning' %>">
+                        <div class="inner">
+                            <h3>$<%= summary.balance.toFixed(2) %></h3>
+                            <p>Net Balance</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-balance-scale"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3><%= summary.transactionCount %></h3>
+                            <p>Total Transactions</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-list"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Quick Actions</h3>
+                        </div>
+                        <div class="card-body">
+                            <a href="/admin/transactions/create" class="btn btn-primary">
+                                <i class="fa fa-plus"></i> New Transaction
+                            </a>
+                            <a href="/admin/accounts" class="btn btn-info ml-2">
+                                <i class="fa fa-account"></i> Manage Accounts
+                            </a>
+                            <a href="/admin/transaction-categories" class="btn btn-secondary ml-2">
+                                <i class="fa fa-tags"></i> Manage Categories
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transactions List -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">All Transactions</h3>
+                            <div class="card-tools">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="filterTransactions('all')">All</button>
+                                    <button type="button" class="btn btn-sm btn-outline-success" onclick="filterTransactions('income')">Income</button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="filterTransactions('expense')">Expense</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <% if (transactions.length === 0) { %>
+                                <div class="text-center py-5">
+                                    <i class="fa fa-exchange-alt fa-3x text-muted mb-3"></i>
+                                    <h4>No transactions found</h4>
+                                    <p class="text-muted">Start tracking your finances by creating your first transaction.</p>
+                                    <a href="/admin/transactions/create" class="btn btn-primary">
+                                        <i class="fa fa-plus"></i> Create First Transaction
+                                    </a>
+                                </div>
+                            <% } else { %>
+                                <div id="transactionsList">
+                                    <% transactions.forEach(transaction => { %>
+                                        <div class="transaction-item transaction-<%= transaction.type %>" data-type="<%= transaction.type %>">
+                                            <div class="row align-items-center">
+                                                <div class="col-md-8">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="mr-3">
+                                                            <div class="transaction-amount <%= transaction.type %>">
+                                                                <%= transaction.type === 'income' ? '+' : '-' %>$<%= transaction.amount.toFixed(2) %>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-grow-1">
+                                                            <h6 class="mb-1"><%= transaction.description %></h6>
+                                                            <div class="transaction-meta">
+                                                                <span class="category-badge badge" style="background-color: <%= transaction.categoryColor %>;">
+                                                                    <%= transaction.categoryName %>
+                                                                </span>
+                                                                <span class="ml-2">
+                                                                    <i class="fa fa-account"></i> <%= transaction.accountName %>
+                                                                </span>
+                                                                <% if (transaction.apartmentNumber) { %>
+                                                                    <span class="ml-2">
+                                                                        <i class="fa fa-building"></i> <%= transaction.apartmentNumber %>
+                                                                    </span>
+                                                                <% } %>
+                                                                <span class="ml-2">
+                                                                    <i class="fa fa-calendar"></i> <%= new Date(transaction.date).toLocaleDateString() %>
+                                                                </span>
+                                                                <span class="ml-2">
+                                                                    <i class="fa fa-user"></i> <%= transaction.createdByName %>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 text-right">
+                                                    <div class="btn-group btn-group-sm">
+                                                        <% if (transaction.receiptGenerated) { %>
+                                                            <a href="/admin/transactions/<%= transaction.id %>/receipt" 
+                                                               class="btn btn-info" target="_blank" title="View Receipt">
+                                                                <i class="fa fa-receipt"></i>
+                                                            </a>
+                                                        <% } %>
+                                                        <a href="/admin/transactions/<%= transaction.id %>/edit" 
+                                                           class="btn btn-primary" title="Edit">
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+                                                        <button class="btn btn-danger" onclick="deleteTransaction(<%= transaction.id %>)" 
+                                                                data-transaction-desc="<%= transaction.description %>" title="Delete">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <% }); %>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<%- contentFor('scripts') %>
+<script>
+function filterTransactions(type) {
+    const transactions = document.querySelectorAll('.transaction-item');
+    const buttons = document.querySelectorAll('.btn-group button');
+    
+    // Update active button
+    buttons.forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    // Filter transactions
+    transactions.forEach(transaction => {
+        if (type === 'all' || transaction.dataset.type === type) {
+            transaction.style.display = 'block';
+        } else {
+            transaction.style.display = 'none';
+        }
+    });
+}
+
+async function deleteTransaction(id) {
+    const button = event.target.closest('button');
+    const description = button.getAttribute('data-transaction-desc');
+    
+    if (!confirm(`Are you sure you want to delete transaction "${description}"? This action cannot be undone and will affect account balances.`)) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`/admin/transactions/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            location.reload();
+        } else {
+            alert('Error: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Error deleting transaction:', error);
+        alert('Error deleting transaction. Please try again.');
+    }
+}
+
+// Set default filter
+document.addEventListener('DOMContentLoaded', function() {
+    const buttons = document.querySelectorAll('.btn-group button');
+    if (buttons.length > 0) {
+        buttons[0].classList.add('active');
+    }
+});
+</script>

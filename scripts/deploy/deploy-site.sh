@@ -8,6 +8,7 @@ NODE_ROOT="${NODE_ROOT:-/www/server/nodejs}"
 REQUIRED_USER="${REQUIRED_USER:-www}"
 KEEP_BUILDS=3
 KEEP_DATA_BACKUPS=10
+KEEP_DB_BACKUPS=5
 HEALTH_TIMEOUT_SECONDS=30
 STOP_TIMEOUT_SECONDS=15
 BUILD_DIR=""
@@ -74,14 +75,29 @@ resolve_node_bin() {
   printf '%s/bin\n' "$found"
 }
 
+env_value() {
+  local key="$1" file="$2" value
+  value="$(sed -nE "s/^[[:space:]]*(export[[:space:]]+)?${key}[[:space:]]*=[[:space:]]*//p" "$file" | tail -n 1 | tr -d '\r')"
+  if [[ "$value" =~ ^\"(.*)\"$ || "$value" =~ ^\'(.*)\'$ ]]; then
+    value="${BASH_REMATCH[1]}"
+  fi
+  printf '%s' "$value"
+}
+
 main() {
-  [[ $# -eq 11 ]] || die "Expected 11 arguments, got $#. Run deploys through scripts/deploy/deploy.ps1."
+  [[ $# -eq 14 ]] || die "Expected 14 arguments, got $#. Run deploys through scripts/deploy/deploy.ps1."
   local site="$1" sha="$2" server_path="$3" port="$4" health_path="$5" node_bin_arg="$6" project="$7"
   local restart_b64="$8" protect_list="$9" repo_url="${10}" overwrite_spec="${11}"
+  local migrations_dir="${12}" migrations_script="${13}" migrations_mode="${14}"
   local restart_command=""
 
   [[ "$(id -un)" == "$REQUIRED_USER" ]] || die "Running as $(id -un); the deploy must run as $REQUIRED_USER."
-  [[ "$site" =~ ^[a-z0-9][a-z0-9.-]*$ ]] || die "Invalid site name: $site"
+  [[ "$site" =~ ^[a-z0-9][a-z0-9._-]*$ && "$site" != *..* ]] || die "Invalid site name: $site"
+  if [[ "$migrations_script" != "-" ]]; then
+    [[ "$migrations_dir" =~ ^[A-Za-z0-9._-][A-Za-z0-9._/-]*$ && "$migrations_dir" != *..* ]] || die "Invalid migrations dir: $migrations_dir"
+    [[ "$migrations_script" =~ ^[A-Za-z0-9][A-Za-z0-9:._-]*$ ]] || die "Invalid migrations script: $migrations_script"
+  fi
+  [[ "$migrations_mode" == "auto" || "$migrations_mode" == "force" ]] || die "Invalid migrations mode: $migrations_mode"
   [[ "$sha" =~ ^[0-9a-f]{40}$ ]] || die "Invalid commit: $sha"
   [[ "$server_path" =~ ^/[A-Za-z0-9._/-]+$ && "$server_path" != *..* && "$server_path" != "/" ]] || die "Invalid serverPath: $server_path"
   [[ "$port" =~ ^[0-9]+$ ]] || die "Invalid port: $port"
@@ -105,7 +121,7 @@ main() {
 
   umask 022
   local repo_dir="$DEPLOY_ROOT/repo" builds_dir="$DEPLOY_ROOT/builds/$site" state_dir="$DEPLOY_ROOT/state/$site"
-  mkdir -p "$builds_dir" "$state_dir/env-backups" "$state_dir/data-backups" "$DEPLOY_ROOT/.npm"
+  mkdir -p "$builds_dir" "$state_dir/env-backups" "$state_dir/data-backups" "$state_dir/db-backups" "$DEPLOY_ROOT/.npm"
 
   exec 9>"$state_dir/deploy.lock"
   flock -n 9 || die "Another deploy of $site is already running."
@@ -175,6 +191,52 @@ main() {
   (cd "$build_dir" && npm ci --include=dev --no-audit --no-fund) || die "npm ci failed."
   log "Building (npm run build)"
   (cd "$build_dir" && npm run build) || die "npm run build failed."
+
+  local db_backup="" migrations_ran=0
+  if [[ "$migrations_script" != "-" ]]; then
+    local previous_sha="" migrations_needed=0
+    [[ -f "$state_dir/current.sha" ]] && previous_sha="$(tr -dc '0-9a-f' < "$state_dir/current.sha")"
+    if [[ "$migrations_mode" == "force" ]]; then
+      log "Migrations forced (-ForceMigrations)"
+      migrations_needed=1
+    elif [[ -z "$previous_sha" ]] || ! git -C "$repo_dir" cat-file -e "$previous_sha^{commit}" 2>/dev/null; then
+      log "No earlier deploy of $site is recorded; running migrations"
+      migrations_needed=1
+    elif ! git -C "$repo_dir" diff --quiet "$previous_sha" "$sha" -- "websites/$site/$migrations_dir"; then
+      log "$migrations_dir changed since ${previous_sha:0:8}; running migrations"
+      migrations_needed=1
+    else
+      log "$migrations_dir unchanged since ${previous_sha:0:8}; migrations skipped"
+    fi
+
+    if [[ $migrations_needed -eq 1 ]]; then
+      command -v mysqldump >/dev/null 2>&1 || die "mysqldump is not installed on the server, so the database cannot be backed up before migrating. Install it (apt install -y mysql-client) or add the aaPanel MySQL bin folder to PATH. Nothing was changed."
+      local db_host db_port db_user db_password db_name
+      db_host="$(env_value DB_HOST "$build_dir/.env.production")"
+      db_port="$(env_value DB_PORT "$build_dir/.env.production")"
+      db_user="$(env_value DB_USER "$build_dir/.env.production")"
+      db_password="$(env_value DB_PASSWORD "$build_dir/.env.production")"
+      db_name="$(env_value DB_NAME "$build_dir/.env.production")"
+      [[ -n "$db_name" && -n "$db_user" ]] || die ".env.production must set DB_NAME and DB_USER for the pre-migration backup. Nothing was changed."
+      [[ -n "$db_host" ]] || db_host="localhost"
+      [[ -n "$db_port" ]] || db_port="3306"
+
+      db_backup="$state_dir/db-backups/db-$(date +%Y%m%d-%H%M%S).sql.gz"
+      log "Backing up database $db_name to $db_backup"
+      if ! (umask 077 && MYSQL_PWD="$db_password" mysqldump --host="$db_host" --port="$db_port" --user="$db_user" \
+          --single-transaction --routines --triggers --no-tablespaces -- "$db_name" | gzip > "$db_backup.partial"); then
+        rm -f "$db_backup.partial"
+        die "Database backup failed, so migrations were not run. Nothing was changed."
+      fi
+      mv "$db_backup.partial" "$db_backup"
+      find "$state_dir/db-backups" -maxdepth 1 -name 'db-*.sql.gz' | sort -r | tail -n +$((KEEP_DB_BACKUPS + 1)) | xargs -r rm -f
+
+      log "Running npm run $migrations_script"
+      (cd "$build_dir" && npm run "$migrations_script") || die "Migrations failed. The live site was not changed. Database backup from before the migrations: $db_backup"
+      migrations_ran=1
+    fi
+  fi
+
   (cd "$build_dir" && npm prune --omit=dev --no-audit --no-fund) || die "npm prune failed."
   [[ -f "$build_dir/dist/src/server.js" ]] || die "Build did not produce dist/src/server.js."
 
@@ -336,6 +398,9 @@ main() {
   fi
 
   if [[ $failed -ne 0 ]]; then
+    if [[ $migrations_ran -eq 1 ]]; then
+      warn "The database was already migrated and is not rolled back automatically. Backup from before the migrations: $db_backup"
+    fi
     if [[ -z "$previous_build" ]]; then
       restore_data || warn "Restoring server data failed; the backup is $data_backup"
       die "Deploy of $site failed and there is no previous build to roll back to. Check the aaPanel project log."

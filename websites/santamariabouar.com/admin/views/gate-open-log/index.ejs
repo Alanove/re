@@ -1,0 +1,93 @@
+<div class="gate-open-log-page">
+    <div class="report-header mb-4">
+        <h1><i class="fas fa-history text-primary"></i> <%= pageTitle %></h1>
+        <h4 class="text-muted"><%= pageSubtitle %></h4>
+        <p class="text-muted small">Showing <%= totalEntries %> recent entr<%= totalEntries === 1 ? 'y' : 'ies' %></p>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="GET" action="/admin/gate-open-log" class="row g-3 align-items-end">
+                <div class="col-md-4">
+                    <label class="form-label" for="gateOpenSearch">User</label>
+                    <input
+                        type="text"
+                        id="gateOpenSearch"
+                        name="search"
+                        class="form-control"
+                        placeholder="Name, email, phone..."
+                        value="<%= filters.search || '' %>"
+                    >
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label" for="gateOpenFromDate">From</label>
+                    <input type="date" id="gateOpenFromDate" name="fromDate" class="form-control" value="<%= filters.fromDate || '' %>">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label" for="gateOpenToDate">To</label>
+                    <input type="date" id="gateOpenToDate" name="toDate" class="form-control" value="<%= filters.toDate || '' %>">
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-search"></i> Filter
+                    </button>
+                </div>
+                <div class="col-md-2">
+                    <a href="/admin/gate-open-log" class="btn btn-outline-secondary w-100">Clear</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Member</th>
+                            <th>Contact</th>
+                            <th>Status</th>
+                            <th>Error</th>
+                            <th>IP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (rows && rows.length) { %>
+                            <% rows.forEach(function(row) { %>
+                                <tr>
+                                    <td class="text-nowrap"><%= row.openedAt ? new Date(row.openedAt).toLocaleString() : '—' %></td>
+                                    <td>
+                                        <strong><%= row.userName || '—' %></strong>
+                                        <% if (row.impersonatorName) { %>
+                                            <br><small class="text-muted">Previewed by <%= row.impersonatorName %></small>
+                                        <% } %>
+                                    </td>
+                                    <td>
+                                        <% if (row.userEmail) { %><%= row.userEmail %><br><% } %>
+                                        <% if (row.userPhone) { %><small class="text-muted"><%= row.userPhone %></small><% } %>
+                                        <% if (!row.userEmail && !row.userPhone) { %><span class="text-muted">—</span><% } %>
+                                    </td>
+                                    <td>
+                                        <% if (row.status === 'success') { %>
+                                            <span class="badge bg-success">Opened</span>
+                                        <% } else { %>
+                                            <span class="badge bg-danger">Failed</span>
+                                        <% } %>
+                                    </td>
+                                    <td><%= row.errorMessage || '—' %></td>
+                                    <td class="text-nowrap"><%= row.ipAddress || '—' %></td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="6" class="text-center py-4 text-muted">No gate opens match these filters.</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

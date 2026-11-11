@@ -1,0 +1,81 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.card {
+  padding: $space-lg;
+  @include brand-box;
+
+  &--glass {
+    background-color: rgba($color-white, 0.8);
+    backdrop-filter: blur(12px);
+  }
+}
+
+a.card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.card__icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $radius-button;
+  background: $color-primary;
+  color: $color-white;
+  margin-bottom: $space-md;
+
+  .material-symbols-outlined {
+    font-size: 1.5rem;
+  }
+
+  &--soft {
+    background: rgba($color-primary, 0.12);
+    color: $color-primary;
+  }
+
+  &--green {
+    background: rgba($color-tertiary, 0.15);
+    color: $color-tertiary-dark;
+  }
+}
+
+.card__title {
+  font-family: $font-headline;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: $color-secondary;
+  margin-bottom: $space-sm;
+}
+
+.card__text {
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: $color-on-surface-variant;
+}
+
+.check-list {
+  display: grid;
+  gap: $space-md;
+  margin-top: auto;
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: $space-sm;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: $color-on-surface-variant;
+  }
+
+  .material-symbols-outlined {
+    color: $color-tertiary;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+    margin-top: 0.1em;
+  }
+}

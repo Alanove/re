@@ -1,0 +1,348 @@
+<div class="account-page account-page--portal">
+  <div class="account-shell">
+    <%- include('partials/sidebar') %>
+    <div class="account-main">
+      <div class="account-main__header">
+        <a href="/account/apartments" class="account-back">&larr; Back to apartments</a>
+        <h1><%= apartmentLabel %></h1>
+        <p class="account-meta">
+          Status: <span class="account-badge"><%= apartment.status || 'owned' %></span>
+          · Area: <%= apartment.areaInM2 %> m²
+        </p>
+      </div>
+
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="account-alert account-alert--error"><%= error %></div>
+      <% } %>
+      <% if (typeof success !== 'undefined' && success) { %>
+        <div class="account-alert account-alert--success"><%= success %></div>
+      <% } %>
+
+      <div class="account-panel">
+        <h2>Parking</h2>
+        <%- include('partials/parking-map') %>
+      </div>
+
+      <div class="account-panel">
+        <h2>Photos</h2>
+        <div class="account-photo-grid">
+          <% if (apartment.officialImage) { %>
+            <figure class="is-default" data-filename="<%= apartment.officialImage %>">
+              <img src="/images/apartments/<%= apartment.id %>/<%= apartment.officialImage %>" alt="Default photo" />
+              <figcaption>Default</figcaption>
+              <button type="button" class="account-photo-remove" data-filename="<%= apartment.officialImage %>" aria-label="Remove photo">
+                <i class="bi bi-x-lg"></i>
+              </button>
+            </figure>
+          <% } %>
+          <% (apartment.images || []).forEach(function(img) { %>
+            <figure data-filename="<%= img %>">
+              <img src="/images/apartments/<%= apartment.id %>/<%= img %>" alt="" />
+              <button type="button" class="account-photo-set-default" data-filename="<%= img %>" aria-label="Set as default photo" title="Set as default">
+                <i class="bi bi-star"></i>
+              </button>
+              <button type="button" class="account-photo-remove" data-filename="<%= img %>" aria-label="Remove photo">
+                <i class="bi bi-x-lg"></i>
+              </button>
+            </figure>
+          <% }); %>
+          <% (pendingImages || []).forEach(function(img) { %>
+            <figure class="is-pending" data-filename="<%= img %>">
+              <img src="/images/apartments/<%= apartment.id %>/<%= img %>" alt="" />
+              <figcaption>Pending approval</figcaption>
+              <button type="button" class="account-photo-remove" data-filename="<%= img %>" aria-label="Remove photo">
+                <i class="bi bi-x-lg"></i>
+              </button>
+            </figure>
+          <% }); %>
+        </div>
+        <div
+          class="account-photo-upload"
+          id="photoUploadWidget"
+          data-apartment-id="<%= apartment.id %>"
+          data-upload-url="/account/apartments/<%= apartment.id %>/photos"
+          data-delete-url="/account/apartments/<%= apartment.id %>/photos/delete"
+          data-set-default-url="/account/apartments/<%= apartment.id %>/photos/set-default"
+          data-max-bytes="<%= typeof photoMaxFileSize !== 'undefined' ? photoMaxFileSize : 31457280 %>"
+          data-max-mb="<%= typeof photoMaxFileSizeMb !== 'undefined' ? photoMaxFileSizeMb : 30 %>"
+        >
+          <div class="account-field">
+            <label for="photos">Add pictures (requires admin approval)</label>
+            <input type="file" id="photos" name="photos" accept="image/*" multiple />
+            <small>Select one or more images — upload starts immediately. Max <%= typeof photoMaxFileSizeMb !== 'undefined' ? photoMaxFileSizeMb : 30 %> MB per file; large photos are resized to <%= typeof photoMaxWidth !== 'undefined' ? photoMaxWidth : 1920 %>px wide.</small>
+          </div>
+          <div class="account-upload-progress" id="photoUploadProgress" hidden>
+            <div class="account-upload-progress__label">
+              <span id="photoUploadProgressText">Uploading…</span>
+              <span id="photoUploadProgressPct">0%</span>
+            </div>
+            <div class="account-upload-progress__track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <div class="account-upload-progress__bar" id="photoUploadProgressBar"></div>
+            </div>
+          </div>
+          <div class="account-upload-status" id="photoUploadStatus" role="status" aria-live="polite" hidden></div>
+        </div>
+      </div>
+
+      <div class="account-panel">
+        <h2>List for Sale or Rent</h2>
+        <% const isListed = apartment.status === 'for_sale' || apartment.status === 'for_rent'; %>
+        <% const listingDefaults = publishedListing ? Object.assign({}, publishedListing, { requestType: publishedListing.listingType }) : {}; %>
+        <% if (typeof approvedPhotoCount !== 'undefined' && approvedPhotoCount < 1) { %>
+          <p class="account-meta">At least one approved photo is required before you can submit a listing.</p>
+        <% } %>
+        <% if (isListed && !pendingListing) { %>
+          <p class="account-meta">
+            Currently listed as
+            <span class="account-badge"><%= apartment.status === 'for_sale' ? 'For Sale' : 'For Rent' %></span>
+          </p>
+          <%- include('partials/listing-summary', { data: listingDefaults, apartment: apartment }) %>
+          <p class="account-meta">You can remove this listing immediately without admin approval, or request an update below.</p>
+          <button
+            type="button"
+            class="account-btn account-btn--danger"
+            data-bs-toggle="modal"
+            data-bs-target="#removeListingModal"
+          >
+            Remove listing
+          </button>
+          <hr class="account-divider" />
+          <h3>Request listing update</h3>
+          <%- include('partials/listing-form', {
+            apartment: apartment,
+            formData: listingDefaults,
+            approvedPhotoCount: approvedPhotoCount,
+            submitLabel: 'Submit update for Approval'
+          }) %>
+        <% } else if (pendingListing) { %>
+          <div class="account-alert">
+            Pending request: <strong><%= pendingListing.requestType === 'for_sale' ? 'For Sale' : 'For Rent' %></strong>
+            (awaiting admin approval)
+          </div>
+          <%- include('partials/listing-summary', { data: pendingListing, apartment: apartment }) %>
+        <% } else if (isOwner) { %>
+          <%- include('partials/listing-form', {
+            apartment: apartment,
+            formData: listingDefaults,
+            approvedPhotoCount: approvedPhotoCount,
+            submitLabel: 'Submit for Approval'
+          }) %>
+          <small>Status does not change until an administrator approves your request.</small>
+        <% } else { %>
+          <p class="account-meta">Only the apartment owner can submit a listing request.</p>
+        <% } %>
+      </div>
+
+      <div class="account-panel">
+        <h2>Tenant</h2>
+        <% if (apartment.renterId) { %>
+          <div class="account-tenant-card">
+            <p class="account-meta account-meta--flush">
+              <strong><%= apartment.renterName || 'Tenant' %></strong>
+              <% if (apartment.renterPhone) { %><br><%= apartment.renterPhone %><% } %>
+              <% if (apartment.renterEmail) { %><br><%= apartment.renterEmail %><% } %>
+            </p>
+            <% if (isOwner) { %>
+              <button
+                type="button"
+                class="account-btn account-btn--danger account-btn--sm"
+                data-bs-toggle="modal"
+                data-bs-target="#removeTenantModal"
+              >
+                Remove tenant
+              </button>
+            <% } %>
+          </div>
+          <% if (isOwner) { %>
+            <small>Remove the current tenant before assigning a new one.</small>
+          <% } %>
+        <% } else if (typeof pendingTenantRequest !== 'undefined' && pendingTenantRequest) { %>
+          <p class="account-meta">
+            <strong>Pending admin approval</strong><br>
+            <%= pendingTenantRequest.fullName %><br>
+            <%= pendingTenantRequest.email %>
+            <% if (pendingTenantRequest.phone && pendingTenantRequest.phone !== '—') { %>
+              <br><%= pendingTenantRequest.phone %>
+            <% } %>
+          </p>
+          <small>Submitted <%= new Date(pendingTenantRequest.createdAt).toLocaleString() %>. Portal access is granted after an administrator approves the request.</small>
+        <% } else { %>
+          <p class="account-empty">No tenant assigned.</p>
+          <% if (isOwner) { %>
+            <h3>Request tenant access</h3>
+            <p class="account-meta">Submit the tenant’s details. An administrator will review and grant My Account access without changing ownership.</p>
+            <form method="POST" action="/account/apartments/<%= apartment.id %>/tenant" class="account-form">
+              <input type="hidden" name="action" value="add" />
+              <div class="account-field">
+                <label for="tenantFullName">Tenant name</label>
+                <input type="text" id="tenantFullName" name="fullName" required autocomplete="name" />
+              </div>
+              <div class="account-field">
+                <label for="tenantEmail">Tenant email</label>
+                <input type="email" id="tenantEmail" name="email" required autocomplete="email" />
+              </div>
+              <div class="account-field">
+                <label for="tenantPhone">Tenant phone (optional)</label>
+                <input type="tel" id="tenantPhone" name="phone" autocomplete="tel" />
+              </div>
+              <button type="submit" class="account-btn account-btn--primary">Submit for Approval</button>
+            </form>
+          <% } %>
+        <% } %>
+      </div>
+
+      <div class="account-panel">
+        <h2>Main Gate Access</h2>
+        <p class="account-meta">People authorized for main gate entry for this apartment.</p>
+
+        <% if (apartment.gateAccessUsers && apartment.gateAccessUsers.length) { %>
+          <div class="table-responsive">
+            <table class="account-table">
+              <thead>
+                <tr>
+                  <th class="account-col-name">Name</th>
+                  <th class="account-col-phone">Phone</th>
+                  <th class="account-col-type">Relation</th>
+                  <th>Expiry</th>
+                  <th class="account-col-action"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <%
+                  var todayStr = new Date().toISOString().slice(0, 10);
+                  apartment.gateAccessUsers.forEach(function(person) {
+                    var expired = person.expiryDate && person.expiryDate < todayStr;
+                %>
+                  <tr>
+                    <td><%= person.name %></td>
+                    <td><%= person.phone || '—' %></td>
+                    <td><%= person.relation %></td>
+                    <td>
+                      <% if (person.expiryDate) { %>
+                        <span<%= expired ? ' style="color:#b45309;font-weight:600;"' : '' %>><%= person.expiryDate %><%= expired ? ' (expired)' : '' %></span>
+                      <% } else { %>
+                        —
+                      <% } %>
+                    </td>
+                    <td>
+                      <% if (person.relation !== 'Owner' && isOwner) { %>
+                        <form method="POST" action="/account/apartments/<%= apartment.id %>/gate-access" class="account-inline-form">
+                          <input type="hidden" name="action" value="remove" />
+                          <input type="hidden" name="targetUserId" value="<%= person.id %>" />
+                          <button type="submit" class="account-btn account-btn--danger account-btn--sm">Request Remove</button>
+                        </form>
+                      <% } %>
+                    </td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        <% } else { %>
+          <p class="account-empty">No gate access entries.</p>
+        <% } %>
+
+        <% if (pendingGate && pendingGate.length) { %>
+          <div class="account-alert">
+            Pending gate requests:
+            <% pendingGate.forEach(function(g) { %>
+              <div><%= g.action %> — <%= g.targetName || ('user #' + g.targetUserId) %> (<%= g.relation || '—' %>)</div>
+            <% }); %>
+          </div>
+        <% } %>
+
+        <% if (isOwner) { %>
+          <p style="margin-top:1rem;">
+            <a href="/account/gate-access/request?apartmentId=<%= apartment.id %>" class="account-btn account-btn--primary">Request New Access</a>
+          </p>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="setDefaultPhotoModal" tabindex="-1" aria-labelledby="setDefaultPhotoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="setDefaultPhotoModalLabel">Set default photo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Use this photo as the default image for your apartment listing?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="confirmSetDefaultPhotoBtn">
+          <span class="account-set-default-label">Set as default</span>
+          <span class="spinner-border spinner-border-sm d-none" id="setDefaultPhotoSpinner" role="status" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="removePhotoModal" tabindex="-1" aria-labelledby="removePhotoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="removePhotoModalLabel">Remove photo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to remove this photo? This cannot be undone.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger" id="confirmRemovePhotoBtn">
+          <span class="account-remove-photo-label">Remove</span>
+          <span class="spinner-border spinner-border-sm d-none" id="removePhotoSpinner" role="status" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="removeListingModal" tabindex="-1" aria-labelledby="removeListingModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="removeListingModalLabel">Remove listing</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Remove this apartment from the public for sale / for rent listings? This takes effect immediately.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <form method="POST" action="/account/apartments/<%= apartment.id %>/listing/remove" class="d-inline">
+          <button type="submit" class="btn btn-danger">Remove listing</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if (typeof isOwner !== 'undefined' && isOwner && apartment.renterId) { %>
+<div class="modal fade" id="removeTenantModal" tabindex="-1" aria-labelledby="removeTenantModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="removeTenantModalLabel">Remove tenant</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Remove <strong><%= apartment.renterName || 'this tenant' %></strong> from this apartment?
+        Their main gate access as renter will also be revoked.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <form method="POST" action="/account/apartments/<%= apartment.id %>/tenant" class="d-inline">
+          <input type="hidden" name="action" value="remove" />
+          <button type="submit" class="btn btn-danger">Remove tenant</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<% } %>

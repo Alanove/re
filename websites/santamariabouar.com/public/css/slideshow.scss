@@ -1,0 +1,501 @@
+@import 'variables';
+
+// WebGL Enhanced Slideshow Styles
+// Height fills remaining viewport under sticky header
+.slideshow {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  height: calc(100vh - var(--site-header-height, 72px));
+  height: calc(100dvh - var(--site-header-height, 72px));
+  min-height: 320px;
+  overflow: hidden;
+  background: #000;
+
+  .slide-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    .slide-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      overflow: hidden;
+
+      img {
+        transform: translateX(-200px) scale(1.2);
+        opacity: 0;
+        transition: 7s ease all;
+        // Add will-change for better performance
+        will-change: transform, opacity;
+      }
+
+      &.preparing {
+        z-index: 1;
+        img {
+          transform: translateX(-200px) scale(1.2);
+          opacity: 0;
+        }
+      }
+
+      &.active {
+        z-index: 3;
+        img {
+          transform: translateX(0) scale(1.2);
+          opacity: 1;
+        }
+      }
+
+      &.exiting {
+        z-index: 2;
+        img {
+          transform: translateX(200px) scale(1.2);
+          opacity: 0;
+        }
+      }
+
+      .slide-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0 !important; /* Hide HTML images - canvas will display them */
+        pointer-events: none;
+        position: relative; /* Ensure overlay positioning works */
+        
+        // Lazy loading optimization styles
+        &[loading="lazy"] {
+          // Images marked for lazy loading get a subtle loading background
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+        }
+      }
+
+      .slide-video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        opacity: 0;
+        transition: opacity 1s ease;
+        will-change: opacity;
+      }
+
+      // Video slides don't use WebGL, so show them directly
+      &[data-media-type="video"] {
+        .slide-video {
+          opacity: 0;
+        }
+        
+        &.active .slide-video {
+          opacity: 1 !important;
+        }
+        
+        &.preparing .slide-video {
+          opacity: 0;
+        }
+        
+        &.exiting .slide-video {
+          opacity: 0;
+          transition: opacity 0.5s ease;
+        }
+      }
+
+      .slide-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: auto;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 100%);
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-start;
+        z-index: 15; /* Higher than canvas z-index: 5 */
+        padding: 3rem clamp(1.5rem, 5vw, 5rem) clamp(1.5rem, 5vw, 5rem);
+        min-height: 150px;
+        opacity: 0;
+        transition: opacity 1s ease-out;
+        pointer-events: auto; /* Ensure buttons are clickable */
+      }
+
+      &.active .slide-overlay {
+        opacity: 1;
+        transition: opacity 1s ease-out 0.5s; /* Delay to appear after transition starts */
+      }
+
+      .slide-content {
+        text-align: left;
+        color: #ffffff;
+        max-width: 500px;
+
+        .slide-title {
+          font-size: 2.2rem;
+          font-weight: 400;
+          color: #ffffff;
+          margin-bottom: 1rem;
+          text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+          line-height: 1.2;
+        }
+
+        .slide-btn {
+          display: inline-flex;
+          align-items: center;
+          font-size: 1.1rem;
+          color: #ffffff;
+          font-weight: 400;
+          text-decoration: none;
+          transition: all 0.3s ease;
+
+          &::after {
+            content: '→';
+            margin-left: 0.5rem;
+            transition: transform 0.3s ease;
+          }
+
+          &:hover,
+          &:focus {
+            color: #ffffff;
+            text-decoration: none;
+
+            &::after {
+              transform: translateX(5px);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .slide-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 20;
+    border-radius: 50%;
+    transition: background 0.2s;
+    box-shadow: none;
+    outline: none;
+    padding: 0;
+
+    svg {
+      width: 48px;
+      height: 48px;
+      fill: $menu-text;
+      transition: fill 0.2s;
+      display: block;
+    }
+
+    &:hover svg,
+    &:focus svg {
+      fill: $menu-hover;
+    }
+  }
+
+  .slide-arrow.left {
+    left: 1rem;
+
+    svg {
+      transform: rotate(180deg);
+    }
+
+    img {
+      transform: rotate(180deg);
+    }
+  }
+
+  .slide-arrow.right {
+    right: 1rem;
+  }
+}
+
+// WebGL Canvas specific styles
+.webgl-slideshow-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 2s ease;
+}
+
+// Slideshow loader
+.slideshow-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 30; /* Above everything including overlay */
+  opacity: 1;
+  transition: opacity 0.8s ease-out;
+  
+  &.hide {
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  .brand-text {
+    font-family: 'Arial', sans-serif;
+    font-size: 1rem;        // 4 times smaller than before (was 4rem)
+    font-weight: 300;
+    color: #ffffff;
+    opacity: 0;
+    animation: simpleFadeIn 1s ease-in-out forwards;
+    letter-spacing: 0.1em;
+    text-align: center;
+    
+    // Add a subtle loading indicator
+    &::after {
+      content: '●';
+      display: inline-block;
+      animation: loadingPulse 1.5s ease-in-out infinite;
+      margin-left: 0.5em;
+      color: rgba(255, 255, 255, 0.6);
+    }
+    
+    @media (max-width: 600px) {
+      font-size: 0.9rem;
+    }
+    
+    @media (max-width: 480px) {
+      font-size: 0.8rem;
+    }
+  }
+}
+
+// Global overlay that sits above everything
+.slideshow-global-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 100%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  z-index: 20; /* Above everything */
+  padding: 3rem clamp(1.5rem, 5vw, 5rem) clamp(1.5rem, 5vw, 5rem);
+  min-height: 150px;
+  opacity: 1;
+  pointer-events: auto;
+  
+  .slide-content {
+    text-align: left;
+    color: #ffffff;
+    max-width: 500px;
+
+    .slide-title {
+      font-size: 2.2rem;
+      font-weight: 400;
+      color: #ffffff;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+      line-height: 1.2;
+    }
+
+    .slide-btn {
+      display: inline-flex;
+      align-items: center;
+      font-size: 1.1rem;
+      color: #ffffff;
+      font-weight: 400;
+      text-decoration: none;
+      transition: all 0.3s ease;
+
+      &::after {
+        content: '→';
+        margin-left: 0.5rem;
+        transition: transform 0.3s ease;
+      }
+
+      &:hover,
+      &:focus {
+        color: #ffffff;
+        text-decoration: none;
+
+        &::after {
+          transform: translateX(5px);
+        }
+      }
+    }
+  }
+}
+
+// Once the JS global overlay exists, hide per-slide captions (they are content sources only).
+// Without this, mobile/no-WebGL shows title + CTA twice.
+.slideshow:has(.slideshow-global-overlay) .slide-overlay {
+  opacity: 0 !important;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+// Fullscreen slideshow styles (for homepage)
+.home-hero {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - var(--site-header-height, 72px));
+  height: calc(100dvh - var(--site-header-height, 72px));
+  min-height: 320px;
+  overflow: hidden;
+  flex: 1;
+}
+
+.fullscreen-slideshow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+// Make sure slideshow images/videos fill the slider area
+.fullscreen-slideshow .slide-img,
+.fullscreen-slideshow .slide-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// Mobile responsive styles
+@media (max-width: 600px) {
+  .slideshow {
+    width: 100%;
+  }
+  
+  .home-hero {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .slide-content {
+    .slide-title {
+      font-size: 1.8rem;
+    }
+
+    .slide-btn {
+      font-size: 1rem;
+    }
+  }
+
+  .slide-overlay,
+  .slideshow-global-overlay {
+    padding: 2rem 1.5rem 1.5rem;
+    min-height: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .slideshow {
+    .slide-content {
+      max-width: 100%;
+
+      .slide-title {
+        font-size: 1.5rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .slide-btn {
+        font-size: 0.9rem;
+      }
+    }
+
+    .slide-overlay,
+    .slideshow-global-overlay {
+      padding: 1.5rem 1rem 1rem;
+      min-height: 100px;
+    }
+
+    .slide-arrow {
+      display: none;
+    }
+  }
+}
+
+// Keyframe animations - same as original
+@keyframes slideInFromBottom {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+// Simple fade animation for brand text
+@keyframes simpleFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+
+// Loading pulse animation for better UX
+@keyframes loadingPulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+// Enhanced WebGL transition effects
+@keyframes webglFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes webglFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

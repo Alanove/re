@@ -1,0 +1,212 @@
+<section id="home" class="hero-section">
+    <video id="homeHeroVideo" autoplay muted loop playsinline>
+        <source src="/videos/<%= heroData.currentVideo %>" type="video/mp4">
+        <!-- Fallback image if video not supported -->
+        <img src="/images/slide/home4-poster.jpg" alt="Home background" />
+    </video>
+    <!-- Decorative tilted vertical lines (visual only) -->
+    <div class="hero-decor-lines" aria-hidden="true">
+        <span class="decor-line"></span>
+        <span class="decor-line"></span>
+        <span class="decor-line"></span>
+    </div>
+
+    <!-- Rotating Quotes -->
+    <% if (activeQuotes && activeQuotes.length> 0) { %>
+        <div class="hero-quotes" aria-hidden="true">
+            <div class="quote-container">
+                <% activeQuotes.forEach((quote, index)=> { %>
+                    <div class="quote-item <%= index === 0 ? 'active' : '' %>" data-quote-id="<%= quote.id %>">
+                        <blockquote class="quote-text">"<%= quote.text %>"</blockquote>
+                        <cite class="quote-author">— <%= quote.author %></cite>
+                    </div>
+                    <% }) %>
+            </div>
+        </div>
+        <% } %>
+
+            <div class="scroll-arrow-container ">
+                <button class="scroll-arrow" aria-label="Scroll to next section">
+                    <img src="/images/icons/arrow-down.svg" alt="Scroll down" width="32" height="32" />
+                </button>
+            </div>
+
+</section>
+<section id="about" class="inverted">
+    <div class="container">
+        <h2>
+            <%= typeof aboutTitle !=='undefined' ? aboutTitle : 'About EMDC Group' %>
+        </h2>
+        <div class="section-layout">
+            <div class="section-content">
+                <%- typeof aboutContent !=='undefined' && aboutContent ? aboutContent : (typeof pageContent
+                    !=='undefined' && pageContent ? pageContent : '' ) %>
+            </div>
+            <% if (typeof aboutImage !=='undefined' && aboutImage && aboutImage !=='' ) { %>
+                <div class="section-image">
+                    <img src="<%= aboutImage %>" alt="About EMDC Group" class="slide-in-image" />
+                </div>
+                <% } %>
+        </div>
+    </div>
+</section>
+<section id="services">
+    <div class="container">
+        <h2>Our Services</h2>
+        <div class="services-grid">
+            <a href="/what-we-do#what-we-do-mep-ict" class="service-card">
+                <div class="service-icon">
+                    <img src="/images/services/MEP-ICT.png" alt="MEP & ICT Systems" width="80" height="80">
+                </div>
+                <h3>MEP & ICT Systems</h3>
+            </a>
+
+            <a href="/what-we-do#what-we-do-energy-sustainability" class="service-card">
+                <div class="service-icon">
+                    <img src="/images/services/Renewables.png" alt="Energy & Sustainability" width="80" height="80">
+                </div>
+                <h3>Energy & Sustainability</h3>
+            </a>
+
+            <a href="/about#Our-BIM-Know-How" class="service-card">
+                <div class="service-icon">
+                    <img src="/images/services/BIM-Design.png" alt="BIM & Design" width="80" height="80">
+                </div>
+                <h3>BIM & Design</h3>
+            </a>
+
+            <a href="/skills#our-soft-skills" class="service-card">
+                <div class="service-icon">
+                    <img src="/images/services/Consulting-Support.png" alt="Consulting & Support" width="80" height="80">
+                </div>
+                <h3>Consulting & Support</h3>
+            </a>
+        </div>
+    </div>
+</section>
+<section id="success" class="inverted">
+    <div class="container">
+        <h2>Our Success Indicators</h2>
+        <div class="stats-grid">
+            <a href="/projects" class="stat-card" data-target="<%= projectStats.totalProjects %>">
+                <div class="stat-icon">
+                    <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 21h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path d="M5 21V7l8-4v18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path d="M19 21V11l-6-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path d="M9 9v.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path d="M9 12v.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path d="M9 15v.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path d="M9 18v.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <div class="stat-number" id="totalProjects">
+                    0<% if (typeof showPlusIcon !== 'undefined' && showPlusIcon.totalProjects) { %><span class="stat-plus">+</span><% } %>
+                </div>
+                <div class="stat-label">Total Projects</div>
+            </a>
+
+            <a href="/projects" class="stat-card" data-target="<%= projectStats.totalCountries %>">
+                <div class="stat-icon">
+                    <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                        <path d="M2 12h20" stroke="currentColor" stroke-width="2" />
+                        <path
+                            d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+                            stroke="currentColor" stroke-width="2" />
+                    </svg>
+                </div>
+                <div class="stat-number" id="totalCountries">
+                    0<% if (typeof showPlusIcon !== 'undefined' && showPlusIcon.totalCountries) { %><span class="stat-plus">+</span><% } %>
+                </div>
+                <div class="stat-label">Countries</div>
+            </a>
+
+            <div class="stat-card" data-target="<%= typeof specialists !== 'undefined' ? specialists : '48' %>">
+                <div class="stat-icon">
+                    <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <div class="stat-number" id="totalSpecialists">
+                    0<% if (typeof showPlusIcon !== 'undefined' && showPlusIcon.specialists) { %><span class="stat-plus">+</span><% } %>
+                </div>
+                <div class="stat-label">Specialists</div>
+                <div class="stat-sublabel"><%= typeof specialistsSublabel !== 'undefined' ? specialistsSublabel : 'Beirut - Cairo - Riyadh' %></div>
+            </div>
+            <a href="/clients" class="stat-card"
+                data-target="<%= typeof clientsCount !== 'undefined' ? clientsCount : (clients ? clients.length : 0) %>">
+                <div class="stat-icon">
+                    <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
+                            stroke="currentColor" stroke-width="2" />
+                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1" stroke="currentColor" stroke-width="2" />
+                        <path d="M9 12h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        <path d="M9 16h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        <path d="M9 8h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                </div>
+                <div class="stat-number" id="totalClients">
+                    0<% if (typeof showPlusIcon !== 'undefined' && showPlusIcon.totalClients) { %><span class="stat-plus">+</span><% } %>
+                </div>
+                <div class="stat-label">Clients</div>
+            </a>
+        </div>
+    </div>
+</section>
+<section id="locations">
+    <div class="container">
+        <h2>Our Projects Locations</h2>
+        <div class="world-map-container hidden-animation">
+            <!-- World map will be loaded here via JavaScript -->
+            <div id="worldMapContainer" class="world-map-svg"
+                data-countries='<%= typeof countriesWithProjects !== "undefined" ? JSON.stringify(countriesWithProjects) : "[]" %>'>
+                <div class="map-loading">
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="clients" class="inverted">
+    <div class="container">
+        <h2>Our Clients</h2>
+        <div class="clients-grid">
+            <% if (clients && clients.length> 0) { %>
+                <% clients.slice(0, 9).forEach(client=> { %>
+                    <div class="client-logo">
+                        <% if (client.website) { %>
+                            <a href="<%= client.website %>" target="_blank" rel="noopener">
+                                <img src="/images/clients/<%= client.image %>" alt="<%= client.name %> Logo"
+                                    loading="lazy" />
+                            </a>
+                            <% } else { %>
+                                <img src="/images/clients/<%= client.image %>" alt="<%= client.name %> Logo"
+                                    loading="lazy" />
+                                <% } %>
+                    </div>
+                    <% }) %>
+                        <% } %>
+        </div>
+        <% if (clients && clients.length> 9) { %>
+            <div class="view-all-button">
+                <a href="/clients" class="btn-view-all">View All Clients</a>
+            </div>
+            <% } %>
+    </div>
+</section>
+<script src="/js/worldmap.js"></script>

@@ -1,0 +1,189 @@
+<!-- Footer Start -->
+<div class="container-fluid bg-dark text-secondary mt-5 pt-5">
+    <div class="row px-xl-5 pt-5">
+        <div class="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">
+            <h5 class="text-secondary text-uppercase mb-4">Get In Touch</h5>
+            <% if (typeof siteSettings !=='undefined' && siteSettings.siteDescription) { %>
+                <p class="mb-4">
+                    <%= siteSettings.siteDescription %>
+                </p>
+                <% } else { %>
+                    <p class="mb-4">Contact us for more information about our products and services.</p>
+                    <% } %>
+                        <% if (typeof siteSettings !=='undefined' && siteSettings.address) { %>
+                            <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>
+                                <%= siteSettings.address %>
+                            </p>
+                            <% } %>
+                                <% if (typeof siteSettings !=='undefined' && siteSettings.contactEmail) { %>
+                                    <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i><a
+                                            href="mailto:<%= siteSettings.contactEmail %>" class="text-secondary">
+                                            <%= siteSettings.contactEmail %>
+                                        </a></p>
+                                    <% } %>
+                                        <% if (typeof siteSettings !=='undefined' && siteSettings.contactPhone) { %>
+                                            <p class="mb-0"><i class="fa fa-phone-alt text-primary mr-3"></i><a
+                                                    href="tel:<%= siteSettings.contactPhone %>" class="text-secondary">
+                                                    <%= siteSettings.contactPhone %>
+                                                </a></p>
+                                            <% } %>
+        </div>
+        <div class="col-lg-8 col-md-12">
+            <div class="row">
+                <div class="col-md-4 mb-5">
+                    <h5 class="text-secondary text-uppercase mb-4">Quick Links</h5>
+                    <div class="d-flex flex-column justify-content-start">
+                        <% if (typeof menus !=='undefined' && menus.footer && menus.footer.length> 0) { %>
+                            <% menus.footer.forEach(function(item) { %>
+                                <a class="<%= selected === item.key ? 'text-primary' : 'text-secondary' %> mb-2"
+                                    href="<%= item.url %>"><i class="fa fa-angle-right mr-2"></i>
+                                    <%= item.title %>
+                                </a>
+                                <% }); %>
+                                    <% } else { %>
+                                        <!-- Fallback or empty state if needed, currently leaving empty if no menu items -->
+                                        <p class="small">No links available.</p>
+                                        <% } %>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-5">
+                    <h5 class="text-secondary text-uppercase mb-4">My Account</h5>
+                    <div class="d-flex flex-column justify-content-start">
+                        <% if (typeof menus !=='undefined' && menus.account && menus.account.length> 0) { %>
+                            <% menus.account.forEach(function(item) { %>
+                                <a class="<%= selected === item.key ? 'text-primary' : 'text-secondary' %> mb-2"
+                                    href="<%= item.url %>"><i class="fa fa-angle-right mr-2"></i>
+                                    <%= item.title %>
+                                </a>
+                                <% }); %>
+                                    <% } else { %>
+                                        <p class="small">No links available.</p>
+                                        <% } %>
+
+                                            <div>
+                                                <BR>
+                                                <img width="150" src="https://www.netcommercepay.com/logo/NCseal_L.gif"
+                                                    border="0" alt="NetCommerce Security Seal">
+                                            </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-5">
+                    <h5 class="text-secondary text-uppercase mb-4">Newsletter</h5>
+                    <p>Subscribe to our newsletter for updates and special offers.</p>
+                    <div id="newsletter-block">
+                        <form id="newsletter-form" action="/newsletter" method="post">
+                            <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+                            <div class="input-group">
+                                <input type="email" class="form-control" name="email" id="newsletter-email" placeholder="Your Email Address" required autocomplete="email">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit" id="newsletter-submit">Sign Up</button>
+                                </div>
+                            </div>
+                            <div id="newsletter-error" class="alert alert-danger small py-2 mt-2 mb-0" style="display: none;" role="alert"></div>
+                        </form>
+                    </div>
+                    <script>
+                    (function() {
+                        var block = document.getElementById('newsletter-block');
+                        var form = document.getElementById('newsletter-form');
+                        var emailInput = document.getElementById('newsletter-email');
+                        var errorEl = document.getElementById('newsletter-error');
+                        var submitBtn = document.getElementById('newsletter-submit');
+                        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                        function showError(msg) {
+                            errorEl.textContent = msg || '';
+                            errorEl.style.display = msg ? 'block' : 'none';
+                        }
+
+                        function setLoading(loading) {
+                            submitBtn.disabled = loading;
+                            submitBtn.textContent = loading ? '...' : 'Sign Up';
+                        }
+
+                        form.addEventListener('submit', function(e) {
+                            e.preventDefault();
+                            showError('');
+                            var email = (emailInput.value || '').trim().toLowerCase();
+                            if (!email) {
+                                showError('Please enter your email address.');
+                                return;
+                            }
+                            if (!emailRegex.test(email)) {
+                                showError('Please enter a valid email address.');
+                                return;
+                            }
+                            setLoading(true);
+                            var csrfToken = form.querySelector('input[name="_csrf"]').value;
+                            fetch('/newsletter', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+                                body: JSON.stringify({ email: email, _csrf: csrfToken })
+                            })
+                            .then(function(r) { return r.json().then(function(data) { return { ok: r.ok, status: r.status, data: data }; }); })
+                            .then(function(result) {
+                                setLoading(false);
+                                if (result.ok && result.data && result.data.success) {
+                                    block.innerHTML = '<div class="alert alert-success small py-2 mb-0">' + (result.data.message || 'Thank you for subscribing!') + '</div>';
+                                } else {
+                                    showError(result.data && result.data.message ? result.data.message : 'Something went wrong. Please try again.');
+                                }
+                            })
+                            .catch(function() {
+                                setLoading(false);
+                                showError('Something went wrong. Please try again.');
+                            });
+                        });
+                    })();
+                    </script>
+                    <h6 class="text-secondary text-uppercase mt-4 mb-3">Follow Us</h6>
+                    <div class="d-flex">
+                        <% if (typeof siteSettings !=='undefined' && siteSettings.socialMedia) { %>
+                            <% if (siteSettings.socialMedia.twitter) { %>
+                                <a class="btn btn-primary btn-square mr-2"
+                                    href="<%= siteSettings.socialMedia.twitter %>" target="_blank"
+                                    rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+                                <% } %>
+                                    <% if (siteSettings.socialMedia.facebook) { %>
+                                        <a class="btn btn-primary btn-square mr-2"
+                                            href="<%= siteSettings.socialMedia.facebook %>" target="_blank"
+                                            rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+                                        <% } %>
+                                            <% if (siteSettings.socialMedia.linkedin) { %>
+                                                <a class="btn btn-primary btn-square mr-2"
+                                                    href="<%= siteSettings.socialMedia.linkedin %>" target="_blank"
+                                                    rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+                                                <% } %>
+                                                    <% if (siteSettings.socialMedia.youtube) { %>
+                                                        <a class="btn btn-primary btn-square mr-2"
+                                                            href="<%= siteSettings.socialMedia.youtube %>"
+                                                            target="_blank" rel="noopener noreferrer"><i
+                                                                class="fab fa-youtube"></i></a>
+                                                        <% } %>
+                                                            <% if (siteSettings.socialMedia.instagram) { %>
+                                                                <a class="btn btn-primary btn-square"
+                                                                    href="<%= siteSettings.socialMedia.instagram %>"
+                                                                    target="_blank" rel="noopener noreferrer"><i
+                                                                        class="fab fa-instagram"></i></a>
+                                                                <% } %>
+                                                                    <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row border-top mx-xl-5 py-4" style="border-color: rgba(256, 256, 256, .1) !important;">
+        <div class="col-md-6 px-xl-0">
+            <p class="mb-md-0 text-center text-md-left text-secondary">
+                &copy; <%= new Date().getFullYear() %>
+                    <%= typeof siteSettings !=='undefined' && siteSettings.siteTitle ? siteSettings.siteTitle : (typeof
+                        siteData !=='undefined' && siteData.name ? siteData.name : 'Domain' ) %>. All Rights Reserved.
+
+            </p>
+        </div>
+        <div class="col-md-6 px-xl-0 text-center text-md-right">
+            by <a href="https://www.liteweb.info" class="text-white" target="_blank">www.liteweb.info</a>
+        </div>
+    </div>
+</div>
+<!-- Footer End -->

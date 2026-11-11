@@ -1,0 +1,180 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.form {
+  display: grid;
+  gap: $space-lg;
+}
+
+.form__row {
+  display: grid;
+  gap: $space-lg;
+
+  @include respond-to(md) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.form__field {
+  display: grid;
+  gap: 6px;
+}
+
+.form__label {
+  font-family: $font-body;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: $color-secondary;
+}
+
+.form__optional {
+  font-weight: 400;
+  color: $color-on-surface-variant;
+}
+
+.form__input,
+.form__textarea,
+.form__select {
+  width: 100%;
+  padding: 14px $space-md;
+  border: 1px solid $color-outline-variant;
+  border-radius: 8px;
+  background: $color-surface-low;
+  font-family: $font-body;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: $color-on-surface;
+  transition:
+    border-color $duration-fast $ease-default,
+    box-shadow $duration-fast $ease-default,
+    background-color $duration-fast $ease-default;
+
+  &::placeholder {
+    color: rgba($color-on-surface-variant, 0.72);
+  }
+
+  &:hover {
+    border-color: $color-outline;
+  }
+
+  &:focus {
+    outline: none;
+    background: $color-white;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 3px rgba($color-primary, 0.18);
+  }
+}
+
+.form__select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right $space-md center;
+  background-color: $color-surface-low;
+  padding-inline-end: calc($space-md + 1.5rem);
+  cursor: pointer;
+}
+
+.form__textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+.form__hp {
+  position: absolute;
+  inset-inline-start: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.form__status {
+  display: none;
+  padding: $space-md $space-lg;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+
+  &.is-success,
+  &.is-error {
+    display: block;
+  }
+
+  &.is-success {
+    background: rgba($color-tertiary, 0.12);
+    color: $color-tertiary-dark;
+    border: 1px solid rgba($color-tertiary, 0.35);
+  }
+
+  &.is-error {
+    background: rgba($color-error, 0.08);
+    color: $color-error;
+    border: 1px solid rgba($color-error, 0.25);
+  }
+}
+
+.form__submit:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.contact-panel {
+  background: $color-white;
+  border: 1px solid $color-outline-variant;
+  border-radius: 12px;
+  padding: $space-lg;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.06);
+
+  @include respond-to(md) {
+    padding: $space-xl;
+  }
+}
+
+.budget-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-sm;
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.budget-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: $space-sm $space-md;
+  border: 1px solid $color-outline-variant;
+  border-radius: 8px;
+  background: $color-surface-low;
+  cursor: pointer;
+  transition:
+    background-color $duration-fast $ease-default,
+    border-color $duration-fast $ease-default,
+    box-shadow $duration-fast $ease-default;
+
+  input {
+    @include visually-hidden;
+  }
+
+  span {
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
+  &:hover {
+    background: $color-white;
+    border-color: $color-outline;
+  }
+
+  &.is-selected,
+  &:has(input:checked) {
+    background: $color-primary-fixed;
+    border-color: $color-primary;
+    color: $color-primary-deep;
+    box-shadow: 0 0 0 3px rgba($color-primary, 0.12);
+  }
+}

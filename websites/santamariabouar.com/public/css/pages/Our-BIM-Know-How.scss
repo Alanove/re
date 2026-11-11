@@ -1,0 +1,16 @@
+section#Our-BIM-Know-How {
+    .section-layout {
+        grid-template-columns: 3fr 1fr;
+        align-items: start; // Align image to top
+
+        .section-content {
+            max-width: unset;
+        }
+
+        .section-image {
+            border-radius: 0;
+            box-shadow: none;
+
+        }
+    }
+}

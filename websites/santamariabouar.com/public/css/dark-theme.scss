@@ -1,0 +1,50 @@
+@import 'variables';
+
+.dark-theme {
+  .main-header {
+    .navbar-toggler-icon {
+      filter: brightness(0) !important;
+    }
+    
+    .navbar {
+      .navbar-collapse {
+        ul {
+          li {
+            margin-left: 1.5rem;
+
+            a {
+              color: $text !important;
+
+              &:hover {
+                color: $text !important;
+              }
+
+              &.active,
+              &.selected {
+                border-bottom: 3px solid $text !important;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .main-footer {
+    color: $text !important;
+    
+    .footer-social {
+      a {
+        color: $text !important;
+        
+        &:hover {
+          color: $accent !important;
+        }
+      }
+    }
+    
+    .footer-copyright {
+      color: $text !important;
+    }
+  }
+}

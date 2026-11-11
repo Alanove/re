@@ -1,0 +1,192 @@
+// Footer styles
+.main-footer {
+  width: 100%;
+  background: $footer-bg;
+  color: $footer-text;
+  padding: 40px 0;
+
+  // Container inside footer that follows header padding/width calculations
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+
+    // Responsive padding and width following header calculations
+
+    // Logo centered
+    .footer-logo {
+      display: flex;
+      justify-content: center;
+      
+      a {
+        display: block;
+        
+        img {
+          height: 40px;
+          width: auto;
+          border-radius: 8px;
+        }
+      }
+    }
+
+    // Menu and TOP button line
+    .footer-menu-line {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      position: relative;
+      margin-top: 20px;
+
+      // On medium screens and below, stack menu and TOP button vertically
+      @media (max-width: #{$medium-screen - 1px}) {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .footer-menu {
+        ul {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          flex-wrap: wrap;
+
+          li {
+            margin: 0;
+
+            // Hide submenus in footer
+            .submenu {
+              display: none !important;
+            }
+          }
+
+          a {
+            font-weight: bold;
+            color: $footer-text;
+            opacity: 0.8;
+            transition: 0.3s all;
+            text-decoration: none;
+            margin: 0 20px;
+            border: none;
+            background: none;
+            display: block;
+            padding: 8px 0;
+
+            @media (max-width: #{$medium-screen - 1px}) {
+              margin: 0 10px;
+              font-size: 14px;
+            }
+
+            &:hover,
+            &.active {
+              opacity: 1;
+              text-decoration: none;
+              border: none;
+            }
+          }
+        }
+      }
+
+      .footer-top-button {
+        position: absolute;
+        right: 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: none;
+        border: none;
+        color: $footer-text;
+        cursor: pointer;
+        font-weight: bold;
+        opacity: 0.8;
+        transition: 0.3s all;
+        padding: 8px 12px;
+
+        @media (max-width: #{$medium-screen - 1px}) {
+          position: static;
+          margin-left: 0;
+          font-size: 14px;
+          justify-content: center;
+        }
+
+        .top-text {
+          font-size: 14px;
+          letter-spacing: 0.5px;
+        }
+
+        svg {
+          width: 16px;
+          height: 16px;
+        }
+
+        &:hover {
+          opacity: 1;
+        }
+
+        &:focus {
+          outline: none;
+          box-shadow: none;
+        }
+      }
+    }
+
+    // Horizontal divider line
+    .footer-divider {
+      width: 100%;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.2);
+      margin: 5px 0 10px 0;
+    }
+
+    // Social Media Links
+    .footer-social {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin: 20px 0;
+
+      .social-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        color: $footer-text;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-size: 20px;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.2);
+          transform: translateY(-2px);
+          color: $footer-text;
+        }
+
+        i {
+          display: block;
+        }
+      }
+    }
+
+    // Copyright notice right aligned
+    .footer-copyright {
+      width: 100%;
+      text-align: right;
+      font-size: 14px;
+      opacity: 0.7;
+      
+      @media (max-width: #{$medium-screen - 1px}) {
+        text-align: center;
+        font-size: 12px;
+      }
+    }
+  }
+}
+

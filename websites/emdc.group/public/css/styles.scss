@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
+@import 'reset.scss';
+@import 'variables.scss';
+@import 'common.scss'; 
+@import 'header.scss';
+@import 'fullscreen-menu.scss';
+@import 'content.scss';
+@import 'footer.scss';  
+@import 'home.scss';
+
+@import "hero.scss";
+@import "clients.scss"; 
+@import "loader.scss";
+@import "dots-indicators.scss";
+
+// Page-specific styles
+@import "pages/home.scss";
+@import "pages/who-we-are.scss";
+@import "pages/Our-BIM-Know-How.scss";
+@import "pages/Our-Success-Indicators.scss";
+@import "pages/what-we-do-mep-ict.scss";
+@import "pages/what-we-do-energy-sustainability.scss";
+@import "pages/our-major-clients.scss";
+@import "pages/our-soft-skills.scss";
+@import "pages/our-it-system.scss";
+@import "pages/our-projects-locations.scss";
+@import "pages/what-we-do.scss";
+@import "pages/about.scss";
+@import "components/boxes-list.scss";
+@import "pages/clients.scss";
+@import "pages/projects.scss";
+@import "project-modal.scss";
+@import "pages/contact.scss";
+@import "pages/news.scss";

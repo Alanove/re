@@ -1,0 +1,46 @@
+// SCSS Variables - MultiShop Template
+// Variables from MultiShop template
+
+$teal: #012a2c;
+$spring-bed: #008e77;
+$grey: #919191;
+$white: #ffffff;
+$black: #000000;
+$yellow: #ffff00;
+
+// MultiShop Colors
+$primary: $spring-bed;
+$secondary: $white;
+$light: $white;
+$dark: $teal;
+
+// Body
+$body-bg: $white;
+$body-color: $teal;
+
+// Headings
+$headings-color: $dark;
+
+// Typography
+$font-family-montserrat: "Montserrat", sans-serif;
+$font-family-quadra: "Quadra", sans-serif;
+$font-family-sui-generis: "Sui Generis", sans-serif;
+
+$font-quadra: $font-family-quadra;
+$font-family-sans-serif: $font-family-montserrat;
+$headings-font-family: $font-family-sui-generis;
+
+// Bootstrap 4 Settings (for reference, Bootstrap is loaded via CDN)
+$enable-responsive-font-sizes: true;
+$enable-rounded: false;
+$btn-focus-box-shadow: none;
+$btn-active-box-shadow: none;
+$input-btn-focus-box-shadow: none;
+$input-placeholder-color: #999999;
+$border-color: #dee2e6;
+
+// Legacy variable names for compatibility
+$primary-color: $primary;
+$secondary-color: $dark;
+$white: $light;
+$black: #000000;

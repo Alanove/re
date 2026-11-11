@@ -1,0 +1,39 @@
+$primary: #22223b;
+$secondary: #4a4e69;
+$accent: #9a8c98;
+$background: #fff;
+$white: #fff;
+$gray: #bdbdbd;
+$footer-bg: #22223b;
+$footer-text: #fff;
+$link-color: #4a4e69;
+$link-hover: #9a8c98;
+$menu-text: #fff;
+$menu-hover: #f2f2f2;
+$cta-text: #fff;
+$cta-btn-bg: #fff;
+$cta-btn-text: #22223b;
+$cta-btn-hover-bg: #9a8c98;
+$cta-btn-hover-text: #fff;
+$brand-blue: #203864;
+$brand-secondary-blue: #3498db; 
+
+$transparent-black: rgba(0, 0, 0, 0.9);
+$transparent-white: rgba(255, 255, 255, 0.9);
+$overlay-black: rgba(0, 0, 0, 0.75);
+
+// Layout padding variables for consistent spacing
+$small-screen-padding: 15px;
+$medium-screen-padding: 20px;
+$large-screen-padding: 50px;
+$extra-large-screen-padding: 75px;
+$ultra-large-screen-padding: 100px;
+
+// Screen size breakpoints
+$small-screen: 700px;
+$medium-screen: 950px;
+$large-screen: 1280px;
+$ultra-screen: 1600px;
+
+$dark: $brand-blue;
+$text-color: $brand-blue;

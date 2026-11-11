@@ -1,0 +1,111 @@
+<!-- BEGIN content area -->
+<div class="row">
+	<div class="col-xl-12">
+		<!-- BEGIN panel -->
+		<div class="panel panel-inverse">
+			<div class="panel-heading">
+				<h4 class="panel-title"><%= typeof t !== 'undefined' ? t('ecommerce.products.title') : 'Products' %></h4>
+				<div class="panel-heading-btn">
+					<a href="/admin/products/create" class="btn btn-xs btn-success">
+						<i class="fa fa-plus"></i> <%= typeof t !== 'undefined' ? t('ecommerce.products.addNewProduct') : 'Add New Product' %>
+					</a>
+				</div>
+			</div>
+			<div class="panel-body">
+				<% if (typeof success !== 'undefined' && success) { %>
+					<div class="alert alert-success alert-dismissible fade show" role="alert">
+						<strong><%= typeof t !== 'undefined' ? t('messages.success') : 'Success!' %></strong> <%= success %>
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>
+				<% } %>
+				
+				<% if (typeof error !== 'undefined' && error) { %>
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<strong>Error!</strong> <%= error %>
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>
+				<% } %>
+				
+				<!-- BEGIN filters -->
+				<form method="GET" action="/admin/products" id="filters-form">
+					<div class="row mb-3">
+						<div class="col-md-3">
+							<div class="input-group">
+								<span class="input-group-text">
+									<i class="fa fa-search"></i>
+								</span>
+								<input type="text" class="form-control" name="search" id="searchFilter" 
+								       placeholder="<%= typeof t !== 'undefined' ? t('common.search') : 'Search products...' %>" 
+								       value="<%= typeof filters !== 'undefined' && filters.search ? filters.search : '' %>" />
+							</div>
+						</div>
+						<div class="col-md-2">
+							<select class="form-select" name="category_id" id="categoryFilter">
+								<option value="">All <%= typeof t !== 'undefined' ? t('ecommerce.categories.title') : 'Categories' %></option>
+								<% if (typeof categories !== 'undefined' && categories) { %>
+									<% categories.forEach(function(category) { %>
+										<option value="<%= category.id %>" <%= typeof filters !== 'undefined' && filters.category_id == category.id ? 'selected' : '' %>>
+											<%= category.name %>
+										</option>
+									<% }); %>
+								<% } %>
+							</select>
+						</div>
+						<div class="col-md-2">
+							<select class="form-select" name="status" id="statusFilter">
+								<option value="">All <%= typeof t !== 'undefined' ? t('common.status') : 'Status' %></option>
+								<option value="published" <%= typeof filters !== 'undefined' && filters.status === 'published' ? 'selected' : '' %>>
+									<%= typeof t !== 'undefined' ? t('ecommerce.products.published') : 'Published' %>
+								</option>
+								<option value="draft" <%= typeof filters !== 'undefined' && filters.status === 'draft' ? 'selected' : '' %>>
+									<%= typeof t !== 'undefined' ? t('ecommerce.products.draft') : 'Draft' %>
+								</option>
+							</select>
+						</div>
+						<div class="col-md-2">
+							<select class="form-select" name="is_featured" id="featuredFilter">
+								<option value="">All Products</option>
+								<option value="true" <%= typeof filters !== 'undefined' && filters.is_featured === true ? 'selected' : '' %>>
+									<%= typeof t !== 'undefined' ? t('ecommerce.products.featured') : 'Featured' %> Only
+								</option>
+							</select>
+						</div>
+						<div class="col-md-2">
+							<select class="form-select" name="is_new_arrival" id="newArrivalFilter">
+								<option value="">All Products</option>
+								<option value="true" <%= typeof filters !== 'undefined' && filters.is_new_arrival === true ? 'selected' : '' %>>
+									<%= typeof t !== 'undefined' ? t('ecommerce.products.newArrival') : 'New Arrival' %> Only
+								</option>
+							</select>
+						</div>
+						<div class="col-md-1">
+							<button type="submit" class="btn btn-primary me-1">
+								<i class="fa fa-filter"></i> <%= typeof t !== 'undefined' ? t('common.filter') : 'Filter' %>
+							</button>
+							<a href="/admin/products" class="btn btn-secondary">
+								<i class="fa fa-times"></i> <%= typeof t !== 'undefined' ? t('common.clearFilters') : 'Clear' %>
+							</a>
+						</div>
+					</div>
+				</form>
+				<!-- END filters -->
+				
+				<%- include('products-table', { products: typeof products !== 'undefined' ? products : [], pagination: typeof pagination !== 'undefined' ? pagination : null, paginationQuery: typeof filters !== 'undefined' ? filters : {} }) %>
+			</div>
+		</div>
+		<!-- END panel -->
+	</div>
+</div>
+<!-- END content area -->
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+	// Delete product button handlers
+	document.querySelectorAll('.delete-product-btn').forEach(btn => {
+		btn.addEventListener('click', function() {
+			const productId = this.getAttribute('data-product-id');
+			deleteItem(`/admin/products/${productId}`, this, '<%= typeof t !== 'undefined' ? t('ecommerce.products.deleteProduct') : 'Delete Product' %>');
+		});
+	});
+});
+</script>

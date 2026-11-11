@@ -1,0 +1,63 @@
+<div class="account-page account-page--portal">
+  <div class="account-shell">
+    <%- include('partials/sidebar') %>
+    <div class="account-main">
+      <div class="account-main__header">
+        <h1>Wallet</h1>
+        <% if (walletEnabled) { %>
+          <p class="account-meta">Total balance across apartments: <strong>$<%= Number(totalWallet || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></strong></p>
+        <% } %>
+      </div>
+
+      <div class="account-alert account-alert--info">
+        The wallet is designed for owners who are traveling. You can leave a set amount with the committee
+        to cover recurring and known bills such as electricity and water while you are away.
+      </div>
+
+      <% if (!walletEnabled) { %>
+        <div class="account-panel">
+          <p class="account-empty">Wallet is not enabled for your account. Please contact the committee if you need access.</p>
+        </div>
+      <% } else if (wallets && wallets.length) { %>
+        <% wallets.forEach(function(w) { %>
+          <div class="account-panel">
+            <div class="account-panel__title">
+              <h2><%= w.apartmentLabel %></h2>
+              <span class="account-badge">Balance: $<%= Number(w.balance || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></span>
+            </div>
+            <% if (w.entries && w.entries.length) { %>
+              <div class="table-responsive">
+                <table class="account-table">
+                  <thead>
+                    <tr>
+                      <th class="account-col-date">Date</th>
+                      <th class="account-col-description">Description</th>
+                      <th class="account-col-money text-end">Amount</th>
+                      <th class="account-col-money text-end">Running Balance</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% w.entries.forEach(function(entry) { %>
+                      <tr>
+                        <td data-label="Date"><%= entry.date %></td>
+                        <td data-label="Description"><%= entry.description || entry.source || '—' %></td>
+                        <td data-label="Amount" class="text-end">$<%= Number(entry.amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></td>
+                        <td data-label="Running Balance" class="text-end">$<%= Number(entry.runningBalance || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></td>
+                      </tr>
+                    <% }); %>
+                  </tbody>
+                </table>
+              </div>
+            <% } else { %>
+              <p class="account-empty">No wallet transactions for this apartment.</p>
+            <% } %>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <div class="account-panel">
+          <p class="account-empty">No apartments linked, so no wallet data is available.</p>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</div>

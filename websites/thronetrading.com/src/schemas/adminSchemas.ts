@@ -12,6 +12,7 @@ import {
 } from '../domain/models.js';
 import {
   checkbox,
+  emptyAsUndefined,
   httpsUrl,
   idList,
   imagePath,
@@ -242,17 +243,21 @@ export type ProductFormInput = z.infer<typeof productFormSchema>;
 
 export const productListQuerySchema = z.object({
   q: optionalTrimmed(120),
-  category: z
-    .string()
-    .regex(/^\d{1,10}$/)
-    .optional()
-    .transform((value) => (value ? Number(value) : null)),
-  brand: z
-    .string()
-    .regex(/^(\d{1,10}|none)$/)
-    .optional()
-    .transform((value) => (value === undefined ? null : value === 'none' ? 'none' : Number(value))),
-  status: z.enum(['published', 'draft']).optional()
+  category: emptyAsUndefined(
+    z
+      .string()
+      .regex(/^\d{1,10}$/)
+      .optional()
+      .transform((value) => (value ? Number(value) : null))
+  ),
+  brand: emptyAsUndefined(
+    z
+      .string()
+      .regex(/^(\d{1,10}|none)$/)
+      .optional()
+      .transform((value) => (value === undefined ? null : value === 'none' ? 'none' : Number(value)))
+  ),
+  status: emptyAsUndefined(z.enum(['published', 'draft']).optional())
 });
 
 export const catalogSlugCheckSchema = z.object({

@@ -1,0 +1,15 @@
+<% 
+  const settings = typeof siteSettings !== 'undefined' ? siteSettings : {};
+  const hqEmail = settings.contactEmail || 'beirut.office@bluefieldco.com';
+  const hqPhone = settings.contactPhone || '+961 1 898 198';
+  const hqAddress = settings.address || 'Zalka Highway, Beirut, Lebanon';
+  const hqLinkedin = (settings.socialMedia && settings.socialMedia.linkedin)
+    || (typeof siteData !== 'undefined' && siteData.social && siteData.social.linkedin)
+    || 'https://www.linkedin.com/company/bluefieldgrp/';
+  const hqPhoneHref = 'tel:' + String(hqPhone).replace(/[^\d+]/g, '');
+%>
+<p><img src="/themes/bluefieldco/images/BLUEFIELD-Favicon.png" width="48" height="48" class="contact-hq-icon" alt="BlueField Group"/><strong>BlueField Group Headquarters</strong></p>
+<p><img decoding="async" class="alignnone size-full wp-image-748" src="/uploads/2024/02/location.png" alt="" width="32" height="42"/><%= hqAddress %></p>
+<p><img decoding="async" class="alignnone size-full wp-image-744" src="/uploads/2024/02/email.png" alt="" width="45" height="27"/><a href="mailto:<%= hqEmail %>"><%= hqEmail %></a></p>
+<p><img loading="lazy" decoding="async" class="alignnone size-full wp-image-751" src="/uploads/2024/02/phone.png" alt="" width="35" height="33"/><a href="<%= hqPhoneHref %>" target="_blank" rel="noopener"><%= hqPhone %></a></p>
+<p><img loading="lazy" decoding="async" class="alignnone size-full wp-image-747" src="/uploads/2024/02/linkedin.png" alt="" width="32" height="32"/><a href="<%= hqLinkedin %>" target="_blank" rel="noopener">@bluefieldgroup</a></p>

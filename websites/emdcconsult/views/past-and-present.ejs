@@ -1,0 +1,34 @@
+<!-- Past & Present — hero + editable timeline from pages.json -->
+<section id="past-present-hero" class="hero-section">
+  <% if (typeof pageImage !== 'undefined' && pageImage && pageImage.trim() !== '') { %>
+    <img src="<%= pageImage %>" alt="<%= typeof pageTitle !== 'undefined' && pageTitle ? pageTitle : 'Past & Present' %>" class="hero-image" />
+  <% } %>
+
+  <div class="hero-decor-lines" aria-hidden="true">
+    <span class="decor-line"></span>
+    <span class="decor-line"></span>
+    <span class="decor-line"></span>
+  </div>
+
+  <% if (typeof pageTitle !== 'undefined' && pageTitle) { %>
+    <div class="hero-title">
+      <h1><%= pageTitle %></h1>
+    </div>
+  <% } %>
+
+  <div class="scroll-arrow-container">
+    <button class="scroll-arrow" aria-label="Scroll to timeline">
+      <img src="/images/icons/arrow-down.svg" alt="" width="32" height="32" />
+    </button>
+  </div>
+</section>
+
+<section id="past-present-content" class="past-present-section">
+  <div class="container">
+    <% if (typeof pageContent !== 'undefined' && pageContent && String(pageContent).trim() !== '') { %>
+      <div class="past-present-timelines">
+        <%- pageContent %>
+      </div>
+    <% } %>
+  </div>
+</section>

@@ -1,0 +1,181 @@
+{
+  "admin": {
+    "email": "admin@gebco.com",
+    "password": "sei4aBallout",
+    "username": "admin"
+  },
+  "testUser": {
+    "firstName": "Test",
+    "lastName": "User",
+    "email": "test.user@gebco.com",
+    "password": "TestPassword123!",
+    "role": "editor",
+    "isActive": true,
+    "phone": "+961 70 123 456",
+    "department": "Testing",
+    "position": "QA Tester"
+  },
+  "testPage": {
+    "key": "test-page",
+    "title": "Test Page",
+    "url": "/test-page",
+    "content": "<p>This is a test page content with <strong>bold text</strong> and <em>italic text</em>.</p><p>Second paragraph with a <a href='https://example.com'>link</a>.</p>",
+    "backgroundImage": "",
+    "isActive": true,
+    "includeInMenu": true,
+    "menuSort": 10,
+    "seo": {
+      "pageTitle": "Test Page - Gebco Steel",
+      "pageDescription": "This is a test page for automated testing purposes. It contains various content elements to test the page management functionality.",
+      "pageKeywords": "test, page, gebco, steel, automation",
+      "pageImage": "",
+      "pageType": "website"
+    }
+  },
+  "updatedTestPage": {
+    "key": "test-page",
+    "title": "Updated Test Page",
+    "url": "/updated-test-page",
+    "content": "<p>This is an updated test page content with <strong>updated bold text</strong> and <em>updated italic text</em>.</p><p>Updated second paragraph with a <a href='https://gebco.com'>Gebco link</a>.</p><p>New third paragraph with <span style='color: red;'>colored text</span>.</p>",
+    "backgroundImage": "",
+    "isActive": true,
+    "includeInMenu": true,
+    "menuSort": 15,
+    "seo": {
+      "pageTitle": "Updated Test Page - Gebco Steel",
+      "pageDescription": "This is an updated test page for automated testing purposes. It contains updated content elements to test the page management functionality.",
+      "pageKeywords": "updated, test, page, gebco, steel, automation",
+      "pageImage": "",
+      "pageType": "website"
+    }
+  },
+  "updatedTestUser": {
+    "firstName": "Updated",
+    "lastName": "Test User",
+    "email": "updated.test.user@gebco.com",
+    "password": "UpdatedPassword123!",
+    "role": "admin",
+    "isActive": true,
+    "phone": "+961 71 654 321",
+    "department": "Updated Testing",
+    "position": "Senior QA Tester"
+  },
+  "testImages": {
+    "pageImage": {
+      "name": "test-page-image.jpg",
+      "path": "tests/fixtures/images/test-page-image.jpg",
+      "type": "image/jpeg",
+      "size": 102400
+    },
+    "seoImage": {
+      "name": "test-seo-image.jpg",
+      "path": "tests/fixtures/images/test-seo-image.jpg",
+      "type": "image/jpeg",
+      "size": 153600
+    },
+    "quillImage": {
+      "name": "test-quill-image.jpg",
+      "path": "tests/fixtures/images/test-quill-image.jpg",
+      "type": "image/jpeg",
+      "size": 81920
+    },
+    "updatedPageImage": {
+      "name": "updated-page-image.jpg",
+      "path": "tests/fixtures/images/updated-page-image.jpg",
+      "type": "image/jpeg",
+      "size": 128000
+    },
+    "updatedSeoImage": {
+      "name": "updated-seo-image.jpg",
+      "path": "tests/fixtures/images/updated-seo-image.jpg",
+      "type": "image/jpeg",
+      "size": 112640
+    }
+  },
+  "selectors": {
+    "login": {
+      "emailField": "#email",
+      "passwordField": "#password",
+      "loginButton": "button[type='submit']",
+      "errorMessage": ".alert-danger",
+      "successMessage": ".alert-success"
+    },
+    "pages": {
+      "createPageButton": "a[href='/admin/pages/create']",
+      "pageKeyField": "#key",
+      "pageTitleField": "#title",
+      "pageUrlField": "#url",
+      "contentField": "#content",
+      "backgroundImageField": "#backgroundImage",
+      "isActiveCheckbox": "#isActive",
+      "includeInMenuCheckbox": "#includeInMenu",
+      "menuSortField": "#menuSort",
+      "seoPageTitleField": "#pageTitle",
+      "seoPageDescriptionField": "#pageDescription",
+      "seoPageKeywordsField": "#pageKeywords",
+      "seoPageImageField": "#pageImage",
+      "pageImageFileInput": "#pagePicture",
+      "seoImageFileInput": "#seoImageFile",
+      "saveButton": "button[type='submit']",
+      "cancelButton": "a[href='/admin/pages']",
+      "deleteButton": "button[onclick*='deleteItem']",
+      "confirmDeleteButton": "#deleteConfirmBtn",
+      "customEditor": ".custom-editor-rich",
+      "customEditorContainer": ".custom-editor-container",
+      "customEditorImageButton": ".custom-editor-btn-image"
+    },
+    "users": {
+      "createUserButton": "a[href='/admin/users/create']",
+      "nameField": "#name",
+      "emailField": "#email",
+      "passwordField": "#password",
+      "confirmPasswordField": "#confirmPassword",
+      "statusSelect": "#status",
+      "notesField": "#notes",
+      "saveButton": "button[type='submit']",
+      "cancelButton": "a[href='/admin/users']"
+    },
+    "navigation": {
+      "logoutButton": "a[href='/admin/logout']",
+      "dashboardLink": "a[href='/admin/dashboard']",
+      "pagesLink": "a[href='/admin/pages']",
+      "usersLink": "a[href='/admin/users']",
+      "sidebarToggle": ".sidebar-toggle"
+    },
+    "common": {
+      "successAlert": ".alert-success",
+      "errorAlert": ".alert-danger",
+      "warningAlert": ".alert-warning",
+      "infoAlert": ".alert-info",
+      "loadingSpinner": ".spinner-border",
+      "modal": ".modal",
+      "modalClose": ".modal .btn-close",
+      "confirmDeleteButton": ".modal .btn-danger",
+      "table": "table",
+      "tableRow": "tbody tr",
+      "searchField": "input[type='search']",
+      "pagination": ".pagination"
+    }
+  },
+  "urls": {
+    "login": "/admin/login",
+    "dashboard": "/admin/dashboard",
+    "pages": "/admin/pages",
+    "createPage": "/admin/pages/create",
+    "users": "/admin/users",
+    "createUser": "/admin/users/create",
+    "logout": "/admin/logout"
+  },
+  "timeouts": {
+    "short": 2000,
+    "medium": 5000,
+    "long": 10000,
+    "veryLong": 30000
+  },
+  "waitFor": {
+    "pageLoad": 3000,
+    "elementVisible": 5000,
+    "networkIdle": 2000,
+    "fileUpload": 10000
+  }
+} 

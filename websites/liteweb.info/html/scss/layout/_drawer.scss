@@ -1,0 +1,95 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba($color-secondary, 0.45);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity $duration-base $ease-default, visibility $duration-base $ease-default;
+  z-index: $z-overlay;
+
+  &.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(100%, $drawer-width);
+  height: 100%;
+  background: $color-white;
+  z-index: $z-drawer;
+  transform: translateX(100%);
+  transition: transform $duration-base $ease-default;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.12);
+
+  &.is-open {
+    transform: translateX(0);
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $space-md $space-lg;
+    border-bottom: 1px solid $color-outline-variant;
+    min-height: $header-height;
+  }
+
+  &__header-actions {
+    display: flex;
+    align-items: center;
+    gap: $space-sm;
+  }
+
+  &__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    color: $color-secondary;
+    border-radius: $radius-button;
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+
+    .material-symbols-outlined {
+      font-size: 1.5rem;
+    }
+  }
+
+  &__nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: $space-md $space-lg;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__link {
+    display: block;
+    padding: $space-md 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: $color-secondary;
+    border-bottom: 1px solid $color-outline-variant;
+
+    &.is-active {
+      color: $color-primary;
+    }
+  }
+
+  &__footer {
+    padding: $space-lg;
+    border-top: 1px solid $color-outline-variant;
+  }
+}

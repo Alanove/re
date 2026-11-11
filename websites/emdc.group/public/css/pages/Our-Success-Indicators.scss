@@ -1,0 +1,161 @@
+$this-page-blue: $dark;
+
+section#Our-Success-Indicators {
+
+    .section-layout {
+        align-items: start;
+
+        .section-content {
+            max-width: unset;
+        }
+
+        .section-image {
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        ul {
+            padding: 0;
+            margin: 0;
+
+            li {
+                font-size: .95rem;
+                line-height: 1.15rem;
+                margin-bottom: 20px; // Add spacing between list items on mobile
+
+                b {
+                    text-decoration: underline;
+                    display: block;
+                    margin-bottom: 10px;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+
+    // Responsive: Small screens (< $large-screen = 1280px)
+    // Normal list with bullets, image on right
+    @media (min-width: $large-screen - 1px) {
+        min-height: 1200px;
+
+        .section-layout {
+            grid-template-columns: 1fr 3fr;
+            align-items: start; // Align image to top
+
+            .section-content {
+                max-width: unset;
+                order: 2; // Move content to the right
+            }
+
+            .section-image {
+                border-radius: 0;
+                box-shadow: none;
+                order: 1; // Move image to the left
+
+                // Make image slide in from left instead of right
+                img,
+                .slide-in-image {
+                    transform: translateX(-50px);
+
+                    &.animate {
+                        transform: translateX(0);
+                    }
+                }
+            }
+
+            ul {
+                padding: 0;
+                margin: 0;
+
+                li {
+                    position: absolute;
+                    padding: 0;
+                    list-style: none;
+                    width: 13%; // reduced from 14% to prevent touching on smaller screens
+                    font-size: .95rem; // made smaller per request
+                    line-height: 1.15rem;
+                    padding: 5px 15px 5px 5px;
+
+
+                    b {
+                        text-decoration: underline;
+                        display: block;
+                        margin-bottom: 10px;
+                        position: relative;
+
+                        &:before {
+                            content: "";
+                            position: absolute;
+                            top: -65px;
+                            right: 5px;
+                            width: 0;
+                            height: 0;
+                            border-top: 25px solid transparent;
+                            border-bottom: 25px solid transparent;
+                            border-left: 25px solid $this-page-blue;
+                            transform: rotate(45deg);
+                        }
+                    }
+
+                    &:before {
+                        content: "";
+                        display: block;
+                        width: 100%;
+                        height: 15px;
+                        background: $this-page-blue;
+                        position: absolute;
+                        top: -20px;
+                        left: -20px;
+                    }
+
+                    &:after {
+                        content: "";
+                        display: block;
+                        width: 15px;
+                        height: 125px;
+                        background: $this-page-blue;
+                        position: absolute;
+                        top: -20px;
+                        left: -20px;
+                    }
+
+                    // Move items higher (smaller top values) - evenly spaced horizontally with more spacing
+                    &:nth-child(1) {
+                        top: 65vh;
+                        left: 0;
+                    }
+
+                    &:nth-child(2) {
+                        top: 57vh;
+                        left: 15%;
+                    }
+
+                    &:nth-child(3) {
+                        top: 49vh;
+                        left: 30%;
+                    }
+
+                    &:nth-child(4) {
+                        top: 41vh;
+                        left: 45%;
+                    }
+
+                    &:nth-child(5) {
+                        top: 33vh;
+                        left: 60%;
+                    }
+
+                    &:nth-child(6) {
+                        top: 25vh;
+                        left: 75%;
+                    }
+
+                    &:nth-child(7) {
+                        top: 17vh;
+                        left: 90%;
+                    }
+                }
+            }
+        }
+    }
+}

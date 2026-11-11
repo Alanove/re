@@ -1,0 +1,432 @@
+[
+  {
+    "id": 1,
+    "name": "George",
+    "type": "expense",
+    "description": "",
+    "color": "#3498db",
+    "icon": "",
+    "created_at": "2025-10-08T07:50:09.000Z",
+    "updated_at": "2025-10-08T07:50:09.000Z"
+  },
+  {
+    "id": 2,
+    "name": "Electricity",
+    "type": "expense",
+    "description": "",
+    "color": "#f39c12",
+    "icon": "",
+    "created_at": "2025-10-08T07:50:09.000Z",
+    "updated_at": "2025-10-08T07:50:09.000Z"
+  },
+  {
+    "id": 3,
+    "name": "Office Supplies",
+    "type": "expense",
+    "description": "",
+    "color": "#9b59b6",
+    "icon": "",
+    "created_at": "2025-10-08T07:50:09.000Z",
+    "updated_at": "2025-10-08T07:50:09.000Z"
+  },
+  {
+    "id": 4,
+    "name": "Common Expenses",
+    "type": "income",
+    "description": "",
+    "color": "#f39c12",
+    "icon": "",
+    "created_at": "2025-10-08T07:50:09.000Z",
+    "updated_at": "2025-10-08T07:50:09.000Z"
+  },
+  {
+    "id": 5,
+    "name": "Transfer",
+    "type": "both",
+    "description": "",
+    "color": "#95a5a6",
+    "icon": "",
+    "created_at": "2025-10-08T07:50:09.000Z",
+    "updated_at": "2025-10-08T07:50:09.000Z"
+  },
+  {
+    "id": 6,
+    "name": "Maintenance",
+    "type": "expense",
+    "description": "",
+    "color": "#e74c3c",
+    "icon": "",
+    "created_at": "2025-10-08T07:50:09.000Z",
+    "updated_at": "2025-10-08T07:50:09.000Z"
+  },
+  {
+    "id": 7,
+    "name": "Sewage Treatment",
+    "type": "expense",
+    "description": "",
+    "color": "#7e7e4e",
+    "icon": "",
+    "created_at": "2025-10-08T07:50:09.000Z",
+    "updated_at": "2025-10-08T07:50:09.000Z"
+  },
+  {
+    "id": 8,
+    "name": "Cleaning",
+    "type": "expense",
+    "description": "",
+    "color": "#398f00",
+    "icon": "",
+    "created_at": "2025-10-08T07:50:09.000Z",
+    "updated_at": "2025-12-01T15:01:33.000Z"
+  },
+  {
+    "id": 9,
+    "name": "2024",
+    "type": "income",
+    "description": "",
+    "color": "#3498db",
+    "icon": "",
+    "created_at": "2025-10-08T07:50:09.000Z",
+    "updated_at": "2025-10-08T07:50:09.000Z"
+  },
+  {
+    "id": 10,
+    "name": "Solar",
+    "type": "expense",
+    "description": "",
+    "color": "#c0392b",
+    "icon": "",
+    "created_at": "2025-10-08T07:50:09.000Z",
+    "updated_at": "2025-10-08T07:50:09.000Z"
+  },
+  {
+    "id": 11,
+    "name": "Fire in Block G",
+    "type": "expense",
+    "description": "",
+    "color": "#e74c3c",
+    "icon": "",
+    "created_at": "2025-10-08T07:50:09.000Z",
+    "updated_at": "2025-10-08T07:50:09.000Z"
+  },
+  {
+    "id": 12,
+    "name": "Swimming Pool Maintenance",
+    "type": "expense",
+    "description": "",
+    "color": "#8e44ad",
+    "icon": "",
+    "created_at": "2025-10-08T07:50:09.000Z",
+    "updated_at": "2025-10-08T07:50:09.000Z"
+  },
+  {
+    "id": 13,
+    "name": "Common Areas Upgrades",
+    "type": "expense",
+    "description": "",
+    "color": "#d35400",
+    "icon": "",
+    "created_at": "2025-10-08T07:50:09.000Z",
+    "updated_at": "2025-10-08T07:50:09.000Z"
+  },
+  {
+    "id": 14,
+    "name": "Pool",
+    "type": "expense",
+    "description": "",
+    "color": "#9b59b6",
+    "icon": "",
+    "created_at": "2025-10-08T07:50:09.000Z",
+    "updated_at": "2025-10-08T07:50:09.000Z"
+  },
+  {
+    "id": 15,
+    "name": "Website",
+    "type": "expense",
+    "description": "",
+    "color": "#d35400",
+    "icon": "",
+    "created_at": "2025-10-08T07:50:09.000Z",
+    "updated_at": "2025-10-08T07:50:09.000Z"
+  },
+  {
+    "id": 16,
+    "name": "Contributions",
+    "type": "income",
+    "description": "",
+    "color": "#9b59b6",
+    "icon": "",
+    "created_at": "2025-10-08T07:50:09.000Z",
+    "updated_at": "2025-10-08T07:50:09.000Z"
+  },
+  {
+    "id": 17,
+    "name": "Pool & Concierge",
+    "type": "expense",
+    "description": "",
+    "color": "#f39c12",
+    "icon": "",
+    "created_at": "2025-10-08T07:50:10.000Z",
+    "updated_at": "2025-10-08T07:50:10.000Z"
+  },
+  {
+    "id": 18,
+    "name": "Office",
+    "type": "expense",
+    "description": "",
+    "color": "#d35400",
+    "icon": "",
+    "created_at": "2025-10-08T07:50:10.000Z",
+    "updated_at": "2025-10-08T07:50:10.000Z"
+  },
+  {
+    "id": 19,
+    "name": "Print",
+    "type": "expense",
+    "description": "",
+    "color": "#2c3e50",
+    "icon": "",
+    "created_at": "2025-10-08T07:50:10.000Z",
+    "updated_at": "2025-10-08T07:50:10.000Z"
+  },
+  {
+    "id": 20,
+    "name": "Gardening",
+    "type": "expense",
+    "description": "",
+    "color": "#d35400",
+    "icon": "",
+    "created_at": "2025-10-08T07:50:10.000Z",
+    "updated_at": "2025-10-08T07:50:10.000Z"
+  },
+  {
+    "id": 21,
+    "name": "Pest Control",
+    "type": "expense",
+    "description": "",
+    "color": "#34495e",
+    "icon": "",
+    "created_at": "2025-10-08T07:50:10.000Z",
+    "updated_at": "2025-10-08T07:50:10.000Z"
+  },
+  {
+    "id": 22,
+    "name": "Internet",
+    "type": "expense",
+    "description": "",
+    "color": "#1abc9c",
+    "icon": "",
+    "created_at": "2025-10-08T07:50:10.000Z",
+    "updated_at": "2025-10-08T07:50:10.000Z"
+  },
+  {
+    "id": 23,
+    "name": "License",
+    "type": "expense",
+    "description": "",
+    "color": "#95a5a6",
+    "icon": "",
+    "created_at": "2025-10-08T07:50:10.000Z",
+    "updated_at": "2025-10-08T07:50:10.000Z"
+  },
+  {
+    "id": 24,
+    "name": "Cleaning Workers Papers and Travel",
+    "type": "expense",
+    "description": "",
+    "color": "#f39c12",
+    "icon": "",
+    "created_at": "2025-10-08T07:50:10.000Z",
+    "updated_at": "2025-10-21T05:21:08.000Z"
+  },
+  {
+    "id": 25,
+    "name": "Water",
+    "type": "expense",
+    "description": "",
+    "color": "#2980b9",
+    "icon": "",
+    "created_at": "2025-10-08T07:50:10.000Z",
+    "updated_at": "2025-10-08T07:50:10.000Z"
+  },
+  {
+    "id": 26,
+    "name": "Fuel",
+    "type": "expense",
+    "description": "",
+    "color": "#1abc9c",
+    "icon": "",
+    "created_at": "2025-10-08T07:50:10.000Z",
+    "updated_at": "2025-10-08T07:50:10.000Z"
+  },
+  {
+    "id": 27,
+    "name": "Management",
+    "type": "expense",
+    "description": "",
+    "color": "#d35400",
+    "icon": "",
+    "created_at": "2025-10-08T07:50:10.000Z",
+    "updated_at": "2025-10-08T07:50:10.000Z"
+  },
+  {
+    "id": 28,
+    "name": "Insurance",
+    "type": "expense",
+    "description": "",
+    "color": "#2c3e50",
+    "icon": "",
+    "created_at": "2025-10-08T07:50:10.000Z",
+    "updated_at": "2025-10-08T07:50:10.000Z"
+  },
+  {
+    "id": 29,
+    "name": "Metal Works",
+    "type": "expense",
+    "description": null,
+    "color": "#db7f33",
+    "icon": null,
+    "created_at": "2025-10-09T19:16:33.000Z",
+    "updated_at": "2025-10-09T19:16:33.000Z"
+  },
+  {
+    "id": 30,
+    "name": "Water Connect For all Residence",
+    "type": "expense",
+    "description": null,
+    "color": "#47b0f5",
+    "icon": null,
+    "created_at": "2025-10-09T19:34:58.000Z",
+    "updated_at": "2025-10-09T19:34:58.000Z"
+  },
+  {
+    "id": 31,
+    "name": "Water Meter",
+    "type": "both",
+    "description": null,
+    "color": "#3498db",
+    "icon": null,
+    "created_at": "2025-10-28T06:11:20.000Z",
+    "updated_at": "2025-10-28T06:11:20.000Z"
+  },
+  {
+    "id": 32,
+    "name": "Vacant (شغور )",
+    "type": "income",
+    "description": null,
+    "color": "#56d264",
+    "icon": null,
+    "created_at": "2025-10-29T19:15:21.000Z",
+    "updated_at": "2025-10-29T19:15:21.000Z"
+  },
+  {
+    "id": 33,
+    "name": "Equipments",
+    "type": "expense",
+    "description": null,
+    "color": "#ff0000",
+    "icon": null,
+    "created_at": "2025-10-30T16:31:41.000Z",
+    "updated_at": "2025-10-30T16:31:41.000Z"
+  },
+  {
+    "id": 34,
+    "name": "Elevator",
+    "type": "expense",
+    "description": null,
+    "color": "#9d5c20",
+    "icon": null,
+    "created_at": "2025-11-04T08:10:23.000Z",
+    "updated_at": "2025-11-04T08:10:23.000Z"
+  },
+  {
+    "id": 35,
+    "name": "Street Lights",
+    "type": "expense",
+    "description": null,
+    "color": "#fef962",
+    "icon": null,
+    "created_at": "2025-12-01T14:35:56.000Z",
+    "updated_at": "2025-12-01T14:35:56.000Z"
+  },
+  {
+    "id": 36,
+    "name": "Block J Elevator",
+    "type": "expense",
+    "description": null,
+    "color": "#8f3200",
+    "icon": null,
+    "created_at": "2025-12-02T08:21:45.000Z",
+    "updated_at": "2025-12-02T08:21:45.000Z"
+  },
+  {
+    "id": 37,
+    "name": "Decorations",
+    "type": "expense",
+    "description": null,
+    "color": "#ff0000",
+    "icon": null,
+    "created_at": "2025-12-15T20:13:56.000Z",
+    "updated_at": "2025-12-15T20:13:56.000Z"
+  },
+  {
+    "id": 38,
+    "name": "Legal",
+    "type": "expense",
+    "description": null,
+    "color": "#229e00",
+    "icon": null,
+    "created_at": "2025-12-15T20:29:44.000Z",
+    "updated_at": "2025-12-15T20:29:44.000Z"
+  },
+  {
+    "id": 39,
+    "name": "Transportation",
+    "type": "expense",
+    "description": null,
+    "color": "#dbb733",
+    "icon": null,
+    "created_at": "2025-12-27T04:53:16.000Z",
+    "updated_at": "2025-12-27T04:53:16.000Z"
+  },
+  {
+    "id": 40,
+    "name": "Telecom",
+    "type": "expense",
+    "description": null,
+    "color": "#fbff00",
+    "icon": null,
+    "created_at": "2026-01-24T06:02:17.000Z",
+    "updated_at": "2026-01-24T06:02:17.000Z"
+  },
+  {
+    "id": 41,
+    "name": "Miscellaneous",
+    "type": "expense",
+    "description": null,
+    "color": "#db3333",
+    "icon": null,
+    "created_at": "2026-01-28T21:47:06.000Z",
+    "updated_at": "2026-01-28T21:47:47.000Z"
+  },
+  {
+    "id": 42,
+    "name": "Credit - Owner",
+    "type": "income",
+    "description": null,
+    "color": "#83b300",
+    "icon": null,
+    "created_at": "2026-02-21T03:18:14.000Z",
+    "updated_at": "2026-02-21T03:18:14.000Z"
+  },
+  {
+    "id": 43,
+    "name": "Old Electricity Bills",
+    "type": "both",
+    "description": null,
+    "color": "#ffc800",
+    "icon": null,
+    "created_at": "2026-02-23T11:46:06.000Z",
+    "updated_at": "2026-02-23T11:46:06.000Z"
+  }
+]

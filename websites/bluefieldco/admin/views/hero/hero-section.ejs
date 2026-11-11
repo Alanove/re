@@ -1,0 +1,285 @@
+<!-- BEGIN content area -->
+<div class="row">
+	<div class="col-xl-12">
+		<!-- BEGIN panel -->
+		<div class="panel panel-inverse">
+			<div class="panel-heading">
+				<h4 class="panel-title"><%= pageTitle %></h4>
+				<p class="text-muted mb-0"><%= pageSubtitle %></p>
+			</div>
+			<div class="panel-body">
+				<% if (typeof success !== 'undefined' && success) { %>
+					<div class="alert alert-success alert-dismissible fade show" role="alert">
+						<strong>Success!</strong> <%= success %>
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>
+				<% } %>
+				<% if (typeof error !== 'undefined' && error) { %>
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<strong>Error!</strong> <%= error %>
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>
+				<% } %>
+
+<div class="container-fluid">
+
+  <!-- Statistics Cards -->
+  <div class="row">
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="flex-shrink-0">
+              <i class="fa fa-quote-left text-primary" style="font-size: 2rem;"></i>
+            </div>
+            <div class="flex-grow-1 ms-3">
+              <h5 class="mb-1"><%= statistics.totalQuotes %></h5>
+              <p class="text-muted mb-0">Total Quotes</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="flex-shrink-0">
+              <i class="fa fa-check-circle text-success" style="font-size: 2rem;"></i>
+            </div>
+            <div class="flex-grow-1 ms-3">
+              <h5 class="mb-1"><%= statistics.activeQuotes %></h5>
+              <p class="text-muted mb-0">Active Quotes</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="flex-shrink-0">
+              <i class="fa fa-video text-info" style="font-size: 2rem;"></i>
+            </div>
+            <div class="flex-grow-1 ms-3">
+              <h5 class="mb-1"><%= statistics.totalVideos %></h5>
+              <p class="text-muted mb-0">Available Videos</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="flex-shrink-0">
+              <i class="fa fa-play-circle text-warning" style="font-size: 2rem;"></i>
+            </div>
+            <div class="flex-grow-1 ms-3">
+              <h5 class="mb-1 text-truncate" title="<%= heroData.currentVideo %>"><%= heroData.currentVideo %></h5>
+              <p class="text-muted mb-0">Current Video</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Video Management -->
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">
+            <i class="fa fa-video me-2"></i>Video Management
+          </h5>
+        </div>
+        <div class="card-body">
+          <!-- Current Video Selection -->
+          <div class="mb-4">
+            <label class="form-label">Current Hero Video</label>
+            <form method="POST" action="/admin/hero-section/update-video" class="d-flex gap-2">
+              <select name="videoName" class="form-select" required>
+                <% heroData.availableVideos.forEach(video => { %>
+                  <option value="<%= video.filename %>" <%= video.filename === heroData.currentVideo ? 'selected' : '' %>><%= video.filename %></option>
+                <% }) %>
+              </select>
+              <button type="submit" class="btn btn-primary">
+                <i class="fa fa-save"></i> Update
+              </button>
+            </form>
+          </div>
+
+          <!-- Video Upload -->
+          <div class="mb-4">
+            <label class="form-label">Upload New Video</label>
+            <form method="POST" action="/admin/hero-section/upload-video" enctype="multipart/form-data" class="d-flex gap-2">
+              <input type="file" name="video" class="form-control" accept="video/*" required>
+              <button type="submit" class="btn btn-success">
+                <i class="fa fa-upload"></i> Upload
+              </button>
+            </form>
+            <small class="text-muted">Maximum file size: 100MB. Supported formats: MP4, WebM, OGG</small>
+          </div>
+
+          <!-- Available Videos List -->
+          <div>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <label class="form-label mb-0">Available Videos</label>
+              <a href="/admin/hero-section/refresh-videos" class="btn btn-sm btn-outline-secondary">
+                <i class="fa fa-refresh"></i> Refresh
+              </a>
+            </div>
+            <div class="list-group">
+              <% heroData.availableVideos.forEach(video => { %>
+                <div class="list-group-item">
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div>
+                      <i class="fa fa-video me-2"></i>
+                      <span><%= video.filename %></span>
+                      <% if (video.filename === heroData.currentVideo) { %>
+                        <span class="badge bg-primary ms-2">Current</span>
+                      <% } %>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-danger" 
+                            onclick="deleteVideo('<%= video.filename %>')">
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <label class="form-label mb-0 small">Background Type:</label>
+                    <form method="POST" action="/admin/hero-section/update-video-background-type" class="d-flex gap-2">
+                      <input type="hidden" name="filename" value="<%= video.filename %>">
+                      <select name="backgroundType" class="form-select form-select-sm" style="width: auto;" 
+                              onchange="this.form.submit()">
+                        <option value="dark" <%= video.backgroundType === 'dark' ? 'selected' : '' %>>Dark</option>
+                        <option value="light" <%= video.backgroundType === 'light' ? 'selected' : '' %>>Light</option>
+                      </select>
+                    </form>
+                  </div>
+                </div>
+              <% }) %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quotes Management -->
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">
+            <i class="fa fa-quote-left me-2"></i>Quotes Management
+          </h5>
+        </div>
+        <div class="card-body">
+          <!-- Add New Quote -->
+          <div class="mb-4">
+            <label class="form-label">Add New Quote</label>
+            <form method="POST" action="/admin/hero-section/add-quote">
+              <div class="mb-3">
+                <textarea name="text" class="form-control" rows="3" placeholder="Enter quote text..." required></textarea>
+              </div>
+              <div class="mb-3">
+                <input type="text" name="author" class="form-control" placeholder="Enter author name..." required>
+              </div>
+              <button type="submit" class="btn btn-success">
+                <i class="fa fa-plus"></i> Add Quote
+              </button>
+            </form>
+          </div>
+
+          <!-- Quotes List -->
+          <div>
+            <label class="form-label">Existing Quotes</label>
+            <div class="list-group">
+              <% heroData.quotes.forEach(quote => { %>
+                <div class="list-group-item">
+                  <form method="POST" action="/admin/hero-section/update-quote">
+                    <input type="hidden" name="id" value="<%= quote.id %>">
+                    <div class="mb-3">
+                      <textarea name="text" class="form-control" rows="2" required><%= quote.text %></textarea>
+                    </div>
+                    <div class="mb-3">
+                      <input type="text" name="author" class="form-control" value="<%= quote.author %>" required>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="form-check">
+                        <input type="checkbox" name="active" class="form-check-input" id="active-<%= quote.id %>" 
+                               value="true" <%= quote.active ? 'checked' : '' %>>
+                        <label class="form-check-label" for="active-<%= quote.id %>">
+                          Active
+                        </label>
+                      </div>
+                      <div class="btn-group">
+                        <button type="submit" class="btn btn-sm btn-primary">
+                          <i class="fa fa-save"></i> Update
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-danger" 
+                                onclick="deleteQuote(<%= quote.id %>)">
+                          <i class="fa fa-trash"></i> Delete
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              <% }) %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function deleteQuote(quoteId) {
+  if (confirm('Are you sure you want to delete this quote?')) {
+    fetch(`/admin/hero-section/quote/${quoteId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    }).then(response => {
+      if (response.ok) {
+        location.reload();
+      } else {
+        alert('Error deleting quote');
+      }
+    }).catch(error => {
+      console.error('Error:', error);
+      alert('Error deleting quote');
+    });
+  }
+}
+
+function deleteVideo(filename) {
+  if (confirm('Are you sure you want to delete this video file?')) {
+    fetch(`/admin/hero-section/video/${filename}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    }).then(response => {
+      if (response.ok) {
+        location.reload();
+      } else {
+        alert('Error deleting video');
+      }
+    }).catch(error => {
+      console.error('Error:', error);
+      alert('Error deleting video');
+    });
+  }
+}
+</script>
+
+			</div>
+		</div>
+		<!-- END panel -->
+	</div>
+</div>
+<!-- END content area -->

@@ -1,0 +1,150 @@
+<!-- BEGIN content area -->
+<div class="row">
+	<div class="col-xl-12">
+		<!-- BEGIN panel -->
+		<div class="panel panel-inverse">
+			<div class="panel-heading">
+				<h4 class="panel-title"><%= isEdit ? 'Edit Slide' : 'Add New Slide' %></h4>
+				<div class="panel-heading-btn">
+					<a href="/admin/slider" class="btn btn-xs btn-secondary">
+						<i class="fa fa-arrow-left"></i> Back to Slider
+					</a>
+				</div>
+			</div>
+			<div class="panel-body">
+				<% if (typeof error !== 'undefined' && error) { %>
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<strong>Error!</strong> <%= error %>
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>
+				<% } %>
+				
+				<form method="POST" enctype="multipart/form-data" id="slideForm" action="<%= isEdit ? '/admin/slider/' + slide.id + '/edit' : '/admin/slider/create' %>">
+					<div class="row">
+						<div class="col-md-8">
+							<!-- Basic Information -->
+							<div class="card">
+								<div class="card-header">
+									<h5 class="card-title mb-0">Slide Information</h5>
+								</div>
+								<div class="card-body">
+									<div class="mb-3">
+										<label for="alt" class="form-label">Alt Text (Description) <span class="text-danger">*</span></label>
+										<input type="text" class="form-control" id="alt" name="alt" value="<%= slide.alt || '' %>" required maxlength="255" />
+										<div class="form-text">This text will be used as the alt attribute for the image and for accessibility.</div>
+									</div>
+									
+									<div class="mb-3">
+										<label for="order" class="form-label">Display Order</label>
+										<input type="number" class="form-control" id="order" name="order" value="<%= slide.order || '' %>" />
+										<div class="form-text">Order determines the display sequence. Lower numbers appear first.</div>
+									</div>
+									
+									<div class="mb-3">
+										<label for="title" class="form-label">Slide Title (Optional)</label>
+										<input type="text" class="form-control" id="title" name="title" value="<%= slide.title || '' %>" placeholder="Enter slide title" maxlength="255" />
+										<div class="form-text">This title will be displayed on the slide overlay. If empty, no title will be shown.</div>
+									</div>
+									
+									<div class="mb-3">
+										<label for="link" class="form-label">Link URL (Optional)</label>
+										<input type="url" class="form-control" id="link" name="link" value="<%= slide.link || '' %>" placeholder="https://example.com" />
+										<div class="form-text">If provided, the slide will have a clickable button linking to this URL.</div>
+									</div>
+									
+									<div class="mb-3">
+										<label for="buttonText" class="form-label">Button Text (Optional)</label>
+										<input type="text" class="form-control" id="buttonText" name="buttonText" value="<%= slide.buttonText || '' %>" placeholder="See More" maxlength="100" />
+										<div class="form-text">Text to display on the button. If empty, will default to "See More" or "Check More".</div>
+									</div>
+									
+									<div class="mb-3">
+										<label for="image" class="form-label">
+											<%= isEdit ? 'Update Image' : 'Upload Image' %> <span class="text-danger">*</span>
+										</label>
+										<input type="file" class="form-control" id="image" name="image" accept="image/*" <%= isEdit ? '' : 'required' %> />
+										<div class="form-text">
+											<%= isEdit ? 'Leave empty to keep the current image. ' : '' %>
+											Recommended size: 1920x1080 pixels. Maximum file size: 10MB.
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-md-4">
+							<!-- Image Preview -->
+							<div class="card">
+								<div class="card-header">
+									<h5 class="card-title mb-0">Image Preview</h5>
+								</div>
+								<div class="card-body">
+									<div id="imagePreview" class="text-center">
+										<% if (isEdit && slide.image) { %>
+											<img src="<%= slide.image && slide.image.startsWith('/') ? slide.image : '/images/slide/' + slide.image %>" alt="<%= slide.alt %>" class="img-fluid rounded" style="max-height: 200px; object-fit: cover;" />
+											<div class="mt-2">
+												<small class="text-muted">Current Image</small>
+											</div>
+										<% } else { %>
+											<div class="border rounded p-4 text-muted">
+												<i class="fa fa-image fa-3x mb-2"></i>
+												<p class="mb-0">No image selected</p>
+											</div>
+										<% } %>
+									</div>
+								</div>
+							</div>
+							
+							<!-- Slide Status -->
+							<div class="card mt-3">
+								<div class="card-header">
+									<h5 class="card-title mb-0">Slide Status</h5>
+								</div>
+								<div class="card-body">
+									<div class="form-check form-switch">
+										<input class="form-check-input" type="checkbox" id="active" name="active" <%= slide.active ? 'checked' : '' %> />
+										<label class="form-check-label" for="active">
+											Active
+										</label>
+									</div>
+									<div class="form-text">Inactive slides will not appear in the slider.</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<!-- Form Actions -->
+					<div class="row mt-3">
+						<div class="col-12">
+							<div class="d-flex justify-content-between">
+								<a href="/admin/slider" class="btn btn-secondary">
+									<i class="fa fa-times me-1"></i> Cancel
+								</a>
+								<button type="submit" class="btn btn-primary">
+									<i class="fa fa-save me-1"></i> <%= isEdit ? 'Update Slide' : 'Create Slide' %>
+								</button>
+							</div>
+						</div>
+					</div>
+				</form>
+				
+				<script>
+					// Client-side validation for link fields
+					document.getElementById('slideForm').addEventListener('submit', function(e) {
+						const linkText = document.getElementById('buttonText').value.trim();
+						const link = document.getElementById('link').value.trim();
+						
+						if (linkText && !link) {
+							e.preventDefault();
+							alert('Link URL is required when button text is provided.');
+							document.getElementById('link').focus();
+							return false;
+						}
+					});
+				</script>
+			</div>
+		</div>
+		<!-- END panel -->
+	</div>
+</div>
+<!-- END content area --> 

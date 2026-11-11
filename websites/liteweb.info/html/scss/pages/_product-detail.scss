@@ -1,0 +1,228 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.product-detail-cta {
+  background: $color-primary-deep;
+  color: $color-white;
+  padding: $space-2xl $space-lg;
+  text-align: center;
+
+  @include respond-to(md) {
+    padding-block: $space-4xl;
+  }
+
+  h2 {
+    font-family: $font-headline;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 600;
+    color: $color-white;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    color: rgba($color-white, 0.85);
+    max-width: 36rem;
+    margin: 0 auto 1.5rem;
+  }
+}
+
+.feature-row {
+  display: grid;
+  gap: $space-xl;
+  align-items: center;
+
+  @include respond-to(md) {
+    grid-template-columns: 1fr 1fr;
+    gap: $space-2xl;
+  }
+
+  &--reverse {
+    @include respond-to(md) {
+      .feature-row__media {
+        order: -1;
+      }
+    }
+  }
+
+  &__media img {
+    width: 100%;
+    border-radius: $radius-xl;
+    object-fit: cover;
+    aspect-ratio: 16 / 10;
+  }
+
+  &__title {
+    margin-bottom: $space-md;
+  }
+
+  &__lead {
+    margin-bottom: $space-lg;
+  }
+}
+
+.feature-list {
+  display: grid;
+  gap: $space-sm;
+  margin: $space-lg 0;
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: $space-sm;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: $color-on-surface-variant;
+  }
+
+  .material-symbols-outlined {
+    color: $color-tertiary;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+}
+
+.pain-list {
+  display: grid;
+  gap: $space-md;
+  margin: $space-xl 0;
+
+  @include respond-to(md) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: $space-sm;
+    padding: $space-md;
+    font-size: 0.9375rem;
+    line-height: 1.45;
+    color: $color-on-surface-variant;
+    @include brand-box;
+  }
+
+  .material-symbols-outlined {
+    color: $color-error;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+  }
+}
+
+.audience-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: $color-white;
+  border: 1px solid $color-outline-variant;
+  border-radius: $radius-xl;
+  overflow: hidden;
+
+  th,
+  td {
+    text-align: start;
+    padding: $space-md $space-lg;
+    border-bottom: 1px solid $color-outline-variant;
+    vertical-align: top;
+  }
+
+  th {
+    font-family: $font-headline;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $color-secondary;
+    background: $color-surface-low;
+  }
+
+  td {
+    font-size: 0.9375rem;
+    color: $color-on-surface-variant;
+    line-height: 1.45;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  strong {
+    color: $color-secondary;
+    font-weight: 600;
+  }
+}
+
+.product-band {
+  &__media {
+    margin-top: $space-xl;
+    border-radius: $radius-xl;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+      aspect-ratio: 2 / 1;
+    }
+  }
+}
+
+.why-steps {
+  display: grid;
+  gap: $space-lg;
+  margin-top: $space-xl;
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  &__item {
+    padding: $space-lg;
+    @include brand-box;
+  }
+
+  &__num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: $radius-full;
+    background: rgba($color-primary, 0.12);
+    color: $color-primary;
+    font-family: $font-headline;
+    font-weight: 700;
+    font-size: 0.875rem;
+    margin-bottom: $space-md;
+  }
+
+  h3 {
+    font-family: $font-headline;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: $color-secondary;
+    margin-bottom: $space-sm;
+  }
+
+  p {
+    font-size: 0.9375rem;
+    color: $color-on-surface-variant;
+    line-height: 1.45;
+  }
+}
+
+.feature-kicker {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $color-secondary;
+  margin-bottom: $space-sm;
+}
+
+.closing-line {
+  font-family: $font-body;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.55;
+  color: $color-secondary;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}

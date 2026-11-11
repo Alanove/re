@@ -1,0 +1,70 @@
+<div id="content" class="content">
+    <!-- begin breadcrumb -->
+    <ol class="breadcrumb pull-right">
+        <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+        <li class="breadcrumb-item"><a href="javascript:;">Settings</a></li>
+        <li class="breadcrumb-item active">Email Templates</li>
+    </ol>
+    <!-- end breadcrumb -->
+    <!-- begin page-header -->
+    <h1 class="page-header">Email Templates <small>Manage system email templates</small></h1>
+    <!-- end page-header -->
+
+    <% if (typeof error !== 'undefined' && error) { %>
+        <div class="alert alert-danger fade show">
+            <span class="close" data-dismiss="alert">×</span>
+            <%= error %>
+        </div>
+    <% } %>
+
+    <% if (typeof success !== 'undefined' && success) { %>
+        <div class="alert alert-success fade show">
+            <span class="close" data-dismiss="alert">×</span>
+            <%= success %>
+        </div>
+    <% } %>
+
+    <!-- begin panel -->
+    <div class="panel panel-inverse">
+        <div class="panel-heading">
+            <h4 class="panel-title">Available Templates</h4>
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered table-td-valign-middle">
+                    <thead>
+                        <tr>
+                            <th width="1%">#</th>
+                            <th class="text-nowrap">Template Name</th>
+                            <th class="text-nowrap">File Key</th>
+                            <th class="text-nowrap">Last Modified</th>
+                            <th class="text-nowrap" width="1%">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (templates && templates.length > 0) { %>
+                            <% templates.forEach(function(template, index) { %>
+                                <tr>
+                                    <td width="1%" class="f-s-600 text-inverse"><%= index + 1 %></td>
+                                    <td><%= template.name %></td>
+                                    <td><%= template.key %></td>
+                                    <td><%= new Date(template.lastModified).toLocaleString() %></td>
+                                    <td>
+                                        <a href="/admin/email-templates/<%= template.key %>/edit" class="btn btn-sm btn-primary">
+                                            <i class="fa fa-edit"></i> Edit
+                                        </a>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="5" class="text-center">No email templates found.</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- end panel -->
+</div>

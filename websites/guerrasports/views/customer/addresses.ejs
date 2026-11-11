@@ -1,0 +1,340 @@
+<!-- Addresses Page -->
+
+<!-- Breadcrumb Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark" href="/">Home</a>
+                <a class="breadcrumb-item text-dark" href="/customer/account">Account</a>
+                <span class="breadcrumb-item active">
+                    <%= typeof t !=='undefined' ? t('ecommerce.customer.addresses') : 'My Addresses' %>
+                </span>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Addresses Start -->
+<div class="container-fluid pb-5">
+    <div class="row px-xl-5">
+        <div class="col-lg-3 mb-5">
+            <%- include('../partials/account-sidebar') %>
+        </div>
+
+        <!-- Addresses Content -->
+        <div class="col-lg-9">
+            <div class="bg-light">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="mb-0">
+                        <%= typeof t !=='undefined' ? t('ecommerce.customer.savedAddresses') : 'Saved Addresses' %>
+                    </h4>
+                    <button type="button" class="btn btn-primary" onclick="showAddAddressModal()">
+                        <i class="fa fa-plus mr-2"></i>
+                        <%= typeof t !=='undefined' ? t('ecommerce.customer.addAddress') : 'Add Address' %>
+                    </button>
+                </div>
+
+                <% if (addresses && addresses.length> 0) { %>
+                    <div class="row">
+                        <% addresses.forEach(function(address) { %>
+                            <div class="col-md-6 mb-4">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <% if (address.is_default) { %>
+                                            <span class="badge badge-primary mb-2">Default</span>
+                                            <% } %>
+                                                <address class="mb-0">
+                                                    <strong>
+                                                        <%= address.first_name %>
+                                                            <%= address.last_name %>
+                                                    </strong><br>
+                                                    <%= address.address_line_1 %><br>
+                                                        <% if (address.address_line_2) { %>
+                                                            <%= address.address_line_2 %><br>
+                                                                <% } %>
+                                                                    <%= address.city %>, <%= address.state %>
+                                                                            <%= address.postal_code %><br>
+                                                                                <% let displayCountry=address.country;
+                                                                                    if (typeof countries !=='undefined'
+                                                                                    && Array.isArray(countries)) { const
+                                                                                    c=countries.find(val=> val.code ===
+                                                                                    address.country);
+                                                                                    if (c) {
+                                                                                    displayCountry = `${c.name}
+                                                                                    (${c.code})`;
+                                                                                    }
+                                                                                    }
+                                                                                    %>
+                                                                                    <%= displayCountry %><br>
+                                                                                        <% if (address.phone) { %>
+                                                                                            <%= address.phone %>
+                                                                                                <% } %>
+                                                </address>
+                                                <div class="mt-3">
+                                                    <% if (typeof returnTo !=='undefined' && returnTo==='checkout' ) {
+                                                        %>
+                                                        <a href="/checkout?addressId=<%= address.id %>"
+                                                            class="btn btn-sm btn-success mb-2">
+                                                            <i class="fa fa-check mr-1"></i> Use this Address
+                                                        </a>
+                                                        <br>
+                                                        <% } %>
+
+                                                            <% const
+                                                                addressJson=JSON.stringify(address).replace(/'/g, "&#39;"
+                                                                ); %>
+                                                                <button type="button" class="btn btn-sm btn-primary"
+                                                                    data-address='<%= addressJson %>'
+                                                                    onclick="editAddress(this)">
+                                                                    <%= typeof t !=='undefined' ? t('common.edit')
+                                                                        : 'Edit' %>
+                                                                </button>
+                                                                <button type="button" class="btn btn-sm btn-danger"
+                                                                    onclick="showDeleteModal(<%= address.id %>)">
+                                                                    <%= typeof t !=='undefined' ? t('common.delete')
+                                                                        : 'Delete' %>
+                                                                </button>
+                                                </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% }); %>
+                    </div>
+                    <% } else { %>
+                        <div class="text-center py-5">
+                            <i class="fa fa-map-marker-alt fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">
+                                <%= typeof t !=='undefined' ? t('ecommerce.customer.noAddresses') : 'No saved addresses'
+                                    %>
+                            </p>
+                            <button type="button" class="btn btn-primary" onclick="showAddAddressModal()">
+                                <%= typeof t !=='undefined' ? t('ecommerce.customer.addAddress')
+                                    : 'Add Your First Address' %>
+                            </button>
+                        </div>
+                        <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Addresses End -->
+
+
+<!-- Add Address Modal -->
+<div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog" aria-labelledby="addAddressModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addAddressModalLabel">Add New Address</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addAddressForm">
+                    <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+                    <input type="hidden" name="type" value="shipping">
+                    <input type="hidden" name="address_id" id="address_id">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="first_name">First Name</label>
+                            <input type="text" class="form-control" id="first_name" name="first_name" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="last_name">Last Name</label>
+                            <input type="text" class="form-control" id="last_name" name="last_name" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="company">Company (Optional)</label>
+                        <input type="text" class="form-control" id="company" name="company">
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country</label>
+                        <select class="form-control" id="country" name="country" required>
+                            <% if (typeof countries !=='undefined' && countries && countries.length> 0) {
+                                countries.forEach(function(country) {
+                                const countryName = typeof country === 'string' ? country : country.name;
+                                const countryCode = typeof country === 'string' ? country : country.code;
+                                %>
+                                <option value="<%= countryCode %>" <%=(countryName==='Lebanon' || countryCode==='LB'
+                                    ) ? 'selected' : '' %>><%= countryName %>
+                                </option>
+                                <% }); } else { %>
+                                    <option value="LB" selected>Lebanon</option>
+                                    <% } %>
+                        </select>
+                    </div>
+                    <div class="form-group d-none" id="addr-state-wrap">
+                        <label>State/Province</label>
+                        <select class="form-control d-none" id="addr-state-select"></select>
+                        <input type="text" class="form-control" id="addr-state-input" placeholder="State">
+                        <input type="hidden" id="state" name="state">
+                    </div>
+                    <div class="form-group position-relative" id="addr-city-wrap">
+                        <label for="addr-city-input">City</label>
+                        <input type="text" class="form-control" id="addr-city-input" placeholder="" autocomplete="nope">
+                        <input type="hidden" id="city" name="city" required>
+                        <ul class="list-group position-absolute shadow-sm" id="addr-city-suggestions" style="z-index: 1050; max-height: 200px; overflow-y: auto; display: none; left: 0; right: 0; top: 100%;"></ul>
+                    </div>
+                    <div class="form-group">
+                        <label for="address_line_1">Address Line 1</label>
+                        <input type="text" class="form-control" id="address_line_1" name="address_line_1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address_line_2">Address Line 2 (Optional)</label>
+                        <input type="text" class="form-control" id="address_line_2" name="address_line_2">
+                    </div>
+                    <div class="form-group">
+                        <label for="postal_code">Postal/Zip Code</label>
+                        <input type="text" class="form-control" id="postal_code" name="postal_code">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" class="form-control" id="phone" name="phone">
+                    </div>
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="is_default" name="is_default">
+                        <label class="form-check-label" for="is_default">Set as default address</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="saveAddress()">Save Address</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/address-form.js"></script>
+<script>
+    var addressToDeleteId = null;
+    var addrFormApi = AddressForm.init({
+        ids: {
+            country: 'country',
+            stateWrap: 'addr-state-wrap',
+            stateSelect: 'addr-state-select',
+            stateInput: 'addr-state-input',
+            stateHidden: 'state',
+            cityInput: 'addr-city-input',
+            cityHidden: 'city',
+            citySuggestions: 'addr-city-suggestions'
+        }
+    });
+
+    function showAddAddressModal() {
+        $('#addAddressForm')[0].reset();
+        $('#address_id').val('');
+        addrFormApi.clearCity();
+        $('#addAddressModalLabel').text('Add New Address');
+        $('#addAddressModal').modal('show');
+        addrFormApi.loadStates();
+    }
+
+    function editAddress(btn) {
+        var addressData = JSON.parse(btn.getAttribute('data-address'));
+
+        $('#address_id').val(addressData.id);
+        $('#first_name').val(addressData.first_name);
+        $('#last_name').val(addressData.last_name);
+        $('#company').val(addressData.company);
+        $('#address_line_1').val(addressData.address_line_1);
+        $('#address_line_2').val(addressData.address_line_2);
+        $('#city').val(addressData.city);
+        document.getElementById('addr-city-input').value = addressData.city || '';
+        $('#state').val(addressData.state);
+        $('#postal_code').val(addressData.postal_code);
+        $('#country').val(addressData.country);
+        $('#phone').val(addressData.phone);
+        $('#is_default').prop('checked', addressData.is_default);
+
+        document.getElementById('addr-state-input').value = addressData.state || '';
+        addrFormApi.hideCitySuggestions();
+        $('#addAddressModalLabel').text('Edit Address');
+        $('#addAddressModal').modal('show');
+        addrFormApi.loadStates();
+    }
+
+    function saveAddress() {
+        const form = document.getElementById('addAddressForm');
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        // Handle checkbox
+        data.is_default = document.getElementById('is_default').checked;
+
+        // Get CSRF token
+        const csrfToken = formData.get('_csrf');
+        const addressId = formData.get('address_id');
+
+        const url = addressId ? `/api/customer/addresses/${addressId}` : '/api/customer/addresses';
+        const method = addressId ? 'PUT' : 'POST';
+
+        fetch(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json',
+                'CSRF-Token': csrfToken
+            },
+            body: JSON.stringify({
+                ...data,
+                _csrf: csrfToken
+            })
+        })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    $('#addAddressModal').modal('hide');
+                    location.reload();
+                } else {
+                    alert('Error: ' + (result.error || 'Failed to save address'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error saving address');
+            });
+    }
+
+    function showDeleteModal(addressId) {
+        addressToDeleteId = addressId;
+        $('#deleteAddressModal').modal('show');
+    }
+
+    document.getElementById('confirmDeleteBtn').addEventListener('click', function () {
+        if (!addressToDeleteId) return;
+
+        // Get CSRF token from the add form (as it's available on the page)
+        const csrfToken = document.querySelector('input[name="_csrf"]').value;
+
+        fetch(`/api/customer/addresses/${addressToDeleteId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'CSRF-Token': csrfToken
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    $('#deleteAddressModal').modal('hide');
+                    location.reload();
+                } else {
+                    alert('Error: ' + (data.error || 'Failed to delete address'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error deleting address');
+            });
+    });
+</script>

@@ -1,0 +1,167 @@
+{
+  "menus": [
+    {
+      "id": "main-menu",
+      "name": "Main Menu",
+      "description": "Primary navigation menu",
+      "items": [
+        {
+          "id": "home",
+          "title": "Home",
+          "type": "page",
+          "link": "home",
+          "sort": 1,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "menu_1754602291089_fh83phky8",
+          "title": "About",
+          "type": "page",
+          "link": "about",
+          "sort": 2,
+          "active": true,
+          "children": [
+            {
+              "id": "menu_1758062372578_udbxcp0bn",
+              "title": "Who We Are",
+              "type": "page",
+              "link": "who-we-are",
+              "sort": 1,
+              "active": true,
+              "children": []
+            },
+            {
+              "id": "menu_1758062390625_e5lko4x6o",
+              "title": "Our BIM Know-How",
+              "type": "page",
+              "link": "Our-BIM-Know-How",
+              "sort": 2,
+              "active": true,
+              "children": []
+            },
+            {
+              "id": "menu_1758062403950_bwstrrroa",
+              "title": "Our Success Indicators",
+              "type": "page",
+              "link": "Our-Success-Indicators",
+              "sort": 3,
+              "active": true,
+              "children": []
+            },
+            {
+              "id": "menu_1765167310135_8tdbtclug",
+              "title": "Our Team",
+              "type": "page",
+              "link": "our-team",
+              "sort": 4,
+              "active": true,
+              "children": []
+            },
+            {
+              "id": "menu_1789135343635_t0j9zl1a8",
+              "title": "Message from our Founder",
+              "type": "page",
+              "link": "message-from-our-founder",
+              "sort": 5,
+              "active": true,
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "menu_1754602557020_l0l35sshp",
+          "title": "Services",
+          "type": "page",
+          "link": "what-we-do",
+          "sort": 3,
+          "active": true,
+          "children": [
+            {
+              "id": "menu_1754602564690_q29hwqnm9",
+              "title": "MEP & ICT",
+              "type": "page",
+              "link": "what-we-do-mep-ict",
+              "sort": 1,
+              "active": true,
+              "children": []
+            },
+            {
+              "id": "menu_1754602585810_1fxcqd7x6",
+              "title": "Energy & Sustainability",
+              "type": "page",
+              "link": "what-we-do-energy-sustainability",
+              "sort": 1,
+              "active": true,
+              "children": []
+            },
+            {
+              "id": "menu_1764720053892_59wdz7kuj",
+              "title": "Automation",
+              "type": "page",
+              "link": "automation",
+              "sort": 10,
+              "active": true,
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "menu_1758062464929_t867iidvk",
+          "title": "Projects",
+          "type": "page",
+          "link": "projects",
+          "sort": 5,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "menu_1759235608669_si7oxy3nd",
+          "title": "Insights",
+          "type": "page",
+          "link": "insights",
+          "sort": 5,
+          "active": true,
+          "children": [
+            {
+              "id": "menu_1759235620830_hm8aj3ce7",
+              "title": "Our Soft Skills",
+              "type": "page",
+              "link": "our-soft-skills",
+              "sort": 1,
+              "active": true,
+              "children": []
+            },
+            {
+              "id": "menu_1766143136773_0ar631nri",
+              "title": "Our News",
+              "type": "page",
+              "link": "news",
+              "sort": 2,
+              "active": true,
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "menu_1764992913335_3ecg5b3dm",
+          "title": "Careers",
+          "type": "page",
+          "link": "careers",
+          "sort": 6,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "menu_1754603739268_clj83h8b9",
+          "title": "Contact",
+          "type": "page",
+          "link": "contact",
+          "sort": 7,
+          "active": true,
+          "children": []
+        }
+      ]
+    }
+  ]
+}

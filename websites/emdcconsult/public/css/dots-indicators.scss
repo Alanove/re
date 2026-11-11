@@ -1,0 +1,131 @@
+// Removed sidebar hover functionality
+
+// Section Navigation Dots Indicators
+.section-indicators {
+  position: fixed;
+  right: -50px; // Moved left to allow room for text
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1001;
+  opacity: 1; // Always visible
+  transition: all 0.3s ease; // Smooth hide/show transition
+
+  // Responsive positioning
+  @media (min-width: $medium-screen) {
+    right: -65px;// Medium screens (950px - 1279px)
+  }
+
+  @media (min-width: $large-screen) {
+    right: -50px; // Large screens (1280px - 1599px)
+  }
+
+  @media (min-width: $ultra-screen) {
+    right: 0; // Very large screens (1600px+)
+  }
+
+  ul {
+    list-style: none;
+    padding: 0; 
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    @media (max-width: 768px) {
+      gap: 15px;
+    }
+
+    li {
+      position: relative;
+      cursor: pointer;
+      display: block; // Make li display block
+      width: 120px;
+      height: 10px;
+      transition: all 0.3s ease;
+
+      .indicator {
+        display: block;
+        width: 5px;
+        height: 5px;
+        border-radius: 0; // Square shape
+        background-color: rgba(255, 255, 255, 0.6);
+        border: none;
+        position: absolute;
+        top: 10px;
+        transition: all 0.3s ease;
+      }
+
+      .title {
+        position: absolute;
+        left: 20px; // More space from indicator
+        top: 50%;
+        transform: translateY(-50%);
+        color: $white;
+        font-size: 0.8rem;
+        font-weight: 500;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        pointer-events: none;
+        display: inline-block;
+        max-width: 100px;
+
+        @media (max-width: 768px) {
+          font-size: 0.7rem;
+          left: 15px;
+        }
+      }
+
+      &:hover {
+        .indicator {
+          background-color: $white;
+          width: 10px;
+          height: 10px;
+        }
+
+        .title {
+          opacity: 1;
+          visibility: visible;
+          transform: translateY(-50%) translateX(5px);
+        }
+      }
+
+      &.active {
+        .indicator {
+          background-color: $white;
+          width: 7px;
+          height: 7px;
+        }
+      }
+
+      // Color variations based on section position (like burger menu)
+      &.inverted {
+        .indicator {
+          background-color: rgba(35, 56, 100, 0.6);
+
+          &:hover {
+            background-color: $dark;
+          }
+        }
+
+        &.active .indicator {
+          background-color: $dark;
+        }
+
+        .title {
+          color: $dark;
+        }
+      }
+    }
+  }
+  &:hover {
+    right: 0; // Slide in on hover
+    ul li {
+      height: 30px;
+    }
+  }
+  // Hide on screens smaller than medium (tablet and mobile)
+  @media (max-width: $medium-screen) {
+    display: none;
+  }
+}

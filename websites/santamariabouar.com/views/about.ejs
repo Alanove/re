@@ -1,0 +1,60 @@
+<%
+  const siteName = typeof siteData !== 'undefined' && siteData.name ? siteData.name : 'Santa Maria Bouar';
+%>
+<article class="inner-page about-page">
+  <header class="inner-page__banner">
+    <div class="inner-page__banner-overlay"></div>
+    <div class="container">
+      <h1 class="inner-page__title">About <%= siteName %></h1>
+    </div>
+  </header>
+
+  <div class="inner-page__body">
+    <div class="container">
+      <div class="inner-page__content">
+        <p class="lead">
+          <%= siteName %> is a well-established residential compound in Bouar — a calm area known for its
+          good neighborhood and welcoming, family-friendly atmosphere.
+        </p>
+
+        <p>
+          Set away from the bustle of the city while remaining close to Bouar's shops, schools, and services,
+          the compound offers a peaceful setting where residents enjoy a sense of community and everyday comfort.
+          Bouar Hospital is practically next door — just about one minute away by car.
+        </p>
+
+        <h2>Lebanese Character</h2>
+        <p>
+          The buildings feature traditional red roof tiles that fit naturally with Lebanese architectural style,
+          giving the compound a warm and familiar character that feels rooted in the local landscape.
+        </p>
+
+        <h2>Green Surroundings</h2>
+        <p>
+          Santa Maria includes a generous amount of landscaped green areas and gardens throughout the compound,
+          providing pleasant open spaces for residents to enjoy throughout the year.
+        </p>
+
+        <h2>Life at the Compound</h2>
+        <p>
+          Residents benefit from thoughtful on-site services and amenities that make daily life easier:
+        </p>
+        <ul>
+          <li>A <a href="/facilities">swimming pool</a> for relaxation and family time</li>
+          <li>On-site coordinator and regular cleaning of common areas</li>
+          <li>Street lighting across the compound for safety and comfort</li>
+          <li>A secure, gated environment in a quiet residential neighborhood</li>
+        </ul>
+
+        <p>
+          Whether you are looking for a place to settle with your family or simply exploring what Bouar has to offer,
+          we invite you to discover <%= siteName %> — a compound built for comfortable, secure living.
+        </p>
+
+        <p>
+          <a href="/contact">Contact us</a> to learn more or schedule a visit.
+        </p>
+      </div>
+    </div>
+  </div>
+</article>

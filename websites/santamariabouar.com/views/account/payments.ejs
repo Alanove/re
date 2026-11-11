@@ -1,0 +1,23 @@
+<div class="account-page account-page--portal">
+  <div class="account-shell">
+    <%- include('partials/sidebar') %>
+    <div class="account-main">
+      <div class="account-main__header">
+        <h1>Payments Due</h1>
+      </div>
+
+      <div class="account-panel">
+        <% if (paymentsDue && paymentsDue.length) { %>
+          <%- include('partials/payments-due') %>
+
+          <%- include('partials/payment-methods') %>
+          <%- include('partials/interest-note') %>
+        <% } else { %>
+          <p class="account-empty">No outstanding payments.</p>
+          <%- include('partials/payment-methods') %>
+          <%- include('partials/interest-note') %>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>

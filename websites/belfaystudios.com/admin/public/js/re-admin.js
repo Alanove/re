@@ -108,11 +108,28 @@
       if (!table) {
         return;
       }
+      var body = table.tBodies[0];
+      var headRow = table.tHead ? table.tHead.rows[0] : null;
+      var emptyRow = document.createElement('tr');
+      var emptyCell = document.createElement('td');
+      emptyRow.setAttribute('data-sort-pinned', '');
+      emptyRow.hidden = true;
+      emptyCell.className = 'text-center text-muted py-4';
+      emptyCell.colSpan = headRow ? headRow.cells.length : 1;
+      emptyRow.appendChild(emptyCell);
+      if (body) {
+        body.appendChild(emptyRow);
+      }
       input.addEventListener('input', function () {
         var term = input.value.trim().toLowerCase();
-        table.querySelectorAll('tbody tr[data-filter-text]').forEach(function (row) {
+        var rows = table.querySelectorAll('tbody tr[data-filter-text]');
+        var shown = 0;
+        rows.forEach(function (row) {
           row.hidden = term !== '' && row.getAttribute('data-filter-text').indexOf(term) === -1;
+          shown += row.hidden ? 0 : 1;
         });
+        emptyCell.textContent = 'No matches for “' + input.value.trim() + '”.';
+        emptyRow.hidden = term === '' || rows.length === 0 || shown > 0;
       });
     });
   }

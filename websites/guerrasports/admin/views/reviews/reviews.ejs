@@ -1,0 +1,80 @@
+<%- include('../partials/header') %>
+
+	<!-- BEGIN content area -->
+	<div class="row">
+		<div class="col-xl-12">
+			<div class="panel panel-inverse">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<%= typeof t !== 'undefined' ? t('reviews.title') : 'Reviews' %>
+					</h4>
+					<div class="panel-heading-btn">
+						<a href="/admin/reviews" class="btn btn-xs btn-secondary">
+							<i class="fa fa-list"></i> <%= typeof t !== 'undefined' ? t('reviews.allReviews') : 'All Reviews' %>
+						</a>
+					</div>
+				</div>
+				<div class="panel-body">
+					<form method="GET" action="/admin/reviews" class="mb-3">
+						<input type="hidden" name="customer_id" value="<%= typeof filters !== 'undefined' && filters.customer_id ? filters.customer_id : '' %>">
+						<input type="hidden" name="product_id" value="<%= typeof filters !== 'undefined' && filters.product_id ? filters.product_id : '' %>">
+						<div class="row g-2 align-items-end">
+							<div class="col-md-4">
+								<label class="form-label"><%= typeof t !== 'undefined' ? t('reviews.filterByProductName') : 'Filter by product name' %></label>
+								<input type="text" class="form-control" name="product_name" value="<%= typeof filters !== 'undefined' && filters.product_name ? filters.product_name : '' %>" placeholder="Product name...">
+							</div>
+							<div class="col-md-2">
+								<button type="submit" class="btn btn-primary">
+									<i class="fa fa-search"></i> <%= typeof t !== 'undefined' ? t('common.filter') : 'Filter' %>
+								</button>
+							</div>
+						</div>
+					</form>
+					<div class="table-responsive">
+						<table class="table table-striped table-bordered align-middle">
+							<thead>
+								<tr>
+									<th width="60">#</th>
+									<th><%= typeof t !== 'undefined' ? t('ecommerce.products.productName') : 'Product' %></th>
+									<th><%= typeof t !== 'undefined' ? t('ecommerce.yourName') : 'Reviewer' %></th>
+									<th><%= typeof t !== 'undefined' ? t('ecommerce.yourRating') : 'Rating' %></th>
+									<th><%= typeof t !== 'undefined' ? t('ecommerce.yourReview') : 'Review' %></th>
+									<th width="100"><%= typeof t !== 'undefined' ? t('common.status') : 'Status' %></th>
+									<th width="140">Date</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% if (typeof reviews !== 'undefined' && reviews && reviews.length > 0) { %>
+									<% reviews.forEach(function(r, idx) { %>
+										<tr>
+											<td><%= r.id %></td>
+											<td>
+												<% if (r.product_name) { %>
+													<a href="/admin/products/<%= r.product_id %>/edit"><%= r.product_name %></a>
+												<% } else { %>
+													Product #<%= r.product_id %>
+												<% } %>
+											</td>
+											<td><%= r.reviewer_name %> <% if (r.reviewer_email) { %>(<%= r.reviewer_email %>)<% } %></td>
+											<td><%= r.rating %> / 5</td>
+											<td><%= (r.review_text || '').substring(0, 80) %><%= (r.review_text && r.review_text.length > 80) ? '...' : '' %></td>
+											<td><%= r.is_approved ? (typeof t !== 'undefined' ? t('common.published') : 'Approved') : (typeof t !== 'undefined' ? t('common.draft') : 'Pending') %></td>
+											<td><%= new Date(r.created_at).toLocaleString() %></td>
+										</tr>
+									<% }); %>
+								<% } else { %>
+									<tr>
+										<td colspan="7" class="text-center text-muted py-4">
+											<%= typeof t !== 'undefined' ? t('reviews.noReviews') : 'No reviews found.' %>
+										</td>
+									</tr>
+								<% } %>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<%- include('../partials/footer') %>

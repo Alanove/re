@@ -1,0 +1,68 @@
+<!-- BEGIN #sidebar -->
+<div id="sidebar" class="app-sidebar" data-bs-theme="dark">
+	<!-- BEGIN scrollbar -->
+	<div class="app-sidebar-content" data-scrollbar="true" data-height="100%">
+		<!-- BEGIN menu -->
+		<div class="menu">
+			<div class="menu-header"></div>
+			<% if (typeof adminMenu !== 'undefined' && adminMenu && adminMenu.length > 0) { %>
+				<% adminMenu.forEach(function(item) { %>
+					<% if (item.children && item.children.length > 0) { %>
+						<!-- Menu item with submenu -->
+						<div class="menu-item has-sub <%= item.current ? 'current' : '' %>">
+							<a href="javascript:;" class="menu-link">
+								<div class="menu-icon"><i class="<%= item.icon %>"></i></div>
+								<div class="menu-text"><%= item.text %></div>
+								<div class="menu-caret"></div>
+							</a>
+							<div class="menu-submenu">
+								<!-- Add parent link as first submenu item if parent has a URL -->
+								<% if (item.url && item.url !== '#' && item.url !== 'javascript:;') { %>
+									<div class="menu-item <%= item.current ? 'current' : '' %>">
+										<a href="<%= item.url %>" class="menu-link">
+											<div class="menu-text"><%= item.text %></div>
+										</a>
+									</div>
+								<% } %>
+								<% item.children.forEach(function(child) { %>
+									<div class="menu-item <%= child.current ? 'current' : '' %>">
+										<a href="<%= child.url %>" class="menu-link">
+											<div class="menu-text"><%= child.text %></div>
+										</a>
+									</div>
+								<% }); %>
+							</div>
+						</div>
+					<% } else { %>
+						<!-- Regular menu item -->
+						<div class="menu-item <%= item.current ? 'current' : '' %>">
+							<a href="<%= item.url %>" class="menu-link">
+								<div class="menu-icon">
+									<i class="<%= item.icon %>"></i>
+								</div>
+								<div class="menu-text">
+									<%= item.text %>
+									<% if (item.url === '/admin/chat') { %>
+									<span class="badge rounded-pill bg-danger chat-unread-badge ms-1<%= (item.badgeCount && item.badgeCount > 0) ? '' : ' d-none' %>" data-chat-menu-badge><%= (item.badgeCount && item.badgeCount > 0) ? (item.badgeCount > 99 ? '99+' : item.badgeCount) : '' %></span>
+									<% } %>
+								</div>
+							</a>
+						</div>
+					<% } %>
+				<% }); %>
+			<% } else { %>
+				<div class="menu-item">
+					<a href="/admin/dashboard" class="menu-link">
+						<div class="menu-icon">
+							<i class="fa fa-laptop"></i>
+						</div>
+						<div class="menu-text">Dashboard</div>
+					</a>
+				</div>
+			<% } %>
+		</div>
+		<!-- END menu -->
+	</div>
+	<!-- END scrollbar -->
+</div>
+<!-- END #sidebar --> 

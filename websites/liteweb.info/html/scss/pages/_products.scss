@@ -1,0 +1,146 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.products-bento {
+  display: grid;
+  gap: $space-lg;
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(12, 1fr);
+  }
+}
+
+.product-tile {
+  padding: $space-xl;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 280px;
+  @include brand-box;
+
+  &--wide {
+    @include respond-to(md) {
+      grid-column: span 8;
+      min-height: 360px;
+    }
+  }
+
+  &--half {
+    @include respond-to(md) {
+      grid-column: span 4;
+    }
+  }
+
+  &--third {
+    @include respond-to(md) {
+      grid-column: span 4;
+    }
+  }
+
+  &__icon {
+    color: $color-primary;
+    margin-bottom: $space-md;
+
+    .material-symbols-outlined {
+      font-size: 1.75rem;
+    }
+  }
+
+  &__title {
+    font-family: $font-headline;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: $color-secondary;
+    margin-bottom: $space-sm;
+  }
+
+  &__text {
+    font-size: 0.9375rem;
+    color: $color-on-surface-variant;
+    margin-bottom: $space-lg;
+  }
+
+  &__link {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: $color-primary;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  &__media {
+    margin-top: $space-md;
+    border-radius: $radius-lg;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+    }
+  }
+}
+
+.product-hero {
+  display: grid;
+  gap: $space-xl;
+  align-items: center;
+  padding-block: $space-xl;
+
+  @include respond-to(md) {
+    grid-template-columns: 1.1fr 0.9fr;
+    padding-block: $space-2xl;
+  }
+
+  &__media img {
+    width: 100%;
+    border-radius: $radius-xl;
+    object-fit: cover;
+    aspect-ratio: 4 / 3;
+  }
+}
+
+.feature-bento {
+  display: grid;
+  gap: $space-lg;
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include respond-to(lg) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  &--3 {
+    @include respond-to(lg) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+
+.feature-card {
+  padding: $space-lg;
+  @include brand-box;
+
+  &__icon {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba($color-primary, 0.1);
+    color: $color-primary;
+    border-radius: $radius-button;
+    margin-bottom: $space-md;
+  }
+
+  &__title {
+    font-family: $font-headline;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: $color-secondary;
+    margin-bottom: $space-sm;
+  }
+}

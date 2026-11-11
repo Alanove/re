@@ -1,0 +1,202 @@
+<!-- BEGIN content area -->
+<div class="row">
+	<div class="col-xl-12">
+		<!-- BEGIN panel -->
+		<div class="panel panel-inverse">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<%= typeof t !=='undefined' ? t('ecommerce.categories.title') : 'Categories' %>
+				</h4>
+				<div class="panel-heading-btn">
+					<a href="/admin/categories/create" class="btn btn-xs btn-success">
+						<i class="fa fa-plus"></i>
+						<%= typeof t !=='undefined' ? t('ecommerce.categories.addNewCategory') : 'Add New Category' %>
+					</a>
+				</div>
+			</div>
+			<div class="panel-body">
+				<% if (typeof success !=='undefined' && success) { %>
+					<div class="alert alert-success alert-dismissible fade show" role="alert">
+						<strong>
+							<%= typeof t !=='undefined' ? t('messages.success') : 'Success!' %>
+						</strong>
+						<%= success %>
+							<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>
+					<% } %>
+
+						<% if (typeof error !=='undefined' && error) { %>
+							<div class="alert alert-danger alert-dismissible fade show" role="alert">
+								<strong>Error!</strong>
+								<%= error %>
+									<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+							</div>
+							<% } %>
+
+								<div class="table-responsive">
+									<table class="table table-striped table-bordered align-middle">
+										<thead>
+											<tr>
+												<th width="80">Image</th>
+												<th>
+													<%= typeof t !=='undefined' ? t('ecommerce.categories.categoryName')
+														: 'Category Name' %>
+												</th>
+												<th>Slug</th>
+												<th>Parent</th>
+												<th>
+													<%= typeof t !=='undefined' ? t('common.status') : 'Status' %>
+												</th>
+												<th width="100">
+													<%= typeof t !=='undefined' ? t('common.actions') : 'Actions' %>
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											<% if (typeof categories !=='undefined' && categories && categories.length>
+												0) { %>
+												<% /* Flatten categories with hierarchy info for display */ const
+													flattenedCategories=[]; function flattenCategories(cats,
+													parentId=null, level=0) { const filtered=cats.filter(c=>
+													(c.parent_id === parentId) || (parentId === null && !c.parent_id));
+													filtered.forEach(function(category) {
+													flattenedCategories.push({ ...category, _level: level, _indent:
+													level * 20 });
+													flattenCategories(cats, category.id, level + 1);
+													});
+													}
+													flattenCategories(categories);
+
+													/* Now render the flattened list */
+													flattenedCategories.forEach(function(category) {
+													%>
+													<tr data-category-id="<%= category.id %>"
+														style="<%= category._indent > 0 ? 'background-color: #f9f9f9;' : '' %>">
+														<td>
+															<% if (category.image_url && category.image_url.trim() !==''
+																) { %>
+																<% let imageUrl=category.image_url.trim();
+																	imageUrl=imageUrl.replace(/\\/g, '/' );
+																	imageUrl=imageUrl.replace(/^\/+/, '/' ); if
+																	(!imageUrl.startsWith('/')) { imageUrl='/' +
+																	imageUrl; } imageUrl=imageUrl.replace(/\/+/g, '/' );
+																	%>
+																	<img src="<%= imageUrl %>"
+																		alt="<%= category.name %>"
+																		class="img-thumbnail category-image"
+																		style="width: 60px; height: 60px; object-fit: cover; display: block;"
+																		onerror="this.onerror=null; this.src=''; this.style.display='none'; this.nextElementSibling.style.display='flex';">
+																	<div class="bg-light align-items-center justify-content-center category-fallback"
+																		style="width: 60px; height: 60px; display: none;">
+																		<i class="fa fa-folder text-muted"></i>
+																	</div>
+																	<% } else { %>
+																		<div class="bg-light d-flex align-items-center justify-content-center"
+																			style="width: 60px; height: 60px;">
+																			<i class="fa fa-folder text-muted"></i>
+																		</div>
+																		<% } %>
+														</td>
+														<td>
+															<div style="padding-left: <%= category._indent %>px;">
+																<div class="fw-bold">
+																	<%= category.name %>
+																</div>
+																<% if (category.is_featured) { %>
+																	<span class="badge bg-warning text-dark">
+																		<i class="fa fa-star"></i>
+																		<%= typeof t !=='undefined' ?
+																			t('ecommerce.categories.featured')
+																			: 'Featured' %>
+																	</span>
+																	<% } %>
+																		<% if (category.description) { %>
+																			<div class="text-muted small mt-1">
+																				<%= category.description.substring(0,
+																					100) %>
+																					<%= category.description.length> 100
+																						? '...' : '' %>
+																			</div>
+																			<% } %>
+															</div>
+														</td>
+														<td>
+															<code class="text-muted"><%= category.slug %></code>
+														</td>
+														<td>
+															<% if (category.parent_name) { %>
+																<%= category.parent_name %>
+																	<% } else { %>
+																		<span class="text-muted">-</span>
+																		<% } %>
+														</td>
+														<td>
+															<% if (category.is_active) { %>
+																<span class="badge bg-success">
+																	<%= typeof t !=='undefined' ? t('common.active')
+																		: 'Active' %>
+																</span>
+																<% } else { %>
+																	<span class="badge bg-danger">
+																		<%= typeof t !=='undefined' ?
+																			t('common.inactive') : 'Inactive' %>
+																	</span>
+																	<% } %>
+														</td>
+														<td>
+															<div class="btn-group">
+																<a href="/admin/categories/<%= category.id %>/edit"
+																	class="btn btn-xs btn-primary"
+																	title="<%= typeof t !== 'undefined' ? t('common.edit') : 'Edit' %>">
+																	<i class="fa fa-edit"></i>
+																</a>
+																<button type="button"
+																	class="btn btn-xs btn-danger delete-category-btn"
+																	data-category-id="<%= category.id %>"
+																	title="<%= typeof t !== 'undefined' ? t('common.delete') : 'Delete' %>">
+																	<i class="fa fa-trash"></i>
+																</button>
+															</div>
+														</td>
+													</tr>
+													<% }); // End forEach %>
+														<% } else { %>
+															<tr>
+																<td colspan="6" class="text-center py-4">
+																	<i
+																		class="fa fa-folder-open fa-3x text-muted mb-3"></i>
+																	<p class="text-muted">
+																		<%= typeof t !=='undefined' ? t('common.noData')
+																			: 'No categories found' %>
+																	</p>
+																	<a href="/admin/categories/create"
+																		class="btn btn-primary">
+																		<i class="fa fa-plus"></i>
+																		<%= typeof t !=='undefined' ?
+																			t('ecommerce.categories.addNewCategory')
+																			: 'Add New Category' %>
+																	</a>
+																</td>
+															</tr>
+															<% } %>
+										</tbody>
+									</table>
+								</div>
+			</div>
+		</div>
+		<!-- END panel -->
+	</div>
+</div>
+<!-- END content area -->
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+	// Delete category button handlers
+	document.querySelectorAll('.delete-category-btn').forEach(btn => {
+		btn.addEventListener('click', function() {
+			const categoryId = this.getAttribute('data-category-id');
+			deleteItem(`/admin/categories/${categoryId}`, this, '<%= typeof t !== 'undefined' ? t('ecommerce.categories.deleteCategory') : 'Delete Category' %>');
+		});
+	});
+});
+</script>

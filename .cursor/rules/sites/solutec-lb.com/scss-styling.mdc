@@ -1,0 +1,25 @@
+---
+description: solutec-lb.com - edit SCSS sources, never the compiled styles.css
+globs: websites/solutec-lb.com/**
+alwaysApply: false
+---
+
+# solutec-lb.com: styling rules
+
+Site rule for `websites/solutec-lb.com/`. It applies in addition to the global rules in `.cursor/rules/`; where they conflict, the global rules win. Paths are relative to the site folder.
+
+## SCSS vs CSS
+- **Always modify SCSS files** (`.scss`) for styling changes.
+- **Never directly edit `styles.css`**; it is compiled from SCSS.
+- SCSS files are in `public/css/` (e.g. `menu.scss`, `variables.scss`). The compiled output is `public/css/styles.css` (do not edit).
+
+## Workflow
+1. Make changes to `.scss` files.
+2. Compile SCSS to CSS with the site's npm scripts.
+3. Test the compiled CSS output.
+
+## General
+- Follow existing code patterns and naming conventions.
+- Use semantic class names.
+- Maintain responsive design principles.
+- Keep styles organized and commented.

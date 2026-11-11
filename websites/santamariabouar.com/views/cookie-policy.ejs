@@ -1,0 +1,132 @@
+<%
+  const siteName = typeof siteData !== 'undefined' && siteData.name ? siteData.name : 'Santa Maria Bouar';
+  const lastUpdated = 'July 27, 2026';
+%>
+<article class="inner-page cookie-policy">
+  <header class="inner-page__banner">
+    <div class="inner-page__banner-overlay"></div>
+    <div class="container">
+      <h1 class="inner-page__title">Cookie Policy</h1>
+    </div>
+  </header>
+
+  <div class="inner-page__body">
+    <div class="container">
+      <div class="inner-page__content">
+        <p class="legal-meta"><strong>Last updated:</strong> <%= lastUpdated %></p>
+
+        <p>
+          This page lists the cookies used on the <%= siteName %> website and member portal,
+          why we use them, and how long they are kept. For broader information about how we handle personal data,
+          see our <a href="/privacy-policy">Privacy Policy</a>.
+        </p>
+
+        <div class="legal-callout">
+          Essential cookies are required for the site and member portal to work.
+          Analytics cookies (including Google Analytics, when enabled) are only used after you choose
+          <strong>Accept all</strong> on the cookie banner.
+        </div>
+
+        <h2>1. What Are Cookies?</h2>
+        <p>
+          Cookies are small text files stored on your device when you visit a website.
+          They help the site remember your session, keep you signed in, and optionally measure how the site is used.
+        </p>
+
+        <h2>2. Essential Cookies</h2>
+        <p>These cookies are necessary for core functionality. They cannot be switched off through our banner.</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Cookie</th>
+              <th>Purpose</th>
+              <th>Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>connect.sid</code></td>
+              <td>Keeps you signed in to the member portal and maintains your secure session.</td>
+              <td>Session</td>
+            </tr>
+            <tr>
+              <td><code>smb_cookie_consent</code></td>
+              <td>Stores your cookie consent choice so we do not show the banner again unnecessarily.</td>
+              <td>1 year</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>3. Google Analytics</h2>
+        <p>
+          We plan to use Google Analytics to understand how visitors use the website
+          (for example, which pages are viewed most often). Analytics helps us improve content and services.
+          Google Analytics will only load after you accept cookies.
+        </p>
+        <p>
+          When Google Analytics is enabled, Google may set cookies such as those listed below.
+          Data is processed by Google according to its own policies.
+          You can learn more in
+          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google's Privacy Policy</a>
+          and
+          <a href="https://policies.google.com/technologies/cookies" target="_blank" rel="noopener noreferrer">Google's cookie documentation</a>.
+        </p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Cookie</th>
+              <th>Purpose</th>
+              <th>Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>_ga</code></td>
+              <td>Distinguishes unique visitors for Google Analytics.</td>
+              <td>Up to 2 years</td>
+            </tr>
+            <tr>
+              <td><code>_ga_*</code></td>
+              <td>Used by Google Analytics 4 to persist session state.</td>
+              <td>Up to 2 years</td>
+            </tr>
+            <tr>
+              <td><code>_gid</code></td>
+              <td>Distinguishes users for short-term analytics reporting.</td>
+              <td>24 hours</td>
+            </tr>
+            <tr>
+              <td><code>_gat</code> / <code>_gat_*</code></td>
+              <td>Used to throttle request rate to Google Analytics.</td>
+              <td>1 minute</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>
+          Until Google Analytics is activated on this site, these analytics cookies are not set.
+          After activation, they will only be used if you have accepted cookies.
+        </p>
+
+        <h2>4. Managing Your Preferences</h2>
+        <p>You can manage cookies in these ways:</p>
+        <ul>
+          <li>Use the cookie banner to accept all cookies when it appears.</li>
+          <li>Clear or block cookies in your browser settings at any time.</li>
+          <li>If you clear the consent cookie, the banner will appear again on your next visit.</li>
+        </ul>
+        <p>
+          Blocking essential cookies may prevent sign-in and other member portal features from working correctly.
+        </p>
+
+        <h2>5. Contact</h2>
+        <p>
+          If you have questions about our use of cookies, please
+          <a href="/contact">contact us</a> or reach the <%= siteName %> management team through your usual compound channels.
+        </p>
+      </div>
+    </div>
+  </div>
+</article>

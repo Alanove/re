@@ -1,0 +1,46 @@
+<header class="site-header" id="siteHeader">
+  <div class="site-header__inner">
+    <a class="site-header__logo" href="/">
+      <img
+        src="<%= typeof siteData !== 'undefined' && siteData.logo ? siteData.logo : '/images/logo.jpg' %>"
+        alt="<%= typeof siteData !== 'undefined' && siteData.name ? siteData.name : 'Logo' %>"
+      />
+    </a>
+
+    <div class="site-header__right">
+      <nav class="site-header__nav" aria-label="Main navigation">
+        <%- include('menu-items') %>
+      </nav>
+      <a href="/account" class="site-header__account">My Account</a>
+      <div class="site-header__mobile-controls">
+        <% if (typeof member !== 'undefined' && member) { %>
+          <button
+            class="site-header__member site-header__icon-btn"
+            type="button"
+            id="memberMenuBtn"
+            aria-label="Open member menu"
+            aria-expanded="false"
+            aria-controls="memberMenu"
+          >
+            <i class="bi bi-person-fill" aria-hidden="true"></i>
+          </button>
+        <% } else { %>
+          <a href="/account/login" class="site-header__member site-header__icon-btn" aria-label="Member login">
+            <i class="bi bi-person-fill" aria-hidden="true"></i>
+          </a>
+        <% } %>
+        <button
+          class="burger-menu site-header__icon-btn"
+          type="button"
+          id="burgerMenu"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+        >
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>

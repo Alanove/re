@@ -1,0 +1,103 @@
+<div class="account-page account-page--portal">
+  <div class="account-shell">
+    <%- include('partials/sidebar') %>
+    <div class="account-main">
+      <div class="account-main__header" style="display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:1rem;">
+        <div>
+          <h1>Main Gate Access</h1>
+          <p class="account-meta">People authorized for main gate entry across your apartments.</p>
+        </div>
+        <% if (ownedApartments && ownedApartments.length) { %>
+          <a href="/account/gate-access/request" class="account-btn account-btn--primary">Request New Access</a>
+        <% } %>
+      </div>
+
+      <% if (typeof success !== 'undefined' && success) { %>
+        <div class="account-alert account-alert--success"><%= success %></div>
+      <% } %>
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="account-alert account-alert--error"><%= error %></div>
+      <% } %>
+
+      <% if (typeof gateAccessContent !== 'undefined' && gateAccessContent) { %>
+        <div class="account-panel account-welcome">
+          <%- gateAccessContent %>
+        </div>
+      <% } %>
+
+      <div class="account-panel">
+        <h2>Authorized people</h2>
+
+        <% if (gateAccessEntries && gateAccessEntries.length) { %>
+          <div class="table-responsive">
+            <table class="account-table">
+              <thead>
+                <tr>
+                  <th class="account-col-apartment">Apartment</th>
+                  <th class="account-col-name">Name</th>
+                  <th class="account-col-phone">Phone</th>
+                  <th class="account-col-type">Relation</th>
+                  <th>Expiry</th>
+                  <th class="account-col-action"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <%
+                  var todayStr = new Date().toISOString().slice(0, 10);
+                  gateAccessEntries.forEach(function(person) {
+                    var expired = person.expiryDate && person.expiryDate < todayStr;
+                %>
+                  <tr>
+                    <td data-label="Apartment"><%= person.apartmentLabel %></td>
+                    <td data-label="Name"><%= person.name %></td>
+                    <td data-label="Phone"><%= person.phone || '—' %></td>
+                    <td data-label="Relation"><%= person.relation %></td>
+                    <td data-label="Expiry">
+                      <% if (person.expiryDate) { %>
+                        <span<%= expired ? ' style="color:#b45309;font-weight:600;"' : '' %>><%= person.expiryDate %><%= expired ? ' (expired)' : '' %></span>
+                      <% } else { %>
+                        —
+                      <% } %>
+                    </td>
+                    <td class="account-td--action" data-label="Action">
+                      <% if (person.relation !== 'Owner') { %>
+                        <form method="POST" action="/account/gate-access" class="account-inline-form">
+                          <input type="hidden" name="returnTo" value="gate-access" />
+                          <input type="hidden" name="apartmentId" value="<%= person.apartmentId %>" />
+                          <input type="hidden" name="action" value="remove" />
+                          <input type="hidden" name="targetUserId" value="<%= person.id %>" />
+                          <button type="submit" class="account-btn account-btn--danger account-btn--sm">Request Remove</button>
+                        </form>
+                      <% } %>
+                    </td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        <% } else { %>
+          <p class="account-empty">No gate access entries.</p>
+        <% } %>
+
+        <% if (pendingGate && pendingGate.length) { %>
+          <div class="account-alert">
+            Pending gate requests:
+            <% pendingGate.forEach(function(g) { %>
+              <div>
+                <%= g.apartmentLabel %> — <%= g.action %> —
+                <%= g.targetName || ('user #' + g.targetUserId) %> (<%= g.relation || '—' %>)
+                <% if (g.expiryDate) { %> — expires <%= g.expiryDate %><% } %>
+              </div>
+            <% }); %>
+          </div>
+        <% } %>
+      </div>
+
+      <% if (!ownedApartments || !ownedApartments.length) { %>
+        <div class="account-panel">
+          <p class="account-empty">No owned apartments, so gate access cannot be managed here.</p>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</div>

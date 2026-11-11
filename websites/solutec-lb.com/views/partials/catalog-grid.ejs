@@ -1,0 +1,13 @@
+<section class="solu-catalog">
+  <div class="solu-wrap solu-catalog-layout">
+    <%- include('category-list') %>
+    <div class="solu-grid">
+      <% (typeof catalogProducts !== 'undefined' ? catalogProducts : []).forEach(function(product) { %>
+        <a class="stm-product-item" href="<%= product.url %>">
+          <% if (product.image) { %><span class="stm-product-item__image"><img src="<%= product.image %>" alt="<%= product.title %>"></span><% } %>
+          <span class="stm-product-item__title"><%= product.title %></span>
+        </a>
+      <% }) %>
+    </div>
+  </div>
+</section>

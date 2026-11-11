@@ -1,0 +1,32 @@
+<%
+  var heroVideo = typeof categoryVideoUrl !== 'undefined' ? categoryVideoUrl : '';
+  var heroPoster = typeof categoryVideoPosterUrl !== 'undefined' ? categoryVideoPosterUrl : '';
+%>
+
+<% if (heroVideo) { %>
+<section class="shop-category-hero" aria-label="Category hero">
+    <div class="shop-category-hero__media">
+        <% if (heroPoster) { %>
+            <img class="shop-category-hero__poster" src="<%= heroPoster %>" alt="" aria-hidden="true" />
+        <% } %>
+        <video class="shop-category-hero__video" muted loop playsinline autoplay preload="auto">
+            <source src="<%= heroVideo %>" type="video/mp4" />
+        </video>
+    </div>
+</section>
+<script>
+(function () {
+    document.querySelectorAll('.shop-category-hero__video').forEach(function (video) {
+        var media = video.closest('.shop-category-hero__media');
+        if (!media) return;
+        function markPlaying() {
+            media.classList.add('is-playing');
+        }
+        video.addEventListener('playing', markPlaying, { once: true });
+        video.addEventListener('loadeddata', function () {
+            if (video.readyState >= 2 && !video.paused) markPlaying();
+        }, { once: true });
+    });
+})();
+</script>
+<% } %>

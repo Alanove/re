@@ -1,0 +1,980 @@
+{
+  "timestamp": "2025-12-08T04:10:54.285Z",
+  "summary": {
+    "total": 99,
+    "copied": 82,
+    "missing": 17,
+    "errors": 0,
+    "removed": 17,
+    "finalCount": 82
+  },
+  "copied": [
+    {
+      "project": "King AbdulAziz International Airport",
+      "folderName": "king-abdulaziz-international-airport",
+      "imageName": "King AbdulAziz International Airport.jpg",
+      "sourceCategory": "Airports & Stations",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Airports & Stations\\King AbdulAziz International Airport.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\king-abdulaziz-international-airport\\King AbdulAziz International Airport.jpg"
+    },
+    {
+      "project": "ATCL Yacht Club & Marina",
+      "folderName": "atcl-yacht-club-marina",
+      "imageName": "ATCL Yacht Club & Marina.jpg",
+      "sourceCategory": "Airports & Stations",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Airports & Stations\\ATCL Yacht Club & Marina.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\atcl-yacht-club-marina\\ATCL Yacht Club & Marina.jpg"
+    },
+    {
+      "project": "Middle Euphrates International Airport",
+      "folderName": "middle-euphrates-international-airport",
+      "imageName": "Middle Euphrates International Airport.jpg",
+      "sourceCategory": "Airports & Stations",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Airports & Stations\\Middle Euphrates International Airport.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\middle-euphrates-international-airport\\Middle Euphrates International Airport.jpg"
+    },
+    {
+      "project": "Haramain High Speed Rail KAEC Station",
+      "folderName": "haramain-high-speed-rail-kaec-station",
+      "imageName": "Haramain High Speed Rail KAEC Station.jpg",
+      "sourceCategory": "Airports & Stations",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Airports & Stations\\Haramain High Speed Rail KAEC Station.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\haramain-high-speed-rail-kaec-station\\Haramain High Speed Rail KAEC Station.jpg"
+    },
+    {
+      "project": "Abha Airport",
+      "folderName": "abha-airport",
+      "imageName": "Abha Airport.jpg",
+      "sourceCategory": "Airports & Stations",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Airports & Stations\\Abha Airport.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\abha-airport\\Abha Airport.jpg"
+    },
+    {
+      "project": "Riyadh Metro Stations, Line 5 & 6",
+      "folderName": "riyadh-metro-stations-line-5-6",
+      "imageName": "Riyadh Metro Stations, Line 5 & 6.jpg",
+      "sourceCategory": "Airports & Stations",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Airports & Stations\\Riyadh Metro Stations, Line 5 & 6.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\riyadh-metro-stations-line-5-6\\Riyadh Metro Stations, Line 5 & 6.jpg"
+    },
+    {
+      "project": "Riyadh Metro Park & Ride",
+      "folderName": "riyadh-metro-park-ride",
+      "imageName": "Riyadh Metro Park & Ride.jpg",
+      "sourceCategory": "Airports & Stations",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Airports & Stations\\Riyadh Metro Park & Ride.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\riyadh-metro-park-ride\\Riyadh Metro Park & Ride.jpg"
+    },
+    {
+      "project": "Baghdad Council of Ministers",
+      "folderName": "baghdad-council-of-ministers",
+      "imageName": "Baghdad Council of Ministers.jpg",
+      "sourceCategory": "Civic & Religious",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Civic & Religious\\Baghdad Council of Ministers.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\baghdad-council-of-ministers\\Baghdad Council of Ministers.jpg"
+    },
+    {
+      "project": "King Abdullah International Gardens",
+      "folderName": "king-abdullah-international-gardens",
+      "imageName": "King Abdullah International Gardens.jpg",
+      "sourceCategory": "Civic & Religious",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Civic & Religious\\King Abdullah International Gardens.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\king-abdullah-international-gardens\\King Abdullah International Gardens.jpg"
+    },
+    {
+      "project": "Business Park of King Abdullah Economic City",
+      "folderName": "business-park-of-king-abdullah-economic-city",
+      "imageName": "King Abdullah Economic City.jpg",
+      "sourceCategory": "Civic & Religious",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Civic & Religious\\King Abdullah Economic City.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\business-park-of-king-abdullah-economic-city\\King Abdullah Economic City.jpg"
+    },
+    {
+      "project": "Samawah Cultural Center",
+      "folderName": "samawah-cultural-center",
+      "imageName": "Samawah Cultural Center.png",
+      "sourceCategory": "Civic & Religious",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Civic & Religious\\Samawah Cultural Center.png",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\samawah-cultural-center\\Samawah Cultural Center.png"
+    },
+    {
+      "project": "Cite Marie",
+      "folderName": "cite-marie",
+      "imageName": "Cite Marie.jpg",
+      "sourceCategory": "Civic & Religious",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Civic & Religious\\Cite Marie.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\cite-marie\\Cite Marie.jpg"
+    },
+    {
+      "project": "GACA Headquarters",
+      "folderName": "gaca-headquarters",
+      "imageName": "GACA Headquarters.jpeg",
+      "sourceCategory": "Civic & Religious",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Civic & Religious\\GACA Headquarters.jpeg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\gaca-headquarters\\GACA Headquarters.jpeg"
+    },
+    {
+      "project": "Al-Maamour Mosque",
+      "folderName": "al-maamour-mosque",
+      "imageName": "Al-Maamour Mosque.jpg",
+      "sourceCategory": "Civic & Religious",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Civic & Religious\\Al-Maamour Mosque.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\al-maamour-mosque\\Al-Maamour Mosque.jpg"
+    },
+    {
+      "project": "Princess Noura University",
+      "folderName": "princess-noura-university",
+      "imageName": "Princess Noura University.jpg",
+      "sourceCategory": "Education & Leisure",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Education & Leisure\\Princess Noura University.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\princess-noura-university\\Princess Noura University.jpg"
+    },
+    {
+      "project": "GEMS World Academy",
+      "folderName": "gems-world-academy",
+      "imageName": "GEMS World Academy.jpg",
+      "sourceCategory": "Education & Leisure",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Education & Leisure\\GEMS World Academy.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\gems-world-academy\\GEMS World Academy.jpg"
+    },
+    {
+      "project": "Al Furat TV Broadcasting Station",
+      "folderName": "al-furat-tv-broadcasting-station",
+      "imageName": "Al Furat TV Broadcasting Station.jpg",
+      "sourceCategory": "Education & Leisure",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Education & Leisure\\Al Furat TV Broadcasting Station.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\al-furat-tv-broadcasting-station\\Al Furat TV Broadcasting Station.jpg"
+    },
+    {
+      "project": "American International School",
+      "folderName": "american-international-school",
+      "imageName": "American International School.jpg",
+      "sourceCategory": "Education & Leisure",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Education & Leisure\\American International School.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\american-international-school\\American International School.jpg"
+    },
+    {
+      "project": "Tripoli International Olympic Stadium",
+      "folderName": "tripoli-international-olympic-stadium",
+      "imageName": "Tripoli International Olympic Stadium.jpg",
+      "sourceCategory": "Education & Leisure",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Education & Leisure\\Tripoli International Olympic Stadium.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\tripoli-international-olympic-stadium\\Tripoli International Olympic Stadium.jpg"
+    },
+    {
+      "project": "Road & Transport Research Center",
+      "folderName": "road-transport-research-center",
+      "imageName": "Road & Transport Research Center.jpg",
+      "sourceCategory": "Education & Leisure",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Education & Leisure\\Road & Transport Research Center.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\road-transport-research-center\\Road & Transport Research Center.jpg"
+    },
+    {
+      "project": "Bayelsa Auditorium",
+      "folderName": "bayelsa-auditorium",
+      "imageName": "Bayelsa Auditorium.jpg",
+      "sourceCategory": "Education & Leisure",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Education & Leisure\\Bayelsa Auditorium.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\bayelsa-auditorium\\Bayelsa Auditorium.jpg"
+    },
+    {
+      "project": "Dhahran Expo Convention Center",
+      "folderName": "dhahran-expo-convention-center",
+      "imageName": "Dhahran Expo Convention Center.jpg",
+      "sourceCategory": "Education & Leisure",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Education & Leisure\\Dhahran Expo Convention Center.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\dhahran-expo-convention-center\\Dhahran Expo Convention Center.jpg"
+    },
+    {
+      "project": "Qiddiya Speed Park",
+      "folderName": "qiddiya-speed-park",
+      "imageName": "Qiddiya Speed Park.jpg",
+      "sourceCategory": "Education & Leisure",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Education & Leisure\\Qiddiya Speed Park.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\qiddiya-speed-park\\Qiddiya Speed Park.jpg"
+    },
+    {
+      "project": "Ibn Sina Hospital",
+      "folderName": "ibn-sina-hospital",
+      "imageName": "Ibn Sina Hospital.jpg",
+      "sourceCategory": "Healthcare",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Healthcare\\Ibn Sina Hospital.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\ibn-sina-hospital\\Ibn Sina Hospital.jpg"
+    },
+    {
+      "project": "CMRC Hospital II",
+      "folderName": "cmrc-hospital-ii",
+      "imageName": "CMRC Hospital II.png",
+      "sourceCategory": "Healthcare",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Healthcare\\CMRC Hospital II.png",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\cmrc-hospital-ii\\CMRC Hospital II.png"
+    },
+    {
+      "project": "PNU Medical Hospital",
+      "folderName": "pnu-medical-hospital",
+      "imageName": "PNU Medical Hospital.jpg",
+      "sourceCategory": "Healthcare",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Healthcare\\PNU Medical Hospital.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\pnu-medical-hospital\\PNU Medical Hospital.jpg"
+    },
+    {
+      "project": "Savior Medical Center",
+      "folderName": "savior-medical-center",
+      "imageName": "Savior Medical Center.jpg",
+      "sourceCategory": "Healthcare",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Healthcare\\Savior Medical Center.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\savior-medical-center\\Savior Medical Center.jpg"
+    },
+    {
+      "project": "Baghdad Teaching Hospital",
+      "folderName": "baghdad-teaching-hospital",
+      "imageName": "Baghdad Teaching Hospital.jpg",
+      "sourceCategory": "Healthcare",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Healthcare\\Baghdad Teaching Hospital.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\baghdad-teaching-hospital\\Baghdad Teaching Hospital.jpg"
+    },
+    {
+      "project": "Clinical Skills Development Center",
+      "folderName": "clinical-skills-development-center",
+      "imageName": "Clinical Skills Development Center.jpg",
+      "sourceCategory": "Healthcare",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Healthcare\\Clinical Skills Development Center.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\clinical-skills-development-center\\Clinical Skills Development Center.jpg"
+    },
+    {
+      "project": "CMRC Hospital I",
+      "folderName": "cmrc-hospital-i",
+      "imageName": "CMRC Hospital II.png",
+      "sourceCategory": "Healthcare",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Healthcare\\CMRC Hospital II.png",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\cmrc-hospital-i\\CMRC Hospital II.png"
+    },
+    {
+      "project": "Baaqouba Teaching Hospital",
+      "folderName": "baaqouba-teaching-hospital",
+      "imageName": "Baaqouba Teaching Hospital.jpg",
+      "sourceCategory": "Healthcare",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Healthcare\\Baaqouba Teaching Hospital.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\baaqouba-teaching-hospital\\Baaqouba Teaching Hospital.jpg"
+    },
+    {
+      "project": "Shura Island - Hotel West #1",
+      "folderName": "shura-island-hotel-west-1",
+      "imageName": "Shura Island - Hotel West #1.jpeg",
+      "sourceCategory": "Hospitality",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Hospitality\\Shura Island - Hotel West #1.jpeg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\shura-island-hotel-west-1\\Shura Island - Hotel West #1.jpeg"
+    },
+    {
+      "project": "MAAD Complex Hospitality Towers",
+      "folderName": "maad-complex-hospitality-towers",
+      "imageName": "MAAD Complex Hospitality Towers.jpg",
+      "sourceCategory": "Hospitality",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Hospitality\\MAAD Complex Hospitality Towers.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\maad-complex-hospitality-towers\\MAAD Complex Hospitality Towers.jpg"
+    },
+    {
+      "project": "King Abdullah WAQF Tower Hotel",
+      "folderName": "king-abdullah-waqf-tower-hotel",
+      "imageName": "King Abdullah WAQF Tower Hotel.jpg",
+      "sourceCategory": "Hospitality",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Hospitality\\King Abdullah WAQF Tower Hotel.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\king-abdullah-waqf-tower-hotel\\King Abdullah WAQF Tower Hotel.jpg"
+    },
+    {
+      "project": "Hotel Complex Oasis (1001 Keys)",
+      "folderName": "hotel-complex-oasis-1001-keys",
+      "imageName": "Hotel Complex Oasis (1001 Keys).jpg",
+      "sourceCategory": "Hospitality",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Hospitality\\Hotel Complex Oasis (1001 Keys).jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\hotel-complex-oasis-1001-keys\\Hotel Complex Oasis (1001 Keys).jpg"
+    },
+    {
+      "project": "VOCO - IHG Hotel (234 Keys)",
+      "folderName": "voco-ihg-hotel-234-keys",
+      "imageName": "VOCO - IHG Hotel (234 Keys).jpg",
+      "sourceCategory": "Hospitality",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Hospitality\\VOCO - IHG Hotel (234 Keys).jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\voco-ihg-hotel-234-keys\\VOCO - IHG Hotel (234 Keys).jpg"
+    },
+    {
+      "project": "Roca del Este Hotel I",
+      "folderName": "roca-del-este-hotel-i",
+      "imageName": "Roca del Este Hotel I.jpg",
+      "sourceCategory": "Hospitality",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Hospitality\\Roca del Este Hotel I.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\roca-del-este-hotel-i\\Roca del Este Hotel I.jpg"
+    },
+    {
+      "project": "Sheraton Lagos Hotel",
+      "folderName": "sheraton-lagos-hotel",
+      "imageName": "Sheraton Lagos Hotel.jpg",
+      "sourceCategory": "Hospitality",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Hospitality\\Sheraton Lagos Hotel.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\sheraton-lagos-hotel\\Sheraton Lagos Hotel.jpg"
+    },
+    {
+      "project": "Hampton S7 Hotel",
+      "folderName": "hampton-s7-hotel",
+      "imageName": "Hampton S7 Hotel.jpg",
+      "sourceCategory": "Hospitality",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Hospitality\\Hampton S7 Hotel.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\hampton-s7-hotel\\Hampton S7 Hotel.jpg"
+    },
+    {
+      "project": "Vertical Indoor Farms",
+      "folderName": "vertical-indoor-farms",
+      "imageName": "Vertical Indoor Farms.jpg",
+      "sourceCategory": "Industrial",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Industrial\\Vertical Indoor Farms.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\vertical-indoor-farms\\Vertical Indoor Farms.jpg"
+    },
+    {
+      "project": "Algorithm Pharmaceuticals",
+      "folderName": "algorithm-pharmaceuticals",
+      "imageName": "Algorithm Pharmaceuticals.jpg",
+      "sourceCategory": "Industrial",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Industrial\\Algorithm Pharmaceuticals.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\algorithm-pharmaceuticals\\Algorithm Pharmaceuticals.jpg"
+    },
+    {
+      "project": "New Jet Propulsion Center",
+      "folderName": "new-jet-propulsion-center",
+      "imageName": "New Jet Propulsion Center.jpg",
+      "sourceCategory": "Industrial",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Industrial\\New Jet Propulsion Center.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\new-jet-propulsion-center\\New Jet Propulsion Center.jpg"
+    },
+    {
+      "project": "Industrial Biofuel Agri Hub",
+      "folderName": "industrial-biofuel-agri-hub",
+      "imageName": "Industrial Biofuel Agri Hub.jpg",
+      "sourceCategory": "Industrial",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Industrial\\Industrial Biofuel Agri Hub.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\industrial-biofuel-agri-hub\\Industrial Biofuel Agri Hub.jpg"
+    },
+    {
+      "project": "Eni Center of Excellence",
+      "folderName": "eni-center-of-excellence",
+      "imageName": "Eni Center of Excellence.jpg",
+      "sourceCategory": "Industrial",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Industrial\\Eni Center of Excellence.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\eni-center-of-excellence\\Eni Center of Excellence.jpg"
+    },
+    {
+      "project": "Cervecería Cubana",
+      "folderName": "cervecera-cubana",
+      "imageName": "Cervecería Cubana.jpg",
+      "sourceCategory": "Industrial",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Industrial\\Cervecería Cubana.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\cervecera-cubana\\Cervecería Cubana.jpg"
+    },
+    {
+      "project": "Riyadh Metro – Line 4, 5 & 6",
+      "folderName": "riyadh-metro-line-4-5-6",
+      "imageName": "Riyadh Metro – Line 4, 5 & 6.jpg",
+      "sourceCategory": "Infrastructure",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Infrastructure\\Riyadh Metro – Line 4, 5 & 6.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\riyadh-metro-line-4-5-6\\Riyadh Metro – Line 4, 5 & 6.jpg"
+    },
+    {
+      "project": "Jannat Baghdad Development",
+      "folderName": "jannat-baghdad-development",
+      "imageName": "Jannat Baghdad Development.png",
+      "sourceCategory": "Infrastructure",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Infrastructure\\Jannat Baghdad Development.png",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\jannat-baghdad-development\\Jannat Baghdad Development.png"
+    },
+    {
+      "project": "Saafat El Basra City",
+      "folderName": "saafat-el-basra-city",
+      "imageName": "Saafat El Basra City.jpg",
+      "sourceCategory": "Infrastructure",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Infrastructure\\Saafat El Basra City.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\saafat-el-basra-city\\Saafat El Basra City.jpg"
+    },
+    {
+      "project": "Venan Housing Project",
+      "folderName": "venan-housing-project",
+      "imageName": "Venan Housing Project.jpg",
+      "sourceCategory": "Infrastructure",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Infrastructure\\Venan Housing Project.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\venan-housing-project\\Venan Housing Project.jpg"
+    },
+    {
+      "project": "Carplex Mixed Use (Mall &amp; Hotel)",
+      "folderName": "carplex-mixed-use-mall-amp-hotel",
+      "imageName": "Carplex Mixed Use.jpg",
+      "sourceCategory": "Mixed Use",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Mixed Use\\Carplex Mixed Use.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\carplex-mixed-use-mall-amp-hotel\\Carplex Mixed Use.jpg"
+    },
+    {
+      "project": "EKO Tower II (Residential & Medical Centre)",
+      "folderName": "eko-tower-ii-residential-medical-centre",
+      "imageName": "EKO Tower II.jpg",
+      "sourceCategory": "Mixed Use",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Mixed Use\\EKO Tower II.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\eko-tower-ii-residential-medical-centre\\EKO Tower II.jpg"
+    },
+    {
+      "project": "Azuri Peninsula (Residential & Offices)",
+      "folderName": "azuri-peninsula-residential-offices",
+      "imageName": "Azuri Peninsula.jpg",
+      "sourceCategory": "Mixed Use",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Mixed Use\\Azuri Peninsula.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\azuri-peninsula-residential-offices\\Azuri Peninsula.jpg"
+    },
+    {
+      "project": "Karbala Oasis Development (Mall & Hotel)",
+      "folderName": "karbala-oasis-development-mall-hotel",
+      "imageName": "Karbala Oasis Development.jpg",
+      "sourceCategory": "Mixed Use",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Mixed Use\\Karbala Oasis Development.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\karbala-oasis-development-mall-hotel\\Karbala Oasis Development.jpg"
+    },
+    {
+      "project": "Palm Towers (Residential & Offices)",
+      "folderName": "palm-towers-residential-offices",
+      "imageName": "Palm Towers.jpg",
+      "sourceCategory": "Mixed Use",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Mixed Use\\Palm Towers.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\palm-towers-residential-offices\\Palm Towers.jpg"
+    },
+    {
+      "project": "Lawyers & Notaries Tower (Hotel & Offices)",
+      "folderName": "lawyers-notaries-tower-hotel-offices",
+      "imageName": "Lawyers & Notaries Tower.jpg",
+      "sourceCategory": "Mixed Use",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Mixed Use\\Lawyers & Notaries Tower.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\lawyers-notaries-tower-hotel-offices\\Lawyers & Notaries Tower.jpg"
+    },
+    {
+      "project": "Crystal Tower",
+      "folderName": "crystal-tower",
+      "imageName": "Crystal Tower.jpeg",
+      "sourceCategory": "Offices",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Offices\\Crystal Tower.jpeg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\crystal-tower\\Crystal Tower.jpeg"
+    },
+    {
+      "project": "Kingsway Tower (Microsoft & Facebook Offices)",
+      "folderName": "kingsway-tower-microsoft-facebook-offices",
+      "imageName": "Kingsway Tower.jpg",
+      "sourceCategory": "Offices",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Offices\\Kingsway Tower.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\kingsway-tower-microsoft-facebook-offices\\Kingsway Tower.jpg"
+    },
+    {
+      "project": "EKO Tower I (TOTAL Headquarters)",
+      "folderName": "eko-tower-i-total-headquarters",
+      "imageName": "EKO Tower I.jpeg",
+      "sourceCategory": "Offices",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Offices\\EKO Tower I.jpeg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\eko-tower-i-total-headquarters\\EKO Tower I.jpeg"
+    },
+    {
+      "project": "Otunba Offices",
+      "folderName": "otunba-offices",
+      "imageName": "Otunba Offices.jpg",
+      "sourceCategory": "Offices",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Offices\\Otunba Offices.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\otunba-offices\\Otunba Offices.jpg"
+    },
+    {
+      "project": "World Bank",
+      "folderName": "world-bank",
+      "imageName": "World Bank.jpg",
+      "sourceCategory": "Offices",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Offices\\World Bank.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\world-bank\\World Bank.jpg"
+    },
+    {
+      "project": "Riyadh Power Plant PP10",
+      "folderName": "riyadh-power-plant-pp10",
+      "imageName": "Riyadh Power Plant PP10.jpg",
+      "sourceCategory": "Power Plants & Data Centers",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Power Plants & Data Centers\\Riyadh Power Plant PP10.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\riyadh-power-plant-pp10\\Riyadh Power Plant PP10.jpg"
+    },
+    {
+      "project": "KAIA Data Centers 1&2",
+      "folderName": "kaia-data-centers-12",
+      "imageName": "KAIA Data Centers 1&2.jpeg",
+      "sourceCategory": "Power Plants & Data Centers",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Power Plants & Data Centers\\KAIA Data Centers 1&2.jpeg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\kaia-data-centers-12\\KAIA Data Centers 1&2.jpeg"
+    },
+    {
+      "project": "Al-Qassim PP Extension #2",
+      "folderName": "al-qassim-pp-extension-2",
+      "imageName": "Al-Qassim PP Extension #2.jpg",
+      "sourceCategory": "Power Plants & Data Centers",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Power Plants & Data Centers\\Al-Qassim PP Extension #2.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\al-qassim-pp-extension-2\\Al-Qassim PP Extension #2.jpg"
+    },
+    {
+      "project": "Al-Qassim PP Extension #3",
+      "folderName": "al-qassim-pp-extension-3",
+      "imageName": "Al-Qassim PP Extension #3.jpg",
+      "sourceCategory": "Power Plants & Data Centers",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Power Plants & Data Centers\\Al-Qassim PP Extension #3.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\al-qassim-pp-extension-3\\Al-Qassim PP Extension #3.jpg"
+    },
+    {
+      "project": "Africa Data Centers",
+      "folderName": "africa-data-centers",
+      "imageName": "Africa Data Centers.jpg",
+      "sourceCategory": "Power Plants & Data Centers",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Power Plants & Data Centers\\Africa Data Centers.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\africa-data-centers\\Africa Data Centers.jpg"
+    },
+    {
+      "project": "King Khaled International Airport AGL Substations",
+      "folderName": "king-khaled-international-airport-agl-substations",
+      "imageName": "AGL Substations.jpg",
+      "sourceCategory": "Power Plants & Data Centers",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Power Plants & Data Centers\\AGL Substations.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\king-khaled-international-airport-agl-substations\\AGL Substations.jpg"
+    },
+    {
+      "project": "eStruxture Data Center",
+      "folderName": "estruxture-data-center",
+      "imageName": "eStruxture Data Center.jpg",
+      "sourceCategory": "Power Plants & Data Centers",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Power Plants & Data Centers\\eStruxture Data Center.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\estruxture-data-center\\eStruxture Data Center.jpg"
+    },
+    {
+      "project": "Meydan I Staff Accommodation",
+      "folderName": "meydan-i-staff-accommodation",
+      "imageName": "Meydan I Staff Accommodation.jpeg",
+      "sourceCategory": "Residential",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Residential\\Meydan I Staff Accommodation.jpeg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\meydan-i-staff-accommodation\\Meydan I Staff Accommodation.jpeg"
+    },
+    {
+      "project": "Sky Tower",
+      "folderName": "sky-tower",
+      "imageName": "Sky Tower.jpg",
+      "sourceCategory": "Residential",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Residential\\Sky Tower.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\sky-tower\\Sky Tower.jpg"
+    },
+    {
+      "project": "Kuramo Beach Residence",
+      "folderName": "kuramo-beach-residence",
+      "imageName": "Kuramo Beach Residence.jpg",
+      "sourceCategory": "Residential",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Residential\\Kuramo Beach Residence.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\kuramo-beach-residence\\Kuramo Beach Residence.jpg"
+    },
+    {
+      "project": "Twin Tower",
+      "folderName": "twin-tower",
+      "imageName": "Twin Tower.jpeg",
+      "sourceCategory": "Residential",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Residential\\Twin Tower.jpeg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\twin-tower\\Twin Tower.jpeg"
+    },
+    {
+      "project": "Roshn Show Villas",
+      "folderName": "roshn-show-villas",
+      "imageName": "Roshn Show Villas.jpg",
+      "sourceCategory": "Residential",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Residential\\Roshn Show Villas.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\roshn-show-villas\\Roshn Show Villas.jpg"
+    },
+    {
+      "project": "Darco Shatea Residences",
+      "folderName": "darco-shatea-residences",
+      "imageName": "Darco Shatea Residences.jpg",
+      "sourceCategory": "Residential",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Residential\\Darco Shatea Residences.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\darco-shatea-residences\\Darco Shatea Residences.jpg"
+    },
+    {
+      "project": "Bin Mahfouz Residential Compound",
+      "folderName": "bin-mahfouz-residential-compound",
+      "imageName": "Bin Mahfouz Residential Compound.jpg",
+      "sourceCategory": "Residential",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Residential\\Bin Mahfouz Residential Compound.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\bin-mahfouz-residential-compound\\Bin Mahfouz Residential Compound.jpg"
+    },
+    {
+      "project": "Zouhour Baghdad Mall",
+      "folderName": "zouhour-baghdad-mall",
+      "imageName": "Zouhour Baghdad Mall.jpg",
+      "sourceCategory": "Retail",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Retail\\Zouhour Baghdad Mall.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\zouhour-baghdad-mall\\Zouhour Baghdad Mall.jpg"
+    },
+    {
+      "project": "Marchés Urbains et Régionaux",
+      "folderName": "marchs-urbains-et-rgionaux",
+      "imageName": "Marchés Urbains et Régionaux.png",
+      "sourceCategory": "Retail",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Retail\\Marchés Urbains et Régionaux.png",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\marchs-urbains-et-rgionaux\\Marchés Urbains et Régionaux.png"
+    },
+    {
+      "project": "Kirkuk Mall",
+      "folderName": "kirkuk-mall",
+      "imageName": "Kirkuk Mall.jpg",
+      "sourceCategory": "Retail",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Retail\\Kirkuk Mall.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\kirkuk-mall\\Kirkuk Mall.jpg"
+    },
+    {
+      "project": "Kirkuk Landmark Mall",
+      "folderName": "kirkuk-landmark-mall",
+      "imageName": "Kirkuk Landmark Mall.jpg",
+      "sourceCategory": "Retail",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Retail\\Kirkuk Landmark Mall.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\kirkuk-landmark-mall\\Kirkuk Landmark Mall.jpg"
+    },
+    {
+      "project": "Baghdad Mall",
+      "folderName": "baghdad-mall",
+      "imageName": "Zouhour Baghdad Mall.jpg",
+      "sourceCategory": "Retail",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Retail\\Zouhour Baghdad Mall.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\baghdad-mall\\Zouhour Baghdad Mall.jpg"
+    },
+    {
+      "project": "Sultan Boulevard Commercial Center",
+      "folderName": "sultan-boulevard-commercial-center",
+      "imageName": "Sultan Boulevard Commercial Center.jpg",
+      "sourceCategory": "Retail",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Retail\\Sultan Boulevard Commercial Center.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\sultan-boulevard-commercial-center\\Sultan Boulevard Commercial Center.jpg"
+    },
+    {
+      "project": "Villaggio II",
+      "folderName": "villaggio-ii",
+      "imageName": "Villaggio II.jpg",
+      "sourceCategory": "Retail",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Retail\\Villaggio II.jpg",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\villaggio-ii\\Villaggio II.jpg"
+    },
+    {
+      "project": "Patchi Waterway",
+      "folderName": "patchi-waterway",
+      "imageName": "Patchi Waterway.png",
+      "sourceCategory": "Retail",
+      "sourcePath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\docs\\CONSULT EMDC Projects Photos\\Retail\\Patchi Waterway.png",
+      "destPath": "C:\\Work\\Rawad\\EMDC\\emdc-website\\public\\projects\\patchi-waterway\\Patchi Waterway.png"
+    }
+  ],
+  "missing": [
+    {
+      "project": "JAX Multistory Car Parks",
+      "folderName": "jax-multistory-car-parks",
+      "imageName": "jax-multistory-car-parks.jpg",
+      "categories": [
+        "Airports & Stations"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "UYO Conventional Center",
+      "folderName": "uyo-conventional-center",
+      "imageName": "uyo-conventional-center.jpg",
+      "categories": [
+        "Civic & Religious"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "Al Nour Mosque",
+      "folderName": "al-nour-mosque",
+      "imageName": "al-nour-mosque.jpg",
+      "categories": [
+        "Civic & Religious"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "Happy Childhood Village",
+      "folderName": "happy-childhood-village",
+      "imageName": "happy-childhood-village.jpg",
+      "categories": [
+        "Education & Leisure"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "Wasit Water & Sanitation Stations",
+      "folderName": "wasit-water-sanitation-stations",
+      "imageName": "wasit-water-sanitation-stations.jpg",
+      "categories": [
+        "Infrastructure"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "Diriyah Square – Mega Car Park",
+      "folderName": "diriyah-square-mega-car-park",
+      "imageName": "diriyah-square-mega-car-park.jpg",
+      "categories": [
+        "Infrastructure"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "Garden Heights",
+      "folderName": "garden-heights",
+      "imageName": "garden-heights.jpg",
+      "categories": [
+        "Offices"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "The Carnelian",
+      "folderName": "the-carnelian",
+      "imageName": "the-carnelian.jpg",
+      "categories": [
+        "Offices"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "Jeddah Corniche Park Tower",
+      "folderName": "jeddah-corniche-park-tower",
+      "imageName": "jeddah-corniche-park-tower.jpg",
+      "categories": [
+        "Offices"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "Total Headquarters Data Center",
+      "folderName": "total-headquarters-data-center",
+      "imageName": "total-headquarters-data-center.jpg",
+      "categories": [
+        "Power Plants & Data Centers"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "Erbil City Center",
+      "folderName": "erbil-city-center",
+      "imageName": "erbil-city-center.jpg",
+      "categories": [
+        "Retail"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "Jezan Airport",
+      "folderName": "jezan-airport",
+      "imageName": "jezan-airport.jpg",
+      "categories": [
+        "Value Engineering & Peer Review"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "Al Khalidia Palace",
+      "folderName": "al-khalidia-palace",
+      "imageName": "al-khalidia-palace.jpg",
+      "categories": [
+        "Value Engineering & Peer Review"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "MBL Residence",
+      "folderName": "mbl-residence",
+      "imageName": "mbl-residence.jpg",
+      "categories": [
+        "Value Engineering & Peer Review"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "MAG 5 Boulevard",
+      "folderName": "mag-5-boulevard",
+      "imageName": "mag-5-boulevard.jpg",
+      "categories": [
+        "Value Engineering & Peer Review"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "Entissar Tower (Residential & Luxury Hotel)",
+      "folderName": "entissar-tower-residential-luxury-hotel",
+      "imageName": "entissar-tower-residential-luxury-hotel.jpg",
+      "categories": [
+        "Value Engineering & Peer Review"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "Viceroy Tower",
+      "folderName": "viceroy-tower",
+      "imageName": "viceroy-tower.jpg",
+      "categories": [
+        "Value Engineering & Peer Review"
+      ],
+      "reason": "Image file not found in source directory"
+    }
+  ],
+  "errors": [],
+  "removed": [
+    {
+      "project": "JAX Multistory Car Parks",
+      "folderName": "jax-multistory-car-parks",
+      "imageName": "jax-multistory-car-parks.jpg",
+      "categories": [
+        "Airports & Stations"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "UYO Conventional Center",
+      "folderName": "uyo-conventional-center",
+      "imageName": "uyo-conventional-center.jpg",
+      "categories": [
+        "Civic & Religious"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "Al Nour Mosque",
+      "folderName": "al-nour-mosque",
+      "imageName": "al-nour-mosque.jpg",
+      "categories": [
+        "Civic & Religious"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "Happy Childhood Village",
+      "folderName": "happy-childhood-village",
+      "imageName": "happy-childhood-village.jpg",
+      "categories": [
+        "Education & Leisure"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "Wasit Water & Sanitation Stations",
+      "folderName": "wasit-water-sanitation-stations",
+      "imageName": "wasit-water-sanitation-stations.jpg",
+      "categories": [
+        "Infrastructure"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "Diriyah Square – Mega Car Park",
+      "folderName": "diriyah-square-mega-car-park",
+      "imageName": "diriyah-square-mega-car-park.jpg",
+      "categories": [
+        "Infrastructure"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "Garden Heights",
+      "folderName": "garden-heights",
+      "imageName": "garden-heights.jpg",
+      "categories": [
+        "Offices"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "The Carnelian",
+      "folderName": "the-carnelian",
+      "imageName": "the-carnelian.jpg",
+      "categories": [
+        "Offices"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "Jeddah Corniche Park Tower",
+      "folderName": "jeddah-corniche-park-tower",
+      "imageName": "jeddah-corniche-park-tower.jpg",
+      "categories": [
+        "Offices"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "Total Headquarters Data Center",
+      "folderName": "total-headquarters-data-center",
+      "imageName": "total-headquarters-data-center.jpg",
+      "categories": [
+        "Power Plants & Data Centers"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "Erbil City Center",
+      "folderName": "erbil-city-center",
+      "imageName": "erbil-city-center.jpg",
+      "categories": [
+        "Retail"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "Jezan Airport",
+      "folderName": "jezan-airport",
+      "imageName": "jezan-airport.jpg",
+      "categories": [
+        "Value Engineering & Peer Review"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "Al Khalidia Palace",
+      "folderName": "al-khalidia-palace",
+      "imageName": "al-khalidia-palace.jpg",
+      "categories": [
+        "Value Engineering & Peer Review"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "MBL Residence",
+      "folderName": "mbl-residence",
+      "imageName": "mbl-residence.jpg",
+      "categories": [
+        "Value Engineering & Peer Review"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "MAG 5 Boulevard",
+      "folderName": "mag-5-boulevard",
+      "imageName": "mag-5-boulevard.jpg",
+      "categories": [
+        "Value Engineering & Peer Review"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "Entissar Tower (Residential & Luxury Hotel)",
+      "folderName": "entissar-tower-residential-luxury-hotel",
+      "imageName": "entissar-tower-residential-luxury-hotel.jpg",
+      "categories": [
+        "Value Engineering & Peer Review"
+      ],
+      "reason": "Image file not found in source directory"
+    },
+    {
+      "project": "Viceroy Tower",
+      "folderName": "viceroy-tower",
+      "imageName": "viceroy-tower.jpg",
+      "categories": [
+        "Value Engineering & Peer Review"
+      ],
+      "reason": "Image file not found in source directory"
+    }
+  ]
+}

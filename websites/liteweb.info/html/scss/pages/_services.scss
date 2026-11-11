@@ -1,0 +1,95 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.services-hero {
+  background: $color-surface-low;
+  text-align: center;
+}
+
+.service-bento {
+  display: grid;
+  gap: $space-lg;
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(12, 1fr);
+  }
+
+  &__item {
+    padding: $space-lg;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    @include brand-box;
+
+    &--wide {
+      @include respond-to(md) {
+        grid-column: span 7;
+      }
+    }
+
+    &--narrow {
+      @include respond-to(md) {
+        grid-column: span 5;
+      }
+    }
+
+    &--dark {
+      background-color: $color-navy-dark;
+      color: $color-white;
+
+      .card__title,
+      h3 {
+        color: $color-white;
+      }
+
+      p {
+        color: rgba($color-white, 0.8);
+      }
+
+      .check-list .material-symbols-outlined,
+      .check-list li {
+        color: $color-tertiary;
+      }
+    }
+  }
+}
+
+.tech-pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: $space-md;
+
+  &__item {
+    width: 8rem;
+    height: 8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: $space-sm;
+    font-weight: 600;
+    color: $color-on-surface-variant;
+    transition: color $duration-fast $ease-default;
+
+    &::after {
+      content: "";
+      width: 2rem;
+      height: 3px;
+      background: rgba($color-primary, 0.15);
+      border-radius: $radius-full;
+      position: relative;
+      z-index: 1;
+    }
+
+    &:hover {
+      color: $color-primary;
+
+      &::after {
+        background: rgba($color-primary, 0.4);
+      }
+    }
+
+    @include brand-box;
+  }
+}

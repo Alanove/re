@@ -1,0 +1,109 @@
+/*Menu*/
+#adminmenu .toplevel_page_Manufacturer {
+	background: #000;
+}
+
+.elementor-section>.elementor-element-overlay {
+	z-index: 100;
+}
+
+/*Gutenberg*/
+@media only screen and (min-width: 769px) {
+  .col-md-12.col-lg-9.man_main_sidebar .alignfull {
+    max-width: calc( 100% + 200px );
+    width: calc( 100% + 200px );
+    margin-left: -200px;
+  }
+  .man_main_sidebar.col-md-12 .alignfull {
+    margin-left: -100px;
+  }
+}
+
+.wp-block-separator {
+  width: 100%;
+  border-bottom: 1px solid #8f98a1;
+  background: none;
+  max-width: 100%!important;
+}
+.wp-block-gallery {
+  margin: 0;
+  padding:40px 0;
+}
+.wp-block-cover {
+  border-radius: 10px;
+}
+
+.wp-block-quote cite {
+  font-size: 18px;
+  text-transform: none;
+  font-weight: normal;
+  font-style: normal;
+  margin-top: 20px!important;
+  display: block;
+}
+.wp-block-quote p {
+  margin-bottom: 0;
+}
+.wp-block-quote {
+  text-transform: none!important;
+  font-weight: normal;
+}
+.wp-block-quote.is-large, .wp-block-quote.is-style-large {
+  padding: 50px!important;
+}
+.wp-block-quote.is-style-large p {
+   font-size: 120%!important;
+   font-style: normal;
+}
+.wp-block-separator.is-style-wide {
+  width: calc( 100% + 200px );
+  margin-left: -100px;
+}
+.wp-block-separator {
+  position: relative;
+}
+.wp-block-cover-image .wp-block-cover__inner-container, .wp-block-cover .wp-block-cover__inner-container {
+	color: #f8f9f9;
+	width: calc(100% - 70px);
+    z-index: 1;
+}
+.wp-block-cover .wp-block-paragraph {
+	color: #f8f9f9;
+}
+.wp-block-image .components-resizable-box__container img, 
+.editor-block-list__block-edit img {
+	border-radius: 10px;
+}
+
+blockquote.wp-block-quote, address {
+  background: #fff;
+  padding: 30px;
+  font-size: 26px!important;
+  line-height: 34px!important;
+  margin: 40px 0!important;
+  border-radius: 10px;
+  -webkit-box-shadow: 2px 2px 40px rgba(0,0,0,0.05);
+  box-shadow: 2px 2px 40px rgba(0,0,0,0.05);
+}
+  blockquote.wp-block-quote:before {
+    display: block;
+    content: "\f205";
+    font-family: dashicons;
+    font-size: 50px;
+    color: #ccc;
+    margin-bottom: 30px;
+    font-style: normal;
+  }
+  address:before {
+    display: block;
+    content: "\e691";
+    font-family: themify;
+    font-size: 50px;
+    color: #ccc;
+    margin-bottom: 30px;
+    font-style: normal;
+  }
+blockquote.wp-block-quote p:last-child {
+  margin: 0;
+}
+

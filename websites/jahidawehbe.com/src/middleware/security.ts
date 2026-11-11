@@ -50,7 +50,7 @@ function limiter(options: LimiterOptions): RequestHandler {
   });
 }
 
-const STATIC_PREFIXES = ['/css/', '/js/', '/uploads/', '/admin/css/', '/admin/js/', '/admin/editor/', '/admin/webfonts/', '/favicon'];
+const STATIC_PREFIXES = ['/css/', '/js/', '/uploads/', '/admin/css/', '/admin/js/', '/admin/editor/', '/admin/table-sort/', '/admin/webfonts/', '/favicon'];
 
 export const globalRateLimit = limiter({
   windowMs: 60_000,

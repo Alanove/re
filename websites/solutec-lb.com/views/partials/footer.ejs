@@ -1,0 +1,78 @@
+<% const settings = typeof siteSettings !== 'undefined' ? siteSettings : {}; %>
+<% const footerLogo = settings.footerLogo || settings.logo || '/images/capital-group-logo.svg'; %>
+<% const social = settings.socialMedia || {}; %>
+<% const companies = typeof companyPages !== 'undefined' ? companyPages : []; %>
+<% const quickLinks = typeof footerMenu !== 'undefined' && footerMenu.length ? footerMenu : []; %>
+<% const showDisclaimer = typeof currentPage !== 'undefined' && currentPage && currentPage.showInvestiaDisclaimer; %>
+<footer class="footer2 bg-img theme-overlay-blue-dark pt-6 pt-md-8" data-overlay-dark="7" data-background="/images/bg/footer-map.png">
+  <div class="container">
+    <div class="row mb-6 mb-md-8 mt-n1-9">
+      <div class="col-md-6 col-lg-3 mt-1-9 wow fadeIn" data-wow-delay="200ms">
+        <div class="footer-top">
+          <div class="mb-4">
+            <img src="<%= footerLogo %>" class="logo-footer" alt="<%= settings.siteTitle || 'Capital Pro Group' %>">
+          </div>
+          <ul class="footer-link list-unstyled mb-0">
+            <% if (social.facebook) { %><li class="d-inline-block me-3"><a href="<%= social.facebook %>" target="_blank" rel="noopener"><i class="ti-facebook"></i></a></li><% } %>
+            <% if (social.twitter) { %><li class="d-inline-block me-3"><a href="<%= social.twitter %>" target="_blank" rel="noopener" title="X"><span class="x-social">X</span></a></li><% } %>
+            <% if (social.instagram) { %><li class="d-inline-block me-3"><a href="<%= social.instagram %>" target="_blank" rel="noopener"><i class="ti-instagram"></i></a></li><% } %>
+            <% if (social.linkedin) { %><li class="d-inline-block"><a href="<%= social.linkedin %>" target="_blank" rel="noopener"><i class="ti-linkedin"></i></a></li><% } %>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3 mt-1-9 wow fadeIn" data-wow-delay="350ms">
+        <div class="ps-lg-1-9">
+          <h3 class="text-secondary mb-1-9 h5">Quick Links</h3>
+          <ul class="footer-link list-unstyled mb-0">
+            <% if (quickLinks.length) { %>
+              <% quickLinks.forEach(function(link, idx) { %>
+                <li class="<%= idx === quickLinks.length - 1 ? '' : 'mb-3' %>"><a href="<%= link.url %>"><%= link.title %></a></li>
+              <% }); %>
+            <% } %>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3 mt-1-9 wow fadeIn" data-wow-delay="500ms">
+        <div>
+          <h3 class="text-secondary mb-1-9 h5">Companies</h3>
+          <ul class="footer-link list-unstyled mb-0">
+            <% companies.forEach(function(company, idx) { %>
+              <li class="<%= idx === companies.length - 1 ? '' : 'mb-3' %>"><a href="<%= company.url %>"><%= company.title %></a></li>
+            <% }); %>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3 mt-1-9 wow fadeIn" data-wow-delay="650ms">
+        <div>
+          <h3 class="text-secondary mb-1-9 h5">Contact Us</h3>
+          <ul class="footer-link list-unstyled mb-0">
+            <% if (settings.contactPhone) { %><li class="mb-3"><a href="tel:<%= settings.contactPhone.replace(/[^\d+]/g, '') %>" class="ps-0"><i class="ti-mobile display-28 align-middle text-secondary pe-3"></i><%= settings.contactPhone %></a></li><% } %>
+            <% if (settings.fax) { %><li class="mb-3"><span class="ps-0"><i class="fal fa-fax display-28 align-middle text-secondary pe-3"></i><%= settings.fax %></span></li><% } %>
+            <% if (settings.contactEmail) { %><li class="mb-3"><a href="mailto:<%= settings.contactEmail %>" class="ps-0"><i class="ti-email display-28 align-middle text-secondary pe-3"></i><%= settings.contactEmail %></a></li><% } %>
+            <% if (settings.address) { %>
+            <li>
+              <i class="ti-location-pin display-28 align-middle text-secondary pe-3"></i>
+              <% if (settings.locationLabel) { %><b><%= settings.locationLabel %></b><br><% } %>
+              <%= settings.address %>
+            </li>
+            <% } %>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <% if (showDisclaimer && settings.investiaDisclaimer) { %>
+    <div class="border-top border-color-light-white py-4 small text-white opacity9 investia-disclaimer">
+      <%- settings.investiaDisclaimer %>
+      <% if (settings.privacyPolicyUrl) { %>
+        <p class="mb-0 mt-3"><a href="<%= settings.privacyPolicyUrl %>" target="_blank" rel="noopener" class="text-secondary">Privacy Policy</a></p>
+      <% } %>
+    </div>
+    <% } %>
+    <div class="border-top border-color-light-white py-4 wow fadeIn" data-wow-delay="200ms">
+      <div class="d-flex justify-content-lg-between align-items-center flex-column flex-lg-row">
+        <p class="d-inline-block mb-1 mb-lg-0 text-white">&copy; <%= new Date().getFullYear() %> <%= settings.siteTitle || 'Capital Pro Group' %>. All rights reserved</p>
+        <p class="d-inline-block mb-0 text-white">Designed and Developed by <a href="https://www.liteweb.info/" target="_blank" rel="noopener" class="text-secondary text-white-hover">www.liteweb.info</a></p>
+      </div>
+    </div>
+  </div>
+</footer>

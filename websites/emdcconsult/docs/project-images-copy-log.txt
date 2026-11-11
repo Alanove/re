@@ -1,0 +1,709 @@
+[2025-12-08T04:10:53.789Z] ================================================================================
+[2025-12-08T04:10:53.790Z] Starting image copy process...
+[2025-12-08T04:10:53.791Z] Total projects to process: 99
+[2025-12-08T04:10:53.792Z] ================================================================================
+[2025-12-08T04:10:54.079Z] 
+📝 Updated projects.json: Removed 17 projects, kept 82 projects
+[2025-12-08T04:10:54.080Z] 
+================================================================================
+[2025-12-08T04:10:54.080Z] RESULTS SUMMARY
+[2025-12-08T04:10:54.081Z] ================================================================================
+[2025-12-08T04:10:54.082Z] ✅ Successfully copied: 82 images
+[2025-12-08T04:10:54.083Z] ❌ Missing images: 17
+[2025-12-08T04:10:54.083Z] ⚠️  Errors: 0
+[2025-12-08T04:10:54.084Z] 🗑️  Removed from JSON: 17 projects
+[2025-12-08T04:10:54.084Z] 📊 Final project count: 82 (was 99)
+[2025-12-08T04:10:54.085Z] 
+[2025-12-08T04:10:54.086Z] 
+📋 COPIED IMAGES:
+[2025-12-08T04:10:54.086Z] --------------------------------------------------------------------------------
+[2025-12-08T04:10:54.087Z] 1. King AbdulAziz International Airport
+[2025-12-08T04:10:54.088Z]    Folder: king-abdulaziz-international-airport
+[2025-12-08T04:10:54.088Z]    Image: King AbdulAziz International Airport.jpg
+[2025-12-08T04:10:54.089Z]    Source: docs\CONSULT EMDC Projects Photos\Airports & Stations\King AbdulAziz International Airport.jpg
+[2025-12-08T04:10:54.090Z]    Dest: public\projects\king-abdulaziz-international-airport\King AbdulAziz International Airport.jpg
+[2025-12-08T04:10:54.090Z] 
+[2025-12-08T04:10:54.091Z] 2. ATCL Yacht Club & Marina
+[2025-12-08T04:10:54.091Z]    Folder: atcl-yacht-club-marina
+[2025-12-08T04:10:54.091Z]    Image: ATCL Yacht Club & Marina.jpg
+[2025-12-08T04:10:54.092Z]    Source: docs\CONSULT EMDC Projects Photos\Airports & Stations\ATCL Yacht Club & Marina.jpg
+[2025-12-08T04:10:54.092Z]    Dest: public\projects\atcl-yacht-club-marina\ATCL Yacht Club & Marina.jpg
+[2025-12-08T04:10:54.093Z] 
+[2025-12-08T04:10:54.093Z] 3. Middle Euphrates International Airport
+[2025-12-08T04:10:54.093Z]    Folder: middle-euphrates-international-airport
+[2025-12-08T04:10:54.094Z]    Image: Middle Euphrates International Airport.jpg
+[2025-12-08T04:10:54.094Z]    Source: docs\CONSULT EMDC Projects Photos\Airports & Stations\Middle Euphrates International Airport.jpg
+[2025-12-08T04:10:54.094Z]    Dest: public\projects\middle-euphrates-international-airport\Middle Euphrates International Airport.jpg
+[2025-12-08T04:10:54.095Z] 
+[2025-12-08T04:10:54.095Z] 4. Haramain High Speed Rail KAEC Station
+[2025-12-08T04:10:54.096Z]    Folder: haramain-high-speed-rail-kaec-station
+[2025-12-08T04:10:54.096Z]    Image: Haramain High Speed Rail KAEC Station.jpg
+[2025-12-08T04:10:54.097Z]    Source: docs\CONSULT EMDC Projects Photos\Airports & Stations\Haramain High Speed Rail KAEC Station.jpg
+[2025-12-08T04:10:54.097Z]    Dest: public\projects\haramain-high-speed-rail-kaec-station\Haramain High Speed Rail KAEC Station.jpg
+[2025-12-08T04:10:54.098Z] 
+[2025-12-08T04:10:54.098Z] 5. Abha Airport
+[2025-12-08T04:10:54.098Z]    Folder: abha-airport
+[2025-12-08T04:10:54.099Z]    Image: Abha Airport.jpg
+[2025-12-08T04:10:54.099Z]    Source: docs\CONSULT EMDC Projects Photos\Airports & Stations\Abha Airport.jpg
+[2025-12-08T04:10:54.100Z]    Dest: public\projects\abha-airport\Abha Airport.jpg
+[2025-12-08T04:10:54.100Z] 
+[2025-12-08T04:10:54.101Z] 6. Riyadh Metro Stations, Line 5 & 6
+[2025-12-08T04:10:54.101Z]    Folder: riyadh-metro-stations-line-5-6
+[2025-12-08T04:10:54.101Z]    Image: Riyadh Metro Stations, Line 5 & 6.jpg
+[2025-12-08T04:10:54.102Z]    Source: docs\CONSULT EMDC Projects Photos\Airports & Stations\Riyadh Metro Stations, Line 5 & 6.jpg
+[2025-12-08T04:10:54.103Z]    Dest: public\projects\riyadh-metro-stations-line-5-6\Riyadh Metro Stations, Line 5 & 6.jpg
+[2025-12-08T04:10:54.104Z] 
+[2025-12-08T04:10:54.104Z] 7. Riyadh Metro Park & Ride
+[2025-12-08T04:10:54.105Z]    Folder: riyadh-metro-park-ride
+[2025-12-08T04:10:54.106Z]    Image: Riyadh Metro Park & Ride.jpg
+[2025-12-08T04:10:54.106Z]    Source: docs\CONSULT EMDC Projects Photos\Airports & Stations\Riyadh Metro Park & Ride.jpg
+[2025-12-08T04:10:54.107Z]    Dest: public\projects\riyadh-metro-park-ride\Riyadh Metro Park & Ride.jpg
+[2025-12-08T04:10:54.107Z] 
+[2025-12-08T04:10:54.108Z] 8. Baghdad Council of Ministers
+[2025-12-08T04:10:54.108Z]    Folder: baghdad-council-of-ministers
+[2025-12-08T04:10:54.108Z]    Image: Baghdad Council of Ministers.jpg
+[2025-12-08T04:10:54.109Z]    Source: docs\CONSULT EMDC Projects Photos\Civic & Religious\Baghdad Council of Ministers.jpg
+[2025-12-08T04:10:54.109Z]    Dest: public\projects\baghdad-council-of-ministers\Baghdad Council of Ministers.jpg
+[2025-12-08T04:10:54.109Z] 
+[2025-12-08T04:10:54.109Z] 9. King Abdullah International Gardens
+[2025-12-08T04:10:54.110Z]    Folder: king-abdullah-international-gardens
+[2025-12-08T04:10:54.110Z]    Image: King Abdullah International Gardens.jpg
+[2025-12-08T04:10:54.110Z]    Source: docs\CONSULT EMDC Projects Photos\Civic & Religious\King Abdullah International Gardens.jpg
+[2025-12-08T04:10:54.111Z]    Dest: public\projects\king-abdullah-international-gardens\King Abdullah International Gardens.jpg
+[2025-12-08T04:10:54.111Z] 
+[2025-12-08T04:10:54.111Z] 10. Business Park of King Abdullah Economic City
+[2025-12-08T04:10:54.111Z]    Folder: business-park-of-king-abdullah-economic-city
+[2025-12-08T04:10:54.112Z]    Image: King Abdullah Economic City.jpg
+[2025-12-08T04:10:54.112Z]    Source: docs\CONSULT EMDC Projects Photos\Civic & Religious\King Abdullah Economic City.jpg
+[2025-12-08T04:10:54.113Z]    Dest: public\projects\business-park-of-king-abdullah-economic-city\King Abdullah Economic City.jpg
+[2025-12-08T04:10:54.113Z] 
+[2025-12-08T04:10:54.113Z] 11. Samawah Cultural Center
+[2025-12-08T04:10:54.114Z]    Folder: samawah-cultural-center
+[2025-12-08T04:10:54.114Z]    Image: Samawah Cultural Center.png
+[2025-12-08T04:10:54.115Z]    Source: docs\CONSULT EMDC Projects Photos\Civic & Religious\Samawah Cultural Center.png
+[2025-12-08T04:10:54.115Z]    Dest: public\projects\samawah-cultural-center\Samawah Cultural Center.png
+[2025-12-08T04:10:54.115Z] 
+[2025-12-08T04:10:54.116Z] 12. Cite Marie
+[2025-12-08T04:10:54.116Z]    Folder: cite-marie
+[2025-12-08T04:10:54.116Z]    Image: Cite Marie.jpg
+[2025-12-08T04:10:54.117Z]    Source: docs\CONSULT EMDC Projects Photos\Civic & Religious\Cite Marie.jpg
+[2025-12-08T04:10:54.117Z]    Dest: public\projects\cite-marie\Cite Marie.jpg
+[2025-12-08T04:10:54.117Z] 
+[2025-12-08T04:10:54.118Z] 13. GACA Headquarters
+[2025-12-08T04:10:54.118Z]    Folder: gaca-headquarters
+[2025-12-08T04:10:54.118Z]    Image: GACA Headquarters.jpeg
+[2025-12-08T04:10:54.119Z]    Source: docs\CONSULT EMDC Projects Photos\Civic & Religious\GACA Headquarters.jpeg
+[2025-12-08T04:10:54.120Z]    Dest: public\projects\gaca-headquarters\GACA Headquarters.jpeg
+[2025-12-08T04:10:54.120Z] 
+[2025-12-08T04:10:54.121Z] 14. Al-Maamour Mosque
+[2025-12-08T04:10:54.122Z]    Folder: al-maamour-mosque
+[2025-12-08T04:10:54.122Z]    Image: Al-Maamour Mosque.jpg
+[2025-12-08T04:10:54.123Z]    Source: docs\CONSULT EMDC Projects Photos\Civic & Religious\Al-Maamour Mosque.jpg
+[2025-12-08T04:10:54.123Z]    Dest: public\projects\al-maamour-mosque\Al-Maamour Mosque.jpg
+[2025-12-08T04:10:54.124Z] 
+[2025-12-08T04:10:54.124Z] 15. Princess Noura University
+[2025-12-08T04:10:54.124Z]    Folder: princess-noura-university
+[2025-12-08T04:10:54.124Z]    Image: Princess Noura University.jpg
+[2025-12-08T04:10:54.125Z]    Source: docs\CONSULT EMDC Projects Photos\Education & Leisure\Princess Noura University.jpg
+[2025-12-08T04:10:54.125Z]    Dest: public\projects\princess-noura-university\Princess Noura University.jpg
+[2025-12-08T04:10:54.126Z] 
+[2025-12-08T04:10:54.126Z] 16. GEMS World Academy
+[2025-12-08T04:10:54.126Z]    Folder: gems-world-academy
+[2025-12-08T04:10:54.127Z]    Image: GEMS World Academy.jpg
+[2025-12-08T04:10:54.127Z]    Source: docs\CONSULT EMDC Projects Photos\Education & Leisure\GEMS World Academy.jpg
+[2025-12-08T04:10:54.127Z]    Dest: public\projects\gems-world-academy\GEMS World Academy.jpg
+[2025-12-08T04:10:54.128Z] 
+[2025-12-08T04:10:54.128Z] 17. Al Furat TV Broadcasting Station
+[2025-12-08T04:10:54.129Z]    Folder: al-furat-tv-broadcasting-station
+[2025-12-08T04:10:54.129Z]    Image: Al Furat TV Broadcasting Station.jpg
+[2025-12-08T04:10:54.130Z]    Source: docs\CONSULT EMDC Projects Photos\Education & Leisure\Al Furat TV Broadcasting Station.jpg
+[2025-12-08T04:10:54.130Z]    Dest: public\projects\al-furat-tv-broadcasting-station\Al Furat TV Broadcasting Station.jpg
+[2025-12-08T04:10:54.130Z] 
+[2025-12-08T04:10:54.131Z] 18. American International School
+[2025-12-08T04:10:54.131Z]    Folder: american-international-school
+[2025-12-08T04:10:54.131Z]    Image: American International School.jpg
+[2025-12-08T04:10:54.132Z]    Source: docs\CONSULT EMDC Projects Photos\Education & Leisure\American International School.jpg
+[2025-12-08T04:10:54.132Z]    Dest: public\projects\american-international-school\American International School.jpg
+[2025-12-08T04:10:54.132Z] 
+[2025-12-08T04:10:54.132Z] 19. Tripoli International Olympic Stadium
+[2025-12-08T04:10:54.133Z]    Folder: tripoli-international-olympic-stadium
+[2025-12-08T04:10:54.133Z]    Image: Tripoli International Olympic Stadium.jpg
+[2025-12-08T04:10:54.133Z]    Source: docs\CONSULT EMDC Projects Photos\Education & Leisure\Tripoli International Olympic Stadium.jpg
+[2025-12-08T04:10:54.133Z]    Dest: public\projects\tripoli-international-olympic-stadium\Tripoli International Olympic Stadium.jpg
+[2025-12-08T04:10:54.134Z] 
+[2025-12-08T04:10:54.134Z] 20. Road & Transport Research Center
+[2025-12-08T04:10:54.134Z]    Folder: road-transport-research-center
+[2025-12-08T04:10:54.135Z]    Image: Road & Transport Research Center.jpg
+[2025-12-08T04:10:54.135Z]    Source: docs\CONSULT EMDC Projects Photos\Education & Leisure\Road & Transport Research Center.jpg
+[2025-12-08T04:10:54.136Z]    Dest: public\projects\road-transport-research-center\Road & Transport Research Center.jpg
+[2025-12-08T04:10:54.136Z] 
+[2025-12-08T04:10:54.137Z] 21. Bayelsa Auditorium
+[2025-12-08T04:10:54.137Z]    Folder: bayelsa-auditorium
+[2025-12-08T04:10:54.138Z]    Image: Bayelsa Auditorium.jpg
+[2025-12-08T04:10:54.138Z]    Source: docs\CONSULT EMDC Projects Photos\Education & Leisure\Bayelsa Auditorium.jpg
+[2025-12-08T04:10:54.138Z]    Dest: public\projects\bayelsa-auditorium\Bayelsa Auditorium.jpg
+[2025-12-08T04:10:54.139Z] 
+[2025-12-08T04:10:54.139Z] 22. Dhahran Expo Convention Center
+[2025-12-08T04:10:54.139Z]    Folder: dhahran-expo-convention-center
+[2025-12-08T04:10:54.140Z]    Image: Dhahran Expo Convention Center.jpg
+[2025-12-08T04:10:54.140Z]    Source: docs\CONSULT EMDC Projects Photos\Education & Leisure\Dhahran Expo Convention Center.jpg
+[2025-12-08T04:10:54.140Z]    Dest: public\projects\dhahran-expo-convention-center\Dhahran Expo Convention Center.jpg
+[2025-12-08T04:10:54.140Z] 
+[2025-12-08T04:10:54.141Z] 23. Qiddiya Speed Park
+[2025-12-08T04:10:54.141Z]    Folder: qiddiya-speed-park
+[2025-12-08T04:10:54.141Z]    Image: Qiddiya Speed Park.jpg
+[2025-12-08T04:10:54.141Z]    Source: docs\CONSULT EMDC Projects Photos\Education & Leisure\Qiddiya Speed Park.jpg
+[2025-12-08T04:10:54.142Z]    Dest: public\projects\qiddiya-speed-park\Qiddiya Speed Park.jpg
+[2025-12-08T04:10:54.142Z] 
+[2025-12-08T04:10:54.142Z] 24. Ibn Sina Hospital
+[2025-12-08T04:10:54.142Z]    Folder: ibn-sina-hospital
+[2025-12-08T04:10:54.143Z]    Image: Ibn Sina Hospital.jpg
+[2025-12-08T04:10:54.143Z]    Source: docs\CONSULT EMDC Projects Photos\Healthcare\Ibn Sina Hospital.jpg
+[2025-12-08T04:10:54.143Z]    Dest: public\projects\ibn-sina-hospital\Ibn Sina Hospital.jpg
+[2025-12-08T04:10:54.143Z] 
+[2025-12-08T04:10:54.144Z] 25. CMRC Hospital II
+[2025-12-08T04:10:54.144Z]    Folder: cmrc-hospital-ii
+[2025-12-08T04:10:54.144Z]    Image: CMRC Hospital II.png
+[2025-12-08T04:10:54.144Z]    Source: docs\CONSULT EMDC Projects Photos\Healthcare\CMRC Hospital II.png
+[2025-12-08T04:10:54.145Z]    Dest: public\projects\cmrc-hospital-ii\CMRC Hospital II.png
+[2025-12-08T04:10:54.145Z] 
+[2025-12-08T04:10:54.145Z] 26. PNU Medical Hospital
+[2025-12-08T04:10:54.145Z]    Folder: pnu-medical-hospital
+[2025-12-08T04:10:54.146Z]    Image: PNU Medical Hospital.jpg
+[2025-12-08T04:10:54.146Z]    Source: docs\CONSULT EMDC Projects Photos\Healthcare\PNU Medical Hospital.jpg
+[2025-12-08T04:10:54.146Z]    Dest: public\projects\pnu-medical-hospital\PNU Medical Hospital.jpg
+[2025-12-08T04:10:54.146Z] 
+[2025-12-08T04:10:54.146Z] 27. Savior Medical Center
+[2025-12-08T04:10:54.147Z]    Folder: savior-medical-center
+[2025-12-08T04:10:54.147Z]    Image: Savior Medical Center.jpg
+[2025-12-08T04:10:54.147Z]    Source: docs\CONSULT EMDC Projects Photos\Healthcare\Savior Medical Center.jpg
+[2025-12-08T04:10:54.147Z]    Dest: public\projects\savior-medical-center\Savior Medical Center.jpg
+[2025-12-08T04:10:54.148Z] 
+[2025-12-08T04:10:54.148Z] 28. Baghdad Teaching Hospital
+[2025-12-08T04:10:54.148Z]    Folder: baghdad-teaching-hospital
+[2025-12-08T04:10:54.148Z]    Image: Baghdad Teaching Hospital.jpg
+[2025-12-08T04:10:54.149Z]    Source: docs\CONSULT EMDC Projects Photos\Healthcare\Baghdad Teaching Hospital.jpg
+[2025-12-08T04:10:54.149Z]    Dest: public\projects\baghdad-teaching-hospital\Baghdad Teaching Hospital.jpg
+[2025-12-08T04:10:54.149Z] 
+[2025-12-08T04:10:54.149Z] 29. Clinical Skills Development Center
+[2025-12-08T04:10:54.149Z]    Folder: clinical-skills-development-center
+[2025-12-08T04:10:54.150Z]    Image: Clinical Skills Development Center.jpg
+[2025-12-08T04:10:54.150Z]    Source: docs\CONSULT EMDC Projects Photos\Healthcare\Clinical Skills Development Center.jpg
+[2025-12-08T04:10:54.150Z]    Dest: public\projects\clinical-skills-development-center\Clinical Skills Development Center.jpg
+[2025-12-08T04:10:54.150Z] 
+[2025-12-08T04:10:54.150Z] 30. CMRC Hospital I
+[2025-12-08T04:10:54.151Z]    Folder: cmrc-hospital-i
+[2025-12-08T04:10:54.151Z]    Image: CMRC Hospital II.png
+[2025-12-08T04:10:54.151Z]    Source: docs\CONSULT EMDC Projects Photos\Healthcare\CMRC Hospital II.png
+[2025-12-08T04:10:54.151Z]    Dest: public\projects\cmrc-hospital-i\CMRC Hospital II.png
+[2025-12-08T04:10:54.152Z] 
+[2025-12-08T04:10:54.152Z] 31. Baaqouba Teaching Hospital
+[2025-12-08T04:10:54.153Z]    Folder: baaqouba-teaching-hospital
+[2025-12-08T04:10:54.153Z]    Image: Baaqouba Teaching Hospital.jpg
+[2025-12-08T04:10:54.154Z]    Source: docs\CONSULT EMDC Projects Photos\Healthcare\Baaqouba Teaching Hospital.jpg
+[2025-12-08T04:10:54.154Z]    Dest: public\projects\baaqouba-teaching-hospital\Baaqouba Teaching Hospital.jpg
+[2025-12-08T04:10:54.155Z] 
+[2025-12-08T04:10:54.155Z] 32. Shura Island - Hotel West #1
+[2025-12-08T04:10:54.155Z]    Folder: shura-island-hotel-west-1
+[2025-12-08T04:10:54.156Z]    Image: Shura Island - Hotel West #1.jpeg
+[2025-12-08T04:10:54.156Z]    Source: docs\CONSULT EMDC Projects Photos\Hospitality\Shura Island - Hotel West #1.jpeg
+[2025-12-08T04:10:54.156Z]    Dest: public\projects\shura-island-hotel-west-1\Shura Island - Hotel West #1.jpeg
+[2025-12-08T04:10:54.157Z] 
+[2025-12-08T04:10:54.157Z] 33. MAAD Complex Hospitality Towers
+[2025-12-08T04:10:54.157Z]    Folder: maad-complex-hospitality-towers
+[2025-12-08T04:10:54.157Z]    Image: MAAD Complex Hospitality Towers.jpg
+[2025-12-08T04:10:54.158Z]    Source: docs\CONSULT EMDC Projects Photos\Hospitality\MAAD Complex Hospitality Towers.jpg
+[2025-12-08T04:10:54.158Z]    Dest: public\projects\maad-complex-hospitality-towers\MAAD Complex Hospitality Towers.jpg
+[2025-12-08T04:10:54.158Z] 
+[2025-12-08T04:10:54.158Z] 34. King Abdullah WAQF Tower Hotel
+[2025-12-08T04:10:54.158Z]    Folder: king-abdullah-waqf-tower-hotel
+[2025-12-08T04:10:54.159Z]    Image: King Abdullah WAQF Tower Hotel.jpg
+[2025-12-08T04:10:54.159Z]    Source: docs\CONSULT EMDC Projects Photos\Hospitality\King Abdullah WAQF Tower Hotel.jpg
+[2025-12-08T04:10:54.159Z]    Dest: public\projects\king-abdullah-waqf-tower-hotel\King Abdullah WAQF Tower Hotel.jpg
+[2025-12-08T04:10:54.160Z] 
+[2025-12-08T04:10:54.160Z] 35. Hotel Complex Oasis (1001 Keys)
+[2025-12-08T04:10:54.160Z]    Folder: hotel-complex-oasis-1001-keys
+[2025-12-08T04:10:54.160Z]    Image: Hotel Complex Oasis (1001 Keys).jpg
+[2025-12-08T04:10:54.161Z]    Source: docs\CONSULT EMDC Projects Photos\Hospitality\Hotel Complex Oasis (1001 Keys).jpg
+[2025-12-08T04:10:54.161Z]    Dest: public\projects\hotel-complex-oasis-1001-keys\Hotel Complex Oasis (1001 Keys).jpg
+[2025-12-08T04:10:54.161Z] 
+[2025-12-08T04:10:54.161Z] 36. VOCO - IHG Hotel (234 Keys)
+[2025-12-08T04:10:54.162Z]    Folder: voco-ihg-hotel-234-keys
+[2025-12-08T04:10:54.162Z]    Image: VOCO - IHG Hotel (234 Keys).jpg
+[2025-12-08T04:10:54.162Z]    Source: docs\CONSULT EMDC Projects Photos\Hospitality\VOCO - IHG Hotel (234 Keys).jpg
+[2025-12-08T04:10:54.162Z]    Dest: public\projects\voco-ihg-hotel-234-keys\VOCO - IHG Hotel (234 Keys).jpg
+[2025-12-08T04:10:54.163Z] 
+[2025-12-08T04:10:54.163Z] 37. Roca del Este Hotel I
+[2025-12-08T04:10:54.163Z]    Folder: roca-del-este-hotel-i
+[2025-12-08T04:10:54.163Z]    Image: Roca del Este Hotel I.jpg
+[2025-12-08T04:10:54.164Z]    Source: docs\CONSULT EMDC Projects Photos\Hospitality\Roca del Este Hotel I.jpg
+[2025-12-08T04:10:54.164Z]    Dest: public\projects\roca-del-este-hotel-i\Roca del Este Hotel I.jpg
+[2025-12-08T04:10:54.164Z] 
+[2025-12-08T04:10:54.164Z] 38. Sheraton Lagos Hotel
+[2025-12-08T04:10:54.165Z]    Folder: sheraton-lagos-hotel
+[2025-12-08T04:10:54.165Z]    Image: Sheraton Lagos Hotel.jpg
+[2025-12-08T04:10:54.165Z]    Source: docs\CONSULT EMDC Projects Photos\Hospitality\Sheraton Lagos Hotel.jpg
+[2025-12-08T04:10:54.165Z]    Dest: public\projects\sheraton-lagos-hotel\Sheraton Lagos Hotel.jpg
+[2025-12-08T04:10:54.166Z] 
+[2025-12-08T04:10:54.166Z] 39. Hampton S7 Hotel
+[2025-12-08T04:10:54.166Z]    Folder: hampton-s7-hotel
+[2025-12-08T04:10:54.166Z]    Image: Hampton S7 Hotel.jpg
+[2025-12-08T04:10:54.166Z]    Source: docs\CONSULT EMDC Projects Photos\Hospitality\Hampton S7 Hotel.jpg
+[2025-12-08T04:10:54.166Z]    Dest: public\projects\hampton-s7-hotel\Hampton S7 Hotel.jpg
+[2025-12-08T04:10:54.167Z] 
+[2025-12-08T04:10:54.167Z] 40. Vertical Indoor Farms
+[2025-12-08T04:10:54.167Z]    Folder: vertical-indoor-farms
+[2025-12-08T04:10:54.167Z]    Image: Vertical Indoor Farms.jpg
+[2025-12-08T04:10:54.167Z]    Source: docs\CONSULT EMDC Projects Photos\Industrial\Vertical Indoor Farms.jpg
+[2025-12-08T04:10:54.168Z]    Dest: public\projects\vertical-indoor-farms\Vertical Indoor Farms.jpg
+[2025-12-08T04:10:54.168Z] 
+[2025-12-08T04:10:54.168Z] 41. Algorithm Pharmaceuticals
+[2025-12-08T04:10:54.169Z]    Folder: algorithm-pharmaceuticals
+[2025-12-08T04:10:54.169Z]    Image: Algorithm Pharmaceuticals.jpg
+[2025-12-08T04:10:54.170Z]    Source: docs\CONSULT EMDC Projects Photos\Industrial\Algorithm Pharmaceuticals.jpg
+[2025-12-08T04:10:54.171Z]    Dest: public\projects\algorithm-pharmaceuticals\Algorithm Pharmaceuticals.jpg
+[2025-12-08T04:10:54.171Z] 
+[2025-12-08T04:10:54.172Z] 42. New Jet Propulsion Center
+[2025-12-08T04:10:54.172Z]    Folder: new-jet-propulsion-center
+[2025-12-08T04:10:54.173Z]    Image: New Jet Propulsion Center.jpg
+[2025-12-08T04:10:54.173Z]    Source: docs\CONSULT EMDC Projects Photos\Industrial\New Jet Propulsion Center.jpg
+[2025-12-08T04:10:54.173Z]    Dest: public\projects\new-jet-propulsion-center\New Jet Propulsion Center.jpg
+[2025-12-08T04:10:54.173Z] 
+[2025-12-08T04:10:54.173Z] 43. Industrial Biofuel Agri Hub
+[2025-12-08T04:10:54.174Z]    Folder: industrial-biofuel-agri-hub
+[2025-12-08T04:10:54.174Z]    Image: Industrial Biofuel Agri Hub.jpg
+[2025-12-08T04:10:54.174Z]    Source: docs\CONSULT EMDC Projects Photos\Industrial\Industrial Biofuel Agri Hub.jpg
+[2025-12-08T04:10:54.174Z]    Dest: public\projects\industrial-biofuel-agri-hub\Industrial Biofuel Agri Hub.jpg
+[2025-12-08T04:10:54.175Z] 
+[2025-12-08T04:10:54.175Z] 44. Eni Center of Excellence
+[2025-12-08T04:10:54.175Z]    Folder: eni-center-of-excellence
+[2025-12-08T04:10:54.176Z]    Image: Eni Center of Excellence.jpg
+[2025-12-08T04:10:54.176Z]    Source: docs\CONSULT EMDC Projects Photos\Industrial\Eni Center of Excellence.jpg
+[2025-12-08T04:10:54.176Z]    Dest: public\projects\eni-center-of-excellence\Eni Center of Excellence.jpg
+[2025-12-08T04:10:54.176Z] 
+[2025-12-08T04:10:54.177Z] 45. Cervecería Cubana
+[2025-12-08T04:10:54.177Z]    Folder: cervecera-cubana
+[2025-12-08T04:10:54.177Z]    Image: Cervecería Cubana.jpg
+[2025-12-08T04:10:54.177Z]    Source: docs\CONSULT EMDC Projects Photos\Industrial\Cervecería Cubana.jpg
+[2025-12-08T04:10:54.177Z]    Dest: public\projects\cervecera-cubana\Cervecería Cubana.jpg
+[2025-12-08T04:10:54.178Z] 
+[2025-12-08T04:10:54.178Z] 46. Riyadh Metro – Line 4, 5 & 6
+[2025-12-08T04:10:54.178Z]    Folder: riyadh-metro-line-4-5-6
+[2025-12-08T04:10:54.179Z]    Image: Riyadh Metro – Line 4, 5 & 6.jpg
+[2025-12-08T04:10:54.179Z]    Source: docs\CONSULT EMDC Projects Photos\Infrastructure\Riyadh Metro – Line 4, 5 & 6.jpg
+[2025-12-08T04:10:54.179Z]    Dest: public\projects\riyadh-metro-line-4-5-6\Riyadh Metro – Line 4, 5 & 6.jpg
+[2025-12-08T04:10:54.179Z] 
+[2025-12-08T04:10:54.180Z] 47. Jannat Baghdad Development
+[2025-12-08T04:10:54.180Z]    Folder: jannat-baghdad-development
+[2025-12-08T04:10:54.180Z]    Image: Jannat Baghdad Development.png
+[2025-12-08T04:10:54.180Z]    Source: docs\CONSULT EMDC Projects Photos\Infrastructure\Jannat Baghdad Development.png
+[2025-12-08T04:10:54.180Z]    Dest: public\projects\jannat-baghdad-development\Jannat Baghdad Development.png
+[2025-12-08T04:10:54.181Z] 
+[2025-12-08T04:10:54.181Z] 48. Saafat El Basra City
+[2025-12-08T04:10:54.181Z]    Folder: saafat-el-basra-city
+[2025-12-08T04:10:54.181Z]    Image: Saafat El Basra City.jpg
+[2025-12-08T04:10:54.181Z]    Source: docs\CONSULT EMDC Projects Photos\Infrastructure\Saafat El Basra City.jpg
+[2025-12-08T04:10:54.182Z]    Dest: public\projects\saafat-el-basra-city\Saafat El Basra City.jpg
+[2025-12-08T04:10:54.182Z] 
+[2025-12-08T04:10:54.182Z] 49. Venan Housing Project
+[2025-12-08T04:10:54.182Z]    Folder: venan-housing-project
+[2025-12-08T04:10:54.182Z]    Image: Venan Housing Project.jpg
+[2025-12-08T04:10:54.183Z]    Source: docs\CONSULT EMDC Projects Photos\Infrastructure\Venan Housing Project.jpg
+[2025-12-08T04:10:54.183Z]    Dest: public\projects\venan-housing-project\Venan Housing Project.jpg
+[2025-12-08T04:10:54.183Z] 
+[2025-12-08T04:10:54.183Z] 50. Carplex Mixed Use (Mall &amp; Hotel)
+[2025-12-08T04:10:54.184Z]    Folder: carplex-mixed-use-mall-amp-hotel
+[2025-12-08T04:10:54.184Z]    Image: Carplex Mixed Use.jpg
+[2025-12-08T04:10:54.184Z]    Source: docs\CONSULT EMDC Projects Photos\Mixed Use\Carplex Mixed Use.jpg
+[2025-12-08T04:10:54.184Z]    Dest: public\projects\carplex-mixed-use-mall-amp-hotel\Carplex Mixed Use.jpg
+[2025-12-08T04:10:54.184Z] 
+[2025-12-08T04:10:54.185Z] 51. EKO Tower II (Residential & Medical Centre)
+[2025-12-08T04:10:54.185Z]    Folder: eko-tower-ii-residential-medical-centre
+[2025-12-08T04:10:54.186Z]    Image: EKO Tower II.jpg
+[2025-12-08T04:10:54.186Z]    Source: docs\CONSULT EMDC Projects Photos\Mixed Use\EKO Tower II.jpg
+[2025-12-08T04:10:54.187Z]    Dest: public\projects\eko-tower-ii-residential-medical-centre\EKO Tower II.jpg
+[2025-12-08T04:10:54.188Z] 
+[2025-12-08T04:10:54.188Z] 52. Azuri Peninsula (Residential & Offices)
+[2025-12-08T04:10:54.189Z]    Folder: azuri-peninsula-residential-offices
+[2025-12-08T04:10:54.189Z]    Image: Azuri Peninsula.jpg
+[2025-12-08T04:10:54.189Z]    Source: docs\CONSULT EMDC Projects Photos\Mixed Use\Azuri Peninsula.jpg
+[2025-12-08T04:10:54.190Z]    Dest: public\projects\azuri-peninsula-residential-offices\Azuri Peninsula.jpg
+[2025-12-08T04:10:54.190Z] 
+[2025-12-08T04:10:54.190Z] 53. Karbala Oasis Development (Mall & Hotel)
+[2025-12-08T04:10:54.190Z]    Folder: karbala-oasis-development-mall-hotel
+[2025-12-08T04:10:54.190Z]    Image: Karbala Oasis Development.jpg
+[2025-12-08T04:10:54.191Z]    Source: docs\CONSULT EMDC Projects Photos\Mixed Use\Karbala Oasis Development.jpg
+[2025-12-08T04:10:54.191Z]    Dest: public\projects\karbala-oasis-development-mall-hotel\Karbala Oasis Development.jpg
+[2025-12-08T04:10:54.191Z] 
+[2025-12-08T04:10:54.191Z] 54. Palm Towers (Residential & Offices)
+[2025-12-08T04:10:54.192Z]    Folder: palm-towers-residential-offices
+[2025-12-08T04:10:54.192Z]    Image: Palm Towers.jpg
+[2025-12-08T04:10:54.192Z]    Source: docs\CONSULT EMDC Projects Photos\Mixed Use\Palm Towers.jpg
+[2025-12-08T04:10:54.192Z]    Dest: public\projects\palm-towers-residential-offices\Palm Towers.jpg
+[2025-12-08T04:10:54.192Z] 
+[2025-12-08T04:10:54.193Z] 55. Lawyers & Notaries Tower (Hotel & Offices)
+[2025-12-08T04:10:54.193Z]    Folder: lawyers-notaries-tower-hotel-offices
+[2025-12-08T04:10:54.193Z]    Image: Lawyers & Notaries Tower.jpg
+[2025-12-08T04:10:54.193Z]    Source: docs\CONSULT EMDC Projects Photos\Mixed Use\Lawyers & Notaries Tower.jpg
+[2025-12-08T04:10:54.193Z]    Dest: public\projects\lawyers-notaries-tower-hotel-offices\Lawyers & Notaries Tower.jpg
+[2025-12-08T04:10:54.194Z] 
+[2025-12-08T04:10:54.194Z] 56. Crystal Tower
+[2025-12-08T04:10:54.194Z]    Folder: crystal-tower
+[2025-12-08T04:10:54.194Z]    Image: Crystal Tower.jpeg
+[2025-12-08T04:10:54.194Z]    Source: docs\CONSULT EMDC Projects Photos\Offices\Crystal Tower.jpeg
+[2025-12-08T04:10:54.195Z]    Dest: public\projects\crystal-tower\Crystal Tower.jpeg
+[2025-12-08T04:10:54.195Z] 
+[2025-12-08T04:10:54.195Z] 57. Kingsway Tower (Microsoft & Facebook Offices)
+[2025-12-08T04:10:54.195Z]    Folder: kingsway-tower-microsoft-facebook-offices
+[2025-12-08T04:10:54.195Z]    Image: Kingsway Tower.jpg
+[2025-12-08T04:10:54.196Z]    Source: docs\CONSULT EMDC Projects Photos\Offices\Kingsway Tower.jpg
+[2025-12-08T04:10:54.196Z]    Dest: public\projects\kingsway-tower-microsoft-facebook-offices\Kingsway Tower.jpg
+[2025-12-08T04:10:54.196Z] 
+[2025-12-08T04:10:54.196Z] 58. EKO Tower I (TOTAL Headquarters)
+[2025-12-08T04:10:54.196Z]    Folder: eko-tower-i-total-headquarters
+[2025-12-08T04:10:54.197Z]    Image: EKO Tower I.jpeg
+[2025-12-08T04:10:54.197Z]    Source: docs\CONSULT EMDC Projects Photos\Offices\EKO Tower I.jpeg
+[2025-12-08T04:10:54.197Z]    Dest: public\projects\eko-tower-i-total-headquarters\EKO Tower I.jpeg
+[2025-12-08T04:10:54.197Z] 
+[2025-12-08T04:10:54.197Z] 59. Otunba Offices
+[2025-12-08T04:10:54.198Z]    Folder: otunba-offices
+[2025-12-08T04:10:54.198Z]    Image: Otunba Offices.jpg
+[2025-12-08T04:10:54.198Z]    Source: docs\CONSULT EMDC Projects Photos\Offices\Otunba Offices.jpg
+[2025-12-08T04:10:54.198Z]    Dest: public\projects\otunba-offices\Otunba Offices.jpg
+[2025-12-08T04:10:54.198Z] 
+[2025-12-08T04:10:54.199Z] 60. World Bank
+[2025-12-08T04:10:54.199Z]    Folder: world-bank
+[2025-12-08T04:10:54.199Z]    Image: World Bank.jpg
+[2025-12-08T04:10:54.199Z]    Source: docs\CONSULT EMDC Projects Photos\Offices\World Bank.jpg
+[2025-12-08T04:10:54.199Z]    Dest: public\projects\world-bank\World Bank.jpg
+[2025-12-08T04:10:54.200Z] 
+[2025-12-08T04:10:54.200Z] 61. Riyadh Power Plant PP10
+[2025-12-08T04:10:54.200Z]    Folder: riyadh-power-plant-pp10
+[2025-12-08T04:10:54.200Z]    Image: Riyadh Power Plant PP10.jpg
+[2025-12-08T04:10:54.200Z]    Source: docs\CONSULT EMDC Projects Photos\Power Plants & Data Centers\Riyadh Power Plant PP10.jpg
+[2025-12-08T04:10:54.201Z]    Dest: public\projects\riyadh-power-plant-pp10\Riyadh Power Plant PP10.jpg
+[2025-12-08T04:10:54.201Z] 
+[2025-12-08T04:10:54.201Z] 62. KAIA Data Centers 1&2
+[2025-12-08T04:10:54.201Z]    Folder: kaia-data-centers-12
+[2025-12-08T04:10:54.201Z]    Image: KAIA Data Centers 1&2.jpeg
+[2025-12-08T04:10:54.202Z]    Source: docs\CONSULT EMDC Projects Photos\Power Plants & Data Centers\KAIA Data Centers 1&2.jpeg
+[2025-12-08T04:10:54.203Z]    Dest: public\projects\kaia-data-centers-12\KAIA Data Centers 1&2.jpeg
+[2025-12-08T04:10:54.203Z] 
+[2025-12-08T04:10:54.204Z] 63. Al-Qassim PP Extension #2
+[2025-12-08T04:10:54.204Z]    Folder: al-qassim-pp-extension-2
+[2025-12-08T04:10:54.204Z]    Image: Al-Qassim PP Extension #2.jpg
+[2025-12-08T04:10:54.205Z]    Source: docs\CONSULT EMDC Projects Photos\Power Plants & Data Centers\Al-Qassim PP Extension #2.jpg
+[2025-12-08T04:10:54.205Z]    Dest: public\projects\al-qassim-pp-extension-2\Al-Qassim PP Extension #2.jpg
+[2025-12-08T04:10:54.205Z] 
+[2025-12-08T04:10:54.205Z] 64. Al-Qassim PP Extension #3
+[2025-12-08T04:10:54.206Z]    Folder: al-qassim-pp-extension-3
+[2025-12-08T04:10:54.206Z]    Image: Al-Qassim PP Extension #3.jpg
+[2025-12-08T04:10:54.206Z]    Source: docs\CONSULT EMDC Projects Photos\Power Plants & Data Centers\Al-Qassim PP Extension #3.jpg
+[2025-12-08T04:10:54.206Z]    Dest: public\projects\al-qassim-pp-extension-3\Al-Qassim PP Extension #3.jpg
+[2025-12-08T04:10:54.207Z] 
+[2025-12-08T04:10:54.207Z] 65. Africa Data Centers
+[2025-12-08T04:10:54.208Z]    Folder: africa-data-centers
+[2025-12-08T04:10:54.208Z]    Image: Africa Data Centers.jpg
+[2025-12-08T04:10:54.208Z]    Source: docs\CONSULT EMDC Projects Photos\Power Plants & Data Centers\Africa Data Centers.jpg
+[2025-12-08T04:10:54.208Z]    Dest: public\projects\africa-data-centers\Africa Data Centers.jpg
+[2025-12-08T04:10:54.208Z] 
+[2025-12-08T04:10:54.209Z] 66. King Khaled International Airport AGL Substations
+[2025-12-08T04:10:54.209Z]    Folder: king-khaled-international-airport-agl-substations
+[2025-12-08T04:10:54.209Z]    Image: AGL Substations.jpg
+[2025-12-08T04:10:54.209Z]    Source: docs\CONSULT EMDC Projects Photos\Power Plants & Data Centers\AGL Substations.jpg
+[2025-12-08T04:10:54.210Z]    Dest: public\projects\king-khaled-international-airport-agl-substations\AGL Substations.jpg
+[2025-12-08T04:10:54.210Z] 
+[2025-12-08T04:10:54.210Z] 67. eStruxture Data Center
+[2025-12-08T04:10:54.210Z]    Folder: estruxture-data-center
+[2025-12-08T04:10:54.210Z]    Image: eStruxture Data Center.jpg
+[2025-12-08T04:10:54.211Z]    Source: docs\CONSULT EMDC Projects Photos\Power Plants & Data Centers\eStruxture Data Center.jpg
+[2025-12-08T04:10:54.211Z]    Dest: public\projects\estruxture-data-center\eStruxture Data Center.jpg
+[2025-12-08T04:10:54.211Z] 
+[2025-12-08T04:10:54.211Z] 68. Meydan I Staff Accommodation
+[2025-12-08T04:10:54.212Z]    Folder: meydan-i-staff-accommodation
+[2025-12-08T04:10:54.212Z]    Image: Meydan I Staff Accommodation.jpeg
+[2025-12-08T04:10:54.212Z]    Source: docs\CONSULT EMDC Projects Photos\Residential\Meydan I Staff Accommodation.jpeg
+[2025-12-08T04:10:54.212Z]    Dest: public\projects\meydan-i-staff-accommodation\Meydan I Staff Accommodation.jpeg
+[2025-12-08T04:10:54.212Z] 
+[2025-12-08T04:10:54.213Z] 69. Sky Tower
+[2025-12-08T04:10:54.213Z]    Folder: sky-tower
+[2025-12-08T04:10:54.213Z]    Image: Sky Tower.jpg
+[2025-12-08T04:10:54.213Z]    Source: docs\CONSULT EMDC Projects Photos\Residential\Sky Tower.jpg
+[2025-12-08T04:10:54.214Z]    Dest: public\projects\sky-tower\Sky Tower.jpg
+[2025-12-08T04:10:54.214Z] 
+[2025-12-08T04:10:54.214Z] 70. Kuramo Beach Residence
+[2025-12-08T04:10:54.214Z]    Folder: kuramo-beach-residence
+[2025-12-08T04:10:54.214Z]    Image: Kuramo Beach Residence.jpg
+[2025-12-08T04:10:54.215Z]    Source: docs\CONSULT EMDC Projects Photos\Residential\Kuramo Beach Residence.jpg
+[2025-12-08T04:10:54.215Z]    Dest: public\projects\kuramo-beach-residence\Kuramo Beach Residence.jpg
+[2025-12-08T04:10:54.215Z] 
+[2025-12-08T04:10:54.215Z] 71. Twin Tower
+[2025-12-08T04:10:54.215Z]    Folder: twin-tower
+[2025-12-08T04:10:54.216Z]    Image: Twin Tower.jpeg
+[2025-12-08T04:10:54.216Z]    Source: docs\CONSULT EMDC Projects Photos\Residential\Twin Tower.jpeg
+[2025-12-08T04:10:54.216Z]    Dest: public\projects\twin-tower\Twin Tower.jpeg
+[2025-12-08T04:10:54.216Z] 
+[2025-12-08T04:10:54.217Z] 72. Roshn Show Villas
+[2025-12-08T04:10:54.217Z]    Folder: roshn-show-villas
+[2025-12-08T04:10:54.217Z]    Image: Roshn Show Villas.jpg
+[2025-12-08T04:10:54.217Z]    Source: docs\CONSULT EMDC Projects Photos\Residential\Roshn Show Villas.jpg
+[2025-12-08T04:10:54.217Z]    Dest: public\projects\roshn-show-villas\Roshn Show Villas.jpg
+[2025-12-08T04:10:54.218Z] 
+[2025-12-08T04:10:54.218Z] 73. Darco Shatea Residences
+[2025-12-08T04:10:54.218Z]    Folder: darco-shatea-residences
+[2025-12-08T04:10:54.219Z]    Image: Darco Shatea Residences.jpg
+[2025-12-08T04:10:54.219Z]    Source: docs\CONSULT EMDC Projects Photos\Residential\Darco Shatea Residences.jpg
+[2025-12-08T04:10:54.220Z]    Dest: public\projects\darco-shatea-residences\Darco Shatea Residences.jpg
+[2025-12-08T04:10:54.221Z] 
+[2025-12-08T04:10:54.221Z] 74. Bin Mahfouz Residential Compound
+[2025-12-08T04:10:54.221Z]    Folder: bin-mahfouz-residential-compound
+[2025-12-08T04:10:54.222Z]    Image: Bin Mahfouz Residential Compound.jpg
+[2025-12-08T04:10:54.222Z]    Source: docs\CONSULT EMDC Projects Photos\Residential\Bin Mahfouz Residential Compound.jpg
+[2025-12-08T04:10:54.222Z]    Dest: public\projects\bin-mahfouz-residential-compound\Bin Mahfouz Residential Compound.jpg
+[2025-12-08T04:10:54.222Z] 
+[2025-12-08T04:10:54.223Z] 75. Zouhour Baghdad Mall
+[2025-12-08T04:10:54.223Z]    Folder: zouhour-baghdad-mall
+[2025-12-08T04:10:54.223Z]    Image: Zouhour Baghdad Mall.jpg
+[2025-12-08T04:10:54.224Z]    Source: docs\CONSULT EMDC Projects Photos\Retail\Zouhour Baghdad Mall.jpg
+[2025-12-08T04:10:54.224Z]    Dest: public\projects\zouhour-baghdad-mall\Zouhour Baghdad Mall.jpg
+[2025-12-08T04:10:54.224Z] 
+[2025-12-08T04:10:54.224Z] 76. Marchés Urbains et Régionaux
+[2025-12-08T04:10:54.225Z]    Folder: marchs-urbains-et-rgionaux
+[2025-12-08T04:10:54.225Z]    Image: Marchés Urbains et Régionaux.png
+[2025-12-08T04:10:54.225Z]    Source: docs\CONSULT EMDC Projects Photos\Retail\Marchés Urbains et Régionaux.png
+[2025-12-08T04:10:54.225Z]    Dest: public\projects\marchs-urbains-et-rgionaux\Marchés Urbains et Régionaux.png
+[2025-12-08T04:10:54.225Z] 
+[2025-12-08T04:10:54.226Z] 77. Kirkuk Mall
+[2025-12-08T04:10:54.226Z]    Folder: kirkuk-mall
+[2025-12-08T04:10:54.226Z]    Image: Kirkuk Mall.jpg
+[2025-12-08T04:10:54.226Z]    Source: docs\CONSULT EMDC Projects Photos\Retail\Kirkuk Mall.jpg
+[2025-12-08T04:10:54.227Z]    Dest: public\projects\kirkuk-mall\Kirkuk Mall.jpg
+[2025-12-08T04:10:54.227Z] 
+[2025-12-08T04:10:54.227Z] 78. Kirkuk Landmark Mall
+[2025-12-08T04:10:54.227Z]    Folder: kirkuk-landmark-mall
+[2025-12-08T04:10:54.227Z]    Image: Kirkuk Landmark Mall.jpg
+[2025-12-08T04:10:54.228Z]    Source: docs\CONSULT EMDC Projects Photos\Retail\Kirkuk Landmark Mall.jpg
+[2025-12-08T04:10:54.228Z]    Dest: public\projects\kirkuk-landmark-mall\Kirkuk Landmark Mall.jpg
+[2025-12-08T04:10:54.228Z] 
+[2025-12-08T04:10:54.228Z] 79. Baghdad Mall
+[2025-12-08T04:10:54.229Z]    Folder: baghdad-mall
+[2025-12-08T04:10:54.229Z]    Image: Zouhour Baghdad Mall.jpg
+[2025-12-08T04:10:54.229Z]    Source: docs\CONSULT EMDC Projects Photos\Retail\Zouhour Baghdad Mall.jpg
+[2025-12-08T04:10:54.229Z]    Dest: public\projects\baghdad-mall\Zouhour Baghdad Mall.jpg
+[2025-12-08T04:10:54.229Z] 
+[2025-12-08T04:10:54.230Z] 80. Sultan Boulevard Commercial Center
+[2025-12-08T04:10:54.230Z]    Folder: sultan-boulevard-commercial-center
+[2025-12-08T04:10:54.230Z]    Image: Sultan Boulevard Commercial Center.jpg
+[2025-12-08T04:10:54.230Z]    Source: docs\CONSULT EMDC Projects Photos\Retail\Sultan Boulevard Commercial Center.jpg
+[2025-12-08T04:10:54.230Z]    Dest: public\projects\sultan-boulevard-commercial-center\Sultan Boulevard Commercial Center.jpg
+[2025-12-08T04:10:54.230Z] 
+[2025-12-08T04:10:54.231Z] 81. Villaggio II
+[2025-12-08T04:10:54.231Z]    Folder: villaggio-ii
+[2025-12-08T04:10:54.231Z]    Image: Villaggio II.jpg
+[2025-12-08T04:10:54.231Z]    Source: docs\CONSULT EMDC Projects Photos\Retail\Villaggio II.jpg
+[2025-12-08T04:10:54.231Z]    Dest: public\projects\villaggio-ii\Villaggio II.jpg
+[2025-12-08T04:10:54.232Z] 
+[2025-12-08T04:10:54.232Z] 82. Patchi Waterway
+[2025-12-08T04:10:54.232Z]    Folder: patchi-waterway
+[2025-12-08T04:10:54.232Z]    Image: Patchi Waterway.png
+[2025-12-08T04:10:54.232Z]    Source: docs\CONSULT EMDC Projects Photos\Retail\Patchi Waterway.png
+[2025-12-08T04:10:54.233Z]    Dest: public\projects\patchi-waterway\Patchi Waterway.png
+[2025-12-08T04:10:54.233Z] 
+[2025-12-08T04:10:54.233Z] 
+🗑️  REMOVED PROJECTS (from projects.json):
+[2025-12-08T04:10:54.233Z] --------------------------------------------------------------------------------
+[2025-12-08T04:10:54.233Z] 1. JAX Multistory Car Parks
+[2025-12-08T04:10:54.234Z]    Folder: jax-multistory-car-parks
+[2025-12-08T04:10:54.234Z]    Image: jax-multistory-car-parks.jpg
+[2025-12-08T04:10:54.234Z]    Categories: Airports & Stations
+[2025-12-08T04:10:54.234Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.235Z] 
+[2025-12-08T04:10:54.235Z] 2. UYO Conventional Center
+[2025-12-08T04:10:54.235Z]    Folder: uyo-conventional-center
+[2025-12-08T04:10:54.236Z]    Image: uyo-conventional-center.jpg
+[2025-12-08T04:10:54.236Z]    Categories: Civic & Religious
+[2025-12-08T04:10:54.236Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.237Z] 
+[2025-12-08T04:10:54.237Z] 3. Al Nour Mosque
+[2025-12-08T04:10:54.238Z]    Folder: al-nour-mosque
+[2025-12-08T04:10:54.238Z]    Image: al-nour-mosque.jpg
+[2025-12-08T04:10:54.238Z]    Categories: Civic & Religious
+[2025-12-08T04:10:54.238Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.239Z] 
+[2025-12-08T04:10:54.239Z] 4. Happy Childhood Village
+[2025-12-08T04:10:54.240Z]    Folder: happy-childhood-village
+[2025-12-08T04:10:54.240Z]    Image: happy-childhood-village.jpg
+[2025-12-08T04:10:54.240Z]    Categories: Education & Leisure
+[2025-12-08T04:10:54.241Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.241Z] 
+[2025-12-08T04:10:54.241Z] 5. Wasit Water & Sanitation Stations
+[2025-12-08T04:10:54.242Z]    Folder: wasit-water-sanitation-stations
+[2025-12-08T04:10:54.242Z]    Image: wasit-water-sanitation-stations.jpg
+[2025-12-08T04:10:54.243Z]    Categories: Infrastructure
+[2025-12-08T04:10:54.243Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.244Z] 
+[2025-12-08T04:10:54.244Z] 6. Diriyah Square – Mega Car Park
+[2025-12-08T04:10:54.244Z]    Folder: diriyah-square-mega-car-park
+[2025-12-08T04:10:54.245Z]    Image: diriyah-square-mega-car-park.jpg
+[2025-12-08T04:10:54.245Z]    Categories: Infrastructure
+[2025-12-08T04:10:54.245Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.246Z] 
+[2025-12-08T04:10:54.246Z] 7. Garden Heights
+[2025-12-08T04:10:54.246Z]    Folder: garden-heights
+[2025-12-08T04:10:54.247Z]    Image: garden-heights.jpg
+[2025-12-08T04:10:54.247Z]    Categories: Offices
+[2025-12-08T04:10:54.247Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.247Z] 
+[2025-12-08T04:10:54.248Z] 8. The Carnelian
+[2025-12-08T04:10:54.248Z]    Folder: the-carnelian
+[2025-12-08T04:10:54.248Z]    Image: the-carnelian.jpg
+[2025-12-08T04:10:54.248Z]    Categories: Offices
+[2025-12-08T04:10:54.249Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.249Z] 
+[2025-12-08T04:10:54.249Z] 9. Jeddah Corniche Park Tower
+[2025-12-08T04:10:54.249Z]    Folder: jeddah-corniche-park-tower
+[2025-12-08T04:10:54.250Z]    Image: jeddah-corniche-park-tower.jpg
+[2025-12-08T04:10:54.250Z]    Categories: Offices
+[2025-12-08T04:10:54.250Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.250Z] 
+[2025-12-08T04:10:54.251Z] 10. Total Headquarters Data Center
+[2025-12-08T04:10:54.251Z]    Folder: total-headquarters-data-center
+[2025-12-08T04:10:54.251Z]    Image: total-headquarters-data-center.jpg
+[2025-12-08T04:10:54.251Z]    Categories: Power Plants & Data Centers
+[2025-12-08T04:10:54.252Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.252Z] 
+[2025-12-08T04:10:54.252Z] 11. Erbil City Center
+[2025-12-08T04:10:54.253Z]    Folder: erbil-city-center
+[2025-12-08T04:10:54.253Z]    Image: erbil-city-center.jpg
+[2025-12-08T04:10:54.254Z]    Categories: Retail
+[2025-12-08T04:10:54.254Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.255Z] 
+[2025-12-08T04:10:54.255Z] 12. Jezan Airport
+[2025-12-08T04:10:54.255Z]    Folder: jezan-airport
+[2025-12-08T04:10:54.255Z]    Image: jezan-airport.jpg
+[2025-12-08T04:10:54.256Z]    Categories: Value Engineering & Peer Review
+[2025-12-08T04:10:54.256Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.256Z] 
+[2025-12-08T04:10:54.256Z] 13. Al Khalidia Palace
+[2025-12-08T04:10:54.256Z]    Folder: al-khalidia-palace
+[2025-12-08T04:10:54.257Z]    Image: al-khalidia-palace.jpg
+[2025-12-08T04:10:54.257Z]    Categories: Value Engineering & Peer Review
+[2025-12-08T04:10:54.257Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.257Z] 
+[2025-12-08T04:10:54.258Z] 14. MBL Residence
+[2025-12-08T04:10:54.258Z]    Folder: mbl-residence
+[2025-12-08T04:10:54.258Z]    Image: mbl-residence.jpg
+[2025-12-08T04:10:54.258Z]    Categories: Value Engineering & Peer Review
+[2025-12-08T04:10:54.258Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.259Z] 
+[2025-12-08T04:10:54.259Z] 15. MAG 5 Boulevard
+[2025-12-08T04:10:54.259Z]    Folder: mag-5-boulevard
+[2025-12-08T04:10:54.259Z]    Image: mag-5-boulevard.jpg
+[2025-12-08T04:10:54.260Z]    Categories: Value Engineering & Peer Review
+[2025-12-08T04:10:54.260Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.260Z] 
+[2025-12-08T04:10:54.260Z] 16. Entissar Tower (Residential & Luxury Hotel)
+[2025-12-08T04:10:54.260Z]    Folder: entissar-tower-residential-luxury-hotel
+[2025-12-08T04:10:54.261Z]    Image: entissar-tower-residential-luxury-hotel.jpg
+[2025-12-08T04:10:54.261Z]    Categories: Value Engineering & Peer Review
+[2025-12-08T04:10:54.261Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.261Z] 
+[2025-12-08T04:10:54.262Z] 17. Viceroy Tower
+[2025-12-08T04:10:54.262Z]    Folder: viceroy-tower
+[2025-12-08T04:10:54.262Z]    Image: viceroy-tower.jpg
+[2025-12-08T04:10:54.262Z]    Categories: Value Engineering & Peer Review
+[2025-12-08T04:10:54.263Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.263Z] 
+[2025-12-08T04:10:54.263Z] 
+❌ MISSING IMAGES:
+[2025-12-08T04:10:54.264Z] --------------------------------------------------------------------------------
+[2025-12-08T04:10:54.264Z] 1. JAX Multistory Car Parks
+[2025-12-08T04:10:54.264Z]    Image: jax-multistory-car-parks.jpg
+[2025-12-08T04:10:54.265Z]    Categories: Airports & Stations
+[2025-12-08T04:10:54.265Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.265Z] 
+[2025-12-08T04:10:54.266Z] 2. UYO Conventional Center
+[2025-12-08T04:10:54.266Z]    Image: uyo-conventional-center.jpg
+[2025-12-08T04:10:54.266Z]    Categories: Civic & Religious
+[2025-12-08T04:10:54.266Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.266Z] 
+[2025-12-08T04:10:54.267Z] 3. Al Nour Mosque
+[2025-12-08T04:10:54.267Z]    Image: al-nour-mosque.jpg
+[2025-12-08T04:10:54.267Z]    Categories: Civic & Religious
+[2025-12-08T04:10:54.267Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.268Z] 
+[2025-12-08T04:10:54.268Z] 4. Happy Childhood Village
+[2025-12-08T04:10:54.268Z]    Image: happy-childhood-village.jpg
+[2025-12-08T04:10:54.268Z]    Categories: Education & Leisure
+[2025-12-08T04:10:54.269Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.269Z] 
+[2025-12-08T04:10:54.270Z] 5. Wasit Water & Sanitation Stations
+[2025-12-08T04:10:54.270Z]    Image: wasit-water-sanitation-stations.jpg
+[2025-12-08T04:10:54.271Z]    Categories: Infrastructure
+[2025-12-08T04:10:54.271Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.271Z] 
+[2025-12-08T04:10:54.272Z] 6. Diriyah Square – Mega Car Park
+[2025-12-08T04:10:54.272Z]    Image: diriyah-square-mega-car-park.jpg
+[2025-12-08T04:10:54.272Z]    Categories: Infrastructure
+[2025-12-08T04:10:54.272Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.273Z] 
+[2025-12-08T04:10:54.273Z] 7. Garden Heights
+[2025-12-08T04:10:54.273Z]    Image: garden-heights.jpg
+[2025-12-08T04:10:54.273Z]    Categories: Offices
+[2025-12-08T04:10:54.273Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.274Z] 
+[2025-12-08T04:10:54.274Z] 8. The Carnelian
+[2025-12-08T04:10:54.274Z]    Image: the-carnelian.jpg
+[2025-12-08T04:10:54.274Z]    Categories: Offices
+[2025-12-08T04:10:54.275Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.275Z] 
+[2025-12-08T04:10:54.275Z] 9. Jeddah Corniche Park Tower
+[2025-12-08T04:10:54.275Z]    Image: jeddah-corniche-park-tower.jpg
+[2025-12-08T04:10:54.275Z]    Categories: Offices
+[2025-12-08T04:10:54.276Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.276Z] 
+[2025-12-08T04:10:54.276Z] 10. Total Headquarters Data Center
+[2025-12-08T04:10:54.276Z]    Image: total-headquarters-data-center.jpg
+[2025-12-08T04:10:54.276Z]    Categories: Power Plants & Data Centers
+[2025-12-08T04:10:54.277Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.277Z] 
+[2025-12-08T04:10:54.277Z] 11. Erbil City Center
+[2025-12-08T04:10:54.277Z]    Image: erbil-city-center.jpg
+[2025-12-08T04:10:54.277Z]    Categories: Retail
+[2025-12-08T04:10:54.278Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.278Z] 
+[2025-12-08T04:10:54.278Z] 12. Jezan Airport
+[2025-12-08T04:10:54.278Z]    Image: jezan-airport.jpg
+[2025-12-08T04:10:54.279Z]    Categories: Value Engineering & Peer Review
+[2025-12-08T04:10:54.279Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.279Z] 
+[2025-12-08T04:10:54.279Z] 13. Al Khalidia Palace
+[2025-12-08T04:10:54.280Z]    Image: al-khalidia-palace.jpg
+[2025-12-08T04:10:54.280Z]    Categories: Value Engineering & Peer Review
+[2025-12-08T04:10:54.280Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.280Z] 
+[2025-12-08T04:10:54.281Z] 14. MBL Residence
+[2025-12-08T04:10:54.281Z]    Image: mbl-residence.jpg
+[2025-12-08T04:10:54.281Z]    Categories: Value Engineering & Peer Review
+[2025-12-08T04:10:54.281Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.281Z] 
+[2025-12-08T04:10:54.282Z] 15. MAG 5 Boulevard
+[2025-12-08T04:10:54.282Z]    Image: mag-5-boulevard.jpg
+[2025-12-08T04:10:54.282Z]    Categories: Value Engineering & Peer Review
+[2025-12-08T04:10:54.282Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.282Z] 
+[2025-12-08T04:10:54.283Z] 16. Entissar Tower (Residential & Luxury Hotel)
+[2025-12-08T04:10:54.283Z]    Image: entissar-tower-residential-luxury-hotel.jpg
+[2025-12-08T04:10:54.283Z]    Categories: Value Engineering & Peer Review
+[2025-12-08T04:10:54.283Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.283Z] 
+[2025-12-08T04:10:54.284Z] 17. Viceroy Tower
+[2025-12-08T04:10:54.284Z]    Image: viceroy-tower.jpg
+[2025-12-08T04:10:54.284Z]    Categories: Value Engineering & Peer Review
+[2025-12-08T04:10:54.284Z]    Reason: Image file not found in source directory
+[2025-12-08T04:10:54.284Z] 
+[2025-12-08T04:10:54.285Z] 
+📄 Detailed report saved to: docs\project-images-copy-report.json
+[2025-12-08T04:10:54.286Z] 📄 Log file saved to: docs\project-images-copy-log.txt
+[2025-12-08T04:10:54.287Z] 
+✅ Process completed!

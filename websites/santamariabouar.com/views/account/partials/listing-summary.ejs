@@ -1,0 +1,34 @@
+<%
+  function yesNo(value) {
+    return value ? 'Yes' : 'No';
+  }
+  function priceLabel(data) {
+    if (data.contactForPrice) return 'Contact for price';
+    if (data.priceUsd == null || data.priceUsd <= 0) return '—';
+    const formatted = '$' + Number(data.priceUsd).toLocaleString('en-US');
+    const suffix = data.requestType === 'for_rent' || data.listingType === 'for_rent' ? '/month' : '';
+    const negotiable = data.priceNegotiable ? ' (negotiable)' : '';
+    return formatted + suffix + negotiable;
+  }
+%>
+<dl class="account-listing-summary">
+  <div><dt>Type</dt><dd><%= (data.requestType || data.listingType) === 'for_sale' ? 'For Sale' : 'For Rent' %></dd></div>
+  <div><dt>Price</dt><dd><%= priceLabel(data) %></dd></div>
+  <div><dt>Bedrooms</dt><dd><%= data.bedrooms != null ? data.bedrooms : '—' %></dd></div>
+  <div><dt>Bathrooms</dt><dd><%= data.bathrooms != null ? data.bathrooms : '—' %></dd></div>
+  <div><dt>Parking</dt><dd><%= data.parkingSpaces != null ? data.parkingSpaces : 0 %></dd></div>
+  <div><dt>Furnished</dt><dd><%= yesNo(data.isFurnished) %></dd></div>
+  <div><dt>Garden</dt><dd><%= yesNo(data.hasGarden) %></dd></div>
+  <div><dt>Terrace</dt><dd><%= yesNo(data.hasTerrace) %></dd></div>
+  <div><dt>Balcony</dt><dd><%= yesNo(data.hasBalcony) %></dd></div>
+  <div><dt>Storage room</dt><dd><%= yesNo(data.hasStorageRoom) %></dd></div>
+  <% if ((data.requestType || data.listingType) === 'for_rent' && data.availabilityDate) { %>
+    <div><dt>Available from</dt><dd><%= data.availabilityDate %></dd></div>
+  <% } %>
+  <% if ((data.requestType || data.listingType) === 'for_rent' && data.petFriendly != null) { %>
+    <div><dt>Pet friendly</dt><dd><%= yesNo(data.petFriendly) %></dd></div>
+  <% } %>
+  <% if (data.description) { %>
+    <div class="account-listing-summary__description"><dt>Description</dt><dd><%= data.description %></dd></div>
+  <% } %>
+</dl>

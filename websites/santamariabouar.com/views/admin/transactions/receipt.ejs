@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Transaction Receipt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: white;
+        }
+        .receipt {
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+            padding: 30px;
+            background: white;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #333;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .receipt-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin: 0;
+        }
+        .receipt-number {
+            color: #666;
+            margin-top: 5px;
+        }
+        .receipt-details {
+            margin-bottom: 30px;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .detail-label {
+            font-weight: bold;
+            color: #333;
+        }
+        .detail-value {
+            color: #666;
+        }
+        .amount {
+            font-size: 20px;
+            font-weight: bold;
+            color: #27ae60;
+        }
+        .expense-amount {
+            color: #e74c3c;
+        }
+        .footer {
+            text-align: center;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+            margin-top: 30px;
+            color: #666;
+            font-size: 12px;
+        }
+        .category-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        @media print {
+            body {
+                padding: 0;
+            }
+            .receipt {
+                border: none;
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="receipt">
+        <div class="header">
+            <h1 class="receipt-title">Transaction Receipt</h1>
+            <div class="receipt-number">Receipt #<%= transaction.id %></div>
+        </div>
+
+        <div class="receipt-details">
+            <div class="detail-row">
+                <span class="detail-label">Transaction ID:</span>
+                <span class="detail-value">#<%= transaction.id %></span>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Date:</span>
+                <span class="detail-value"><%= new Date(transaction.date).toLocaleDateString() %></span>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Category:</span>
+                <span class="detail-value">
+                    <span class="category-indicator" style="background-color: <%= category.color %>;"></span>
+                    <%= category.name %>
+                </span>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Type:</span>
+                <span class="detail-value">
+                    <%= transaction.type === 'income' ? 'Income (+)' : 'Expense (-)' %>
+                </span>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Amount:</span>
+                <span class="detail-value amount <%= transaction.type === 'expense' ? 'expense-amount' : '' %>">
+                    <%= transaction.type === 'income' ? '+' : '-' %>$<%= transaction.amount.toFixed(2) %>
+                </span>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Account:</span>
+                <span class="detail-value"><%= account.name %></span>
+            </div>
+            
+            <% if (apartment) { %>
+                <div class="detail-row">
+                    <span class="detail-label">Apartment:</span>
+                    <span class="detail-value">
+                        <%= apartment.unitNumberOfficial %> (<%= apartment.unitNumberUnofficial %>)
+                        - Block <%= apartment.block %>
+                    </span>
+                </div>
+            <% } %>
+            
+            <div class="detail-row">
+                <span class="detail-label">Description:</span>
+                <span class="detail-value"><%= transaction.description %></span>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Created:</span>
+                <span class="detail-value"><%= new Date(transaction.createdAt).toLocaleString() %></span>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>This is an automatically generated receipt.</p>
+            <p>Generated on <%= new Date().toLocaleString() %></p>
+        </div>
+    </div>
+
+    <script>
+        // Auto print when opened
+        window.onload = function() {
+            window.print();
+        };
+    </script>
+</body>
+</html>

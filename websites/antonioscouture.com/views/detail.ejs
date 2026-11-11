@@ -1,0 +1,859 @@
+<% 
+  const pdpName = typeof displayProductName !== 'undefined' ? displayProductName : product.name;
+  const pdpHasPrice = typeof hasDisplayPrice !== 'undefined' && hasDisplayPrice;
+  const pdpHasDescription = !!(product.description && String(product.description).trim());
+  const pdpVariantGroups = (typeof variantDisplay !== 'undefined' && variantDisplay && variantDisplay.groups) ? variantDisplay.groups : [];
+  const pdpBasePrice = parseFloat(String(product.price));
+  const pdpComparePrice = product.compare_at_price != null ? parseFloat(String(product.compare_at_price)) : null;
+  const pdpOnSale = Number.isFinite(pdpBasePrice) && pdpBasePrice > 0 && pdpComparePrice != null && Number.isFinite(pdpComparePrice) && pdpComparePrice > pdpBasePrice;
+  const pdpInquireUrl = '/contact-us?subject=inquiry&amp;product=' + encodeURIComponent(product.slug);
+%>
+
+<div class="pdp-shell">
+<!-- Breadcrumb -->
+<div class="pdp-breadcrumb">
+    <div class="pdp-container">
+        <nav class="breadcrumb">
+            <a class="breadcrumb-item" href="/">Home</a>
+            <a class="breadcrumb-item" href="/shop">
+                <%= typeof t !== 'undefined' ? t('ecommerce.productCatalog') : 'Shop' %>
+            </a>
+            <% if (product.category) { %>
+                <a class="breadcrumb-item" href="/shop/category/<%= product.category.slug %>">
+                    <%= product.category.name %>
+                </a>
+            <% } %>
+            <span class="breadcrumb-item active"><%= pdpName %></span>
+        </nav>
+    </div>
+</div>
+
+<div class="pdp-container pb-5">
+    <div class="pdp-layout">
+        <!-- Left: vertical image gallery -->
+        <div class="pdp-gallery-col" <%= (product.images && product.images.length > 0) ? 'id="product-gallery-root"' : '' %>>
+            <% if (product.images && product.images.length > 0) { %>
+                <div class="pdp-gallery-stack d-none d-lg-flex">
+                    <% product.images.forEach(function(image, index) { %>
+                        <% const imgCaption = String(image.alt_text || product.name || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); %>
+                        <a href="<%= image.image_url %>"
+                           class="pdp-gallery-item product-carousel-lightbox"
+                           data-fancybox="product-detail-gallery"
+                           data-gallery-index="<%= index %>"
+                           data-caption="<%= imgCaption %>"
+                           aria-label="View larger image <%= index + 1 %>">
+                            <img src="<%= image.image_url %>"
+                                 alt="<%= image.alt_text || product.name %>"
+                                 loading="<%= index === 0 ? 'eager' : 'lazy' %>">
+                        </a>
+                    <% }); %>
+                </div>
+
+                <div id="pdp-mobile-carousel"
+                     class="carousel slide pdp-mobile-carousel d-lg-none"
+                     data-interval="false"
+                     data-touch="true"
+                     data-wrap="true">
+                    <div class="carousel-inner">
+                        <% product.images.forEach(function(image, index) { %>
+                            <% const imgCaption = String(image.alt_text || product.name || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); %>
+                            <div class="carousel-item<%= index === 0 ? ' active' : '' %>" data-gallery-index="<%= index %>">
+                                <a href="<%= image.image_url %>"
+                                   class="pdp-gallery-item product-carousel-lightbox"
+                                   data-fancybox="product-detail-gallery"
+                                   data-gallery-index="<%= index %>"
+                                   data-caption="<%= imgCaption %>"
+                                   aria-label="View larger image <%= index + 1 %>">
+                                    <img src="<%= image.image_url %>"
+                                         class="pdp-mobile-carousel-img"
+                                         alt="<%= image.alt_text || product.name %>"
+                                         loading="<%= index === 0 ? 'eager' : 'lazy' %>"
+                                         draggable="false">
+                                </a>
+                            </div>
+                        <% }); %>
+                    </div>
+                    <% if (product.images.length > 1) { %>
+                        <ol class="carousel-indicators pdp-mobile-carousel-indicators">
+                            <% product.images.forEach(function(image, index) { %>
+                                <li data-target="#pdp-mobile-carousel"
+                                    data-slide-to="<%= index %>"
+                                    class="<%= index === 0 ? 'active' : '' %>"
+                                    aria-label="Image <%= index + 1 %>"></li>
+                            <% }); %>
+                        </ol>
+                    <% } %>
+                </div>
+            <% } %>
+        </div>
+
+        <!-- Right: sticky product info -->
+        <div class="pdp-info-col">
+            <div class="pdp-info-sticky">
+                <% if (pdpOnSale) { %>
+                    <div class="pdp-sale-badge">Sale</div>
+                <% } %>
+
+                <div class="pdp-title-row">
+                    <h1 class="pdp-title"><%= pdpName %></h1>
+                    <button type="button" class="pdp-wishlist-btn" id="add-to-wishlist-btn"
+                        data-product-id="<%= product.id %>"
+                        title="<%= typeof t !== 'undefined' ? t('ecommerce.addToWishlist') : 'Add to Wishlist' %>"
+                        aria-label="<%= typeof t !== 'undefined' ? t('ecommerce.addToWishlist') : 'Add to Wishlist' %>">
+                        <i class="far fa-heart"></i>
+                    </button>
+                </div>
+
+                <% if (product.brand) { %>
+                    <div class="mb-3">
+                        <a href="/shop/brand/<%= product.brand.slug %>" class="text-decoration-none d-inline-flex align-items-center">
+                            <% if (product.brand.logo_url && product.brand.logo_url.trim()) { %>
+                                <img src="<%= product.brand.logo_url.trim() %>" alt="<%= product.brand.name %>" class="product-brand-logo img-fluid mr-2" style="max-height: 28px; max-width: 100px; object-fit: contain;">
+                            <% } %>
+                            <span class="text-muted small" style="letter-spacing: 0.06em;"><%= product.brand.name %></span>
+                        </a>
+                    </div>
+                <% } %>
+
+                <% if (pdpHasPrice) { %>
+                    <div class="pdp-price money" id="product-price-heading">
+                        <span id="product-price-container">
+                            <%- include('partials/product-listing-price', { product, customClass: '', multi_price_display: (typeof ecommerceSettings !== 'undefined' && ecommerceSettings && ecommerceSettings.multi_price_display) ? ecommerceSettings.multi_price_display : '' }) %>
+                        </span>
+                    </div>
+                <% } %>
+
+                <% if (pdpVariantGroups.length > 0) { %>
+                    <% pdpVariantGroups.forEach(function(group) { %>
+                        <% const storageKey = group.storageKey; %>
+                        <% const labelName = group.displayName || storageKey; %>
+                        <% const isColor = /colou?r/i.test(labelName || ''); %>
+                        <div class="pdp-option<%= isColor ? ' pdp-option--color' : ' pdp-option--size' %>">
+                            <% if (isColor) { %>
+                                <div class="pdp-option-label">
+                                    <%= labelName.charAt(0).toUpperCase() + labelName.slice(1) %>:
+                                    <span class="pdp-option-selected" id="pdp-selected-<%= String(storageKey).replace(/[^a-zA-Z0-9_-]/g, '_') %>"></span>
+                                </div>
+                                <div class="pdp-color-swatches">
+                            <% } else { %>
+                                <div class="pdp-option-label"><%= labelName.charAt(0).toUpperCase() + labelName.slice(1) %></div>
+                                <div class="pdp-size-list">
+                            <% } %>
+                            <% group.options.forEach(function(option, index) {
+                                const safeId = String(storageKey).replace(/[^a-zA-Z0-9_-]/g, '_') + '-' + index;
+                                const imgUrl = option.resolved_image_url || option.image_url || '';
+                                const colorCode = option.color_code || '';
+                            %>
+                                <div class="variant-option-wrapper<%= isColor ? '' : ' d-inline' %>">
+                                    <input type="radio" class="d-none variant-input"
+                                        id="<%= safeId %>" name="<%= storageKey %>"
+                                        value="<%= option.value %>"
+                                        data-attribute-name="<%= storageKey %>"
+                                        data-attribute-value="<%= option.value %>">
+                                    <% if (isColor) { %>
+                                        <label class="pdp-color-swatch<%= imgUrl ? ' variant-image-box variant-image-box-bg' : '' %>"
+                                            for="<%= safeId %>"
+                                            title="<%= option.value %>"
+                                            data-image-url="<%= imgUrl %>"
+                                            style="<%= imgUrl ? `background-image: url('${imgUrl}');` : (colorCode ? `background-color: ${colorCode};` : 'background-color: #ddd;') %>"
+                                            aria-label="<%= option.value %>"></label>
+                                    <% } else { %>
+                                        <label class="pdp-size-btn variant-box"
+                                            for="<%= safeId %>"
+                                            title="<%= option.value %>"><%= option.value %></label>
+                                    <% } %>
+                                </div>
+                            <% }); %>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } %>
+
+                <% if (pdpHasPrice) { %>
+                    <button type="button" class="pdp-cta" id="add-to-cart-btn" data-product-id="<%= product.id %>">
+                        <%= typeof t !== 'undefined' ? t('ecommerce.addToBag') : 'Add to Bag' %>
+                    </button>
+                <% } else { %>
+                    <a class="pdp-cta" href="<%= pdpInquireUrl %>">
+                        <%= typeof t !== 'undefined' ? t('ecommerce.inquireNow') : 'Inquire Now' %>
+                    </a>
+                <% } %>
+
+                <input type="hidden" id="selected-variant-id" name="variant_id" value="">
+                <input type="hidden" id="product-quantity" value="1">
+
+                <div class="pdp-accordions">
+                    <% if (pdpHasDescription) { %>
+                        <div class="pdp-accordion-item">
+                            <button type="button" class="pdp-accordion-trigger" aria-expanded="false" aria-controls="pdp-accordion-details">
+                                <span><%= typeof t !== 'undefined' ? t('ecommerce.productDetailsSection') : 'Details' %></span>
+                                <i class="fas fa-chevron-down pdp-accordion-chevron" aria-hidden="true"></i>
+                            </button>
+                            <div class="pdp-accordion-panel" id="pdp-accordion-details" hidden>
+                                <div class="pdp-accordion-body"><%- product.description %></div>
+                            </div>
+                        </div>
+                    <% } %>
+
+                    <div class="pdp-accordion-item">
+                        <button type="button" class="pdp-accordion-trigger" aria-expanded="false" aria-controls="pdp-accordion-shipping">
+                            <span><%= typeof t !== 'undefined' ? t('ecommerce.shippingAndReturns') : 'Shipping & Returns' %></span>
+                            <i class="fas fa-chevron-down pdp-accordion-chevron" aria-hidden="true"></i>
+                        </button>
+                        <div class="pdp-accordion-panel" id="pdp-accordion-shipping" hidden>
+                            <div class="pdp-accordion-body">
+                                <p><%= typeof t !== 'undefined' ? t('ecommerce.pdpShippingNote1') : 'For haute couture enquiries, shipping and delivery are arranged individually following consultation with our Client Services team.' %></p>
+                                <p><a href="/contact-us"><%= typeof t !== 'undefined' ? t('ecommerce.pdpShippingNote2') : 'Contact us' %></a> <%= typeof t !== 'undefined' ? t('ecommerce.pdpShippingNote3') : 'for bespoke shipping and return policies for your piece.' %></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pdp-accordion-item">
+                        <button type="button" class="pdp-accordion-trigger" aria-expanded="false" aria-controls="pdp-accordion-contact">
+                            <span><%= typeof t !== 'undefined' ? t('ecommerce.contactUs') : 'Contact Us' %></span>
+                            <i class="fas fa-chevron-down pdp-accordion-chevron" aria-hidden="true"></i>
+                        </button>
+                        <div class="pdp-accordion-panel" id="pdp-accordion-contact" hidden>
+                            <div class="pdp-accordion-body">
+                                <p><%= typeof t !== 'undefined' ? t('ecommerce.needAssistance') : 'Do you need further assistance?' %></p>
+                                <p><a href="<%= pdpInquireUrl %>"><%= typeof t !== 'undefined' ? t('ecommerce.contactUs') : 'Contact Us' %> &rsaquo;</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <% if (relatedProducts && relatedProducts.length > 0) { %>
+        <section class="pdp-you-may-like">
+            <div class="pdp-you-may-like-header">
+                <h2 class="pdp-you-may-like-title">
+                    <%= typeof t !== 'undefined' ? t('ecommerce.youMayAlsoLike') : 'You May Also Like' %>
+                </h2>
+            </div>
+            <div class="pdp-like-grid">
+                <% relatedProducts.forEach(function(relatedProduct) { %>
+                    <% 
+                        const relPrice = parseFloat(String(relatedProduct.price));
+                        const relCompare = relatedProduct.compare_at_price != null ? parseFloat(String(relatedProduct.compare_at_price)) : null;
+                        const relOnSale = Number.isFinite(relPrice) && relPrice > 0 && relCompare != null && Number.isFinite(relCompare) && relCompare > relPrice;
+                        const relColors = relatedProduct.color_options || [];
+                        const relFirstColor = relColors.length > 0 ? relColors[0] : null;
+                    %>
+                    <div class="pdp-like-card-wrap">
+                        <a class="pdp-like-card" href="/shop/product/<%= relatedProduct.slug %>">
+                            <div class="pdp-like-media">
+                                <% if (relOnSale) { %>
+                                    <span class="pdp-like-sale">Sale</span>
+                                <% } %>
+                                <button type="button" class="pdp-like-wishlist add-to-wishlist-btn"
+                                    data-product-id="<%= relatedProduct.id %>"
+                                    aria-label="<%= typeof t !== 'undefined' ? t('ecommerce.addToWishlist') : 'Add to Wishlist' %>"
+                                    onclick="event.preventDefault(); event.stopPropagation();">
+                                    <i class="far fa-star"></i>
+                                </button>
+                                <% if (relatedProduct.images && relatedProduct.images.length > 0) { %>
+                                    <img src="<%= relatedProduct.images[0].thumb_url || relatedProduct.images[0].image_url %>"
+                                         alt="<%= relatedProduct.name %>" loading="lazy">
+                                <% } else { %>
+                                    <img src="<%= siteImage %>" alt="<%= relatedProduct.name %>" loading="lazy">
+                                <% } %>
+                            </div>
+                            <div class="pdp-like-body">
+                                <div class="pdp-like-name"><%= relatedProduct.name %></div>
+                                <div class="pdp-like-price-row money">
+                                    <span>
+                                        <%- include('partials/product-listing-price', { product: relatedProduct, customClass: '', multi_price_display: (typeof ecommerceSettings !== 'undefined' && ecommerceSettings && ecommerceSettings.multi_price_display) ? ecommerceSettings.multi_price_display : '' }) %>
+                                    </span>
+                                    <% if (relFirstColor) { %>
+                                        <span class="pdp-like-swatch"
+                                            style="<%= relFirstColor.swatch_image_url ? `background-image: url('${relFirstColor.swatch_image_url}');` : (relFirstColor.color_code ? `background-color: ${relFirstColor.color_code};` : '') %>"
+                                            title="<%= relFirstColor.value %>"></span>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                <% }); %>
+            </div>
+        </section>
+    <% } %>
+</div>
+</div>
+
+<%- include('partials/confirmation-modal') %>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        (function syncPdpPriceHeadingFromServer() {
+            const c = document.getElementById('product-price-container');
+            const h = document.getElementById('product-price-heading');
+            if (!c || !h) return;
+            if (!String(c.textContent || '').trim()) {
+                h.classList.add('d-none');
+            }
+        })();
+
+        const quantityInput = document.getElementById('product-quantity');
+        const addToCartBtn = document.getElementById('add-to-cart-btn');
+        const allVariants = <%- JSON.stringify(product.variants || []) %>;
+        const baseProductPrice = <%- JSON.stringify(parseFloat(String(product.price)) || 0) %>;
+        const baseCompareAt = <%- JSON.stringify(
+            (product.compare_at_price != null && String(product.compare_at_price) !== '')
+                ? parseFloat(String(product.compare_at_price))
+                : null
+        ) %>;
+        const currencySymbol = <%- JSON.stringify(
+            (typeof ecommerceSettings !== 'undefined' && ecommerceSettings && ecommerceSettings.currency_symbol)
+                ? ecommerceSettings.currency_symbol
+                : '$'
+        ) %>;
+        const pdpMultiPrice = <%- JSON.stringify({
+            mode: (() => {
+                const raw = (typeof ecommerceSettings !== 'undefined' && ecommerceSettings && ecommerceSettings.multi_price_display)
+                    ? String(ecommerceSettings.multi_price_display) : 'lowest';
+                const m = raw.toLowerCase().trim();
+                return (m === 'range' || m === 'starting' || m === 'lowest') ? m : 'lowest';
+            })(),
+            hasMulti: !!(product.has_multi_prices === true || product.has_multi_prices === 1),
+            min: (product.variant_price_min != null && product.variant_price_min !== '') ? Number(product.variant_price_min) : null,
+            max: (product.variant_price_max != null && product.variant_price_max !== '') ? Number(product.variant_price_max) : null
+        }) %>;
+        const pdpStartingAtText = <%- JSON.stringify(typeof t !== 'undefined' ? t('ecommerce.listing.startingAt') : 'Starting at') %>;
+        const pdpRangeSep = <%- JSON.stringify(typeof t !== 'undefined' ? t('ecommerce.listing.priceRangeSeparator') : '–') %>;
+        let pdpUserChangedVariant = false;
+        const variantInputs = document.querySelectorAll('.variant-input');
+        const selectedVariantInput = document.getElementById('selected-variant-id');
+
+        function formatMoneyClient(v) {
+            const x = parseFloat(String(v));
+            if (!Number.isFinite(x)) return '0';
+            const s = x.toFixed(2);
+            return s.endsWith('.00') ? s.slice(0, -3) : s;
+        }
+
+        function setPdpPriceHeadingVisible(show) {
+            const heading = document.getElementById('product-price-heading');
+            if (!heading) return;
+            heading.classList.toggle('d-none', !show);
+        }
+
+        function renderProductPriceInPlace(current, compareAt) {
+            const container = document.getElementById('product-price-container');
+            if (!container) return;
+            const sym = currencySymbol;
+            const cur = parseFloat(String(current));
+            const c = Number.isFinite(cur) ? cur : 0;
+            if (!Number.isFinite(c) || c <= 0) {
+                container.innerHTML = '';
+                setPdpPriceHeadingVisible(false);
+                return;
+            }
+            setPdpPriceHeadingVisible(true);
+            const oldRaw = compareAt;
+            const oldP = oldRaw != null && String(oldRaw) !== '' ? parseFloat(String(oldRaw)) : null;
+            if (oldP != null && Number.isFinite(oldP) && oldP > c) {
+                container.innerHTML = '<span>' + sym + formatMoneyClient(c) + '</span><span class="text-muted ml-2 product-price-compare"><del>' + sym + formatMoneyClient(oldP) + '</del></span>';
+            } else {
+                container.innerHTML = '<span>' + sym + formatMoneyClient(c) + '</span>';
+            }
+        }
+
+        function pdpShowMultiPriceBeforeUserPicks() {
+            if (!pdpMultiPrice || !pdpMultiPrice.hasMulti) return false;
+            if (pdpUserChangedVariant) return false;
+            const lo = pdpMultiPrice.min;
+            const hi = pdpMultiPrice.max;
+            if (lo == null || hi == null || !Number.isFinite(Number(lo)) || !Number.isFinite(Number(hi))) return false;
+            if (pdpMultiPrice.mode === 'starting') return true;
+            if (pdpMultiPrice.mode === 'lowest') return true;
+            if (pdpMultiPrice.mode === 'range' && Math.abs(Number(hi) - Number(lo)) > 0.0001) return true;
+            return false;
+        }
+
+        function renderPdpListPrice() {
+            const container = document.getElementById('product-price-container');
+            if (!container) return;
+            const sym = currencySymbol;
+            const lo = Number(pdpMultiPrice.min);
+            const hi = Number(pdpMultiPrice.max);
+            if (pdpMultiPrice.mode === 'range' && Math.abs(hi - lo) > 0.0001) {
+                if ((!Number.isFinite(lo) || lo <= 0) && (!Number.isFinite(hi) || hi <= 0)) {
+                    container.innerHTML = '';
+                    setPdpPriceHeadingVisible(false);
+                    return;
+                }
+                if (Number.isFinite(lo) && lo <= 0 && Number.isFinite(hi) && hi > 0) {
+                    container.innerHTML = '<span>' + sym + formatMoneyClient(hi) + '</span>';
+                    setPdpPriceHeadingVisible(true);
+                    return;
+                }
+                container.innerHTML = '<span class="d-inline-flex align-items-baseline flex-wrap">' +
+                    '<span>' + sym + formatMoneyClient(lo) + '</span>' +
+                    '<span class="text-muted mx-1">' + pdpRangeSep + '</span>' +
+                    '<span>' + sym + formatMoneyClient(hi) + '</span></span>';
+                setPdpPriceHeadingVisible(true);
+            } else if (pdpMultiPrice.mode === 'starting') {
+                if (!Number.isFinite(lo) || lo <= 0) {
+                    container.innerHTML = '';
+                    setPdpPriceHeadingVisible(false);
+                    return;
+                }
+                container.innerHTML = '<span class="d-inline-flex flex-column">' +
+                    '<span class="text-muted small product-price-starting-label">' + pdpStartingAtText.replace(/</g, '&lt;') + '</span>' +
+                    '<span>' + sym + formatMoneyClient(lo) + '</span></span>';
+                setPdpPriceHeadingVisible(true);
+            } else {
+                if (!Number.isFinite(lo) || lo <= 0) {
+                    container.innerHTML = '';
+                    setPdpPriceHeadingVisible(false);
+                    return;
+                }
+                container.innerHTML = '<span>' + sym + formatMoneyClient(lo) + '</span>';
+                setPdpPriceHeadingVisible(true);
+            }
+        }
+
+        function updateDisplayedPrice(matchedVariant) {
+            if (allVariants.length === 0) return;
+            if (pdpShowMultiPriceBeforeUserPicks()) {
+                renderPdpListPrice();
+                return;
+            }
+            let current = baseProductPrice;
+            let oldC = baseCompareAt;
+            if (matchedVariant) {
+                if (matchedVariant.price != null && String(matchedVariant.price) !== '') {
+                    const pv = parseFloat(String(matchedVariant.price));
+                    if (Number.isFinite(pv)) {
+                        current = pv;
+                    }
+                }
+                if (matchedVariant.compare_at_price != null && String(matchedVariant.compare_at_price) !== '') {
+                    const cv = parseFloat(String(matchedVariant.compare_at_price));
+                    if (Number.isFinite(cv)) {
+                        oldC = cv;
+                    }
+                } else {
+                    oldC = baseCompareAt;
+                }
+            }
+            renderProductPriceInPlace(current, oldC);
+        }
+
+        function parseVariantAttrs(v) {
+            try {
+                const a = typeof v.attributes === 'string' ? JSON.parse(v.attributes) : v.attributes;
+                return a && typeof a === 'object' ? a : {};
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function variantComboExists(partial) {
+            return allVariants.some(function (v) {
+                const a = parseVariantAttrs(v);
+                return Object.keys(partial).every(function (k) {
+                    return String(a[k]) === String(partial[k]);
+                });
+            });
+        }
+
+        function getVariantGroupKeys() {
+            const keys = [];
+            variantInputs.forEach(function (inp) {
+                if (keys.indexOf(inp.name) < 0) keys.push(inp.name);
+            });
+            return keys;
+        }
+
+        function optionEnabledForInput(input) {
+            const gk = input.name;
+            const val = input.getAttribute('data-attribute-value');
+            const partial = {};
+            partial[gk] = val;
+            getVariantGroupKeys().forEach(function (ok) {
+                if (ok === gk) return;
+                const checked = Array.prototype.find.call(variantInputs, function (i) {
+                    return i.name === ok && i.checked;
+                });
+                if (checked) partial[ok] = checked.getAttribute('data-attribute-value');
+            });
+            return variantComboExists(partial);
+        }
+
+        function selectDefaultVariantSelections() {
+            if (allVariants.length === 0 || variantInputs.length === 0) return;
+            variantInputs.forEach(function (inp) {
+                inp.checked = false;
+            });
+            const groupKeys = getVariantGroupKeys();
+            groupKeys.forEach(function (gk) {
+                const inputsInGroup = Array.prototype.filter.call(variantInputs, function (i) {
+                    return i.name === gk;
+                });
+                for (let j = 0; j < inputsInGroup.length; j++) {
+                    const inp = inputsInGroup[j];
+                    if (optionEnabledForInput(inp)) {
+                        inp.checked = true;
+                        break;
+                    }
+                }
+            });
+        }
+
+        function updateSelectedColorLabels() {
+            variantInputs.forEach(function (input) {
+                if (!input.checked) return;
+                const groupKey = input.name;
+                const labelEl = document.getElementById('pdp-selected-' + String(groupKey).replace(/[^a-zA-Z0-9_-]/g, '_'));
+                if (labelEl) {
+                    labelEl.textContent = input.getAttribute('data-attribute-value') || '';
+                }
+            });
+        }
+
+        function updateVariantAvailability() {
+            if (allVariants.length === 0 || variantInputs.length === 0) return;
+            let guard = 0;
+            while (guard++ < 25) {
+                let changed = false;
+                variantInputs.forEach(function (input) {
+                    const enabled = optionEnabledForInput(input);
+                    input.disabled = !enabled;
+                    const wrap = input.closest('.variant-option-wrapper');
+                    const label = document.querySelector('label[for="' + input.id + '"]');
+                    if (wrap) wrap.classList.toggle('variant-option--disabled', !enabled);
+                    if (label) label.classList.toggle('variant-option--disabled', !enabled);
+                    if (!enabled && input.checked) {
+                        input.checked = false;
+                        changed = true;
+                    }
+                });
+                if (!changed) break;
+            }
+            updateSelectedVariant();
+            variantInputs.forEach(function (rad) {
+                const lab = document.querySelector('label[for="' + rad.id + '"]');
+                if (lab) {
+                    lab.classList.toggle('active-variant', !!rad.checked);
+                }
+            });
+            updateSelectedColorLabels();
+        }
+
+        function updateSelectedVariant() {
+            if (allVariants.length === 0) return;
+
+            const selectedAttributes = {};
+            const groups = new Set();
+            variantInputs.forEach(i => groups.add(i.name));
+
+            let allSelected = true;
+            groups.forEach(group => {
+                const checked = document.querySelector(`input[name="${group}"]:checked`);
+                if (checked) {
+                    selectedAttributes[group] = checked.getAttribute('data-attribute-value');
+                } else {
+                    allSelected = false;
+                }
+            });
+
+            if (allSelected) {
+                const matchedVariant = allVariants.find(variant => {
+                    const attrs = parseVariantAttrs(variant);
+                    return getVariantGroupKeys().every(function (k) {
+                        return String(attrs[k]) === String(selectedAttributes[k]);
+                    });
+                });
+
+                if (matchedVariant) {
+                    selectedVariantInput.value = matchedVariant.id;
+                    updateDisplayedPrice(matchedVariant);
+                } else {
+                    selectedVariantInput.value = '';
+                    updateDisplayedPrice(null);
+                }
+            } else {
+                selectedVariantInput.value = '';
+                updateDisplayedPrice(null);
+            }
+        }
+
+        variantInputs.forEach(input => {
+            input.addEventListener('change', function (e) {
+                if (e && e.isTrusted) {
+                    pdpUserChangedVariant = true;
+                }
+                updateVariantAvailability();
+            });
+        });
+
+        if (variantInputs.length > 0) {
+            selectDefaultVariantSelections();
+            updateVariantAvailability();
+        }
+
+        if (addToCartBtn) {
+            addToCartBtn.addEventListener('click', function () {
+                const productId = this.getAttribute('data-product-id');
+                const quantity = quantityInput ? (parseInt(quantityInput.value) || 1) : 1;
+
+                if (allVariants.length > 0) {
+                    const groups = new Set();
+                    variantInputs.forEach(i => groups.add(i.name));
+
+                    const missingAttributes = [];
+                    for (const group of groups) {
+                        if (!document.querySelector(`input[name="${group}"]:checked`)) {
+                            missingAttributes.push(group.charAt(0).toUpperCase() + group.slice(1));
+                        }
+                    }
+
+                    if (missingAttributes.length > 0) {
+                        const attributesStr = missingAttributes.join(' <%= typeof t !== "undefined" ? t("ecommerce.and") : "and" %> ');
+                        showAlert('<%= typeof t !== "undefined" ? t("ecommerce.pleaseSelect") : "Please select" %> ' + attributesStr, '<%= typeof t !== "undefined" ? t("ecommerce.attention") : "Attention" %>');
+                        return;
+                    }
+
+                    if (!selectedVariantInput.value) {
+                        showAlert('Combination not available. Please select different options.', 'Unavailable');
+                        return;
+                    }
+                }
+
+                const selectedVariantId = selectedVariantInput ? selectedVariantInput.value : '';
+                const originalContent = addToCartBtn.innerHTML;
+                addToCartBtn.disabled = true;
+                addToCartBtn.innerHTML = 'Adding...';
+
+                fetch('/api/cart/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'CSRF-Token': '<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>'
+                    },
+                    body: JSON.stringify({
+                        product_id: parseInt(productId),
+                        variant_id: selectedVariantId ? parseInt(selectedVariantId) : null,
+                        quantity: quantity
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const cartBadge = document.getElementById('cartBadge');
+                            if (cartBadge) {
+                                cartBadge.innerText = data.cartCount;
+                                cartBadge.classList.remove('d-none');
+                            }
+                            if (typeof showConfirmationModal === 'function') {
+                                showConfirmationModal('Product added to cart!', function() {
+                                    window.location.href = '/cart';
+                                }, {
+                                    title: 'Success',
+                                    confirmText: 'View Cart',
+                                    showCancel: true,
+                                    cancelText: 'Continue Shopping',
+                                    confirmClass: 'btn-primary'
+                                });
+                            } else {
+                                window.location.href = '/cart';
+                            }
+                        } else {
+                            showAlert('Error: ' + (data.message || data.error || 'Failed to add product to cart'), 'Error');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        showAlert('Error adding product to cart', 'Error');
+                    })
+                    .finally(() => {
+                        addToCartBtn.disabled = false;
+                        addToCartBtn.innerHTML = originalContent;
+                    });
+            });
+        }
+
+        const addToWishlistBtn = document.getElementById('add-to-wishlist-btn');
+        if (addToWishlistBtn) {
+            addToWishlistBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const productId = this.getAttribute('data-product-id');
+                const selectedVariantId = selectedVariantInput ? selectedVariantInput.value : null;
+
+                fetch('/api/customer/wishlist/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'CSRF-Token': '<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>'
+                    },
+                    body: JSON.stringify({
+                        product_id: parseInt(productId),
+                        variant_id: selectedVariantId ? parseInt(selectedVariantId) : null
+                    })
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(data => {
+                                throw new Error(data.error || 'Failed to add product to wishlist');
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            showConfirmationModal('Product added to wishlist!', function() {
+                                window.location.href = '/wishlist';
+                            }, {
+                                title: 'Success',
+                                confirmText: 'Go to Wishlist',
+                                showCancel: true,
+                                cancelText: 'Continue Shopping',
+                                confirmClass: 'btn-success'
+                            });
+                        } else {
+                            showAlert('Error: ' + (data.error || data.message || 'Failed to add product to wishlist'), 'Error');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        showAlert('Error: ' + error.message, 'Error');
+                    });
+            });
+        }
+
+        function normalizeMediaUrl(url) {
+            if (!url) return '';
+            return url.replace(/^\//, '').replace(/\\/g, '/').split('?')[0];
+        }
+
+        function showPdpGalleryImage(index) {
+            if (index < 0) return;
+            const isMobileGallery = window.matchMedia('(max-width: 991.98px)').matches;
+            if (isMobileGallery) {
+                const carousel = document.getElementById('pdp-mobile-carousel');
+                if (carousel && typeof window.jQuery !== 'undefined') {
+                    window.jQuery(carousel).carousel(index);
+                    carousel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+                return;
+            }
+            const stackItem = document.querySelector('.pdp-gallery-stack .pdp-gallery-item[data-gallery-index="' + index + '"]');
+            stackItem?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        document.querySelectorAll('.variant-image-box, .pdp-color-swatch[data-image-url]').forEach(box => {
+            box.addEventListener('click', function() {
+                const imageUrl = this.getAttribute('data-image-url');
+                if (!imageUrl) return;
+                const targetUrl = normalizeMediaUrl(imageUrl);
+                const galleryItems = document.querySelectorAll('.pdp-gallery-stack .pdp-gallery-item img');
+                for (let i = 0; i < galleryItems.length; i++) {
+                    const slideUrl = normalizeMediaUrl(galleryItems[i].getAttribute('src'));
+                    const fullUrl = normalizeMediaUrl(galleryItems[i].closest('a')?.getAttribute('href'));
+                    if (slideUrl === targetUrl || fullUrl === targetUrl || slideUrl.endsWith(targetUrl) || targetUrl.endsWith(slideUrl)) {
+                        const galleryIndex = parseInt(galleryItems[i].closest('.pdp-gallery-item')?.getAttribute('data-gallery-index') || String(i), 10);
+                        showPdpGalleryImage(galleryIndex);
+                        return;
+                    }
+                }
+            });
+        });
+
+        document.querySelectorAll('.add-to-wishlist-btn').forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const productId = this.getAttribute('data-product-id');
+
+                fetch('/api/customer/wishlist/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'CSRF-Token': '<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>'
+                    },
+                    body: JSON.stringify({
+                        product_id: parseInt(productId),
+                        variant_id: null
+                    })
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(data => {
+                                throw new Error(data.error || 'Failed to add product to wishlist');
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success && typeof showConfirmationModal === 'function') {
+                            showConfirmationModal('Product added to wishlist!', function() {
+                                window.location.href = '/wishlist';
+                            }, {
+                                title: 'Success',
+                                confirmText: 'Go to Wishlist',
+                                showCancel: true,
+                                cancelText: 'Continue Shopping',
+                                confirmClass: 'btn-success'
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        if (typeof showAlert === 'function') {
+                            showAlert('Error: ' + error.message, 'Error');
+                        }
+                    });
+            });
+        });
+
+        document.querySelectorAll('.pdp-accordion-trigger').forEach(function (trigger) {
+            trigger.addEventListener('click', function () {
+                const panelId = trigger.getAttribute('aria-controls');
+                const panel = panelId ? document.getElementById(panelId) : null;
+                if (!panel) return;
+                const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+                trigger.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+                panel.hidden = isOpen;
+            });
+        });
+
+        const pdpMobileCarousel = document.getElementById('pdp-mobile-carousel');
+        if (pdpMobileCarousel && typeof window.jQuery !== 'undefined') {
+            const $pdpMobileCarousel = window.jQuery(pdpMobileCarousel);
+            $pdpMobileCarousel.carousel({ interval: false, touch: true, wrap: true });
+
+            // Distinguish swipe from tap so lightbox does not open after sliding.
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let touchMoved = false;
+
+            pdpMobileCarousel.addEventListener('touchstart', function (event) {
+                if (!event.touches || event.touches.length !== 1) return;
+                touchStartX = event.touches[0].clientX;
+                touchStartY = event.touches[0].clientY;
+                touchMoved = false;
+            }, { passive: true });
+
+            pdpMobileCarousel.addEventListener('touchmove', function (event) {
+                if (!event.touches || event.touches.length !== 1) return;
+                const deltaX = Math.abs(event.touches[0].clientX - touchStartX);
+                const deltaY = Math.abs(event.touches[0].clientY - touchStartY);
+                if (deltaX > 8 || deltaY > 8) {
+                    touchMoved = true;
+                }
+            }, { passive: true });
+
+            pdpMobileCarousel.querySelectorAll('.pdp-gallery-item').forEach(function (link) {
+                link.addEventListener('click', function (event) {
+                    if (touchMoved) {
+                        event.preventDefault();
+                        event.stopImmediatePropagation();
+                    }
+                }, true);
+            });
+        }
+    });
+</script>

@@ -1,0 +1,73 @@
+<%
+  const footerSettings = typeof siteSettings !== 'undefined' && siteSettings ? siteSettings : {};
+  const footerPhone = footerSettings.contactPhone || '';
+  const footerJanitorName = footerSettings.janitorName || '';
+  const footerJanitorPhone = footerSettings.janitorPhone || '';
+  const footerHasContact = footerPhone || footerJanitorName || footerJanitorPhone;
+%>
+<footer class="site-footer">
+  <div class="site-footer__inner container">
+    <div class="site-footer__brand">
+      <a href="/">
+        <img
+          src="<%= typeof siteData !== 'undefined' && siteData.logo ? siteData.logo : '/images/logo.jpg' %>"
+          alt="<%= typeof siteData !== 'undefined' && siteData.name ? siteData.name : 'Logo' %>"
+        />
+      </a>
+      <p>Santa Maria Bouar — Residential Compound</p>
+    </div>
+
+    <nav class="site-footer__nav" aria-label="Footer navigation">
+      <%- include('menu-items') %>
+    </nav>
+
+    <% if (footerHasContact) { %>
+      <div class="site-footer__contact">
+        <p class="site-footer__contact-label">Contact</p>
+        <ul class="site-footer__contact-list">
+          <% if (footerPhone) { %>
+            <li>
+              <i class="bi bi-telephone" aria-hidden="true"></i>
+              <span>
+                Office
+                <a href="tel:<%= String(footerPhone).replace(/\s/g, '') %>"><%= footerPhone %></a>
+              </span>
+            </li>
+          <% } %>
+          <% if (footerJanitorName || footerJanitorPhone) { %>
+            <li>
+              <i class="bi bi-person-badge" aria-hidden="true"></i>
+              <span>
+                Coordinator<%= footerJanitorName ? ': ' + footerJanitorName : '' %>
+                <% if (footerJanitorPhone) { %>
+                  <a href="tel:<%= String(footerJanitorPhone).replace(/\s/g, '') %>"><%= footerJanitorPhone %></a>
+                <% } %>
+              </span>
+            </li>
+          <% } %>
+        </ul>
+      </div>
+    <% } %>
+
+    <nav class="site-footer__legal" aria-label="Legal">
+      <a href="/privacy-policy">Privacy Policy</a>
+      <span class="site-footer__legal-sep" aria-hidden="true">·</span>
+      <a href="/cookie-policy">Cookie Policy</a>
+      <span class="site-footer__legal-sep" aria-hidden="true">·</span>
+      <a href="/terms-and-conditions">Terms &amp; Conditions</a>
+    </nav>
+
+    <div class="site-footer__bottom">
+      <p class="site-footer__copy">
+        &copy; <%= new Date().getFullYear() %>
+        <%= typeof siteData !== 'undefined' && siteData.name ? siteData.name : 'Santa Maria Bouar' %>.
+        All rights reserved.
+        By
+        <a href="https://www.liteweb.info" target="_blank" rel="noopener noreferrer">www.liteweb.info</a>
+      </p>
+      <button class="site-footer__top" id="footerTopButton" type="button" aria-label="Back to top">
+        Top <i class="bi bi-arrow-up"></i>
+      </button>
+    </div>
+  </div>
+</footer>

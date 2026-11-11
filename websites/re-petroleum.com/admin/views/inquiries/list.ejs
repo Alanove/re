@@ -9,7 +9,7 @@
 						<td><a href="/admin/inquiries/<%= item.id %>"><%= item.name %></a><div class="small text-muted fw-normal"><%= item.email %></div></td>
 						<td><%= item.topic %></td>
 						<td><%= item.company %></td>
-						<td class="text-nowrap small"><%= new Date(item.createdAt).toLocaleString('en-GB') %></td>
+						<td class="text-nowrap small" data-sort-value="<%= item.createdAt %>"><%= new Date(item.createdAt).toLocaleString('en-GB') %></td>
 						<td><% if (item.emailed) { %><span class="badge bg-success">Yes</span><% } else { %><span class="badge bg-light text-dark">Stored only</span><% } %></td>
 						<td class="text-nowrap">
 							<a href="/admin/inquiries/<%= item.id %>" class="btn btn-sm btn-primary" title="Open"><i class="fa fa-eye"></i></a>

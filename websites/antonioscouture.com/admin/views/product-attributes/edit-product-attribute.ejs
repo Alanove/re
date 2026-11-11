@@ -1,0 +1,581 @@
+<%- include('../partials/header') %>
+
+	<!-- BEGIN content area -->
+	<div class="row">
+		<div class="col-xl-12">
+			<!-- BEGIN panel -->
+			<div class="panel panel-inverse">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<%= typeof t !=='undefined' ? t('ecommerce.productAttributes.edit') : 'Edit Product Attribute'
+							%> - <%= productAttribute.name %>
+					</h4>
+					<div class="panel-heading-btn">
+						<a href="/admin/product-attributes" class="btn btn-xs btn-secondary">
+							<i class="fa fa-arrow-left"></i>
+							<%= typeof t !=='undefined' ? t('common.back') : 'Back' %>
+						</a>
+					</div>
+				</div>
+				<div class="panel-body">
+					<% if (typeof success !=='undefined' && success) { %>
+						<div class="alert alert-success alert-dismissible fade show" role="alert">
+							<strong>
+								<%= typeof t !=='undefined' ? t('messages.success') : 'Success!' %>
+							</strong>
+							<%= success %>
+								<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+						</div>
+						<% } %>
+
+							<% if (typeof error !=='undefined' && error) { %>
+								<div class="alert alert-danger alert-dismissible fade show" role="alert">
+									<strong>Error!</strong>
+									<%= error %>
+										<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+								</div>
+								<% } %>
+
+									<form method="POST"
+										action="/admin/product-attributes/<%= productAttribute.id %>/edit"
+										id="productAttributeForm">
+										<input type="hidden" name="_csrf"
+											value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+										<div class="row">
+											<div class="col-md-8">
+												<!-- Basic Information -->
+												<div class="card mb-3">
+													<div class="card-header">
+														<h5 class="mb-0">Basic Information</h5>
+													</div>
+													<div class="card-body">
+														<div class="mb-3">
+															<label for="name" class="form-label">Name <span
+																	class="text-danger">*</span></label>
+															<input type="text" class="form-control" id="name"
+																name="name" required
+																value="<%= productAttribute.name %>" />
+														</div>
+
+														<div class="mb-3">
+															<label for="slug" class="form-label">Slug</label>
+															<input type="text" class="form-control" id="slug"
+																name="slug" value="<%= productAttribute.slug %>" />
+														</div>
+
+														<div class="mb-3">
+															<label for="description"
+																class="form-label">Description</label>
+															<textarea class="form-control" id="description"
+																name="description"
+																rows="2"><%= productAttribute.description || '' %></textarea>
+														</div>
+
+														<div class="mb-3">
+															<div class="form-check form-switch">
+																<input class="form-check-input" type="checkbox"
+																	id="has_image" name="has_image"
+																	<%=productAttribute.has_image ? 'checked' : '' %> />
+																<label class="form-check-label" for="has_image">
+																	<%= typeof t !=='undefined' ?
+																		t('ecommerce.productAttributes.hasImage')
+																		: 'Product attributes of this type can have images'
+																		%>
+																</label>
+															</div>
+															<small class="form-text text-muted">Enable this for product
+																attributes like Color where each value needs an
+																image</small>
+														</div>
+
+														<div class="mb-3">
+															<label for="display_order" class="form-label">Display
+																Order</label>
+															<input type="number" class="form-control" id="display_order"
+																name="display_order"
+																value="<%= productAttribute.display_order %>" min="0" />
+														</div>
+													</div>
+												</div>
+
+												<!-- Values -->
+												<div class="card mb-3">
+													<div
+														class="card-header d-flex justify-content-between align-items-center">
+														<h5 class="mb-0">Attribute Values</h5>
+														<button type="button" class="btn btn-sm btn-success"
+															id="add-value-btn">
+															<i class="fa fa-plus"></i> Add Value
+														</button>
+													</div>
+													<div class="card-body">
+														<div class="table-responsive">
+															<table class="table table-bordered" id="valuesTable">
+																<thead>
+																	<tr>
+																		<th width="5%"></th>
+																		<th width="25%">Value <span
+																				class="text-danger">*</span></th>
+																		<th width="15%" id="colorCodeHeader"
+																			style="display: <%= productAttribute.has_image ? 'table-cell' : 'none' %>;">
+																			Color Code</th>
+																		<th width="15%">Display Order</th>
+																		<th width="10%">Active</th>
+																		<th width="10%">Preselected</th>
+																		<th width="10%">Actions</th>
+																	</tr>
+																</thead>
+																<tbody id="valuesTableBody">
+																	<% if (productAttribute.values &&
+																		productAttribute.values.length> 0) { %>
+																		<% productAttribute.values.forEach(function(value,
+																			index) { %>
+																			<tr class="value-row"
+																				data-value-id="<%= value.id %>"
+																				draggable="true">
+																				<td class="text-center drag-handle"
+																					style="cursor: move;">
+																					<i
+																						class="fa fa-grip-vertical text-muted"></i>
+																				</td>
+																				<td>
+																					<input type="text"
+																						class="form-control form-control-sm value-name"
+																						value="<%= value.value %>"
+																						required />
+																				</td>
+																				<td class="color-code-cell"
+																					style="display: <%= productAttribute.has_image ? 'table-cell' : 'none' %>;">
+																					<input type="color"
+																						class="form-control form-control-sm value-color"
+																						value="<%= value.color_code || '#000000' %>" />
+																				</td>
+																				<td>
+																					<input type="number"
+																						class="form-control form-control-sm value-order"
+																						value="<%= value.display_order %>"
+																						min="0" />
+																				</td>
+																				<td class="text-center">
+																					<input type="checkbox"
+																						class="form-check-input value-active"
+																						<%=value.is_active ? 'checked'
+																						: '' %> />
+																				</td>
+																				<td class="text-center">
+																					<input type="checkbox"
+																						class="form-check-input value-preselected"
+																						<%=value.is_preselected
+																						? 'checked' : '' %> />
+																				</td>
+																				<td class="text-center">
+																					<button type="button"
+																						class="btn btn-xs btn-danger delete-value-btn">
+																						<i class="fa fa-trash"></i>
+																					</button>
+																				</td>
+																			</tr>
+																			<% }); %>
+																				<% } %>
+																</tbody>
+															</table>
+														</div>
+														<small class="form-text text-muted">
+															<strong>Tip:</strong> Drag and drop rows to reorder values
+															(orders in steps of 10). Display order allows manual entry
+															of any number for fine-tuned positioning.
+															<% if (productAttribute.has_image) { %>
+																Color codes will be displayed as swatches on the product
+																detail page.
+																<% } %>
+														</small>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-md-4">
+												<!-- Settings -->
+												<div class="card mb-3">
+													<div class="card-header">
+														<h5 class="mb-0">Settings</h5>
+													</div>
+													<div class="card-body">
+														<div class="mb-3">
+															<div class="form-check form-switch">
+																<input class="form-check-input" type="checkbox"
+																	id="is_active" name="is_active"
+																	<%=productAttribute.is_active ? 'checked' : '' %> />
+																<label class="form-check-label" for="is_active">
+																	<%= typeof t !=='undefined' ? t('common.active')
+																		: 'Active' %>
+																</label>
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<!-- Actions -->
+												<div class="card">
+													<div class="card-body">
+														<button type="submit" class="btn btn-primary w-100 mb-2">
+															<i class="fa fa-save"></i>
+															<%= typeof t !=='undefined' ? t('common.save')
+																: 'Save Changes' %>
+														</button>
+														<a href="/admin/product-attributes"
+															class="btn btn-secondary w-100">
+															<i class="fa fa-times"></i>
+															<%= typeof t !=='undefined' ? t('common.cancel') : 'Cancel'
+																%>
+														</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</form>
+				</div>
+			</div>
+			<!-- END panel -->
+		</div>
+	</div>
+	<!-- END content area -->
+
+	<style>
+		.value-row {
+			transition: background-color 0.2s ease;
+		}
+
+		.value-row.dragging {
+			opacity: 0.5;
+		}
+
+		.value-row.drag-over {
+			background-color: #f0f0f0;
+			border-top: 2px solid #007bff;
+		}
+
+		.drag-handle {
+			cursor: move !important;
+			user-select: none;
+		}
+
+		.drag-handle:hover {
+			background-color: #f8f9fa;
+		}
+	</style>
+
+	<%- include('../partials/footer') %>
+
+		<script>
+			document.addEventListener('DOMContentLoaded', function () {
+				// Auto-dismiss alerts after 5 seconds
+				const alerts = document.querySelectorAll('.alert-success');
+				alerts.forEach(alert => {
+					setTimeout(() => {
+						const bsAlert = new bootstrap.Alert(alert);
+						bsAlert.close();
+						// Also remove from URL to prevent showing up again on refresh if not redirected
+						const url = new URL(window.location);
+						url.searchParams.delete('success');
+						window.history.replaceState({}, '', url);
+					}, 5000);
+				});
+
+				// Handle has_image checkbox to show/hide color code column
+				const hasImageCheckbox = document.getElementById('has_image');
+				if (hasImageCheckbox) {
+					hasImageCheckbox.addEventListener('change', function () {
+						const showColorCode = this.checked;
+						const colorCodeHeader = document.getElementById('colorCodeHeader');
+						const colorCodeCells = document.querySelectorAll('.color-code-cell');
+
+						if (showColorCode) {
+							colorCodeHeader.style.display = 'table-cell';
+							colorCodeCells.forEach(cell => cell.style.display = 'table-cell');
+						} else {
+							colorCodeHeader.style.display = 'none';
+							colorCodeCells.forEach(cell => cell.style.display = 'none');
+						}
+					});
+				}
+
+				// Add new attribute value row
+				// Add new attribute value row
+				const addValueBtn = document.getElementById('add-value-btn');
+				if (addValueBtn) {
+					addValueBtn.addEventListener('click', function () {
+						const tbody = document.getElementById('valuesTableBody');
+						const hasImage = document.getElementById('has_image').checked;
+						const rowCount = tbody.children.length;
+
+						// Calculate next display order in steps of 10
+						const displayOrder = (rowCount + 1) * 10;
+
+						const row = document.createElement('tr');
+						row.className = 'value-row';
+						row.setAttribute('draggable', 'true');
+						row.innerHTML = `
+				<td class="text-center drag-handle" style="cursor: move;">
+					<i class="fa fa-grip-vertical text-muted"></i>
+				</td>
+				<td>
+					<input type="text" class="form-control form-control-sm value-name" required />
+				</td>
+				<td class="color-code-cell" style="display: ${hasImage ? 'table-cell' : 'none'};">
+					<input type="color" class="form-control form-control-sm value-color" value="#000000" />
+				</td>
+				<td>
+					<input type="number" class="form-control form-control-sm value-order" value="${displayOrder}" min="0" />
+				</td>
+				<td class="text-center">
+					<input type="checkbox" class="form-check-input value-active" checked />
+				</td>
+				<td class="text-center">
+					<input type="checkbox" class="form-check-input value-preselected" />
+				</td>
+				<td class="text-center">
+					<button type="button" class="btn btn-xs btn-danger delete-value-btn">
+						<i class="fa fa-trash"></i>
+					</button>
+				</td>
+			`;
+						tbody.appendChild(row);
+
+						// Attach drag events to new row
+						if (typeof attachDragEvents === 'function') {
+							attachDragEvents(row);
+						}
+					});
+				}
+
+				// Event delegation for delete buttons (both existing and dynamic)
+				document.addEventListener('click', function (e) {
+					// Look for the delete button or its children (icon)
+					// Use closest to find the button even if icon is clicked
+					const deleteBtn = e.target.closest('.delete-value-btn');
+
+					if (deleteBtn) {
+						e.preventDefault();
+						e.stopPropagation();
+
+						const row = deleteBtn.closest('tr');
+						if (row) {
+							const valueId = row.getAttribute('data-value-id');
+
+							if (valueId) {
+								// Store original content
+								const originalHtml = deleteBtn.innerHTML;
+								const originalWidth = deleteBtn.offsetWidth;
+
+								// Show spinner
+								deleteBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
+								if (originalWidth > 0) deleteBtn.style.width = originalWidth + 'px'; // Maintain width
+								deleteBtn.disabled = true;
+
+								// Call API to check usage
+								fetch(`/admin/api/product-attribute-values/${valueId}/check-usage`)
+									.then(response => {
+										if (!response.ok) throw new Error('Network response was not ok');
+										return response.json();
+									})
+									.then(data => {
+										if (data.used) {
+											// Restore button
+											deleteBtn.innerHTML = originalHtml;
+											deleteBtn.style.width = '';
+											deleteBtn.disabled = false;
+
+											// Show modal for error (used attribute)
+											const modal = new bootstrap.Modal(document.getElementById('modal-dialog'));
+											document.getElementById('modalDialogTitle').textContent = 'Cannot Delete Attribute Value';
+											document.getElementById('modalDialogBody').textContent = data.message || 'This attribute value is in use and cannot be deleted.';
+
+											// Hide action button since this is just an info modal
+											const actionBtn = document.getElementById('modalDialogActionBtn');
+											if (actionBtn) actionBtn.style.display = 'none';
+
+											// Restore action button visibility when modal is hidden
+											document.getElementById('modal-dialog').addEventListener('hidden.bs.modal', function () {
+												if (actionBtn) actionBtn.style.display = '';
+											}, { once: true });
+
+											modal.show();
+										} else {
+											// Safe to delete - remove row
+											row.remove();
+
+											// Show success toast (optional but nice)
+											if (typeof showSuccessToast === 'function') {
+												showSuccessToast('Value removed. Remember to save changes.');
+											}
+										}
+									})
+									.catch(err => {
+										console.error('Error checking usage:', err);
+
+										// Restore button
+										deleteBtn.innerHTML = originalHtml;
+										deleteBtn.style.width = '';
+										deleteBtn.disabled = false;
+
+										// Show modal for error (network/server issue)
+										const modal = new bootstrap.Modal(document.getElementById('modal-dialog'));
+										document.getElementById('modalDialogTitle').textContent = 'Error';
+										document.getElementById('modalDialogBody').textContent = 'Failed to verify attribute value usage. Please check your connection and try again.';
+
+										// Hide action button since this is just an info modal
+										const actionBtn = document.getElementById('modalDialogActionBtn');
+										if (actionBtn) actionBtn.style.display = 'none';
+
+										// Restore action button visibility when modal is hidden
+										document.getElementById('modal-dialog').addEventListener('hidden.bs.modal', function () {
+											if (actionBtn) actionBtn.style.display = '';
+										}, { once: true });
+
+										modal.show();
+									});
+							} else {
+								// New value (not saved yet), safe to remove immediately
+								row.remove();
+							}
+						}
+					}
+				});
+
+				// Handle form submission
+				const form = document.getElementById('productAttributeForm');
+				if (form) {
+					form.addEventListener('submit', function (e) {
+						e.preventDefault();
+
+						// Collect all value rows
+						const valueRows = document.querySelectorAll('.value-row');
+						const values = [];
+
+						valueRows.forEach(row => {
+							const valueId = row.getAttribute('data-value-id');
+							const valueNameInput = row.querySelector('.value-name');
+							const valueColorInput = row.querySelector('.value-color');
+							const valueOrderInput = row.querySelector('.value-order');
+							const valueActiveInput = row.querySelector('.value-active');
+							const valuePreselectedInput = row.querySelector('.value-preselected');
+
+							if (valueNameInput && valueNameInput.value.trim()) {
+								values.push({
+									id: valueId ? parseInt(valueId) : undefined,
+									value: valueNameInput.value.trim(),
+									color_code: valueColorInput ? valueColorInput.value : null,
+									display_order: valueOrderInput ? parseInt(valueOrderInput.value) : 0,
+									is_active: valueActiveInput ? valueActiveInput.checked : true,
+									is_preselected: valuePreselectedInput ? valuePreselectedInput.checked : false
+								});
+							}
+						});
+
+						// Add values as JSON to form
+						// Remove existing hidden input if any
+						const existingInput = this.querySelector('input[name="values_json"]');
+						if (existingInput) {
+							existingInput.remove();
+						}
+
+						const valuesInput = document.createElement('input');
+						valuesInput.type = 'hidden';
+						valuesInput.name = 'values_json';
+						valuesInput.value = JSON.stringify(values);
+						this.appendChild(valuesInput);
+
+						// Submit the form
+						this.submit();
+					});
+				}
+
+				// Initialize drag and drop on existing rows
+				const rows = document.querySelectorAll('.value-row');
+				rows.forEach(row => {
+					if (typeof attachDragEvents === 'function') {
+						attachDragEvents(row);
+					}
+				});
+			});
+
+			// Drag and Drop functionality
+			let draggedRow = null;
+
+			function attachDragEvents(row) {
+				row.addEventListener('dragstart', function (e) {
+					draggedRow = this;
+					this.style.opacity = '0.5';
+					e.dataTransfer.effectAllowed = 'move';
+					e.dataTransfer.setData('text/html', this.innerHTML);
+				});
+
+				row.addEventListener('dragend', function (e) {
+					this.style.opacity = '';
+					draggedRow = null;
+
+					// Update all rows with new display order in steps of 10
+					updateDisplayOrderAfterDrag();
+				});
+
+				row.addEventListener('dragover', function (e) {
+					if (e.preventDefault) {
+						e.preventDefault();
+					}
+					e.dataTransfer.dropEffect = 'move';
+
+					if (draggedRow && this !== draggedRow) {
+						const tbody = this.parentNode;
+						const rows = Array.from(tbody.querySelectorAll('.value-row'));
+						const draggedIndex = rows.indexOf(draggedRow);
+						const targetIndex = rows.indexOf(this);
+
+						if (draggedIndex < targetIndex) {
+							this.parentNode.insertBefore(draggedRow, this.nextSibling);
+						} else {
+							this.parentNode.insertBefore(draggedRow, this);
+						}
+					}
+
+					return false;
+				});
+
+				row.addEventListener('dragenter', function (e) {
+					this.style.backgroundColor = '#f0f0f0';
+				});
+
+				row.addEventListener('dragleave', function (e) {
+					this.style.backgroundColor = '';
+				});
+
+				row.addEventListener('drop', function (e) {
+					if (e.stopPropagation) {
+						e.stopPropagation();
+					}
+					this.style.backgroundColor = '';
+					return false;
+				});
+			}
+
+			function updateDisplayOrderAfterDrag() {
+				const tbody = document.getElementById('valuesTableBody');
+				const rows = tbody.querySelectorAll('.value-row');
+
+				rows.forEach((row, index) => {
+					const orderInput = row.querySelector('.value-order');
+					if (orderInput) {
+						// Set display order in steps of 10: 10, 20, 30, etc.
+						orderInput.value = (index + 1) * 10;
+					}
+				});
+			}
+
+			// Global functions for backward compatibility if stuck in cached html
+			// though specific event listeners are preferred
+			function removeValueRow(button) {
+				const row = button.closest('tr');
+				if (row) row.remove();
+			}
+		</script>
+
+		<%- include('../partials/footer') %>

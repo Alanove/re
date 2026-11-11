@@ -1,0 +1,41 @@
+{
+  "accounts": [
+    {
+      "id": 1,
+      "name": "Alain",
+      "userId": 12,
+      "currency": "USD",
+      "createdAt": "2025-09-01T00:00:00.000Z",
+      "isActive": true,
+      "notes": "Default account for Alain",
+      "balance": null
+    },
+    {
+      "name": "Eddy",
+      "userId": null,
+      "currency": "USD",
+      "isActive": true,
+      "notes": "",
+      "id": 2,
+      "createdAt": "2025-09-02T23:49:59.837Z"
+    },
+    {
+      "name": "George",
+      "userId": null,
+      "currency": "USD",
+      "isActive": true,
+      "notes": "",
+      "id": 3,
+      "createdAt": "2025-09-02T23:54:28.058Z"
+    },
+    {
+      "name": "Nadim",
+      "userId": null,
+      "currency": "USD",
+      "isActive": true,
+      "notes": "",
+      "id": 4,
+      "createdAt": "2025-09-02T23:54:32.927Z"
+    }
+  ]
+}

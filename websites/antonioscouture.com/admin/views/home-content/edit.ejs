@@ -1,0 +1,251 @@
+<!-- BEGIN breadcrumb -->
+<ol class="breadcrumb">
+	<li class="breadcrumb-item"><a href="/admin/dashboard">
+			<%= typeof t !== 'undefined' ? t('common.home') : 'Home' %>
+		</a></li>
+	<li class="breadcrumb-item">
+			<%= typeof t !== 'undefined' ? t('menu.contentmanagement') : 'Content Management' %>
+		</li>
+	<li class="breadcrumb-item active">Homepage builder</li>
+</ol>
+<!-- END breadcrumb -->
+
+<div class="row home-page-builder">
+	<div class="col-xl-12">
+		<% if (typeof error !== 'undefined' && error) { %>
+			<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> <%= error %></div>
+		<% } %>
+		<% if (typeof success !== 'undefined' && success) { %>
+			<div class="alert alert-success"><i class="fa fa-check-circle"></i> <%= success %></div>
+		<% } %>
+
+		<div class="panel panel-inverse mb-3">
+			<div class="panel-heading">
+				<h4 class="panel-title">Hero carousel</h4>
+			</div>
+			<div class="panel-body d-flex align-items-center justify-content-between flex-wrap gap-2">
+				<p class="text-muted fs-12px mb-0">The hero carousel is fixed at the top of the homepage.</p>
+				<a href="/admin/slider" class="btn btn-sm btn-outline-primary">
+					<i class="fa fa-images"></i> Edit slider
+				</a>
+			</div>
+		</div>
+
+		<div class="panel panel-inverse mb-3">
+			<div class="panel-heading d-flex align-items-center justify-content-between">
+				<h4 class="panel-title mb-0">Page components</h4>
+				<div class="btn-group">
+					<button type="button" class="btn btn-sm btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+						<i class="fa fa-plus"></i> Add component
+					</button>
+					<ul class="dropdown-menu dropdown-menu-end">
+						<li><a class="dropdown-item add-block-btn" href="#" data-block-type="text">Text</a></li>
+						<li><a class="dropdown-item add-block-btn" href="#" data-block-type="products_list">Products list</a></li>
+						<li><a class="dropdown-item add-block-btn" href="#" data-block-type="category_display">Category display</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="panel-body">
+				<p class="text-muted fs-12px mb-3">Drag to reorder. Disabled components are hidden on the storefront.</p>
+				<ul id="homeBlocksList" class="list-group home-blocks-list mb-0" data-csrf="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+					<% if (typeof blocks !== 'undefined' && blocks && blocks.length) { %>
+						<% blocks.forEach(function(block) { %>
+							<%- include('partials/block-list-item', { block }) %>
+						<% }); %>
+					<% } else { %>
+						<li class="list-group-item text-muted text-center py-4" id="homeBlocksEmpty">No components yet. Add one above.</li>
+					<% } %>
+				</ul>
+			</div>
+		</div>
+
+		<% var svc = (typeof content !== 'undefined' && content && content.serviceColumns) ? content.serviceColumns : []; %>
+		<% var care = svc[0] || {}; %>
+		<% var appt = svc[1] || {}; %>
+		<% var bridalCol = svc[2] || {}; %>
+
+		<div class="panel panel-inverse mb-3">
+			<div class="panel-heading">
+				<h4 class="panel-title">Service boxes <span class="badge bg-secondary ms-1">Pinned above footer</span></h4>
+			</div>
+			<div class="panel-body service-boxes-panel">
+				<p class="text-muted fs-12px mb-3">These three columns always appear above the site footer.</p>
+				<form method="POST" action="/admin/home-content/service-columns/update" id="serviceColumnsForm" data-rich-text-editor-height="120px">
+					<input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+
+					<div class="row g-3">
+						<div class="col-lg-4">
+							<div class="service-column-card">
+								<h6 class="service-column-card-title">Column 1 — Client services</h6>
+								<div class="mb-2">
+									<label class="form-label fs-12px mb-1">Title</label>
+									<input type="text" class="form-control form-control-sm" name="care_title" value="<%= care.title %>" placeholder="Client Services" />
+								</div>
+								<div class="mb-2">
+									<label class="form-label fs-12px mb-1">Description</label>
+									<textarea class="form-control rich-text rich-text-compact" name="care_body_html" rows="3" data-rich-text-height="120px"><%= care.bodyHtml %></textarea>
+								</div>
+								<div class="mb-2">
+									<label class="form-label fs-12px mb-1">Button text</label>
+									<input type="text" class="form-control form-control-sm" name="care_button_text" value="<%= care.buttonText %>" placeholder="Email us" />
+								</div>
+								<div class="mb-0">
+									<label class="form-label fs-12px mb-1">Button link</label>
+									<input type="text" class="form-control form-control-sm" name="care_button_link" value="<%= care.buttonLink %>" placeholder="/contact-us" />
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-4">
+							<div class="service-column-card">
+								<h6 class="service-column-card-title">Column 2 — Appointments</h6>
+								<div class="mb-2">
+									<label class="form-label fs-12px mb-1">Title</label>
+									<input type="text" class="form-control form-control-sm" name="appointments_title" value="<%= appt.title %>" placeholder="Appointments" />
+								</div>
+								<div class="mb-2">
+									<label class="form-label fs-12px mb-1">Description</label>
+									<textarea class="form-control rich-text rich-text-compact" name="appointments_body_html" rows="3" data-rich-text-height="120px"><%= appt.bodyHtml %></textarea>
+								</div>
+								<div class="mb-2">
+									<label class="form-label fs-12px mb-1">Button text</label>
+									<input type="text" class="form-control form-control-sm" name="appointments_button_text" value="<%= appt.buttonText %>" placeholder="Request an Appointment" />
+								</div>
+								<div class="mb-0">
+									<label class="form-label fs-12px mb-1">Button link</label>
+									<input type="text" class="form-control form-control-sm" name="appointments_button_link" value="<%= appt.buttonLink %>" placeholder="/contact-us" />
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-4">
+							<div class="service-column-card">
+								<h6 class="service-column-card-title">Column 3 — Call us</h6>
+								<div class="mb-2">
+									<label class="form-label fs-12px mb-1">Title</label>
+									<input type="text" class="form-control form-control-sm" name="bridal_title" value="<%= bridalCol.title %>" placeholder="Client Services" />
+								</div>
+								<div class="mb-2">
+									<label class="form-label fs-12px mb-1">Description</label>
+									<textarea class="form-control rich-text rich-text-compact" name="bridal_body_html" rows="3" data-rich-text-height="120px"><%= bridalCol.bodyHtml %></textarea>
+								</div>
+								<div class="mb-2">
+									<label class="form-label fs-12px mb-1">Button text</label>
+									<input type="text" class="form-control form-control-sm" name="bridal_button_text" value="<%= bridalCol.buttonText %>" placeholder="Call us" />
+								</div>
+								<div class="mb-0">
+									<label class="form-label fs-12px mb-1">Button link</label>
+									<input type="text" class="form-control form-control-sm" name="bridal_button_link" value="<%= bridalCol.buttonLink %>" placeholder="/contact-us" />
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="service-boxes-footer">
+						<button type="submit" class="btn btn-primary">
+							<i class="fa fa-save"></i> Save service boxes
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Block edit modal -->
+<div class="modal fade" id="editBlockModal" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="editBlockModalTitle">Edit component</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body" id="editBlockModalBody">
+				<!-- filled by JS -->
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-primary" id="saveBlockBtn">
+					<i class="fa fa-save"></i> Save
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+.home-blocks-list .block-drag-handle {
+	cursor: grab;
+	color: #888;
+	padding: 0 10px 0 0;
+}
+.home-blocks-list .sortable-ghost {
+	opacity: 0.4;
+	background: #f5f5f5;
+}
+.home-blocks-list .list-group-item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+.home-blocks-list .block-label {
+	flex: 1;
+	min-width: 0;
+}
+.home-blocks-list .block-actions {
+	flex-shrink: 0;
+	display: flex;
+	gap: 6px;
+	align-items: center;
+}
+.home-blocks-list .block-disabled .block-label {
+	opacity: 0.5;
+	text-decoration: line-through;
+}
+
+.service-boxes-panel {
+	overflow: visible;
+}
+
+.service-column-card {
+	background: #f8f9fa;
+	border: 1px solid rgba(0, 0, 0, 0.08);
+	border-radius: 6px;
+	padding: 16px;
+	height: 100%;
+}
+
+.service-column-card-title {
+	font-size: 13px;
+	font-weight: 600;
+	margin-bottom: 12px;
+	padding-bottom: 8px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.service-boxes-footer {
+	margin-top: 20px;
+	padding-top: 16px;
+	border-top: 1px solid rgba(0, 0, 0, 0.08);
+	display: flex;
+	justify-content: flex-end;
+}
+
+.home-page-builder .service-column-card .custom-editor-container {
+	display: block;
+	height: auto;
+}
+
+.home-page-builder .service-column-card .custom-editor-main {
+	height: auto;
+}
+
+.home-page-builder .service-column-card .custom-editor-rich,
+.home-page-builder .service-column-card .custom-editor-source {
+	min-height: 120px !important;
+	max-height: 160px;
+}
+
+.home-page-builder .service-column-card .custom-editor-toolbar {
+	flex-wrap: wrap;
+}
+</style>

@@ -1,0 +1,72 @@
+// Corporate Precision — design tokens
+
+// Colors
+$color-primary: #3498db;
+$color-primary-deep: #006397;
+$color-primary-fixed: #cce5ff;
+$color-primary-fixed-dim: #92ccff;
+$color-secondary: #2c3e50;
+$color-secondary-muted: #4e6073;
+$color-tertiary: #72c02c;
+$color-tertiary-dark: #376b00;
+$color-tertiary-container: #58a305;
+$color-neutral: #f8f9fa;
+$color-surface: #f8f9fa;
+$color-surface-low: #f3f4f5;
+$color-surface-container: #edeeef;
+$color-surface-high: #e7e8e9;
+$color-surface-highest: #e1e3e4;
+$color-white: #ffffff;
+$color-on-surface: #191c1d;
+$color-on-surface-variant: #3f4850;
+$color-outline: #707881;
+$color-outline-variant: #bfc7d2;
+$color-error: #ba1a1a;
+$color-navy-dark: #0f172a;
+
+// Typography
+$font-headline: "Manrope", sans-serif;
+$font-body: "Inter", sans-serif;
+$font-headline-ar: "IBM Plex Sans Arabic", $font-headline;
+$font-body-ar: "IBM Plex Sans Arabic", $font-body;
+
+// Radii — cards and images are square; buttons stay slightly rounded (4px)
+$radius-sm: 0;
+$radius-button: 0.25rem;
+$radius-md: 0;
+$radius-lg: 0;
+$radius-xl: 0;
+$radius-2xl: 0;
+$radius-full: 9999px;
+
+// Spacing (4px baseline)
+$space-xs: 4px;
+$space-sm: 8px;
+$space-md: 16px;
+$space-lg: 24px;
+$space-xl: 32px;
+$space-2xl: 48px;
+$space-3xl: 64px;
+$space-4xl: 80px;
+$gutter: 24px;
+$margin-mobile: 16px;
+$margin-desktop: 48px;
+$max-width: 1280px;
+
+// Breakpoints
+$bp-md: 768px;
+$bp-lg: 1024px;
+
+// Layout
+$header-height: 56px;
+$drawer-width: 320px;
+$z-header: 50;
+$z-drawer: 60;
+$z-overlay: 55;
+$z-whatsapp: 70;
+
+// Transitions
+$ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+$duration-fast: 150ms;
+$duration-base: 250ms;
+$duration-reveal: 650ms;

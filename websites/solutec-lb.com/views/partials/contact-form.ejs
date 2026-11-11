@@ -1,0 +1,104 @@
+<% const siteKey = typeof recaptchaSiteKey !== 'undefined' ? recaptchaSiteKey : ''; %>
+<div class="wpcf7 js" lang="en-US" dir="ltr">
+  <form class="wpcf7-form init solu-contact-form" action="/api/forms/contact" method="post" aria-label="Contact form" novalidate="novalidate">
+    <div class="row">
+      <div class="col-md-6"><p><span class="wpcf7-form-control-wrap" data-name="your-name"><input size="40" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required" aria-invalid="false" placeholder="Name" value="" type="text" name="your-name" aria-required="true" required></span></p></div>
+      <div class="col-md-6"><p><span class="wpcf7-form-control-wrap" data-name="company"><input size="40" class="wpcf7-form-control wpcf7-text" aria-invalid="false" placeholder="Company" value="" type="text" name="company"></span></p></div>
+    </div>
+    <div class="row">
+      <div class="col-md-6"><p><span class="wpcf7-form-control-wrap" data-name="mail"><input size="40" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required" aria-invalid="false" placeholder="E-mail Address" value="" type="email" name="mail" aria-required="true" required></span></p></div>
+      <div class="col-md-6"><p><span class="wpcf7-form-control-wrap" data-name="phone"><input size="40" class="wpcf7-form-control wpcf7-text" aria-invalid="false" placeholder="Phone" value="" type="text" name="phone"></span></p></div>
+    </div>
+    <div class="row">
+      <div class="col-md-12"><p><span class="wpcf7-form-control-wrap" data-name="Help"><textarea cols="40" rows="10" class="wpcf7-form-control wpcf7-textarea" aria-invalid="false" placeholder="How can we help?" name="Help"></textarea></span></p></div>
+    </div>
+    <div class="solu-recaptcha"></div>
+    <p><input class="wpcf7-form-control wpcf7-submit has-spinner" type="submit" value="Submit"></p>
+    <div class="wpcf7-response-output solu-form-status" aria-hidden="true" hidden></div>
+  </form>
+</div>
+<script>
+(function () {
+  if (window.soluContactFormInit) return;
+  window.soluContactFormInit = true;
+  var siteKey = <%- JSON.stringify(siteKey).replace(/</g, '\\u003c') %>;
+
+  function showStatus(form, message) {
+    var status = form.querySelector('.solu-form-status');
+    if (!status) return;
+    status.hidden = false;
+    status.setAttribute('aria-hidden', 'false');
+    status.textContent = message;
+  }
+
+  async function send(form, token) {
+    var data = Object.fromEntries(new FormData(form).entries());
+    var button = form.querySelector('[type="submit"]');
+    if (button) button.disabled = true;
+    try {
+      var response = await fetch('/api/forms/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: data['your-name'] || '',
+          company: data.company || '',
+          email: data.mail || '',
+          phone: data.phone || '',
+          message: data.Help || '',
+          recaptchaToken: token || ''
+        })
+      });
+      var result = await response.json().catch(function () { return {}; });
+      showStatus(form, result.message || (response.ok ? 'Thank you for your message. It has been sent.' : 'There was an error trying to send your message. Please try again later.'));
+      if (response.ok) form.reset();
+    } catch (error) {
+      showStatus(form, 'There was an error trying to send your message. Please try again later.');
+    } finally {
+      if (button) button.disabled = false;
+      if (window.grecaptcha && form.dataset.widgetId !== undefined) {
+        grecaptcha.reset(Number(form.dataset.widgetId));
+      }
+    }
+  }
+
+  function forms() {
+    return Array.prototype.slice.call(document.querySelectorAll('.solu-contact-form'));
+  }
+
+  window.soluRecaptchaReady = function () {
+    forms().forEach(function (form) {
+      var holder = form.querySelector('.solu-recaptcha');
+      if (!holder) return;
+      form.dataset.widgetId = String(grecaptcha.render(holder, {
+        sitekey: siteKey,
+        size: 'invisible',
+        callback: function (token) { send(form, token); }
+      }));
+    });
+  };
+
+  document.addEventListener('DOMContentLoaded', function () {
+    forms().forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+        if (siteKey && window.grecaptcha && form.dataset.widgetId !== undefined) {
+          grecaptcha.execute(Number(form.dataset.widgetId));
+        } else {
+          send(form, '');
+        }
+      });
+    });
+    if (siteKey) {
+      var script = document.createElement('script');
+      script.src = 'https://www.google.com/recaptcha/api.js?onload=soluRecaptchaReady&render=explicit';
+      script.async = true;
+      script.defer = true;
+      document.head.appendChild(script);
+    }
+  });
+})();
+</script>

@@ -1,0 +1,179 @@
+// Editorial hero (full-bleed, light caption text)
+body.home {
+    .luxury-hero {
+        position: relative;
+        width: 100%;
+        min-height: 100vh;
+        min-height: 100dvh;
+        height: 100vh;
+        height: 100dvh;
+        overflow: hidden;
+        background: $dark;
+
+        .carousel,
+        .carousel-inner,
+        .carousel-item {
+            height: 100%;
+        }
+
+        // Beat global #header-carousel fixed heights in styles.scss (620/500/400px)
+        #header-carousel .carousel-item {
+            height: 100%;
+            min-height: 0;
+        }
+
+        .carousel-item {
+            position: relative;
+
+            video,
+            img {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            // Optional second file: portrait/mobile vs landscape/desktop (matches JS hero carousel)
+            .hero-carousel-video--mobile {
+                @media (min-width: $lux-hero-video-desktop-min) {
+                    display: none !important;
+                }
+            }
+
+            .hero-carousel-video--desktop {
+                @media (max-width: #{$lux-hero-video-desktop-min - 0.02px}) {
+                    display: none !important;
+                }
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(
+                    180deg,
+                    rgba(0, 0, 0, 0.05) 0%,
+                    rgba(0, 0, 0, 0.0) 30%,
+                    rgba(0, 0, 0, 0.45) 100%
+                );
+                pointer-events: none;
+            }
+        }
+
+        .carousel-caption {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            text-align: center;
+            padding: 0 24px max(64px, env(safe-area-inset-bottom, 0px));
+            color: $white;
+            background: transparent;
+
+            h1,
+            .luxury-hero-eyebrow,
+            .luxury-hero-cta {
+                color: $white;
+            }
+
+            .luxury-hero-eyebrow {
+                font-family: $font-family-sans-serif;
+                font-weight: 400;
+                font-size: 0.78rem;
+                letter-spacing: 0.22em;
+                text-transform: uppercase;
+                margin-bottom: 16px;
+            }
+
+            h1 {
+                font-size: clamp(1.8rem, 3vw + 1rem, 3.4rem);
+                margin: 0 0 22px;
+                font-weight: $title-font-weight;
+                letter-spacing: 0.04em;
+            }
+
+            .luxury-hero-cta {
+                font-size: 0.85rem;
+                letter-spacing: 0.16em;
+                text-transform: uppercase;
+                border-bottom: 1px solid currentColor;
+                padding-bottom: 4px;
+
+                &:hover {
+                    text-decoration: none;
+                    opacity: 0.85;
+                }
+            }
+        }
+    }
+
+    .luxury-hero + .luxury-hero-tagline,
+    .home-shop-banner .luxury-hero-tagline {
+        text-align: center;
+        padding: 56px 24px 24px;
+        font-family: $font-family-sans-serif;
+        text-transform: uppercase;
+
+        .luxury-hero-tagline-body {
+            margin: 0 auto;
+            max-width: 960px;
+        }
+
+        .eyebrow,
+        .luxury-hero-tagline-intro {
+            font-weight: 400;
+            font-size: 0.74rem;
+            letter-spacing: 0.22em;
+            color: rgba(0, 0, 0, 0.55);
+
+            p {
+                margin: 0;
+            }
+        }
+
+        h2,
+        .luxury-hero-tagline-headline {
+            font-family: $font-family-sans-serif;
+            font-size: clamp(1rem, 1.2vw + 0.5rem, 1.35rem);
+            font-weight: 400;
+            letter-spacing: 0.12em;
+            margin: 8px 0 16px;
+
+            p,
+            h1,
+            h2,
+            h3 {
+                margin: 0;
+                font: inherit;
+                letter-spacing: inherit;
+            }
+        }
+
+        .luxury-hero-tagline-shop {
+            text-transform: uppercase;
+
+            p {
+                margin: 0;
+            }
+
+            a {
+                font-size: 0.8rem;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                color: $black;
+                text-decoration: none;
+                border-bottom: 1px solid currentColor;
+                padding-bottom: 2px;
+
+                &:hover {
+                    text-decoration: none;
+                    opacity: 0.85;
+                    color: $black;
+                }
+            }
+        }
+    }
+}

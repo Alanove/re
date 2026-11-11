@@ -11,6 +11,7 @@
 	<link href="/admin/css/app.min.css" rel="stylesheet" />
 	<% if (locals.includeCustomEditor) { %><link href="/admin/editor/editor.css?v=<%= locals.assetVersion || '' %>" rel="stylesheet" />
 	<link href="/admin/editor/rte-content.css?v=<%= locals.assetVersion || '' %>" rel="stylesheet" /><% } %>
+	<link href="/admin/table-sort/table-sort.css?v=<%= locals.assetVersion || '' %>" rel="stylesheet" />
 	<link href="/admin/css/admin.css" rel="stylesheet" />
 </head>
 <body>
@@ -65,6 +66,7 @@
 	<script src="/admin/js/vendor.min.js"></script>
 	<script src="/admin/js/app.min.js"></script>
 	<script src="/admin/js/re-admin.js"></script>
+	<script src="/admin/table-sort/table-sort.js?v=<%= locals.assetVersion || '' %>"></script>
 	<script src="/admin/js/custom.js"></script>
 	<% if (locals.includeCustomEditor) { %><script src="/admin/editor/editor.js?v=<%= locals.assetVersion || '' %>"></script>
 	<script src="/admin/js/editor-mount.js?v=<%= locals.assetVersion || '' %>"></script><% } %>

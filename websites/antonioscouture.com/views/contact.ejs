@@ -1,0 +1,198 @@
+
+
+<!-- Breadcrumb Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark" href="/">Home</a>
+                <span class="breadcrumb-item active">Contact</span>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Contact Start -->
+<div class="container-fluid">
+    <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Contact Us</span></h2>
+    <div class="row px-xl-5">
+        <% 
+          var contactLocs = [];
+          if (typeof contactLocations !== 'undefined' && Array.isArray(contactLocations) && contactLocations.length) {
+              contactLocs = contactLocations;
+          } else if (typeof siteSettings !== 'undefined' && siteSettings && Array.isArray(siteSettings.contactLocations) && siteSettings.contactLocations.length) {
+              contactLocs = siteSettings.contactLocations;
+          } else if (typeof siteData !== 'undefined' && siteData && Array.isArray(siteData.contactLocations) && siteData.contactLocations.length) {
+              contactLocs = siteData.contactLocations;
+          }
+          var hasContactAside = (typeof siteSettings !== 'undefined' && siteSettings && (siteSettings.contactPhone || siteSettings.contactWhatsapp || siteSettings.address)) || (contactLocs && contactLocs.length);
+        %>
+        <div class="<%= hasContactAside ? 'col-lg-7' : 'col-12' %> mb-4 mb-lg-0">
+            <div class="contact-form bg-light sponsorship-form-page">
+                <% if (typeof successMessage !== 'undefined' && successMessage) { %>
+                    <div class="alert alert-success mb-4 text-center p-5">
+                        <i class="fa fa-check-circle fa-3x mb-3 text-success"></i>
+                        <h4>Message Sent!</h4>
+                        <p class="mb-0"><%= successMessage %></p>
+                        <a href="/shop" class="btn btn-primary mt-3">Continue Shopping</a>
+                    </div>
+                <% } else { %>
+                    <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+                        <div class="alert alert-danger mb-4"><%= errorMessage %></div>
+                    <% } %>
+                    <div id="success"></div>
+                    <form name="sentMessage" id="contactForm" action="/contact-us" method="POST" novalidate>
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Your Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="name" name="name" required
+                                        value="<%= typeof formData !== 'undefined' && formData.name ? formData.name : '' %>" />
+                                    <div class="invalid-feedback">Please enter your name</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Your Email <span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" id="email" name="email" required
+                                        value="<%= typeof formData !== 'undefined' && formData.email ? formData.email : '' %>" />
+                                    <div class="invalid-feedback">Please enter a valid email</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label for="subject" class="form-label">Subject <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="subject" name="subject" required
+                                        value="<%= typeof formData !== 'undefined' && formData.subject ? formData.subject : '' %>" />
+                                    <div class="invalid-feedback">Please enter a subject</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label for="message" class="form-label">Message <span class="text-danger">*</span></label>
+                                    <textarea class="form-control" rows="8" id="message" name="message" required><%= typeof formData !== 'undefined' && formData.message ? formData.message : '' %></textarea>
+                                    <div class="invalid-feedback">Please enter your message</div>
+                                </div>
+                            </div>
+                        </div>
+                        <% if (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) { %>
+                        <div class="form-group mt-3 turnstile-wrapper" style="min-height: 65px;">
+                            <div class="cf-turnstile" data-sitekey="<%= turnstileSiteKey %>" data-callback="onContactTurnstileSuccess" data-error-callback="onContactTurnstileError" data-expired-callback="onContactTurnstileExpired"></div>
+                            <div id="contact-turnstile-error" class="alert alert-danger small mt-2 py-2" style="display: none;">Please complete the security verification.</div>
+                        </div>
+                        <% } %>
+                        <div class="mt-3">
+                            <button class="btn btn-primary py-2 px-4" type="submit" id="sendMessageButton" <%= (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) ? 'disabled' : '' %>>Send Message</button>
+                        </div>
+                    </form>
+
+                    <% if (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) { %>
+                    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+                    <% } %>
+                    <script>
+                        <% if (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) { %>
+                        window.onContactTurnstileSuccess = function() {
+                            var btn = document.getElementById('sendMessageButton');
+                            if (btn) btn.disabled = false;
+                            var err = document.getElementById('contact-turnstile-error');
+                            if (err) err.style.display = 'none';
+                        };
+                        window.onContactTurnstileError = function() {
+                            var btn = document.getElementById('sendMessageButton');
+                            if (btn) btn.disabled = true;
+                            var err = document.getElementById('contact-turnstile-error');
+                            if (err) err.style.display = 'block';
+                        };
+                        window.onContactTurnstileExpired = function() {
+                            var btn = document.getElementById('sendMessageButton');
+                            if (btn) btn.disabled = true;
+                            var err = document.getElementById('contact-turnstile-error');
+                            if (err) err.style.display = 'block';
+                        };
+                        <% } %>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            var form = document.querySelector('.needs-validation') || document.getElementById('contactForm');
+                            if (form) {
+                                form.addEventListener('submit', function(event) {
+                                    if (!form.checkValidity()) {
+                                        event.preventDefault();
+                                        event.stopPropagation();
+                                    }
+                                    form.classList.add('was-validated');
+                                }, false);
+                            }
+                        });
+                    </script>
+                <% } %>
+            </div>
+        </div>
+        <% if (hasContactAside) { %>
+        <div class="col-lg-5">
+            <div class="contact-page-aside p-0">
+                <% if (typeof siteSettings !== 'undefined' && siteSettings) { %>
+                    <% if (siteSettings.contactPhone) { %>
+                        <p class="mb-2"><i class="fa fa-phone text-primary mr-2"></i><a href="tel:<%= String(siteSettings.contactPhone).replace(/\s/g, '') %>"><%= siteSettings.contactPhone %></a></p>
+                    <% } %>
+                    <% if (siteSettings.contactWhatsapp) { %>
+                        <p class="mb-2"><i class="fab fa-whatsapp text-primary mr-2"></i><a href="https://wa.me/<%= String(siteSettings.contactWhatsapp).replace(/\D/g, '') %>" target="_blank" rel="noopener"><%= siteSettings.contactWhatsapp %></a></p>
+                    <% } %>
+                    <% if (siteSettings.address) { %>
+                        <p class="mb-3 text-secondary" style="white-space: pre-line;"><%= siteSettings.address %></p>
+                    <% } %>
+                <% } %>
+                <% if (contactLocs && contactLocs.length) { %>
+                    <div id="contact-locations-accordion" class="contact-locations-accordion">
+                        <% contactLocs.forEach(function(loc, idx) { %>
+                            <div class="contact-loc-item">
+                                <div class="contact-loc-header" id="contact-loc-h-<%= idx %>">
+                                    <h6 class="contact-loc-heading mb-0">
+                                        <button
+                                            class="contact-loc-toggle <%= idx === 0 ? '' : 'collapsed' %>"
+                                            type="button"
+                                            data-toggle="collapse"
+                                            data-target="#contact-loc-c-<%= idx %>"
+                                            aria-expanded="<%= idx === 0 ? 'true' : 'false' %>"
+                                            aria-controls="contact-loc-c-<%= idx %>">
+                                            <span class="contact-loc-label"><%= loc.label || ('Location ' + (idx + 1)) %></span>
+                                            <span class="contact-loc-icon" aria-hidden="true"></span>
+                                        </button>
+                                    </h6>
+                                </div>
+                                <div id="contact-loc-c-<%= idx %>" class="collapse <%= idx === 0 ? 'show' : '' %>" aria-labelledby="contact-loc-h-<%= idx %>" data-parent="#contact-locations-accordion">
+                                    <div class="contact-loc-body small">
+                                        <% if (loc.addressLines && loc.addressLines.length) { %>
+                                            <% loc.addressLines.forEach(function(line) { %>
+                                                <div><%= line %></div>
+                                            <% }); %>
+                                        <% } %>
+                                        <% if (loc.phones && loc.phones.length) { %>
+                                            <% loc.phones.forEach(function(phone) { %>
+                                                <div class="mt-1"><a href="tel:<%= String(phone).replace(/\s/g, '') %>"><%= phone %></a></div>
+                                            <% }); %>
+                                        <% } %>
+                                        <% if (loc.emails && loc.emails.length) { %>
+                                            <% loc.emails.forEach(function(em) { %>
+                                                <div class="mt-1"><a href="mailto:<%= em %>"><%= em %></a></div>
+                                            <% }); %>
+                                        <% } %>
+                                        <% if (loc.mapUrl) { %>
+                                            <div class="mt-2"><a href="<%= loc.mapUrl %>" target="_blank" rel="noopener noreferrer">Google Map</a></div>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+        <% } %>
+    </div>
+</div>
+<!-- Contact End -->

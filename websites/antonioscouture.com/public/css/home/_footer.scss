@@ -1,0 +1,89 @@
+// Storefront footer — pure black bar; icons read as white on dark chrome.
+.site-footer {
+    background-color: $black !important;
+    color: rgba($white, 0.78);
+
+    // Boostrap utility overrides inside footer (was gray-blue bg-dark + dark icons).
+    &.bg-dark {
+        background-color: $black !important;
+    }
+
+    .fa,
+    .fab {
+        color: $white !important;
+    }
+
+    // Angle / social icons sit inside links with text-secondary — force glyph color.
+    a .fa,
+    a .fab {
+        color: $white !important;
+    }
+
+    .btn-primary .fa,
+    .btn-primary .fab {
+        color: $white !important;
+    }
+
+    h5,
+    h6 {
+        color: rgba($white, 0.92);
+    }
+
+    .text-secondary {
+        color: rgba($white, 0.78) !important;
+    }
+
+    a.text-secondary:hover {
+        color: $white !important;
+    }
+
+    // Selected nav item used text-primary (black in this theme) — unreadable on black.
+    a.text-primary {
+        color: rgba($white, 0.95) !important;
+
+        .fa,
+        .fab {
+            color: $white !important;
+        }
+    }
+
+    a.text-primary:hover {
+        color: $white !important;
+    }
+
+    // Location accordion — same component; $border-color reads on dark bar
+    .contact-locations-accordion {
+        .contact-loc-item {
+            border-color: $border-color;
+        }
+
+        .contact-loc-item:has(.collapse.show) .contact-loc-header {
+            border-bottom-color: $border-color;
+        }
+
+        .contact-loc-toggle {
+            color: rgba($white, 0.92) !important;
+
+            &:hover,
+            &:focus {
+                color: $white !important;
+            }
+        }
+
+        .contact-loc-icon {
+            color: rgba($white, 0.88);
+        }
+
+        .contact-loc-body {
+            color: rgba($white, 0.78);
+
+            a {
+                color: rgba($white, 0.85) !important;
+
+                &:hover {
+                    color: $white !important;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LiteWeb | Company Website Solution</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-on-surface": "#f0f1f2",
+                    "outline": "#707881",
+                    "on-surface": "#191c1d",
+                    "tertiary-fixed-dim": "#8bdb46",
+                    "on-surface-variant": "#3f4850",
+                    "background": "#f8f9fa",
+                    "on-primary": "#ffffff",
+                    "on-secondary-container": "#526478",
+                    "surface-tint": "#006397",
+                    "surface-variant": "#e1e3e4",
+                    "on-tertiary-fixed": "#0c2000",
+                    "secondary-container": "#cfe2f9",
+                    "secondary-fixed-dim": "#b5c8df",
+                    "inverse-surface": "#2e3132",
+                    "surface-container": "#edeeef",
+                    "on-secondary-fixed": "#091d2e",
+                    "on-tertiary-fixed-variant": "#285000",
+                    "surface-container-highest": "#e1e3e4",
+                    "primary-container": "#3498db",
+                    "secondary": "#4e6073",
+                    "primary-fixed": "#cce5ff",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-primary": "#92ccff",
+                    "primary": "#006397",
+                    "primary-fixed-dim": "#92ccff",
+                    "on-background": "#191c1d",
+                    "on-error": "#ffffff",
+                    "error": "#ba1a1a",
+                    "on-primary-container": "#002d47",
+                    "on-secondary-fixed-variant": "#36485b",
+                    "on-primary-fixed": "#001d31",
+                    "error-container": "#ffdad6",
+                    "outline-variant": "#bfc7d2",
+                    "surface": "#f8f9fa",
+                    "tertiary-fixed": "#a6f85f",
+                    "on-tertiary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "tertiary": "#376b00",
+                    "on-tertiary-container": "#163000",
+                    "tertiary-container": "#58a305",
+                    "surface-bright": "#f8f9fa",
+                    "surface-container-low": "#f3f4f5",
+                    "secondary-fixed": "#d1e4fb",
+                    "on-primary-fixed-variant": "#004b73",
+                    "on-secondary": "#ffffff",
+                    "surface-dim": "#d9dadb",
+                    "surface-container-high": "#e7e8e9"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-desktop": "48px",
+                    "gutter": "24px",
+                    "margin-mobile": "16px",
+                    "md": "16px",
+                    "lg": "24px",
+                    "xs": "4px",
+                    "xl": "32px",
+                    "max-width": "1280px",
+                    "base": "4px",
+                    "sm": "8px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-md": ["Manrope"],
+                    "body-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-lg-mobile": ["Manrope"],
+                    "headline-lg": ["Manrope"],
+                    "headline-xl": ["Manrope"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            vertical-align: middle;
+        }
+        .glass-effect {
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .bento-card {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .bento-card:hover {
+            transform: translateY(-4px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopNavBar -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 md:px-12 py-4 max-w-full mx-auto bg-surface/80 backdrop-blur-md border-b border-outline-variant/30 shadow-sm">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md font-bold text-primary">LiteWeb</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Home</a>
+<a class="font-label-md text-label-md text-primary font-bold border-b-2 border-primary pb-1" href="#">Services</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Portfolio</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Pricing</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Blog</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">About</a>
+</div>
+<button class="bg-primary text-on-primary font-label-md text-label-md px-6 py-2.5 rounded-lg hover:bg-primary-container hover:text-on-primary-container transition-all active:scale-95">
+            Start a Project
+        </button>
+</nav>
+<main class="pt-24 pb-20">
+<!-- Hero Section -->
+<section class="max-w-[1280px] mx-auto px-6 md:px-12 mb-20">
+<div class="grid lg:grid-cols-2 gap-12 items-center">
+<div class="space-y-6">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span>Enterprise Solution</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">
+                        Premium Company <br/><span class="text-primary">Website Architecture</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+                        A robust, scalable digital foundation designed for modern enterprises. We integrate high-performance CMS solutions with expert SEO optimization to elevate your corporate presence.
+                    </p>
+<div class="flex flex-wrap gap-4 pt-4">
+<button class="bg-primary text-on-primary font-label-md text-label-md px-8 py-3 rounded-xl hover:shadow-lg transition-all active:scale-95">
+                            Start a Project
+                        </button>
+<button class="bg-surface-container-high text-on-surface-variant font-label-md text-label-md px-8 py-3 rounded-xl hover:bg-surface-container-highest transition-all border border-outline-variant">
+                            View Demo
+                        </button>
+</div>
+</div>
+<div class="relative group">
+<div class="absolute -inset-4 bg-primary/5 rounded-[2rem] blur-2xl group-hover:bg-primary/10 transition-colors"></div>
+<div class="relative rounded-2xl overflow-hidden border border-outline-variant shadow-2xl">
+<img class="w-full aspect-[4/3] object-cover" data-alt="A clean and professional high-fidelity UI mockup of a corporate website displayed on a sleek modern laptop. The screen shows a sophisticated layout with a deep professional blue primary color, minimalist typography, and crisp high-resolution photography. Soft studio lighting illuminates the aluminum chassis of the device, set against a blurred professional office background with neutral grey and light blue tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiG94AsOTCtJWP5pzQquwIY3QEHvjzyNdC3sGtC1GNeXTtlB21nybeY2w85L8hHrHDRt11fctUjS9Lwr8UNt47-7bpB5KDhCVQYu8M13V0mFfPDxazCkQNdgIjQ4EK_qSX8T73df4u5hA0_dLzCIOFNfuH3WGdiAH7AMn_rXrSZT80C_hEtKsnEGzDab6cXkixohg9lYhRtjUu1ACPhBPIZqW6FnkVn5mdmrGIIzb6criWbHHLdRjE"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Feature Bento Grid -->
+<section class="max-w-[1280px] mx-auto px-6 md:px-12 mb-20">
+<div class="text-center mb-12">
+<h2 class="font-headline-lg text-headline-lg mb-4">Engineered for Performance</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto">Our solution combines aesthetic excellence with technical precision to deliver measurable business results.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Large Feature Card -->
+<div class="md:col-span-2 bento-card bg-surface-container-lowest border border-outline-variant p-8 rounded-xl flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 bg-primary-fixed rounded-lg flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary">dynamic_feed</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-3">Advanced CMS Integration</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 max-w-md">Empower your marketing team with a headless CMS that provides total control over content without sacrificing technical performance or security.</p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container p-4 rounded-lg border border-outline-variant/50">
+<span class="font-label-md text-label-md text-primary">Content Sync</span>
+<div class="h-1.5 w-full bg-outline-variant rounded-full mt-2">
+<div class="h-full w-[90%] bg-primary rounded-full"></div>
+</div>
+</div>
+<div class="bg-surface-container p-4 rounded-lg border border-outline-variant/50">
+<span class="font-label-md text-label-md text-primary">Security Layer</span>
+<div class="h-1.5 w-full bg-outline-variant rounded-full mt-2">
+<div class="h-full w-[100%] bg-tertiary rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Small Vertical Card -->
+<div class="bento-card bg-surface-container-lowest border border-outline-variant p-8 rounded-xl flex flex-col">
+<div class="w-12 h-12 bg-tertiary-fixed rounded-lg flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-tertiary">trending_up</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-3">SEO Optimized</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-8">Built-in schema markup, lightning-fast load times, and semantic HTML to ensure your brand dominates search results.</p>
+<div class="mt-auto space-y-3">
+<div class="flex justify-between items-center text-label-sm font-label-sm border-b border-outline-variant pb-2">
+<span>Mobile Score</span>
+<span class="text-tertiary">98/100</span>
+</div>
+<div class="flex justify-between items-center text-label-sm font-label-sm border-b border-outline-variant pb-2">
+<span>LCP Speed</span>
+<span class="text-tertiary">1.2s</span>
+</div>
+</div>
+</div>
+<!-- Small Square Card -->
+<div class="bento-card bg-surface-container-lowest border border-outline-variant p-8 rounded-xl">
+<div class="w-12 h-12 bg-secondary-container rounded-lg flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-secondary">palette</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-3">Premium Design</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Bespoke UI/UX reflecting your unique corporate identity and professional standards.</p>
+</div>
+<!-- Long Horizontal Card -->
+<div class="md:col-span-2 bento-card bg-primary-container p-8 rounded-xl text-on-primary flex items-center justify-between overflow-hidden relative">
+<div class="relative z-10">
+<h3 class="font-headline-md text-headline-md mb-2">Ready to scale?</h3>
+<p class="font-body-md text-body-md opacity-90 max-w-sm">Deploy on global edge networks with 99.9% uptime guaranteed by LiteWeb Engineering infrastructure.</p>
+</div>
+<div class="hidden md:block relative z-10">
+<button class="bg-surface-container-lowest text-primary font-label-md text-label-md px-6 py-3 rounded-lg shadow-sm hover:bg-on-primary transition-colors">
+                            Infrastructure Docs
+                        </button>
+</div>
+<!-- Subtle background decoration -->
+<div class="absolute -right-10 -bottom-10 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
+</div>
+</div>
+</section>
+<!-- Company News Section -->
+<section class="max-w-[1280px] mx-auto px-6 md:px-12 mb-20">
+<div class="flex justify-between items-end mb-10">
+<div>
+<h2 class="font-headline-lg text-headline-lg mb-2">Company Insights</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Latest updates from the world of corporate web presence.</p>
+</div>
+<a class="hidden md:flex items-center gap-1 text-primary font-label-md text-label-md hover:underline" href="#">
+                    View All News
+                    <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- News Item 1 -->
+<article class="group">
+<div class="rounded-xl overflow-hidden mb-5 border border-outline-variant shadow-sm aspect-[16/9]">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A professional business setting where diverse executives are gathered around a sleek glass boardroom table in a high-rise office. They are discussing digital strategy, with glowing data charts reflected on the table's surface. The lighting is soft and natural, coming through large windows showing a modern city skyline. The color palette emphasizes corporate blue, steel grey, and warm natural wood tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuChAy6924hf75bTQg7szuV-AeWvl4pvvR4TEMMD52JPfu5qAb4Lw6LVxDYw-Yn_IHSlE9hEl_OoHWrG4tjXQ_oynPECoECU5Th7TVsy1POPj12p8ma9T5Do1x9rlNp3qRjKVl94smzVTszt08jnSQfR0TSLRs-33OK_YjUX4DuXWvU31pn_lwie7GN2USe2yY03VpLu67Ybd8TIP0VPqdAe9aSTC0tL4CtClRGzGyvM6U6SBJgQ67dL"/>
+</div>
+<div class="space-y-2">
+<span class="font-label-sm text-label-sm text-tertiary uppercase tracking-wider">Strategy</span>
+<h4 class="font-headline-md text-headline-md leading-tight group-hover:text-primary transition-colors">Digital First: The Evolution of Modern Corporate Identity</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">How top-tier firms are leveraging minimalist web architecture to build institutional trust and client confidence in 2024.</p>
+<div class="pt-4 flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+<span>May 12, 2024</span>
+</div>
+</div>
+</article>
+<!-- News Item 2 -->
+<article class="group">
+<div class="rounded-xl overflow-hidden mb-5 border border-outline-variant shadow-sm aspect-[16/9]">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A close-up of a high-end computer screen displaying complex code and SEO performance dashboards. The interface is clean, showing green growth arrows and professional analytics visualizations. In the background, a modern studio apartment with soft, warm lighting suggests a creative workspace. The aesthetic is tech-focused but sophisticated, using shades of primary blue and tertiary green for positive indicators." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtQ432xsFe-hSGqmKK5CfohFTiFgP2vaOuqhz-syHc7xFVvds36uZeksLPV3LjMMSQArvp-dm_e_J-CzsuaVQXjPK0oWCFzq7OI2gr9dN6FmKGAvE-g2PGMJalTNsSlgzV2FQJCVq3OGtOUoOTkIw5El2nv-tXyKzbbv-V26lOVq9VkdGrTR4NOMX36YvasUDJjf16Vm_VtWViPEle2N1hi9oHE1uG_HNb6iIhAKxbsD61kVRxwx4Q"/>
+</div>
+<div class="space-y-2">
+<span class="font-label-sm text-label-sm text-tertiary uppercase tracking-wider">Technical</span>
+<h4 class="font-headline-md text-headline-md leading-tight group-hover:text-primary transition-colors">Maximizing Reach: SEO Best Practices for Global Solutions</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">Exploring the technical nuances of international SEO and how structured data drives organic enterprise growth.</p>
+<div class="pt-4 flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+<span>May 08, 2024</span>
+</div>
+</div>
+</article>
+<!-- News Item 3 -->
+<article class="group">
+<div class="rounded-xl overflow-hidden mb-5 border border-outline-variant shadow-sm aspect-[16/9]">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="An abstract visualization of digital connectivity and data security. Glowing blue lines and nodes interweave to form a protective shield-like structure over a dark, sophisticated geometric background. The design is architectural and stable, conveying a sense of institutional security and advanced technology. Professional blue and soft white highlights define the depth and texture of the scene." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAt46MkRnvhxFxKHxhrdfbeT6UleMip5ps8pKl7yJq9DtfXP1ywpKOVYbDzy2cs3YbrrXgRulcQjUsLAK6SlLVNEiedvl1UatTYgYNzKfi1LaRdgK4RV37mTgIpx-gx7NYESyN7k9gerU2WfUvoFupVTqEnw0rwoo_GoU_lz1KmYz-a9fhKTcp43N85z-pz9r0n7YEaw-X7GOoLXmSYBvW0S4d__-RDZdT_6wihuhCHTQvftRGFRERw"/>
+</div>
+<div class="space-y-2">
+<span class="font-label-sm text-label-sm text-tertiary uppercase tracking-wider">Security</span>
+<h4 class="font-headline-md text-headline-md leading-tight group-hover:text-primary transition-colors">Security as a Service: Protecting Your Brand's Digital Assets</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">A deep dive into LiteWeb's multilayered security approach for enterprise-grade company websites.</p>
+<div class="pt-4 flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+<span>May 05, 2024</span>
+</div>
+</div>
+</article>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="max-w-[1280px] mx-auto px-6 md:px-12">
+<div class="relative bg-surface-container-high rounded-[2rem] p-12 md:p-20 overflow-hidden text-center border border-outline-variant">
+<div class="relative z-10 max-w-2xl mx-auto space-y-8">
+<h2 class="font-headline-xl text-headline-xl text-on-surface">Transform your corporate <br/>presence today.</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Connect with our engineering team to discuss your specific requirements and receive a tailored project proposal within 24 hours.</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+<button class="w-full sm:w-auto bg-primary text-on-primary font-label-md text-label-md px-12 py-4 rounded-xl hover:shadow-xl transition-all active:scale-95">
+                            Start Your Project
+                        </button>
+<button class="w-full sm:w-auto bg-white border border-outline-variant text-on-surface font-label-md text-label-md px-12 py-4 rounded-xl hover:bg-surface-container-lowest transition-all">
+                            Talk to Sales
+                        </button>
+</div>
+</div>
+<!-- Background visual elements -->
+<div class="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
+<div class="absolute top-10 left-10 w-64 h-64 bg-primary rounded-full blur-3xl"></div>
+<div class="absolute bottom-10 right-10 w-64 h-64 bg-tertiary rounded-full blur-3xl"></div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-16 px-6 md:px-12 bg-surface-container-lowest border-t border-outline-variant mt-20">
+<div class="max-w-[1280px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+<div class="space-y-6">
+<span class="font-headline-md text-headline-md font-bold text-primary">LiteWeb</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Enterprise-grade web solutions engineered for clarity, performance, and growth.</p>
+</div>
+<div class="space-y-4">
+<h5 class="font-label-md text-label-md font-bold text-on-surface">Solutions</h5>
+<ul class="space-y-2 font-body-sm text-body-sm text-on-surface-variant">
+<li><a class="hover:text-primary transition-colors" href="#">Company Website</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">E-commerce Portal</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">SaaS Platforms</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Mobile Applications</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h5 class="font-label-md text-label-md font-bold text-on-surface">Company</h5>
+<ul class="space-y-2 font-body-sm text-body-sm text-on-surface-variant">
+<li><a class="hover:text-primary transition-colors" href="#">About Us</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Our Portfolio</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Pricing Models</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Contact Engineering</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h5 class="font-label-md text-label-md font-bold text-on-surface">Legal</h5>
+<ul class="space-y-2 font-body-sm text-body-sm text-on-surface-variant">
+<li><a class="hover:text-primary transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Terms of Service</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Cookie Policy</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Accessibility</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-[1280px] mx-auto mt-16 pt-8 border-t border-outline-variant/30 flex flex-col md:flex-row justify-between items-center gap-4 text-label-sm font-label-sm text-on-surface-variant">
+<span>© 2024 LiteWeb Engineering. All rights reserved.</span>
+<div class="flex gap-6">
+<a class="hover:text-primary transition-colors" href="#">LinkedIn</a>
+<a class="hover:text-primary transition-colors" href="#">X (Twitter)</a>
+<a class="hover:text-primary transition-colors" href="#">GitHub</a>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interactions and subtle scroll effects
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('opacity-100', 'translate-y-0');
+                        entry.target.classList.remove('opacity-0', 'translate-y-10');
+                    }
+                });
+            }, observerOptions);
+
+            // Apply fade-in to cards and sections
+            document.querySelectorAll('.bento-card, article').forEach(el => {
+                el.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-10');
+                observer.observe(el);
+            });
+        });
+    </script>
+</body></html>

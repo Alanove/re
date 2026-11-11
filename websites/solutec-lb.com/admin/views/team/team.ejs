@@ -1,0 +1,65 @@
+<div class="row">
+	<div class="col-xl-12">
+		<div class="panel panel-inverse">
+			<div class="panel-heading">
+				<h4 class="panel-title">Our Team</h4>
+				<div class="panel-heading-btn">
+					<a href="/admin/team/create" class="btn btn-xs btn-success">
+						<i class="fa fa-plus"></i> Add Member
+					</a>
+				</div>
+			</div>
+			<div class="panel-body">
+				<% if (typeof success !== 'undefined' && success) { %>
+					<div class="alert alert-success"><%= success %></div>
+				<% } %>
+				<% if (typeof error !== 'undefined' && error) { %>
+					<div class="alert alert-danger"><%= error %></div>
+				<% } %>
+				<div class="table-responsive">
+					<table class="table table-striped align-middle">
+						<thead>
+							<tr>
+								<th>Photo</th>
+								<th>Name</th>
+								<th>Companies</th>
+								<th>Status</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<% items.forEach(function(item) { %>
+							<tr>
+								<td>
+									<% if (item.photo) { %>
+										<img src="<%= item.photo %>" alt="" style="width:48px;height:48px;object-fit:cover;border-radius:4px;">
+									<% } else { %>—<% } %>
+								</td>
+								<td><%= item.name %></td>
+								<td>
+									<% (item.companies || []).forEach(function(c) { %>
+										<span class="badge bg-secondary me-1"><%= c.key %></span>
+									<% }); %>
+								</td>
+								<td><%= item.status %></td>
+								<td class="text-nowrap">
+									<a class="btn btn-sm btn-primary" href="/admin/team/<%= item.id %>/edit">Edit</a>
+									<button class="btn btn-sm btn-danger" type="button" onclick="deleteItem('<%= item.id %>')">Delete</button>
+								</td>
+							</tr>
+							<% }); %>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	function deleteItem(id) {
+		if (!confirm('Delete this team member?')) return;
+		fetch('/admin/team/' + id, { method: 'DELETE' }).then(function () {
+			window.location.reload();
+		});
+	}
+</script>

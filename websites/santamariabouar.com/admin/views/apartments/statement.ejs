@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Account Statement<% if (apartment && owner) { %> - Block <%= apartment.block %> <%= apartment.unitNumberOfficial %> (<%= apartment.unitNumberUnofficial %>) - <%= owner.name %><% } %></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px 20px;
+            background: white;
+            color: #000;
+        }
+        
+        .statement {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 50px;
+        }
+        
+        .company-info h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .company-info .location {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .logo {
+            max-width: 80px;
+            max-height: 80px;
+        }
+        
+        .apartment-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .statement-date {
+            font-size: 16px;
+            color: #000;
+            margin-bottom: 40px;
+        }
+        
+        .recipient-section {
+            margin-bottom: 40px;
+        }
+        
+        .recipient-section h3 {
+            font-size: 12px;
+            color: #999;
+            font-weight: normal;
+            margin-bottom: 8px;
+        }
+        
+        .recipient-section .name {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+        
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        
+        .items-table th,
+        .items-table td {
+            padding: 12px 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .items-table thead {
+            background: #f8f9fa;
+        }
+        
+        .items-table th {
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #666;
+        }
+        
+        .items-table .due-amount,
+        .items-table .payment,
+        .items-table .balance,
+        .items-table .total,
+        .items-table .amount {
+            text-align: right;
+        }
+        
+        .negative-balance {
+            color: #28a745;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+        }
+        
+        .category-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+            }
+            .statement {
+                box-shadow: none;
+            }
+            @page {
+                margin: 1cm;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="statement">
+        <!-- Header -->
+        <div class="header">
+            <div class="company-info">
+                <h1>Santa Maria Compound</h1>
+                <div class="location">Bouar</div>
+            </div>
+            <% if (siteSettings && siteSettings.logo) { %>
+                <img src="<%= siteSettings.logo %>" alt="Logo" class="logo">
+            <% } %>
+        </div>
+        
+        <!-- Apartment Title -->
+        <% if (apartment) { %>
+            <div class="apartment-title">Block <%= apartment.block %> <%= apartment.unitNumberOfficial %> (<%= apartment.unitNumberUnofficial %>)</div>
+        <% } %>
+        <div class="statement-date"><%= new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' }) %></div>
+        
+        <!-- Owner Information -->
+        <div class="recipient-section">
+            <h3>Owner</h3>
+            <% if (owner) { %>
+                <div class="name"><%= owner.name %></div>
+            <% } %>
+        </div>
+
+        <% if (typeof walletBalance !== 'undefined' && walletBalance > 0) { %>
+        <div class="recipient-section" style="background:#e8f5e9;padding:12px 16px;border-radius:4px;">
+            <h3>Wallet Balance</h3>
+            <div class="name" style="color:#198754;">$<%= walletBalance.toFixed(2) %> available</div>
+            <div style="font-size:12px;color:#666;margin-top:4px;">Prepaid balance that can be applied to future common expenses and invoices.</div>
+        </div>
+        <% } %>
+        
+        <!-- Invoices Section -->
+        <% if (invoices && invoices.length > 0) { %>
+            <div style="margin-top: 50px;">
+                <h2 class="section-title">Invoices</h2>
+                
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Due Date</th>
+                            <th class="due-amount">Amount</th>
+                            <th class="payment">Amount Paid</th>
+                            <th class="balance">Balance</th>
+                            <th class="total">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%
+                        let invoiceTotalDue = 0;
+                        let invoiceTotalPaid = 0;
+                        let invoiceTotalBalance = 0;
+                        
+                        invoices.forEach(invoice => {
+                            const balance = invoice.balance;
+                            invoiceTotalDue += invoice.amount;
+                            invoiceTotalPaid += invoice.amountPaid;
+                            invoiceTotalBalance += balance;
+                            
+                            let status = 'Paid';
+                            let statusColor = '#28a745';
+                            
+                            if (invoice.status === 'unpaid') {
+                                status = 'Unpaid';
+                                statusColor = '#dc3545';
+                            } else if (invoice.status === 'partial') {
+                                status = 'Partial';
+                                statusColor = '#ffc107';
+                            }
+                        %>
+                            <tr>
+                                <td><%= new Date(invoice.invoiceDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %></td>
+                                <td><%= invoice.description %></td>
+                                <td>
+                                    <span class="category-badge" style="background-color: <%= invoice.categoryColor %>;">
+                                        <%= invoice.categoryName %>
+                                    </span>
+                                </td>
+                                <td><%= invoice.dueDate ? new Date(invoice.dueDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : '-' %></td>
+                                <td class="due-amount">$<%= invoice.amount.toFixed(2) %></td>
+                                <td class="payment">$<%= invoice.amountPaid.toFixed(2) %></td>
+                                <td class="balance <%= balance < 0 ? 'negative-balance' : '' %>">
+                                    <%= balance < 0 ? '-' : '' %>$<%= Math.abs(balance).toFixed(2) %>
+                                </td>
+                                <td class="total" style="color: <%= statusColor %>; font-weight: bold;">
+                                    <%= status %>
+                                </td>
+                            </tr>
+                        <% }); %>
+                        
+                        <!-- Invoice Total Row -->
+                        <tr style="border-top: 2px solid #000; font-weight: bold; background: #f8f9fa;">
+                            <td colspan="4" style="padding: 15px 8px;">Invoice Total</td>
+                            <td class="due-amount" style="padding: 15px 8px;">$<%= invoiceTotalDue.toFixed(2) %></td>
+                            <td class="payment" style="padding: 15px 8px;">$<%= invoiceTotalPaid.toFixed(2) %></td>
+                            <td class="balance" style="padding: 15px 8px; color: <%= invoiceTotalBalance > 0 ? '#dc3545' : '#28a745' %>;">
+                                <%= invoiceTotalBalance < 0 ? '-' : '' %>$<%= Math.abs(invoiceTotalBalance).toFixed(2) %>
+                            </td>
+                            <td class="total" style="padding: 15px 8px;">-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        <% } %>
+        
+        <!-- Transaction History Section -->
+        <div style="margin-top: 50px;">
+            <h2 class="section-title">Transaction History</h2>
+            
+            <% if (transactions && transactions.length > 0) { %>
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Account</th>
+                            <th>Type</th>
+                            <th class="amount">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% transactions.forEach(function(transaction) { %>
+                            <tr>
+                                <td><%= new Date(transaction.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %></td>
+                                <td><%= transaction.description %></td>
+                                <td>
+                                    <span class="category-badge" style="background-color: <%= transaction.categoryColor %>;">
+                                        <%= transaction.categoryName %>
+                                    </span>
+                                </td>
+                                <td><%= transaction.accountName %></td>
+                                <td>
+                                    <% if (transaction.type === 'income') { %>
+                                        <span style="color: #28a745; font-weight: bold;">Income</span>
+                                    <% } else { %>
+                                        <span style="color: #dc3545; font-weight: bold;">Expense</span>
+                                    <% } %>
+                                </td>
+                                <td class="amount" style="font-weight: bold; color: <%= transaction.type === 'income' ? '#28a745' : '#dc3545' %>;">
+                                    <%= transaction.type === 'income' ? '+' : '-' %>$<%= transaction.amount.toFixed(2) %>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            <% } else { %>
+                <div style="padding: 20px; text-align: center; color: #666; background: #f8f9fa; border-radius: 4px;">
+                    <p>No transactions found for this apartment.</p>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>
+

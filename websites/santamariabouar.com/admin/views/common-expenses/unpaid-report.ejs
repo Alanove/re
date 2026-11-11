@@ -1,0 +1,2117 @@
+﻿<style>
+        /* Debug print styles - exact copy of @media print */
+        .print-preview {
+            font-family: Arial, sans-serif !important;
+            font-size: 16px !important;
+            line-height: 1.45 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            color: #000 !important;
+            background: white !important;
+        }
+        
+        .print-preview * {
+            -webkit-print-color-adjust: exact !important;
+            color-adjust: exact !important;
+            color: #000 !important;
+        }
+        
+        .print-preview .no-print {
+            display: none !important;
+        }
+        
+        .print-preview .navbar, .print-preview .sidebar, .print-preview .app-header, 
+        .print-preview .app-sidebar, .print-preview .breadcrumb, 
+        .print-preview .navbar-header, .print-preview .navbar-nav, 
+        .print-preview .dropdown, .print-preview .btn, .print-preview .card-header,
+        .print-preview .panel-heading, .print-preview .page-header {
+            display: none !important;
+        }
+        
+        .print-preview h1, .print-preview h2, .print-preview h3, .print-preview h4, 
+        .print-preview h5, .print-preview h6, .print-preview p, .print-preview span, 
+        .print-preview div, .print-preview td, .print-preview th {
+            color: #000 !important;
+        }
+        
+        .print-preview .text-white, .print-preview .text-light {
+            color: #000 !important;
+        }
+        
+        .print-preview .bg-white {
+            background: white !important;
+        }
+        
+        .print-preview .container-fluid {
+            max-width: 100% !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        
+        .print-preview .report-header {
+            text-align: center !important;
+            border-bottom: 1px solid #000 !important;
+            margin-bottom: 8px !important;
+            padding-bottom: 4px !important;
+        }
+        
+        .print-preview .report-header h1 {
+            font-size: 22px !important;
+            margin: 0 0 2px 0 !important;
+            font-weight: bold !important;
+        }
+        
+        .print-preview .report-header h3 {
+            font-size: 18px !important;
+            margin: 0 0 2px 0 !important;
+            font-weight: normal !important;
+        }
+        
+        .print-preview .report-header p {
+            font-size: 15px !important;
+            margin: 0 !important;
+        }
+        
+        .print-preview .summary-section {
+            background: #f5f5f5 !important;
+            border: 1px solid #000 !important;
+            padding: 4px !important;
+            margin-bottom: 8px !important;
+        }
+        
+        .print-preview .summary-section h4 {
+            font-size: 16px !important;
+            margin: 0 0 4px 0 !important;
+            font-weight: bold !important;
+        }
+        
+        .print-preview .summary-cards {
+            display: table !important;
+            width: 100% !important;
+            table-layout: fixed !important;
+        }
+        
+        .print-preview .summary-card {
+            display: table-cell !important;
+            text-align: center !important;
+            border: 1px solid #000 !important;
+            padding: 2px !important;
+            background: white !important;
+            width: 25% !important;
+        }
+        
+        .print-preview .summary-card h5 {
+            font-size: 18px !important;
+            margin: 0 !important;
+            font-weight: bold !important;
+        }
+        
+        .print-preview .summary-card p {
+            font-size: 15px !important;
+            margin: 1px 0 0 0 !important;
+        }
+        
+        .print-preview .block-section {
+            margin-bottom: 40px !important;
+        }
+        
+        .print-preview .block-header {
+            background: #e9ecef !important;
+            border: 1px solid #000 !important;
+            padding: 6px 8px !important;
+            margin-bottom: 4px !important;
+            font-weight: bold !important;
+            font-size: 17px !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+        }
+        
+        .print-preview .block-header h3 {
+            font-size: 18px !important;
+            margin: 0 !important;
+            display: inline !important;
+        }
+        
+        .print-preview .block-header .block-info {
+            font-size: 16px !important;
+            text-align: right !important;
+        }
+        
+        .print-preview .apartment-section {
+            border: 1px solid #ccc !important;
+            margin-bottom: 26px !important;
+        }
+        
+        .print-preview .apartment-header {
+            background: #f8f9fa !important;
+            border-bottom: 1px solid #ccc !important;
+            padding: 6px 8px !important;
+            font-size: 16px !important;
+            font-weight: bold !important;
+        }
+        
+        .print-preview .apartment-info {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+        }
+        
+        .print-preview .apartment-details {
+            flex: 1 !important;
+            line-height: 1.35 !important;
+        }
+        
+        .print-preview .apartment-total {
+            font-weight: bold !important;
+            font-size: 17px !important;
+            flex-shrink: 0 !important;
+            white-space: nowrap !important;
+            margin-left: 8px !important;
+        }
+        
+        .print-preview .payment-details {
+            padding: 0 !important;
+        }
+        
+        .print-preview .payment-row {
+            border-bottom: 1px solid #eee !important;
+            padding: 5px 6px !important;
+            font-size: 16px !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+        
+        .print-preview .payment-row:last-child {
+            border-bottom: none !important;
+        }
+        
+        .print-preview .payment-category {
+            width: 30% !important;
+            text-align: left !important;
+        }
+        
+        .print-preview .category-badge {
+            background: transparent !important;
+            background-color: transparent !important;
+            color: #000 !important;
+            border: none !important;
+            font-size: 1.0625em !important;
+            font-weight: bold !important;
+            padding: 0 !important;
+        }
+        
+        .print-preview .payment-status {
+            width: 12% !important;
+            text-align: center !important;
+        }
+        
+        .print-preview .payment-amount {
+            width: 15% !important;
+            text-align: right !important;
+        }
+        
+        .print-preview .payment-paid {
+            width: 15% !important;
+            text-align: right !important;
+        }
+        
+        .print-preview .payment-outstanding {
+            width: 28% !important;
+            text-align: right !important;
+            font-weight: bold !important;
+        }
+        
+        .print-preview .status-badge {
+            padding: 3px 6px !important;
+            border-radius: 3px !important;
+            font-size: 15px !important;
+            font-weight: bold !important;
+            display: inline-block !important;
+            text-align: center !important;
+            min-width: 50px !important;
+        }
+        
+        .print-preview .status-unpaid {
+            background: #dc3545 !important;
+            color: white !important;
+            border: 1px solid #000 !important;
+        }
+        
+        .print-preview .status-partial {
+            background: #ffc107 !important;
+            color: #000 !important;
+            border: 1px solid #000 !important;
+        }
+        
+        .print-preview .status-paid {
+            background: #28a745 !important;
+            color: white !important;
+            border: 1px solid #000 !important;
+        }
+        
+        .print-preview .footer {
+            text-align: center !important;
+            font-size: 14px !important;
+            margin-top: 8px !important;
+            border-top: 1px solid #ccc !important;
+            padding-top: 2px !important;
+        }
+        
+        .print-preview .fas, .print-preview .fa {
+            display: none !important;
+        }
+        
+        .print-preview .empty, .print-preview .blank, 
+        .print-preview [style*="background: white"], 
+        .print-preview [style*="background-color: white"] {
+            display: none !important;
+        }
+        
+        .print-preview .card, .print-preview .card-body {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+        
+        .print-preview .mb-3, .print-preview .mt-3, .print-preview .my-3 {
+            margin: 0 !important;
+        }
+        
+        .print-preview .block-section + .block-section {
+            margin-top: 20px !important;
+        }
+        
+        .print-preview .apartment-section + .apartment-section {
+            margin-top: 16px !important;
+        }
+        
+        /* Print-specific styles for A4 optimization */
+        @media print {
+            @page {
+                size: A4;
+                margin: 0.1in 0.2in 0.2in 0.2in;
+            }
+            
+            * {
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                color: #000 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            
+            html, body {
+                margin: 0 !important;
+                padding: 0 !important;
+                font-family: Arial, sans-serif;
+                font-size: 16px !important;
+                line-height: 1.45 !important;
+                color: #000 !important;
+                background: white !important;
+            }
+            
+            .no-print {
+                display: none !important;
+            }
+            
+            /* Hide navigation and menu elements */
+            .navbar, .sidebar, .app-header, .app-sidebar, .breadcrumb, 
+            .navbar-header, .navbar-nav, .dropdown, .btn, .card-header,
+            .panel-heading, .page-header {
+                display: none !important;
+            }
+            
+            .container-fluid {
+                margin: 0 !important;
+                padding: 0 !important;
+                max-width: 100% !important;
+            }
+            
+            /* Remove top spacing but add proper spacing between elements */
+            .report-header {
+                margin: 0 0 8px 0 !important;
+                padding: 0 0 4px 0 !important;
+            }
+            
+            .report-header h1 {
+                margin: 0 0 4px 0 !important;
+                padding: 0 !important;
+            }
+            
+            .report-header h3 {
+                margin: 0 0 4px 0 !important;
+                padding: 0 !important;
+            }
+            
+            .report-header p {
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            
+            /* Add proper spacing to summary section */
+            .summary-section {
+                margin: 0 0 12px 0 !important;
+                padding: 6px !important;
+            }
+            
+            /* Add spacing between block sections */
+            .block-section {
+                margin-bottom: 40px !important;
+            }
+            
+            /* Add spacing between apartment sections */
+            .apartment-section {
+                margin-bottom: 26px !important;
+            }
+            
+            /* Add proper spacing to payment rows */
+            .payment-row {
+                padding: 5px 6px !important;
+                margin-bottom: 1px !important;
+            }
+            
+            /* Add spacing to apartment headers */
+            .apartment-header {
+                padding: 6px 8px !important;
+            }
+            
+            /* Add spacing to block headers */
+            .block-header {
+                padding: 6px 8px !important;
+                margin-bottom: 6px !important;
+            }
+            
+            /* Ensure all text is black */
+            h1, h2, h3, h4, h5, h6, p, span, div, td, th {
+                color: #000 !important;
+            }
+            
+            /* Fix any white text issues */
+            .text-white, .text-light {
+                color: #000 !important;
+            }
+            
+            /* Remove any background colors that might cause issues */
+            .bg-white {
+                background: white !important;
+            }
+            
+            .container-fluid {
+                max-width: 100%;
+                padding: 0;
+                margin: 0;
+            }
+            
+            .report-header {
+                text-align: center;
+                border-bottom: 1px solid #000;
+                margin-bottom: 8px;
+                padding-bottom: 4px;
+            }
+            
+            .report-header h1 {
+                font-size: 22px !important;
+                margin: 0 0 2px 0;
+                font-weight: bold;
+            }
+            
+            .report-header h3 {
+                font-size: 18px !important;
+                margin: 0 0 2px 0;
+                font-weight: normal;
+            }
+            
+            .report-header p {
+                font-size: 15px !important;
+                margin: 0;
+            }
+            
+            .summary-section {
+                background: #f5f5f5 !important;
+                border: 1px solid #000;
+                padding: 4px;
+                margin-bottom: 8px;
+            }
+            
+            .summary-section h4 {
+                font-size: 16px !important;
+                margin: 0 0 4px 0;
+                font-weight: bold;
+            }
+            
+            .summary-cards {
+                display: table;
+                width: 100%;
+                table-layout: fixed;
+            }
+            
+            .summary-card {
+                display: table-cell;
+                text-align: center;
+                border: 1px solid #000;
+                padding: 2px;
+                background: white;
+                width: 25%;
+            }
+            
+            .summary-card h5 {
+                font-size: 18px !important;
+                margin: 0;
+                font-weight: bold;
+            }
+            
+            .summary-card p {
+                font-size: 15px !important;
+                margin: 1px 0 0 0;
+            }
+            
+            .block-section {
+                margin-bottom: 40px !important;
+            }
+            
+            .block-header {
+                background: #e9ecef !important;
+                border: 1px solid #000;
+                padding: 6px 8px;
+                margin-bottom: 4px;
+                font-weight: bold;
+                font-size: 17px !important;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .block-header h3 {
+                font-size: 18px !important;
+                margin: 0;
+                display: inline;
+            }
+            
+            .block-header .block-info {
+                font-size: 16px !important;
+                text-align: right;
+            }
+            
+            .apartment-section {
+                border: 1px solid #ccc;
+                margin-bottom: 26px !important;
+            }
+            
+            .apartment-header {
+                background: #f8f9fa !important;
+                border-bottom: 1px solid #ccc;
+                padding: 6px 8px;
+                font-size: 16px !important;
+                font-weight: bold;
+            }
+            
+            .apartment-info {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .apartment-details {
+                flex: 1;
+                line-height: 1.35;
+            }
+            
+            .apartment-total {
+                font-weight: bold;
+                font-size: 17px !important;
+                flex-shrink: 0;
+                white-space: nowrap;
+                margin-left: 8px !important;
+            }
+            
+            .payment-details {
+                padding: 0;
+            }
+            
+            .payment-row {
+                border-bottom: 1px solid #eee;
+                padding: 5px 6px;
+                font-size: 16px !important;
+                display: flex;
+                align-items: center;
+            }
+            
+            .payment-row:last-child {
+                border-bottom: none;
+            }
+            
+            .payment-category {
+                width: 30%;
+                text-align: left;
+            }
+            
+            .category-badge {
+                background: transparent !important;
+                background-color: transparent !important;
+                color: #000 !important;
+                border: none !important;
+                font-size: 1.0625em !important;
+                font-weight: bold !important;
+                padding: 0 !important;
+            }
+            
+            .payment-status {
+                width: 12%;
+                text-align: center;
+            }
+            
+            .payment-amount {
+                width: 15%;
+                text-align: right;
+            }
+            
+            .payment-paid {
+                width: 15%;
+                text-align: right;
+            }
+            
+            .payment-outstanding {
+                width: 28%;
+                text-align: right;
+                font-weight: bold;
+            }
+            
+            .status-badge {
+                padding: 3px 6px !important;
+                border-radius: 3px !important;
+                font-size: 15px !important;
+                font-weight: bold !important;
+                display: inline-block !important;
+                text-align: center !important;
+                min-width: 50px !important;
+            }
+            
+            .status-unpaid {
+                background: #dc3545 !important;
+                color: white !important;
+                border: 1px solid #000 !important;
+            }
+            
+            .status-partial {
+                background: #ffc107 !important;
+                color: #000 !important;
+                border: 1px solid #000 !important;
+            }
+            
+            .status-paid {
+                background: #28a745 !important;
+                color: white !important;
+                border: 1px solid #000 !important;
+            }
+            
+            .page-break {
+                page-break-before: always;
+            }
+            
+            .footer {
+                text-align: center;
+                font-size: 14px !important;
+                margin-top: 8px;
+                border-top: 1px solid #ccc;
+                padding-top: 2px;
+            }
+            
+            .block-section + .block-section {
+                margin-top: 20px !important;
+            }
+            
+            .apartment-section + .apartment-section {
+                margin-top: 16px !important;
+            }
+            
+            /* Hide icons in print to save space */
+            .fas, .fa {
+                display: none;
+            }
+            
+            /* Remove any empty elements or white squares */
+            .empty, .blank, [style*="background: white"], [style*="background-color: white"] {
+                display: none !important;
+            }
+            
+            /* Hide any Bootstrap cards or elements that might cause white squares */
+            .card, .card-body {
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+            }
+            
+            /* Ensure no unwanted spacing */
+            .mb-3, .mt-3, .my-3 {
+                margin: 0 !important;
+            }
+            
+            /* Ensure proper table layout */
+            .payment-row {
+                display: table;
+                width: 100%;
+                table-layout: fixed;
+            }
+            
+            .payment-category, .payment-status, .payment-amount, .payment-paid, .payment-outstanding {
+                display: table-cell;
+                vertical-align: middle;
+            }
+            
+            /* Fix any Bootstrap responsive issues */
+            .row {
+                display: block !important;
+            }
+            
+            .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, 
+            .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
+                width: auto !important;
+                float: none !important;
+                display: inline-block !important;
+            }
+        }
+
+        /*
+         * Mobile PDF layout (stacked rows) — only when body.unpaid-report-print-mobile is set
+         * before printing (e.g. new tab opened with ?printMobile=1). Normal Print uses the rules above.
+         */
+        @media print {
+            body.unpaid-report-print-mobile {
+                font-size: 17px !important;
+                line-height: 1.45 !important;
+            }
+            body.unpaid-report-print-mobile .unpaid-report-root {
+                padding-left: 8px !important;
+                padding-right: 8px !important;
+            }
+            body.unpaid-report-print-mobile .report-header {
+                margin: 0 0 10px 0 !important;
+                padding: 0 0 6px 0 !important;
+            }
+            body.unpaid-report-print-mobile .report-header h1 {
+                font-size: 22px !important;
+            }
+            body.unpaid-report-print-mobile .report-header h3 {
+                font-size: 18px !important;
+            }
+            body.unpaid-report-print-mobile .summary-section {
+                margin: 0 0 10px 0 !important;
+                padding: 8px !important;
+            }
+            body.unpaid-report-print-mobile .summary-section h4 {
+                font-size: 17px !important;
+                margin-bottom: 6px !important;
+            }
+            body.unpaid-report-print-mobile .summary-cards {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 6px !important;
+                width: 100% !important;
+                table-layout: auto !important;
+            }
+            body.unpaid-report-print-mobile .summary-card {
+                display: block !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+                border: 1px solid #000 !important;
+                padding: 6px 8px !important;
+                text-align: center !important;
+            }
+            body.unpaid-report-print-mobile .summary-card h5 {
+                font-size: 18px !important;
+            }
+            body.unpaid-report-print-mobile .summary-card p {
+                font-size: 16px !important;
+            }
+            body.unpaid-report-print-mobile .block-section {
+                margin-bottom: 36px !important;
+            }
+            body.unpaid-report-print-mobile .block-header {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 4px !important;
+                padding: 8px 10px !important;
+                font-size: 18px !important;
+            }
+            body.unpaid-report-print-mobile .block-header .block-info {
+                text-align: left !important;
+                width: 100% !important;
+                font-size: 16px !important;
+            }
+            body.unpaid-report-print-mobile .apartment-section {
+                margin-bottom: 26px !important;
+                page-break-inside: avoid;
+            }
+            body.unpaid-report-print-mobile .apartment-header {
+                padding: 8px 10px !important;
+                font-size: 17px !important;
+            }
+            body.unpaid-report-print-mobile .apartment-info {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: stretch !important;
+                gap: 6px !important;
+            }
+            body.unpaid-report-print-mobile .apartment-details {
+                word-break: break-word !important;
+                line-height: 1.35 !important;
+            }
+            body.unpaid-report-print-mobile .apartment-total {
+                text-align: right !important;
+                font-size: 18px !important;
+                padding-top: 6px !important;
+                border-top: 1px solid #ccc !important;
+            }
+            body.unpaid-report-print-mobile .payment-row {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: stretch !important;
+                width: 100% !important;
+                table-layout: auto !important;
+                padding: 8px 6px !important;
+                margin: 0 0 4px 0 !important;
+                font-size: 17px !important;
+                border-bottom: 1px solid #ddd !important;
+                gap: 4px !important;
+            }
+            body.unpaid-report-print-mobile .payment-category,
+            body.unpaid-report-print-mobile .payment-status,
+            body.unpaid-report-print-mobile .payment-amount,
+            body.unpaid-report-print-mobile .payment-paid,
+            body.unpaid-report-print-mobile .payment-outstanding {
+                display: block !important;
+                width: 100% !important;
+                text-align: left !important;
+                vertical-align: top !important;
+            }
+            body.unpaid-report-print-mobile .payment-category .category-badge {
+                font-size: 17px !important;
+                white-space: normal !important;
+            }
+            body.unpaid-report-print-mobile .payment-status::before {
+                content: "Status: ";
+                font-weight: 700;
+                color: #000 !important;
+                font-size: 16px;
+                margin-right: 4px;
+            }
+            body.unpaid-report-print-mobile .payment-status {
+                display: flex !important;
+                flex-wrap: wrap !important;
+                align-items: center !important;
+            }
+            body.unpaid-report-print-mobile .payment-amount::before {
+                content: "Amount: ";
+                font-weight: 700;
+                color: #000 !important;
+                font-size: 16px;
+            }
+            body.unpaid-report-print-mobile .payment-paid::before {
+                content: "Paid: ";
+                font-weight: 700;
+                color: #000 !important;
+                font-size: 16px;
+            }
+            body.unpaid-report-print-mobile .payment-outstanding::before {
+                content: "Outstanding: ";
+                font-weight: 700;
+                color: #000 !important;
+                font-size: 16px;
+            }
+            body.unpaid-report-print-mobile .payment-outstanding {
+                font-size: 18px !important;
+                font-weight: bold !important;
+                padding-top: 2px !important;
+            }
+            body.unpaid-report-print-mobile .status-badge {
+                font-size: 16px !important;
+            }
+        }
+        
+        /* Screen styles - ensure proper table layout */
+        .summary-cards {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .summary-card {
+            flex: 1;
+            text-align: center;
+            border: 1px solid #ddd;
+            padding: 15px;
+            background: white;
+            border-radius: 5px;
+        }
+        
+        .summary-card h5 {
+            font-size: 18px;
+            margin: 0 0 5px 0;
+            font-weight: bold;
+        }
+        
+        .summary-card p {
+            font-size: 12px;
+            margin: 0;
+            color: #666;
+        }
+        
+        .apartment-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .payment-row {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            border-bottom: 1px solid #eee;
+        }
+        
+            .payment-category {
+                width: 30%;
+                text-align: left;
+            }
+        
+        .payment-status {
+            width: 12%;
+            text-align: center;
+        }
+        
+        .payment-amount {
+            width: 15%;
+            text-align: right;
+        }
+        
+        .payment-paid {
+            width: 15%;
+            text-align: right;
+        }
+        
+        .payment-outstanding {
+            width: 28%;
+            text-align: right;
+            font-weight: bold;
+        }
+        
+        .report-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .block-section {
+            margin-bottom: 40px;
+        }
+        
+        .block-header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .apartment-section {
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .apartment-header {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .payment-row {
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .payment-row:last-child {
+            border-bottom: none;
+        }
+        
+        .summary-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 30px;
+        }
+        
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .status-unpaid {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .status-partial {
+            background-color: #ffc107;
+            color: #212529;
+        }
+
+        .category-filter-bar {
+            background: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 14px 16px;
+        }
+        .category-filter-bar .form-check {
+            margin-right: 1rem;
+            margin-bottom: 0.35rem;
+        }
+        .whatsapp-recipient-list .form-check {
+            padding: 8px 10px;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            margin-bottom: 6px;
+        }
+        .whatsapp-recipient-list .form-check:has(input:disabled) {
+            opacity: 0.65;
+        }
+        #messagePreview {
+            min-height: 220px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+        .category-filtered-out {
+            display: none !important;
+        }
+
+        /* Mobile-friendly layout (screen only — print styles stay unchanged) */
+        @media screen and (max-width: 767.98px) {
+            .unpaid-report-root {
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+            .unpaid-report-root .report-header {
+                margin-bottom: 1rem;
+            }
+            .unpaid-report-root .report-header h1 {
+                font-size: 1.35rem;
+            }
+            .unpaid-report-root .report-header h3 {
+                font-size: 1rem;
+            }
+            .unpaid-report-root .summary-cards {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .unpaid-report-root .summary-card {
+                width: 100%;
+                flex: none;
+            }
+            .unpaid-report-root .summary-section {
+                padding: 14px;
+                margin-top: 0;
+            }
+            .unpaid-report-root .block-section {
+                margin-bottom: 1.5rem;
+            }
+            .unpaid-report-root .block-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+                padding: 12px;
+            }
+            .unpaid-report-root .block-header .block-info {
+                text-align: left;
+                width: 100%;
+            }
+            .unpaid-report-root .apartment-section {
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                border-radius: 10px;
+            }
+            .unpaid-report-root .apartment-header {
+                padding: 12px;
+            }
+            .unpaid-report-root .apartment-info {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            .unpaid-report-root .apartment-details {
+                font-size: 0.9rem;
+                line-height: 1.45;
+                word-break: break-word;
+            }
+            .unpaid-report-root .apartment-total {
+                text-align: right;
+                font-size: 1.05rem;
+                padding-top: 8px;
+                border-top: 1px solid #dee2e6;
+            }
+            .unpaid-report-root .payment-row {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 12px 10px;
+                gap: 6px;
+                margin: 8px 10px;
+                background: #fff;
+                border: 1px solid #e9ecef;
+                border-radius: 8px;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            }
+            .unpaid-report-root .payment-row:last-child {
+                border-bottom: 1px solid #e9ecef;
+                margin-bottom: 10px;
+            }
+            .unpaid-report-root .payment-category,
+            .unpaid-report-root .payment-status,
+            .unpaid-report-root .payment-amount,
+            .unpaid-report-root .payment-paid,
+            .unpaid-report-root .payment-outstanding {
+                width: 100% !important;
+                text-align: left !important;
+            }
+            .unpaid-report-root .payment-category .category-badge {
+                font-size: 0.95rem !important;
+                white-space: normal;
+            }
+            .unpaid-report-root .payment-status::before {
+                content: "Status: ";
+                font-weight: 600;
+                color: #495057;
+                font-size: 0.8rem;
+                margin-right: 4px;
+            }
+            .unpaid-report-root .payment-status {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+            }
+            .unpaid-report-root .payment-amount::before {
+                content: "Amount: ";
+                font-weight: 600;
+                color: #495057;
+                font-size: 0.8rem;
+            }
+            .unpaid-report-root .payment-paid::before {
+                content: "Paid: ";
+                font-weight: 600;
+                color: #495057;
+                font-size: 0.8rem;
+            }
+            .unpaid-report-root .payment-outstanding::before {
+                content: "Outstanding: ";
+                font-weight: 600;
+                color: #495057;
+                font-size: 0.8rem;
+            }
+            .unpaid-report-root .payment-outstanding {
+                font-size: 1.05rem;
+                padding-top: 4px;
+            }
+        }
+
+        @media screen {
+            body.unpaid-report-mobile .unpaid-report-root {
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+            body.unpaid-report-mobile .unpaid-report-root .report-header {
+                margin-bottom: 1rem;
+            }
+            body.unpaid-report-mobile .unpaid-report-root .report-header h1 {
+                font-size: 1.35rem;
+            }
+            body.unpaid-report-mobile .unpaid-report-root .report-header h3 {
+                font-size: 1rem;
+            }
+            body.unpaid-report-mobile .unpaid-report-root .summary-cards {
+                flex-direction: column;
+                gap: 12px;
+            }
+            body.unpaid-report-mobile .unpaid-report-root .summary-card {
+                width: 100%;
+                flex: none;
+            }
+            body.unpaid-report-mobile .unpaid-report-root .summary-section {
+                padding: 14px;
+                margin-top: 0;
+            }
+            body.unpaid-report-mobile .unpaid-report-root .block-section {
+                margin-bottom: 1.5rem;
+            }
+            body.unpaid-report-mobile .unpaid-report-root .block-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+                padding: 12px;
+            }
+            body.unpaid-report-mobile .unpaid-report-root .block-header .block-info {
+                text-align: left;
+                width: 100%;
+            }
+            body.unpaid-report-mobile .unpaid-report-root .apartment-section {
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                border-radius: 10px;
+            }
+            body.unpaid-report-mobile .unpaid-report-root .apartment-header {
+                padding: 12px;
+            }
+            body.unpaid-report-mobile .unpaid-report-root .apartment-info {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            body.unpaid-report-mobile .unpaid-report-root .apartment-details {
+                font-size: 0.9rem;
+                line-height: 1.45;
+                word-break: break-word;
+            }
+            body.unpaid-report-mobile .unpaid-report-root .apartment-total {
+                text-align: right;
+                font-size: 1.05rem;
+                padding-top: 8px;
+                border-top: 1px solid #dee2e6;
+            }
+            body.unpaid-report-mobile .unpaid-report-root .payment-row {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 12px 10px;
+                gap: 6px;
+                margin: 8px 10px;
+                background: #fff;
+                border: 1px solid #e9ecef;
+                border-radius: 8px;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            }
+            body.unpaid-report-mobile .unpaid-report-root .payment-row:last-child {
+                border-bottom: 1px solid #e9ecef;
+                margin-bottom: 10px;
+            }
+            body.unpaid-report-mobile .unpaid-report-root .payment-category,
+            body.unpaid-report-mobile .unpaid-report-root .payment-status,
+            body.unpaid-report-mobile .unpaid-report-root .payment-amount,
+            body.unpaid-report-mobile .unpaid-report-root .payment-paid,
+            body.unpaid-report-mobile .unpaid-report-root .payment-outstanding {
+                width: 100% !important;
+                text-align: left !important;
+            }
+            body.unpaid-report-mobile .unpaid-report-root .payment-category .category-badge {
+                font-size: 0.95rem !important;
+                white-space: normal;
+            }
+            body.unpaid-report-mobile .unpaid-report-root .payment-status::before {
+                content: "Status: ";
+                font-weight: 600;
+                color: #495057;
+                font-size: 0.8rem;
+                margin-right: 4px;
+            }
+            body.unpaid-report-mobile .unpaid-report-root .payment-status {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+            }
+            body.unpaid-report-mobile .unpaid-report-root .payment-amount::before {
+                content: "Amount: ";
+                font-weight: 600;
+                color: #495057;
+                font-size: 0.8rem;
+            }
+            body.unpaid-report-mobile .unpaid-report-root .payment-paid::before {
+                content: "Paid: ";
+                font-weight: 600;
+                color: #495057;
+                font-size: 0.8rem;
+            }
+            body.unpaid-report-mobile .unpaid-report-root .payment-outstanding::before {
+                content: "Outstanding: ";
+                font-weight: 600;
+                color: #495057;
+                font-size: 0.8rem;
+            }
+            body.unpaid-report-mobile .unpaid-report-root .payment-outstanding {
+                font-size: 1.05rem;
+                padding-top: 4px;
+            }
+        }
+
+        @media screen and (max-width: 767.98px) {
+            #whatsappModal .table thead {
+                display: none;
+            }
+            #whatsappModal .table,
+            #whatsappModal .table tbody,
+            #whatsappModal .table tfoot,
+            #whatsappModal .table tr,
+            #whatsappModal .table td,
+            #whatsappModal .table th {
+                display: block;
+                width: 100%;
+            }
+            #whatsappModal .table tr {
+                background: #fff;
+                border: 1px solid #e9ecef;
+                border-radius: 8px;
+                margin-bottom: 10px;
+                padding: 8px 10px;
+            }
+            #whatsappModal .table tfoot tr {
+                background: #f8f9fa;
+            }
+            #whatsappModal .table td {
+                text-align: left !important;
+                border: none;
+                padding: 2px 0;
+            }
+            #whatsappModal .table td::before {
+                content: attr(data-label);
+                font-weight: 600;
+                margin-right: 6px;
+                color: #495057;
+            }
+            .category-filter-bar .d-flex {
+                flex-wrap: wrap;
+            }
+        }
+
+        /* When nested in admin layout: hide chrome only while printing */
+        @media print {
+            #loader,
+            #header,
+            #sidebar,
+            .app-header,
+            .app-sidebar,
+            .breadcrumb,
+            .page-header,
+            .btn-scroll-to-top,
+            .no-print {
+                display: none !important;
+            }
+            #app {
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+            }
+            #content.app-content {
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+                margin-left: 0 !important;
+            }
+            .category-filtered-out,
+            body.unpaid-report-print-mobile .category-filtered-out,
+            body.unpaid-report-print-mobile .payment-row.category-filtered-out,
+            body.unpaid-report-print-mobile .apartment-section.category-filtered-out,
+            body.unpaid-report-print-mobile .block-section.category-filtered-out {
+                display: none !important;
+            }
+        }
+
+    </style>
+
+<div class="unpaid-report-root">
+        <!-- Report Header -->
+        <div class="report-header">
+            <h1><%= pageTitle %></h1>
+            <h3><%= pageSubtitle %></h3>
+            <p class="text-muted">Generated on: <%= reportDate %></p>
+        </div>
+
+        <!-- Print / new tab / mobile (hidden when printing) -->
+        <div class="no-print mb-3">
+            <div class="d-flex flex-wrap gap-2 align-items-center">
+                <button type="button" id="unpaid-report-print-here" class="btn btn-primary" title="Standard compact A4-style layout (same as office print)">
+                    <i class="fas fa-print"></i> Print
+                </button>
+                <button type="button" id="unpaid-report-open-new-tab" class="btn btn-outline-secondary" title="Same report in another browser tab">
+                    <i class="fas fa-arrow-up-right-from-square"></i> Open in new tab
+                </button>
+                <button type="button" id="unpaid-report-pdf-mobile-new-tab" class="btn btn-outline-danger" title="Opens a new tab with the stacked mobile layout, then the print dialog—choose Save as PDF">
+                    <i class="fas fa-file-pdf"></i> Save as PDF (mobile layout)
+                </button>
+                <button type="button" id="unpaid-report-mobile-toggle" class="btn btn-outline-primary d-none d-md-inline-block" title="Preview the stacked layout used on phones and tablets">
+                    <i class="fas fa-mobile-screen-button"></i> <span id="unpaid-report-mobile-label">Mobile layout</span>
+                </button>
+            </div>
+            <p class="small text-muted mb-0 mt-2">
+                <i class="fas fa-info-circle"></i> <strong>Print</strong> uses the standard wide-row layout. <strong>Save as PDF (mobile layout)</strong> opens a new tab with stacked rows (like the phone view), then the print dialog—choose <strong>Save as PDF</strong> as the destination.
+            </p>
+        </div>
+
+        <!-- Category filter (client-side; all invoices stay in the DOM) -->
+        <div class="no-print mb-3 category-filter-bar">
+            <h6 class="mb-2"><i class="fas fa-filter"></i> Filter by category</h6>
+            <div id="categoryFilterCheckboxes" class="d-flex flex-wrap align-items-center"></div>
+            <p class="small text-muted mb-0 mt-2">All categories are selected by default. Unchecked invoices stay hidden on this page but are still included as other bills in WhatsApp.</p>
+        </div>
+
+        <!-- Summary Section -->
+        <div class="summary-section">
+            <h4><i class="fas fa-chart-bar"></i> Report Summary</h4>
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <h5 id="summaryTotalOutstanding">$<%= summary.totalOutstanding.toFixed(2) %></h5>
+                    <p>Total Outstanding</p>
+                </div>
+                <div class="summary-card">
+                    <h5 id="summaryTotalApartments"><%= summary.totalApartments %></h5>
+                    <p>Affected Apartments</p>
+                </div>
+                <div class="summary-card">
+                    <h5 id="summaryTotalBlocks"><%= summary.totalBlocks %></h5>
+                    <p>Blocks Affected</p>
+                </div>
+                <div class="summary-card">
+                    <h5 id="summaryTotalPayments"><%= summary.unpaidCount + summary.partialCount %></h5>
+                    <p>Total Payments</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Report Content -->
+        <% if (Object.keys(groupedData).length > 0) { %>
+            <% Object.keys(groupedData).sort().forEach(function(block) { %>
+                <div class="block-section">
+                    <div class="block-header">
+                        <h3><i class="fas fa-building"></i> Block <%= block %></h3>
+                        <div class="block-info">
+                            <span class="block-apartment-count"><%= blockTotals[block]?.apartmentCount || 0 %> <%= (blockTotals[block]?.apartmentCount || 0) === 1 ? 'apartment' : 'apartments' %></span>
+                            <strong class="block-outstanding"> |  $<%= blockTotals[block]?.totalOutstanding.toFixed(2) || '0.00' %></strong>
+                        </div>
+                    </div>
+                    
+                    <% Object.keys(groupedData[block]).forEach(function(apartmentId) { %>
+                        <% const apartmentData = groupedData[block][apartmentId]; %>
+                        <% const apartmentTotal = apartmentData.payments.reduce((sum, payment) => sum + payment.outstandingAmount, 0); %>
+                        <% const tenants = apartmentData.tenants || []; %>
+                        <% const owners = apartmentData.owners || []; %>
+                        <% const tenantNames = tenants.map(function(t) { return (t && t.name) ? String(t.name).trim() : ''; }).filter(function(name) { return name && name !== 'Tenant'; }); %>
+                        <% const contactsPayload = { tenants: tenants, owners: owners }; %>
+                        <% const hasWhatsappContact = tenants.concat(owners).some(function(c) { return c && c.phone; }); %>
+                        <% const paymentsData = apartmentData.payments.map(function(p) { return { category: (p.category && p.category.name) ? p.category.name : 'Uncategorized', year: p.year, amount: p.outstandingAmount }; }); %>
+                        <div class="apartment-section">
+                            <div class="apartment-header">
+                                <div class="apartment-info">
+                                    <div class="apartment-details">
+                                        <i class="fas fa-home"></i> 
+                                        Block <%= apartmentData.apartment?.block || 'N/A' %> - 
+                                        <%= apartmentData.apartment?.unitNumberOfficial || 'N/A' %>
+                                        <% if (apartmentData.apartment?.unitNumberUnofficial) { %>
+                                            (<%= apartmentData.apartment.unitNumberUnofficial %>)
+                                        <% } %>
+                                        | <%= apartmentData.apartment?.areaInM2 || 'N/A' %> m²
+                                        | <%= apartmentData.owner?.name || 'Unknown' %>
+                                        <% if (apartmentData.owner?.phone) { %>
+                                            | <%= apartmentData.owner.phone %>
+                                        <% } %>
+                                        <% if (tenantNames.length) { %>
+                                            | Tenant<%= tenantNames.length > 1 ? 's' : '' %>: <%= tenantNames.join(', ') %>
+                                        <% } %>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <% if (hasWhatsappContact) { %>
+                                            <div class="no-print">
+                                                <button type="button" 
+                                                    class="btn btn-sm btn-success whatsapp-modal-btn" 
+                                                    data-block="<%= apartmentData.apartment?.block || 'N/A' %>"
+                                                    data-unit="<%= apartmentData.apartment?.unitNumberOfficial || 'N/A' %>"
+                                                    data-contacts="<%= encodeURIComponent(JSON.stringify(contactsPayload)) %>"
+                                                    data-payments="<%= encodeURIComponent(JSON.stringify(paymentsData)) %>"
+                                                    title="Send in WhatsApp">
+                                                    <i class="fab fa-whatsapp"></i> Send in WhatsApp
+                                                </button>
+                                            </div>
+                                        <% } %>
+                                        <div class="apartment-total" data-full-total="<%= apartmentTotal.toFixed(2) %>">
+                                            $<%= apartmentTotal.toFixed(2) %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="payment-details">
+                                <% apartmentData.payments.forEach(function(payment) { %>
+                                    <% const categoryName = (payment.category && payment.category.name) ? payment.category.name : 'Uncategorized'; %>
+                                    <div class="payment-row" data-category="<%= categoryName %>" data-outstanding="<%= Number(payment.outstandingAmount).toFixed(2) %>" data-status="<%= payment.paymentStatus %>">
+                                        <div class="payment-category">
+                                            <% if (payment.category) { %>
+                                                <span class="badge category-badge" style="background-color: <%= payment.category.color || '#6c757d' %>; color: white; font-size: 1.125em;">
+                                                    <%= payment.category.name %><% if (payment.year && payment.year !== 0) { %> - <%= payment.year %><% } %>
+                                                </span>
+                                            <% } else { %>
+                                                <span class="text-muted"><% if (payment.year && payment.year !== 0) { %><%= payment.year %><% } else { %>Uncategorized<% } %></span>
+                                            <% } %>
+                                        </div>
+                                        <div class="payment-status">
+                                            <span class="status-badge status-<%= payment.paymentStatus %>">
+                                                <%= payment.paymentStatus.charAt(0).toUpperCase() + payment.paymentStatus.slice(1) %>
+                                            </span>
+                                        </div>
+                                        <div class="payment-amount">
+                                            $<%= payment.payment.totalAmount.toFixed(2) %>
+                                        </div>
+                                        <div class="payment-paid">
+                                            $<%= payment.payment.amountPaid.toFixed(2) %>
+                                        </div>
+                                        <div class="payment-outstanding">
+                                            $<%= payment.outstandingAmount.toFixed(2) %>
+                                        </div>
+                                    </div>
+                                <% }); %>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <div class="alert alert-success text-center">
+                <i class="fas fa-check-circle fa-3x mb-3"></i>
+                <h4>No Unpaid Payments Found</h4>
+                <p>All apartments are up to date with their payments!</p>
+            </div>
+        <% } %>
+
+    </div>
+
+    <!-- WhatsApp Message Modal -->
+    <div class="modal fade no-print" id="whatsappModal" tabindex="-1" aria-labelledby="whatsappModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="whatsappModalLabel"><i class="fab fa-whatsapp"></i> WhatsApp Message Preview</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div id="modalApartmentInfo" class="mb-3">
+              <!-- Populated by JS -->
+            </div>
+
+            <div class="mb-3">
+              <h6 class="mb-2">Send to</h6>
+              <div id="whatsappRecipientList" class="whatsapp-recipient-list"></div>
+              <div class="form-text">Defaults to a tenant when one has a phone number.</div>
+            </div>
+
+            <div class="mb-3">
+              <h6 class="mb-2">Message language</h6>
+              <div class="btn-group" role="group" aria-label="Message language">
+                <input type="radio" class="btn-check" name="messageLanguage" id="messageLanguageEn" value="en" checked autocomplete="off">
+                <label class="btn btn-outline-primary" for="messageLanguageEn">English</label>
+                <input type="radio" class="btn-check" name="messageLanguage" id="messageLanguageAr" value="ar" autocomplete="off">
+                <label class="btn btn-outline-primary" for="messageLanguageAr">Arabic</label>
+              </div>
+            </div>
+            
+            <h6>Pending Invoices Breakdown:</h6>
+            <div class="table-responsive mb-3">
+              <table class="table table-sm table-bordered">
+                <thead>
+                  <tr class="table-light">
+                    <th>Category</th>
+                    <th>Year</th>
+                    <th class="text-end">Outstanding</th>
+                  </tr>
+                </thead>
+                <tbody id="modalInvoicesList">
+                  <!-- Populated by JS -->
+                </tbody>
+                <tfoot>
+                  <tr class="table-light">
+                    <th colspan="2">Selected Total</th>
+                    <th class="text-end" id="modalTotalAmount"></th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+
+            <div class="mb-3">
+              <h6 class="mb-2">Split payments into:</h6>
+              <div class="btn-group" role="group" aria-label="Payment split options">
+                <input type="radio" class="btn-check" name="paymentSplit" id="paymentSplit1" value="1" checked autocomplete="off">
+                <label class="btn btn-outline-primary" for="paymentSplit1">1 (Full)</label>
+                <input type="radio" class="btn-check" name="paymentSplit" id="paymentSplit2" value="2" autocomplete="off">
+                <label class="btn btn-outline-primary" for="paymentSplit2">2</label>
+                <input type="radio" class="btn-check" name="paymentSplit" id="paymentSplit3" value="3" autocomplete="off">
+                <label class="btn btn-outline-primary" for="paymentSplit3">3</label>
+              </div>
+              <div class="form-text">Controls how many installment options appear in the WhatsApp message.</div>
+            </div>
+
+            <h6>Message Preview:</h6>
+            <textarea class="form-control p-3 bg-light border rounded mb-2" id="messagePreview" dir="auto" rows="14"></textarea>
+            <button type="button" class="btn btn-sm btn-outline-primary" id="copyMessageBtn">
+              <i class="fas fa-copy"></i> Copy Message
+            </button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-success" id="confirmSendWhatsapp" disabled>
+              <i class="fab fa-whatsapp"></i> Open WhatsApp
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+        (function () {
+            function currentReportUrl(opts) {
+                var p = new URLSearchParams(window.location.search);
+                p.delete('print');
+                p.delete('printMobile');
+                if (opts && opts.printMobile) {
+                    p.set('printMobile', '1');
+                }
+                var q = p.toString();
+                return window.location.pathname + (q ? '?' + q : '') + window.location.hash;
+            }
+
+            function fullReportUrl(opts) {
+                return window.location.origin + currentReportUrl(opts);
+            }
+
+            function escapeHtml(str) {
+                return String(str == null ? '' : str).replace(/[&<>"']/g, function (ch) {
+                    return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch];
+                });
+            }
+
+            function parseEncodedJson(value, fallback) {
+                if (!value) return fallback;
+                try {
+                    return JSON.parse(decodeURIComponent(value));
+                } catch (e) {
+                    try {
+                        return JSON.parse(value);
+                    } catch (e2) {
+                        return fallback;
+                    }
+                }
+            }
+
+            function money(n) {
+                return '$' + Number(n).toFixed(2);
+            }
+
+            function whishTotal(n) {
+                return Number(n) * 1.01;
+            }
+
+            var paymentInstructions = <%- JSON.stringify(typeof paymentInstructions !== 'undefined' && paymentInstructions ? paymentInstructions : {}) %>;
+            var yearlyInterestRate = <%= Number(typeof yearlyInterestRate !== 'undefined' && yearlyInterestRate != null ? yearlyInterestRate : 5) %>;
+            function formatInterestRate(n) {
+                return String(parseFloat(Number(n).toFixed(2)));
+            }
+
+            function init() {
+                var params = new URLSearchParams(window.location.search);
+                if (params.get('mobile') === '1') {
+                    document.body.classList.add('unpaid-report-mobile');
+                }
+                if (params.get('printMobile') === '1') {
+                    document.body.classList.add('unpaid-report-print-mobile');
+                    params.delete('printMobile');
+                    var clean = window.location.pathname + (params.toString() ? '?' + params.toString() : '') + window.location.hash;
+                    history.replaceState(null, '', clean);
+                    setTimeout(function () {
+                        window.print();
+                    }, 450);
+                }
+
+                function syncMobileLabel() {
+                    var on = document.body.classList.contains('unpaid-report-mobile');
+                    var el = document.getElementById('unpaid-report-mobile-label');
+                    if (el) el.textContent = on ? 'Desktop layout' : 'Mobile layout';
+                }
+                function syncMobileQuery() {
+                    var p = new URLSearchParams(window.location.search);
+                    if (document.body.classList.contains('unpaid-report-mobile')) {
+                        p.set('mobile', '1');
+                    } else {
+                        p.delete('mobile');
+                    }
+                    var q = p.toString();
+                    var url = window.location.pathname + (q ? '?' + q : '') + window.location.hash;
+                    if (url !== window.location.pathname + window.location.search + window.location.hash) {
+                        history.replaceState(null, '', url);
+                    }
+                }
+                syncMobileLabel();
+
+                var printHere = document.getElementById('unpaid-report-print-here');
+                if (printHere) {
+                    printHere.addEventListener('click', function () {
+                        window.print();
+                    });
+                }
+                var openTab = document.getElementById('unpaid-report-open-new-tab');
+                if (openTab) {
+                    openTab.addEventListener('click', function () {
+                        window.open(fullReportUrl(), '_blank', 'noopener,noreferrer');
+                    });
+                }
+                var pdfMobileNewTab = document.getElementById('unpaid-report-pdf-mobile-new-tab');
+                if (pdfMobileNewTab) {
+                    pdfMobileNewTab.addEventListener('click', function () {
+                        window.open(fullReportUrl({ printMobile: true }), '_blank', 'noopener,noreferrer');
+                    });
+                }
+                var btn = document.getElementById('unpaid-report-mobile-toggle');
+                if (btn) {
+                    btn.addEventListener('click', function () {
+                        document.body.classList.toggle('unpaid-report-mobile');
+                        syncMobileLabel();
+                        syncMobileQuery();
+                    });
+                }
+
+                function getCheckedCategories() {
+                    var boxes = document.querySelectorAll('#categoryFilterCheckboxes input[type="checkbox"]');
+                    if (!boxes.length) return null;
+                    var selected = [];
+                    boxes.forEach(function (box) {
+                        if (box.checked) selected.push(box.value);
+                    });
+                    return selected;
+                }
+
+                function applyCategoryFilter() {
+                    var checked = getCheckedCategories();
+                    var checkedSet = checked ? new Set(checked) : null;
+                    var visiblePayments = 0;
+                    var visibleOutstanding = 0;
+                    var visibleApartments = 0;
+                    var visibleBlocks = 0;
+
+                    document.querySelectorAll('.block-section').forEach(function (blockEl) {
+                        var blockOutstanding = 0;
+                        var blockApartments = 0;
+                        blockEl.querySelectorAll('.apartment-section').forEach(function (aptEl) {
+                            var aptOutstanding = 0;
+                            var aptVisible = 0;
+                            aptEl.querySelectorAll('.payment-row').forEach(function (row) {
+                                var category = row.getAttribute('data-category') || 'Uncategorized';
+                                var show = !checkedSet || checkedSet.has(category);
+                                row.classList.toggle('category-filtered-out', !show);
+                                if (show) {
+                                    var amount = parseFloat(row.getAttribute('data-outstanding') || '0') || 0;
+                                    aptOutstanding += amount;
+                                    aptVisible += 1;
+                                    visiblePayments += 1;
+                                    visibleOutstanding += amount;
+                                }
+                            });
+                            aptEl.classList.toggle('category-filtered-out', !aptVisible);
+                            var totalEl = aptEl.querySelector('.apartment-total');
+                            if (totalEl) {
+                                totalEl.textContent = money(aptOutstanding);
+                            }
+                            if (aptVisible) {
+                                blockApartments += 1;
+                                blockOutstanding += aptOutstanding;
+                                visibleApartments += 1;
+                            }
+                        });
+                        blockEl.classList.toggle('category-filtered-out', !blockApartments);
+                        if (blockApartments) {
+                            visibleBlocks += 1;
+                        }
+                        var countEl = blockEl.querySelector('.block-apartment-count');
+                        var outstandingEl = blockEl.querySelector('.block-outstanding');
+                        if (countEl) {
+                            countEl.textContent = blockApartments + (blockApartments === 1 ? ' apartment' : ' apartments');
+                        }
+                        if (outstandingEl) {
+                            outstandingEl.textContent = ' |  ' + money(blockOutstanding);
+                        }
+                    });
+
+                    var outstandingEl = document.getElementById('summaryTotalOutstanding');
+                    var apartmentsEl = document.getElementById('summaryTotalApartments');
+                    var blocksEl = document.getElementById('summaryTotalBlocks');
+                    var paymentsEl = document.getElementById('summaryTotalPayments');
+                    if (outstandingEl) outstandingEl.textContent = money(visibleOutstanding);
+                    if (apartmentsEl) apartmentsEl.textContent = String(visibleApartments);
+                    if (blocksEl) blocksEl.textContent = String(visibleBlocks);
+                    if (paymentsEl) paymentsEl.textContent = String(visiblePayments);
+                }
+
+                function buildCategoryFilter() {
+                    var container = document.getElementById('categoryFilterCheckboxes');
+                    if (!container) return;
+                    var names = [];
+                    document.querySelectorAll('.payment-row[data-category]').forEach(function (row) {
+                        var name = row.getAttribute('data-category') || 'Uncategorized';
+                        if (names.indexOf(name) === -1) names.push(name);
+                    });
+                    names.sort(function (a, b) { return a.localeCompare(b); });
+                    if (!names.length) {
+                        container.innerHTML = '<span class="text-muted">No categories on this report.</span>';
+                        return;
+                    }
+                    container.innerHTML = names.map(function (name, index) {
+                        var id = 'categoryFilter' + index;
+                        return '<div class="form-check">' +
+                            '<input class="form-check-input" type="checkbox" id="' + id + '" value="' + escapeHtml(name) + '" checked>' +
+                            '<label class="form-check-label" for="' + id + '">' + escapeHtml(name) + '</label>' +
+                            '</div>';
+                    }).join('');
+                    container.querySelectorAll('input[type="checkbox"]').forEach(function (box) {
+                        box.addEventListener('change', applyCategoryFilter);
+                    });
+                    applyCategoryFilter();
+                }
+
+                buildCategoryFilter();
+
+                var whatsappModalEl = document.getElementById('whatsappModal');
+                var whatsappModal = whatsappModalEl ? new bootstrap.Modal(whatsappModalEl) : null;
+                var currentWhatsappData = null;
+
+                function getSelectedPaymentSplit() {
+                    var selected = document.querySelector('input[name="paymentSplit"]:checked');
+                    var value = selected ? parseInt(selected.value, 10) : 1;
+                    return (value === 2 || value === 3) ? value : 1;
+                }
+
+                function getSelectedLanguage() {
+                    var selected = document.querySelector('input[name="messageLanguage"]:checked');
+                    return selected && selected.value === 'ar' ? 'ar' : 'en';
+                }
+
+                function getSelectedRecipient() {
+                    var selected = document.querySelector('input[name="whatsappRecipient"]:checked');
+                    if (!selected || !currentWhatsappData) return null;
+                    var parts = selected.value.split(':');
+                    var group = parts[0];
+                    var index = parseInt(parts[1], 10);
+                    var list = (currentWhatsappData.contacts && currentWhatsappData.contacts[group]) || [];
+                    return list[index] || null;
+                }
+
+                function splitPaymentsByFilter(payments) {
+                    var checked = getCheckedCategories();
+                    var checkedSet = checked ? new Set(checked) : null;
+                    var selected = [];
+                    var other = [];
+                    (payments || []).forEach(function (p) {
+                        var category = p.category || 'Uncategorized';
+                        if (!checkedSet || checkedSet.has(category)) {
+                            selected.push(p);
+                        } else {
+                            other.push(p);
+                        }
+                    });
+                    return { selected: selected, other: other };
+                }
+
+                function invoiceLine(p) {
+                    return '- ' + p.category + (p.year ? ' ' + p.year : '') + ': ' + money(p.amount);
+                }
+
+                function defaultRecipient(contacts) {
+                    var tenants = (contacts && contacts.tenants) || [];
+                    var owners = (contacts && contacts.owners) || [];
+                    var tenantWithPhone = tenants.find(function (c) { return c && c.phone; });
+                    if (tenantWithPhone) return { group: 'tenants', contact: tenantWithPhone };
+                    var primaryOwner = owners.find(function (c) { return c && c.isPrimary && c.phone; });
+                    if (primaryOwner) return { group: 'owners', contact: primaryOwner };
+                    var ownerWithPhone = owners.find(function (c) { return c && c.phone; });
+                    if (ownerWithPhone) return { group: 'owners', contact: ownerWithPhone };
+                    if (tenants[0]) return { group: 'tenants', contact: tenants[0] };
+                    if (owners[0]) return { group: 'owners', contact: owners[0] };
+                    return null;
+                }
+
+                function renderRecipientList() {
+                    var container = document.getElementById('whatsappRecipientList');
+                    if (!container || !currentWhatsappData) return;
+                    var contacts = currentWhatsappData.contacts || { tenants: [], owners: [] };
+                    var preferred = defaultRecipient(contacts);
+                    var html = '';
+
+                    function renderGroup(label, groupKey, people) {
+                        if (!people.length) return;
+                        html += '<div class="fw-semibold mb-1 mt-2">' + escapeHtml(label) + '</div>';
+                        people.forEach(function (person, index) {
+                            var id = 'whatsappRecipient-' + groupKey + '-' + index;
+                            var value = groupKey + ':' + index;
+                            var hasPhone = Boolean(person.phone);
+                            var checked = preferred && preferred.group === groupKey && preferred.contact === person && hasPhone;
+                            html += '<div class="form-check">' +
+                                '<input class="form-check-input" type="radio" name="whatsappRecipient" id="' + id + '" value="' + escapeHtml(value) + '"' +
+                                (hasPhone ? '' : ' disabled') + (checked ? ' checked' : '') + '>' +
+                                '<label class="form-check-label" for="' + id + '">' +
+                                escapeHtml(person.name || (groupKey === 'tenants' ? 'Tenant' : 'Owner')) +
+                                ' <span class="text-muted">(' + (hasPhone ? escapeHtml(person.phone) : 'no phone') + ')</span>' +
+                                '</label></div>';
+                        });
+                    }
+
+                    renderGroup('Tenants', 'tenants', contacts.tenants || []);
+                    renderGroup('Owners', 'owners', contacts.owners || []);
+                    if (!html) {
+                        html = '<div class="text-muted">No owners or tenants linked to this apartment.</div>';
+                    }
+                    container.innerHTML = html;
+                    container.querySelectorAll('input[name="whatsappRecipient"]').forEach(function (input) {
+                        input.addEventListener('change', updateMessagePreview);
+                    });
+                    if (!container.querySelector('input[name="whatsappRecipient"]:checked')) {
+                        var firstEnabled = container.querySelector('input[name="whatsappRecipient"]:not(:disabled)');
+                        if (firstEnabled) firstEnabled.checked = true;
+                    }
+                }
+
+                function renderInvoiceRows(items, sectionLabel) {
+                    var html = '';
+                    if (sectionLabel) {
+                        html += '<tr class="table-light"><td colspan="3" data-label="">' + escapeHtml(sectionLabel) + '</td></tr>';
+                    }
+                    items.forEach(function (p) {
+                        html += '<tr>' +
+                            '<td data-label="Category: ">' + escapeHtml(p.category) + '</td>' +
+                            '<td data-label="Year: ">' + escapeHtml(p.year || '-') + '</td>' +
+                            '<td class="text-end" data-label="Outstanding: ">' + money(p.amount) + '</td>' +
+                            '</tr>';
+                    });
+                    return html;
+                }
+
+                function populateWhatsappModal() {
+                    if (!currentWhatsappData) return;
+
+                    document.getElementById('paymentSplit1').checked = true;
+                    document.getElementById('messageLanguageEn').checked = true;
+
+                    document.getElementById('modalApartmentInfo').innerHTML =
+                        '<strong>Apartment:</strong> Block ' + escapeHtml(currentWhatsappData.block) +
+                        ' - ' + escapeHtml(currentWhatsappData.unit);
+
+                    renderRecipientList();
+
+                    var split = splitPaymentsByFilter(currentWhatsappData.payments);
+                    var listHtml = renderInvoiceRows(split.selected, split.other.length ? 'Selected categories' : '');
+                    if (split.other.length) {
+                        listHtml += renderInvoiceRows(split.other, 'Other bills');
+                    }
+                    document.getElementById('modalInvoicesList').innerHTML = listHtml;
+                    var selectedTotal = split.selected.reduce(function (sum, p) { return sum + Number(p.amount || 0); }, 0);
+                    document.getElementById('modalTotalAmount').textContent = money(selectedTotal);
+                    currentWhatsappData.selectedPayments = split.selected;
+                    currentWhatsappData.otherPayments = split.other;
+                    currentWhatsappData.total = selectedTotal;
+
+                    updateMessagePreview();
+                }
+
+                function updateMessagePreview() {
+                    if (!currentWhatsappData) return;
+
+                    var recipient = getSelectedRecipient();
+                    var recipientName = (recipient && recipient.name) || 'Resident';
+                    var recipientPhone = (recipient && recipient.phone) || '';
+                    currentWhatsappData.phone = recipientPhone;
+
+                    var sendBtn = document.getElementById('confirmSendWhatsapp');
+                    if (sendBtn) {
+                        sendBtn.disabled = !recipientPhone;
+                    }
+
+                    var total = currentWhatsappData.total || 0;
+                    var block = currentWhatsappData.block;
+                    var unit = currentWhatsappData.unit;
+                    var splitCount = getSelectedPaymentSplit();
+                    var lang = getSelectedLanguage();
+                    var selectedPayments = currentWhatsappData.selectedPayments || [];
+                    var selectedLines = selectedPayments.map(invoiceLine).join('\n');
+                    var otherLines = (currentWhatsappData.otherPayments || []).map(invoiceLine).join('\n');
+                    var cash = money(total);
+                    var wish = money(whishTotal(total));
+                    var showSelectedTotal = selectedPayments.length > 1;
+                    if (selectedPayments.length === 1) {
+                        var singleAmount = Number(selectedPayments[0].amount || 0);
+                        if (Math.abs(singleAmount - Number(total)) > 0.009) {
+                            showSelectedTotal = true;
+                        }
+                    }
+
+                    function oneLine(value) {
+                        return String(value || '').replace(/\s+/g, ' ').trim();
+                    }
+
+                    function appendAmount(label, details, amountText) {
+                        var text = label;
+                        var detail = String(details || '').trim();
+                        if (detail.indexOf('\n') !== -1) {
+                            return text + ': ' + amountText + '\n' + detail.trim();
+                        }
+                        if (detail) {
+                            text += ': ' + oneLine(detail);
+                        }
+                        return text + ': ' + amountText;
+                    }
+
+                    function paymentMethodLines(isArabic) {
+                        var info = paymentInstructions || {};
+                        var lines = [];
+                        var janitorName = oneLine(info.janitorName);
+                        var janitorPhone = oneLine(info.janitorPhone);
+
+                        if (janitorName) {
+                            var cashLabel = isArabic
+                                ? ('الدفع نقداً مباشرة للمنسق، ' + janitorName)
+                                : ('Pay by cash directly to the coordinator, ' + janitorName);
+                            if (janitorPhone) {
+                                cashLabel += ' (' + janitorPhone + ')';
+                            }
+                            lines.push(cashLabel + ': ' + cash);
+                        }
+
+                        if (info.whishEnabled) {
+                            var wishLabel = isArabic ? 'الدفع عبر ويش' : 'Pay via Whish';
+                            lines.push(appendAmount(wishLabel, info.whishDetails, cash + ' + 1% = ' + wish));
+                        }
+
+                        if (info.omtEnabled) {
+                            var omtLabel = isArabic ? 'الدفع عبر OMT' : 'Pay via OMT';
+                            lines.push(appendAmount(omtLabel, info.omtDetails, cash));
+                        }
+
+                        if (info.bankTransferEnabled) {
+                            var bankLabel = isArabic ? 'الدفع عبر تحويل مصرفي' : 'Pay by bank transfer';
+                            lines.push(appendAmount(bankLabel, info.bankInfo, cash));
+                        }
+
+                        if (!lines.length) {
+                            lines.push((isArabic ? 'الدفع نقداً: ' : 'Pay in Cash: ') + cash);
+                            lines.push((isArabic ? 'الدفع عبر ويش: ' : 'Pay via Whish: ') + cash + ' + 1% = ' + wish);
+                        }
+
+                        return lines.join('\n') + '\n';
+                    }
+
+                    var message = '';
+                    if (lang === 'ar') {
+                        message += 'حضرة السيد/ة ' + recipientName + '، هذا بيان حساب من قسم المحاسبة في مجمع سانتا ماريا (Santa Maria Compound Accounting Department) للمجمع السكني بلوك ' + block + ' - ' + unit + '.\n\n';
+                        message += 'الفواتير المعلقة:\n' + (selectedLines || '-') + '\n\n';
+                        if (showSelectedTotal) {
+                            message += 'المجموع المستحق للفواتير: ' + cash + '\n\n';
+                        }
+                        message += paymentMethodLines(true);
+                        if (splitCount >= 2) {
+                            var p2 = total / 2;
+                            message += 'دفعتين نقداً: ' + money(p2) + ' كل شهر\n';
+                            message += 'دفعتين عبر ويش: ' + money(whishTotal(p2)) + ' كل شهر\n';
+                        }
+                        if (splitCount >= 3) {
+                            var p3 = total / 3;
+                            message += 'ثلاث دفعات نقداً: ' + money(p3) + ' كل شهر\n';
+                            message += 'ثلاث دفعات عبر ويش: ' + money(whishTotal(p3)) + ' كل شهر\n';
+                        }
+                        if (otherLines) {
+                            message += '\nفواتير أخرى مستحقة:\n' + otherLines + '\n';
+                        }
+                        message += '\nيرجى العلم أنه سيتم احتساب فائدة بنسبة ' + formatInterestRate(yearlyInterestRate) + '% سنوياً على جميع الفواتير غير المدفوعة.\n\n';
+                        message += 'للاطلاع على مدفوعاتكم ومعاملات المجمع الأخرى يرجى تسجيل الدخول إلى https://santamariabouar.com\n\n';
+                        message += 'شكراً لك.';
+                    } else {
+                        message += 'Dear Mr. / Mrs. ' + recipientName + ', this is the account statement from Santa Maria Compound Accounting Department for Block ' + block + ' - ' + unit + '.\n\n';
+                        message += 'Pending Invoices:\n' + (selectedLines || '-') + '\n\n';
+                        if (showSelectedTotal) {
+                            message += 'Total Outstanding Invoices: ' + cash + '\n\n';
+                        }
+                        message += paymentMethodLines(false);
+                        if (splitCount >= 2) {
+                            var p2en = total / 2;
+                            message += '2 Payments in Cash: ' + money(p2en) + ' each\n';
+                            message += '2 Payments in Whish: ' + money(whishTotal(p2en)) + ' each\n';
+                        }
+                        if (splitCount >= 3) {
+                            var p3en = total / 3;
+                            message += '3 Payments in Cash: ' + money(p3en) + ' each\n';
+                            message += '3 Payments in Whish: ' + money(whishTotal(p3en)) + ' each\n';
+                        }
+                        if (otherLines) {
+                            message += '\nOther outstanding bills:\n' + otherLines + '\n';
+                        }
+                        message += '\nPlease note that a total of ' + formatInterestRate(yearlyInterestRate) + '% interest will be accumulated per year for all unpaid invoices.\n\n';
+                        message += 'To check your payments and other compound transactions, login to https://santamariabouar.com\n\n';
+                        message += 'Thank you.';
+                    }
+
+                    var preview = document.getElementById('messagePreview');
+                    if (preview) {
+                        preview.value = message;
+                        preview.dir = lang === 'ar' ? 'rtl' : 'ltr';
+                    }
+                    currentWhatsappData.currentMessage = message;
+                }
+
+                document.querySelectorAll('.whatsapp-modal-btn').forEach(function (button) {
+                    button.addEventListener('click', function () {
+                        currentWhatsappData = {
+                            block: this.getAttribute('data-block'),
+                            unit: this.getAttribute('data-unit'),
+                            payments: parseEncodedJson(this.getAttribute('data-payments'), []),
+                            contacts: parseEncodedJson(this.getAttribute('data-contacts'), { tenants: [], owners: [] })
+                        };
+                        populateWhatsappModal();
+                        if (whatsappModal) whatsappModal.show();
+                    });
+                });
+
+                document.getElementById('copyMessageBtn').addEventListener('click', function () {
+                    var preview = document.getElementById('messagePreview');
+                    var text = preview ? preview.value : (currentWhatsappData && currentWhatsappData.currentMessage);
+                    if (!text) return;
+                    var copyBtn = this;
+                    navigator.clipboard.writeText(text).then(function () {
+                        var originalText = copyBtn.innerHTML;
+                        copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                        copyBtn.classList.replace('btn-outline-primary', 'btn-success');
+                        setTimeout(function () {
+                            copyBtn.innerHTML = originalText;
+                            copyBtn.classList.replace('btn-success', 'btn-outline-primary');
+                        }, 2000);
+                    });
+                });
+
+                document.querySelectorAll('input[name="paymentSplit"]').forEach(function (input) {
+                    input.addEventListener('change', updateMessagePreview);
+                });
+                document.querySelectorAll('input[name="messageLanguage"]').forEach(function (input) {
+                    input.addEventListener('change', updateMessagePreview);
+                });
+
+                document.querySelectorAll('#categoryFilterCheckboxes input[type="checkbox"]').forEach(function (box) {
+                    box.addEventListener('change', function () {
+                        if (currentWhatsappData) populateWhatsappModal();
+                    });
+                });
+
+                document.getElementById('confirmSendWhatsapp').addEventListener('click', function () {
+                    if (!currentWhatsappData) return;
+                    var preview = document.getElementById('messagePreview');
+                    var text = preview ? preview.value : currentWhatsappData.currentMessage;
+                    var phone = currentWhatsappData.phone || '';
+                    var cleanPhone = phone.replace(/[^0-9]/g, '');
+                    if (!cleanPhone || !text) return;
+                    var url = 'https://wa.me/' + cleanPhone + '?text=' + encodeURIComponent(text);
+                    window.open(url, '_blank');
+                    if (whatsappModal) whatsappModal.hide();
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        })();
+    </script>

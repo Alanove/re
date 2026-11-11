@@ -18,14 +18,14 @@
 			<table class="table table-striped table-bordered align-middle" id="brands-table">
 				<thead>
 					<tr>
-						<th style="width:96px">Logo</th>
+						<th style="width:96px" data-sort="off">Logo</th>
 						<th>Name</th>
 						<th>URL</th>
 						<th class="text-center">Products</th>
 						<th>Status</th>
 						<th class="text-center">Home page</th>
 						<th class="text-center">Sort</th>
-						<th style="width:1%">Actions</th>
+						<th style="width:1%" data-sort="off">Actions</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -42,7 +42,7 @@
 							<td><a href="<%= brand.url %>" target="_blank" rel="noopener" class="small"><%= brand.url %></a></td>
 							<td class="text-center"><a href="/admin/products?brand=<%= brand.id %>"><%= brand.productCount %></a></td>
 							<td><% if (brand.status === 'published') { %><span class="badge bg-success">Published</span><% } else { %><span class="badge bg-secondary">Draft</span><% } %></td>
-							<td class="text-center"><% if (brand.featured) { %><i class="fa fa-check text-success" aria-label="Shown"></i><% } else { %><span class="text-muted">—</span><% } %></td>
+							<td class="text-center" data-sort-value="<%= brand.featured ? 'Shown' : '' %>"><% if (brand.featured) { %><i class="fa fa-check text-success" aria-label="Shown"></i><% } else { %><span class="text-muted">—</span><% } %></td>
 							<td class="text-center"><%= brand.sort %></td>
 							<td class="text-nowrap">
 								<a href="/admin/brands/<%= brand.id %>/edit" class="btn btn-sm btn-primary" title="Edit"><i class="fa fa-edit"></i></a>

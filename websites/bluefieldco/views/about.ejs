@@ -1,0 +1,44 @@
+<!-- About Page -->
+<!-- Hero Section with page header image -->
+<section id="about-hero" class="hero-section">
+  <% if (typeof pageImage !== 'undefined' && pageImage && pageImage.trim() !== '') { %>
+    <img src="<%= pageImage %>" alt="<%= typeof pageTitle !== 'undefined' && pageTitle ? pageTitle : 'About EMDC Group' %>" class="hero-image" />
+  <% } %>
+  
+  <!-- Decorative tilted vertical lines (visual only) -->
+  <div class="hero-decor-lines" aria-hidden="true">
+    <span class="decor-line"></span>
+    <span class="decor-line"></span>
+    <span class="decor-line"></span>
+  </div>
+
+  <!-- Page Title -->
+  <% if (typeof pageTitle !== 'undefined' && pageTitle) { %>
+    <div class="hero-title">
+      <h1><%= pageTitle %></h1>
+    </div>
+  <% } %>
+
+  <div class="scroll-arrow-container">
+    <button class="scroll-arrow" aria-label="Scroll to next section">
+      <img src="/images/icons/arrow-down.svg" alt="Scroll down" width="32" height="32" />
+    </button>
+  </div>
+</section>
+
+<!-- About Content Section -->
+<section id="about-content" class="inverted">
+  <div class="container">
+    <div class="section-content">
+      <% if (typeof pageContent !== 'undefined' && pageContent) { %>
+        <%- pageContent %>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+

@@ -1,0 +1,89 @@
+---
+description: santamariabouar.com - UI, MySQL data, migrations, payment and build rules for the Santa Maria Bouar CMS
+globs: websites/santamariabouar.com/**
+alwaysApply: false
+---
+
+# santamariabouar.com: project rules
+
+Site rule for `websites/santamariabouar.com/`. It applies in addition to the global rules in `.cursor/rules/`; where they conflict, the global rules win. Paths are relative to the site folder.
+
+## UI/UX guidelines
+
+### Modal usage
+- **Always use Bootstrap modals instead of `window.confirm()` or `window.alert()`**
+- Create custom modals for confirmations, forms, and user interactions
+- Use consistent modal styling with Bootstrap classes
+- Include proper loading states and feedback in modals
+- Reset modal state when closed
+
+### Form validation
+- Use client-side validation with visual feedback
+- Show validation errors inline with form fields
+- Use Bootstrap alert classes for success/error messages
+
+### User feedback
+- Replace all `alert()` calls with Bootstrap modals
+- Replace all `confirm()` calls with confirmation modals
+- Use loading spinners for async operations
+- Provide clear success/error messages
+
+## Code structure
+
+### MVC pattern
+- **Controllers**: handle HTTP requests and responses
+- **Services**: business logic and data operations
+- **Views**: presentation layer with EJS templates
+
+### Data management (MySQL)
+- All data is stored in a MySQL database
+- Use parameterized queries to prevent SQL injection
+- Implement proper connection pooling via `src/config/database.ts`
+- Use transactions for operations that modify multiple tables
+- Implement proper error handling in database operations
+- Follow database schema conventions (snake_case for columns)
+
+### Database migration management
+- All data migration scripts must be placed in the `data-migration/` directory
+- Name migration scripts with a timestamp prefix (e.g. `2025-10-09-migration-name.ts`)
+- Include rollback instructions or scripts when applicable
+- Document migrations with clear comments about what they do
+- Test migrations on a backup database before production
+- Keep migration scripts in version control
+
+### File organization
+- Admin CSS: `admin/public/css/custom.css`
+- Admin JS: `admin/public/js/custom.js`
+- Tests: `tests/` directory
+- Data migration scripts: `data-migration/` directory
+- Follow separation of concerns
+
+## Payment system rules
+
+### Apartment payments
+- Use the apartment registration date for payment calculations
+- Generate payments only for apartments without existing payments for that year
+- Show detailed feedback in modals for payment generation
+- Track payment status (Paid/Partial/Unpaid)
+
+### User experience
+- Always provide clear feedback for user actions
+- Use modals for confirmations and complex interactions
+- Implement proper loading states
+- Show success/error messages in modals, not alerts
+
+## Development guidelines
+
+### Build process
+- Use `npm run dev` for local development (ts-node-dev runs TypeScript directly)
+- After editing TypeScript, run `npm run build` to verify `tsc` compiles cleanly before finishing the task
+- Fix all TypeScript build errors before considering work complete
+- `npm run build` is for compile verification and production deploy; do not rely on `dist/` during day-to-day dev
+- The `dist/` directory is gitignored and should not be committed
+
+## General guidelines
+- Follow TypeScript best practices
+- Use consistent naming conventions
+- Implement proper error handling
+- Use Bootstrap components for UI consistency
+- Always test functionality after changes

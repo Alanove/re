@@ -1,0 +1,217 @@
+<%
+  const listingData = typeof formData !== 'undefined' && formData ? formData : {};
+  const defaultType = listingData.requestType || listingData.listingType || 'for_sale';
+  const isRent = defaultType === 'for_rent';
+%>
+<form method="POST" action="/account/apartments/<%= apartment.id %>/listing" class="account-form account-listing-form" id="listingForm">
+  <div class="account-form__section">
+    <h3 class="account-form__section-title">Basic specs</h3>
+
+    <div class="account-field">
+      <label for="requestType">Request listing as</label>
+      <select id="requestType" name="requestType" required>
+        <option value="for_sale" <%= defaultType === 'for_sale' ? 'selected' : '' %>>For Sale</option>
+        <option value="for_rent" <%= defaultType === 'for_rent' ? 'selected' : '' %>>For Rent</option>
+      </select>
+    </div>
+
+    <div class="account-form__grid account-form__grid--2">
+      <div class="account-field">
+        <label for="bedrooms">Bedrooms</label>
+        <input
+          type="number"
+          id="bedrooms"
+          name="bedrooms"
+          min="0"
+          max="20"
+          required
+          value="<%= listingData.bedrooms != null && listingData.bedrooms !== '' ? listingData.bedrooms : 2 %>"
+        />
+      </div>
+      <div class="account-field">
+        <label for="bathrooms">Bathrooms</label>
+        <input
+          type="number"
+          id="bathrooms"
+          name="bathrooms"
+          min="0"
+          max="20"
+          step="0.5"
+          required
+          value="<%= listingData.bathrooms != null && listingData.bathrooms !== '' ? listingData.bathrooms : 2 %>"
+        />
+      </div>
+      <div class="account-field">
+        <label for="parkingSpaces">Parking spaces</label>
+        <input
+          type="number"
+          id="parkingSpaces"
+          name="parkingSpaces"
+          min="0"
+          max="10"
+          required
+          value="<%= listingData.parkingSpaces != null && listingData.parkingSpaces !== '' ? listingData.parkingSpaces : 1 %>"
+        />
+      </div>
+      <div class="account-field account-field--checkbox">
+        <label>
+          <input type="checkbox" name="isFurnished" value="1" <%= listingData.isFurnished ? 'checked' : '' %> />
+          Furnished
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="account-form__section">
+    <h3 class="account-form__section-title">Outdoor & extras</h3>
+
+    <div class="account-form__grid account-form__grid--2">
+      <div class="account-field account-field--checkbox">
+        <label>
+          <input type="checkbox" name="hasGarden" value="1" <%= listingData.hasGarden ? 'checked' : '' %> />
+          Has garden
+        </label>
+      </div>
+      <div class="account-field account-field--checkbox">
+        <label>
+          <input type="checkbox" name="hasTerrace" value="1" <%= listingData.hasTerrace ? 'checked' : '' %> />
+          Has terrace
+        </label>
+      </div>
+      <div class="account-field account-field--checkbox">
+        <label>
+          <input type="checkbox" name="hasBalcony" value="1" <%= listingData.hasBalcony ? 'checked' : '' %> />
+          Has balcony
+        </label>
+      </div>
+      <div class="account-field account-field--checkbox">
+        <label>
+          <input type="checkbox" name="hasStorageRoom" value="1" <%= listingData.hasStorageRoom ? 'checked' : '' %> />
+          Has storage room
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="account-form__section">
+    <h3 class="account-form__section-title">Pricing</h3>
+
+    <div class="account-field" id="availabilityDateField" <%= isRent ? '' : 'hidden' %>>
+      <label for="availabilityDate">Available from (optional)</label>
+      <input type="date" id="availabilityDate" name="availabilityDate" value="<%= listingData.availabilityDate || '' %>" />
+    </div>
+
+    <div class="account-field account-field--checkbox" id="petFriendlyField" <%= isRent ? '' : 'hidden' %>>
+      <label>
+        <input type="checkbox" name="petFriendly" value="1" <%= listingData.petFriendly ? 'checked' : '' %> />
+        Pet friendly
+      </label>
+    </div>
+
+    <div class="account-form__grid account-form__grid--2 account-form__grid--price">
+      <div class="account-field">
+        <label for="priceUsd">Price (USD)</label>
+        <input
+          type="number"
+          id="priceUsd"
+          name="priceUsd"
+          min="1"
+          step="1"
+          value="<%= listingData.contactForPrice ? '' : (listingData.priceUsd != null ? listingData.priceUsd : '') %>"
+          <%= listingData.contactForPrice ? 'disabled' : '' %>
+        />
+        <small id="priceHint"><%= isRent ? 'Monthly rent in US dollars.' : 'Sale price in US dollars.' %></small>
+      </div>
+
+      <div class="account-form__price-options">
+        <div class="account-field account-field--checkbox">
+          <label>
+            <input
+              type="checkbox"
+              id="contactForPrice"
+              name="contactForPrice"
+              value="1"
+              <%= listingData.contactForPrice ? 'checked' : '' %>
+            />
+            Contact for price (hide price on website)
+          </label>
+        </div>
+
+        <div class="account-field account-field--checkbox" id="priceNegotiableField" <%= listingData.contactForPrice ? 'hidden' : '' %>>
+          <label>
+            <input
+              type="checkbox"
+              id="priceNegotiable"
+              name="priceNegotiable"
+              value="1"
+              <%= listingData.priceNegotiable ? 'checked' : '' %>
+              <%= listingData.contactForPrice ? 'disabled' : '' %>
+            />
+            Price is negotiable
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="account-field">
+    <label for="listingDescription">Description</label>
+    <textarea
+      id="listingDescription"
+      name="description"
+      rows="5"
+      required
+      maxlength="2000"
+      placeholder="Describe the apartment for buyers or renters (condition, recent updates, views…)"
+    ><%= listingData.description || apartment.listingDescription || '' %></textarea>
+    <small>Reviewed by an administrator before the listing goes live.</small>
+  </div>
+
+  <% if (typeof approvedPhotoCount !== 'undefined' && approvedPhotoCount < 1) { %>
+    <div class="account-alert account-alert--error">
+      Upload at least one photo above and wait for admin approval before submitting.
+    </div>
+    <button type="submit" class="account-btn account-btn--primary" disabled><%= submitLabel || 'Submit for Approval' %></button>
+  <% } else { %>
+    <button type="submit" class="account-btn account-btn--primary"><%= submitLabel || 'Submit for Approval' %></button>
+  <% } %>
+</form>
+
+<script>
+  (function () {
+    const form = document.getElementById('listingForm');
+    if (!form) return;
+
+    const requestType = document.getElementById('requestType');
+    const contactForPrice = document.getElementById('contactForPrice');
+    const priceUsd = document.getElementById('priceUsd');
+    const priceNegotiable = document.getElementById('priceNegotiable');
+    const priceNegotiableField = document.getElementById('priceNegotiableField');
+    const availabilityDateField = document.getElementById('availabilityDateField');
+    const petFriendlyField = document.getElementById('petFriendlyField');
+    const priceHint = document.getElementById('priceHint');
+
+    function syncRentFields() {
+      const rent = requestType.value === 'for_rent';
+      availabilityDateField.hidden = !rent;
+      petFriendlyField.hidden = !rent;
+      priceHint.textContent = rent ? 'Monthly rent in US dollars.' : 'Sale price in US dollars.';
+    }
+
+    function syncPriceFields() {
+      const hidePrice = contactForPrice.checked;
+      priceUsd.disabled = hidePrice;
+      priceNegotiable.disabled = hidePrice;
+      priceNegotiableField.hidden = hidePrice;
+      if (hidePrice) {
+        priceUsd.value = '';
+        priceNegotiable.checked = false;
+      }
+    }
+
+    requestType.addEventListener('change', syncRentFields);
+    contactForPrice.addEventListener('change', syncPriceFields);
+    syncRentFields();
+    syncPriceFields();
+  })();
+</script>

@@ -1,0 +1,4592 @@
+{
+  "generatedAt": "2026-10-14T13:15:48.296Z",
+  "dump": "C:\\ai\\tests\\btb\\solutech\\zazoo_solutec\\zazoo_solutec.sql",
+  "counts": {
+    "page:keep": 8,
+    "elementor_library:review": 3,
+    "elementor-hf:keep": 2,
+    "product:keep": 81,
+    "post:keep": 2,
+    "post:drop": 132,
+    "page:drop": 153,
+    "category:review": 2,
+    "product_cat:keep": 13
+  },
+  "fileCounts": {
+    "file:drop": 19
+  },
+  "keptIds": [
+    2,
+    78,
+    103,
+    346,
+    350,
+    352,
+    1470,
+    1482,
+    1607,
+    1731,
+    1874,
+    2091,
+    2099,
+    2102,
+    2106,
+    2109,
+    2112,
+    2115,
+    2118,
+    2127,
+    2137,
+    2141,
+    2144,
+    2147,
+    2150,
+    2425,
+    2428,
+    2431,
+    2434,
+    2436,
+    2439,
+    2442,
+    2445,
+    2448,
+    2451,
+    2454,
+    2457,
+    2462,
+    2466,
+    2470,
+    2473,
+    2476,
+    2479,
+    2606,
+    2609,
+    2613,
+    2622,
+    2625,
+    2659,
+    2662,
+    2665,
+    2668,
+    2671,
+    2674,
+    2677,
+    2681,
+    2684,
+    2687,
+    2690,
+    2693,
+    2696,
+    2699,
+    2702,
+    2705,
+    2708,
+    2711,
+    2714,
+    2717,
+    2720,
+    2723,
+    2726,
+    2729,
+    2733,
+    2736,
+    2740,
+    2743,
+    2746,
+    2749,
+    2752,
+    2755,
+    2758,
+    2761,
+    2764,
+    2768,
+    2771,
+    2774,
+    2778,
+    2781,
+    2788,
+    2791,
+    2794,
+    2796,
+    2799,
+    30,
+    41,
+    55,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67
+  ],
+  "rows": [
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2,
+      "type": "page",
+      "title": "Support",
+      "slug": "support",
+      "role": "page"
+    },
+    {
+      "verdict": "review",
+      "reasons": [
+        "unused-template"
+      ],
+      "id": 6,
+      "type": "elementor_library",
+      "title": "Default Kit",
+      "slug": "default-kit"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 78,
+      "type": "elementor-hf",
+      "title": "Header",
+      "slug": "header-transparent",
+      "role": "chrome"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 103,
+      "type": "elementor-hf",
+      "title": "Footer",
+      "slug": "footer-1",
+      "role": "chrome"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 346,
+      "type": "page",
+      "title": "About Us",
+      "slug": "about-us",
+      "role": "page"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [
+        "body-has-markers-use-elementor"
+      ],
+      "id": 350,
+      "type": "page",
+      "title": "Contact Us",
+      "slug": "contact-us",
+      "role": "page"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 352,
+      "type": "page",
+      "title": "Services",
+      "slug": "services",
+      "role": "page"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 1470,
+      "type": "page",
+      "title": "Home",
+      "slug": "home",
+      "role": "page"
+    },
+    {
+      "verdict": "review",
+      "reasons": [
+        "unused-template"
+      ],
+      "id": 1481,
+      "type": "elementor_library",
+      "title": "Default Kit",
+      "slug": "default-kit-2"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 1482,
+      "type": "page",
+      "title": "Sustainability",
+      "slug": "sustainability",
+      "role": "page"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 1607,
+      "type": "page",
+      "title": "Investor Relations",
+      "slug": "investor-relations",
+      "role": "page"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 1731,
+      "type": "page",
+      "title": "Products",
+      "slug": "products",
+      "role": "page"
+    },
+    {
+      "verdict": "review",
+      "reasons": [
+        "unused-template"
+      ],
+      "id": 1830,
+      "type": "elementor_library",
+      "title": "Default Kit",
+      "slug": "default-kit-2-2"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 1874,
+      "type": "product",
+      "title": "SRP-350III",
+      "slug": "srp-350iii"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2091,
+      "type": "product",
+      "title": "SRP-F310II",
+      "slug": "srp-f310ii"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2099,
+      "type": "product",
+      "title": "SRP-380",
+      "slug": "srp-380"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2102,
+      "type": "product",
+      "title": "SRP-330II/III",
+      "slug": "srp-330ii-iii"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2106,
+      "type": "product",
+      "title": "SRP-E300/B300",
+      "slug": "srp-e300-b300"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2109,
+      "type": "product",
+      "title": "SRP-S300",
+      "slug": "srp-s300"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2112,
+      "type": "product",
+      "title": "STP-103III",
+      "slug": "stp-103iii"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2115,
+      "type": "product",
+      "title": "SRP-275III",
+      "slug": "srp-275iii"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2118,
+      "type": "product",
+      "title": "SRP-270D",
+      "slug": "srp-270d"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2127,
+      "type": "product",
+      "title": "SPP-R200III",
+      "slug": "spp-r200iii"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2137,
+      "type": "product",
+      "title": "SPP-R310",
+      "slug": "spp-r310"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2141,
+      "type": "product",
+      "title": "SPP-C300",
+      "slug": "spp-c300"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2144,
+      "type": "product",
+      "title": "SPP-R410",
+      "slug": "spp-r410"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2147,
+      "type": "product",
+      "title": "SPP-L310",
+      "slug": "spp-l310"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2150,
+      "type": "product",
+      "title": "SPP-L3000",
+      "slug": "spp-l3000"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2425,
+      "type": "product",
+      "title": "D2-250",
+      "slug": "d2-250"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2428,
+      "type": "product",
+      "title": "OS-2130D",
+      "slug": "os-2130d"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2431,
+      "type": "product",
+      "title": "OS-214Plus",
+      "slug": "os-214plus"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2434,
+      "type": "product",
+      "title": "CP-2140EX",
+      "slug": "cp-2140ex"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2436,
+      "type": "product",
+      "title": "OS-200/OS-214EX",
+      "slug": "os-200-os-214ex"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2439,
+      "type": "product",
+      "title": "iX4-250",
+      "slug": "ix4-250"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2442,
+      "type": "product",
+      "title": "iX6-250",
+      "slug": "ix6-250"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2445,
+      "type": "product",
+      "title": "SLP-DX220",
+      "slug": "slp-dx220"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2448,
+      "type": "product",
+      "title": "SLP-TX220",
+      "slug": "slp-tx220"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2451,
+      "type": "product",
+      "title": "SLP-TX400",
+      "slug": "slp-tx400"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2454,
+      "type": "product",
+      "title": "XD3-40D/40T",
+      "slug": "xd3-40d-40t"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2457,
+      "type": "product",
+      "title": "XT3-40",
+      "slug": "xt3-40"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2462,
+      "type": "product",
+      "title": "PT-2000",
+      "slug": "pt-2000"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2466,
+      "type": "product",
+      "title": "PT-2500",
+      "slug": "pt-2500"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2470,
+      "type": "product",
+      "title": "WP-6860",
+      "slug": "wp-6860"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2473,
+      "type": "product",
+      "title": "LP-15A36",
+      "slug": "lp-15a36"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2476,
+      "type": "product",
+      "title": "LP-17A",
+      "slug": "lp-17a"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2479,
+      "type": "product",
+      "title": "KM-190",
+      "slug": "km-190"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2606,
+      "type": "product",
+      "title": "A100",
+      "slug": "a100"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2609,
+      "type": "product",
+      "title": "T100",
+      "slug": "t100"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2613,
+      "type": "product",
+      "title": "QP-1100",
+      "slug": "qp-1100"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2622,
+      "type": "post",
+      "title": "Discover our Newly Introduced T100 Supermarket price checker.",
+      "slug": "discover-our-newly-introduced-t100-supermarket-price-checker"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2625,
+      "type": "post",
+      "title": "Double the Security with the new DP-7300plus Multi-Currency Value and Mix Money counting machine. ",
+      "slug": "double-the-security-with-the-new-dp-7300plus-multi-currency-value-and-mix-money-counting-machine"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2659,
+      "type": "product",
+      "title": "ICD-2002F-RU",
+      "slug": "icd-2002f-ru"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2662,
+      "type": "product",
+      "title": "KR-410",
+      "slug": "kr-410"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2665,
+      "type": "product",
+      "title": "KFT-460",
+      "slug": "kft-460"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2668,
+      "type": "product",
+      "title": "PKB-111",
+      "slug": "pkb-111"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2671,
+      "type": "product",
+      "title": "PKB-044",
+      "slug": "pkb-044"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2674,
+      "type": "product",
+      "title": "CMSR-380-33UB",
+      "slug": "cmsr-380-33ub"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2677,
+      "type": "product",
+      "title": "MSE-700",
+      "slug": "mse-700"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2681,
+      "type": "product",
+      "title": "TMR-900",
+      "slug": "tmr-900"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2684,
+      "type": "product",
+      "title": "CS-1800",
+      "slug": "cs-1800"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2687,
+      "type": "product",
+      "title": "AS-9300",
+      "slug": "as-9300"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2690,
+      "type": "product",
+      "title": "AS-9400",
+      "slug": "as-9400"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2693,
+      "type": "product",
+      "title": "AS-9500",
+      "slug": "as-9500"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2696,
+      "type": "product",
+      "title": "AR-3201",
+      "slug": "ar-3201"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2699,
+      "type": "product",
+      "title": "XL-6200A",
+      "slug": "xl-6200a"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2702,
+      "type": "product",
+      "title": "1200g",
+      "slug": "1200g"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2705,
+      "type": "product",
+      "title": "MS-7120",
+      "slug": "ms-7120"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2708,
+      "type": "product",
+      "title": "XL2200",
+      "slug": "xl2200"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2711,
+      "type": "product",
+      "title": "XL2001",
+      "slug": "xl2001"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2714,
+      "type": "product",
+      "title": "XL-3610",
+      "slug": "xl-3610"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2717,
+      "type": "product",
+      "title": "XL-9610",
+      "slug": "xl-9610"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2720,
+      "type": "product",
+      "title": "XL-3620",
+      "slug": "xl-3620"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2723,
+      "type": "product",
+      "title": "LM530-FOSC",
+      "slug": "lm530-fosc"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2726,
+      "type": "product",
+      "title": "PCR-330",
+      "slug": "pcr-330"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2729,
+      "type": "product",
+      "title": "PB2",
+      "slug": "pb2"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2733,
+      "type": "product",
+      "title": "URU-4000B",
+      "slug": "uru-4000b"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2736,
+      "type": "product",
+      "title": "AC906-PRW-106",
+      "slug": "ac906-prw-106"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2740,
+      "type": "product",
+      "title": "TR-510",
+      "slug": "tr-510"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2743,
+      "type": "product",
+      "title": "TR-515",
+      "slug": "tr-515"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2746,
+      "type": "product",
+      "title": "TR-4020",
+      "slug": "tr-4020"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2749,
+      "type": "product",
+      "title": "TR-4050",
+      "slug": "tr-4050"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2752,
+      "type": "product",
+      "title": "iBT-520",
+      "slug": "ibt-520"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2755,
+      "type": "product",
+      "title": "MSR-120",
+      "slug": "msr-120"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2758,
+      "type": "product",
+      "title": "PCR-310",
+      "slug": "pcr-310"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2761,
+      "type": "product",
+      "title": "GP20-30",
+      "slug": "gp20-30"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2764,
+      "type": "product",
+      "title": "GPW-100",
+      "slug": "gpw-100"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2768,
+      "type": "product",
+      "title": "STD-1914",
+      "slug": "std-1914"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2771,
+      "type": "product",
+      "title": "SG-15c",
+      "slug": "sg-15c"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2774,
+      "type": "product",
+      "title": "BCP-8000",
+      "slug": "bcp-8000"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2778,
+      "type": "product",
+      "title": "PI-1010",
+      "slug": "pi-1010"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2781,
+      "type": "product",
+      "title": "PM-75",
+      "slug": "pm-75"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2788,
+      "type": "product",
+      "title": "SMART-21S",
+      "slug": "smart-21s"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2791,
+      "type": "product",
+      "title": "SMART-51S",
+      "slug": "smart-51s"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2794,
+      "type": "product",
+      "title": "DP-2288",
+      "slug": "dp-2288"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2796,
+      "type": "product",
+      "title": "DP-7300plus",
+      "slug": "dp-7300plus"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 2799,
+      "type": "product",
+      "title": "TC-8200S",
+      "slug": "tc-8200s"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 2865,
+      "type": "post",
+      "title": "cache",
+      "slug": "cache"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 2868,
+      "type": "post",
+      "title": "cache",
+      "slug": "cache-2"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 2993,
+      "type": "post",
+      "title": "x",
+      "slug": "x"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 3008,
+      "type": "post",
+      "title": "x",
+      "slug": "x-2"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 3020,
+      "type": "post",
+      "title": "x",
+      "slug": "x-3"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 3026,
+      "type": "post",
+      "title": "x",
+      "slug": "x-4"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 3036,
+      "type": "post",
+      "title": "x",
+      "slug": "x-5"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 3048,
+      "type": "post",
+      "title": "x",
+      "slug": "x-6"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 3060,
+      "type": "post",
+      "title": "x",
+      "slug": "x-7"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 3094,
+      "type": "post",
+      "title": "x",
+      "slug": "x-8"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 3158,
+      "type": "post",
+      "title": "x",
+      "slug": "x-9"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3203,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "2b181d631f0d-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "exploit-password",
+        "defacement-title"
+      ],
+      "id": 3269,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "33a711d83d72"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "exploit-password",
+        "defacement-title"
+      ],
+      "id": 3270,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "33a711d83d72"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "exploit-password",
+        "defacement-title"
+      ],
+      "id": 3271,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "4b137f7e4f5b"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "exploit-password",
+        "defacement-title"
+      ],
+      "id": 3275,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "0c31761e5094"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "exploit-password",
+        "defacement-title"
+      ],
+      "id": 3276,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "0c31761e5094"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "exploit-password",
+        "defacement-title"
+      ],
+      "id": 3277,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "24c8042c03e0"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 3282,
+      "type": "post",
+      "title": "x",
+      "slug": "x-10"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 3307,
+      "type": "post",
+      "title": "x",
+      "slug": "x-11"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 3332,
+      "type": "post",
+      "title": "x",
+      "slug": "x-12"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 3385,
+      "type": "post",
+      "title": "x",
+      "slug": "x-13"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 3409,
+      "type": "post",
+      "title": "x",
+      "slug": "x-14"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 3415,
+      "type": "post",
+      "title": "x",
+      "slug": "x-15"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 3426,
+      "type": "post",
+      "title": "x",
+      "slug": "x-16"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3453,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "4b4ace9a523c-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3454,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "4b4ace9a523c-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3455,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "29c64fc704e8-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3459,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "eafa8a573b04-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3460,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "eafa8a573b04-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3461,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "cbfc476c02ce-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3465,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "af260f3683fd-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3466,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "af260f3683fd-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3467,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "31139cead479-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3471,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "a432e1634a27-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3472,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "a432e1634a27-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3473,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "6a88420228dd-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 3475,
+      "type": "post",
+      "title": "x",
+      "slug": "x-17"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 3480,
+      "type": "post",
+      "title": "x",
+      "slug": "x-18"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3511,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "8d4975977a5e-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3512,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "8d4975977a5e-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3513,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "8d4975977a5e-htm-2"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3514,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "b8ee01b87aa8-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3515,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "8d4975977a5e-htm-2"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3516,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "b8ee01b87aa8-htm-2"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3517,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "8d4975977a5e-htm-3"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3518,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "8d4975977a5e-htm-3"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3519,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "b8ee01b87aa8-htm-3"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3520,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "8d4975977a5e-htm-4"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3521,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "8d4975977a5e-htm-4"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3522,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "8d4975977a5e-htm-5"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3523,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "b8ee01b87aa8-htm-4"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3524,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "8d4975977a5e-htm-5"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3525,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "b8ee01b87aa8-htm-5"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3526,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "8d4975977a5e-htm-6"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3527,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "8d4975977a5e-htm-6"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3528,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "b8ee01b87aa8-htm-6"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3529,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "8d4975977a5e-htm-7"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3530,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "8d4975977a5e-htm-8"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3531,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "8d4975977a5e-htm-7"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3532,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "8d4975977a5e-htm-8"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3533,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "b8ee01b87aa8-htm-7"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3534,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "b8ee01b87aa8-htm-8"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3538,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "7d231bdffd83-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3539,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "7d231bdffd83-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3540,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "7a0ef4c15ae1-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3541,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "7d231bdffd83-htm-2"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3542,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "7d231bdffd83-htm-2"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3543,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "7a0ef4c15ae1-htm-2"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3544,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "7d231bdffd83-htm-3"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3545,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "7d231bdffd83-htm-4"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3546,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "7d231bdffd83-htm-3"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3547,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "7a0ef4c15ae1-htm-3"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3548,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "7d231bdffd83-htm-4"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3549,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "7a0ef4c15ae1-htm-4"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3550,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "7d231bdffd83-htm-5"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3551,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "7d231bdffd83-htm-5"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3552,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "7a0ef4c15ae1-htm-5"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3553,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "7d231bdffd83-htm-6"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3554,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "7d231bdffd83-htm-6"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3555,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "7d231bdffd83-htm-7"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3556,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "7a0ef4c15ae1-htm-6"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3557,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "7d231bdffd83-htm-7"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3558,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "7a0ef4c15ae1-htm-7"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3559,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "7d231bdffd83-htm-8"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3560,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "7d231bdffd83-htm-8"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3561,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "7a0ef4c15ae1-htm-8"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 3566,
+      "type": "post",
+      "title": "x",
+      "slug": "x-19"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3576,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "ea5ff968c064-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3577,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "ea5ff968c064-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3578,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "bee5807c90cd-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3579,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "ea5ff968c064-htm-2"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3580,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "ea5ff968c064-htm-2"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3581,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "bee5807c90cd-htm-2"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3582,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "ea5ff968c064-htm-3"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3583,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "ea5ff968c064-htm-3"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3584,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "bee5807c90cd-htm-3"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3585,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "ea5ff968c064-htm-4"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3586,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "ea5ff968c064-htm-4"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3587,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "bee5807c90cd-htm-4"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3588,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "ea5ff968c064-htm-5"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3589,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "ea5ff968c064-htm-5"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3590,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "bee5807c90cd-htm-5"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3591,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "ea5ff968c064-htm-6"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3592,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "ea5ff968c064-htm-6"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3593,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "ea5ff968c064-htm-7"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3594,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "bee5807c90cd-htm-6"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3595,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "ea5ff968c064-htm-7"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3596,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "bee5807c90cd-htm-7"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3597,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "ea5ff968c064-htm-8"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3598,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "ea5ff968c064-htm-8"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3599,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "bee5807c90cd-htm-8"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3600,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "ea5ff968c064-htm-9"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3601,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "ea5ff968c064-htm-9"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3602,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "ea5ff968c064-htm-10"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3603,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "bee5807c90cd-htm-9"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3604,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "ea5ff968c064-htm-10"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3605,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "bee5807c90cd-htm-10"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3609,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "218d32556f59-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3610,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "218d32556f59-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3611,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "1a72b3b83b93-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3612,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "218d32556f59-htm-2"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3613,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "218d32556f59-htm-2"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3614,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "1a72b3b83b93-htm-2"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3615,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "218d32556f59-htm-3"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3616,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "218d32556f59-htm-3"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3617,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "1a72b3b83b93-htm-3"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3618,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "218d32556f59-htm-4"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3619,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "218d32556f59-htm-4"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3620,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "1a72b3b83b93-htm-4"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3621,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "218d32556f59-htm-5"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3622,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "218d32556f59-htm-5"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3623,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "1a72b3b83b93-htm-5"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3624,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "218d32556f59-htm-6"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3625,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "218d32556f59-htm-6"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3626,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "1a72b3b83b93-htm-6"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3627,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "218d32556f59-htm-7"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3628,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "218d32556f59-htm-7"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3629,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "1a72b3b83b93-htm-7"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3630,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "218d32556f59-htm-8"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3631,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "218d32556f59-htm-8"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3632,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "218d32556f59-htm-9"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3633,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "1a72b3b83b93-htm-8"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3634,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "218d32556f59-htm-9"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3635,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "1a72b3b83b93-htm-9"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3636,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "218d32556f59-htm-10"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3637,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "218d32556f59-htm-10"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3638,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "1a72b3b83b93-htm-10"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 3640,
+      "type": "post",
+      "title": "x",
+      "slug": "x-20"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 3646,
+      "type": "post",
+      "title": "x",
+      "slug": "x-21"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3654,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "227b05daf330-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3655,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "227b05daf330-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3656,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "4845e47ea5bb-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3660,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "b0eeb46ed79c-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3661,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "b0eeb46ed79c-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3662,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "7433e0a02b7c-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3674,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "d424a4ff1d77-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3675,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "d424a4ff1d77-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3676,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "7799cded72e2-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3680,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "bbfed0dc833b-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3681,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "bbfed0dc833b-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3682,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "4f3c344c17df-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 3684,
+      "type": "post",
+      "title": "x",
+      "slug": "x-22"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3728,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "4a92ee464b8b-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3729,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "4a92ee464b8b-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3730,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "8ff15f785501-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3734,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "723b70ee0d25-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3735,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "723b70ee0d25-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3736,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "6bd0b2df7828-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3737,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "723b70ee0d25-htm-2"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3738,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "723b70ee0d25-htm-2"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3739,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "6bd0b2df7828-htm-2"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3740,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "723b70ee0d25-htm-3"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3741,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "723b70ee0d25-htm-3"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3742,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "723b70ee0d25-htm-4"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3743,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "6bd0b2df7828-htm-3"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3744,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "723b70ee0d25-htm-4"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3745,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "6bd0b2df7828-htm-4"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3746,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "723b70ee0d25-htm-5"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3747,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "723b70ee0d25-htm-5"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3748,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "6bd0b2df7828-htm-5"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3749,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "723b70ee0d25-htm-6"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3750,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "723b70ee0d25-htm-6"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 3751,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "6bd0b2df7828-htm-6"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 3848,
+      "type": "post",
+      "title": "x",
+      "slug": "x-23"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 3853,
+      "type": "post",
+      "title": "x",
+      "slug": "x-24"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3978,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "f68f5122c296-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3979,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "f68f5122c296-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3980,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "3e2807e9fa85-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3984,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "1ea4bf77bf74-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3985,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "1ea4bf77bf74-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 3986,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "101c4c7cb926-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 4072,
+      "type": "post",
+      "title": "x",
+      "slug": "x-25"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 4078,
+      "type": "post",
+      "title": "x",
+      "slug": "x-26"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 4158,
+      "type": "post",
+      "title": "x",
+      "slug": "x-27"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 4270,
+      "type": "post",
+      "title": "x",
+      "slug": "x-28"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 4276,
+      "type": "post",
+      "title": "x",
+      "slug": "x-29"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 4425,
+      "type": "post",
+      "title": "cache",
+      "slug": "cache-3"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 4472,
+      "type": "post",
+      "title": "x",
+      "slug": "x-30"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 4570,
+      "type": "post",
+      "title": "x",
+      "slug": "x-31"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 4608,
+      "type": "post",
+      "title": "x",
+      "slug": "x-32"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "spam-keyword",
+        "dated-2026-or-later"
+      ],
+      "id": 4622,
+      "type": "post",
+      "title": "Lucky Vibes Casino Online",
+      "slug": "lucky-vibes-casino-online"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "spam-keyword",
+        "dated-2026-or-later"
+      ],
+      "id": 4623,
+      "type": "post",
+      "title": "Cashalot Test Bonus Sportwetten Zahlungen UX 2026",
+      "slug": "cashalot-test-bonus-sportwetten-zahlungen-ux-2026"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "dated-2026-or-later"
+      ],
+      "id": 4624,
+      "type": "post",
+      "title": "Spinanga",
+      "slug": "spinanga"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "dated-2026-or-later"
+      ],
+      "id": 4625,
+      "type": "post",
+      "title": "Dolly",
+      "slug": "dolly"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "spam-keyword",
+        "dated-2026-or-later"
+      ],
+      "id": 4626,
+      "type": "post",
+      "title": "Mr Punter Casino 2026",
+      "slug": "mr-punter-casino-2026"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "spam-keyword",
+        "dated-2026-or-later"
+      ],
+      "id": 4627,
+      "type": "post",
+      "title": "Blogs",
+      "slug": "blogs"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "spam-keyword"
+      ],
+      "id": 4628,
+      "type": "post",
+      "title": "7Gold Review Great UK Online Slot Selection",
+      "slug": "7gold-review-great-uk-online-slot-selection"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "spam-keyword",
+        "dated-2026-or-later"
+      ],
+      "id": 4655,
+      "type": "post",
+      "title": "Fair Go: Tu Destino de Juego en España",
+      "slug": "fair-go-tu-destino-de-juego-en-espana"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "spam-keyword",
+        "dated-2026-or-later"
+      ],
+      "id": 4656,
+      "type": "post",
+      "title": "Grand Ivy Review UK",
+      "slug": "grand-ivy-review-uk"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 4661,
+      "type": "post",
+      "title": "hacked by trenggalek6etar",
+      "slug": "cox-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 4666,
+      "type": "post",
+      "title": "hacked by trenggalek6etar",
+      "slug": "cox-htm-2"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "spam-keyword"
+      ],
+      "id": 4694,
+      "type": "post",
+      "title": "Reseña de WildRobin Cómo registrarse y apostar en España en 2026",
+      "slug": "resena-de-wildrobin-como-registrarse-y-apostar-en-espana-en-2026"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "spam-keyword",
+        "dated-2026-or-later"
+      ],
+      "id": 4695,
+      "type": "post",
+      "title": "Posido Cashback Bono 2026: La Oferta Especial Que No Es Tan Especial en España",
+      "slug": "posido-cashback-bono-2026-la-oferta-especial-que-no-es-tan-especial-en-espana"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "spam-keyword"
+      ],
+      "id": 4696,
+      "type": "post",
+      "title": "1Redcasino",
+      "slug": "1redcasino"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "spam-keyword",
+        "dated-2026-or-later"
+      ],
+      "id": 4701,
+      "type": "post",
+      "title": "Dragon Slots Withdrawal Guide with Practical Steps from Request to Payout",
+      "slug": "dragon-slots-withdrawal-guide-with-practical-steps-from-request-to-payout"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "spam-keyword",
+        "dated-2026-or-later"
+      ],
+      "id": 4724,
+      "type": "post",
+      "title": "DeeSpin Login And Encryption Protocol For Australia",
+      "slug": "deespin-login-and-encryption-protocol-for-australia"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "spam-keyword",
+        "dated-2026-or-later"
+      ],
+      "id": 4725,
+      "type": "post",
+      "title": "Majestico",
+      "slug": "majestico"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 4741,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "f9c0a71f7df5-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 4742,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "f9c0a71f7df5-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 4743,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "ccd504db713b-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 4747,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "af130a1de7ac-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 4748,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "af130a1de7ac-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 4749,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "138bc46045f1-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "spam-keyword",
+        "dated-2026-or-later"
+      ],
+      "id": 4807,
+      "type": "post",
+      "title": "Castle Bingo Slots & Games",
+      "slug": "castle-bingo-slots-games"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "dated-2026-or-later"
+      ],
+      "id": 4808,
+      "type": "post",
+      "title": "Pełna recenzja kasyna online B7",
+      "slug": "pelna-recenzja-kasyna-online-b7"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "dated-2026-or-later"
+      ],
+      "id": 4809,
+      "type": "post",
+      "title": "MuchBetter w Dragon Slots – płatności nigdy nie były tak bezpieczne i szybkie!",
+      "slug": "muchbetter-w-dragon-slots-platnosci-nigdy-nie-byly-tak-bezpieczne-i-szybkie"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 4864,
+      "type": "post",
+      "title": "hacked by trenggalek6etar",
+      "slug": "cox-htm-3"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "spam-keyword"
+      ],
+      "id": 4875,
+      "type": "post",
+      "title": "WildRobin: Spiele mit 25 Gratisdrehungen & €50.000 Jackpot",
+      "slug": "wildrobin-spiele-mit-25-gratisdrehungen-e50-000-jackpot"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "spam-keyword"
+      ],
+      "id": 4876,
+      "type": "post",
+      "title": "Elite Spin – Double Your Deposit with the Bonus Offer in Germany",
+      "slug": "elite-spin-double-your-deposit-with-the-bonus-offer-in-germany"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "defacement-title"
+      ],
+      "id": 4884,
+      "type": "post",
+      "title": "hacked by trenggalek6etar",
+      "slug": "cox-htm-4"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "spam-keyword",
+        "dated-2026-or-later"
+      ],
+      "id": 4885,
+      "type": "post",
+      "title": "Wild Royal Quick Wins Big Thrills The Fast Paced Slot Experience",
+      "slug": "wild-royal-quick-wins-big-thrills-the-fast-paced-slot-experience"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "spam-keyword",
+        "dated-2026-or-later"
+      ],
+      "id": 4886,
+      "type": "post",
+      "title": "Código Promocional AmunRa En Junio 2026",
+      "slug": "codigo-promocional-amunra-en-junio-2026"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "spam-keyword",
+        "dated-2026-or-later"
+      ],
+      "id": 4897,
+      "type": "post",
+      "title": "Crusino – Quick‑Hit Slots & Rapid Wins pro hráče na pulse‑driven",
+      "slug": "crusino-quick-hit-slots-rapid-wins-pro-hrace-na-pulse-driven"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "spam-keyword",
+        "dated-2026-or-later"
+      ],
+      "id": 4898,
+      "type": "post",
+      "title": "Doctor Spins Registration Steps For British Players In Norway",
+      "slug": "doctor-spins-registration-steps-for-british-players-in-norway"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 4904,
+      "type": "post",
+      "title": "hacked by trenggalek6etar",
+      "slug": "428b40fa4566"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 4915,
+      "type": "post",
+      "title": "hacked by trenggalek6etar",
+      "slug": "af952b6d117c"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker"
+      ],
+      "id": 4930,
+      "type": "post",
+      "title": "x",
+      "slug": "x-33"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "spam-keyword",
+        "dated-2026-or-later"
+      ],
+      "id": 4940,
+      "type": "post",
+      "title": "Rocket Spin Login Anleitung zur Anmeldung",
+      "slug": "rocket-spin-login-anleitung-zur-anmeldung"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "spam-keyword",
+        "dated-2026-or-later"
+      ],
+      "id": 4941,
+      "type": "post",
+      "title": "SunSpin Review",
+      "slug": "sunspin-review"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "spam-keyword"
+      ],
+      "id": 4942,
+      "type": "post",
+      "title": "Rizk",
+      "slug": "rizk"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 4954,
+      "type": "post",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "6f84b6ef44b5"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 4955,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "a4cb58d05664-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 4956,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "ded5b5dd9a03-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "spam-keyword",
+        "dated-2026-or-later"
+      ],
+      "id": 4963,
+      "type": "post",
+      "title": "Ozwin Bonus Codes 2026",
+      "slug": "ozwin-bonus-codes-2026"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "spam-keyword"
+      ],
+      "id": 4964,
+      "type": "post",
+      "title": "Casumo",
+      "slug": "casumo"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 4968,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "d3f3538012ab-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 4970,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "c8e95cc9db84-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 4972,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "03fec3b72292-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 4974,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "0fa5520eacf3-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 4976,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "8a45f04a394b-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 4985,
+      "type": "post",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "49787bb145a5"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 4993,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "893faa604e75-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 4994,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "74a5c816d3ae-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 4995,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "7686e8c9eb5c-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 4996,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "82d9431e58d2-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 4997,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "e492240270f5-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 5009,
+      "type": "post",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "6e0318bf0000"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 5023,
+      "type": "post",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "c9c6ad7c0422-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 5024,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "c9c6ad7c0422-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 5025,
+      "type": "page",
+      "title": "Hacked by CoupDeGrace",
+      "slug": "f061f2757436-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 5087,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "e05e860eb669-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 5088,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "f451614bc7ee-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 5090,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "fbb6820ad179-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 5093,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "917e64fd64fd-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 5095,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "1522a9a05ba1-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 5097,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "5ac80d8beaff-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 5098,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "96bffa32bf25-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 5100,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "6c4145027b7a-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 5104,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "58aee4f25fd5-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 5105,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "7178e8c7500c-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 5106,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "d6b9633ecb9c-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 5108,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "2e0211bb9bd2-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 5109,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "58d0dd82cd9c-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 5110,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "1836e93e18be-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 5111,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "83f2188a38b3-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 5113,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "6cd13c2cdbdf-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 5116,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "1062e60beea2-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 5118,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "ab6104ed7098-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 5123,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "964cf45e899a-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 5125,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "6b2cae54225c-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 5128,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "69a48998f877-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 5133,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "d6e8a78e310b-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 5138,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "69c462442796-htm"
+    },
+    {
+      "verdict": "drop",
+      "reasons": [
+        "hack-marker",
+        "dated-2026-or-later",
+        "hex-slug",
+        "defacement-title"
+      ],
+      "id": 5148,
+      "type": "page",
+      "title": "Hacked by trenggalek6etar",
+      "slug": "4e2f149a679e-htm"
+    },
+    {
+      "verdict": "review",
+      "reasons": [
+        "category-kept-only-if-posts-survive"
+      ],
+      "id": 1,
+      "type": "category",
+      "title": "Uncategorized",
+      "slug": "uncategorized"
+    },
+    {
+      "verdict": "review",
+      "reasons": [
+        "category-kept-only-if-posts-survive"
+      ],
+      "id": 16,
+      "type": "category",
+      "title": "News",
+      "slug": "news"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 30,
+      "type": "product_cat",
+      "title": "Thermal Receipt Printers",
+      "slug": "thermal-receipt-printers"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 41,
+      "type": "product_cat",
+      "title": "Impact Receipt Printers",
+      "slug": "impact-receipt-printers"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 55,
+      "type": "product_cat",
+      "title": "Barcode Printers",
+      "slug": "barcode-printers"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 58,
+      "type": "product_cat",
+      "title": "Mobile Printers",
+      "slug": "mobile-printers"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 59,
+      "type": "product_cat",
+      "title": "POS Touch Terminals",
+      "slug": "pos-touch-terminals"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 60,
+      "type": "product_cat",
+      "title": "POS Price Checkers",
+      "slug": "pos-price-checkers"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 61,
+      "type": "product_cat",
+      "title": "POS Peripherals",
+      "slug": "pos-peripherals"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 62,
+      "type": "product_cat",
+      "title": "Barcode Scanners",
+      "slug": "barcode-scanners"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 63,
+      "type": "product_cat",
+      "title": "Handheld Data Collectors",
+      "slug": "handheld-data-collectors"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 64,
+      "type": "product_cat",
+      "title": "Auto-ID &amp; Security",
+      "slug": "auto-id-and-security"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 65,
+      "type": "product_cat",
+      "title": "Card Printers",
+      "slug": "card-printers"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 66,
+      "type": "product_cat",
+      "title": "Money Counters",
+      "slug": "money-counters"
+    },
+    {
+      "verdict": "keep",
+      "reasons": [],
+      "id": 67,
+      "type": "product_cat",
+      "title": "Cheque Printers",
+      "slug": "cheque-printers"
+    }
+  ],
+  "files": [
+    {
+      "file": ".htaccess",
+      "verdict": "drop",
+      "reasons": [
+        "executable-name"
+      ]
+    },
+    {
+      "file": "2018\\07\\Solutec-Logo.bmp",
+      "verdict": "drop",
+      "reasons": [
+        "unexpected-extension"
+      ]
+    },
+    {
+      "file": "index.html",
+      "verdict": "drop",
+      "reasons": [
+        "unexpected-extension"
+      ]
+    },
+    {
+      "file": "C:\\ai\\tests\\btb\\solutech\\name\\public_html\\wp-content\\uploads\\redux",
+      "verdict": "drop",
+      "reasons": [
+        "risky-directory"
+      ]
+    },
+    {
+      "file": "wc-logs\\.htaccess",
+      "verdict": "drop",
+      "reasons": [
+        "executable-name"
+      ]
+    },
+    {
+      "file": "wc-logs\\fatal-errors-2026-04-26-a1455444e064026157e62ca65bc67933.log",
+      "verdict": "drop",
+      "reasons": [
+        "unexpected-extension"
+      ]
+    },
+    {
+      "file": "wc-logs\\fatal-errors-2026-04-30-a1455444e064026157e62ca65bc67933.log",
+      "verdict": "drop",
+      "reasons": [
+        "unexpected-extension"
+      ]
+    },
+    {
+      "file": "wc-logs\\fatal-errors-2026-05-01-a1455444e064026157e62ca65bc67933.log",
+      "verdict": "drop",
+      "reasons": [
+        "unexpected-extension"
+      ]
+    },
+    {
+      "file": "wc-logs\\fatal-errors-2026-05-09-a1455444e064026157e62ca65bc67933.log",
+      "verdict": "drop",
+      "reasons": [
+        "unexpected-extension"
+      ]
+    },
+    {
+      "file": "wc-logs\\fatal-errors-2026-05-19-a1455444e064026157e62ca65bc67933.log",
+      "verdict": "drop",
+      "reasons": [
+        "unexpected-extension"
+      ]
+    },
+    {
+      "file": "wc-logs\\httpswoocommerce.comwp-jsonwccominbox-notifications1.0notifications.json-2026-05-21-cbdb3e4a13b324dfdf3be1a08fd86d08.log",
+      "verdict": "drop",
+      "reasons": [
+        "unexpected-extension"
+      ]
+    },
+    {
+      "file": "wc-logs\\httpswoocommerce.comwp-jsonwccomobw-free-extensions3.0extensions.json-2026-05-21-259b9d722a2ef23a7212534292a9cb95.log",
+      "verdict": "drop",
+      "reasons": [
+        "unexpected-extension"
+      ]
+    },
+    {
+      "file": "wc-logs\\httpswoocommerce.comwp-jsonwccompayment-gateway-suggestions1.0suggestions.jsoncountryUS-2026-05-21-c6bcc4eaf7d911ca258a54b6e6b343eb.log",
+      "verdict": "drop",
+      "reasons": [
+        "unexpected-extension"
+      ]
+    },
+    {
+      "file": "wc-logs\\index.html",
+      "verdict": "drop",
+      "reasons": [
+        "unexpected-extension"
+      ]
+    },
+    {
+      "file": "wc-logs\\legacy_rest_api_usages-2026-04-30-cc716121d73508162183e4f31e6a652f.log",
+      "verdict": "drop",
+      "reasons": [
+        "unexpected-extension"
+      ]
+    },
+    {
+      "file": "woocommerce_uploads\\.htaccess",
+      "verdict": "drop",
+      "reasons": [
+        "executable-name"
+      ]
+    },
+    {
+      "file": "woocommerce_uploads\\index.html",
+      "verdict": "drop",
+      "reasons": [
+        "unexpected-extension"
+      ]
+    },
+    {
+      "file": "C:\\ai\\tests\\btb\\solutech\\name\\public_html\\wp-content\\uploads\\wp-file-manager-pro",
+      "verdict": "drop",
+      "reasons": [
+        "risky-directory"
+      ]
+    },
+    {
+      "file": "wpcf7_uploads\\.htaccess",
+      "verdict": "drop",
+      "reasons": [
+        "executable-name"
+      ]
+    }
+  ]
+}

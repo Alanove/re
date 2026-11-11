@@ -1,0 +1,114 @@
+<%- include('../partials/header') %>
+
+<!-- BEGIN content area -->
+<div class="row">
+	<div class="col-xl-12">
+		<div class="panel panel-inverse">
+			<div class="panel-heading">
+				<h4 class="panel-title"><%= typeof t !== 'undefined' ? t('ecommerce.reports.lowStockReport') : 'Low Stock Report' %></h4>
+			</div>
+			<div class="panel-body">
+				<form method="GET" action="/admin/reports/low-stock" class="mb-4">
+					<div class="row g-3 align-items-end">
+						<div class="col-md-3">
+							<label for="threshold" class="form-label">
+								<%= typeof t !== 'undefined' ? t('ecommerce.reports.stockThreshold') : 'Stock below' %>
+							</label>
+							<input type="number" class="form-control" id="threshold" name="threshold"
+							       min="0" step="1" value="<%= filters.threshold %>" />
+						</div>
+						<div class="col-md-5">
+							<label for="search" class="form-label">
+								<%= typeof t !== 'undefined' ? t('common.search') : 'Search' %>
+							</label>
+							<div class="input-group">
+								<span class="input-group-text"><i class="fa fa-search"></i></span>
+								<input type="text" class="form-control" id="search" name="search"
+								       placeholder="<%= typeof t !== 'undefined' ? t('ecommerce.reports.lowStockSearchPlaceholder') : 'Product number, key, name or SKU...' %>"
+								       value="<%= filters.search || '' %>" />
+							</div>
+						</div>
+						<div class="col-md-4">
+							<button type="submit" class="btn btn-primary me-2">
+								<i class="fa fa-filter"></i> <%= typeof t !== 'undefined' ? t('common.filter') : 'Filter' %>
+							</button>
+							<a href="/admin/reports/low-stock" class="btn btn-secondary">
+								<i class="fa fa-times"></i> <%= typeof t !== 'undefined' ? t('common.clearFilters') : 'Clear' %>
+							</a>
+						</div>
+					</div>
+				</form>
+
+				<p class="text-muted mb-3">
+					<%= typeof t !== 'undefined' ? t('ecommerce.reports.lowStockShowingBelow') : 'Showing items with stock below' %>
+					<strong><%= filters.threshold %></strong>
+					<% if (filters.search) { %>
+						&mdash; <%= typeof t !== 'undefined' ? t('common.search') : 'Search' %>:
+						<strong><%= filters.search %></strong>
+					<% } %>
+					<span class="ms-2">(<%= items.length %> <%= typeof t !== 'undefined' ? t('ecommerce.reports.lowStockResults') : 'results' %>)</span>
+				</p>
+
+				<% if (items && items.length > 0) { %>
+					<div class="table-responsive">
+						<table class="table table-striped table-bordered align-middle">
+							<thead>
+								<tr>
+									<th><%= typeof t !== 'undefined' ? t('ecommerce.reports.itemType') : 'Type' %></th>
+									<th><%= typeof t !== 'undefined' ? t('ecommerce.reports.productNumber') : 'Product #' %></th>
+									<th><%= typeof t !== 'undefined' ? t('ecommerce.products.productName') : 'Product Name' %></th>
+									<th><%= typeof t !== 'undefined' ? t('ecommerce.reports.variant') : 'Variant' %></th>
+									<th><%= typeof t !== 'undefined' ? t('ecommerce.products.sku') : 'SKU' %></th>
+									<th><%= typeof t !== 'undefined' ? t('ecommerce.reports.productKey') : 'Key' %></th>
+									<th><%= typeof t !== 'undefined' ? t('ecommerce.products.stock') : 'Stock' %></th>
+									<th><%= typeof t !== 'undefined' ? t('ecommerce.categories.title') : 'Category' %></th>
+								</tr>
+							</thead>
+							<tbody>
+								<% items.forEach(function(item) { %>
+									<tr>
+										<td>
+											<% if (item.item_type === 'variant') { %>
+												<span class="badge bg-info"><%= typeof t !== 'undefined' ? t('ecommerce.reports.variantType') : 'Variant' %></span>
+											<% } else { %>
+												<span class="badge bg-secondary"><%= typeof t !== 'undefined' ? t('ecommerce.reports.productType') : 'Product' %></span>
+											<% } %>
+										</td>
+										<td><%= item.product_number %></td>
+										<td>
+											<a href="/admin/products/<%= item.product_id %>/edit">
+												<%= item.product_name %>
+											</a>
+										</td>
+										<td>
+											<% if (item.variant_name) { %>
+												<%= item.variant_name %>
+											<% } else { %>
+												<span class="text-muted">&mdash;</span>
+											<% } %>
+										</td>
+										<td><%= item.sku || 'N/A' %></td>
+										<td><code><%= item.slug %></code></td>
+										<td>
+											<span class="badge <%= item.stock_quantity === 0 ? 'bg-danger' : 'bg-warning text-dark' %>">
+												<%= item.stock_quantity %>
+											</span>
+										</td>
+										<td><%= item.category_name || 'N/A' %></td>
+									</tr>
+								<% }); %>
+							</tbody>
+						</table>
+					</div>
+				<% } else { %>
+					<p class="text-muted text-center py-5">
+						<%= typeof t !== 'undefined' ? t('ecommerce.reports.noLowStockItems') : 'No low stock items found' %>
+					</p>
+				<% } %>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END content area -->
+
+<%- include('../partials/footer') %>

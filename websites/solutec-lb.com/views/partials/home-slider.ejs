@@ -1,0 +1,59 @@
+<%
+  function esc(value) {
+    return String(value || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  const multiple = slides.length > 1;
+%>
+<div class="solu_hero_slider<%= multiple ? ' owl-carousel' : '' %>" data-multiple="<%= multiple ? '1' : '0' %>">
+  <% slides.forEach(function(slide) {
+    const headline = slide.headlineLine1 || slide.title || '';
+  %>
+  <section class="elementor-section elementor-top-section elementor-element elementor-element-f4e5a8b elementor-section-boxed elementor-section-height-full elementor-section-items-middle elementor-section-content-middle" data-element_type="section" style="background-image:url('<%= esc(slide.image) %>')" role="img" aria-label="<%= esc(slide.alt) %>">
+    <div class="elementor-background-overlay"></div>
+    <div class="elementor-container elementor-column-gap-default">
+      <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-2c3c3be" data-element_type="column">
+        <div class="elementor-widget-wrap elementor-element-populated">
+          <div class="elementor-element elementor-element-397beb5 elementor-widget elementor-widget-sm-absolute-image"><div class="elementor-widget-container"><div class="man_absolute_image"><img src="/uploads/2023/07/dots.png" alt=""></div></div></div>
+          <% if (headline) { %>
+          <div class="elementor-element elementor-element-7878364 elementor-widget__width-initial elementor-widget elementor-widget-heading"><div class="elementor-widget-container"><div class="elementor-heading-title elementor-size-default elementor-align-after-left"><%= headline %></div></div></div>
+          <% } %>
+          <% if (slide.subtitle) { %>
+          <div class="elementor-element elementor-element-767d7a8 elementor-widget elementor-widget-text-editor"><div class="elementor-widget-container"><p><%= slide.subtitle %></p></div></div>
+          <% } %>
+          <% if ((slide.link && slide.buttonText) || (slide.link2 && slide.buttonText2)) { %>
+          <div class="elementor-element elementor-element-b62177c elementor-widget elementor-widget-sm-default-button"><div class="elementor-widget-container">
+            <% if (slide.link && slide.buttonText) { %><a href="<%= esc(slide.link) %>" class="btn"><%= slide.buttonText %><i class="ti ti-arrow-right"></i></a><% } %>
+            <% if (slide.link2 && slide.buttonText2) { %><a href="<%= esc(slide.link2) %>" class="btn"><%= slide.buttonText2 %><i class="ti ti-arrow-right"></i></a><% } %>
+          </div></div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </section>
+  <% }) %>
+</div>
+<% if (multiple) { %>
+<style>
+  .solu_hero_slider { position: relative; }
+  .solu_hero_slider.owl-carousel .owl-item .man_absolute_image img { width: auto; display: inline-block; }
+  .solu_hero_slider .owl-dots { position: absolute; bottom: 30px; left: 0; right: 0; text-align: center; z-index: 5; }
+  .solu_hero_slider .owl-dot { display: inline-block; margin: 0 5px; }
+  .solu_hero_slider .owl-dot span { display: block; width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.5); }
+  .solu_hero_slider .owl-dot.active span { background: #fff; }
+</style>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (!window.jQuery || !jQuery.fn.owlCarousel) return;
+    jQuery('.solu_hero_slider.owl-carousel').owlCarousel({
+      items: 1,
+      loop: true,
+      autoplay: true,
+      autoplayTimeout: 6000,
+      autoplayHoverPause: true,
+      dots: true,
+      nav: false,
+      animateOut: 'fadeOut'
+    });
+  });
+</script>
+<% } %>

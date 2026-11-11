@@ -1,0 +1,206 @@
+{
+  "menus": [
+    {
+      "id": "main-menu",
+      "name": "Main Menu",
+      "description": "Primary navigation",
+      "items": [
+        {
+          "id": "home",
+          "title": "Home",
+          "type": "page",
+          "link": "home",
+          "sort": 1,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "companies",
+          "title": "Companies",
+          "type": "page",
+          "link": "companies",
+          "sort": 2,
+          "active": true,
+          "children": [
+            {
+              "id": "advisory",
+              "title": "Advisory",
+              "type": "page",
+              "link": "advisory",
+              "sort": 1,
+              "active": true,
+              "children": []
+            },
+            {
+              "id": "taxes",
+              "title": "Taxes",
+              "type": "page",
+              "link": "taxes",
+              "sort": 2,
+              "active": true,
+              "children": []
+            },
+            {
+              "id": "bookkeeping",
+              "title": "Bookkeeping",
+              "type": "page",
+              "link": "bookkeeping",
+              "sort": 3,
+              "active": true,
+              "children": []
+            },
+            {
+              "id": "wealth-management",
+              "title": "Wealth",
+              "type": "page",
+              "link": "wealth-management",
+              "sort": 4,
+              "active": true,
+              "children": []
+            },
+            {
+              "id": "income-replacement",
+              "title": "Insure",
+              "type": "page",
+              "link": "income-replacement",
+              "sort": 5,
+              "active": true,
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "news-and-events",
+          "title": "News and Events",
+          "type": "external",
+          "link": "/news",
+          "sort": 3,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "testimonials",
+          "title": "Testimonials",
+          "type": "page",
+          "link": "testimonials",
+          "sort": 4,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "our-team",
+          "title": "Our Team",
+          "type": "page",
+          "link": "our-team",
+          "sort": 5,
+          "active": true,
+          "children": [
+            {
+              "id": "our-team-advisory",
+              "title": "Advisory",
+              "type": "external",
+              "link": "/our-team/advisory",
+              "sort": 1,
+              "active": true,
+              "children": []
+            },
+            {
+              "id": "our-team-taxes",
+              "title": "Taxes",
+              "type": "external",
+              "link": "/our-team/taxes",
+              "sort": 2,
+              "active": true,
+              "children": []
+            },
+            {
+              "id": "our-team-bookkeeping",
+              "title": "Bookkeeping",
+              "type": "external",
+              "link": "/our-team/bookkeeping",
+              "sort": 3,
+              "active": true,
+              "children": []
+            },
+            {
+              "id": "our-team-wealth",
+              "title": "Wealth",
+              "type": "external",
+              "link": "/our-team/wealth-management",
+              "sort": 4,
+              "active": true,
+              "children": []
+            },
+            {
+              "id": "our-team-insure",
+              "title": "Insure",
+              "type": "external",
+              "link": "/our-team/income-replacement",
+              "sort": 5,
+              "active": true,
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "contact-us",
+          "title": "Contact Us",
+          "type": "page",
+          "link": "contact-us",
+          "sort": 6,
+          "active": true,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "utility-menu",
+      "name": "Utility Menu",
+      "description": "Top utility links",
+      "items": []
+    },
+    {
+      "id": "footer-menu",
+      "name": "Footer Menu",
+      "description": "Footer links",
+      "items": [
+        {
+          "id": "f-news",
+          "title": "News & Events",
+          "type": "external",
+          "link": "/news",
+          "sort": 1,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "f-testimonials",
+          "title": "Testimonials",
+          "type": "page",
+          "link": "testimonials",
+          "sort": 2,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "f-team",
+          "title": "Our Team",
+          "type": "page",
+          "link": "our-team",
+          "sort": 3,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "f-contact",
+          "title": "Contact Us",
+          "type": "page",
+          "link": "contact-us",
+          "sort": 4,
+          "active": true,
+          "children": []
+        }
+      ]
+    }
+  ]
+}

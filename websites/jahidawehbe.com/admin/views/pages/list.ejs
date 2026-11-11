@@ -19,14 +19,14 @@
 			<table class="table table-striped table-bordered align-middle" id="pages-table">
 				<thead>
 					<tr>
-						<th style="width:56px">Image</th>
+						<th style="width:56px" data-sort="off">Image</th>
 						<th>Title</th>
 						<th>URL</th>
 						<th>Type</th>
 						<th>Status</th>
 						<th class="text-center">Gallery</th>
 						<th>Updated</th>
-						<th style="width:1%">Actions</th>
+						<th style="width:1%" data-sort="off">Actions</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -51,7 +51,7 @@
 								<% if (page.status === 'published') { %><span class="badge bg-success">Published</span><% } else { %><span class="badge bg-secondary">Draft</span><% } %>
 							</td>
 							<td class="text-center"><%= page.imageCount %></td>
-							<td class="text-nowrap small"><%= new Date(page.updatedAt).toLocaleDateString('en-GB') %></td>
+							<td class="text-nowrap small" data-sort-value="<%= page.updatedAt %>"><%= new Date(page.updatedAt).toLocaleDateString('en-GB') %></td>
 							<td class="text-nowrap">
 								<a href="/admin/pages/<%= page.id %>/edit" class="btn btn-sm btn-primary" title="Edit"><i class="fa fa-edit"></i></a>
 								<% if (page.kind !== 'videos') { %>

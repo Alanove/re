@@ -1,0 +1,48 @@
+<div class="row">
+  <div class="col-xl-12">
+    <div class="panel panel-inverse">
+      <div class="panel-heading">
+        <h4 class="panel-title">Photo Approvals</h4>
+      </div>
+      <div class="panel-body">
+        <% if (typeof success !== 'undefined' && success) { %>
+          <div class="alert alert-success"><%= success %></div>
+        <% } %>
+        <% if (typeof error !== 'undefined' && error) { %>
+          <div class="alert alert-danger"><%= error %></div>
+        <% } %>
+
+        <div class="row">
+          <% if (images && images.length) { %>
+            <% images.forEach(function(img) { %>
+              <div class="col-md-4 col-lg-3 mb-4">
+                <div class="card h-100">
+                  <img src="/images/apartments/<%= img.apartmentId %>/<%= img.imageFilename %>"
+                       class="card-img-top" style="height:180px;object-fit:cover;" alt="" />
+                  <div class="card-body">
+                    <h6 class="card-title"><%= img.apartmentLabel %></h6>
+                    <p class="card-text small mb-2">
+                      <strong>Uploaded by:</strong> <%= img.uploaderName || '—' %><br>
+                      <% if (img.uploaderEmail) { %><%= img.uploaderEmail %><br><% } %>
+                      <% if (img.uploaderPhone) { %><%= img.uploaderPhone %><br><% } %>
+                      <%= img.createdAt ? new Date(img.createdAt).toLocaleString() : '' %>
+                    </p>
+                    <form method="POST" action="/admin/photo-approvals/<%= img.id %>/approve" class="d-inline">
+                      <button type="submit" class="btn btn-sm btn-success">Approve</button>
+                    </form>
+                    <form method="POST" action="/admin/photo-approvals/<%= img.id %>/reject" class="d-inline"
+                          onsubmit="return confirm('Reject and delete this photo?');">
+                      <button type="submit" class="btn btn-sm btn-danger">Reject</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            <% }); %>
+          <% } else { %>
+            <div class="col-12"><p class="text-center mb-0">No photos pending approval.</p></div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+---
+description: guerrasports - before using translation keys, search for them; if missing, add to all locale files (en, fr, ar, ru)
+globs: websites/guerrasports/data/locales/*.json,websites/guerrasports/views/**/*.ejs,websites/guerrasports/src/**/*.ts,websites/guerrasports/admin/**/*.{ts,ejs}
+alwaysApply: false
+---
+
+# guerrasports: translation keys in all languages
+
+Site rule for `websites/guerrasports/`. It applies in addition to the global rules in `.cursor/rules/`; where they conflict, the global rules win. Paths are relative to the site folder.
+
+Translations live in `data/locales/`: `en.json`, `fr.json`, `ar.json`, `ru.json`.
+
+## Before using a translation key
+
+1. **Search for the key**. Before adding a key like `t('ecommerce.brand')` or `t('ecommerce.xyz')` in views or code, search the locale files to see if it already exists (e.g. search for `"brand"` under `ecommerce` in `data/locales/*.json`).
+2. **If the key is not found**, do **not** use the key until you have added it. Add the new key to **all four** locale files (en, fr, ar, ru) with the same dotted path and appropriate translations, then use it in the view or code.
+3. **If the key exists**, use it as-is; no need to add it again.
+
+## When adding or changing a key
+
+- **Add the key in every file**: same dotted path (e.g. `ecommerce.brand`) in en, fr, ar, ru.
+- **Keep structure in sync**: if you add a new section (e.g. `"newsletter": { ... }`) in `en.json`, add the same section in fr, ar, ru, with translated values.
+- **Use correct language**: provide real translations for fr (French), ar (Arabic), ru (Russian). Use the en string as reference; do not leave other locales as English.
+- **Placement**: add new keys in the same logical place as in `en.json` (e.g. under the same parent object) so keys stay easy to find across files.
+
+Example: using `t('ecommerce.brand')`. First search for `"brand"` in `data/locales`. If missing, add in all four files:
+
+- `en.json` (under `ecommerce`): `"brand": "Brand"`
+- `fr.json`: `"brand": "Marque"`
+- `ar.json`: `"brand": "العلامة التجارية"`
+- `ru.json`: `"brand": "Бренд"`
+
+The admin i18n service (`admin/services/i18nService.ts`) and public site load these JSON files; missing keys cause a console warning and the raw key to be shown.

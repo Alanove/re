@@ -1,0 +1,185 @@
+<% const _t = function(key, fallback) { return typeof t !== 'undefined' ? t(key) : fallback; }; %>
+<!-- BEGIN breadcrumb -->
+<ol class="breadcrumb">
+	<li class="breadcrumb-item"><a href="/admin/dashboard"><%= _t('common.home', 'Home') %></a></li>
+	<li class="breadcrumb-item"><a href="/admin/site-settings"><%= _t('siteSettings.title', 'Settings') %></a></li>
+	<li class="breadcrumb-item active"><%= _t('integrationSettings.title', 'Security & Email') %></li>
+</ol>
+<!-- END breadcrumb -->
+
+<div class="row">
+	<div class="col-xl-12">
+		<% if (typeof error !== 'undefined' && error) { %>
+			<div class="alert alert-danger"><i class="fa fa-exclamation-triangle"></i> <%= error %></div>
+		<% } %>
+		<% if (typeof success !== 'undefined' && success) { %>
+			<div class="alert alert-success"><i class="fa fa-check-circle"></i> <%= success %></div>
+		<% } %>
+
+		<form method="POST" action="/admin/integration-settings/update" autocomplete="off">
+			<input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+
+			<!-- Cloudflare Turnstile -->
+			<div class="panel panel-inverse mb-3">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<%= _t('integrationSettings.turnstileTitle', 'Cloudflare Turnstile (captcha)') %>
+						<% if (turnstile.active) { %>
+							<span class="badge bg-success ms-2"><%= _t('integrationSettings.statusActive', 'Active') %></span>
+						<% } else { %>
+							<span class="badge bg-secondary ms-2"><%= _t('integrationSettings.statusInactive', 'Disabled') %></span>
+						<% } %>
+					</h4>
+				</div>
+				<div class="panel-body">
+					<p class="text-muted fs-13px mb-3"><%= _t('integrationSettings.turnstileHelp', 'Protects the contact form, customer login and registration, product reviews, live chat and admin login. When disabled or when either key is empty, Turnstile is turned off and all forms work without it.') %></p>
+					<% if (turnstile.source === 'env') { %>
+						<div class="alert alert-info py-2 fs-13px"><i class="fa fa-info-circle"></i> <%= _t('integrationSettings.sourceEnv', 'Currently using values from the server environment (.env). Saving this page will store the settings in the database and override them.') %></div>
+					<% } %>
+
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3"><%= _t('integrationSettings.enableTurnstile', 'Enable Turnstile') %></label>
+						<div class="col-md-9 pt-2">
+							<div class="form-check form-switch">
+								<input class="form-check-input" type="checkbox" id="turnstile_enabled" name="turnstile_enabled" value="1" <%= turnstile.enabled ? 'checked' : '' %>>
+								<label class="form-check-label" for="turnstile_enabled"></label>
+							</div>
+						</div>
+					</div>
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3" for="turnstile_site_key"><%= _t('integrationSettings.siteKey', 'Site key') %></label>
+						<div class="col-md-9">
+							<input type="text" class="form-control" id="turnstile_site_key" name="turnstile_site_key" value="<%= turnstile.siteKey %>" placeholder="0x4AAAAAAA...">
+						</div>
+					</div>
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3" for="turnstile_secret_key"><%= _t('integrationSettings.secretKey', 'Secret key') %></label>
+						<div class="col-md-9">
+							<input type="password" class="form-control" id="turnstile_secret_key" name="turnstile_secret_key" value="" autocomplete="new-password"
+								placeholder="<%= turnstile.hasSecret ? _t('integrationSettings.secretSaved', 'Saved - leave blank to keep the current value') : '' %>">
+							<% if (turnstile.hasSecret) { %>
+								<div class="form-check mt-2">
+									<input class="form-check-input" type="checkbox" id="turnstile_clear_secret" name="turnstile_clear_secret" value="1">
+									<label class="form-check-label" for="turnstile_clear_secret"><%= _t('integrationSettings.clearSecret', 'Remove saved secret key') %></label>
+								</div>
+							<% } %>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- SMTP -->
+			<div class="panel panel-inverse mb-3">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<%= _t('integrationSettings.smtpTitle', 'Outgoing email (SMTP)') %>
+						<% if (smtp.configured) { %>
+							<span class="badge bg-success ms-2"><%= _t('integrationSettings.statusConfigured', 'Configured') %></span>
+						<% } else { %>
+							<span class="badge bg-secondary ms-2"><%= _t('integrationSettings.statusNotConfigured', 'Not configured') %></span>
+						<% } %>
+					</h4>
+				</div>
+				<div class="panel-body">
+					<p class="text-muted fs-13px mb-3"><%= _t('integrationSettings.smtpHelp', 'Used for order confirmations, password resets, contact form and live chat notifications. If no host is set, emails are not sent.') %></p>
+					<% if (smtp.source === 'env') { %>
+						<div class="alert alert-info py-2 fs-13px"><i class="fa fa-info-circle"></i> <%= _t('integrationSettings.sourceEnv', 'Currently using values from the server environment (.env). Saving this page will store the settings in the database and override them.') %></div>
+					<% } %>
+
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3" for="smtp_host"><%= _t('integrationSettings.smtpHost', 'SMTP host') %></label>
+						<div class="col-md-9">
+							<input type="text" class="form-control" id="smtp_host" name="smtp_host" value="<%= smtp.host %>" placeholder="smtp.example.com">
+						</div>
+					</div>
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3" for="smtp_port"><%= _t('integrationSettings.smtpPort', 'Port') %></label>
+						<div class="col-md-3">
+							<input type="number" min="1" max="65535" class="form-control" id="smtp_port" name="smtp_port" value="<%= smtp.port %>">
+						</div>
+						<label class="form-label col-form-label col-md-2" for="smtp_secure"><%= _t('integrationSettings.smtpSecurity', 'Encryption') %></label>
+						<div class="col-md-4">
+							<select class="form-select" id="smtp_secure" name="smtp_secure">
+								<option value="auto" <%= smtp.secureMode === 'auto' ? 'selected' : '' %>><%= _t('integrationSettings.securityAuto', 'Auto (SSL on port 465, otherwise STARTTLS)') %></option>
+								<option value="ssl" <%= smtp.secureMode === 'ssl' ? 'selected' : '' %>><%= _t('integrationSettings.securitySsl', 'SSL/TLS') %></option>
+								<option value="starttls" <%= smtp.secureMode === 'starttls' ? 'selected' : '' %>><%= _t('integrationSettings.securityStarttls', 'STARTTLS') %></option>
+							</select>
+						</div>
+					</div>
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3" for="smtp_user"><%= _t('integrationSettings.smtpUser', 'Username') %></label>
+						<div class="col-md-9">
+							<input type="text" class="form-control" id="smtp_user" name="smtp_user" value="<%= smtp.user %>" autocomplete="off">
+						</div>
+					</div>
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3" for="smtp_password"><%= _t('integrationSettings.smtpPassword', 'Password') %></label>
+						<div class="col-md-9">
+							<input type="password" class="form-control" id="smtp_password" name="smtp_password" value="" autocomplete="new-password"
+								placeholder="<%= smtp.hasPassword ? _t('integrationSettings.secretSaved', 'Saved - leave blank to keep the current value') : '' %>">
+							<% if (smtp.hasPassword) { %>
+								<div class="form-check mt-2">
+									<input class="form-check-input" type="checkbox" id="smtp_clear_password" name="smtp_clear_password" value="1">
+									<label class="form-check-label" for="smtp_clear_password"><%= _t('integrationSettings.clearPassword', 'Remove saved password') %></label>
+								</div>
+							<% } %>
+						</div>
+					</div>
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3" for="smtp_from_email"><%= _t('integrationSettings.fromEmail', 'Sender email') %></label>
+						<div class="col-md-9">
+							<input type="email" class="form-control" id="smtp_from_email" name="smtp_from_email" value="<%= smtp.fromEmail %>" placeholder="noreply@example.com">
+						</div>
+					</div>
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3" for="smtp_from_name"><%= _t('integrationSettings.fromName', 'Sender name') %></label>
+						<div class="col-md-9">
+							<input type="text" class="form-control" id="smtp_from_name" name="smtp_from_name" value="<%= smtp.fromName %>">
+						</div>
+					</div>
+					<div class="row mb-0">
+						<label class="form-label col-form-label col-md-3"><%= _t('integrationSettings.rejectUnauthorized', 'Verify TLS certificate') %></label>
+						<div class="col-md-9 pt-2">
+							<div class="form-check form-switch">
+								<input class="form-check-input" type="checkbox" id="smtp_reject_unauthorized" name="smtp_reject_unauthorized" value="1" <%= smtp.rejectUnauthorized ? 'checked' : '' %>>
+								<label class="form-check-label text-muted fs-13px" for="smtp_reject_unauthorized"><%= _t('integrationSettings.rejectUnauthorizedHelp', 'Turn off only if your mail server uses a self-signed certificate.') %></label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="sticky-actions-footer bg-white border-top py-3 px-4 d-flex justify-content-end align-items-center">
+				<a href="/admin/site-settings" class="btn btn-secondary me-2">
+					<i class="fa fa-arrow-left"></i> <%= _t('common.back', 'Back') %>
+				</a>
+				<button type="submit" class="btn btn-primary">
+					<i class="fa fa-save"></i> <%= _t('integrationSettings.save', 'Save settings') %>
+				</button>
+			</div>
+		</form>
+
+		<!-- Test email (separate form: forms cannot be nested) -->
+		<div class="panel panel-inverse mb-3">
+			<div class="panel-heading">
+				<h4 class="panel-title"><%= _t('integrationSettings.testEmailTitle', 'Send a test email') %></h4>
+			</div>
+			<div class="panel-body">
+				<p class="text-muted fs-13px mb-3"><%= _t('integrationSettings.testEmailHelp', 'Save your settings first, then send a test email to confirm they work.') %></p>
+				<form method="POST" action="/admin/integration-settings/test-email" class="row g-2 align-items-center">
+					<input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+					<div class="col-md-6">
+						<input type="email" class="form-control" name="test_email" value="<%= adminEmail %>" placeholder="<%= _t('integrationSettings.testEmailRecipient', 'Recipient email') %>" required>
+					</div>
+					<div class="col-md-auto">
+						<button type="submit" class="btn btn-default" <%= smtp.configured ? '' : 'disabled' %>>
+							<i class="fa fa-paper-plane"></i> <%= _t('integrationSettings.sendTestEmail', 'Send test email') %>
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<div style="height: 80px;"></div>
+	</div>
+</div>

@@ -1,0 +1,89 @@
+<div class="panel panel-inverse">
+  <div class="panel-heading">
+    <h4 class="panel-title">Product categories</h4>
+    <div class="panel-heading-btn">
+      <a href="/admin/product-categories/new/edit" class="btn btn-xs btn-success">Add category</a>
+    </div>
+  </div>
+  <div class="panel-body">
+    <% if (success) { %><div class="alert alert-success"><%= success %></div><% } %>
+    <% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+    <table class="table table-striped">
+      <thead><tr><th>Picture</th><th>Name</th><th>Slug</th><th>Sort</th><th>Products</th><th>Home page</th><th>Status</th><th></th></tr></thead>
+      <tbody>
+        <% categories.slice().sort(function(a, b) { return (a.sort || 0) - (b.sort || 0); }).forEach(function(category) { %>
+          <% var categoryProducts = productsByCategory[category.slug] || []; %>
+          <% var hidden = category.status === 'hidden'; %>
+          <tr>
+            <td>
+              <% if (category.image) { %>
+                <img src="<%= category.image %>" alt="" style="width:60px;height:45px;object-fit:cover;border:1px solid #ddd">
+              <% } else { %>
+                <span class="text-muted">None</span>
+              <% } %>
+            </td>
+            <td><%= category.name %></td>
+            <td><%= category.slug %></td>
+            <td><%= category.sort || 0 %></td>
+            <td><%= categoryProducts.length %></td>
+            <td><%= category.showOnHome !== false ? 'Yes' : 'No' %></td>
+            <td>
+              <% if (hidden) { %>
+                <span class="badge bg-secondary">Hidden</span>
+              <% } else { %>
+                <span class="badge bg-success">Active</span>
+              <% } %>
+            </td>
+            <td>
+              <a class="btn btn-xs btn-primary" href="/admin/product-categories/<%= category.slug %>/edit">Edit</a>
+              <form method="post" action="/admin/product-categories/<%= category.slug %>/status" style="display:inline">
+                <input type="hidden" name="status" value="<%= hidden ? 'active' : 'hidden' %>">
+                <button class="btn btn-xs btn-default" type="submit"><%= hidden ? 'Show' : 'Hide' %></button>
+              </form>
+              <button class="btn btn-xs btn-danger js-delete-category" type="button"
+                data-category-slug="<%= category.slug %>"
+                data-category-name="<%= category.name %>"
+                data-product-count="<%= categoryProducts.length %>"
+                data-products="<%= JSON.stringify(categoryProducts) %>"
+                data-status="<%= hidden ? 'hidden' : 'active' %>">Delete</button>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteCategoryModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="fa fa-exclamation-triangle me-2"></i> <span id="deleteCategoryTitle">Delete category</span></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div id="deleteCategoryEmpty">
+          <p>Are you sure you want to delete the category <strong class="js-category-name"></strong>?</p>
+          <p class="text-muted mb-0">This action cannot be undone.</p>
+        </div>
+        <div id="deleteCategoryInUse" class="d-none">
+          <div class="alert alert-warning">
+            The category <strong class="js-category-name"></strong> has <strong id="deleteCategoryCount"></strong> product(s) and cannot be deleted.
+            Move the products to another category first<span id="deleteCategoryHideHint">, or hide the category so it no longer appears on the public site</span>.
+          </div>
+          <ul id="deleteCategoryProducts" class="mb-0"></ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <form id="deleteCategoryForm" method="post" style="display:inline">
+          <button type="submit" class="btn btn-danger"><i class="fa fa-trash me-1"></i> Delete category</button>
+        </form>
+        <form id="hideCategoryForm" method="post" class="d-none" style="display:inline">
+          <input type="hidden" name="status" value="hidden">
+          <button type="submit" class="btn btn-warning"><i class="fa fa-eye-slash me-1"></i> Hide category</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

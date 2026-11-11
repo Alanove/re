@@ -1,0 +1,42 @@
+<div class="member-menu">
+  <div class="account-sidebar__user">
+    <div class="account-sidebar__avatar"><%= (member && member.name ? member.name.charAt(0) : 'M').toUpperCase() %></div>
+    <div>
+      <strong><%= member && member.name ? member.name : 'Member' %></strong>
+      <% if (member && member.email) { %>
+        <span><%= member.email %></span>
+      <% } else if (member && member.phone) { %>
+        <span><%= member.phone %></span>
+      <% } %>
+    </div>
+  </div>
+
+  <nav class="account-sidebar__nav" aria-label="Account navigation">
+    <div class="account-sidebar__group">
+      <a href="/account" class="<%= typeof activeNav !== 'undefined' && activeNav === 'home' ? 'is-active' : '' %>">My Account</a>
+      <a href="/account#open-gate">Open Main Gate</a>
+      <a href="/account/apartments" class="<%= typeof activeNav !== 'undefined' && activeNav === 'apartments' ? 'is-active' : '' %>">My Apartments</a>
+      <a href="/account/parking" class="<%= typeof activeNav !== 'undefined' && activeNav === 'parking' ? 'is-active' : '' %>">Parking</a>
+      <a href="/account/gate-access" class="<%= typeof activeNav !== 'undefined' && activeNav === 'gate-access' ? 'is-active' : '' %>">Main Gate Access</a>
+      <a href="/account/payments" class="<%= typeof activeNav !== 'undefined' && activeNav === 'payments' ? 'is-active' : '' %>">Payments Due</a>
+      <a href="/account/transactions" class="<%= typeof activeNav !== 'undefined' && activeNav === 'transactions' ? 'is-active' : '' %>">Payment History</a>
+      <a href="/account/wallet" class="<%= typeof activeNav !== 'undefined' && activeNav === 'wallet' ? 'is-active' : '' %>">Wallet</a>
+      <a href="/account/settings" class="<%= typeof activeNav !== 'undefined' && activeNav === 'settings' ? 'is-active' : '' %>">Account Settings</a>
+    </div>
+
+    <div class="account-sidebar__group">
+      <span class="account-sidebar__group-label">Compound Reports</span>
+      <a href="/account/transactions-chronological" class="<%= typeof activeNav !== 'undefined' && activeNav === 'report-chronological' ? 'is-active' : '' %>">All Compound Payments</a>
+      <a href="/account/transactions-by-category" class="<%= typeof activeNav !== 'undefined' && activeNav === 'report-by-category' ? 'is-active' : '' %>">Payments by Category</a>
+    </div>
+  </nav>
+
+  <% if (typeof impersonator !== 'undefined' && impersonator) { %>
+  <form method="POST" action="/account/stop-impersonating" class="account-sidebar__logout-form">
+    <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>" />
+    <button type="submit" class="account-sidebar__logout">Exit preview</button>
+  </form>
+  <% } else { %>
+  <a href="/account/logout" class="account-sidebar__logout">Logout</a>
+  <% } %>
+</div>

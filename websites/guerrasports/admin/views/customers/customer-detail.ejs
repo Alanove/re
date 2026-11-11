@@ -1,0 +1,199 @@
+<%- include('../partials/header') %>
+
+<!-- BEGIN content area -->
+<div class="row">
+	<div class="col-xl-12">
+		<!-- BEGIN panel -->
+		<div class="panel panel-inverse">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<%= typeof t !== 'undefined' ? t('ecommerce.customers.customerDetail') : 'Customer Detail' %> - <%= customer.email %>
+				</h4>
+				<div class="panel-heading-btn">
+					<a href="/admin/reviews?customer_id=<%= customer.id %>" class="btn btn-xs btn-info me-1">
+						<i class="fa fa-star"></i> <%= typeof t !== 'undefined' ? t('reviews.title') : 'Reviews' %>
+					</a>
+					<a href="/admin/customers" class="btn btn-xs btn-secondary">
+						<i class="fa fa-arrow-left"></i> <%= typeof t !== 'undefined' ? t('common.back') : 'Back' %>
+					</a>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<!-- Customer Information -->
+					<div class="col-md-4">
+						<div class="card mb-3">
+							<div class="card-header">
+								<h5 class="mb-0">Customer Information</h5>
+							</div>
+							<div class="card-body">
+								<div class="mb-3">
+									<strong>Email:</strong><br>
+									<%= customer.email %>
+								</div>
+								<div class="mb-3">
+									<strong>Username:</strong><br>
+									<%= customer.username %>
+								</div>
+								<div class="mb-3">
+									<strong>Status:</strong><br>
+									<select class="form-select form-select-sm" id="customerStatus" data-customer-id="<%= customer.id %>">
+										<option value="Active" <%= customer.status === 'Active' ? 'selected' : '' %>>
+											Active
+										</option>
+										<option value="Inactive" <%= customer.status === 'Inactive' ? 'selected' : '' %>>
+											Inactive
+										</option>
+									</select>
+								</div>
+								<div class="mb-3">
+									<strong>Registered:</strong><br>
+									<%= new Date(customer.created_at).toLocaleString() %>
+								</div>
+								<div class="mb-3">
+									<strong>Total Orders:</strong><br>
+									<span class="fw-bold"><%= customer.total_orders || 0 %></span>
+								</div>
+								<div class="mb-3">
+									<strong>Total Spent:</strong><br>
+									<span class="fw-bold">$<%= parseFloat(customer.total_spent || 0).toFixed(2) %></span>
+								</div>
+								<% if (customer.last_order_date) { %>
+									<div class="mb-3">
+										<strong>Last Order:</strong><br>
+										<%= new Date(customer.last_order_date).toLocaleString() %>
+									</div>
+								<% } %>
+								<button type="button" class="btn btn-primary w-100" id="updateStatusBtn">
+									<i class="fa fa-save"></i> <%= typeof t !== 'undefined' ? t('common.update') : 'Update Status' %>
+								</button>
+							</div>
+						</div>
+					</div>
+
+					<!-- Orders -->
+					<div class="col-md-8">
+						<div class="card mb-3">
+							<div class="card-header">
+								<h5 class="mb-0">Order History</h5>
+							</div>
+							<div class="card-body">
+								<% if (orders && orders.length > 0) { %>
+									<div class="table-responsive">
+										<table class="table table-sm">
+											<thead>
+												<tr>
+													<th>Order #</th>
+													<th>Date</th>
+													<th>Total</th>
+													<th>Status</th>
+													<th>Actions</th>
+												</tr>
+											</thead>
+											<tbody>
+												<% orders.forEach(function(order) { %>
+													<tr>
+														<td>
+															<a href="/admin/orders/<%= order.id %>">#<%= order.order_number %></a>
+														</td>
+														<td>
+															<%= new Date(order.created_at).toLocaleDateString() %>
+														</td>
+														<td>
+															$<%= parseFloat(order.total_amount).toFixed(2) %>
+														</td>
+														<td>
+															<span class="badge bg-info"><%= order.status %></span>
+														</td>
+														<td>
+															<a href="/admin/orders/<%= order.id %>" class="btn btn-xs btn-primary">
+																<i class="fa fa-eye"></i>
+															</a>
+														</td>
+													</tr>
+												<% }); %>
+											</tbody>
+										</table>
+									</div>
+								<% } else { %>
+									<p class="text-muted text-center py-4">No orders found</p>
+								<% } %>
+							</div>
+						</div>
+
+						<!-- Addresses -->
+						<div class="card">
+							<div class="card-header">
+								<h5 class="mb-0">Saved Addresses</h5>
+							</div>
+							<div class="card-body">
+								<% if (addresses && addresses.length > 0) { %>
+									<% addresses.forEach(function(address) { %>
+										<div class="border rounded p-3 mb-3">
+											<% if (address.is_default) { %>
+												<span class="badge bg-primary mb-2">Default</span>
+											<% } %>
+											<address class="mb-0">
+												<strong><%= address.first_name %> <%= address.last_name %></strong><br>
+												<%= address.address_line_1 %><br>
+												<% if (address.address_line_2) { %>
+													<%= address.address_line_2 %><br>
+												<% } %>
+												<%= address.city %>, <%= address.state %> <%= address.postal_code %><br>
+												<%= address.country %><br>
+												<% if (address.phone) { %>
+													<%= address.phone %>
+												<% } %>
+											</address>
+										</div>
+									<% }); %>
+								<% } else { %>
+									<p class="text-muted text-center py-4">No saved addresses</p>
+								<% } %>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END panel -->
+	</div>
+</div>
+<!-- END content area -->
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+	const updateStatusBtn = document.getElementById('updateStatusBtn');
+	const customerStatus = document.getElementById('customerStatus');
+	const customerId = customerStatus.getAttribute('data-customer-id');
+
+	updateStatusBtn.addEventListener('click', function() {
+		const status = customerStatus.value;
+
+		fetch(`/admin/customers/${customerId}/status`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				status: status
+			})
+		})
+		.then(response => response.json())
+		.then(data => {
+			if (data.success) {
+				location.reload();
+			} else {
+				alert('Error: ' + (data.error || 'Failed to update customer status'));
+			}
+		})
+		.catch(error => {
+			console.error('Error:', error);
+			alert('Error updating customer status');
+		});
+	});
+});
+</script>
+
+<%- include('../partials/footer') %>
+

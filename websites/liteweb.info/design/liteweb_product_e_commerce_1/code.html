@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>E-Commerce Solution | LiteWeb Software Development</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-on-surface": "#f0f1f2",
+                    "outline": "#707881",
+                    "on-surface": "#191c1d",
+                    "tertiary-fixed-dim": "#8bdb46",
+                    "on-surface-variant": "#3f4850",
+                    "background": "#f8f9fa",
+                    "on-primary": "#ffffff",
+                    "on-secondary-container": "#526478",
+                    "surface-tint": "#006397",
+                    "surface-variant": "#e1e3e4",
+                    "on-tertiary-fixed": "#0c2000",
+                    "secondary-container": "#cfe2f9",
+                    "secondary-fixed-dim": "#b5c8df",
+                    "inverse-surface": "#2e3132",
+                    "surface-container": "#edeeef",
+                    "on-secondary-fixed": "#091d2e",
+                    "on-tertiary-fixed-variant": "#285000",
+                    "surface-container-highest": "#e1e3e4",
+                    "primary-container": "#3498db",
+                    "secondary": "#4e6073",
+                    "primary-fixed": "#cce5ff",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-primary": "#92ccff",
+                    "primary": "#006397",
+                    "primary-fixed-dim": "#92ccff",
+                    "on-background": "#191c1d",
+                    "on-error": "#ffffff",
+                    "error": "#ba1a1a",
+                    "on-primary-container": "#002d47",
+                    "on-secondary-fixed-variant": "#36485b",
+                    "on-primary-fixed": "#001d31",
+                    "error-container": "#ffdad6",
+                    "outline-variant": "#bfc7d2",
+                    "surface": "#f8f9fa",
+                    "tertiary-fixed": "#a6f85f",
+                    "on-tertiary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "tertiary": "#376b00",
+                    "on-tertiary-container": "#163000",
+                    "tertiary-container": "#58a305",
+                    "surface-bright": "#f8f9fa",
+                    "surface-container-low": "#f3f4f5",
+                    "secondary-fixed": "#d1e4fb",
+                    "on-primary-fixed-variant": "#004b73",
+                    "on-secondary": "#ffffff",
+                    "surface-dim": "#d9dadb",
+                    "surface-container-high": "#e7e8e9"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-desktop": "48px",
+                    "gutter": "24px",
+                    "margin-mobile": "16px",
+                    "md": "16px",
+                    "lg": "24px",
+                    "xs": "4px",
+                    "xl": "32px",
+                    "max-width": "1280px",
+                    "base": "4px",
+                    "sm": "8px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-md": ["Manrope"],
+                    "body-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-lg-mobile": ["Manrope"],
+                    "headline-lg": ["Manrope"],
+                    "headline-xl": ["Manrope"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(225, 227, 228, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md text-body-md antialiased">
+<!-- TopNavBar -->
+<header class="w-full top-0 sticky bg-surface z-50 border-b border-outline-variant transition-all duration-200 ease-in-out">
+<nav class="max-w-max-width mx-auto px-margin-desktop flex items-center justify-between h-16">
+<div class="flex items-center gap-xl">
+<span class="text-headline-md font-headline-md font-bold text-primary">LiteWeb</span>
+<div class="hidden md:flex gap-lg">
+<a class="text-secondary hover:text-primary transition-colors font-body-md text-body-md" href="#">Home</a>
+<a class="text-primary border-b-2 border-primary pb-1 font-body-md text-body-md" href="#">Services</a>
+<a class="text-secondary hover:text-primary transition-colors font-body-md text-body-md" href="#">Portfolio</a>
+<a class="text-secondary hover:text-primary transition-colors font-body-md text-body-md" href="#">Blog</a>
+<a class="text-secondary hover:text-primary transition-colors font-body-md text-body-md" href="#">About Us</a>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="bg-primary-container text-on-primary font-label-md text-label-md px-lg py-sm rounded-lg hover:opacity-90 transition-all">Get Started</button>
+</div>
+</nav>
+</header>
+<main>
+<!-- Hero Section -->
+<section class="relative overflow-hidden pt-20 pb-32">
+
+<div class="max-w-max-width mx-auto px-margin-desktop grid md:grid-cols-2 gap-xl items-center relative z-10">
+<div>
+<span class="inline-flex items-center gap-xs text-tertiary bg-tertiary-container/20 px-sm py-xs rounded-full font-label-sm text-label-sm mb-md">
+<span class="material-symbols-outlined text-[16px]">verified</span> Enterprise Ready
+                    </span>
+<h1 class="font-headline-xl text-headline-xl text-on-surface mb-lg">Conversion-Optimized E-Commerce Solutions</h1>
+<p class="text-body-lg text-on-surface-variant mb-xl max-w-xl">
+                        Scale your retail operations with LiteWeb's institutional-grade e-commerce engine. Built for high-volume transactions, seamless inventory control, and military-grade security.
+                    </p>
+<div class="flex flex-wrap gap-md">
+<button class="bg-primary-container text-on-primary font-label-md text-label-md px-xl py-md rounded-lg flex items-center gap-sm hover:translate-y-[-2px] transition-transform shadow-sm">
+                            Schedule a Demo <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<button class="bg-surface border border-outline-variant text-on-surface font-label-md text-label-md px-xl py-md rounded-lg hover:bg-surface-container-low transition-colors">
+                            Technical Whitepaper
+                        </button>
+</div>
+</div>
+<div class="relative group">
+<div class="absolute -inset-4 bg-gradient-to-tr from-primary/10 to-tertiary/10 rounded-xl blur-3xl group-hover:opacity-75 transition-opacity"></div>
+<div class="glass-card rounded-xl p-md shadow-lg overflow-hidden relative border border-outline-variant">
+<img class="w-full h-auto rounded-lg shadow-sm border border-outline-variant/30" data-alt="A clean, professional dashboard interface for an e-commerce management system, featuring high-fidelity data visualizations, inventory charts, and sales analytics. The UI uses a sophisticated color palette of corporate blue and emerald green accents against a crisp white background, emphasizing clarity and systematic order in a modern enterprise software environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqNamkFyRVOKgDJhA6XzFQO7BCeqNRGHi1CW4NARmWaUwGHScrwwT2cye1jOrux0YW5t-7oBKz63CK67f8NgCDYviikWX5KjQRS0OQcY-i-CjWIqdl5BCXX1XoYLg_euHnqhWvh3PLsYRrnxlzIc_-B92_nA9XoWAn0DYQvqNOl7-3KaF_uWXbDG9_EMaILZiy1FCJsFaFE2MpyKWPDfEI3T9kK9I_AE5hEnF6tvr6gcrCd8O49u2W"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Core Value Proposition (Bento Grid) -->
+<section class="py-24 bg-surface-container-low">
+<div class="max-w-max-width mx-auto px-margin-desktop">
+<div class="text-center mb-20">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-md">The Institutional Standard</h2>
+<p class="text-on-surface-variant max-w-2xl mx-auto">Engineered to eliminate friction in the buying journey while providing robust administrative oversight.</p>
+</div>
+<div class="bento-grid">
+<!-- Secure Payments -->
+<div class="col-span-12 md:col-span-7 bg-surface-container-lowest border border-outline-variant rounded-xl p-lg flex flex-col justify-between hover:border-primary transition-colors">
+<div>
+<div class="w-12 h-12 bg-primary/10 text-primary rounded-lg flex items-center justify-center mb-md">
+<span class="material-symbols-outlined text-[32px]">shield_lock</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-sm">Secure Transaction Layer</h3>
+<p class="text-on-surface-variant mb-md">PCI-DSS Level 1 compliant infrastructure with integrated fraud detection and multi-currency support. Secure your revenue with end-to-end encryption and tokenized processing.</p>
+</div>
+<div class="flex gap-md mt-lg overflow-hidden">
+<span class="px-md py-xs bg-surface-container border border-outline-variant rounded-full text-label-sm">PCI-DSS</span>
+<span class="px-md py-xs bg-surface-container border border-outline-variant rounded-full text-label-sm">3D Secure 2.0</span>
+<span class="px-md py-xs bg-surface-container border border-outline-variant rounded-full text-label-sm">SSL/TLS</span>
+</div>
+</div>
+<!-- Performance -->
+<div class="col-span-12 md:col-span-5 bg-primary text-on-primary rounded-xl p-lg flex flex-col justify-center relative overflow-hidden">
+<div class="absolute right-[-20%] bottom-[-10%] opacity-20">
+<span class="material-symbols-outlined text-[200px]" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-md relative z-10">99.9% Uptime SLA</h3>
+<p class="opacity-90 mb-lg relative z-10">High-availability server clusters ensure your storefront never misses a sale, even during peak traffic surges like Black Friday.</p>
+<div class="relative z-10 font-bold text-[48px] tabular-nums">0.8s</div>
+<p class="text-label-sm uppercase tracking-wider relative z-10">Avg. Page Load Time</p>
+</div>
+<!-- Inventory Management -->
+<div class="col-span-12 md:col-span-4 bg-surface-container-lowest border border-outline-variant rounded-xl p-lg flex flex-col gap-md">
+<div class="w-12 h-12 bg-tertiary/10 text-tertiary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-[32px]">inventory_2</span>
+</div>
+<h3 class="font-headline-md text-headline-md">Real-time Inventory</h3>
+<p class="text-on-surface-variant">Omnichannel synchronization across warehouses, physical stores, and digital marketplaces. Automated restocking alerts and SKU tracking.</p>
+</div>
+<!-- Conversion UX -->
+<div class="col-span-12 md:col-span-8 bg-surface-container-highest border border-outline-variant rounded-xl p-lg flex items-center gap-xl">
+<div class="flex-1">
+<h3 class="font-headline-md text-headline-md mb-sm">Conversion-First UX</h3>
+<p class="text-on-surface-variant mb-md">Our layouts are derived from data-driven heatmaps. One-click checkouts and optimized mobile flows lead to a 24% higher average conversion rate than legacy platforms.</p>
+<ul class="space-y-sm">
+<li class="flex items-center gap-xs text-on-surface-variant"><span class="material-symbols-outlined text-tertiary text-[20px]">check_circle</span> Intelligent Search</li>
+<li class="flex items-center gap-xs text-on-surface-variant"><span class="material-symbols-outlined text-tertiary text-[20px]">check_circle</span> Dynamic Upselling</li>
+</ul>
+</div>
+<div class="hidden lg:block w-48 shrink-0">
+<div class="w-full aspect-square bg-cover bg-center rounded-lg" data-alt="A detailed 3D abstract representation of a conversion funnel, using translucent blue and green geometric shards to symbolize data flow and optimization. The lighting is crisp and professional, highlighting the path of growth in a minimalist corporate style." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA4d9jmYKbVhWQ2N_UrBqiu0fiQ3kGY_vxUFVSGIXQfnIxJD04dwWZq_oXZWAO3x8MCWjt7r2dS2VwhK97UCuwwfyFmzq0xWlPeLsXyQeAnYX7pDpmsGKvy4aDFLx25OQAJxXQeTjvdmHkQryGrlnxNp4pQBtsrb2EnZPMEfaMuxaHV-IWXVfohujIWeaXRV9HVD4K3Pd4cVMzeetP7XaH61P8NTVmGOt2vaA4juYhRUrIKAhHxYC54')"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Technical Deep Dive -->
+<section class="py-24 max-w-max-width mx-auto px-margin-desktop">
+<div class="grid md:grid-cols-2 gap-xl items-center">
+<div class="order-2 md:order-1">
+<img class="rounded-xl border border-outline-variant shadow-lg" data-alt="A professional close-up shot of a developer's workspace focusing on a high-resolution monitor displaying complex backend API documentation and code snippets for an e-commerce platform. The environment is a modern, sunlit office with a clean aesthetic, emphasizing technical precision and high-end software development quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSqvdVHdEJIVIcNo5xLt0MGHCfiuSSm2kGGbxrsL0nCcWgxyvqSke4dB3O_NkInR9bHpzGZG_VukxNmkPjx-su7q37LBWfmDtBwruPLhTNsaMFI9rVB9s5JzaY-jvMpmOGtmmj5Px-r6p3fLfMsPBNPCSF_QWIxXSNy5fEO7pb6AKRUxOwBAACmYFjG91wphfUcod11IoqGV8vtvIVzP-UDoNIMSUEEiVF4_X-sSKKv93_Fs-hMIwE"/>
+</div>
+<div class="order-1 md:order-2">
+<h2 class="font-headline-lg text-headline-lg mb-lg">Architected for Scale</h2>
+<div class="space-y-lg">
+<div class="flex gap-md">
+<div class="shrink-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary">1</div>
+<div>
+<h4 class="font-label-md text-label-md mb-xs">Headless Commerce API</h4>
+<p class="text-body-sm text-on-surface-variant">Decouple your frontend from the backend for ultimate flexibility. Deploy to web, mobile apps, or IoT devices via our GraphQL API.</p>
+</div>
+</div>
+<div class="flex gap-md">
+<div class="shrink-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary">2</div>
+<div>
+<h4 class="font-label-md text-label-md mb-xs">AI-Driven Personalization</h4>
+<p class="text-body-sm text-on-surface-variant">Built-in recommendation engine that learns user behavior to suggest products, increasing Average Order Value by up to 18%.</p>
+</div>
+</div>
+<div class="flex gap-md">
+<div class="shrink-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary">3</div>
+<div>
+<h4 class="font-label-md text-label-md mb-xs">Seamless Integrations</h4>
+<p class="text-body-sm text-on-surface-variant">Connect with SAP, Salesforce, Quickbooks, and major shipping carriers right out of the box with our modular plugin system.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-24 bg-inverse-surface text-inverse-on-surface">
+<div class="max-w-max-width mx-auto px-margin-desktop text-center">
+<h2 class="font-headline-lg text-headline-lg mb-lg">Ready to evolve your commerce engine?</h2>
+<p class="text-body-lg opacity-80 mb-xl max-w-2xl mx-auto">Join 200+ enterprise brands that trust LiteWeb for their mission-critical e-commerce operations.</p>
+<div class="flex justify-center gap-md">
+<button class="bg-primary-container text-on-primary font-label-md text-label-md px-xl py-md rounded-lg hover:brightness-110 transition-all">Schedule a Demo</button>
+<button class="border border-outline text-inverse-on-surface font-label-md text-label-md px-xl py-md rounded-lg hover:bg-white/5 transition-colors">View Pricing</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-auto bg-surface-container-highest">
+<div class="max-w-max-width mx-auto px-margin-desktop py-xl flex flex-col md:flex-row justify-between items-center gap-lg">
+<div class="flex flex-col items-center md:items-start gap-sm">
+<span class="text-headline-sm font-headline-sm font-bold text-on-surface">LiteWeb</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant opacity-90">© 2024 LiteWeb Software Development. All rights reserved.</span>
+</div>
+<div class="flex gap-lg">
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:underline underline-offset-4 transition-opacity opacity-90 hover:opacity-100" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:underline underline-offset-4 transition-opacity opacity-90 hover:opacity-100" href="#">Terms of Service</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:underline underline-offset-4 transition-opacity opacity-90 hover:opacity-100" href="#">Contact Support</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:underline underline-offset-4 transition-opacity opacity-90 hover:opacity-100" href="#">Careers</a>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interaction for the "Get Started" button
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mouseenter', () => {
+                btn.classList.add('shadow-md');
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.classList.remove('shadow-md');
+            });
+        });
+
+        // Simple scroll reveal
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-8');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.bento-grid > div').forEach(el => {
+            el.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-8');
+            observer.observe(el);
+        });
+    </script>
+</body></html>

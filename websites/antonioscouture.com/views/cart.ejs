@@ -1,0 +1,396 @@
+<!-- Breadcrumb Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5 px-md-3 px-2">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark" href="/">Home</a>
+                <a class="breadcrumb-item text-dark" href="/shop">Shop</a>
+                <span class="breadcrumb-item active">Shopping Cart</span>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Cart Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5 px-md-3 px-2">
+        <% if (typeof cancelled !== 'undefined' && cancelled) { %>
+        <div class="col-12 mb-3">
+            <div class="alert alert-info" role="alert">
+                Payment was cancelled. Your items have been restored to your cart. You can edit your cart and try again when ready.
+            </div>
+        </div>
+        <% } %>
+        <div class="col-lg-8 mb-5">
+            <!-- Desktop Table View -->
+            <div class="table-responsive d-none d-lg-block">
+                <table class="table table-light table-borderless table-hover text-center mb-0">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Products</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody class="align-middle">
+                        <% if (cart && cart.items && cart.items.length> 0) { %>
+                            <% cart.items.forEach(function(item) { %>
+                                <tr data-item-id="<%= item.id %>">
+                                    <td class="align-middle">
+                                        <div class="d-flex align-items-center" style="text-align: left;">
+                                            <img src="<%= item.image_url || '/MultiShop/img/product-1.jpg' %>"
+                                                alt="<%= item.product_name %>"
+                                                style="width: 80px; height: 80px; object-fit: contain; object-position: center bottom; background: #fff;">
+                                            <div class="ml-3 d-flex flex-column">
+                                                <a href="/shop/<%= item.product_slug %>" class="h6 text-dark">
+                                                    <%= item.product_name %>
+                                                </a>
+                                                <% 
+                                                    var _attrs = item.variant_attributes;
+                                                    if (typeof _attrs === 'string') { try { _attrs = JSON.parse(_attrs); } catch(e) { _attrs = null; } }
+                                                    if (_attrs && typeof _attrs === 'object' && Object.keys(_attrs).length > 0) {
+                                                %>
+                                                    <small class="text-muted">
+                                                        <%= Object.entries(_attrs).map(function(e){ return e[0] + ': ' + e[1]; }).join(' | ') %>
+                                                    </small>
+                                                <% } else if (item.variant_name) { %>
+                                                    <small class="text-muted">
+                                                        <%= item.variant_name %>
+                                                    </small>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle money"><%- include('partials/price', { price: item.price, suppressZero: true })
+                                            %></td>
+                                    <td class="align-middle">
+                                        <div class="input-group quantity mx-auto" style="width: 100px;">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-sm btn-primary btn-minus"
+                                                    data-item-id="<%= item.id %>" data-quantity="<%= item.quantity %>">
+                                                    <i class="fa fa-minus"></i>
+                                                </button>
+                                            </div>
+                                            <input type="text"
+                                                class="form-control form-control-sm bg-secondary border-0 text-center cart-quantity"
+                                                value="<%= item.quantity %>" data-item-id="<%= item.id %>" readonly>
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-sm btn-primary btn-plus"
+                                                    data-item-id="<%= item.id %>" data-quantity="<%= item.quantity %>">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle money"><%- include('partials/price', { price:
+                                            parseFloat(item.price) * item.quantity, suppressZero: true }) %></td>
+                                    <td class="align-middle">
+                                        <button class="btn btn-sm btn-danger remove-item-btn"
+                                            data-item-id="<%= item.id %>">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <% }); %>
+                                    <% } else { %>
+                                        <tr>
+                                            <td colspan="5" class="text-center py-5">
+                                                <p class="text-muted">
+                                                    <%= typeof t !=='undefined' ? t('ecommerce.cart.empty')
+                                                        : 'Your cart is empty' %>
+                                                </p>
+                                                <a href="/shop" class="btn btn-primary">
+                                                    <%= typeof t !=='undefined' ? t('ecommerce.cart.continueShopping')
+                                                        : 'Continue Shopping' %>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Mobile Card View -->
+            <div class="d-lg-none">
+                <% if (cart && cart.items && cart.items.length> 0) { %>
+                    <% cart.items.forEach(function(item) { %>
+                        <div class="card mb-3 cart-item-mobile" data-item-id="<%= item.id %>">
+                            <div class="card-body">
+                                <div class="d-flex align-items-start mb-3">
+                                    <img src="<%= item.image_url || '/MultiShop/img/product-1.jpg' %>"
+                                        alt="<%= item.product_name %>" class="cart-item-img-mobile"
+                                        style="width: 80px; height: 80px; object-fit: contain; object-position: center bottom; background: #fff; margin-right: 15px;">
+                                    <div class="flex-grow-1">
+                                        <a href="/shop/<%= item.product_slug %>" class="h6 text-dark d-block mb-1">
+                                            <%= item.product_name %>
+                                        </a>
+                                        <%
+                                            var _mAttrs = item.variant_attributes;
+                                            if (typeof _mAttrs === 'string') { try { _mAttrs = JSON.parse(_mAttrs); } catch(e) { _mAttrs = null; } }
+                                            if (_mAttrs && typeof _mAttrs === 'object' && Object.keys(_mAttrs).length > 0) {
+                                        %>
+                                            <small class="text-muted d-block mb-2">
+                                                <%= Object.entries(_mAttrs).map(function(e){ return e[0] + ': ' + e[1]; }).join(' | ') %>
+                                            </small>
+                                        <% } else if (item.variant_name) { %>
+                                            <small class="text-muted d-block mb-2">
+                                                <%= item.variant_name %>
+                                            </small>
+                                        <% } %>
+                                                <div class="money mb-2"><%- include('partials/price', { price:
+                                                        item.price, suppressZero: true }) %></div>
+                                    </div>
+                                    <button class="btn btn-sm btn-danger remove-item-btn" data-item-id="<%= item.id %>">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="input-group quantity" style="width: 120px;">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-sm btn-primary btn-minus"
+                                                data-item-id="<%= item.id %>" data-quantity="<%= item.quantity %>">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
+                                        <input type="text"
+                                            class="form-control form-control-sm bg-secondary border-0 text-center cart-quantity"
+                                            value="<%= item.quantity %>" data-item-id="<%= item.id %>" readonly>
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-sm btn-primary btn-plus"
+                                                data-item-id="<%= item.id %>" data-quantity="<%= item.quantity %>">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="money font-weight-bold">
+                                        <%- include('partials/price', { price: parseFloat(item.price) * item.quantity, suppressZero: true })
+                                            %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% }); %>
+                            <% } else { %>
+                                <div class="text-center py-5">
+                                    <p class="text-muted">
+                                        <%= typeof t !=='undefined' ? t('ecommerce.cart.empty') : 'Your cart is empty'
+                                            %>
+                                    </p>
+                                    <a href="/shop" class="btn btn-primary">
+                                        <%= typeof t !=='undefined' ? t('ecommerce.cart.continueShopping')
+                                            : 'Continue Shopping' %>
+                                    </a>
+                                </div>
+                                <% } %>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <form class="mb-5" id="discount-form">
+                <div class="input-group">
+                    <input type="text" class="form-control p-4" id="discount-code"
+                        placeholder="<%= typeof t !== 'undefined' ? t('ecommerce.cart.couponCode') : 'Coupon Code' %>">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary">
+                            <%= typeof t !=='undefined' ? t('ecommerce.cart.applyCoupon') : 'Apply Coupon' %>
+                        </button>
+                    </div>
+                </div>
+                <div id="discount-message" class="mt-2"></div>
+            </form>
+            <div class="card border-secondary mb-5 cart-summary">
+                <div class="card-header bg-secondary border-0">
+                    <h4 class="font-weight-semi-bold m-0">
+                        <%= typeof t !=='undefined' ? t('ecommerce.cart.summary') : 'Cart Summary' %>
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <% var _cartSub = (totals && totals.subtotal != null) ? parseFloat(String(totals.subtotal)) : 0;
+                       var _cartTot = (totals && totals.total != null) ? parseFloat(String(totals.total)) : 0;
+                       var _pricingTbc = typeof t !== 'undefined' ? t('ecommerce.pricing.toBeConfirmed') : 'To be confirmed';
+                    %>
+                    <% if (cart && cart.items && cart.items.some(function (i) { var p = parseFloat(String(i.price)); return !Number.isFinite(p) || p <= 0; })) { %>
+                    <p class="text-muted small mb-3"><%= typeof t !=='undefined' ? t('ecommerce.pricing.contactAfterOrder') : 'We will contact you to confirm pricing before payment.' %></p>
+                    <% } %>
+                    <div class="d-flex justify-content-between mb-3 pt-1">
+                        <h6 class="font-weight-medium">
+                            <%= typeof t !=='undefined' ? t('ecommerce.cart.subtotal') : 'Subtotal' %>
+                        </h6>
+                        <h6 class="font-weight-medium" id="cart-subtotal"><% if (Number.isFinite(_cartSub) && _cartSub > 0) { %>$<%= formatMoneyAmount(totals.subtotal) %><% } else { %><span class="text-muted font-weight-normal"><%= _pricingTbc %></span><% } %>
+                        </h6>
+                    </div>
+                    <!-- <div class="d-flex justify-content-between mb-3">
+                        <h6 class="font-weight-medium"><%= typeof t !== 'undefined' ? t('ecommerce.cart.shipping') : 'Shipping' %></h6>
+                        <h6 class="font-weight-medium" id="cart-shipping">$<%= (totals && totals.shipping != null) ? formatMoneyAmount(totals.shipping) : formatMoneyAmount(0) %></h6>
+                    </div> -->
+                    <% if (totals && totals.discount> 0) { %>
+                        <div class="d-flex justify-content-between mb-3">
+                            <h6 class="font-weight-medium text-success">
+                                <%= typeof t !=='undefined' ? t('ecommerce.cart.discount') : 'Discount' %>
+                            </h6>
+                            <h6 class="font-weight-medium text-success" id="cart-discount">-$<%=
+                                    formatMoneyAmount(totals.discount) %>
+                            </h6>
+                        </div>
+                        <% } %>
+                </div>
+                <div class="card-footer border-secondary bg-transparent">
+                    <div class="d-flex justify-content-between mt-2">
+                        <h5 class="font-weight-bold">
+                            <%= typeof t !=='undefined' ? t('ecommerce.cart.total') : 'Total' %>
+                        </h5>
+                        <h5 class="font-weight-bold" id="cart-total"><% if (Number.isFinite(_cartTot) && _cartTot > 0) { %>$<%= formatMoneyAmount(totals.total) %><% } else { %><span class="text-muted font-weight-normal"><%= _pricingTbc %></span><% } %>
+                        </h5>
+                    </div>
+                    <a href="<%= (typeof user !== 'undefined' && user) ? '/checkout' : '/customer/login?returnTo=checkout' %>"
+                        class="btn btn-block btn-primary my-3 py-3">
+                        <%= typeof t !=='undefined' ? t('ecommerce.cart.proceedToCheckout') : 'Proceed To Checkout' %>
+                    </a>
+                    <a href="/shop" class="btn btn-block btn-outline-primary my-3 py-3">
+                        <%= typeof t !=='undefined' ? t('ecommerce.cart.continueShopping') : 'Continue Shopping' %>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Cart End -->
+
+<%- include('partials/confirmation-modal') %>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get CSRF token from locals
+            const csrfToken = '<%= typeof csrfToken !== "undefined" ? csrfToken : "" %>';
+
+            // Quantity controls
+            document.querySelectorAll('.btn-minus').forEach(btn => {
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const itemId = this.getAttribute('data-item-id');
+                    let currentQty = parseInt(this.getAttribute('data-quantity')) || 1;
+
+                    if (currentQty > 1) {
+                        updateCartItem(itemId, currentQty - 1);
+                    } else if (currentQty === 1) {
+                        // Prompt to remove item if quantity would become 0
+                        showConfirmationModal('<%= typeof t !== 'undefined' ? t('ecommerce.cart.removeItemConfirm') : 'Are you sure you want to remove this item ? ' %>', function () {
+                            removeCartItem(itemId);
+                        });
+                    }
+                });
+            });
+
+            document.querySelectorAll('.btn-plus').forEach(btn => {
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const itemId = this.getAttribute('data-item-id');
+                    let currentQty = parseInt(this.getAttribute('data-quantity')) || 1;
+
+                    updateCartItem(itemId, currentQty + 1);
+                });
+            });
+
+            // Remove item
+            document.querySelectorAll('.remove-item-btn').forEach(btn => {
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const itemId = this.getAttribute('data-item-id');
+                    showConfirmationModal('<%= typeof t !== 'undefined' ? t('ecommerce.cart.removeItemConfirm') : 'Are you sure you want to remove this item ? ' %>', function () {
+                        removeCartItem(itemId);
+                    });
+                });
+            });
+
+            // Discount form
+            document.getElementById('discount-form').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const code = document.getElementById('discount-code').value;
+                if (code) {
+                    validateDiscount(code);
+                }
+            });
+
+            function updateCartItem(itemId, quantity) {
+                fetch('/api/cart/update', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': csrfToken
+                    },
+                    body: JSON.stringify({
+                        item_id: parseInt(itemId),
+                        quantity: quantity
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            location.reload();
+                        } else {
+                            alert('Error: ' + (data.error || 'Failed to update cart'));
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error updating cart');
+                    });
+            }
+
+            function removeCartItem(itemId) {
+                fetch('/api/cart/remove', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': csrfToken
+                    },
+                    body: JSON.stringify({
+                        item_id: parseInt(itemId)
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            location.reload();
+                        } else {
+                            alert('Error: ' + (data.error || 'Failed to remove item'));
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error removing item');
+                    });
+            }
+
+            function validateDiscount(code) {
+                const subtotal = <%= (totals && totals.subtotal) ? parseFloat(totals.subtotal) : 0 %>;
+                fetch('/api/discount/validate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': csrfToken
+                    },
+                    body: JSON.stringify({
+                        code: code,
+                        subtotal: subtotal
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        const messageDiv = document.getElementById('discount-message');
+                        if (data.valid) {
+                            messageDiv.innerHTML = '<div class="alert alert-success">Discount applied!</div>';
+                            location.reload();
+                        } else {
+                            messageDiv.innerHTML = '<div class="alert alert-danger">' + (data.error || 'Invalid discount code') + '</div>';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        document.getElementById('discount-message').innerHTML = '<div class="alert alert-danger">Error validating discount code</div>';
+                    });
+            }
+        });
+    </script>

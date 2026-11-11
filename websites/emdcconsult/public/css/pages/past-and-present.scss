@@ -1,0 +1,123 @@
+// Past & Present — editable content from pages.json
+// Markup: <div class="past-present-timelines">…</div> wraps CMS output;
+// each row: <div class="timeline content-block"><h5>year</h5>…body…</div>
+
+section.past-present-section {
+  .container {
+    max-width: 1100px;
+    padding-left: $medium-screen-padding;
+    padding-right: $medium-screen-padding;
+  }
+}
+
+.past-present-timelines {
+  margin: 1rem auto 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+// Grid: year circle in column 1; all body nodes share column 2 (survives multiple <p>, lists, etc.)
+.timeline {
+  display: grid;
+  grid-template-columns: 5rem minmax(0, 1fr);
+  column-gap: 1.25rem;
+  row-gap: 0.35rem;
+  align-items: start;
+
+  h5 {
+    grid-column: 1;
+    grid-row: 1 / -1;
+    align-self: start;
+    box-sizing: border-box;
+    width: 4.75rem;
+    height: 4.75rem;
+    min-width: 4.75rem;
+    margin: 0;
+    padding: 0.35rem;
+    border-radius: 50%;
+    border: 3px solid currentColor;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+    text-align: center;
+  }
+
+  > *:not(h5) {
+    grid-column: 2;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  // Slight offset so body copy aligns below the year circle; year unchanged
+  > h5 + * {
+    padding-top: 0.35rem;
+  }
+
+  p {
+    font-size: 1rem;
+    line-height: 1.65;
+    margin: 0 0 0.65rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  ul,
+  ol {
+    margin: 0 0 0.65rem;
+    padding-left: 1.25rem;
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  ul {
+    list-style: disc;
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  li {
+    margin-bottom: 0.35rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  a {
+    text-decoration: underline;
+    color: inherit;
+    word-break: break-word;
+
+    &:hover {
+      opacity: 0.85;
+    }
+  }
+
+  @media (max-width: 700px) {
+    grid-template-columns: 1fr;
+    row-gap: 0.75rem;
+
+    h5 {
+      grid-column: 1;
+      grid-row: auto;
+      justify-self: center;
+      width: 4.5rem;
+      height: 4.5rem;
+      min-width: 4.5rem;
+    }
+
+    > *:not(h5) {
+      grid-column: 1;
+    }
+  }
+}

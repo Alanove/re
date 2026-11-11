@@ -1,0 +1,167 @@
+<section class="home-hero main-content">
+  <div id="slideshow" class="slideshow fullscreen-slideshow">
+    <div class="slide-wrapper">
+      <% if (typeof slides !=='undefined' && slides && slides.length> 0) { %>
+        <% slides.forEach((slide, index)=> { %>
+          <div class="slide-container <%= index === 0 ? 'active' : '' %>" data-media-type="<%= slide.mediaType || 'image' %>">
+            <% if (slide.mediaType === 'video') { %>
+              <video class="slide-video" 
+                     autoplay 
+                     muted 
+                     loop 
+                     playsinline
+                     <% if (slide.posterImage) { %>poster="/images/slide/<%= slide.posterImage %>"<% } %>
+                     <% if (index > 0) { %>preload="metadata"<% } else { %>preload="auto"<% } %>>
+                <source src="/images/slide/<%= slide.videoUrl || slide.image %>" type="video/mp4">
+                <% if (slide.posterImage) { %>
+                  <!-- Fallback image if video fails to load -->
+                  <img src="/images/slide/<%= slide.posterImage %>" alt="<%= slide.alt %>" style="width:100%; height:100%; object-fit:cover;" />
+                <% } %>
+                Your browser does not support the video tag.
+              </video>
+            <% } else { %>
+              <img src="/images/slide/<%= slide.image %>" 
+                   class="slide-img" 
+                   alt="<%= slide.alt %>" 
+                   <% if (index > 0) { %>loading="lazy"<% } %> />
+            <% } %>
+            <div class="slide-overlay">
+              <div class="slide-content">
+                <h2 class="slide-title">
+                  <%= slide.title || slide.alt %>
+                </h2>
+                <a href="<%= slide.link || '/projects' %>" class="slide-btn">
+                  <%= slide.buttonText || 'See More' %>
+                </a>
+              </div>
+            </div>
+          </div>
+          <% }); %>
+            <% } %>
+    </div>
+    <button class="slide-arrow left" id="slidePrev" aria-label="Previous slide">
+      <img src="/images/icons/arrow.svg" alt="Previous" />
+    </button>
+    <button class="slide-arrow right" id="slideNext" aria-label="Next slide">
+      <img src="/images/icons/arrow.svg" alt="Next" />
+    </button>
+  </div>
+
+  <!-- Scroll Arrow -->
+  <div class="scroll-arrow-container">
+    <button class="scroll-arrow" id="scrollToStats" aria-label="Scroll to project statistics">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
+    </button>
+  </div>
+
+
+</section>
+
+<!-- Project Statistics Section -->
+<section class="project-stats inner-page" id="projectStats">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-card" data-target="<%= projectStats.totalProjects %>">
+        <div class="stat-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 3H21V21H3V3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M3 9H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="stat-number" id="totalProjects">0</div>
+        <div class="stat-label">Total Projects</div>
+      </div>
+      
+      <div class="stat-card" data-target="<%= projectStats.totalCountries %>">
+        <div class="stat-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 10C21 17 12 23 12 23S3 17 3 10A9 9 0 0 1 12 1A9 9 0 0 1 21 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="stat-number" id="totalCountries">0</div>
+        <div class="stat-label">Countries</div>
+      </div>
+      
+      <div class="stat-card" data-target="48">
+        <div class="stat-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="stat-number" id="totalCategories">0</div>
+        <div class="stat-label">Specialists</div>
+        <div class="stat-sublabel">Beirut - Cairo - Riyadh</div>
+      </div>
+      <div class="stat-card" data-target="<%= typeof clientsCount !== 'undefined' ? clientsCount : (clients ? clients.length : 0) %>">
+        <div class="stat-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="stat-number" id="totalClients">0</div>
+        <div class="stat-label">Clients</div>
+      </div>
+    </div>
+    
+    <!-- Second Scroll Arrow -->
+    <div class="scroll-arrow-container stats-arrow">
+      <button class="scroll-arrow" id="scrollToMap" aria-label="Scroll to world map">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Projects Map Section -->
+<section class="projects-map inner-page" id="projectsMap">
+  <div class="container">
+    <!-- Section Title (positioned absolutely via CSS to avoid adding to scroll height) -->
+    <h2>Our Projects Locations</h2>
+    <div class="world-map-container">
+      <!-- World map will be loaded here via JavaScript -->
+      <div id="worldMapContainer" class="world-map-svg"
+        data-countries='<%= typeof countriesWithProjects !== "undefined" ? JSON.stringify(countriesWithProjects) : "[]" %>'>
+        <div class="map-loading">
+          <p></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-arrow-container stats-arrow">
+    <button class="scroll-arrow" id="scrollToClients" aria-label="Scroll to clients section">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </button>
+  </div>
+</section>
+
+<!-- Clients Section -->
+<section class="clients-section inner-page" id="clientsSection">
+  <h2>Our Clients</h2>
+  <div class="container">
+    <div class="clients-grid">
+      <% if (typeof clients !== 'undefined' && clients && clients.length) { %>
+        <% clients.forEach(function(client, index) { %>
+          <div class="client-card" style="--client-index:<%= index %>">
+              <img src="/images/clients/<%= client.image %>" alt="<%= client.name %>" class="client-logo" loading="lazy" />
+          </div>
+        <% }) %>
+      <% } else { %>
+        <p class="no-clients">No clients available yet.</p>
+      <% } %>
+    </div>
+  </div>
+</section>

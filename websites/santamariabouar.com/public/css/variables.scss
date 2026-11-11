@@ -1,0 +1,55 @@
+// Santa Maria Bouar Logo Colors
+$primary: #C87E2F;        // Main orange from logo
+$secondary: #E5D4C1;      // Light beige from logo
+$accent: #B8621B;         // Darker orange for accents
+$background: #fff;
+$white: #fff;
+$gray: #bdbdbd;
+$footer-bg: #6B3410;
+$footer-text: #fff;
+$link-color: #C87E2F;
+$link-hover: #B8621B;
+$menu-text: #fff;
+$menu-hover: #E5D4C1;
+$cta-text: #fff;
+$cta-btn-bg: #C87E2F;
+$cta-btn-text: #fff;
+$cta-btn-hover-bg: #B8621B;
+$cta-btn-hover-text: #fff;
+$brand-blue: #C87E2F;
+$brand-secondary-blue: #E5D4C1;
+
+// Legacy blue color replacements
+$old-primary-blue: #203864;
+$old-secondary-blue: #4a4e69;
+$old-accent-blue: #9a8c98;
+$old-bright-blue: #3498db;
+$old-link-blue: #007acc;
+$old-dark-blue: #22223b;
+
+// Additional Santa Maria colors
+$dark-text: #4A3728;      // Dark brown for text
+$light-text: #8B7355;     // Medium brown for secondary text
+$light-bg: #F9F5F0;       // Cream/beige background
+$border-color: #E8DED3;   // Light border color
+$golden-brown: #6B3410;   // Darker golden brown for sections and text 
+
+$transparent-black: rgba(0, 0, 0, 0.9);
+$transparent-white: rgba(255, 255, 255, 0.9);
+$overlay-black: rgba(0, 0, 0, 0.75);
+
+// Layout padding variables for consistent spacing
+$small-screen-padding: 15px;
+$medium-screen-padding: 20px;
+$large-screen-padding: 50px;
+$extra-large-screen-padding: 75px;
+$ultra-large-screen-padding: 100px;
+
+// Screen size breakpoints
+$small-screen: 700px;
+$medium-screen: 950px;
+$large-screen: 1280px;
+$ultra-screen: 1600px;
+
+$dark: $brand-blue;
+$text-color: $brand-blue;

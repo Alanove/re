@@ -1,0 +1,962 @@
+<!-- BEGIN content area -->
+<div class="row">
+	<div class="col-xl-12">
+		<!-- BEGIN panel -->
+		<div class="panel panel-inverse">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<%= typeof t !== 'undefined' ? t('ecommerce.orders.orderDetail') : 'Order Detail' %> - #<%= order.order_number %>
+				</h4>
+				<div class="panel-heading-btn">
+					<a href="/admin/orders" class="btn btn-xs btn-secondary">
+						<i class="fa fa-arrow-left"></i> <%= typeof t !== 'undefined' ? t('common.back') : 'Back' %>
+					</a>
+				</div>
+			</div>
+			<div class="panel-body">
+				<% if (typeof success !== 'undefined' && success) { %>
+					<div class="alert alert-success alert-dismissible fade show" role="alert">
+						<strong><%= typeof t !== 'undefined' ? t('messages.success') : 'Success!' %></strong> <%= success %>
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>
+				<% } %>
+
+				<div class="row">
+					<!-- Order Information -->
+					<div class="col-md-8">
+						<!-- Order Items -->
+						<div class="card mb-3">
+							<div class="card-header">
+								<h5 class="mb-0">Order Items</h5>
+							</div>
+							<div class="card-body">
+								<div class="table-responsive">
+									<table class="table table-bordered">
+										<thead>
+											<tr>
+												<th>Product</th>
+												<th>SKU</th>
+												<th>Quantity</th>
+												<th>Unit Price</th>
+												<th>Total</th>
+											</tr>
+										</thead>
+										<tbody>
+											<% if (order.items && order.items.length > 0) { %>
+												<% order.items.forEach(function(item) { %>
+													<tr>
+														<td>
+															<div class="fw-bold"><%= item.product_name %></div>
+															<% if (item.variant_name) { %>
+																<div class="text-muted small"><%= item.variant_name %></div>
+															<% } %>
+														</td>
+														<td><%= item.sku || '-' %></td>
+														<td><%= item.quantity %></td>
+														<td>$<%= parseFloat(item.unit_price).toFixed(2) %></td>
+														<td class="fw-bold">$<%= parseFloat(item.total_price).toFixed(2) %></td>
+													</tr>
+												<% }); %>
+											<% } else { %>
+												<tr>
+													<td colspan="5" class="text-center text-muted">No items found</td>
+												</tr>
+											<% } %>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+						<!-- Shipping & Billing Address -->
+						<div class="row">
+							<div class="col-md-6">
+								<div class="card mb-3">
+									<div class="card-header">
+										<h5 class="mb-0">Shipping Address</h5>
+									</div>
+									<div class="card-body">
+										<% if (order.shipping_address) { %>
+											<% 
+											const shipping = typeof order.shipping_address === 'string' 
+												? JSON.parse(order.shipping_address) 
+												: order.shipping_address;
+											%>
+											<address class="mb-0">
+												<%= shipping.first_name || '' %> <%= shipping.last_name || '' %><br>
+												<%= shipping.address_line1 || '' %><br>
+												<% if (shipping.address_line2) { %>
+													<%= shipping.address_line2 %><br>
+												<% } %>
+												<%= shipping.city || '' %>, <%= shipping.state || '' %> <%= shipping.postal_code || '' %><br>
+												<%= shipping.country || '' %><br>
+												<% if (shipping.phone) { %>
+													<%= shipping.phone %><br>
+												<% } %>
+											</address>
+										<% } else { %>
+											<p class="text-muted mb-0">No shipping address provided</p>
+										<% } %>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="card mb-3">
+									<div class="card-header">
+										<h5 class="mb-0">Billing Address</h5>
+									</div>
+									<div class="card-body">
+										<% if (order.billing_address) { %>
+											<% 
+											const billing = typeof order.billing_address === 'string' 
+												? JSON.parse(order.billing_address) 
+												: order.billing_address;
+											%>
+											<address class="mb-0">
+												<%= billing.first_name || '' %> <%= billing.last_name || '' %><br>
+												<%= billing.address_line1 || '' %><br>
+												<% if (billing.address_line2) { %>
+													<%= billing.address_line2 %><br>
+												<% } %>
+												<%= billing.city || '' %>, <%= billing.state || '' %> <%= billing.postal_code || '' %><br>
+												<%= billing.country || '' %><br>
+												<% if (billing.phone) { %>
+													<%= billing.phone %><br>
+												<% } %>
+											</address>
+										<% } else { %>
+											<p class="text-muted mb-0">Same as shipping address</p>
+										<% } %>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Order Notes: full width under addresses (like Order Items) -->
+						<div class="card mb-3">
+							<div class="card-header">
+								<h5 class="mb-0"><%= typeof t !== 'undefined' ? t('ecommerce.orders.orderNotes') : 'Order Notes' %></h5>
+							</div>
+							<div class="card-body">
+								<div class="mb-3">
+									<label class="form-label">Customer Notes</label>
+									<textarea class="form-control" rows="3" readonly><%= order.notes || 'No notes' %></textarea>
+								</div>
+								<div class="mb-3">
+									<label class="form-label">Internal Notes</label>
+									<textarea class="form-control" id="internalNotes" rows="3" placeholder="Add internal notes..."><%= order.internal_notes || '' %></textarea>
+								</div>
+								<button type="button" class="btn btn-secondary" id="saveNotesBtn">
+									<i class="fa fa-save"></i> <%= typeof t !== 'undefined' ? t('common.save') : 'Save Notes' %>
+								</button>
+							</div>
+						</div>
+					</div>
+					<!-- Order Summary & Actions -->
+					<div class="col-md-4">
+						<!-- Order Summary -->
+						<div class="card mb-3">
+							<div class="card-header">
+								<h5 class="mb-0">Order Summary</h5>
+							</div>
+							<div class="card-body">
+								<div class="d-flex justify-content-between mb-2">
+									<span>Subtotal:</span>
+									<span>$<%= parseFloat(order.subtotal).toFixed(2) %></span>
+								</div>
+								<% if (order.discount_amount > 0) { %>
+									<div class="d-flex justify-content-between mb-2 text-success">
+										<span>Discount:</span>
+										<span>-$<%= parseFloat(order.discount_amount).toFixed(2) %></span>
+									</div>
+								<% } %>
+								<div class="d-flex justify-content-between mb-2">
+									<span>Shipping:</span>
+									<span>$<%= (order.shipping_amount != null && !isNaN(parseFloat(order.shipping_amount))) ? parseFloat(order.shipping_amount).toFixed(2) : '0.00' %></span>
+								</div>
+								<% if (order.tax_amount > 0) { %>
+									<div class="d-flex justify-content-between mb-2">
+										<span>Tax:</span>
+										<span>$<%= parseFloat(order.tax_amount).toFixed(2) %></span>
+									</div>
+								<% } %>
+								<hr>
+								<div class="d-flex justify-content-between fw-bold fs-5">
+									<span>Total:</span>
+									<span>$<%= parseFloat(order.total_amount).toFixed(2) %></span>
+								</div>
+							</div>
+						</div>
+
+						<!-- Order Status -->
+						<div class="card mb-3">
+							<div class="card-header">
+								<h5 class="mb-0">Order Status</h5>
+							</div>
+							<div class="card-body">
+								<div class="mb-3">
+									<label class="form-label"><%= typeof t !== 'undefined' ? t('ecommerce.orders.status') : 'Status' %></label>
+									<select class="form-select" id="orderStatus" data-order-id="<%= order.id %>">
+										<option value="pending" <%= order.status === 'pending' ? 'selected' : '' %>>
+											<%= typeof t !== 'undefined' ? t('ecommerce.orders.pending') : 'Pending' %>
+										</option>
+										<option value="verifying" <%= order.status === 'verifying' ? 'selected' : '' %>>
+											<%= typeof t !== 'undefined' ? t('ecommerce.orders.verifying') : 'Verifying' %>
+										</option>
+										<option value="failed" <%= order.status === 'failed' ? 'selected' : '' %>>
+											<%= typeof t !== 'undefined' ? t('ecommerce.orders.failed') : 'Failed' %>
+										</option>
+										<option value="processing" <%= order.status === 'processing' ? 'selected' : '' %>>
+											<%= typeof t !== 'undefined' ? t('ecommerce.orders.processing') : 'Processing' %>
+										</option>
+										<option value="shipped" <%= order.status === 'shipped' ? 'selected' : '' %>>
+											<%= typeof t !== 'undefined' ? t('ecommerce.orders.shipped') : 'Shipped' %>
+										</option>
+										<option value="delivered" <%= order.status === 'delivered' ? 'selected' : '' %>>
+											<%= typeof t !== 'undefined' ? t('ecommerce.orders.delivered') : 'Delivered' %>
+										</option>
+										<option value="completed" <%= order.status === 'completed' ? 'selected' : '' %>>
+											<%= typeof t !== 'undefined' ? t('ecommerce.orders.completed') : 'Completed' %>
+										</option>
+										<option value="cancelled" <%= order.status === 'cancelled' ? 'selected' : '' %>>
+											<%= typeof t !== 'undefined' ? t('ecommerce.orders.cancelled') : 'Cancelled' %>
+										</option>
+									</select>
+								</div>
+								<div class="mb-3">
+									<label class="form-label">Payment Status</label>
+									<select class="form-select" id="orderPaymentStatus" data-order-id="<%= order.id %>">
+										<option value="pending" <%= order.payment_status === 'pending' ? 'selected' : '' %>>
+											<%= typeof t !== 'undefined' ? t('ecommerce.orders.pending') : 'Pending' %>
+										</option>
+										<option value="paid" <%= order.payment_status === 'paid' ? 'selected' : '' %>>
+											Paid
+										</option>
+										<option value="failed" <%= order.payment_status === 'failed' ? 'selected' : '' %>>
+											Failed
+										</option>
+										<option value="refunded" <%= order.payment_status === 'refunded' ? 'selected' : '' %>>
+											Refunded
+										</option>
+									</select>
+								</div>
+								<div class="mb-3">
+									<label class="form-label">Payment Method</label>
+									<div><%= order.payment_method || 'N/A' %></div>
+									<% if (typeof canEditCart !== 'undefined' && canEditCart) { %>
+									<a href="/admin/orders/<%= order.id %>/edit-cart" class="btn btn-warning btn-sm mt-2">
+										<i class="fa fa-shopping-cart"></i> <%= typeof t !== 'undefined' ? t('ecommerce.orders.editCart') : 'Edit Cart' %>
+									</a>
+									<% } else { %>
+									<div class="small text-muted mt-1">Edit cart is only available for Cash on Delivery orders.</div>
+									<% } %>
+								</div>
+								<% if (order.discount_code) { %>
+									<div class="mb-3">
+										<label class="form-label">Discount Code</label>
+										<div><code><%= order.discount_code %></code></div>
+									</div>
+								<% } %>
+								<button type="button" class="btn btn-outline-success btn-sm w-100 mb-2" id="createShipmentBtn" title="Create Aramex shipment (waybill) for this order">
+									<i class="fa fa-box"></i> Create Shipment
+								</button>
+								<button type="button" class="btn btn-outline-info btn-sm w-100 mb-2" id="printWaybillBtn" title="Open waybill label in new tab" <%= (order.tracking_number || (shipment && (shipment.tracking_number || shipment.waybill_label_url))) ? '' : 'disabled' %>>
+									<i class="fa fa-print"></i> Print Waybill
+								</button>
+								<button type="button" class="btn btn-primary w-100" id="updateStatusBtn">
+									<i class="fa fa-save"></i> <%= typeof t !== 'undefined' ? t('common.update') : 'Update Status' %>
+								</button>
+							</div>
+						</div>
+
+						<!-- Order Information -->
+						<div class="card mb-3">
+							<div class="card-header">
+								<h5 class="mb-0">Order Information</h5>
+							</div>
+							<div class="card-body">
+								<div class="mb-2">
+									<strong>Order Number:</strong><br>
+									<code>#<%= order.order_number %></code>
+								</div>
+								<div class="mb-2">
+									<strong>Order Date:</strong><br>
+									<%= new Date(order.created_at).toLocaleString() %>
+								</div>
+								<% if (order.shipped_at) { %>
+									<div class="mb-2">
+										<strong>Shipped Date:</strong><br>
+										<%= new Date(order.shipped_at).toLocaleString() %>
+									</div>
+								<% } %>
+								<% if (order.delivered_at) { %>
+									<div class="mb-2">
+										<strong>Delivered Date:</strong><br>
+										<%= new Date(order.delivered_at).toLocaleString() %>
+									</div>
+								<% } %>
+								<div class="mb-2">
+									<strong>Customer Email:</strong><br>
+									<%= order.customer_email %>
+								</div>
+								<% if (order.customer_phone) { %>
+									<div class="mb-2">
+										<strong>Customer Phone:</strong><br>
+										<%= order.customer_phone %>
+									</div>
+								<% } %>
+							</div>
+						</div>
+
+						<!-- Shipment Information -->
+						<% if (shipment) { %>
+						<div class="card">
+							<div class="card-header">
+								<h5 class="mb-0">Shipment Information</h5>
+							</div>
+							<div class="card-body">
+								<% if (shipment.tracking_number) { %>
+									<div class="mb-2">
+										<strong>Tracking Number:</strong><br>
+										<code><%= shipment.tracking_number %></code>
+									</div>
+								<% } %>
+								<% if (shipment.pickup_reference) { %>
+									<div class="mb-2">
+										<strong>Pickup Reference:</strong><br>
+										<code><%= shipment.pickup_reference %></code>
+									</div>
+								<% } %>
+								<% if (shipment.pickup_date) { %>
+									<div class="mb-2">
+										<strong>Pickup Date:</strong><br>
+										<%= new Date(shipment.pickup_date).toLocaleDateString() %>
+										<% if (shipment.pickup_ready_time && shipment.pickup_closing_time) { %>
+											<br><small class="text-muted">Ready: <%= shipment.pickup_ready_time.substring(0, 5) %> - Closing: <%= shipment.pickup_closing_time.substring(0, 5) %></small>
+										<% } %>
+									</div>
+								<% } %>
+								<% if (shipment.pickup_vehicle) { %>
+									<div class="mb-2">
+										<strong>Vehicle:</strong> <%= shipment.pickup_vehicle %>
+									</div>
+								<% } %>
+								<% if (shipment.status) { %>
+									<div class="mb-2">
+										<strong>Shipment Status:</strong><br>
+										<span class="badge <%= shipment.status === 'shipment_created' ? 'bg-success' : (shipment.status === 'pickup_scheduled' ? 'bg-info' : 'bg-secondary') %>">
+											<%= shipment.status.replace(/_/g, ' ').toUpperCase() %>
+										</span>
+									</div>
+								<% } %>
+								<% if (shipment.shipment_created_at) { %>
+									<div class="mb-2">
+										<strong>Shipment Created:</strong><br>
+										<%= new Date(shipment.shipment_created_at).toLocaleString() %>
+									</div>
+								<% } %>
+							</div>
+						</div>
+						<% } %>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END panel -->
+	</div>
+</div>
+<!-- END content area -->
+
+<!-- Debug Info Modal for Aramex Support -->
+<div class="modal fade" id="aramexDebugModal" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog modal-xl">
+		<div class="modal-content">
+			<div class="modal-header bg-warning">
+				<h5 class="modal-title">Aramex API Debug Information</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+			<div class="modal-body">
+				<div class="alert alert-info">
+					<strong>For Aramex Support:</strong> Use &quot;Copy All to Clipboard&quot; below, then paste into an email and send to your Aramex technical contact. Everything they need is in one block.
+				</div>
+				<div class="mb-3">
+					<label class="form-label fw-bold">Full report (copy this and send to Aramex):</label>
+					<textarea class="form-control font-monospace small" id="debugFullReport" rows="28" readonly style="white-space: pre;"></textarea>
+				</div>
+				<hr class="my-3">
+				<p class="text-muted small mb-2">Section breakdown:</p>
+				<div class="mb-3">
+					<label class="form-label fw-bold">API Endpoint:</label>
+					<div class="bg-light p-2 rounded font-monospace small" id="debugApiUrl"></div>
+				</div>
+				<div class="mb-3">
+					<label class="form-label fw-bold">Account / Context:</label>
+					<div class="bg-light p-2 rounded font-monospace small" id="debugAccount"></div>
+				</div>
+				<div class="mb-3">
+					<label class="form-label fw-bold">Request Sent:</label>
+					<textarea class="form-control font-monospace small" id="debugRequest" rows="12" readonly></textarea>
+				</div>
+				<div class="mb-3">
+					<label class="form-label fw-bold">Response Received:</label>
+					<textarea class="form-control font-monospace small" id="debugResponse" rows="10" readonly></textarea>
+				</div>
+				<div class="mb-3">
+					<label class="form-label fw-bold">Error Message:</label>
+					<div class="alert alert-danger mb-0" id="debugError"></div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" id="copyDebugInfo">
+					<i class="fa fa-copy"></i> Copy All to Clipboard
+				</button>
+				<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Schedule Pickup & Generate Waybill Modal -->
+<div class="modal fade" id="schedulePickupModal" tabindex="-1" aria-labelledby="schedulePickupModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="schedulePickupModalLabel">Schedule Pickup &amp; Generate Waybill</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= typeof t !== 'undefined' ? t('common.close') : 'Close' %>"></button>
+			</div>
+			<div class="modal-body">
+				<form id="schedulePickupForm">
+					<div class="row mb-3">
+						<div class="col-md-12">
+							<h6 class="mb-3">Pickup Details</h6>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">Date <span class="text-danger">*</span></label>
+							<input type="date" class="form-control" name="date" id="pickupDate" required autocomplete="off">
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">Vehicle Type</label>
+							<select class="form-select" name="vehicle" id="pickupVehicle">
+								<option value="Bike">Small (no specific vehicle required)</option>
+								<option value="Car">Medium (regular car or small van)</option>
+								<option value="Truck">Large (large van or truck required)</option>
+							</select>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-md-6">
+							<label class="form-label">Ready Time <span class="text-danger">*</span></label>
+							<div class="row g-2">
+								<div class="col-6">
+									<select class="form-select" name="ready_hour" id="readyHour" required>
+										<% for (let h = 7; h < 20; h++) { %>
+											<option value="<%= h < 10 ? '0' + h : h %>"><%= h < 10 ? '0' + h : h %></option>
+										<% } %>
+									</select>
+								</div>
+								<div class="col-6">
+									<select class="form-select" name="ready_minute" id="readyMinute" required>
+										<% for (let m = 0; m <= 55; m += 5) { %>
+											<option value="<%= m < 10 ? '0' + m : m %>"><%= m < 10 ? '0' + m : m %></option>
+										<% } %>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">Closing Time <span class="text-danger">*</span></label>
+							<div class="row g-2">
+								<div class="col-6">
+									<select class="form-select" name="closing_hour" id="closingHour" required>
+										<% for (let h = 7; h < 20; h++) { %>
+											<option value="<%= h < 10 ? '0' + h : h %>"><%= h < 10 ? '0' + h : h %></option>
+										<% } %>
+									</select>
+								</div>
+								<div class="col-6">
+									<select class="form-select" name="closing_minute" id="closingMinute" required>
+										<% for (let m = 0; m <= 55; m += 5) { %>
+											<option value="<%= m < 10 ? '0' + m : m %>"><%= m < 10 ? '0' + m : m %></option>
+										<% } %>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-md-6">
+							<label class="form-label">Location</label>
+							<input type="text" class="form-control" name="location" id="pickupLocation" value="Reception">
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">Payment Type <span class="text-danger">*</span></label>
+							<select class="form-select" name="payment_type" id="paymentType" required>
+								<option value="P" selected>Prepaid</option>
+								<option value="C">Collect</option>
+							</select>
+						</div>
+					</div>
+					<div class="alert alert-info mb-3">
+						<small><i class="fa fa-info-circle"></i> <strong>Product Group & Type:</strong> Automatically set based on destination country (Lebanon = DOM/CDS, International = EXP/PPX)</small>
+					</div>
+					<div class="row mb-3">
+						<div class="col-md-4">
+							<label class="form-label">Weight <span class="text-danger">*</span></label>
+							<div class="input-group">
+								<input type="number" class="form-control" name="total_weight" id="totalWeight" step="0.1" min="0.5" required>
+								<select class="form-select" name="weight_unit" id="weightUnit" style="max-width: 80px;">
+									<option value="kg" selected>kg</option>
+									<option value="lbs">lbs</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">Number of Pieces <span class="text-danger">*</span></label>
+							<input type="number" class="form-control" name="number_of_pieces" id="numberOfPieces" min="1" required>
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">Number of Shipments <span class="text-danger">*</span></label>
+							<input type="number" class="form-control" name="number_of_shipments" id="numberOfShipments" value="1" min="1" required>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-md-12">
+							<label class="form-label">Comments</label>
+							<textarea class="form-control" name="comments" id="pickupComments" rows="2" placeholder="Optional notes"></textarea>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= typeof t !== 'undefined' ? t('common.cancel') : 'Cancel' %></button>
+				<button type="button" class="btn btn-primary" id="submitSchedulePickup">Schedule Pickup &amp; Generate Waybill</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Create Shipment: payload comparison modal (request vs test reference) -->
+<div class="modal fade" id="createShipmentCompareModal" tabindex="-1" aria-labelledby="createShipmentCompareModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-fullscreen">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="createShipmentCompareModalLabel">Create Shipment – Request vs Test Reference</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body p-3 d-flex flex-column">
+				<div class="row flex-grow-1 g-3" style="min-height: 0;">
+					<div class="col-md-6 d-flex flex-column" style="min-height: 0;">
+						<label class="form-label fw-bold mb-1">API URL (POST)</label>
+						<div class="bg-light p-2 rounded font-monospace small mb-2" id="compareModalApiUrlLeft"></div>
+						<label class="form-label fw-bold mb-1">Request we sent (order payload)</label>
+						<textarea class="form-control font-monospace small flex-grow-1" id="compareModalRequestPayload" readonly style="min-height: 400px; font-size: 12px;"></textarea>
+					</div>
+					<div class="col-md-6 d-flex flex-column" style="min-height: 0;">
+						<label class="form-label fw-bold mb-1">API URL (POST)</label>
+						<div class="bg-light p-2 rounded font-monospace small mb-2" id="compareModalApiUrlRight"></div>
+						<label class="form-label fw-bold mb-1">Test reference payload (working)</label>
+						<textarea class="form-control font-monospace small flex-grow-1" id="compareModalTestPayload" readonly style="min-height: 400px; font-size: 12px;"></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+	const updateStatusBtn = document.getElementById('updateStatusBtn');
+	const saveNotesBtn = document.getElementById('saveNotesBtn');
+	const createShipmentBtn = document.getElementById('createShipmentBtn');
+	const printWaybillBtn = document.getElementById('printWaybillBtn');
+	const orderStatus = document.getElementById('orderStatus');
+	const orderPaymentStatus = document.getElementById('orderPaymentStatus');
+	const internalNotes = document.getElementById('internalNotes');
+	const orderId = orderStatus.getAttribute('data-order-id');
+	const hasTracking = <%= (shipment && (shipment.tracking_number || shipment.waybill_label_url)) ? 'true' : (order.tracking_number ? 'true' : 'false') %>;
+
+	// Format date as YYYY-MM-DD in local time (toISOString() is UTC and shifts date in some timezones)
+	function toLocalDateStr(d) {
+		const y = d.getFullYear();
+		const m = String(d.getMonth() + 1).padStart(2, '0');
+		const day = String(d.getDate()).padStart(2, '0');
+		return y + '-' + m + '-' + day;
+	}
+
+	// Create Shipment (waybill only; pickup is scheduled from Shipments page)
+	if (createShipmentBtn) {
+		createShipmentBtn.addEventListener('click', function() {
+			createShipmentBtn.disabled = true;
+			const headers = { 'Content-Type': 'application/json' };
+			if (typeof getCsrfToken === 'function' && getCsrfToken()) headers['X-CSRF-Token'] = getCsrfToken();
+			fetch('/admin/orders/' + orderId + '/create-waybill', { method: 'POST', headers: headers })
+				.then(function(r) { return r.json(); })
+				.then(function(data) {
+					if (data.success) {
+						if (typeof showSuccessToast === 'function') showSuccessToast(typeof window.translations !== 'undefined' && window.translations.shipmentCreated ? window.translations.shipmentCreated : 'Shipment created. Tracking: ' + (data.trackingNumber || ''));
+						location.reload();
+					} else {
+						var errMsg = data.error || 'Failed to create shipment';
+						if (data.debug && data.debug.errorMessages && data.debug.errorMessages.length) {
+							console.error('Create shipment API errors:', data.debug.errorMessages, data.debug.rawResponse ? '(see rawResponse)' : '');
+						}
+						if (typeof showErrorToast === 'function') showErrorToast(errMsg);
+						createShipmentBtn.disabled = false;
+					}
+					// Show comparison modal when payloads are returned (success or failure)
+					if (data.requestPayload != null && data.testPayload != null) {
+						var apiUrl = data.apiUrl || '';
+						document.getElementById('compareModalApiUrlLeft').textContent = apiUrl;
+						document.getElementById('compareModalApiUrlRight').textContent = apiUrl;
+						document.getElementById('compareModalRequestPayload').value = typeof data.requestPayload === 'string' ? data.requestPayload : JSON.stringify(data.requestPayload, null, 2);
+						document.getElementById('compareModalTestPayload').value = typeof data.testPayload === 'string' ? data.testPayload : JSON.stringify(data.testPayload, null, 2);
+						var compareModalEl = document.getElementById('createShipmentCompareModal');
+						var compareModal = bootstrap.Modal.getOrCreateInstance(compareModalEl);
+						compareModal.show();
+					}
+				})
+				.catch(function(err) {
+					console.error('Create shipment error:', err);
+					var msg = (err && err.message) ? err.message : 'Error creating shipment';
+					if (typeof showErrorToast === 'function') showErrorToast(msg);
+					createShipmentBtn.disabled = false;
+				});
+		});
+	}
+
+	// Schedule Pickup Modal (used from Shipments page; kept for possible single-order pickup)
+	const schedulePickupModal = new bootstrap.Modal(document.getElementById('schedulePickupModal'));
+	const schedulePickupAndWaybillBtn = document.getElementById('schedulePickupAndWaybillBtn');
+	if (schedulePickupAndWaybillBtn) {
+		schedulePickupAndWaybillBtn.addEventListener('click', function() {
+			// Reset form to clear any cached values
+			document.getElementById('schedulePickupForm').reset();
+			
+			// Smart date defaults: if afternoon (after 2 PM), minimum is tomorrow; if morning, today is OK
+			const now = new Date();
+			const currentHour = now.getHours();
+			const isAfternoon = currentHour >= 14; // 2 PM or later
+			
+			const today = new Date();
+			today.setHours(0, 0, 0, 0);
+			const tomorrow = new Date(today);
+			tomorrow.setDate(tomorrow.getDate() + 1);
+			
+			// Set min date to today (use local date so timezone doesn't show yesterday)
+			const todayStr = toLocalDateStr(today);
+			document.getElementById('pickupDate').setAttribute('min', todayStr);
+			
+			// Default pickup date: tomorrow if afternoon, today if morning
+			const defaultPickupDate = isAfternoon ? tomorrow : today;
+			const defaultDateStr = toLocalDateStr(defaultPickupDate);
+			
+			// Force set the date value (clear any browser cache/autocomplete)
+			const pickupDateInput = document.getElementById('pickupDate');
+			pickupDateInput.value = '';  // Clear first
+			setTimeout(function() {
+				pickupDateInput.value = defaultDateStr;  // Then set correct local date
+			}, 10);
+			
+			// Ready time: if tomorrow, start at 10 AM; if today, start at current hour + 1 (minimum)
+			let defaultReadyHour, defaultReadyMinute;
+			if (isAfternoon) {
+				// Tomorrow morning
+				defaultReadyHour = 10;
+				defaultReadyMinute = 0;
+			} else {
+				// Today - must be at least 1 hour from now
+				const readyTime = new Date(now.getTime() + 60 * 60 * 1000); // +1 hour
+				defaultReadyHour = readyTime.getHours();
+				defaultReadyMinute = Math.ceil(readyTime.getMinutes() / 5) * 5;
+				if (defaultReadyMinute >= 60) {
+					defaultReadyMinute = 0;
+					defaultReadyHour += 1;
+				}
+				// Cap at 19 (7 PM)
+				if (defaultReadyHour >= 19) {
+					defaultReadyHour = 19;
+					defaultReadyMinute = 0;
+				}
+			}
+			
+			document.getElementById('readyHour').value = (defaultReadyHour < 10 ? '0' : '') + defaultReadyHour;
+			document.getElementById('readyMinute').value = (defaultReadyMinute < 10 ? '0' : '') + defaultReadyMinute;
+			
+			// Closing time: 2 hours after ready time, or 17:00 (5 PM) as default
+			const closingHour = Math.min(17, defaultReadyHour + 2);
+			document.getElementById('closingHour').value = (closingHour < 10 ? '0' : '') + closingHour;
+			document.getElementById('closingMinute').value = '00';
+			
+			// Calculate weight and pieces from order items
+			const itemsCount = <%= (order.items || []).reduce((s, i) => s + (i.quantity || 0), 0) || 1 %>;
+			const estimatedWeight = Math.max(0.5, itemsCount * 0.5);
+			document.getElementById('numberOfPieces').value = itemsCount;
+			document.getElementById('totalWeight').value = estimatedWeight.toFixed(1);
+			
+			// Product Group/Type are now auto-determined by backend based on destination country
+			// No need to set them in the form
+			
+			schedulePickupModal.show();
+		});
+	}
+	
+	// Submit Schedule Pickup Form
+	document.getElementById('submitSchedulePickup').addEventListener('click', function() {
+		const form = document.getElementById('schedulePickupForm');
+		if (!form.checkValidity()) {
+			form.reportValidity();
+			return;
+		}
+		
+		// Validate times
+		const pickupDateInput = document.getElementById('pickupDate').value;
+		const readyH = parseInt(document.getElementById('readyHour').value);
+		const readyM = parseInt(document.getElementById('readyMinute').value);
+		const closingH = parseInt(document.getElementById('closingHour').value);
+		const closingM = parseInt(document.getElementById('closingMinute').value);
+		
+		const pickupDate = new Date(pickupDateInput);
+		const now = new Date();
+		const today = new Date();
+		today.setHours(0, 0, 0, 0);
+		pickupDate.setHours(0, 0, 0, 0);
+		
+		if (pickupDate < today) {
+			if (typeof showErrorToast === 'function') showErrorToast('Pickup date cannot be in the past');
+			return;
+		}
+		
+		// If afternoon (>= 2 PM), cannot schedule for today - must be tomorrow or later
+		const currentHour = now.getHours();
+		if (currentHour >= 14 && pickupDate.getTime() === today.getTime()) {
+			if (typeof showErrorToast === 'function') showErrorToast('Too late to schedule pickup for today. Please select tomorrow or later.');
+			return;
+		}
+		
+		// If today, ready time must be >= current time + 1 hour minimum
+		if (pickupDate.getTime() === today.getTime()) {
+			const readyTimeMinutes = readyH * 60 + readyM;
+			const nowMinutes = now.getHours() * 60 + now.getMinutes();
+			const minReadyMinutes = nowMinutes + 60; // At least 1 hour from now
+			if (readyTimeMinutes < minReadyMinutes) {
+				if (typeof showErrorToast === 'function') showErrorToast('Ready time must be at least 1 hour from now for today\'s pickup');
+				return;
+			}
+		}
+		
+		// Closing must be after ready
+		const readyTimeMinutes = readyH * 60 + readyM;
+		const closingTimeMinutes = closingH * 60 + closingM;
+		if (closingTimeMinutes <= readyTimeMinutes) {
+			if (typeof showErrorToast === 'function') showErrorToast('Closing time must be after ready time');
+			return;
+		}
+		
+		// Collect form data
+		const formData = {
+			date: document.getElementById('pickupDate').value,
+			ready_hour: document.getElementById('readyHour').value,
+			ready_minute: document.getElementById('readyMinute').value,
+			closing_hour: document.getElementById('closingHour').value,
+			closing_minute: document.getElementById('closingMinute').value,
+			vehicle: document.getElementById('pickupVehicle').value,
+			location: document.getElementById('pickupLocation').value,
+			payment_type: document.getElementById('paymentType').value,
+			number_of_pieces: document.getElementById('numberOfPieces').value,
+			total_weight: document.getElementById('totalWeight').value,
+			weight_unit: document.getElementById('weightUnit').value,
+			comments: document.getElementById('pickupComments').value
+		};
+		
+		// Submit via fetch
+		document.getElementById('submitSchedulePickup').disabled = true;
+		const headers = { 'Content-Type': 'application/json' };
+		if (typeof getCsrfToken === 'function' && getCsrfToken()) {
+			headers['X-CSRF-Token'] = getCsrfToken();
+		}
+		
+		formData.number_of_shipments = document.getElementById('numberOfShipments').value;
+		fetch('/admin/orders/' + orderId + '/schedule-pickup-and-waybill', {
+			method: 'POST',
+			headers: headers,
+			body: JSON.stringify(formData)
+		})
+		.then(function(r) { return r.json(); })
+		.then(function(data) {
+			if (data.success) {
+				schedulePickupModal.hide();
+				if (data.labelUrl) window.open(data.labelUrl, '_blank', 'noopener');
+				if (typeof showSuccessToast === 'function') {
+					let msg = 'Waybill created. Tracking: ' + (data.trackingNumber || '');
+					if (data.pickupId) msg += '. Pickup ref: ' + data.pickupId;
+					if (data.pickupFailed) msg += ' (Pickup scheduling failed – try Print Waybill and contact Aramex if needed)';
+					showSuccessToast(msg);
+				}
+				location.reload();
+			} else {
+				if (typeof showErrorToast === 'function') showErrorToast(data.error || 'Failed to create waybill or schedule pickup');
+				if (data.debug) setTimeout(function() { showAramexDebug(data.debug); }, 500);
+			}
+		})
+		.catch(function(err) {
+			console.error('Error:', err);
+			if (typeof showErrorToast === 'function') showErrorToast('Error creating waybill or scheduling pickup');
+		})
+		.finally(function() {
+			document.getElementById('submitSchedulePickup').disabled = false;
+		});
+	});
+
+	// Aramex Debug Modal – build full report for copying and sending to Aramex
+	const aramexDebugModal = new bootstrap.Modal(document.getElementById('aramexDebugModal'));
+	function showAramexDebug(debugData) {
+		const apiUrl = debugData.apiUrl || 'N/A';
+		const requestStr = typeof debugData.request === 'string'
+			? debugData.request
+			: JSON.stringify(debugData.request, null, 2);
+		const responseStr = typeof debugData.response === 'string'
+			? debugData.response
+			: JSON.stringify(debugData.response, null, 2);
+		const errorMsg = debugData.error || debugData.errorMessage || 'Unknown error';
+
+		const acc = debugData.accountInfo || {};
+		const accountLine = acc.accountNumber
+			? 'Account: ' + acc.accountNumber + ' (' + (acc.entity || '') + ', ' + (acc.countryCode || '') + ')' + (acc.sandbox ? ' [SANDBOX]' : '')
+			: 'Account: N/A';
+		const dateLine = 'Date: ' + new Date().toISOString();
+		const orderLine = 'Order: #<%= order.order_number %>';
+
+		const httpStatus = (debugData.response && (debugData.response.status || debugData.response.statusText))
+			? 'HTTP Status: ' + (debugData.response.status || '') + ' ' + (debugData.response.statusText || '')
+			: '';
+		const soapXml = debugData.soapXmlRequest || '';
+
+		const fullReport = [
+			'ARAMEX API DEBUG INFORMATION',
+			'================================',
+			'',
+			'API Endpoint: ' + apiUrl,
+			accountLine,
+			dateLine,
+			orderLine,
+			'',
+			'--- JSON REQUEST (Application Level) ---',
+			requestStr,
+			'',
+			soapXml ? '--- SOAP XML REQUEST (Actual Sent) ---' : '',
+			soapXml ? soapXml : '',
+			soapXml ? '' : '',
+			'--- RESPONSE RECEIVED ---',
+			httpStatus ? httpStatus + '\n' : '',
+			responseStr,
+			'',
+			'--- ERROR MESSAGE ---',
+			errorMsg
+		].filter(function(line) { return line !== undefined && line !== null; }).join('\n');
+
+		document.getElementById('debugApiUrl').textContent = apiUrl;
+		document.getElementById('debugAccount').textContent = accountLine + '  |  ' + dateLine + '  |  ' + orderLine;
+		document.getElementById('debugRequest').value = requestStr;
+		document.getElementById('debugResponse').value = responseStr;
+		document.getElementById('debugError').textContent = errorMsg;
+		document.getElementById('debugFullReport').value = fullReport;
+		aramexDebugModal.show();
+	}
+
+	document.getElementById('copyDebugInfo').addEventListener('click', function() {
+		const fullReport = document.getElementById('debugFullReport').value;
+		navigator.clipboard.writeText(fullReport).then(function() {
+			if (typeof showSuccessToast === 'function') showSuccessToast('Debug info copied to clipboard');
+		}).catch(function(err) {
+			console.error('Copy failed:', err);
+			if (typeof showErrorToast === 'function') showErrorToast('Copy failed. Select the text in the box above and copy manually.');
+		});
+	});
+
+	// Print Waybill (no confirm; errors via toast)
+	if (printWaybillBtn && hasTracking) {
+		printWaybillBtn.addEventListener('click', function() {
+			printWaybillBtn.disabled = true;
+			const headers = { 'Content-Type': 'application/json' };
+			if (typeof getCsrfToken === 'function' && getCsrfToken()) {
+				headers['X-CSRF-Token'] = getCsrfToken();
+			}
+			fetch('/admin/orders/' + orderId + '/print-waybill', {
+				method: 'POST',
+				headers: headers
+			})
+			.then(function(r) { return r.json(); })
+			.then(function(data) {
+				if (data.success && data.labelUrl) {
+					window.open(data.labelUrl, '_blank', 'noopener');
+				} else if (typeof showErrorToast === 'function') {
+					showErrorToast(data.error || 'Could not get waybill label');
+				}
+			})
+			.catch(function(err) {
+				console.error('Error:', err);
+				if (typeof showErrorToast === 'function') showErrorToast('Error loading waybill');
+			})
+			.finally(function() {
+				printWaybillBtn.disabled = false;
+			});
+		});
+	}
+
+	// Update order status and payment status
+	updateStatusBtn.addEventListener('click', function() {
+		const status = orderStatus.value;
+		const payment_status = orderPaymentStatus ? orderPaymentStatus.value : null;
+		const notes = internalNotes.value;
+		const headers = { 'Content-Type': 'application/json' };
+		if (typeof getCsrfToken === 'function' && getCsrfToken()) {
+			headers['X-CSRF-Token'] = getCsrfToken();
+		}
+		fetch('/admin/orders/' + orderId + '/status', {
+			method: 'POST',
+			headers: headers,
+			body: JSON.stringify({ status: status, payment_status: payment_status, notes: notes })
+		})
+		.then(function(r) { return r.json(); })
+		.then(function(data) {
+			if (data.success) {
+				location.reload();
+			} else if (typeof showErrorToast === 'function') {
+				showErrorToast(data.error || 'Failed to update order status');
+			}
+		})
+		.catch(function(error) {
+			console.error('Error:', error);
+			if (typeof showErrorToast === 'function') showErrorToast('Error updating order status');
+		});
+	});
+
+	// Save internal notes
+	saveNotesBtn.addEventListener('click', function() {
+		const notes = internalNotes.value;
+		const headers = { 'Content-Type': 'application/json' };
+		if (typeof getCsrfToken === 'function' && getCsrfToken()) {
+			headers['X-CSRF-Token'] = getCsrfToken();
+		}
+		fetch('/admin/orders/' + orderId + '/notes', {
+			method: 'POST',
+			headers: headers,
+			body: JSON.stringify({ internal_notes: notes })
+		})
+		.then(function(r) { return r.json(); })
+		.then(function(data) {
+			if (data.success && typeof showSuccessToast === 'function') {
+				showSuccessToast(typeof window.translations !== 'undefined' && window.translations.saved ? window.translations.saved : 'Notes saved successfully');
+			} else if (!data.success && typeof showErrorToast === 'function') {
+				showErrorToast(data.error || 'Failed to save notes');
+			}
+		})
+		.catch(function(error) {
+			console.error('Error:', error);
+			if (typeof showErrorToast === 'function') showErrorToast('Error saving notes');
+		});
+	});
+});
+</script>

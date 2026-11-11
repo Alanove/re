@@ -1,0 +1,133 @@
+<%
+
+  var _tx = function(key, fallback) {
+
+    if (typeof t !== 'function') return fallback;
+
+    var s = t(key);
+
+    return (s && s !== key) ? s : fallback;
+
+  };
+
+%>
+
+<div id="needHelpChatRoot" class="need-help-chat" aria-live="polite"
+
+  data-chat-label-visitor="<%= _tx('chat.visitor', 'You') %>"
+
+  data-chat-label-team="<%= _tx('chat.team', 'Support') %>"
+
+  data-turnstile-required="<%= (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) ? '1' : '0' %>"
+
+  data-chat-turnstile-required="<%= _tx('chat.turnstileRequired', 'Please complete the security verification.') %>"
+
+  data-chat-error-send="<%= _tx('chat.errorSend', 'Could not send. Please try again.') %>">
+
+  <button type="button" id="needHelpChatToggle" class="btn btn-primary need-help-chat__toggle" aria-expanded="false" aria-controls="needHelpChatPanel">
+
+    <i class="fa fa-comment-dots d-none d-sm-inline mr-1" aria-hidden="true"></i>
+
+    <%= _tx('chat.needHelp', 'Need Help?') %>
+
+  </button>
+
+  <div id="needHelpChatPanel" class="need-help-chat__panel shadow d-none" role="dialog" aria-label="<%= _tx('chat.panelTitle', 'How can we help?') %>">
+
+    <div class="need-help-chat__head d-flex justify-content-between align-items-center border-bottom px-3 py-2">
+
+      <strong class="mb-0"><%= _tx('chat.panelTitle', 'How can we help?') %></strong>
+
+      <button type="button" id="needHelpChatClose" class="btn btn-sm btn-link p-0" aria-label="<%= _tx('common.close', 'Close') %>">&times;</button>
+
+    </div>
+
+    <div id="needHelpChatContactSection" class="need-help-chat__form px-3 py-2 border-bottom small">
+
+      <div id="needHelpChatContactFields" class="need-help-chat__contact-fields">
+
+        <div class="form-group mb-2">
+
+          <label class="mb-0" for="needHelpChatFirstName"><%= _tx('chat.firstName', 'First name') %></label>
+
+          <input type="text" class="form-control form-control-sm" id="needHelpChatFirstName" autocomplete="given-name" maxlength="255" />
+
+        </div>
+
+        <div class="form-group mb-2">
+
+          <label class="mb-0" for="needHelpChatEmail"><%= _tx('chat.email', 'Email') %></label>
+
+          <input type="email" class="form-control form-control-sm" id="needHelpChatEmail" autocomplete="email" maxlength="255" />
+
+        </div>
+
+        <div class="form-group mb-2">
+
+          <label class="mb-0" for="needHelpChatPhone"><%= _tx('chat.phone', 'Phone') %></label>
+
+          <input type="tel" class="form-control form-control-sm" id="needHelpChatPhone" autocomplete="tel" maxlength="64" />
+
+        </div>
+
+      </div>
+
+      <% if (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) { %>
+
+      <div id="needHelpChatTurnstileWrap" class="need-help-chat__turnstile" style="min-height: 65px;">
+
+        <div class="cf-turnstile"
+
+          id="needHelpChatTurnstileWidget"
+
+          data-sitekey="<%= turnstileSiteKey %>"
+
+          data-callback="onChatTurnstileSuccess"
+
+          data-error-callback="onChatTurnstileError"
+
+          data-expired-callback="onChatTurnstileExpired"></div>
+
+        <input type="hidden" id="needHelpChatTurnstileResponse" value="" />
+
+        <div id="needHelpChatTurnstileError" class="alert alert-danger small py-2 mt-2 mb-0 d-none" role="alert">
+
+          <%= _tx('chat.turnstileRequired', 'Please complete the security verification.') %>
+
+        </div>
+
+      </div>
+
+      <% } %>
+
+    </div>
+
+    <div id="needHelpChatMessages" class="need-help-chat__messages px-3 py-2"></div>
+
+    <div class="need-help-chat__composer border-top px-3 py-2">
+
+      <div class="form-group mb-2">
+
+        <label class="sr-only" for="needHelpChatInput"><%= _tx('chat.placeholder', 'Type a message…') %></label>
+
+        <textarea id="needHelpChatInput" class="form-control form-control-sm" rows="2" maxlength="4000" placeholder="<%= _tx('chat.placeholder', 'Type a message…') %>"></textarea>
+
+      </div>
+
+      <button type="button" id="needHelpChatSend" class="btn btn-primary btn-sm btn-block"><%= _tx('chat.send', 'Send') %></button>
+
+      <p id="needHelpChatStatus" class="small text-muted mb-0 mt-1">&nbsp;</p>
+
+    </div>
+
+  </div>
+
+</div>
+
+<% if (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) { %>
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<% } %>
+
+

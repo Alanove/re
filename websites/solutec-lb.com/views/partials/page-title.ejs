@@ -1,0 +1,17 @@
+<section class="page-title-section bg-img cover-background left-overlay-dark" data-overlay-dark="6"<% if (typeof pageImage !== 'undefined' && pageImage) { %> data-background="<%= pageImage %>" style="background-image:url('<%= pageImage %>')"<% } %>>
+  <div class="container position-unset">
+    <div class="page-title mx-1-6 mx-lg-2-0 mx-xl-2-6 mx-xxl-2-9">
+      <div class="row">
+        <div class="col-md-12">
+          <h1><%= typeof heading !== 'undefined' ? heading : (typeof pageTitle !== 'undefined' ? pageTitle : '') %></h1>
+        </div>
+        <div class="col-md-12">
+          <ul class="ps-0">
+            <li><a href="/">Home</a></li>
+            <li><%= typeof heading !== 'undefined' ? heading : (typeof pageTitle !== 'undefined' ? pageTitle : '') %></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

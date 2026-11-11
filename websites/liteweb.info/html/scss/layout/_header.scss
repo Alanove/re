@@ -1,0 +1,110 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.site-header {
+  position: fixed;
+  top: 0;
+  inset-inline-start: 0;
+  width: 100%;
+  z-index: $z-header;
+  @include glass;
+  border-bottom: 1px solid rgba($color-outline-variant, 0.4);
+  transition: box-shadow $duration-base $ease-default, padding $duration-base $ease-default;
+
+  &.is-scrolled {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  }
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: $header-height;
+    gap: $space-md;
+    @include container;
+  }
+
+  &__nav {
+    display: none;
+    align-items: center;
+    gap: $space-xl;
+
+    @include respond-to(md) {
+      display: flex;
+    }
+  }
+
+  &__link {
+    font-family: $font-body;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $color-on-surface-variant;
+    padding-bottom: 4px;
+    border-bottom: 2px solid transparent;
+    transition: color $duration-fast $ease-default;
+
+    &:hover {
+      color: $color-primary;
+    }
+
+    &.is-active {
+      color: $color-primary;
+      border-bottom-color: $color-primary;
+      font-weight: 700;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: $space-sm;
+    flex-shrink: 0;
+  }
+
+  &__cta.btn {
+    display: none;
+    padding: 0.5rem 1.125rem;
+
+    @include respond-to(md) {
+      display: inline-flex;
+    }
+  }
+
+  &__menu-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    color: $color-secondary;
+    border-radius: $radius-button;
+
+    @include respond-to(md) {
+      display: none;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+
+    .material-symbols-outlined {
+      font-size: 1.75rem;
+    }
+  }
+}
+
+.logo {
+  font-family: $font-headline;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+
+  &__lite {
+    color: $color-primary;
+  }
+
+  &__web {
+    color: $color-secondary;
+  }
+}

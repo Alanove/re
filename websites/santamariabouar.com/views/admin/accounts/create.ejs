@@ -1,0 +1,170 @@
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Create New Account</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="/admin/accounts">Accounts</a></li>
+                        <li class="breadcrumb-item active">Create</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Account Information</h3>
+                        </div>
+                        <form id="accountForm" action="/admin/accounts/create" method="POST">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="name">Account Name *</label>
+                                    <input type="text" class="form-control" id="name" name="name" required 
+                                           placeholder="e.g., Alain Account">
+                                    <small class="form-text text-muted">Choose a descriptive name for this account</small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="userId">Owner *</label>
+                                    <select class="form-control" id="userId" name="userId" required>
+                                        <option value="">Select a user</option>
+                                        <% users.forEach(user => { %>
+                                            <option value="<%= user.id %>"><%= user.name %> (<%= user.email %>)</option>
+                                        <% }); %>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="balance">Initial Balance</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <input type="number" step="0.01" class="form-control" id="balance" name="balance" 
+                                               value="0.00" placeholder="0.00">
+                                    </div>
+                                    <small class="form-text text-muted">You can add transactions later to adjust the balance</small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="currency">Currency</label>
+                                    <select class="form-control" id="currency" name="currency">
+                                        <option value="USD" selected>USD - US Dollar</option>
+                                        <option value="EUR">EUR - Euro</option>
+                                        <option value="GBP">GBP - British Pound</option>
+                                        <option value="LBP">LBP - Lebanese Pound</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="notes">Notes</label>
+                                    <textarea class="form-control" id="notes" name="notes" rows="3" 
+                                              placeholder="Optional notes about this account..."></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="isActive" name="isActive" checked>
+                                        <label class="custom-control-label" for="isActive">Active</label>
+                                    </div>
+                                    <small class="form-text text-muted">Only active accounts can be used for transactions</small>
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-save"></i> Create Account
+                                </button>
+                                <a href="/admin/accounts" class="btn btn-secondary ml-2">
+                                    <i class="fa fa-arrow-left"></i> Cancel
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card card-info">
+                        <div class="card-header">
+                            <h3 class="card-title">Tips</h3>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                                <li><i class="fa fa-check text-success"></i> <strong>Account Name:</strong> Use a clear, descriptive name like "Alain Account" or "Main Company Account"</li>
+                                <li><i class="fa fa-check text-success"></i> <strong>Owner:</strong> Each account must be linked to a user account</li>
+                                <li><i class="fa fa-check text-success"></i> <strong>Initial Balance:</strong> Set to 0 and add transactions to track money flow</li>
+                                <li><i class="fa fa-check text-success"></i> <strong>Currency:</strong> Choose the primary currency for this account</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card card-warning">
+                        <div class="card-header">
+                            <h3 class="card-title">Important</h3>
+                        </div>
+                        <div class="card-body">
+                            <p><i class="fa fa-exclamation-triangle"></i> <strong>Balance Management:</strong> 
+                            The account balance will be automatically updated when you create income or expense transactions.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<%- contentFor('scripts') %>
+<script>
+document.getElementById('accountForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    
+    // Show loading state
+    submitBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Creating...';
+    submitBtn.disabled = true;
+    
+    try {
+        const response = await fetch('/admin/accounts/create', {
+            method: 'POST',
+            body: formData
+        });
+        
+        if (response.ok) {
+            window.location.href = '/admin/accounts';
+        } else {
+            const result = await response.json();
+            alert('Error: ' + (result.message || 'Failed to create account'));
+        }
+    } catch (error) {
+        console.error('Error creating account:', error);
+        alert('Error creating account. Please try again.');
+    } finally {
+        // Restore button state
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    }
+});
+
+// Auto-suggest account name based on selected user
+document.getElementById('userId').addEventListener('change', function() {
+    const selectedOption = this.options[this.selectedIndex];
+    const nameField = document.getElementById('name');
+    
+    if (selectedOption.value && !nameField.value) {
+        const userName = selectedOption.text.split(' (')[0]; // Remove email part
+        nameField.value = userName + ' Account';
+    }
+});
+</script>

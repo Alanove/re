@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title><%= receiptFilename %></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px 20px;
+            background: white;
+            color: #000;
+        }
+        
+        .invoice {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 50px;
+        }
+        
+        .company-info h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .company-info .location {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .logo {
+            max-width: 80px;
+            max-height: 80px;
+        }
+        
+        .invoice-title {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .invoice-date {
+            font-size: 16px;
+            color: #000;
+            margin-bottom: 40px;
+        }
+        
+        .recipient-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+        
+        .received-from h3 {
+            font-size: 12px;
+            color: #999;
+            font-weight: normal;
+            margin-bottom: 8px;
+        }
+        
+        .received-from .name {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+        
+        .received-from .apartment {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .invoice-number {
+            text-align: right;
+        }
+        
+        .invoice-number h3 {
+            font-size: 12px;
+            color: #999;
+            font-weight: normal;
+            margin-bottom: 8px;
+        }
+        
+        .invoice-number .number {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        
+        .items-table thead {
+            border-bottom: 2px solid #000;
+        }
+        
+        .items-table th {
+            padding: 12px 8px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .items-table th:last-child,
+        .items-table td:last-child {
+            text-align: right;
+        }
+        
+        .items-table tbody tr {
+            border-bottom: 1px solid #eee;
+        }
+        
+        .items-table td {
+            padding: 15px 8px;
+            font-size: 14px;
+        }
+        
+        .items-table th:first-child,
+        .items-table td:first-child {
+            width: 15%;
+        }
+        
+        .items-table .description {
+            width: 35%;
+        }
+        
+        .items-table th:nth-child(3),
+        .items-table td:nth-child(3) {
+            width: 15%;
+        }
+        
+        .items-table .due-amount,
+        .items-table .payment,
+        .items-table .balance {
+            width: 10%;
+            text-align: right;
+        }
+        
+        .items-table .total {
+            width: 5%;
+            text-align: right;
+        }
+        
+        .negative-balance {
+            color: #e74c3c;
+        }
+        
+        .totals {
+            text-align: right;
+            margin-top: 30px;
+        }
+        
+        .subtotal {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .subtotal span {
+            margin-left: 20px;
+        }
+        
+        .grand-total {
+            font-size: 36px;
+            font-weight: bold;
+            color: #000;
+        }
+        
+        .unpaid-warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin-top: 40px;
+            color: #856404;
+            overflow-x: auto;
+        }
+        
+        .unpaid-warning table {
+            font-size: 14px;
+            background: white;
+            border-radius: 4px;
+        }
+        
+        .unpaid-warning th {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .unpaid-warning tbody tr:hover {
+            background: #fffaf0;
+        }
+        
+        @media print {
+            body {
+                padding: 20px;
+            }
+            
+            .unpaid-warning {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            
+            .unpaid-warning table {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice">
+        <!-- Header -->
+        <div class="header">
+            <div class="company-info">
+                <h1>Santa Maria Compound</h1>
+                <div class="location">Bouar</div>
+            </div>
+            <% if (siteSettings && siteSettings.logo) { %>
+                <img src="<%= siteSettings.logo %>" alt="Logo" class="logo">
+            <% } %>
+        </div>
+        
+        <!-- Receipt Title -->
+        <div class="invoice-title">Receipt</div>
+        <div class="invoice-date"><%= new Date(transaction.date).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' }) %></div>
+        
+        <!-- Recipient and Invoice Number -->
+        <div class="recipient-section">
+            <div class="received-from">
+                <h3>Received from</h3>
+                <% if (owner) { %>
+                    <div class="name"><%= owner.name %></div>
+                <% } %>
+                <% if (typeof apartments !== 'undefined' && apartments && apartments.length > 0) { %>
+                    <% apartments.forEach(function(apt) { %>
+                        <div class="apartment"><%= apt.block %><%= apt.unitNumberOfficial %> (<%= apt.unitNumberUnofficial %>)</div>
+                    <% }); %>
+                <% } else if (apartment) { %>
+                    <div class="apartment"><%= apartment.block %><%= apartment.unitNumberOfficial %> (<%= apartment.unitNumberUnofficial %>)</div>
+                <% } %>
+            </div>
+            <div class="invoice-number">
+                <h3>Receipt #</h3>
+                <div class="number"><%= receiptNumber %></div>
+            </div>
+        </div>
+        
+        <!-- Payment Received Section -->
+        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 40px;">
+            <h3 style="font-size: 14px; color: #666; margin-bottom: 10px;">Payment Received</h3>
+            <% if (category) { %>
+                <div style="font-size: 14px; color: #666; margin-bottom: 8px;"><strong>Category:</strong> <%= category.name %></div>
+            <% } %>
+            <% if (typeof isWalletPayment !== 'undefined' && isWalletPayment) { %>
+                <div style="font-size: 14px; color: #198754; margin-bottom: 8px;">
+                    <strong>Payment method:</strong> Apartment Wallet (prepaid balance)
+                </div>
+                <% if (typeof walletPaymentAmount !== 'undefined' && walletPaymentAmount > 0) { %>
+                    <div style="font-size: 14px; color: #666; margin-bottom: 4px;">
+                        Wallet applied: <strong>$<%= walletPaymentAmount.toFixed(2) %></strong>
+                        <span class="text-muted"> — no new cash received; deducted from prepaid wallet</span>
+                    </div>
+                <% } %>
+                <% if (typeof cashPaymentAmount !== 'undefined' && cashPaymentAmount > 0) { %>
+                    <div style="font-size: 14px; color: #666; margin-bottom: 4px;">
+                        Cash received: <strong>$<%= cashPaymentAmount.toFixed(2) %></strong>
+                        <% if (typeof cashTransactionId !== 'undefined' && cashTransactionId) { %>
+                            <span class="text-muted"> (Transaction #<%= cashTransactionId %>)</span>
+                        <% } %>
+                    </div>
+                <% } %>
+            <% } %>
+            <div style="font-size: 16px; margin-bottom: 5px;"><%= transaction.description %></div>
+            <div class="grand-total" style="margin-top: 15px;">
+                $<%= transaction.amount.toFixed(2) %>
+            </div>
+        </div>
+
+        <!-- Account Statement Section -->
+        <% if ((typeof apartments !== 'undefined' && apartments && apartments.length > 0 || apartment) && (unpaidInvoices && unpaidInvoices.length > 0 || creditInvoices && creditInvoices.length > 0 || (currentPaidInvoices && currentPaidInvoices.length > 0))) { %>
+            <div style="margin-top: 40px;">
+                <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 20px; border-bottom: 2px solid #000; padding-bottom: 10px;">Account Statement</h2>
+                
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th class="due-amount">Invoice Amount</th>
+                            <th class="payment">Amount Paid</th>
+                            <th class="balance">Balance</th>
+                            <th class="total">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% 
+                        let totalDue = 0;
+                        let totalPaid = 0;
+                        let totalBalance = 0;
+                        let totalCredit = 0;
+                        
+                        // Unpaid Invoices
+                        if (unpaidInvoices && unpaidInvoices.length > 0) {
+                            unpaidInvoices.forEach(invoice => {
+                                const balance = invoice.balance || (invoice.amount - invoice.amountPaid);
+                                totalDue += invoice.amount;
+                                totalPaid += invoice.amountPaid;
+                                totalBalance += balance;
+                                
+                                let status = 'Unpaid';
+                                let statusColor = '#dc3545';
+                                
+                                if (invoice.status === 'partial') {
+                                    status = 'Partial';
+                                    statusColor = '#ffc107';
+                                }
+                                
+                                const invoiceDate = new Date(invoice.invoiceDate).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
+                        %>
+                            <tr>
+                                <td><%= invoiceDate %></td>
+                                <td><%= invoice.apartmentLabel ? invoice.apartmentLabel + ' - ' : '' %><%= invoice.description || 'N/A' %></td>
+                                <td><%= invoice.categoryName %></td>
+                                <td class="due-amount">$<%= invoice.amount.toFixed(2) %></td>
+                                <td class="payment">$<%= invoice.amountPaid.toFixed(2) %></td>
+                                <td class="balance" style="color: #dc3545; font-weight: bold;">
+                                    -$<%= balance.toFixed(2) %>
+                                </td>
+                                <td class="total" style="color: <%= statusColor %>; font-weight: bold;">
+                                    <%= status %>
+                                </td>
+                            </tr>
+                        <% 
+                            });
+                        }
+                        
+                        // Credits
+                        if (creditInvoices && creditInvoices.length > 0) {
+                            creditInvoices.forEach(invoice => {
+                                // Credit amount is always positive (available credit)
+                                const creditAmount = invoice.creditAmount || (invoice.isUnallocatedCredit ? invoice.amountPaid : (invoice.amountPaid - invoice.amount));
+                                
+                                // For credits, balance should be negative in calculations (reduces total owed)
+                                // but displayed as positive (available credit)
+                                const balanceForCalculation = invoice.isUnallocatedCredit 
+                                    ? -creditAmount 
+                                    : (invoice.amount - invoice.amountPaid);
+                                
+                                totalDue += invoice.amount || 0;
+                                totalPaid += invoice.amountPaid || 0;
+                                totalCredit += creditAmount;
+                                totalBalance += balanceForCalculation; // Add negative balance for calculation
+                                
+                                const invoiceDate = new Date(invoice.invoiceDate).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
+                        %>
+                            <tr style="background: #e8f5e9;">
+                                <td><%= invoiceDate %></td>
+                                <td><%= invoice.apartmentLabel ? invoice.apartmentLabel + ' - ' : '' %><%= invoice.description || 'N/A' %></td>
+                                <td><%= invoice.categoryName %></td>
+                                <td class="due-amount"><%= invoice.isUnallocatedCredit ? '-' : '$' + (invoice.amount || 0).toFixed(2) %></td>
+                                <td class="payment"><%= invoice.isUnallocatedCredit ? '-' : '$' + (invoice.amountPaid || 0).toFixed(2) %></td>
+                                <td class="balance" style="color: #28a745; font-weight: bold;">
+                                    $<%= creditAmount.toFixed(2) %>
+                                </td>
+                                <td class="total" style="color: #28a745; font-weight: bold;">
+                                    Credit
+                                </td>
+                            </tr>
+                        <% 
+                            });
+                        }
+                        
+                        // Current Paid Invoices (from this transaction)
+                        if (currentPaidInvoices && currentPaidInvoices.length > 0) {
+                            currentPaidInvoices.forEach(invoice => {
+                                const invoiceDate = new Date(invoice.invoiceDate).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
+                                const balance = invoice.amount - invoice.amountPaid;
+                                totalDue += invoice.amount;
+                                totalPaid += (invoice.currentPayment || invoice.amountPaid);
+                                totalBalance += balance;
+                        %>
+                            <tr style="background: #e8f5e9;">
+                                <td><%= invoiceDate %></td>
+                                <td><%= invoice.apartmentLabel ? invoice.apartmentLabel + ' - ' : '' %><%= invoice.description || 'N/A' %></td>
+                                <td><%= invoice.categoryName %></td>
+                                <td class="due-amount">$<%= invoice.amount.toFixed(2) %></td>
+                                <td class="payment">$<%= (invoice.currentPayment || invoice.amountPaid).toFixed(2) %></td>
+                                <td class="balance" style="padding: 15px 8px; color: <%= balance > 0 ? '#dc3545' : '#28a745' %>;">
+                                    <%= balance > 0 ? '-' : '' %>$<%= Math.abs(balance).toFixed(2) %>
+                                </td>
+                                <td class="total" style="color: <%= balance > 0 ? '#ffc107' : '#28a745' %>; font-weight: bold;">
+                                    <%= balance > 0 ? 'Partial' : 'Paid' %>
+                                </td>
+                            </tr>
+                        <% 
+                            });
+                        }
+                        
+                        // Fallback: Last Paid Invoice (if no specific invoices linked to this transaction)
+                        if ((!currentPaidInvoices || currentPaidInvoices.length === 0) && lastPaidInvoice) {
+                            const lastPaidDate = new Date(lastPaidInvoice.invoiceDate).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
+                            const lastPaidBalance = lastPaidInvoice.amount - lastPaidInvoice.amountPaid;
+                            totalDue += lastPaidInvoice.amount;
+                            totalPaid += lastPaidInvoice.amountPaid;
+                            totalBalance += lastPaidBalance;
+                        %>
+                            <tr style="background: #e8f5e9;">
+                                <td><%= lastPaidDate %></td>
+                                <td><%= lastPaidInvoice.apartmentLabel ? lastPaidInvoice.apartmentLabel + ' - ' : '' %><%= lastPaidInvoice.description || 'N/A' %></td>
+                                <td><%= lastPaidInvoice.categoryName %></td>
+                                <td class="due-amount">$<%= lastPaidInvoice.amount.toFixed(2) %></td>
+                                <td class="payment">$<%= lastPaidInvoice.amountPaid.toFixed(2) %></td>
+                                <td class="balance" style="padding: 15px 8px; color: <%= lastPaidBalance > 0 ? '#dc3545' : '#28a745' %>;">
+                                    <%= lastPaidBalance > 0 ? '-' : '' %>$<%= Math.abs(lastPaidBalance).toFixed(2) %>
+                                </td>
+                                <td class="total" style="color: <%= lastPaidBalance > 0 ? '#ffc107' : '#28a745' %>; font-weight: bold;">
+                                    <%= lastPaidBalance > 0 ? 'Partial' : 'Paid' %>
+                                </td>
+                            </tr>
+                        <% } %>
+                        
+                        <!-- Total Row -->
+                        <tr style="border-top: 2px solid #000; font-weight: bold; background: #f8f9fa;">
+                            <td colspan="3" style="padding: 15px 8px;">Total</td>
+                            <td class="due-amount" style="padding: 15px 8px;">$<%= totalDue.toFixed(2) %></td>
+                            <td class="payment" style="padding: 15px 8px;">$<%= totalPaid.toFixed(2) %></td>
+                            <td class="balance" style="padding: 15px 8px; color: <%= totalBalance > 0 ? '#dc3545' : '#28a745' %>;">
+                                <%= totalBalance > 0 ? '-' : '' %>$<%= Math.abs(totalBalance).toFixed(2) %>
+                            </td>
+                            <td class="total" style="padding: 15px 8px;">-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        <% } %>
+
+        <%
+          const receiptInterestRate = Number(typeof yearlyInterestRate !== 'undefined' && yearlyInterestRate != null ? yearlyInterestRate : 5);
+          const receiptInterestLabel = String(parseFloat(receiptInterestRate.toFixed(2)));
+        %>
+        <p class="interest-note" style="margin-top: 36px; font-size: 12px; color: #555; line-height: 1.5;">
+            Note: Unpaid invoices accumulate <%= receiptInterestLabel %>% interest per year.
+        </p>
+        <p class="download-note" style="margin-top: 8px; font-size: 12px; color: #555; line-height: 1.5;">
+            To download a digital copy of this receipt, please login to
+            <a href="https://www.santamariabouar.com" style="color: #555; text-decoration: underline;">https://www.santamariabouar.com</a>
+        </p>
+    </div>
+
+    <script>
+        // Auto print when opened
+        window.onload = function() {
+            // Set the document title for better filename when saving
+            document.title = '<%= receiptFilename %>';
+            window.print();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+@use "../abstracts/variables" as *;
+
+@mixin reveal-targets {
+  .hero__grid > *,
+  .about-hero__grid > *,
+  .product-hero > *,
+  .feature-row > *,
+  .stat,
+  .card,
+  .feature-card,
+  .product-tile,
+  .price-card,
+  .method-step,
+  .process-step,
+  .case-study,
+  .portfolio-card,
+  .faq details,
+  .tech-pills__item,
+  .cta-banner,
+  .home-cta .container > *,
+  .product-detail-cta .container > *,
+  .about-cta .container > *,
+  .container > .max-w-2xl,
+  .container > .max-w-3xl,
+  .container > .max-w-xl,
+  .container > .mb-xl,
+  .container > .text-center,
+  .service-bento__item,
+  .blog-card,
+  .team-card {
+    @content;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.js {
+    @include reveal-targets {
+      &:not(.is-revealed) {
+        opacity: 0;
+        transform: translateY(1.5rem);
+        transition:
+          opacity $duration-reveal $ease-default,
+          transform $duration-reveal $ease-default;
+        transition-delay: var(--reveal-delay, 0ms);
+      }
+
+      &.is-visible:not(.is-revealed) {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  }
+}

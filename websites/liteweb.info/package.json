@@ -1,0 +1,23 @@
+{
+  "name": "liteweb",
+  "version": "1.0.0",
+  "private": true,
+  "description": "LiteWeb static marketing site",
+  "scripts": {
+    "build:css": "sass html/scss/main.scss html/css/main.css --style=expanded",
+    "watch:css": "sass --watch html/scss/main.scss:html/css/main.css",
+    "build": "npm run build:css",
+    "generate:pages": "node scripts/generate-pages.js",
+    "capture:portfolio": "node scripts/capture-portfolio.js",
+    "start": "node scripts/server.js",
+    "dev": "npm run build:css && node scripts/server.js 3010"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "nodemailer": "^7.0.6"
+  },
+  "devDependencies": {
+    "playwright": "^1.49.1",
+    "sass": "^1.77.8"
+  }
+}

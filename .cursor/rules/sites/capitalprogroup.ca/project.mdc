@@ -1,0 +1,29 @@
+---
+description: capitalprogroup.ca - build check, CMS folder layout (readme, data paths, tests, admin and public assets) and MVC split
+globs: websites/capitalprogroup.ca/**
+alwaysApply: false
+---
+
+# capitalprogroup.ca: project rules
+
+Site rule for `websites/capitalprogroup.ca/`. It applies in addition to the global rules in `.cursor/rules/`; where they conflict, the global rules win. Paths are relative to the site folder.
+
+## Build verification
+- After making any code changes (especially TypeScript files), run `npm run build` from inside `websites/capitalprogroup.ca/` to verify the build succeeds.
+- If build errors occur, fix them before completing the task.
+
+## Project structure
+- All readme files go under the `readme` folder.
+- CMS project with separation of concerns between admin and public.
+- All JSON data files live in the `data` folder.
+- All data file locations are defined in the `data-paths` constants.
+- Put all tests in the `tests` directory.
+
+## Admin structure
+- For admin, all CSS goes in `admin/public/css/custom.css` and all JS in `admin/public/js/custom.js`.
+
+## Public site structure
+- For the public site, all scripts must be in `public/js` and are compiled into `script.js` with `node build-script.js`.
+
+## Architecture
+- Follow the MVC pattern: all business logic in services, request handling in controllers, and all design and presentation in views.

@@ -1,0 +1,168 @@
+<section class="p-0">
+  <% if (typeof slides !== 'undefined' && slides && slides.length > 0) { %>
+  <div class="home-slider owl-carousel owl-theme">
+    <% slides.forEach(function(slide) { %>
+    <div class="home-slide">
+      <img src="<%= slide.image %>" alt="<%= slide.alt || slide.title || '' %>">
+      <% if (slide.title || slide.headlineLine1 || (slide.link && slide.buttonText)) { %>
+      <div class="home-slide-overlay">
+        <% if (slide.title) { %><span class="home-slide-kicker"><%= slide.title %></span><% } %>
+        <% if (slide.headlineLine1) { %><h2 class="home-slide-title"><%= slide.headlineLine1 %></h2><% } %>
+        <% if (slide.link && slide.buttonText) { %><a href="<%= slide.link %>" class="butn-style2"><%= slide.buttonText %></a><% } %>
+      </div>
+      <% } %>
+    </div>
+    <% }); %>
+  </div>
+  <% } %>
+</section>
+
+<% const concept = typeof ourConcept !== 'undefined' ? ourConcept : null; %>
+<section class="about-section">
+  <div class="container mt-lg-3 mt-xl-0">
+    <div class="row clearfix align-items-xl-center">
+      <div class="col-lg-6 text-column mb-2-9 mb-lg-0 wow fadeIn" data-wow-delay="200ms">
+        <div class="pe-xl-2-9">
+          <h2 class="h1 mb-4"><%= concept && concept.title ? concept.title : 'Our Concept' %></h2>
+          <div class="clearfix d-sm-flex align-items-center mb-2-6">
+            <div class="list-style1 mb-1-9 mb-sm-0">
+              <%- concept && concept.content ? concept.content : '' %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% if (concept && concept.pageImage) { %>
+      <div class="col-lg-6 position-relative wow fadeIn" data-wow-delay="400ms">
+        <div class="ps-lg-1-9 position-relative z-index-9">
+          <img src="<%= concept.pageImage %>" class="rounded" alt="<%= concept.title || 'Our Concept' %>">
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<% const companiesIntro = typeof ourCompanies !== 'undefined' ? ourCompanies : null; %>
+<section class="pt-0">
+  <div class="container">
+    <div class="title-style1 text-center wow fadeIn" data-wow-delay="100ms">
+      <h2><%= companiesIntro && companiesIntro.title ? companiesIntro.title : 'Our Companies' %></h2>
+      <div class="mb-0 w-md-70 w-lg-60 w-xl-50 mx-auto">
+        <%- companiesIntro && companiesIntro.content ? companiesIntro.content : '' %>
+      </div>
+    </div>
+    <div class="row mt-n2-2">
+      <% (typeof companyPages !== 'undefined' ? companyPages : []).forEach(function(company, index) { %>
+      <div class="col-md-6 company-card-col mt-2-2 wow fadeIn" data-wow-delay="<%= 200 + index * 100 %>ms">
+        <div class="card card-style8 company-card" style="--company-color: <%= company.brandColor || '#3d5896' %>">
+          <div class="card-body px-1-9 py-2-9">
+            <% if (company.icon) { %>
+            <div class="icon-box mb-1-9 mb-2-6">
+              <img src="<%= company.icon %>" class="z-index-9 position-relative" alt="<%= company.title %>">
+            </div>
+            <% } %>
+            <h3 class="h5 mb-3"><a href="<%= company.url %>"><%= company.title %></a></h3>
+            <% if (company.tagline) { %><p class="mb-1-9 text-color-light-blue"><%= company.tagline %></p><% } %>
+            <a href="<%= company.url %>" class="company-card-more font-weight-600">Read more <i class="ti-arrow-right ms-2 align-middle display-30"></i></a>
+          </div>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+  </div>
+</section>
+
+<% const why = typeof whyChooseUs !== 'undefined' ? whyChooseUs : null; %>
+<section class="pt-0">
+  <div class="row g-0">
+    <% if (why && why.carouselImages && why.carouselImages.length) { %>
+    <div class="col-lg-5 d-none d-lg-block">
+      <div class="whychooseus3-carousel owl-carousel owl-theme position-relative h-100">
+        <% why.carouselImages.forEach(function(image) { %>
+          <div class="bg-img cover-background" data-overlay-dark="0" data-background="<%= image %>"></div>
+        <% }); %>
+      </div>
+    </div>
+    <% } %>
+    <div class="<%= why && why.carouselImages && why.carouselImages.length ? 'col-lg-7' : 'col-12' %>">
+      <div class="whychooseus3 position-relative bg-img cover-background h-100 left-overlay-dark" data-overlay-dark="9" data-background="<%= why && why.pageImage ? why.pageImage : '/images/bg/bg-06.jpg' %>">
+        <div class="row position-relative z-index-9">
+          <div class="col-lg-9 col-xl-10 col-xxl-8 py-6 py-md-8 py-xl-8 py-xxl-14 px-1-9 px-sm-8 pe-xl-3 ps-xl-8 ps-xxl-10">
+            <div class="title-style2 white mb-4">
+              <h2 class="text-white mb-0 why-choose-title"><%= why && why.title ? why.title : 'Why Choose Us' %></h2>
+            </div>
+            <div>
+              <%- why && why.content ? why.content : '' %>
+              <a href="/contact-us" class="butn-style3 brown mt-4">Contact Us</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pt-0">
+  <div class="container">
+    <div class="text-center mb-2-9 mb-lg-6 wow fadeIn" data-wow-delay="100ms">
+      <h2 class="mb-0 h1">Latest News and Events</h2>
+    </div>
+    <div class="row g-xl-5 mt-n1-6">
+      <% if (typeof latestNews !== 'undefined' && latestNews && latestNews.length) { %>
+        <% latestNews.forEach(function(item, index) { %>
+          <% const pub = item.lastUpdated ? new Date(item.lastUpdated) : null; %>
+          <div class="col-md-6 col-lg-4 mt-1-6 wow fadeIn" data-wow-delay="<%= 200 + index * 100 %>ms">
+            <article class="card card-style6 border-0 h-100">
+              <div class="card-img">
+                <a href="/news/<%= item.key %>">
+                  <img src="<%= item.pageImage || '/images/blog/blog-01.jpg' %>" class="rounded" alt="<%= item.title %>">
+                </a>
+              </div>
+              <div class="card-body p-0">
+                <div class="position-relative">
+                  <div class="blog-date position-absolute bg-primary">
+                    <span class="d-block text-white display-26 display-sm-23 lh-1 mb-2"><%= pub ? pub.getDate().toString().padStart(2, '0') : '' %></span>
+                    <span class="d-block text-white lh-1"><%= pub ? pub.toLocaleString('en', { month: 'short' }) : '' %></span>
+                  </div>
+                  <div class="p-4 pt-5">
+                    <h3 class="h5 mb-3"><a href="/news/<%= item.key %>"><%= item.title %></a></h3>
+                    <p><%= item.seo && item.seo.pageDescription ? item.seo.pageDescription : '' %></p>
+                    <a href="/news/<%= item.key %>" class="text-dark text-primary-hover font-weight-600">Read more <i class="ti-arrow-right ms-2 align-middle display-30"></i></a>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        <% }); %>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<section class="z-index-9 testimonials-home position-relative">
+  <div class="testimonials-home-bg bg-img cover-background" data-overlay-dark="4" data-background="<%= typeof testimonialsBanner !== 'undefined' && testimonialsBanner ? testimonialsBanner : '/images/bg/testimonials.jpg' %>"></div>
+  <div class="container position-relative z-index-9">
+    <div class="mb-2-6 mb-lg-6 text-center wow fadeIn" data-wow-delay="100ms">
+      <span class="d-block mb-2 text-white text-uppercase fw-bold">Testimonials</span>
+      <h2 class="text-white mb-0 h1">What Our Clients Say</h2>
+    </div>
+    <div class="bg-brown p-1-9 p-lg-6 testimonial-style1 position-relative rounded wow fadeIn" data-wow-delay="200ms">
+      <img src="/images/content/dots2.png" class="position-absolute bottom-n60 right-n10 ani-left-right" alt="">
+      <div class="testimonial-carousel owl-carousel owl-theme">
+        <% (typeof testimonials !== 'undefined' ? testimonials : []).forEach(function(item) { %>
+        <div class="text-center row justify-content-center">
+          <div class="col-md-10">
+            <p class="mb-1-6 text-center mt-3 mt-lg-2-3 lead text-white"><%= item.quote %></p>
+            <% const stars = Math.max(1, Math.min(5, parseInt(item.rating, 10) || 5)); %>
+            <div class="mb-3 testimonial-stars">
+              <% [1,2,3,4,5].slice(0, stars).forEach(function() { %><i class="fas fa-star text-secondary"></i><% }); %>
+            </div>
+            <h6 class="mb-1 text-white font-weight-400"><%= item.name %></h6>
+            <% if (item.location) { %><p class="mb-0 text-white opacity8 small"><%= item.location %></p><% } %>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+    </div>
+  </div>
+</section>

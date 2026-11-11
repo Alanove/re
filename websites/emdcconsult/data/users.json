@@ -1,0 +1,24 @@
+{
+  "users": [
+    {
+      "id": 10,
+      "name": "Super Admin",
+      "email": "b@b.com",
+      "password": "d6c1b37d0c834649099184b894ed16b147b3087bd6fdba7f2e26acf3b828ac9e",
+      "salt": "e7863e5dcbcaa2bb78e01cc889011abc",
+      "status": "Active",
+      "createdAt": "2025-07-18T12:12:35.104Z",
+      "notes": "Test user"
+    },
+    {
+      "id": 12,
+      "name": "Admin Admin",
+      "email": "admin@admin.com",
+      "password": "865f364c01ae0efce08ff8363c2ed19985f80d31429a583099eee92721f6b8fb",
+      "salt": "0baff61cfd18746766f56020a838f878",
+      "status": "Active",
+      "createdAt": "2025-07-23T00:52:07.156Z",
+      "notes": "Admin account\r\n"
+    }
+  ]
+}

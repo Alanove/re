@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Custom Software | LiteWeb Engineering</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Manrope:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-effect {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+        @media (max-width: 768px) {
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-on-surface": "#f0f1f2",
+                        "outline": "#707881",
+                        "on-surface": "#191c1d",
+                        "tertiary-fixed-dim": "#8bdb46",
+                        "on-surface-variant": "#3f4850",
+                        "background": "#f8f9fa",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#526478",
+                        "surface-tint": "#006397",
+                        "surface-variant": "#e1e3e4",
+                        "on-tertiary-fixed": "#0c2000",
+                        "secondary-container": "#cfe2f9",
+                        "secondary-fixed-dim": "#b5c8df",
+                        "inverse-surface": "#2e3132",
+                        "surface-container": "#edeeef",
+                        "on-secondary-fixed": "#091d2e",
+                        "on-tertiary-fixed-variant": "#285000",
+                        "surface-container-highest": "#e1e3e4",
+                        "primary-container": "#3498db",
+                        "secondary": "#4e6073",
+                        "primary-fixed": "#cce5ff",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-primary": "#92ccff",
+                        "primary": "#006397",
+                        "primary-fixed-dim": "#92ccff",
+                        "on-background": "#191c1d",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-primary-container": "#002d47",
+                        "on-secondary-fixed-variant": "#36485b",
+                        "on-primary-fixed": "#001d31",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#bfc7d2",
+                        "surface": "#f8f9fa",
+                        "tertiary-fixed": "#a6f85f",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "tertiary": "#376b00",
+                        "on-tertiary-container": "#163000",
+                        "tertiary-container": "#58a305",
+                        "surface-bright": "#f8f9fa",
+                        "surface-container-low": "#f3f4f5",
+                        "secondary-fixed": "#d1e4fb",
+                        "on-primary-fixed-variant": "#004b73",
+                        "on-secondary": "#ffffff",
+                        "surface-dim": "#d9dadb",
+                        "surface-container-high": "#e7e8e9"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "48px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "xs": "4px",
+                        "xl": "32px",
+                        "max-width": "1280px",
+                        "base": "4px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Manrope"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "headline-xl": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 left-0 w-full z-50 bg-surface/80 backdrop-blur-md dark:bg-surface-dim/80 border-b border-outline-variant/30 shadow-sm flex justify-between items-center px-6 md:px-12 py-4">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md font-bold text-primary">LiteWeb</span>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#">Home</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-md text-label-md" href="#">Services</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#">Portfolio</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#">Pricing</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#">Blog</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#">About</a>
+</nav>
+<button class="bg-primary-container text-on-primary-container px-6 py-2.5 rounded-lg font-label-md text-label-md font-bold hover:opacity-90 active:scale-95 transition-all">
+            Start a Project
+        </button>
+</header>
+<main class="pt-24 pb-20">
+<!-- Hero Section -->
+<section class="max-w-max mx-auto px-6 md:px-12 py-16 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<div class="space-y-8">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span class="text-label-sm font-label-sm uppercase tracking-wider">Premium Engineering</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface leading-tight">
+                    Bespoke Engineering for <span class="text-primary">Visionary Enterprises</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+                    We architect custom software solutions that prioritize extreme scalability, security, and long-term maintainability. Your unique business logic deserves more than a template—it deserves a bespoke digital foundation.
+                </p>
+<div class="flex flex-wrap gap-4 pt-4">
+<button class="bg-primary text-on-primary px-8 py-4 rounded-lg font-label-md text-label-md flex items-center gap-2 hover:bg-primary/90 transition-all shadow-md">
+                        Request a Quote
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<button class="border border-outline-variant text-on-surface px-8 py-4 rounded-lg font-label-md text-label-md hover:bg-surface-container-low transition-all">
+                        View Case Studies
+                    </button>
+</div>
+</div>
+<div class="relative h-[500px] rounded-xl overflow-hidden shadow-xl border border-outline-variant/30">
+<img class="w-full h-full object-cover" data-alt="A high-end architectural shot of a modern data center interior with soft blue and white ambient lighting. The perspective is symmetrical, leading the eye down a corridor of sleek server racks with glowing indicators. The aesthetic is clean, professional, and corporate, emphasizing stability and advanced technology. The overall mood is calm and efficient, reflecting a high-tier engineering environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC99oHH15WSwVlZDfh6Q36FLhlSRXLDZuMrs-m0-EFIWrQCVePgVn0pbs1MVk8Vv2seCoqK7c2QSWozBkOPoluGiJ6Yx8So1K6kIFcoEFV3LA24OO3V8JFo4-OUELqPn4mRPF7qc0Shn_UOV7pdrQukR7qln3zusnX_zDS0m6uYxiujCr9f9z-YodAQsnU_96oBM6emqLX-NbqV5XAYV3RkDcjOJRTXs9V05g6y9o1-B1h9lf2xTTa5"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+<div class="absolute bottom-8 left-8 right-8 p-6 glass-effect bg-white/10 rounded-lg border border-white/20">
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 rounded-full bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined">precision_manufacturing</span>
+</div>
+<div>
+<p class="text-white font-label-md">99.9% Up-time Reliability</p>
+<p class="text-white/70 text-label-sm">Enterprise-grade SLAs for global operations.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Bento Grid Features -->
+<section class="max-w-max mx-auto px-6 md:px-12 py-20 bg-surface-container-lowest">
+<div class="text-center mb-16 max-w-2xl mx-auto">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-4">Engineered for the Long Haul</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">We don't just build apps; we build assets. Our methodology focuses on the critical intersection of business goals and technical excellence.</p>
+</div>
+<div class="bento-grid">
+<!-- Large Card -->
+<div class="col-span-12 lg:col-span-8 bg-white border border-outline-variant rounded-xl p-8 flex flex-col justify-between hover:border-primary/50 transition-colors">
+<div>
+<span class="material-symbols-outlined text-primary text-4xl mb-4" style="font-variation-settings: 'FILL' 1;">architecture</span>
+<h3 class="font-headline-md text-headline-md mb-4">Scalable Microservices Architecture</h3>
+<p class="text-on-surface-variant font-body-md mb-6 max-w-md">Our systems are designed to grow with your user base, utilizing cloud-native patterns that ensure horizontal scalability and zero-downtime deployments.</p>
+</div>
+<div class="grid grid-cols-3 gap-4 border-t border-outline-variant pt-6">
+<div class="text-center">
+<div class="text-primary font-bold text-headline-md">10x</div>
+<div class="text-label-sm text-outline uppercase">Growth Capacity</div>
+</div>
+<div class="text-center">
+<div class="text-primary font-bold text-headline-md"><50ms</div>
+<div class="text-label-sm text-outline uppercase">Latency Target</div>
+</div>
+<div class="text-center">
+<div class="text-primary font-bold text-headline-md">24/7</div>
+<div class="text-label-sm text-outline uppercase">Monitoring</div>
+</div>
+</div>
+</div>
+<!-- Side Card -->
+<div class="col-span-12 lg:col-span-4 bg-primary text-on-primary rounded-xl p-8 flex flex-col justify-center space-y-6">
+<h3 class="font-headline-md text-headline-md">Long-term Partnership</h3>
+<p class="text-on-primary/80 font-body-md">We become an extension of your team, providing strategic guidance and continuous evolution as market demands shift.</p>
+<ul class="space-y-3">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-primary text-[20px]">check_circle</span>
+<span class="font-label-md">Strategic Roadmapping</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-primary text-[20px]">check_circle</span>
+<span class="font-label-md">Legacy Modernization</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-primary text-[20px]">check_circle</span>
+<span class="font-label-md">Post-launch Support</span>
+</li>
+</ul>
+</div>
+<!-- Small Cards -->
+<div class="col-span-12 lg:col-span-4 bg-white border border-outline-variant rounded-xl p-8 hover:border-primary/50 transition-colors">
+<span class="material-symbols-outlined text-secondary text-3xl mb-4">security</span>
+<h4 class="font-label-md text-label-md text-on-surface mb-2">Zero-Trust Security</h4>
+<p class="text-on-surface-variant text-body-sm">Deeply integrated security protocols from the first line of code to the final deployment.</p>
+</div>
+<div class="col-span-12 lg:col-span-4 bg-white border border-outline-variant rounded-xl p-8 hover:border-primary/50 transition-colors">
+<span class="material-symbols-outlined text-secondary text-3xl mb-4">bolt</span>
+<h4 class="font-label-md text-label-md text-on-surface mb-2">High Performance</h4>
+<p class="text-on-surface-variant text-body-sm">Optimized codebases that deliver lightning-fast experiences for your end-users and internal teams.</p>
+</div>
+<div class="col-span-12 lg:col-span-4 bg-white border border-outline-variant rounded-xl p-8 hover:border-primary/50 transition-colors">
+<span class="material-symbols-outlined text-secondary text-3xl mb-4">settings_suggest</span>
+<h4 class="font-label-md text-label-md text-on-surface mb-2">Custom Integration</h4>
+<p class="text-on-surface-variant text-body-sm">Seamless connectivity with your existing ERP, CRM, and legacy infrastructure.</p>
+</div>
+</div>
+</section>
+<!-- Technical Deep Dive Section -->
+<section class="max-w-max mx-auto px-6 md:px-12 py-24 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<div class="order-2 lg:order-1">
+<div class="bg-surface-container rounded-2xl p-4 shadow-inner">
+<div class="bg-white rounded-xl overflow-hidden border border-outline-variant">
+<div class="bg-surface-dim px-4 py-2 flex items-center gap-2 border-b border-outline-variant">
+<div class="w-3 h-3 rounded-full bg-error"></div>
+<div class="w-3 h-3 rounded-full bg-tertiary-container"></div>
+<div class="w-3 h-3 rounded-full bg-secondary-container"></div>
+<span class="ml-4 text-label-sm text-outline font-mono">architecture_v2.ts</span>
+</div>
+<div class="p-6 font-mono text-sm leading-relaxed text-on-surface-variant overflow-x-auto whitespace-pre">
+<span class="text-primary">interface</span> <span class="text-secondary">EnterpriseSolution</span> {
+  scalability: <span class="text-tertiary">"infinite"</span> | <span class="text-tertiary">"custom"</span>;
+  reliability: <span class="text-primary">number</span>; <span class="text-outline">// 99.999%</span>
+  security: <span class="text-secondary">AES_256_GCM</span>;
+}
+
+<span class="text-primary">class</span> LiteWebEngine <span class="text-primary">implements</span> EnterpriseSolution {
+  <span class="text-primary">constructor</span>(private readonly clientRequirements: Specs) {
+    this.initInfrastructure();
+    this.deploySecureLayer();
+  }
+}</div>
+</div>
+</div>
+</div>
+<div class="order-1 lg:order-2 space-y-6">
+<h2 class="font-headline-lg text-headline-lg">No Technical Debt, Just Technical Excellence.</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                    We utilize a rigorous "Clean Architecture" approach. This means your software is decoupled, testable, and independent of specific frameworks, ensuring that technology shifts in the future don't render your investment obsolete.
+                </p>
+<div class="space-y-4">
+<div class="flex items-start gap-4 p-4 border-l-4 border-primary bg-surface-container-low">
+<span class="material-symbols-outlined text-primary mt-1">code</span>
+<div>
+<p class="font-label-md">TDD & BDD Methodology</p>
+<p class="text-body-sm text-on-surface-variant">Test-driven development ensures 90%+ code coverage for mission-critical paths.</p>
+</div>
+</div>
+<div class="flex items-start gap-4 p-4 border-l-4 border-outline-variant">
+<span class="material-symbols-outlined text-outline mt-1">cloud_done</span>
+<div>
+<p class="font-label-md">CI/CD Excellence</p>
+<p class="text-body-sm text-on-surface-variant">Automated pipelines for rapid, safe, and repeatable production releases.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA Section -->
+<section class="max-w-max mx-auto px-6 md:px-12 py-20">
+<div class="bg-inverse-surface text-inverse-on-surface rounded-2xl p-12 md:p-20 text-center relative overflow-hidden">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-3xl -mr-32 -mt-32"></div>
+<div class="absolute bottom-0 left-0 w-64 h-64 bg-secondary/20 rounded-full blur-3xl -ml-32 -mb-32"></div>
+<h2 class="font-headline-xl text-headline-xl mb-6 relative z-10">Ready to build your <br class="hidden md:block"/> competitive advantage?</h2>
+<p class="text-inverse-on-surface/80 font-body-lg mb-10 max-w-2xl mx-auto relative z-10">
+                    Schedule a consultation with our senior engineering leads to discuss your project requirements and receive a detailed technical proposal.
+                </p>
+<div class="flex justify-center gap-4 relative z-10">
+<button class="bg-primary text-on-primary px-10 py-4 rounded-lg font-label-md text-label-md font-bold hover:scale-105 transition-transform">
+                        Request a Quote
+                    </button>
+<button class="bg-white/10 text-white border border-white/20 px-10 py-4 rounded-lg font-label-md text-label-md font-bold hover:bg-white/20 transition-all">
+                        Talk to an Engineer
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-xl px-6 md:px-12 bg-surface-container-lowest border-t border-outline-variant max-w-container-max mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-lg mb-12">
+<div class="space-y-6">
+<span class="font-headline-md text-headline-md font-bold text-primary">LiteWeb</span>
+<p class="text-on-surface-variant text-body-sm">
+                    Engineering excellence for the modern enterprise. We build the systems that power industry leaders.
+                </p>
+<div class="flex gap-4">
+<a class="h-10 w-10 flex items-center justify-center rounded-full bg-surface-container text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">public</span>
+</a>
+<a class="h-10 w-10 flex items-center justify-center rounded-full bg-surface-container text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">alternate_email</span>
+</a>
+</div>
+</div>
+<div>
+<h5 class="font-label-md text-label-md text-on-surface mb-6 uppercase">Services</h5>
+<ul class="space-y-4">
+<li><a class="text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">Custom Software</a></li>
+<li><a class="text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">Cloud Engineering</a></li>
+<li><a class="text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">System Integration</a></li>
+<li><a class="text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">Security Audit</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-label-md text-label-md text-on-surface mb-6 uppercase">Company</h5>
+<ul class="space-y-4">
+<li><a class="text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">Portfolio</a></li>
+<li><a class="text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">Blog</a></li>
+<li><a class="text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">About Us</a></li>
+<li><a class="text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">Contact</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-label-md text-label-md text-on-surface mb-6 uppercase">Legal</h5>
+<ul class="space-y-4">
+<li><a class="text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">Privacy Policy</a></li>
+<li><a class="text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">Terms of Service</a></li>
+<li><a class="text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">SLA Agreement</a></li>
+</ul>
+</div>
+</div>
+<div class="pt-8 border-t border-outline-variant/30 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-on-surface-variant text-label-sm font-body-md">© 2024 LiteWeb Engineering. All rights reserved.</p>
+<div class="flex gap-6">
+<span class="text-outline text-label-sm">ISO 27001 Certified</span>
+<span class="text-outline text-label-sm">SOC 2 Type II Compliant</span>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interactions and atmospheric effects
+        document.addEventListener('mousemove', (e) => {
+            const cards = document.querySelectorAll('.bento-grid > div');
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                if (x > 0 && x < rect.width && y > 0 && y < rect.height) {
+                    card.style.setProperty('--mouse-x', `${x}px`);
+                    card.style.setProperty('--mouse-y', `${y}px`);
+                }
+            });
+        });
+
+        // Sticky header transition
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 20) {
+                header.classList.add('shadow-md');
+                header.classList.remove('shadow-sm');
+            } else {
+                header.classList.add('shadow-sm');
+                header.classList.remove('shadow-md');
+            }
+        });
+    </script>
+</body></html>

@@ -1,0 +1,22 @@
+<% if (typeof items !== 'undefined' && items && items.length > 0) { %>
+    <% items.forEach(function(item) { %>
+        <% if (item.active) { %>
+            <% if (item.children && item.children.length > 0) { %>
+                <div class="nav-item dropdown">
+                    <a href="<%= item.url %>" class="nav-link dropdown-toggle<%= selected === item.key ? ' active' : '' %>" data-toggle="dropdown">
+                        <%= item.title %> <i class="fa fa-angle-down mt-1"></i>
+                    </a>
+                    <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
+                        <% item.children.forEach(function(subItem) { %>
+                            <% if (subItem.active) { %>
+                                <a href="<%= subItem.url %>" class="dropdown-item<%= selected === subItem.key ? ' active' : '' %>"><%= subItem.title %></a>
+                            <% } %>
+                        <% }); %>
+                    </div>
+                </div>
+            <% } else { %>
+                <a href="<%= item.url %>" class="nav-item nav-link<%= selected === item.key ? ' active' : '' %>"><%= item.title %></a>
+            <% } %>
+        <% } %>
+    <% }); %>
+<% } %>

@@ -1,0 +1,60 @@
+<!-- BEGIN #header -->
+<div id="header" class="app-header">
+	<!-- BEGIN navbar-header -->
+	<div class="navbar-header">
+		<div class="admin-header-brand-group">
+			<a href="/admin/dashboard" class="navbar-brand">
+				<b class="me-3px"><%- typeof siteTitle !== 'undefined' && siteTitle ? siteTitle + ' <span class="text-muted fs-12px fw-normal">Admin Panel</span>' : 'Admin Panel' %></b>
+			</a>
+			<a href="/" class="admin-open-website" target="_blank" rel="noopener noreferrer" title="<%= typeof t !== 'undefined' ? t('common.openWebsite') : 'Open website' %>" aria-label="<%= typeof t !== 'undefined' ? t('common.openWebsite') : 'Open website' %>">
+				<span class="admin-open-website__label"><%= typeof t !== 'undefined' ? t('common.openWebsite') : 'Open website' %></span>
+				<i class="fa fa-external-link-alt" aria-hidden="true"></i>
+			</a>
+		</div>
+		<button type="button" class="navbar-mobile-toggler" data-toggle="app-sidebar-mobile">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+	</div>
+	<!-- END navbar-header -->
+	
+	<!-- BEGIN header-nav -->
+	<div class="navbar-nav">
+		<!-- Language Switcher -->
+		<% if (typeof supportedLanguages !== 'undefined' && supportedLanguages) { %>
+			<div class="navbar-item dropdown">
+				<a href="#" class="navbar-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown" title="<%= typeof t !== 'undefined' ? t('language.selectLanguage') : 'Select Language' %>">
+					<i class="fa fa-globe me-1"></i>
+					<span class="d-none d-md-inline"><%= typeof currentLanguage !== 'undefined' && typeof getLanguageName !== 'undefined' ? getLanguageName(currentLanguage) : 'EN' %></span>
+				</a>
+				<div class="dropdown-menu dropdown-menu-end" id="language-dropdown">
+					<% supportedLanguages.forEach(function(lang) { %>
+						<a href="#" class="dropdown-item language-option <%= typeof currentLanguage !== 'undefined' && currentLanguage === lang ? 'active' : '' %>" data-language="<%= lang %>">
+							<%= typeof getLanguageName !== 'undefined' ? getLanguageName(lang) : lang.toUpperCase() %>
+							<% if (typeof currentLanguage !== 'undefined' && currentLanguage === lang) { %>
+								<i class="fa fa-check ms-2"></i>
+							<% } %>
+						</a>
+					<% }); %>
+				</div>
+			</div>
+		<% } %>
+		
+		<div class="navbar-item navbar-user dropdown">
+			<a href="#" class="navbar-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
+				<span>
+					<span class="d-none d-md-inline fw-bold"><%= typeof user !== 'undefined' && user && user.name ? user.name : (typeof t !== 'undefined' ? t('common.name') : 'Admin User') %></span>
+					<b class="caret"></b>
+				</span>
+			</a>
+			<div class="dropdown-menu dropdown-menu-end me-1">
+				<a href="/admin/profile" class="dropdown-item"><%= typeof t !== 'undefined' ? t('users.editProfile') : 'Edit Profile' %></a>
+				<div class="dropdown-divider"></div>
+				<a href="/admin/logout" class="dropdown-item"><%= typeof t !== 'undefined' ? t('auth.logout') : 'Log Out' %></a>
+			</div>
+		</div>
+	</div>
+	<!-- END header-nav -->
+</div>
+<!-- END #header --> 

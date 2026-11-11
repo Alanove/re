@@ -1,0 +1,10 @@
+{
+  "serverPath": "/www/wwwroot/guerrasports",
+  "port": null,
+  "healthPath": "/",
+  "nodeBin": null,
+  "aapanelProject": "guerrasports",
+  "restartCommand": null,
+  "protect": [],
+  "migrations": { "dir": "data-migration", "script": "migrate:production" }
+}

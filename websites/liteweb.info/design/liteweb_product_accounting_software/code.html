@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LiteWeb | Accounting Software</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-on-surface": "#f0f1f2",
+                    "outline": "#707881",
+                    "on-surface": "#191c1d",
+                    "tertiary-fixed-dim": "#8bdb46",
+                    "on-surface-variant": "#3f4850",
+                    "background": "#f8f9fa",
+                    "on-primary": "#ffffff",
+                    "on-secondary-container": "#526478",
+                    "surface-tint": "#006397",
+                    "surface-variant": "#e1e3e4",
+                    "on-tertiary-fixed": "#0c2000",
+                    "secondary-container": "#cfe2f9",
+                    "secondary-fixed-dim": "#b5c8df",
+                    "inverse-surface": "#2e3132",
+                    "surface-container": "#edeeef",
+                    "on-secondary-fixed": "#091d2e",
+                    "on-tertiary-fixed-variant": "#285000",
+                    "surface-container-highest": "#e1e3e4",
+                    "primary-container": "#3498db",
+                    "secondary": "#4e6073",
+                    "primary-fixed": "#cce5ff",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-primary": "#92ccff",
+                    "primary": "#006397",
+                    "primary-fixed-dim": "#92ccff",
+                    "on-background": "#191c1d",
+                    "on-error": "#ffffff",
+                    "error": "#ba1a1a",
+                    "on-primary-container": "#002d47",
+                    "on-secondary-fixed-variant": "#36485b",
+                    "on-primary-fixed": "#001d31",
+                    "error-container": "#ffdad6",
+                    "outline-variant": "#bfc7d2",
+                    "surface": "#f8f9fa",
+                    "tertiary-fixed": "#a6f85f",
+                    "on-tertiary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "tertiary": "#376b00",
+                    "on-tertiary-container": "#163000",
+                    "tertiary-container": "#58a305",
+                    "surface-bright": "#f8f9fa",
+                    "surface-container-low": "#f3f4f5",
+                    "secondary-fixed": "#d1e4fb",
+                    "on-primary-fixed-variant": "#004b73",
+                    "on-secondary": "#ffffff",
+                    "surface-dim": "#d9dadb",
+                    "surface-container-high": "#e7e8e9"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-desktop": "48px",
+                    "gutter": "24px",
+                    "margin-mobile": "16px",
+                    "md": "16px",
+                    "lg": "24px",
+                    "xs": "4px",
+                    "xl": "32px",
+                    "max-width": "1280px",
+                    "base": "4px",
+                    "sm": "8px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-md": ["Manrope"],
+                    "body-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-lg-mobile": ["Manrope"],
+                    "headline-lg": ["Manrope"],
+                    "headline-xl": ["Manrope"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hero-pattern {
+            background-color: #f8f9fa;
+            background-image: radial-gradient(#dee2e6 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-outline-variant/30 shadow-sm flex justify-between items-center px-6 md:px-12 py-4 max-w-[1440px] mx-auto">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md font-extrabold text-primary">LiteWeb</span>
+</div>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Home</a>
+<a class="font-label-md text-label-md text-primary font-bold border-b-2 border-primary pb-1" href="#">Services</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Portfolio</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Pricing</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Blog</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">About</a>
+</nav>
+<button class="bg-primary-container text-on-primary-container font-label-md text-label-md px-lg py-sm rounded-lg hover:brightness-110 active:scale-95 transition-all duration-200">
+            Start a Project
+        </button>
+</header>
+<main class="pt-24">
+<!-- Hero Section -->
+<section class="relative hero-pattern py-24 md:py-32 overflow-hidden border-b border-outline-variant/30">
+<div class="max-w-max mx-auto px-margin-mobile md:px-margin-desktop grid grid-cols-1 lg:grid-cols-2 gap-xl items-center">
+<div class="space-y-lg">
+<div class="inline-flex items-center gap-xs px-sm py-xs bg-secondary-container text-on-secondary-container rounded-full font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span>ENTERPRISE GRADE SECURITY</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface">
+                        Accounting Software <br/>
+<span class="text-primary">Redefined.</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+                        Empower your finance team with LiteWeb's automated intelligence. From seamless invoicing to global tax compliance, manage your entire fiscal ecosystem from a single, secure dashboard.
+                    </p>
+<div class="flex flex-col sm:flex-row gap-md">
+<button class="bg-primary text-on-primary font-label-md text-label-md px-xl py-md rounded-xl shadow-lg hover:bg-primary/90 transition-all">
+                            Try for Free
+                        </button>
+<button class="flex items-center justify-center gap-xs border border-outline-variant text-on-surface font-label-md text-label-md px-xl py-md rounded-xl hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined">play_circle</span>
+                            Watch Demo
+                        </button>
+</div>
+</div>
+<div class="relative">
+<div class="absolute -inset-4 bg-primary/5 rounded-full blur-3xl"></div>
+<div class="relative bg-surface-container-lowest border border-outline-variant rounded-xl shadow-2xl overflow-hidden">
+<img class="w-full h-auto" data-alt="A clean, professional dashboard interface for accounting software showing high-density data tables, financial charts, and a sidebar navigation. The UI is minimalist with a white background and Primary Blue accents, emphasizing clarity and systematic order in an enterprise environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8eRXCyqo_uAjSlvzu2PmPxmObjwZCJWCXI8eDdwDFbTjkk0TiKnamxr3YAZfZrnjVVyqcnAyjJC4zHVGIVmdq11OtiG1QqEilzCAG2wnCHPwfQRBbUfvTGb46HmoO8eIWEaDCSPtkBIcS3PIuviss9TaIxuGPJQB-FWf6e6tfyUFYhdmdyFuk6SB0dkeGCfUe4M_2v-9jGbeC47aL0hiZusKAZr1439V-w3MuDMhhVwKkaK8LCifC"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Value Propositions (Bento Grid) -->
+<section class="py-24 max-w-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="text-center mb-16">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-4">Master Your Finances</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto">Sophisticated tools designed for precision, speed, and absolute reliability.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg h-auto md:h-[600px]">
+<!-- Main Feature -->
+<div class="md:col-span-2 md:row-span-2 bg-surface-container-lowest border border-outline-variant p-lg rounded-xl flex flex-col justify-between group hover:border-primary transition-all duration-300">
+<div>
+<div class="w-12 h-12 bg-primary-container/10 rounded-lg flex items-center justify-center text-primary mb-md">
+<span class="material-symbols-outlined text-[32px]">receipt_long</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-sm">Automated Invoicing</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Send professional invoices in seconds. LiteWeb's AI tracks payments, sends automated reminders, and reconciles entries instantly so you never miss a beat.</p>
+</div>
+<div class="mt-lg rounded-lg overflow-hidden border border-outline-variant/50">
+<img class="w-full h-48 object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="A detailed, modern invoice template design showing professional typography, clear pricing tables, and a blue company logo. The lighting is bright and corporate, emphasizing professional clarity and institutional trust." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfUWUd6tsZ6IMOEn8pdvWAb9K0Z8a6nv6u6qsnqH6XMoZubF6Xcnm-hAeco9ErQCRMiEqzQ01tFz-mkYJ2NVCp9gKQPpj8ahFsK_QyypCbX_r3gHj7G1TgneMHstFTM5gwo2dBd8KjkFRL43tWTEe11J2OrHrc-Bsq5Mqcg6Mmh-As43En1nkeYfG3se58GKEQYPjLhJzIO8Qoj0V1-FqZrX3QeXammCUCR028l7B3miVerjz152hE"/>
+</div>
+</div>
+<!-- Feature 2 -->
+<div class="bg-primary text-on-primary p-lg rounded-xl flex flex-col justify-center relative overflow-hidden">
+
+<div class="relative z-10">
+<span class="material-symbols-outlined text-[40px] mb-md">verified</span>
+<h3 class="font-headline-md text-headline-md mb-sm">Tax Compliance</h3>
+<p class="font-body-sm text-body-sm opacity-90">Stay compliant across 150+ jurisdictions. Real-time tax updates ensure your filings are always accurate and on time.</p>
+</div>
+</div>
+<!-- Feature 3 -->
+<div class="bg-surface-container-high border border-outline-variant p-lg rounded-xl flex flex-col justify-center">
+<span class="material-symbols-outlined text-secondary text-[40px] mb-md">analytics</span>
+<h3 class="font-headline-md text-headline-md mb-sm">Financial Reporting</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Generate P&amp;L, balance sheets, and cash flow statements with a single click. Deep dive into metrics with custom BI filters.</p>
+</div>
+</div>
+</section>
+<!-- Trust Section -->
+<section class="py-24 bg-surface-container-lowest border-y border-outline-variant/30">
+<div class="max-w-max mx-auto px-margin-mobile md:px-margin-desktop grid grid-cols-1 lg:grid-cols-2 gap-xl items-center">
+<div class="order-2 lg:order-1">
+<div class="grid grid-cols-2 gap-md">
+<div class="p-md bg-background border border-outline-variant rounded-lg text-center">
+<p class="font-headline-md text-headline-md text-primary">99.9%</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Uptime SLA</p>
+</div>
+<div class="p-md bg-background border border-outline-variant rounded-lg text-center">
+<p class="font-headline-md text-headline-md text-primary">256-bit</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Encryption</p>
+</div>
+<div class="p-md bg-background border border-outline-variant rounded-lg text-center">
+<p class="font-headline-md text-headline-md text-primary">24/7</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Expert Support</p>
+</div>
+<div class="p-md bg-background border border-outline-variant rounded-lg text-center">
+<p class="font-headline-md text-headline-md text-primary">1M+</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Users Globally</p>
+</div>
+</div>
+</div>
+<div class="space-y-md order-1 lg:order-2">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Security is our Foundation</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        We understand that financial data is your most sensitive asset. Our architecture is built with bank-level security, multi-factor authentication, and continuous automated audits to ensure your peace of mind.
+                    </p>
+<ul class="space-y-sm">
+<li class="flex items-center gap-sm font-label-md text-label-md text-on-surface">
+<span class="material-symbols-outlined text-primary text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                            SOC2 Type II Compliant
+                        </li>
+<li class="flex items-center gap-sm font-label-md text-label-md text-on-surface">
+<span class="material-symbols-outlined text-primary text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                            GDPR &amp; HIPAA Data Protection
+                        </li>
+<li class="flex items-center gap-sm font-label-md text-label-md text-on-surface">
+<span class="material-symbols-outlined text-primary text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                            Biometric API Integration
+                        </li>
+</ul>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-24 max-w-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="relative bg-inverse-surface rounded-3xl p-xl md:p-32 text-center overflow-hidden">
+
+<div class="relative z-10 space-y-lg">
+<h2 class="font-headline-xl text-headline-xl text-inverse-on-surface">Ready to streamline your business?</h2>
+<p class="font-body-lg text-body-lg text-inverse-on-surface opacity-80 max-w-2xl mx-auto">Join thousands of businesses that trust LiteWeb to handle their financial operations. Start your 14-day free trial today.</p>
+<div class="flex flex-col sm:flex-row gap-md justify-center">
+<button class="bg-primary text-on-primary font-label-md text-label-md px-32 py-md rounded-xl hover:scale-105 transition-transform">
+                            Try for Free
+                        </button>
+<button class="border border-outline text-inverse-on-surface font-label-md text-label-md px-32 py-md rounded-xl hover:bg-white/10 transition-all">
+                            Talk to Sales
+                        </button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant w-full py-xl px-margin-mobile md:px-margin-desktop grid grid-cols-1 md:grid-cols-4 gap-lg max-w-[1440px] mx-auto">
+<div class="space-y-md">
+<span class="font-headline-md text-headline-md font-bold text-primary">LiteWeb</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-xs">
+                Next-generation financial infrastructure for modern enterprises. Built for reliability and performance.
+            </p>
+</div>
+<div class="flex flex-col gap-sm">
+<h4 class="font-label-md text-label-md text-on-surface mb-xs">Product</h4>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">Services</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">Portfolio</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">Pricing</a>
+</div>
+<div class="flex flex-col gap-sm">
+<h4 class="font-label-md text-label-md text-on-surface mb-xs">Resources</h4>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">Blog</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">Documentation</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">Help Center</a>
+</div>
+<div class="flex flex-col gap-sm">
+<h4 class="font-label-md text-label-md text-on-surface mb-xs">Legal</h4>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">Privacy Policy</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">Terms of Service</a>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-lg">
+                © 2024 LiteWeb Engineering. All rights reserved.
+            </p>
+</div>
+</footer>
+<script>
+        // Micro-interactions for smooth button states
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousedown', () => {
+                button.classList.add('scale-95');
+            });
+            button.addEventListener('mouseup', () => {
+                button.classList.remove('scale-95');
+            });
+            button.addEventListener('mouseleave', () => {
+                button.classList.remove('scale-95');
+            });
+        });
+    </script>
+</body></html>

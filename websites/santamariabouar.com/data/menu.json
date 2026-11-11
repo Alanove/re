@@ -1,0 +1,121 @@
+{
+  "menus": [
+    {
+      "id": "main-menu",
+      "name": "Main Menu",
+      "description": "Primary navigation menu",
+      "items": [
+        {
+          "id": "home",
+          "title": "Home",
+          "type": "page",
+          "link": "home",
+          "sort": 1,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "about",
+          "title": "Who We Are",
+          "type": "page",
+          "link": "who-we-are",
+          "sort": 2,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "menu_1754602291089_fh83phky8",
+          "title": "Performance & Expertise",
+          "type": "",
+          "link": "",
+          "sort": 3,
+          "active": true,
+          "children": [
+            {
+              "id": "menu_1754602492332_l02js8ytu",
+              "title": "Our BIM Know-How",
+              "type": "page",
+              "link": "Our-BIM-Know-How",
+              "sort": 1,
+              "active": true,
+              "children": []
+            },
+            {
+              "id": "menu_1754602504153_6v39jdvum",
+              "title": "Our Success Indicators",
+              "type": "page",
+              "link": "Our-Success-Indicators",
+              "sort": 1,
+              "active": true,
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "projects",
+          "title": "Projects",
+          "type": "page",
+          "link": "projects",
+          "sort": 4,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "menu_1754602557020_l0l35sshp",
+          "title": "What We Do",
+          "type": "",
+          "link": "",
+          "sort": 10,
+          "active": true,
+          "children": [
+            {
+              "id": "menu_1754602564690_q29hwqnm9",
+              "title": "MEP & ICT",
+              "type": "page",
+              "link": "what-we-do-mep-ict",
+              "sort": 1,
+              "active": true,
+              "children": []
+            },
+            {
+              "id": "menu_1754602585810_1fxcqd7x6",
+              "title": "Energy & Sustainability",
+              "type": "page",
+              "link": "what-we-do-energy-sustainability",
+              "sort": 1,
+              "active": true,
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "menu_1754602657598_b1cit95dp",
+          "title": "Our Soft Skills",
+          "type": "page",
+          "link": "our-soft-skills",
+          "sort": 20,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "menu_1754602687727_b2sh4rzec",
+          "title": "Our IT System",
+          "type": "page",
+          "link": "our-it-system",
+          "sort": 30,
+          "active": true,
+          "children": []
+        },
+        {
+          "id": "menu_1754603739268_clj83h8b9",
+          "title": "Contact Us",
+          "type": "external",
+          "link": "/contact",
+          "sort": 100,
+          "active": true,
+          "children": []
+        }
+      ]
+    }
+  ]
+}

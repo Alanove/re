@@ -1,0 +1,29 @@
+// About Page Styles
+
+section#about-content {
+  // Styles for the main about content
+}
+
+// Override layout for Our Team section to allow full width grid
+section#our-team {
+  
+  .section-layout {
+    display: block; // Disable the grid 1fr 1fr layout
+    max-width: 100%;
+    
+    .section-content {
+      max-width: 100%; // Allow full width
+      width: 100%;
+    }
+    
+    // Hide the section image (often just a logo) to give full focus to the team grid
+    // remove this if image is desired at the bottom
+    .section-image {
+      margin-top: 30px;
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+      display: none; 
+    }
+  }
+}

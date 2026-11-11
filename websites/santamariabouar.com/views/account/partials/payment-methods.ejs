@@ -1,0 +1,42 @@
+<%
+  const payments = typeof paymentSettings !== 'undefined' && paymentSettings ? paymentSettings : {};
+  const hasCash = typeof janitorName !== 'undefined' && janitorName;
+  const hasWhish = payments.whishEnabled;
+  const hasOmt = payments.omtEnabled;
+  const hasBank = payments.bankTransferEnabled;
+  const hasAny = hasCash || hasWhish || hasOmt || hasBank;
+  const janitorTel = (typeof janitorPhone !== 'undefined' && janitorPhone)
+    ? String(janitorPhone).replace(/[^\d+]/g, '')
+    : '';
+%>
+<% if (hasAny) { %>
+  <div class="account-payment-methods">
+    <h3>How to settle your payments</h3>
+    <ul>
+      <% if (hasCash) { %>
+        <li>
+          Pay by cash directly to the coordinator<%= janitorName ? ', ' + janitorName : '' %><% if (janitorTel) { %>
+            (<a href="tel:<%= janitorTel %>"><%= janitorPhone %></a>)<% } %>
+        </li>
+      <% } %>
+      <% if (hasWhish) { %>
+        <li>
+          Pay via Whish<% if (payments.whishDetails) { %>:
+            <span class="account-payment-methods__detail"><%= payments.whishDetails %></span><% } %>
+        </li>
+      <% } %>
+      <% if (hasOmt) { %>
+        <li>
+          Pay via OMT<% if (payments.omtDetails) { %>:
+            <span class="account-payment-methods__detail"><%= payments.omtDetails %></span><% } %>
+        </li>
+      <% } %>
+      <% if (hasBank) { %>
+        <li>
+          Pay by bank transfer<% if (payments.bankInfo) { %>:
+            <span class="account-payment-methods__detail account-payment-methods__detail--multiline"><%= payments.bankInfo %></span><% } %>
+        </li>
+      <% } %>
+    </ul>
+  </div>
+<% } %>

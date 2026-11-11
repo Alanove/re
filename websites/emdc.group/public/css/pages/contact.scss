@@ -1,0 +1,686 @@
+// ============================================================================
+// CONTACT PAGE HEADER OVERRIDES
+// ============================================================================
+
+// Force contact page header to use small screen padding and white menu styling
+// Menu color is always white (like projects page submenu)
+body.contact {
+  header {
+    // Force small screen padding on all screen sizes
+    top: $small-screen-padding !important;
+    left: $small-screen-padding !important;
+    width: calc(100vw - #{$small-screen-padding * 2}) !important;
+    
+    // Make horizontal menu text dark (but keep submenu white)
+    .horizontal-menu,
+    nav ul {
+      a {
+        color: $dark !important;
+        
+        &:hover,
+        &.active {
+          color: $dark !important;
+          opacity: 0.7 !important;
+        }
+      }
+      
+      // Keep submenu items white like projects page
+      .submenu {
+        a {
+          color: $white !important;
+          
+          &:hover,
+          &.active {
+            color: $white !important;
+            opacity: 1 !important;
+          }
+        }
+      }
+    }
+    
+    // Make burger menu dark and visible only on medium screen and below
+    .burger-menu {
+      // Match default burger menu position
+      top: 30px !important;
+      right: $small-screen-padding !important;
+      
+      .burger-line {
+        background: $dark !important;
+      }
+      
+      // Show on medium screen and below
+      @media (max-width: #{$medium-screen - 1px}) {
+        opacity: 1 !important;
+      }
+      
+      // Hide on large screens unless has-burger-menu class is present
+      @media (min-width: $medium-screen) {
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+    }
+  }
+  
+  // Override for burger menu when header has has-burger-menu class
+  header.has-burger-menu .burger-menu {
+    @media (min-width: $medium-screen) {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+    }
+  }
+}
+
+// Universal override for burger menu visibility on contact pages
+body.contact header.has-burger-menu .burger-menu {
+  @media (min-width: $medium-screen) {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+}
+
+// ============================================================================
+// CONTACT MAP SECTION
+// ============================================================================
+
+section#contact-map {
+  .section-content {
+    max-width: 800px;
+    margin: 0 auto 40px;
+    text-align: center;
+  }
+
+  .map-wrapper {
+    overflow: hidden;
+    margin-top: 40px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+
+    .world-map-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: 0;
+
+      .world-map-svg {
+        width: 100%;
+        height: auto;
+        display: block;
+        overflow: hidden;
+
+        svg {
+          width: 100% !important;
+          height: auto !important;
+          max-width: 100% !important;
+          max-height: 600px;
+          display: block;
+          box-sizing: border-box;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+          
+          // Make SVG paths blue using site brand color
+          path {
+            fill: $brand-blue !important;
+          }
+
+          @media (max-width: 1024px) {
+            max-height: 500px;
+          }
+
+          @media (max-width: 768px) {
+            max-height: 400px;
+          }
+
+          @media (max-width: 480px) {
+            max-height: 300px;
+          }
+        }
+
+        // Office marker styles (map pin icons)
+        .office-marker {
+          cursor: pointer;
+          transition: all 0.3s ease;
+          transform-origin: center bottom;
+          transform-box: fill-box;
+          opacity: 1; // Default to visible (animation will override temporarily)
+
+          path, circle {
+            transition: all 0.3s ease;
+            fill: $white !important; // Markers are white
+          }
+
+          &:hover {
+            path, circle {
+              fill: $brand-blue !important; // Change to brand blue on hover
+            }
+          }
+
+          // Shadow stays behind
+          ellipse {
+            transition: opacity 0.3s ease;
+          }
+
+          &:hover ellipse {
+            opacity: 0.7;
+          }
+        }
+      }
+
+      .map-loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 400px;
+        color: $white;
+      }
+    }
+  }
+}
+
+// Office tooltip styles
+.office-tooltip {
+  background: $dark;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 20px;
+  min-width: 250px;
+  max-width: 350px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  color: $white;
+  font-family: inherit;
+
+  .office-tooltip-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+
+    h4 {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: $white;
+    }
+
+    .office-tooltip-close {
+      background: none;
+      border: none;
+      color: $white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.2s ease;
+
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
+
+  .office-tooltip-body {
+    .office-tooltip-address {
+      margin: 0 0 12px 0;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: $white;
+      opacity: 0.9;
+    }
+
+    .office-tooltip-phone {
+      margin: 0;
+      font-size: 0.95rem;
+      color: $white;
+
+      strong {
+        font-weight: 600;
+        opacity: 0.8;
+        margin-right: 8px;
+      }
+
+      a {
+        color: $white;
+        text-decoration: none;
+        transition: opacity 0.2s ease;
+
+        &:hover {
+          opacity: 0.8;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    min-width: 200px;
+    max-width: 280px;
+    padding: 15px;
+
+    .office-tooltip-header h4 {
+      font-size: 1rem;
+    }
+
+    .office-tooltip-body {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+// ============================================================================
+// CONTACT INFO SECTION
+// ============================================================================
+
+section#contact-info {
+  .section-content {
+    max-width: 800px;
+    margin: 0 auto 50px;
+    text-align: center;
+  }
+
+  .offices-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    margin-top: 50px;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+  }
+
+  .office-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 40px 30px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-4px);
+    }
+
+    .office-badge {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: $white !important;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 6px 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      opacity: 1 !important;
+      text-shadow: none !important;
+    }
+
+    .office-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 30px;
+
+      .office-flag {
+        font-size: 3rem;
+        line-height: 1;
+        color: $white !important;
+      }
+
+      .office-details {
+        flex: 1;
+
+        h3 {
+          font-size: 1.5rem;
+          font-weight: 600;
+          color: $white;
+          margin: 0 0 12px 0;
+        }
+
+        .office-address {
+          font-size: 1rem;
+          color: $white;
+          opacity: 0.7;
+          margin: 0;
+          line-height: 1.6;
+        }
+      }
+    }
+
+    .office-contacts {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+
+      .contact-item {
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+        font-size: 1rem;
+        color: $white;
+
+        strong {
+          min-width: 100px;
+          font-weight: 600;
+          opacity: 0.7;
+        }
+
+        a {
+          color: $white;
+          text-decoration: none;
+          font-weight: 500;
+          transition: all 0.2s ease;
+
+          &:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}
+
+// ============================================================================
+// CONTACT FORM SECTION
+// ============================================================================
+
+section#contact-form {
+  .section-content {
+    max-width: 800px;
+    margin: 0 auto 50px;
+    text-align: center;
+  }
+
+  .contact-form {
+    max-width: 900px;
+    margin: 50px auto 0;
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 30px;
+
+      @media (max-width: 640px) {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+
+    .form-field {
+      position: relative;
+      margin-bottom: 30px;
+
+      label {
+        display: block;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: $dark;
+        margin-bottom: 10px;
+        opacity: 0.9;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 14px 16px;
+        border: 2px solid rgba(32, 56, 100, 0.3);
+        font-size: 1rem;
+        color: $dark;
+        background: $white;
+        transition: all 0.3s ease;
+        font-family: inherit;
+        box-sizing: border-box;
+
+        &:focus {
+          outline: none;
+          border-color: rgba(32, 56, 100, 0.6);
+          background: $white;
+        }
+
+        &::placeholder {
+          color: rgba(32, 56, 100, 0.5);
+        }
+      }
+
+      select {
+        cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23203864' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 16px center;
+        padding-right: 40px;
+
+        option {
+          background: $white;
+          color: $dark;
+        }
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 120px;
+        line-height: 1.6;
+      }
+    }
+
+    .form-actions {
+      margin-top: 40px;
+      text-align: center;
+
+      .btn-submit {
+        padding: 16px 50px;
+        background: $primary;
+        color: $white;
+        border: 2px solid $primary;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+
+        &:hover {
+          background: $dark;
+          border-color: $dark;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(32, 56, 100, 0.3);
+        }
+
+        &:active {
+          transform: translateY(0);
+        }
+      }
+    }
+  }
+}
+
+// ============================================================================
+// CONTACT METHODS SECTION
+// ============================================================================
+
+section#contact-methods {
+  .contact-methods-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    margin-top: 50px;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+  }
+
+  .contact-method-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 40px 30px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-4px);
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: $white;
+      margin: 0 0 16px 0;
+    }
+
+    .method-value {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 0 0 16px 0;
+      word-break: break-all;
+      color: $white;
+    }
+
+    .method-description {
+      font-size: 0.95rem;
+      color: $white;
+      opacity: 0.7;
+      margin: 0;
+      line-height: 1.5;
+      flex: 1;
+    }
+
+    &.email {
+      .method-value {
+        color: $white;
+      }
+    }
+
+    &.careers {
+      .method-value {
+        color: $white;
+      }
+    }
+
+    &.whatsapp {
+      .method-value {
+        color: $white;
+      }
+    }
+  }
+
+  .contact-social-links {
+    margin-top: 60px;
+    text-align: center;
+
+    h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: $white;
+      margin: 0 0 30px 0;
+    }
+
+    .social-links-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+
+      .social-link {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 20px;
+        min-width: 100px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        color: $white;
+        text-decoration: none;
+        transition: all 0.3s ease;
+
+        i {
+          font-size: 28px;
+          display: block;
+        }
+
+        span {
+          font-size: 0.9rem;
+          font-weight: 500;
+        }
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.1);
+          border-color: rgba(255, 255, 255, 0.3);
+          transform: translateY(-4px);
+          color: $white;
+        }
+      }
+    }
+
+    @media (max-width: 768px) {
+      margin-top: 40px;
+
+      h3 {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+      }
+
+      .social-links-container {
+        gap: 15px;
+
+        .social-link {
+          min-width: 80px;
+          padding: 15px;
+
+          i {
+            font-size: 24px;
+          }
+
+          span {
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+// ============================================================================
+// RESPONSIVE ADJUSTMENTS
+// ============================================================================
+
+@media (max-width: 768px) {
+  section#contact-map,
+  section#contact-info,
+  section#contact-form,
+  section#contact-methods {
+    .container {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+    }
+  }
+}

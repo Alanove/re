@@ -1,0 +1,242 @@
+<!-- BEGIN breadcrumb -->
+<ol class="breadcrumb">
+	<li class="breadcrumb-item"><a href="/admin/dashboard">
+			<%= typeof t !== 'undefined' ? t('common.home') : 'Home' %>
+		</a></li>
+	<li class="breadcrumb-item"><a href="/admin/site-settings">
+			<%= typeof t !== 'undefined' ? t('siteSettings.title') : 'Settings' %>
+		</a></li>
+	<li class="breadcrumb-item active">
+		<%= typeof t !== 'undefined' ? t('contactSettings.title') : 'Contact Settings' %>
+	</li>
+</ol>
+<!-- END breadcrumb -->
+
+<div class="row">
+	<div class="col-xl-12">
+		<% if (typeof error !== 'undefined' && error) { %>
+			<div class="alert alert-danger"><i class="fa fa-exclamation-triangle"></i> <%= error %></div>
+		<% } %>
+		<% if (typeof success !== 'undefined' && success) { %>
+			<div class="alert alert-success"><i class="fa fa-check-circle"></i> <%= success %></div>
+		<% } %>
+
+		<form method="POST" action="/admin/contact-settings/update" id="contactSettingsMainForm">
+			<input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+
+			<div class="panel panel-inverse mb-3">
+				<div class="panel-heading">
+					<h4 class="panel-title"><%= typeof t !== 'undefined' ? t('contactSettings.primaryContact') : 'Primary contact' %></h4>
+				</div>
+				<div class="panel-body">
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3"><%= typeof t !== 'undefined' ? t('siteSettings.contactEmail') : 'Contact email' %></label>
+						<div class="col-md-9">
+							<input type="email" class="form-control" name="contactEmail" value="<%= settings.contactEmail || '' %>">
+						</div>
+					</div>
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3"><%= typeof t !== 'undefined' ? t('siteSettings.contactPhone') : 'Contact phone' %></label>
+						<div class="col-md-9">
+							<input type="text" class="form-control" name="contactPhone" value="<%= settings.contactPhone || '' %>">
+						</div>
+					</div>
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3"><%= typeof t !== 'undefined' ? t('siteSettings.contactWhatsapp') : 'WhatsApp' %></label>
+						<div class="col-md-9">
+							<input type="text" class="form-control" name="contactWhatsapp" value="<%= settings.contactWhatsapp || '' %>" placeholder="+961…">
+						</div>
+					</div>
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3"><%= typeof t !== 'undefined' ? t('siteSettings.address') : 'Primary address' %></label>
+						<div class="col-md-9">
+							<textarea class="form-control" name="address" rows="3" placeholder=""><%= settings.address || '' %></textarea>
+							<small class="text-muted"><%= typeof t !== 'undefined' ? t('contactSettings.primaryAddressHelp') : 'Shown in the footer and schema where a single address line is used.' %></small>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel panel-inverse mb-3">
+				<div class="panel-heading">
+					<h4 class="panel-title"><%= typeof t !== 'undefined' ? t('contactSettings.locationsTitle') : 'Locations & boutiques' %></h4>
+				</div>
+				<div class="panel-body">
+					<p class="text-muted fs-13px mb-3">
+						<%= typeof t !== 'undefined' ? t('contactSettings.locationsHelp') : 'On the storefront Contact Us page, each location is shown to visitors in an expandable section. Here you edit them as the cards below. Enter one phone or email per line in the text areas.' %>
+					</p>
+					<div class="mb-3">
+						<label class="form-label" for="footer-main-location-select"><%= typeof t !== 'undefined' ? t('contactSettings.footerMainLocation') : 'Main contact in footer' %></label>
+						<select class="form-control" name="footer_main_location_index" id="footer-main-location-select">
+							<option value=""><%= typeof t !== 'undefined' ? t('contactSettings.footerUsePrimary') : 'Use primary contact fields (above)' %></option>
+							<% (locations || []).forEach(function(loc, i) { %>
+								<option value="<%= i %>" <%= (settings.footerMainLocationIndex != null && Number(settings.footerMainLocationIndex) === i) ? 'selected' : '' %>><%= (loc.label || ((typeof t !== 'undefined' ? t('contactSettings.locationHeading') : 'Location') + ' ' + (i + 1))).substring(0, 120) %></option>
+							<% }); %>
+						</select>
+						<small class="text-muted d-block mt-1"><%= typeof t !== 'undefined' ? t('contactSettings.footerMainLocationHelp') : 'The footer Get In Touch section shows this location’s address lines, emails, and phone numbers. WhatsApp still uses the primary WhatsApp field above when set.' %></small>
+					</div>
+					<div id="location-rows">
+						<% (locations || []).forEach(function(loc, i) { %>
+							<div class="card mb-3 location-row border border-gray-300" data-row-index="<%= i %>">
+								<div class="card-header d-flex justify-content-between align-items-center py-2">
+									<span class="fw-bold js-location-heading"><%= typeof t !== 'undefined' ? t('contactSettings.locationHeading') : 'Location' %> <%= i + 1 %></span>
+									<button type="button" class="btn btn-xs btn-danger remove-location-row" <%= (locations || []).length <= 1 ? 'disabled' : '' %>><i class="fa fa-times"></i></button>
+								</div>
+								<div class="card-body">
+									<div class="mb-2">
+										<label class="form-label"><%= typeof t !== 'undefined' ? t('contactSettings.locationLabel') : 'Title / label' %></label>
+										<input type="text" class="form-control" name="locations[<%= i %>][label]" value="<%= loc.label || '' %>">
+									</div>
+									<div class="mb-2">
+										<label class="form-label"><%= typeof t !== 'undefined' ? t('contactSettings.addressLines') : 'Address lines' %></label>
+										<textarea class="form-control" name="locations[<%= i %>][addressLines]" rows="4" placeholder="One line per row"><%= (loc.addressLines || []).join('\n') %></textarea>
+									</div>
+									<div class="mb-2">
+										<label class="form-label"><%= typeof t !== 'undefined' ? t('contactSettings.phonesLines') : 'Phone numbers' %></label>
+										<textarea class="form-control" name="locations[<%= i %>][phones]" rows="3" placeholder="+961…"><%= (loc.phones || []).join('\n') %></textarea>
+									</div>
+									<div class="mb-2">
+										<label class="form-label"><%= typeof t !== 'undefined' ? t('contactSettings.emailsLines') : 'Email addresses' %></label>
+										<textarea class="form-control" name="locations[<%= i %>][emails]" rows="2"><%= (loc.emails || []).join('\n') %></textarea>
+									</div>
+									<div class="mb-0">
+										<label class="form-label"><%= typeof t !== 'undefined' ? t('contactSettings.mapUrl') : 'Map URL' %></label>
+										<input type="url" class="form-control" name="locations[<%= i %>][mapUrl]" value="<%= loc.mapUrl || '' %>" placeholder="https://…">
+									</div>
+								</div>
+							</div>
+						<% }); %>
+					</div>
+					<button type="button" class="btn btn-default" id="add-location-row"><i class="fa fa-plus"></i> <%= typeof t !== 'undefined' ? t('contactSettings.addLocation') : 'Add location' %></button>
+				</div>
+			</div>
+
+			<!-- Sticky actions footer (same pattern as home-content / product edit) -->
+			<div class="sticky-actions-footer bg-white border-top py-3 px-4 d-flex justify-content-end align-items-center">
+				<a href="/admin/site-settings" class="btn btn-secondary me-2">
+					<i class="fa fa-arrow-left"></i>
+					<%= typeof t !== 'undefined' ? t('common.back') : 'Back' %>
+				</a>
+				<button type="submit" class="btn btn-primary">
+					<i class="fa fa-save"></i>
+					<%= typeof t !== 'undefined' ? t('contactSettings.save') : 'Save contact settings' %>
+				</button>
+			</div>
+		</form>
+		<!-- Spacer for sticky footer -->
+		<div style="height: 80px;"></div>
+	</div>
+</div>
+
+<template id="location-row-template">
+	<div class="card mb-3 location-row border border-gray-300" data-row-index="__INDEX__">
+		<div class="card-header d-flex justify-content-between align-items-center py-2">
+			<span class="fw-bold js-location-heading"><%= typeof t !== 'undefined' ? t('contactSettings.locationHeading') : 'Location' %> __NUM__</span>
+			<button type="button" class="btn btn-xs btn-danger remove-location-row"><i class="fa fa-times"></i></button>
+		</div>
+		<div class="card-body">
+			<div class="mb-2">
+				<label class="form-label"><%= typeof t !== 'undefined' ? t('contactSettings.locationLabel') : 'Title / label' %></label>
+				<input type="text" class="form-control" name="locations[__INDEX__][label]" value="">
+			</div>
+			<div class="mb-2">
+				<label class="form-label"><%= typeof t !== 'undefined' ? t('contactSettings.addressLines') : 'Address lines' %></label>
+				<textarea class="form-control" name="locations[__INDEX__][addressLines]" rows="4"></textarea>
+			</div>
+			<div class="mb-2">
+				<label class="form-label"><%= typeof t !== 'undefined' ? t('contactSettings.phonesLines') : 'Phone numbers' %></label>
+				<textarea class="form-control" name="locations[__INDEX__][phones]" rows="3"></textarea>
+			</div>
+			<div class="mb-2">
+				<label class="form-label"><%= typeof t !== 'undefined' ? t('contactSettings.emailsLines') : 'Email addresses' %></label>
+				<textarea class="form-control" name="locations[__INDEX__][emails]" rows="2"></textarea>
+			</div>
+			<div class="mb-0">
+				<label class="form-label"><%= typeof t !== 'undefined' ? t('contactSettings.mapUrl') : 'Map URL' %></label>
+				<input type="url" class="form-control" name="locations[__INDEX__][mapUrl]" value="">
+			</div>
+		</div>
+	</div>
+</template>
+
+<script>
+(function() {
+	var rowsEl = document.getElementById('location-rows');
+	var tpl = document.getElementById('location-row-template');
+	var addBtn = document.getElementById('add-location-row');
+	if (!rowsEl || !tpl || !addBtn) return;
+	var locationHeadingPrefix = <%- JSON.stringify(typeof t !== 'undefined' ? t('contactSettings.locationHeading') : 'Location') %>;
+	function nextIndex() {
+		var rows = rowsEl.querySelectorAll('.location-row');
+		var max = -1;
+		rows.forEach(function(row) {
+			var idx = parseInt(row.getAttribute('data-row-index'), 10);
+			if (!isNaN(idx) && idx > max) max = idx;
+		});
+		return max + 1;
+	}
+	function renumberHeadings() {
+		var rows = rowsEl.querySelectorAll('.location-row');
+		rows.forEach(function(row, i) {
+			var h = row.querySelector('.js-location-heading');
+			if (h) h.textContent = locationHeadingPrefix + ' ' + (i + 1);
+		});
+		rows.forEach(function(row) {
+			var btn = row.querySelector('.remove-location-row');
+			if (btn) btn.disabled = rows.length <= 1;
+		});
+	}
+	var footerSel = document.getElementById('footer-main-location-select');
+	var primaryFooterLabel = <%- JSON.stringify(typeof t !== 'undefined' ? t('contactSettings.footerUsePrimary') : 'Use primary contact fields (above)') %>;
+	function syncFooterLocationSelect() {
+		if (!footerSel || !rowsEl) return;
+		var prev = footerSel.value;
+		footerSel.innerHTML = '';
+		var optP = document.createElement('option');
+		optP.value = '';
+		optP.textContent = primaryFooterLabel;
+		footerSel.appendChild(optP);
+		rowsEl.querySelectorAll('.location-row').forEach(function(row, i) {
+			var idx = row.getAttribute('data-row-index');
+			if (idx === null || idx === '') return;
+			var labelInput = row.querySelector('input[name*="[label]"]');
+			var title = (labelInput && labelInput.value) ? labelInput.value : (locationHeadingPrefix + ' ' + (i + 1));
+			var o = document.createElement('option');
+			o.value = idx;
+			o.textContent = title.length > 120 ? title.substring(0, 120) + '…' : title;
+			footerSel.appendChild(o);
+		});
+		var still = Array.prototype.some.call(footerSel.options, function(o) { return o.value === prev; });
+		footerSel.value = still ? prev : '';
+	}
+	if (addBtn && tpl && rowsEl) {
+		addBtn.addEventListener('click', function() {
+			var idx = nextIndex();
+			var html = tpl.innerHTML.replace(/__INDEX__/g, String(idx)).replace(/__NUM__/g, String(idx + 1));
+			var wrap = document.createElement('div');
+			wrap.innerHTML = html.trim();
+			var node = wrap.firstElementChild;
+			if (node) {
+				rowsEl.appendChild(node);
+				renumberHeadings();
+				syncFooterLocationSelect();
+			}
+		});
+	}
+	rowsEl.addEventListener('click', function(e) {
+		var t = e.target.closest('.remove-location-row');
+		if (!t || t.disabled) return;
+		var row = e.target.closest('.location-row');
+		if (row && rowsEl.querySelectorAll('.location-row').length > 1) {
+			row.remove();
+			renumberHeadings();
+			syncFooterLocationSelect();
+		}
+	});
+	rowsEl.addEventListener('input', function(e) {
+		if (e.target && e.target.matches && e.target.matches('input[name*="[label]"]')) {
+			syncFooterLocationSelect();
+		}
+	});
+})();
+</script>

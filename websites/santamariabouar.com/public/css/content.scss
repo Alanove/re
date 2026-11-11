@@ -1,0 +1,189 @@
+// Content styles — legacy CMS page sections (not homepage layout blocks)
+section:not(.hero-section):not(.home-welcome):not(.home-info):not(.home-listings):not(.home-contact):not(.contact-page__form-section):not(.compound-amenities) {
+  background: $golden-brown;
+  padding-bottom:20px;
+  color: $white;
+
+  // Keep hero section fixed at viewport height with mobile browser UI consideration
+  &#hero {
+    height: 100vh; // Fallback for older browsers
+    height: 100dvh; // Dynamic viewport height - accounts for mobile UI bars
+    
+    // Additional mobile-specific adjustments for browser UI bars
+    @media (max-width: 768px) {
+      height: calc(100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+      height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    }
+  }
+
+
+  .container {
+    margin: 0 auto;
+
+    // Typography styles
+    h2 {
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 2rem auto;
+      padding:1rem 30px 4rem;
+      color: $white;
+      position: relative;
+      width: fit-content;
+
+      // Mobile responsive font sizes to prevent line breaking
+      @media (max-width: 768px) {
+        font-size: 1.6rem;
+        padding: 1rem 20px 3rem;
+      }
+
+      @media (max-width: 480px) {
+        font-size: 1.4rem;
+        padding: 1rem 15px 2.5rem;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: -10px;
+        top: 75px;
+        width:100%;
+        height: 2px;
+        background: linear-gradient(to right, transparent, $white 50%, transparent);
+      }
+    }
+
+    .section-content {
+      max-width: 600px;
+      line-height: 1.6;
+      text-align: left;
+      color: $white;
+    }
+  }
+
+  h2,
+  .section-content p,
+  .section-content * {
+    color: $white;
+    fill: $white;
+  }
+
+
+  // Section Layout - Generic two-column layout with content and image
+  .section-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    .section-content {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      max-width: unset; // Override the default max-width from above
+      
+      p {
+        margin-bottom: 1.5rem;
+        
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+      
+      strong {
+        font-weight: bold;
+        color: $brand-blue;
+      }
+    }
+  }
+
+  .section-image {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    
+    img, .slide-in-image {
+      width: 100%;
+      height: auto;
+      opacity: 0;
+      transform: translateX(50px);
+      transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      
+      &.animate {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+  }
+
+  // Styling for single page images
+  .page-image-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    
+    .page-image {
+      width: 100%;
+      height: auto;
+      display: block;
+      opacity: 1; // Always visible for single page images
+    }
+  }
+  &.inverted {
+    background: $white;
+    color: $golden-brown;
+
+    .container h2 {
+      // Mobile responsive font sizes for inverted sections
+      @media (max-width: 768px) {
+        font-size: 1.6rem;
+        padding: 1rem 20px 3rem;
+      }
+
+      @media (max-width: 480px) {
+        font-size: 1.4rem;
+        padding: 1rem 15px 2.5rem;
+      }
+
+      &::after {
+        left: -10px;
+        width: calc(100% + 20px);
+        background: linear-gradient(to right, transparent, $text-color 50%, transparent);
+      }
+    }
+
+    h2,
+    .section-content p,
+    .section-content * {
+      color: $text-color;
+      fill: $text-color;
+    }
+  }
+
+  h2,
+  .container>div {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.6s ease;
+  }
+
+  .container>div {
+    transition-delay: 0.1s;
+  }
+
+  &.revealed {
+
+    h2,
+    .container>div {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}

@@ -1,0 +1,228 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "name": "George",
+      "type": "expense",
+      "color": "#3498db",
+      "isActive": true,
+      "createdAt": "2025-09-01T00:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "name": "Electricity",
+      "type": "expense",
+      "color": "#f39c12",
+      "isActive": true,
+      "createdAt": "2025-09-01T00:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "name": "Office Supplies",
+      "type": "expense",
+      "color": "#9b59b6",
+      "isActive": true,
+      "createdAt": "2025-09-01T00:00:00.000Z"
+    },
+    {
+      "id": 4,
+      "name": "Common Expenses",
+      "type": "income",
+      "color": "#f39c12",
+      "isActive": true,
+      "createdAt": "2025-09-01T00:00:00.000Z"
+    },
+    {
+      "id": 5,
+      "name": "Transfer",
+      "type": "both",
+      "color": "#95a5a6",
+      "isActive": true,
+      "createdAt": "2025-09-01T00:00:00.000Z"
+    },
+    {
+      "id": 6,
+      "name": "Maintenance",
+      "type": "expense",
+      "color": "#e74c3c",
+      "isActive": true,
+      "createdAt": "2025-09-01T00:00:00.000Z"
+    },
+    {
+      "name": "Sewage Treatment",
+      "type": "expense",
+      "color": "#7e7e4e",
+      "isActive": true,
+      "id": 7,
+      "createdAt": "2025-09-02T23:58:10.320Z"
+    },
+    {
+      "name": "Cleaning",
+      "type": "expense",
+      "color": "#66ff00",
+      "isActive": true,
+      "id": 8,
+      "createdAt": "2025-09-02T23:58:29.815Z"
+    },
+    {
+      "name": "2024",
+      "type": "income",
+      "color": "#3498db",
+      "isActive": true,
+      "id": 9,
+      "createdAt": "2025-09-03T00:10:23.129Z"
+    },
+    {
+      "name": "Solar",
+      "type": "expense",
+      "color": "#c0392b",
+      "isActive": true,
+      "id": 10,
+      "createdAt": "2025-10-06T14:40:22.774Z"
+    },
+    {
+      "name": "Fire in Block G",
+      "type": "expense",
+      "color": "#e74c3c",
+      "isActive": true,
+      "id": 11,
+      "createdAt": "2025-10-06T14:40:22.809Z"
+    },
+    {
+      "name": "Swimming Pool Maintenance",
+      "type": "expense",
+      "color": "#8e44ad",
+      "isActive": true,
+      "id": 12,
+      "createdAt": "2025-10-06T14:40:22.843Z"
+    },
+    {
+      "name": "Common Areas Upgrades",
+      "type": "expense",
+      "color": "#d35400",
+      "isActive": true,
+      "id": 13,
+      "createdAt": "2025-10-06T14:40:22.929Z"
+    },
+    {
+      "name": "Pool",
+      "type": "expense",
+      "color": "#9b59b6",
+      "isActive": true,
+      "id": 14,
+      "createdAt": "2025-10-06T14:40:22.974Z"
+    },
+    {
+      "name": "Website",
+      "type": "expense",
+      "color": "#d35400",
+      "isActive": true,
+      "id": 15,
+      "createdAt": "2025-10-06T14:40:23.059Z"
+    },
+    {
+      "name": "Contributions",
+      "type": "income",
+      "color": "#9b59b6",
+      "isActive": true,
+      "id": 16,
+      "createdAt": "2025-10-06T14:40:23.095Z"
+    },
+    {
+      "name": "Pool & Concierge",
+      "type": "expense",
+      "color": "#f39c12",
+      "isActive": true,
+      "id": 17,
+      "createdAt": "2025-10-06T14:40:23.130Z"
+    },
+    {
+      "name": "Office",
+      "type": "expense",
+      "color": "#d35400",
+      "isActive": true,
+      "id": 18,
+      "createdAt": "2025-10-06T14:40:23.164Z"
+    },
+    {
+      "name": "Print",
+      "type": "expense",
+      "color": "#2c3e50",
+      "isActive": true,
+      "id": 19,
+      "createdAt": "2025-10-06T14:40:23.230Z"
+    },
+    {
+      "name": "Gardening",
+      "type": "expense",
+      "color": "#d35400",
+      "isActive": true,
+      "id": 20,
+      "createdAt": "2025-10-06T14:40:23.340Z"
+    },
+    {
+      "name": "Pest Control",
+      "type": "expense",
+      "color": "#34495e",
+      "isActive": true,
+      "id": 21,
+      "createdAt": "2025-10-06T14:40:23.442Z"
+    },
+    {
+      "name": "Internet",
+      "type": "expense",
+      "color": "#1abc9c",
+      "isActive": true,
+      "id": 22,
+      "createdAt": "2025-10-06T14:40:23.477Z"
+    },
+    {
+      "name": "License",
+      "type": "expense",
+      "color": "#95a5a6",
+      "isActive": true,
+      "id": 23,
+      "createdAt": "2025-10-06T14:40:23.528Z"
+    },
+    {
+      "name": "Cleaning Workers",
+      "type": "expense",
+      "color": "#f39c12",
+      "isActive": true,
+      "id": 24,
+      "createdAt": "2025-10-06T14:40:23.574Z"
+    },
+    {
+      "name": "Water",
+      "type": "expense",
+      "color": "#2980b9",
+      "isActive": true,
+      "id": 25,
+      "createdAt": "2025-10-06T14:40:23.608Z"
+    },
+    {
+      "name": "Fuel",
+      "type": "expense",
+      "color": "#1abc9c",
+      "isActive": true,
+      "id": 26,
+      "createdAt": "2025-10-06T14:40:23.640Z"
+    },
+    {
+      "name": "Management",
+      "type": "expense",
+      "color": "#d35400",
+      "isActive": true,
+      "id": 27,
+      "createdAt": "2025-10-06T14:40:23.668Z"
+    },
+    {
+      "name": "Insurance",
+      "type": "expense",
+      "color": "#2c3e50",
+      "isActive": true,
+      "id": 28,
+      "createdAt": "2025-10-06T14:40:23.700Z"
+    }
+  ]
+}

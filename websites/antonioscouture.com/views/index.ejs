@@ -1,0 +1,133 @@
+<%
+    function stripHtml(html) {
+        if (!html) return '';
+        return String(html).replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
+    }
+    var homeContent = (typeof homePageContent !== 'undefined' && homePageContent) ? homePageContent : null;
+    var contactEmail = (typeof siteSettings !== 'undefined' && siteSettings && siteSettings.contactEmail) ? String(siteSettings.contactEmail).trim() : '';
+    var contactPhone = (typeof siteSettings !== 'undefined' && siteSettings && siteSettings.contactPhone) ? String(siteSettings.contactPhone).trim() : '';
+    function serviceColumnHref(col) {
+        if (!col) return '/contact-us';
+        var link = col.buttonLink || '/contact-us';
+        var text = (col.buttonText || '').toLowerCase();
+        if (text.indexOf('email') !== -1 && contactEmail) return 'mailto:' + contactEmail;
+        if (text.indexOf('call') !== -1 && contactPhone) return 'tel:' + contactPhone.replace(/\s+/g, '');
+        return link;
+    }
+%>
+
+<!-- Hero -->
+<section class="luxury-hero">
+    <div id="header-carousel" class="carousel slide carousel-fade" data-ride="carousel" data-interval="false">
+        <div class="carousel-inner">
+            <% if (typeof slides !== 'undefined' && slides && slides.length > 0) { %>
+                <% slides.forEach((slide, index) => { %>
+                    <div class="carousel-item <%= index === 0 ? 'active' : '' %>" data-slide-duration-sec="<%= (slide.durationSeconds && slide.durationSeconds > 0) ? Math.min(600, slide.durationSeconds) : 5 %>">
+                        <% const posterSrc = slide.posterImage
+                            ? (slide.posterImage.startsWith('http') || slide.posterImage.startsWith('/') ? slide.posterImage : '/images/slide/' + slide.posterImage)
+                            : (slide.image ? (slide.image.startsWith('http') || slide.image.startsWith('/') ? slide.image : '/images/slide/' + slide.image) : ''); %>
+                        <% if (slide.mediaType === 'video' && slide.videoUrl) { %>
+                            <% const videoSrc = slide.videoUrl.startsWith('http') || slide.videoUrl.startsWith('/') ? slide.videoUrl : '/images/slide/' + slide.videoUrl; %>
+                            <% if (slide.videoUrlMobile) { %>
+                                <% const videoSrcMobile = slide.videoUrlMobile.startsWith('http') || slide.videoUrlMobile.startsWith('/') ? slide.videoUrlMobile : '/images/slide/' + slide.videoUrlMobile; %>
+                                <video class="hero-carousel-video hero-carousel-video--mobile" muted loop playsinline preload="metadata" poster="<%= posterSrc %>" <% if (index === 0) { %>fetchpriority="high"<% } %>>
+                                    <source src="<%= videoSrcMobile %>" type="video/mp4" />
+                                </video>
+                                <video class="hero-carousel-video hero-carousel-video--desktop" muted loop playsinline preload="metadata" poster="<%= posterSrc %>" <% if (index === 0) { %>fetchpriority="high"<% } %>>
+                                    <source src="<%= videoSrc %>" type="video/mp4" />
+                                </video>
+                            <% } else { %>
+                                <video class="hero-carousel-video" muted loop playsinline preload="metadata" poster="<%= posterSrc %>" <% if (index === 0) { %>fetchpriority="high"<% } %>>
+                                    <source src="<%= videoSrc %>" type="video/mp4" />
+                                </video>
+                            <% } %>
+                        <% } else { %>
+                            <% const imgSrc = slide.image && (slide.image.startsWith('http') || slide.image.startsWith('/')) ? slide.image : '/images/slide/' + (slide.image || ''); %>
+                            <img src="<%= imgSrc %>" alt="<%= slide.alt || slide.title || '' %>" />
+                        <% } %>
+                        <div class="carousel-caption">
+                            <% if (slide.subtitle) { %>
+                                <div class="luxury-hero-eyebrow"><%- typeof formatTrademarks !== 'undefined' ? formatTrademarks(slide.subtitle) : slide.subtitle %></div>
+                            <% } %>
+                            <% if (slide.title) { %>
+                                <h1><%- typeof formatTrademarks !== 'undefined' ? formatTrademarks(slide.title) : slide.title %></h1>
+                            <% } %>
+                            <% if (slide.link && slide.buttonText) { %>
+                                <a class="luxury-hero-cta" href="<%= slide.link %>"><%- typeof formatTrademarks !== 'undefined' ? formatTrademarks(slide.buttonText) : slide.buttonText %></a>
+                            <% } %>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <div class="carousel-item active">
+                    <img src="/images/site-image-1769270743381-174751291.png" alt="Hero" />
+                    <div class="carousel-caption">
+                        <div class="luxury-hero-eyebrow">Welcome</div>
+                        <h1><%= (typeof siteSettings !== 'undefined' && siteSettings.siteTitle) ? siteSettings.siteTitle : 'Antonios Couture' %></h1>
+                        <a class="luxury-hero-cta" href="/products">Discover</a>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</section>
+
+<!-- Homepage blocks (Admin → Homepage builder) -->
+<%
+    var homeBlocksList = (typeof homeBlocks !== 'undefined' && homeBlocks) ? homeBlocks : [];
+    var showHomeConfirmationModal = false;
+    var shopLookIndex = 0;
+    homeBlocksList.forEach(function(b) {
+        if (b.type === 'products_list' && b.products && b.products.length) showHomeConfirmationModal = true;
+        if (b.type === 'category_display' && b.config && b.config.displayMode === 'shop_the_look' && b.products && b.products.length) showHomeConfirmationModal = true;
+    });
+%>
+<% homeBlocksList.forEach(function(block) { %>
+    <% if (block.type === 'text') { %>
+        <%- include('partials/home/blocks/text', { block }) %>
+    <% } else if (block.type === 'products_list') { %>
+        <%- include('partials/home/blocks/products-list', { block }) %>
+    <% } else if (block.type === 'category_display') { %>
+        <% var stlIdx = (block.config && block.config.displayMode === 'shop_the_look') ? shopLookIndex++ : 0; %>
+        <%- include('partials/home/blocks/category-display', { block, blockIndex: stlIdx }) %>
+    <% } %>
+<% }); %>
+
+<!-- Customer care — pinned above footer (Admin → Homepage builder) -->
+<section class="home-customer-care-strip" aria-label="Services">
+    <div class="home-customer-care-grid">
+        <% if (homeContent && homeContent.serviceColumns && homeContent.serviceColumns.length) { %>
+            <% homeContent.serviceColumns.forEach(function(col) { %>
+                <div class="home-customer-care-col">
+                    <h3 class="home-customer-care-col-title"><%= col.title %></h3>
+                    <div class="home-customer-care-col-body"><%- col.bodyHtml %></div>
+                    <a href="<%= serviceColumnHref(col) %>"><%= col.buttonText %></a>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <div class="home-customer-care-col">
+                <h3>Client Services</h3>
+                <p>Our Client Services team is available to assist with enquiries and bespoke requests.</p>
+                <a href="<%= contactEmail ? 'mailto:' + contactEmail : '/contact-us' %>">Email us</a>
+            </div>
+            <div class="home-customer-care-col">
+                <h3>Appointments</h3>
+                <p>Connect with an in-house stylist for a shopping experience tailored for you.</p>
+                <a href="/contact-us?subject=appointment">Request an Appointment</a>
+            </div>
+            <div class="home-customer-care-col">
+                <h3>Client Services</h3>
+                <p>Speak with our team for immediate assistance.</p>
+                <a href="<%= contactPhone ? 'tel:' + contactPhone.replace(/\s+/g, '') : '/contact-us' %>">Call us</a>
+            </div>
+        <% } %>
+    </div>
+</section>
+
+<%# Confirmation modal for Add to Cart on home page product sections %>
+<%
+    if (showHomeConfirmationModal) {
+%>
+    <%- include('partials/confirmation-modal') %>
+    <%- include('partials/variant-selection-modal') %>
+<% } %>

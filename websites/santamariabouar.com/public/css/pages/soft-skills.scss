@@ -1,0 +1,367 @@
+// Soft Skills page styles
+.soft-skills-page {
+  .page-header {
+    background: linear-gradient(135deg, rgba($primary, 0.8), rgba($accent, 0.8));
+    color: white;
+    padding: 3rem 0;
+    text-align: center;
+    margin-bottom: 3rem;
+    
+    p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+  }
+  
+  .skills-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    
+    .skills-intro {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 2.5rem;
+      margin-bottom: 3rem;
+      text-align: center;
+      
+      h2 {
+        color: $brand-blue;
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      p {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        color: $text;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+    }
+    
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+      
+      .skill-category {
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        padding: 2rem;
+        transition: transform 0.3s ease;
+        
+        &:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .category-header {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          margin-bottom: 1.5rem;
+          
+          .category-icon {
+            font-size: 2.5rem;
+            color: $accent;
+          }
+          
+          h3 {
+            color: $brand-blue;
+            font-size: 1.5rem;
+            margin: 0;
+          }
+        }
+        
+        .category-content {
+          color: $text;
+          line-height: 1.7;
+          font-size: 1rem;
+          
+          p {
+            margin-bottom: 1rem;
+            
+            &:last-child {
+              margin-bottom: 0;
+            }
+          }
+          
+          strong {
+            color: $brand-blue;
+            font-weight: 600;
+          }
+        }
+        
+        .standards-list {
+          margin-top: 1.5rem;
+          padding-top: 1.5rem;
+          border-top: 1px solid rgba(255,255,255,0.1);
+          
+          h4 {
+            color: $brand-blue;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+          }
+          
+          .standards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.5rem;
+            
+            .standard-item {
+              background: rgba(255,255,255,0.05);
+              padding: 0.5rem;
+              border-radius: 4px;
+              font-size: 0.9rem;
+              color: $text;
+              text-align: center;
+            }
+          }
+        }
+        
+        .software-list {
+          margin-top: 1.5rem;
+          padding-top: 1.5rem;
+          border-top: 1px solid rgba(255,255,255,0.1);
+          
+          h4 {
+            color: $brand-blue;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+          }
+          
+          .software-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.5rem;
+            
+            .software-item {
+              background: rgba(255,255,255,0.05);
+              padding: 0.5rem;
+              border-radius: 4px;
+              font-size: 0.9rem;
+              color: $text;
+              text-align: center;
+            }
+          }
+        }
+      }
+    }
+    
+    .expertise-highlights {
+      background: rgba($background, 0.8);
+      padding: 3rem 0;
+      margin: 3rem 0;
+      
+      .highlights-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        
+        h2 {
+          color: $brand-blue;
+          font-size: 2rem;
+          text-align: center;
+          margin-bottom: 2rem;
+        }
+        
+        .highlights-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 2rem;
+          
+          .highlight-item {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            
+            .highlight-icon {
+              font-size: 3rem;
+              color: $accent;
+              margin-bottom: 1rem;
+            }
+            
+            h4 {
+              color: $brand-blue;
+              font-size: 1.3rem;
+              margin-bottom: 1rem;
+            }
+            
+            p {
+              color: $text;
+              line-height: 1.6;
+            }
+          }
+        }
+      }
+    }
+    
+    .certifications-section {
+      margin: 3rem 0;
+      
+      .certifications-container {
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        padding: 2.5rem;
+        
+        h2 {
+          color: $brand-blue;
+          font-size: 1.8rem;
+          text-align: center;
+          margin-bottom: 2rem;
+        }
+        
+        .certifications-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 1.5rem;
+          
+          .certification {
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            
+            .certification-icon {
+              font-size: 2rem;
+              color: $accent;
+              margin-bottom: 1rem;
+            }
+            
+            h4 {
+              color: $brand-blue;
+              font-size: 1.2rem;
+              margin-bottom: 0.5rem;
+            }
+            
+            p {
+              color: $text;
+              font-size: 0.9rem;
+              margin: 0;
+            }
+          }
+        }
+      }
+    }
+    
+    .training-section {
+      background: linear-gradient(135deg, rgba($primary, 0.1), rgba($accent, 0.1));
+      padding: 3rem 0;
+      margin: 3rem 0;
+      
+      .training-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        text-align: center;
+        
+        h2 {
+          color: $brand-blue;
+          font-size: 2rem;
+          margin-bottom: 2rem;
+        }
+        
+        p {
+          font-size: 1.1rem;
+          line-height: 1.7;
+          color: $text;
+          max-width: 800px;
+          margin: 0 auto 2rem;
+        }
+        
+        .training-features {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 2rem;
+          
+          .feature {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 2rem;
+            
+            .feature-icon {
+              font-size: 2.5rem;
+              color: $accent;
+              margin-bottom: 1rem;
+            }
+            
+            h4 {
+              color: $brand-blue;
+              font-size: 1.3rem;
+              margin-bottom: 1rem;
+            }
+            
+            p {
+              color: $text;
+              line-height: 1.6;
+              margin: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Skill category specific styles
+.skill-category {
+  &.codes-standards {
+    border-left: 4px solid #e74c3c;
+  }
+  
+  &.software {
+    border-left: 4px solid #f39c12;
+  }
+  
+  &.drawing-modeling {
+    border-left: 4px solid #C87E2F;
+  }
+}
+
+// Responsive adjustments for Soft Skills page
+@media (max-width: 768px) {
+  .soft-skills-page {
+    .skills-content {
+      padding: 0 1rem;
+      
+      .skills-intro {
+        padding: 2rem 1.5rem;
+      }
+      
+      .skills-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      
+      .standards-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .software-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .highlights-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .certifications-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .training-features {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+}

@@ -1,0 +1,78 @@
+<div class="account-page account-page--portal">
+  <div class="account-shell">
+    <%- include('partials/sidebar') %>
+    <div class="account-main">
+      <div class="account-main__header">
+        <h1>Request New Access</h1>
+        <p class="account-meta">Access is granted right away. An email with the Safemate app download links and password is sent immediately.</p>
+      </div>
+
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="account-alert account-alert--error"><%= error %></div>
+      <% } %>
+
+      <% if (ownedApartments && ownedApartments.length) { %>
+        <div class="account-panel">
+          <form method="POST" action="/account/gate-access/request" class="account-form">
+            <input type="hidden" name="returnTo" value="gate-access" />
+            <input type="hidden" name="action" value="add" />
+
+            <div class="account-field">
+              <label for="apartmentId">Apartment <span aria-hidden="true">*</span></label>
+              <% if (ownedApartments.length === 1) { %>
+                <input type="hidden" name="apartmentId" value="<%= ownedApartments[0].id %>" />
+                <input type="text" id="apartmentId" value="<%= ownedApartments[0].label %>" readonly />
+              <% } else { %>
+                <select id="apartmentId" name="apartmentId" required>
+                  <option value="">Select apartment</option>
+                  <% ownedApartments.forEach(function(apt) { %>
+                    <option value="<%= apt.id %>" <%= String(selectedApartmentId) === String(apt.id) ? 'selected' : '' %>><%= apt.label %></option>
+                  <% }); %>
+                </select>
+              <% } %>
+            </div>
+
+            <div class="account-field">
+              <label for="targetName">Full Name <span aria-hidden="true">*</span></label>
+              <input type="text" id="targetName" name="targetName" required value="<%= formValues.targetName || '' %>" />
+            </div>
+
+            <div class="account-field">
+              <label for="targetEmail">Email</label>
+              <input type="email" id="targetEmail" name="targetEmail" value="<%= formValues.targetEmail || '' %>" />
+            </div>
+
+            <div class="account-field">
+              <label for="targetPhone">Phone <span aria-hidden="true">*</span></label>
+              <input type="tel" id="targetPhone" name="targetPhone" required value="<%= formValues.targetPhone || '' %>" />
+            </div>
+
+            <div class="account-field">
+              <label for="relation">Relation to owner</label>
+              <select id="relation" name="relation">
+                <% (gateRelations || []).forEach(function(rel) { %>
+                  <option value="<%= rel %>" <%= (formValues.relation || 'Guest') === rel ? 'selected' : '' %>><%= rel %></option>
+                <% }); %>
+              </select>
+            </div>
+
+            <div class="account-field">
+              <label for="expiryDate">Expiry date</label>
+              <input type="date" id="expiryDate" name="expiryDate" value="<%= formValues.expiryDate || '' %>" />
+            </div>
+
+            <div style="display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;">
+              <button type="submit" class="account-btn account-btn--primary">Activate Access</button>
+              <a href="/account/gate-access" class="account-btn account-btn--secondary">Cancel</a>
+            </div>
+          </form>
+        </div>
+      <% } else { %>
+        <div class="account-panel">
+          <p class="account-empty">No owned apartments, so gate access cannot be requested here.</p>
+          <a href="/account/gate-access" class="account-btn account-btn--secondary">Back</a>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</div>

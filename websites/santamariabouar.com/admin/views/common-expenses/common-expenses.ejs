@@ -1,0 +1,354 @@
+<!-- BEGIN content area -->
+<div class="row">
+  <!-- BEGIN col-12 -->
+  <div class="col-12">
+    <div class="panel panel-inverse">
+      <div class="panel-heading">
+        <h4 class="panel-title">Common Expenses</h4>
+        <div class="panel-heading-btn">
+          <button type="button" class="btn btn-xs btn-success" onclick="exportReport()">
+            <i class="fa fa-download"></i> Export CSV
+          </button>
+        </div>
+      </div>
+      <div class="panel-body">
+        <% if (typeof success !== 'undefined' && success) { %>
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Success!</strong> <%= success %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+        <% } %>
+        <% if (typeof error !== 'undefined' && error) { %>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Error!</strong> <%= error %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+        <% } %>
+
+        <!-- Filters Section -->
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5 class="card-title mb-0">
+              <i class="fa fa-filter"></i> Filters
+            </h5>
+          </div>
+          <div class="card-body">
+            <form method="GET" id="filterForm">
+              <div class="row">
+                <div class="col-md-2">
+                  <label class="form-label">Year</label>
+                  <select class="form-control" name="year" id="yearFilter">
+                    <option value="">All Years</option>
+                    <option value="0" <%= filters.year === 0 ? 'selected' : '' %>>Future Credits</option>
+                    <% availableYears.forEach(function(year) { %>
+                      <% if (year !== 0) { %>
+                        <option value="<%= year %>" <%= filters.year === year ? 'selected' : '' %>><%= year %></option>
+                      <% } %>
+                    <% }); %>
+                  </select>
+                </div>
+                <div class="col-md-2">
+                  <label class="form-label">Block</label>
+                  <select class="form-control" name="block" id="blockFilter">
+                    <option value="">All Blocks</option>
+                    <% availableBlocks.forEach(function(block) { %>
+                      <option value="<%= block %>" <%= filters.block === block ? 'selected' : '' %>>Block <%= block %></option>
+                    <% }); %>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Owner</label>
+                  <select class="form-control" name="ownerId" id="ownerFilter">
+                    <option value="">All Owners</option>
+                    <% users.forEach(function(user) { %>
+                      <option value="<%= user.id %>" <%= filters.ownerId === user.id ? 'selected' : '' %>><%= user.name %> (<%= user.email %>)</option>
+                    <% }); %>
+                  </select>
+                </div>
+                <div class="col-md-2">
+                  <label class="form-label">Payment Status</label>
+                  <select class="form-control" name="paymentStatus" id="statusFilter">
+                    <option value="all" <%= filters.paymentStatus === 'all' ? 'selected' : '' %>>All Status</option>
+                    <option value="paid" <%= filters.paymentStatus === 'paid' ? 'selected' : '' %>>Paid</option>
+                    <option value="partial" <%= filters.paymentStatus === 'partial' ? 'selected' : '' %>>Partial</option>
+                    <option value="unpaid" <%= filters.paymentStatus === 'unpaid' ? 'selected' : '' %>>Unpaid</option>
+                    <option value="partial-unpaid" <%= filters.paymentStatus === 'partial-unpaid' ? 'selected' : '' %>>Partial & Unpaid</option>
+                  </select>
+                </div>
+                <div class="col-md-2">
+                  <label class="form-label">Search</label>
+                  <input type="text" class="form-control" name="search" id="searchFilter" 
+                         placeholder="Search apartments..." value="<%= filters.searchTerm || '' %>">
+                </div>
+                <div class="col-md-1">
+                  <label class="form-label">&nbsp;</label>
+                  <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">
+                      <i class="fa fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="row mb-4">
+          <div class="col-md-3">
+            <div class="card bg-primary text-white">
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <h4 class="mb-0"><%= stats.totalPayments %></h4>
+                    <p class="mb-0">Total Payments</p>
+                  </div>
+                  <div class="align-self-center">
+                    <i class="fa fa-receipt fa-2x"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card bg-success text-white">
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <h4 class="mb-0">$<%= stats.totalPaid.toFixed(2) %></h4>
+                    <p class="mb-0">Total Paid</p>
+                  </div>
+                  <div class="align-self-center">
+                    <i class="fa fa-check-circle fa-2x"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card bg-warning text-white">
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <h4 class="mb-0">$<%= stats.totalOutstanding.toFixed(2) %></h4>
+                    <p class="mb-0">Outstanding</p>
+                  </div>
+                  <div class="align-self-center">
+                    <i class="fa fa-exclamation-triangle fa-2x"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card bg-info text-white">
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <h4 class="mb-0"><%= stats.paidCount %></h4>
+                    <p class="mb-0">Fully Paid</p>
+                  </div>
+                  <div class="align-self-center">
+                    <i class="fa fa-thumbs-up fa-2x"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Status Summary -->
+        <div class="row mb-4">
+          <div class="col-md-4">
+            <div class="card border-success">
+              <div class="card-body text-center">
+                <h5 class="text-success"><%= stats.paidCount %></h5>
+                <p class="mb-0">Fully Paid</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card border-warning">
+              <div class="card-body text-center">
+                <h5 class="text-warning"><%= stats.partialCount %></h5>
+                <p class="mb-0">Partially Paid</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card border-danger">
+              <div class="card-body text-center">
+                <h5 class="text-danger"><%= stats.unpaidCount %></h5>
+                <p class="mb-0">Unpaid</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payments Table -->
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered align-middle">
+            <thead>
+              <tr>
+                <th>Year</th>
+                <th>Apartment</th>
+                <th>Owner</th>
+                <th>Category</th>
+                <th>Registration Date</th>
+                <th>Area (m²)</th>
+                <th>Price/m²</th>
+                <th>Total Amount</th>
+                <th>Amount Paid</th>
+                <th>Outstanding/Credit</th>
+                <th>Status</th>
+                <th width="1%">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (reportData && reportData.length > 0) { %>
+                <% reportData.forEach(function(item) { %>
+                <tr>
+                  <td>
+                    <% if (item.payment.year === 0) { %>
+                      <span class="badge bg-info">Future Credits</span>
+                    <% } else { %>
+                      <span class="badge bg-primary"><%= item.payment.year %></span>
+                    <% } %>
+                  </td>
+                  <td>
+                    <div>
+                      <strong>Block <%= item.apartment?.block %></strong><br>
+                      <small class="text-muted">
+                        <%= item.apartment?.unitNumberOfficial %> 
+                        (<%= item.apartment?.unitNumberUnofficial %>)
+                      </small>
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <strong><%= item.owner?.name || 'Unknown' %></strong><br>
+                      <small class="text-muted"><%= item.owner?.email || '' %></small>
+                    </div>
+                  </td>
+                  <td>
+                    <% if (item.category) { %>
+                      <span class="badge" style="background-color: <%= item.category.color || '#6c757d' %>; color: white;">
+                        <%= item.category.name %>
+                      </span>
+                    <% } else { %>
+                      <span class="text-muted">-</span>
+                    <% } %>
+                  </td>
+                  <td>
+                    <%= item.apartment?.registrationDate ? new Date(item.apartment.registrationDate).toLocaleDateString() : 'N/A' %>
+                  </td>
+                  <td>
+                    <%= item.apartment?.areaInM2 || 'N/A' %>
+                  </td>
+                  <td>
+                    <% if (item.payment.year === 0) { %>
+                      <span class="text-muted">N/A</span>
+                    <% } else { %>
+                      $<%= item.payment.pricePerM2.toFixed(2) %>
+                    <% } %>
+                  </td>
+                  <td>
+                    <% if (item.payment.year === 0) { %>
+                      <span class="text-muted">N/A</span>
+                    <% } else { %>
+                      <span class="fw-bold text-success">$<%= item.payment.totalAmount.toFixed(2) %></span>
+                    <% } %>
+                  </td>
+                  <td>
+                    <% if (item.payment.year === 0) { %>
+                      <span class="fw-bold text-primary">$<%= item.payment.amountPaid.toFixed(2) %></span>
+                      <br><small class="text-muted">Available Credit</small>
+                    <% } else { %>
+                      <span class="fw-bold text-info">$<%= item.payment.amountPaid.toFixed(2) %></span>
+                    <% } %>
+                  </td>
+                  <td>
+                    <% if (item.payment.year === 0) { %>
+                      <span class="fw-bold text-success">
+                        <i class="fa fa-plus-circle"></i> $<%= item.payment.amountPaid.toFixed(2) %>
+                      </span>
+                      <br><small class="text-muted">Credit Balance</small>
+                    <% } else { %>
+                      <span class="fw-bold <%= item.outstandingAmount > 0 ? 'text-danger' : 'text-success' %>">
+                        $<%= item.outstandingAmount.toFixed(2) %>
+                      </span>
+                    <% } %>
+                  </td>
+                  <td>
+                    <% if (item.payment.year === 0) { %>
+                      <span class="badge bg-info">Credit Available</span>
+                    <% } else if (item.paymentStatus === 'paid') { %>
+                      <span class="badge bg-success">Paid</span>
+                    <% } else if (item.paymentStatus === 'partial') { %>
+                      <span class="badge bg-warning">Partial</span>
+                    <% } else { %>
+                      <span class="badge bg-danger">Unpaid</span>
+                    <% } %>
+                  </td>
+                  <td>
+                    <a href="/admin/transactions/create?apartmentId=<%= item.apartment?.id %>" 
+                       class="btn btn-sm btn-primary" 
+                       title="Create payment for this apartment">
+                      <i class="fa fa-plus"></i> Payment
+                    </a>
+                  </td>
+                </tr>
+                <% }); %>
+              <% } else { %>
+              <tr>
+                <td colspan="11" class="text-center text-muted">
+                  <i class="fa fa-receipt fa-3x mb-3"></i><br>
+                  No payment records found matching the current filters.
+                </td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END col-12 -->
+</div>
+<!-- END content area -->
+
+<script>
+// Export report function
+function exportReport() {
+  const form = document.getElementById('filterForm');
+  const formData = new FormData(form);
+  const params = new URLSearchParams(formData);
+  
+  window.open(`/admin/common-expenses/export?${params.toString()}`, '_blank');
+}
+
+
+// Auto-submit form on filter change
+document.addEventListener('DOMContentLoaded', function() {
+  const filterForm = document.getElementById('filterForm');
+  const filterInputs = filterForm.querySelectorAll('select, input[type="text"]');
+  
+  filterInputs.forEach(input => {
+    input.addEventListener('change', function() {
+      filterForm.submit();
+    });
+  });
+  
+  // Search input with debounce
+  const searchInput = document.getElementById('searchFilter');
+  let searchTimeout;
+  
+  searchInput.addEventListener('input', function() {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+      filterForm.submit();
+    }, 500);
+  });
+});
+</script>
+

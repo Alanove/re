@@ -1,0 +1,142 @@
+								Hosted Checkout Integration Ver.100
+								===================================
+
+Step 1: Create a Checkout Session
+=================================
+POST ==> https://creditlibanais-netcommerce.gateway.mastercard.com/api/rest/version/100/merchant/<YOUR_MERCHANT_ID>/session
+
+Authentication
+--------------------
+Basic HTTP authentication as described at w3.org. Provide 'merchant.<YOUR_MERCHANT_ID>' in the userid portion and your <API password> generated in your MPGS portal, in the password portion.
+
+Request body (JSON object)
+
+{
+   "apiOperation":"INITIATE_CHECKOUT",
+   "interaction":{
+      "operation":"PURCHASE",
+      "returnUrl":"https://<YOUR_WEBSITE>/receipt.PHP?OrderID=OID-2401051023",
+      "timeout":1800,
+      "merchant":{
+         "name":"<MERCHANT_NAME>",
+         "email":"<MERCHANT_EMAIL",
+         "phone":"<MERCHANT_PHONE>",
+         "logo":"https://<MERCHANT_WEBSITE>/logo/your_website_logo.png",
+         "url":"<MERCHANT_WEBSITE_URL>",
+         "address":{
+            "line1":"<MERCHANT_ADDRESS_LINE1>",
+            "line2":"<MERCHANT_ADDRESS_LINE2>"
+         }
+      },
+      "locale":"en",
+      "displayControl":{
+         "billingAddress":"OPTIONAL",
+         "customerEmail":"MANDATORY",
+         "shipping":"HIDE"
+      }
+   },
+   "order":{
+      "id":"<YOUR_ORDER_ID>",
+      "amount":"10.00",
+      "currency":"USD",
+      "description":"OrderID: <ORDER_ID> <ORDER_DESCRIPTION>",
+      "reference":"<ORDER_REFERENCE_ID>"
+   },
+   "customer":{
+      "email":"<CUSTOMER_EMAIL>",
+      "firstName":"<CUSTOMER_FIRST_NAME>",
+      "lastName":"<CUSTOMER_LAST_NAME>",
+      "mobilePhone":"<CUSTOMER_MOBILE>",
+      "phone":"<CUSTOMER_PHONE>"
+   },
+   "transaction":{
+      "reference":"<TRANSACTION_REFERENCE_ID>"
+   }
+}
+
+From the response retrieve: session.id
+=======================================
+{
+    "checkoutMode": "WEBSITE",
+    "merchant": "<YOUR_MERCHANT_ID>",
+    "result": "SUCCESS",
+    "session": {
+        "id": "SESSION0002922373704I3165968M38",
+        "updateStatus": "SUCCESS",
+        "version": "12d6975a01"
+    },
+    "successIndicator": "cf725f5b25f44ee2"
+}
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Step 2: Request a Hosted Checkout Interaction
+=============================================	
+
+<html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">    
+        <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js" crossorigin="anonymous"></script> 
+    </head>
+    <body>
+
+         <script src="https://creditlibanais-netcommerce.gateway.mastercard.com/static/checkout/checkout.min.js"
+            data-error="errorCallback"
+            data-cancel="cancelCallback"
+            data-beforeRedirect="Checkout.saveFormFields"
+            data-afterRedirect="Checkout.restoreFormFields"
+            data-complete="https://<YOUR_WEBSITE>reciept.php?OrderID=<YOUR_ORDER_ID>">
+        </script> 
+
+      <script>
+            function errorCallback(error) {
+                  console.log(JSON.stringify(error));
+	document.getElementById('ErrMsg').innerHTML=JSON.stringify(error);
+            }
+            function cancelCallback() {
+                  console.log('Payment cancelled');
+	document.getElementById('ErrMsg').innerHTML=JSON.stringify('Payment is cancelled');
+            }		
+			
+            Checkout.configure({
+		session: { 
+			id: 'SESSION0002922373704I3165968M38'
+			}
+			});				
+        </script>
+        
+        <p id="ErrMsg"></p> 
+    
+        <input type="button" value="Pay with Payment Page" onclick="Checkout.showPaymentPage();" />
+
+    </body>
+</html>
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Step 3: 3DS ACS emulator 
+=========================
+(no action is required at this stage, just submit)
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Step 4: Thank you Page
+=======================
+When returning to merchant website (in data-complete callback function)
+At this step, make a request to "Retrieve order" and check for the result of payment using the OrderID parameter returned as a QueryString in the returnURL
+
+GET ==> https://creditlibanais-netcommerce.gateway.mastercard.com/api/rest/version/100/merchant/<YOUR_MERCHANT_ID>/order/<YOUR_ORDER_ID>;
+
+Authentication
+---------------
+Basic HTTP authentication as described at w3.org. Provide 'merchant.<YOUR_MERCHANT_ID>' in the userid portion and your API password in the password portion.
+
+Request body (empty)
+
+N.B: To consider the payment as successful, check the following two parameters obtained from the "Retrieve Order" operation response:
+
+"result" should be "SUCCESS"
+"status" should be "CAPTURED"
+
+Display the Order ID, Amount with the Currency and a successful payment message for the customer.
