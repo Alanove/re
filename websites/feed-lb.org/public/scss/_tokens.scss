@@ -1,0 +1,137 @@
+// Design tokens. A new site theme changes this file first; components read only from here.
+@use 'sass:list';
+@use 'sass:map';
+
+// Brand: the legacy FEED skin (feed.css). Deep green #076532 for text, surfaces and actions,
+// lighter green #298754 for hover states, the grey of the logo leaves for quiet detail.
+$color-primary: #076532;
+$color-primary-dark: #054a24;
+$color-primary-container: #298754;
+$color-on-primary-container: #dcefe3;
+$color-deep-burgundy: #054a24;
+$color-navy: #0d2a1a;
+$color-accent: #076532;
+$color-accent-dark: #054a24;
+// Accent for text and icons on dark green surfaces; the brand green is below 4.5:1 there.
+$color-accent-on-dark: #9fdcb6;
+// Leaf highlight from the logo. Decorative bars and icons only.
+$color-brand-red: #5fb37f;
+$color-secondary: #298754;
+$color-secondary-fixed: #e4f3ea;
+$color-industrial-gold: #298754;
+// Warm call to action for donations; white text on it passes WCAG AA.
+$color-donate: #b5471b;
+$color-donate-dark: #8f3612;
+
+// Neutrals and surfaces
+$color-background: #ffffff;
+$color-surface: #f4f7f5;
+$color-surface-bright: #fafcfb;
+$color-surface-lowest: #ffffff;
+$color-surface-low: #eef3f0;
+$color-surface-container: #e4ebe7;
+$color-surface-high: #d9e3dd;
+$color-surface-variant: #cbd7d0;
+$color-on-surface: #17211b;
+$color-on-surface-variant: #45524a;
+$color-slate-gray: #525e57;
+$color-outline: #84918a;
+$color-outline-variant: #dae2dd;
+$color-tertiary: #0f2419;
+$color-tertiary-container: #173527;
+$color-tertiary-fixed-dim: #c3d3c9;
+$color-white: #ffffff;
+
+// Feedback
+$color-error: #ba1a1a;
+$color-error-container: #ffdad6;
+$color-success: #1e6b3a;
+$color-success-container: #d7f2df;
+
+// Typography
+$font-family-base: 'Open Sans', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+$font-family-heading: 'Open Sans', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+$font-family-icons: 'Material Symbols Outlined';
+
+// name: (size, line-height, weight, letter-spacing)
+$type-scale: (
+  display-lg: (52px, 60px, 800, -0.01em),
+  headline-lg: (34px, 42px, 700, 0),
+  headline-lg-mobile: (26px, 34px, 700, 0),
+  headline-md: (22px, 30px, 700, 0),
+  body-lg: (18px, 28px, 400, 0),
+  body-md: (16px, 26px, 400, 0),
+  body-sm: (14px, 21px, 400, 0),
+  label-caps: (12px, 16px, 700, 0.06em),
+  button: (14px, 20px, 600, 0)
+);
+
+// Spacing
+$space-xs: 4px;
+$space-sm: 8px;
+$space-md: 16px;
+$space-lg: 32px;
+$space-xl: 48px;
+$gutter: 24px;
+$margin-mobile: 20px;
+$margin-desktop: 48px;
+$section-gap: 96px;
+$section-gap-mobile: 64px;
+$container-max: 1240px;
+$header-height: 88px;
+$header-height-mobile: 68px;
+$tap-target: 44px;
+$page-bar-height: 52px;
+
+// Shape and depth
+$radius-sm: 0.25rem;
+$radius-md: 0.5rem;
+$radius-lg: 0.75rem;
+$radius-full: 9999px;
+$shadow-sm: 0 1px 2px rgba(15, 36, 25, 0.06);
+$shadow-md: 0 8px 24px rgba(15, 36, 25, 0.1);
+$shadow-lg: 0 18px 40px rgba(15, 36, 25, 0.14);
+$shadow-xl: 0 25px 50px -12px rgba(15, 36, 25, 0.35);
+
+// Motion
+$transition-fast: 150ms ease;
+$transition-base: 200ms ease;
+$transition-slow: 500ms ease;
+
+// Breakpoints (min-width)
+$breakpoints: (
+  sm: 640px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px
+);
+
+@function type-value($name, $index) {
+  @return list.nth(map.get($type-scale, $name), $index);
+}
+
+// Colours published as CSS custom properties (--color-*). The rich text editor reads
+// these for its swatches and content templates, so keep names stable across sites.
+$css-colors: (
+  'primary': $color-primary,
+  'primary-dark': $color-primary-dark,
+  'primary-container': $color-primary-container,
+  'accent': $color-accent,
+  'secondary': $color-secondary,
+  'secondary-fixed': $color-secondary-fixed,
+  'industrial-gold': $color-industrial-gold,
+  'on-surface': $color-on-surface,
+  'on-surface-variant': $color-on-surface-variant,
+  'surface': $color-surface,
+  'surface-low': $color-surface-low,
+  'surface-high': $color-surface-high,
+  'slate-gray': $color-slate-gray,
+  'tertiary': $color-tertiary,
+  'white': $color-white
+);
+
+@mixin color-vars {
+  @each $name, $value in $css-colors {
+    --color-#{$name}: #{$value};
+  }
+}

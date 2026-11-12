@@ -1,0 +1,304 @@
+@use 'tokens' as t;
+@use 'mixins' as m;
+
+// Home hero: the legacy full-width slider (Slider.config), one program per slide.
+.hero-slider {
+  position: relative;
+  overflow: hidden;
+  background: t.$color-tertiary;
+  color: t.$color-white;
+
+  &__track {
+    display: grid;
+  }
+
+  &__controls {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: t.$space-md;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+
+    @include m.up(md) {
+      bottom: t.$gutter;
+    }
+  }
+
+  &__button {
+    display: inline-grid;
+    place-items: center;
+    width: t.$tap-target;
+    height: t.$tap-target;
+    border: 1px solid rgba(t.$color-white, 0.45);
+    border-radius: t.$radius-full;
+    background: rgba(t.$color-tertiary, 0.35);
+    color: t.$color-white;
+    cursor: pointer;
+    transition: background-color t.$transition-base, color t.$transition-base;
+
+    &:hover {
+      background: t.$color-white;
+      color: t.$color-primary;
+    }
+
+    &:focus-visible {
+      @include m.focus-ring(t.$color-white);
+    }
+  }
+
+  &__pause {
+    margin-left: t.$space-sm;
+  }
+
+  &__dots {
+    display: flex;
+  }
+
+  &__dot {
+    position: relative;
+    width: t.$tap-target;
+    height: t.$tap-target;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 50% auto auto 50%;
+      width: 10px;
+      height: 10px;
+      margin: -5px 0 0 -5px;
+      border-radius: t.$radius-full;
+      background: rgba(t.$color-white, 0.5);
+      transition: background-color t.$transition-base, transform t.$transition-base;
+    }
+
+    &.is-active::before {
+      background: t.$color-white;
+      transform: scale(1.35);
+    }
+
+    &:focus-visible {
+      @include m.focus-ring(t.$color-white);
+    }
+  }
+}
+
+.hero-slide {
+  grid-area: 1 / 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: min(78vh, 720px);
+  min-height: min(78svh, 720px);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 900ms ease, visibility 0s linear 900ms;
+
+  @include m.down(md) {
+    min-height: 520px;
+  }
+
+  &.is-active {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 900ms ease, visibility 0s;
+  }
+
+  &__image {
+    @include m.cover-image;
+    position: absolute;
+    inset: 0;
+    transform: scale(1.04);
+    transition: transform 8s ease-out;
+  }
+
+  &.is-active &__image {
+    transform: scale(1);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(t.$color-tertiary, 0.85) 0%, rgba(t.$color-primary-dark, 0.55) 55%, rgba(t.$color-primary-dark, 0.15) 100%),
+      linear-gradient(0deg, rgba(t.$color-tertiary, 0.65) 0%, transparent 45%);
+  }
+
+  &__inner {
+    @include m.container;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding-block: 56px 104px;
+  }
+
+  &__copy {
+    max-width: 38rem;
+  }
+
+  &__title {
+    font-weight: 800;
+    font-size: clamp(30px, 6vw, 56px);
+    line-height: 1.1;
+    text-wrap: balance;
+    overflow-wrap: break-word;
+
+    &::after {
+      content: '';
+      display: block;
+      width: 64px;
+      height: 4px;
+      margin-top: 18px;
+      border-radius: 2px;
+      background: t.$color-accent-on-dark;
+    }
+  }
+
+  &__text {
+    @include m.type(body-lg);
+    margin-top: t.$gutter;
+    color: rgba(t.$color-white, 0.9);
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: t.$space-lg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide,
+  .hero-slide.is-active,
+  .hero-slide__image {
+    transition: none;
+  }
+}
+
+// Inner pages.
+.page-hero {
+  position: relative;
+  min-height: 280px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background: t.$color-tertiary;
+  color: t.$color-white;
+
+  @include m.up(md) {
+    min-height: 360px;
+  }
+
+  &__media {
+    position: absolute;
+    inset: 0;
+
+    img,
+    video {
+      @include m.cover-image;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(t.$color-tertiary, 0.85) 0%, rgba(t.$color-primary-dark, 0.45) 70%, rgba(t.$color-primary-dark, 0.25) 100%),
+        linear-gradient(0deg, rgba(t.$color-tertiary, 0.7) 0%, transparent 60%);
+    }
+  }
+
+  &--plain {
+    min-height: 240px;
+    background:
+      radial-gradient(circle at 85% 20%, rgba(t.$color-accent, 0.35), transparent 45%),
+      linear-gradient(135deg, t.$color-tertiary 0%, t.$color-primary 100%);
+
+    @include m.up(md) {
+      min-height: 300px;
+    }
+  }
+
+  &__inner {
+    @include m.container;
+    position: relative;
+    z-index: 1;
+    padding-block: t.$space-xl 40px;
+
+    .divider {
+      margin-bottom: t.$space-md;
+    }
+  }
+
+  &__title {
+    max-width: 52rem;
+    font-size: clamp(28px, 5.4vw, 48px);
+    line-height: 1.12;
+    font-weight: 800;
+    text-wrap: balance;
+    margin-bottom: t.$space-sm;
+    overflow-wrap: break-word;
+  }
+
+  &__lead {
+    @include m.type(body-lg);
+    color: rgba(t.$color-white, 0.88);
+    max-width: 40rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+  }
+}
+
+.breadcrumbs {
+  margin-bottom: t.$space-md;
+  font-size: 13px;
+
+  ol {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 6px;
+  }
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+  }
+
+  li + li::before {
+    content: '/';
+    margin-right: 6px;
+    opacity: 0.6;
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: t.$tap-target;
+    min-width: t.$tap-target;
+    color: rgba(t.$color-white, 0.85);
+
+    &:hover {
+      color: t.$color-accent-on-dark;
+    }
+  }
+
+  [aria-current='page'] {
+    color: t.$color-accent-on-dark;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+}

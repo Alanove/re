@@ -1,0 +1,61 @@
+<%- include('partials/page-hero') %>
+<section class="section story">
+	<div class="container story__layout">
+		<article class="story__article">
+			<p class="story__meta">
+				<span class="material-symbols-outlined" aria-hidden="true">calendar_today</span>
+				<time datetime="<%= card.date %>"><%= card.dateLabel %></time>
+				<span aria-hidden="true">·</span>
+				<span><%= card.readingMinutes %> min read</span>
+			</p>
+			<% if (page.content) { %>
+				<div class="prose"><%- page.content %></div>
+			<% } %>
+			<%- include('partials/gallery') %>
+
+			<nav class="story-nav" aria-label="More stories">
+				<% if (neighbours.newer) { %>
+					<a class="story-nav__link story-nav__link--newer" href="<%= neighbours.newer.url %>" rel="prev">
+						<span class="story-nav__label"><span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>Newer story</span>
+						<span class="story-nav__title"><%= neighbours.newer.title %></span>
+					</a>
+				<% } %>
+				<% if (neighbours.older) { %>
+					<a class="story-nav__link story-nav__link--older" href="<%= neighbours.older.url %>" rel="next">
+						<span class="story-nav__label">Older story<span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></span>
+						<span class="story-nav__title"><%= neighbours.older.title %></span>
+					</a>
+				<% } %>
+			</nav>
+			<p class="story__back"><a class="btn btn--outline btn--sm" href="<%= root.url %>"><span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>All news</a></p>
+		</article>
+
+		<aside class="story__aside" aria-labelledby="related-title">
+			<% if (donationsUrl) { %>
+				<div class="assist-card">
+					<p class="assist-card__eyebrow">Want to help?</p>
+					<p class="assist-card__text">Every donation helps FEED reach more people in need across Lebanon.</p>
+					<a class="btn btn--donate btn--sm btn--block" href="<%= donationsUrl %>"><span class="material-symbols-outlined is-filled" aria-hidden="true">favorite</span>Donate</a>
+				</div>
+			<% } %>
+			<% if (neighbours.related.length) { %>
+				<h2 class="story__aside-title" id="related-title">More news</h2>
+				<ul class="related-list">
+					<% neighbours.related.forEach(function (story) { %>
+						<li>
+							<a class="related-item" href="<%= story.url %>">
+								<span class="related-item__media">
+									<% if (story.image) { %><img src="<%= thumbUrl(story.image) %>" alt="" loading="lazy" width="96" height="72" /><% } else { %><span class="material-symbols-outlined" aria-hidden="true">newspaper</span><% } %>
+								</span>
+								<span class="related-item__body">
+									<span class="related-item__title"><%= story.title %></span>
+									<time class="related-item__date" datetime="<%= story.date %>"><%= story.dateLabel %></time>
+								</span>
+							</a>
+						</li>
+					<% }) %>
+				</ul>
+			<% } %>
+		</aside>
+	</div>
+</section>

@@ -1,0 +1,54 @@
+<%
+	const action = isCreate ? '/admin/partners/create' : '/admin/partners/' + partner.id + '/edit';
+	const fieldClass = function (name) { return errors[name] ? 'form-control is-invalid' : 'form-control'; };
+%>
+<form method="POST" action="<%= action %>?_csrf=<%= encodeURIComponent(csrfToken) %>" enctype="multipart/form-data" novalidate>
+	<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+	<div class="row">
+		<div class="col-xl-8">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Partner</h4></div>
+				<div class="panel-body">
+					<div class="row g-3">
+						<div class="col-md-6">
+							<label class="form-label" for="name">Name <span class="text-danger">*</span></label>
+							<input type="text" class="<%= fieldClass('name') %>" id="name" name="name" value="<%= partner.name %>" maxlength="160" required />
+							<%- include('../partials/field-error', { name: 'name' }) %>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label" for="website">Website</label>
+							<input type="url" class="<%= fieldClass('website') %>" id="website" name="website" value="<%= partner.website %>" maxlength="500" placeholder="https://" />
+							<small class="text-muted">The logo links here and opens in a new tab. Leave empty for no link.</small>
+							<%- include('../partials/field-error', { name: 'website' }) %>
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="logoFile">Logo <span class="text-danger">*</span></label>
+							<%- include('../partials/media-picker', { id: 'logoFile', field: 'logoFile', current: partner.logo, valueName: 'logo', removeName: 'removeLogo', label: 'logo', hint: 'JPEG, PNG, GIF or WebP up to 8 MB. Converted to WebP and resized to logo size automatically. Transparent PNGs look best.' }) %>
+							<%- include('../partials/field-error', { name: 'logo' }) %>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-4">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Display</h4></div>
+				<div class="panel-body">
+					<div class="form-check form-switch mb-3">
+						<input class="form-check-input" type="checkbox" id="active" name="active" value="1" <%= partner.active ? 'checked' : '' %> />
+						<label class="form-check-label" for="active">Show on the website</label>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="sort">Sort order</label>
+						<input type="number" class="<%= fieldClass('sort') %>" id="sort" name="sort" value="<%= partner.sort %>" min="0" />
+						<%- include('../partials/field-error', { name: 'sort' }) %>
+					</div>
+					<div class="d-flex gap-2">
+						<button type="submit" class="btn btn-success flex-fill"><i class="fa fa-save me-1"></i> Save partner</button>
+						<a href="/admin/partners" class="btn btn-default">Cancel</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

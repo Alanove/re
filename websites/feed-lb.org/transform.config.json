@@ -1,0 +1,47 @@
+{
+  "siteKey": "feed",
+  "siteName": "FEED Lebanon",
+  "legacySiteUrl": "https://www.feed-lb.org",
+  "cmsSource": "C:\\ai\\tests\\btb\\solu-new",
+  "contentWorkbook": "wwwroot/wwwroot/feed.xls",
+  "contentSeed": "content/seed.json",
+  "designDir": "design",
+  "outputDir": ".",
+  "port": 3052,
+  "logo": {
+    "url": "https://www.feed-lb.org/images/logo.png",
+    "localPath": "/uploads/site/logo.webp",
+    "note": "Round green and grey FEED mark with the tagline \"Strong Will to Make a Change\" (images/logo.png). The legacy favicon.ico is only 16px, so the favicon is built from the same mark in images/icons/ms-icon-310x310.png."
+  },
+  "legacy": {
+    "localRoot": "wwwroot/wwwroot",
+    "pageImagePattern": "/PRV/Images/Pages/Page_{pageId}/{fileName}",
+    "bannerPattern": null,
+    "footerPageKey": null,
+    "contactPageKey": "contact-us",
+    "hiddenPageKeys": ["checkout", "confirm-order", "checkout-recurring", "confirm-recurring-order"],
+    "uploadsMirrorPrefix": "/uploads/legacy",
+    "slider": {
+      "configFile": "PRV/conf/Slider.config",
+      "imagePattern": "/images/slides/{image}.jpg"
+    },
+    "partnersPageKey": "our-partners",
+    "newsPageKey": "news",
+    "donationsPageKey": "donations",
+    "productsPageKey": "products"
+  },
+  "cmsSync": {
+    "adminPublicFiles": [
+      "css/vendor.min.css",
+      "css/app.min.css",
+      "js/vendor.min.js",
+      "js/app.min.js",
+      "js/custom.js",
+      "js/theme.js"
+    ],
+    "adminPublicDirs": [
+      "css/images",
+      "webfonts"
+    ]
+  }
+}

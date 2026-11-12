@@ -1,0 +1,76 @@
+{
+  "hero": {
+    "enabled": true,
+    "interval": 7,
+    "slides": [
+      {
+        "title": "FEED the Hungry",
+        "text": "Hunger is a terrible, terrible thing: Without basic nutrition, the body and spirit dies.",
+        "url": "/about-us/our-programs/feed-the-hungry",
+        "label": "Read more",
+        "image": "/uploads/legacy/images/slides/hungry.webp"
+      },
+      {
+        "title": "FEED the Ill",
+        "text": "Our medical department is relentlessly working to provide comprehensive health care support and services to the ill",
+        "url": "/about-us/our-programs/feed-the-ill",
+        "label": "Read more",
+        "image": "/uploads/legacy/images/slides/feed-the-ill.webp"
+      },
+      {
+        "title": "FEED the Uneducated",
+        "text": "This is to allow them to become self-sufficient.",
+        "url": "/about-us/our-programs/feed-the-uneducated",
+        "label": "Read more",
+        "image": "/uploads/legacy/images/slides/uneducated.webp"
+      },
+      {
+        "title": "FEED the Unwanted",
+        "text": "",
+        "url": "/about-us/our-programs/feed-the-unwanted",
+        "label": "Read more",
+        "image": "/uploads/legacy/images/slides/unwanted.webp"
+      }
+    ]
+  },
+  "programs": {
+    "enabled": true,
+    "title": "Our Programs",
+    "intro": "Four programs, one goal: helping families in Lebanon stand on their own feet.",
+    "sourceKey": "our-programs",
+    "count": 4
+  },
+  "about": {
+    "enabled": true,
+    "title": "About FEED",
+    "intro": "A nonprofit run by volunteers who believe that dignity, not dependence, breaks the poverty cycle.",
+    "sourceKey": "about-us",
+    "count": 3
+  },
+  "news": {
+    "enabled": true,
+    "title": "Latest News",
+    "intro": "",
+    "count": 3
+  },
+  "team": {
+    "enabled": true,
+    "title": "Executive Team",
+    "intro": "The people who give their time to lead FEED.",
+    "sourceKey": "executive-team",
+    "count": 6
+  },
+  "partners": {
+    "enabled": true,
+    "title": "Our Partners",
+    "intro": "Hand in hand with businesses and organizations that share our vision."
+  },
+  "donate": {
+    "enabled": true,
+    "title": "Your support changes lives",
+    "text": "A food box, a month of medicine or a term of school fees: choose an amount and the FEED team will help you make it happen.",
+    "label": "Donate now",
+    "image": "/uploads/legacy/images/slides/people-mother-family-father.webp"
+  },
+  "updatedAt": "2026-11-11T15:21:00.223Z"
+}

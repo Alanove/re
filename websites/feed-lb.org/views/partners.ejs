@@ -1,0 +1,24 @@
+<%- include('partials/page-hero') %>
+<div class="inner-layout">
+	<%- include('partials/sidebar') %>
+	<article class="inner-article">
+		<% if (page.content) { %>
+			<div class="prose"><%- page.content %></div>
+		<% } %>
+		<% if (partners.length) { %>
+			<section class="partners-block" aria-labelledby="partners-list-title">
+				<h2 class="section-title" id="partners-list-title">Our partners</h2>
+				<%- include('partials/partner-logos', { partners: partners }) %>
+			</section>
+		<% } else { %>
+			<p class="empty-note">Our partners will be listed here soon.</p>
+		<% } %>
+		<div class="enquire-box">
+			<div>
+				<p class="enquire-box__title">Would your organisation like to partner with FEED?</p>
+				<p class="enquire-box__text">Get in touch and we will tell you how we can work together.</p>
+			</div>
+			<a class="btn btn--primary" href="<%= contactUrl.indexOf('#') === -1 ? contactUrl + '#contact-form' : contactUrl %>"><span class="material-symbols-outlined" aria-hidden="true">handshake</span>Contact us</a>
+		</div>
+	</article>
+</div>

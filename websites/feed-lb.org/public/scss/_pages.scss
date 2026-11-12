@@ -1,0 +1,517 @@
+@use 'tokens' as t;
+@use 'mixins' as m;
+
+.section-head--split {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: t.$space-md;
+}
+
+.section-head__intro--start {
+  margin: (-(t.$space-lg)) 0 t.$space-lg;
+}
+
+.section-group {
+  margin-top: t.$space-xl;
+
+  @include m.up(lg) {
+    margin-top: 72px;
+  }
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  .section-head {
+    margin-bottom: t.$space-lg;
+  }
+}
+
+.empty-note {
+  padding: t.$space-lg;
+  border-radius: t.$radius-md;
+  background: t.$color-surface-low;
+  color: t.$color-on-surface-variant;
+  text-align: center;
+}
+
+.assist-card .btn {
+  margin-bottom: t.$space-sm;
+}
+
+// "Order / enquire" on product pages and "become a partner" on the partners page.
+.enquire-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: t.$space-md;
+  padding: t.$gutter;
+  border-left: 4px solid t.$color-primary;
+  border-radius: t.$radius-md;
+  background: t.$color-secondary-fixed;
+
+  @include m.up(md) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: t.$gutter t.$space-lg;
+  }
+
+  .btn {
+    flex-shrink: 0;
+  }
+
+  &__title {
+    font-size: 18px;
+    font-weight: 700;
+    color: t.$color-primary;
+  }
+
+  &__text {
+    @include m.type(body-sm);
+    color: t.$color-on-surface-variant;
+  }
+}
+
+#contact-form,
+#donation-form {
+  scroll-margin-top: t.$header-height + t.$page-bar-height + t.$space-md;
+}
+
+.form-product {
+  display: flex;
+  align-items: center;
+  gap: t.$space-sm;
+  margin-bottom: t.$gutter;
+  padding: 12px t.$space-md;
+  border-radius: t.$radius-md;
+  background: t.$color-secondary-fixed;
+  color: t.$color-primary;
+
+  .material-symbols-outlined {
+    font-size: 22px;
+  }
+}
+
+// News listing pagination.
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: t.$space-sm;
+  margin-top: t.$space-xl;
+
+  &__pages {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    min-width: t.$tap-target;
+    min-height: t.$tap-target;
+    padding-inline: 12px;
+    border: 1px solid t.$color-outline-variant;
+    border-radius: t.$radius-md;
+    font-weight: 600;
+    color: t.$color-primary;
+
+    &:hover {
+      border-color: t.$color-primary;
+    }
+
+    &.is-current {
+      background: t.$color-primary;
+      border-color: t.$color-primary;
+      color: t.$color-white;
+    }
+
+    .material-symbols-outlined {
+      font-size: 20px;
+    }
+  }
+}
+
+// News story.
+.story {
+  &__layout {
+    display: grid;
+    gap: t.$space-xl;
+
+    @include m.up(lg) {
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 56px;
+      align-items: start;
+    }
+  }
+
+  &__article {
+    display: flex;
+    flex-direction: column;
+    gap: t.$space-lg;
+    min-width: 0;
+  }
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: t.$color-slate-gray;
+
+    .material-symbols-outlined {
+      font-size: 18px;
+      color: t.$color-primary;
+    }
+  }
+
+  &__aside {
+    display: flex;
+    flex-direction: column;
+    gap: t.$gutter;
+
+    @include m.up(lg) {
+      position: sticky;
+      top: calc(#{t.$header-height} + #{t.$page-bar-height} + #{t.$space-md});
+    }
+
+    .assist-card {
+      display: block;
+      border: 0;
+      border-radius: t.$radius-md;
+    }
+  }
+
+  &__aside-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: t.$color-primary;
+  }
+}
+
+.story-nav {
+  display: grid;
+  gap: t.$space-md;
+  padding-top: t.$space-lg;
+  border-top: 1px solid t.$color-outline-variant;
+
+  @include m.up(md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  &__link {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: t.$space-md;
+    border: 1px solid t.$color-outline-variant;
+    border-radius: t.$radius-md;
+    color: inherit;
+
+    &:hover {
+      border-color: t.$color-primary;
+      color: inherit;
+    }
+
+    &--older {
+      text-align: right;
+
+      @include m.up(md) {
+        grid-column: 2;
+      }
+    }
+  }
+
+  &__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    @include m.label-caps;
+    color: t.$color-secondary;
+
+    .story-nav__link--older & {
+      justify-content: flex-end;
+    }
+
+    .material-symbols-outlined {
+      font-size: 16px;
+    }
+  }
+
+  &__title {
+    font-weight: 700;
+    color: t.$color-primary;
+  }
+}
+
+.related-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-md;
+}
+
+.related-item {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  color: inherit;
+
+  &:hover {
+    color: inherit;
+  }
+
+  &__media {
+    display: grid;
+    place-items: center;
+    width: 96px;
+    height: 72px;
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: t.$radius-md;
+    background: t.$color-surface-container;
+    color: t.$color-primary;
+
+    img {
+      @include m.cover-image;
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  &__title {
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 1.35;
+    color: t.$color-primary;
+  }
+
+  &:hover &__title {
+    text-decoration: underline;
+  }
+
+  &__date {
+    font-size: 13px;
+    color: t.$color-slate-gray;
+  }
+}
+
+// Donations: pledge form beside the other ways to give.
+.donations {
+  &__grid {
+    display: grid;
+    gap: t.$space-xl;
+
+    @include m.up(lg) {
+      grid-template-columns: minmax(0, 1fr) 360px;
+      gap: 56px;
+      align-items: start;
+    }
+  }
+
+  &__main {
+    display: flex;
+    flex-direction: column;
+    gap: t.$space-lg;
+    min-width: 0;
+  }
+
+  &__aside {
+    display: flex;
+    flex-direction: column;
+    gap: t.$gutter;
+
+    @include m.up(lg) {
+      position: sticky;
+      top: calc(#{t.$header-height} + #{t.$page-bar-height} + #{t.$space-md});
+    }
+  }
+}
+
+.form-fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0 0 t.$space-md;
+}
+
+.choice-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: t.$space-sm;
+  margin-top: 6px;
+}
+
+.choice {
+  position: relative;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    min-height: t.$tap-target;
+    padding-inline: 20px;
+    border: 1px solid t.$color-outline;
+    border-radius: t.$radius-full;
+    font-weight: 600;
+    color: t.$color-on-surface;
+    transition: background-color t.$transition-base, border-color t.$transition-base, color t.$transition-base;
+  }
+
+  input:checked + span {
+    background: t.$color-primary;
+    border-color: t.$color-primary;
+    color: t.$color-white;
+  }
+
+  input:focus-visible + span {
+    @include m.focus-ring;
+  }
+}
+
+.amount-presets {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: t.$space-sm;
+  margin-bottom: t.$gutter;
+
+  @include m.up(sm) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.amount-preset {
+  min-height: t.$tap-target;
+  border: 1px solid t.$color-outline;
+  border-radius: t.$radius-md;
+  background: t.$color-surface-lowest;
+  font: inherit;
+  font-size: 17px;
+  font-weight: 700;
+  color: t.$color-primary;
+  cursor: pointer;
+  transition: background-color t.$transition-base, border-color t.$transition-base, color t.$transition-base;
+
+  &:hover {
+    border-color: t.$color-primary;
+  }
+
+  &[aria-pressed='true'] {
+    background: t.$color-primary;
+    border-color: t.$color-primary;
+    color: t.$color-white;
+  }
+
+  &:focus-visible {
+    @include m.focus-ring;
+  }
+}
+
+.give-card {
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-sm;
+  padding: t.$gutter;
+  border-radius: t.$radius-lg;
+  background: t.$color-primary;
+  color: t.$color-white;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: t.$color-white;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    overflow-wrap: anywhere;
+
+    &:hover {
+      color: t.$color-accent-on-dark;
+    }
+  }
+
+  &--soft {
+    background: t.$color-secondary-fixed;
+    color: t.$color-on-surface;
+
+    .give-card__label {
+      color: t.$color-primary;
+    }
+  }
+
+  &__icon {
+    font-size: 40px;
+    color: t.$color-accent-on-dark;
+  }
+
+  &__title {
+    font-size: 22px;
+    font-weight: 800;
+  }
+
+  &__label {
+    @include m.label-caps;
+    margin-top: t.$space-sm;
+    color: t.$color-accent-on-dark;
+  }
+
+  &__text {
+    @include m.type(body-sm);
+    color: rgba(t.$color-white, 0.88);
+  }
+
+  &__lines,
+  &__contacts,
+  &__causes {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 15px;
+  }
+
+  &__contacts li,
+  &__causes li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+
+    .material-symbols-outlined {
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+  }
+
+  &__contacts li {
+    min-height: 32px;
+    align-items: center;
+  }
+
+  &__causes .material-symbols-outlined {
+    color: t.$color-primary;
+  }
+}
+
+.partners-block .section-title {
+  margin-bottom: t.$gutter;
+}

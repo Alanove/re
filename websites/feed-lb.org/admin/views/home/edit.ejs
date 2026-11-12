@@ -1,0 +1,123 @@
+<%
+	const s = section;
+	const val = function (v) { return v === undefined || v === null ? '' : v; };
+	const fieldClass = function (name) { return errors[name] ? 'form-control is-invalid' : 'form-control'; };
+	const selectClass = function (name) { return errors[name] ? 'form-select is-invalid' : 'form-select'; };
+	const slides = s.slides || [];
+	const hasIntro = ['programs', 'about', 'news', 'team', 'partners'].indexOf(sectionKey) !== -1;
+%>
+<form method="POST" action="/admin/home/<%= sectionKey %>/edit?_csrf=<%= encodeURIComponent(csrfToken) %>" enctype="multipart/form-data" novalidate>
+	<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+	<div class="row">
+		<div class="col-xl-8">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title"><%= sectionLabel %></h4></div>
+				<div class="panel-body">
+					<div class="form-check form-switch mb-3">
+						<input class="form-check-input" type="checkbox" id="enabled" name="enabled" value="1" <%= s.enabled ? 'checked' : '' %> />
+						<label class="form-check-label" for="enabled">Show this section on the home page</label>
+					</div>
+
+					<% if (sectionKey === 'hero') { %>
+						<div class="mb-3" style="max-width:220px">
+							<label class="form-label" for="interval">Seconds per slide</label>
+							<input type="number" class="<%= fieldClass('interval') %>" id="interval" name="interval" value="<%= val(s.interval) %>" min="3" max="30" />
+							<%- include('../partials/field-error', { name: 'interval' }) %>
+						</div>
+						<h5 class="mt-4">Slides</h5>
+						<p class="text-muted small">Up to <%= slidesMax %> slides. The first slide title is the main page heading for search engines. Use the arrows to change the order.</p>
+						<div data-repeater data-max="<%= slidesMax %>" data-repeater-name="slides">
+							<div data-repeater-list>
+								<% slides.forEach(function (slide, i) { %>
+									<%- include('slide-row', { slide: slide, i: i }) %>
+								<% }) %>
+							</div>
+							<template data-repeater-template><%- include('slide-row', { slide: { title: '', text: '', url: '', label: '', image: '' }, i: 99 }) %></template>
+							<button type="button" class="btn btn-default btn-sm" data-repeater-add><i class="fa fa-plus me-1" aria-hidden="true"></i> Add slide</button>
+							<span class="text-muted small ms-2" data-repeater-count></span>
+						</div>
+					<% } else { %>
+						<div class="mb-3">
+							<label class="form-label" for="title">Heading <span class="text-danger">*</span></label>
+							<input type="text" class="<%= fieldClass('title') %>" id="title" name="title" value="<%= val(s.title) %>" maxlength="160" required />
+							<%- include('../partials/field-error', { name: 'title' }) %>
+						</div>
+					<% } %>
+
+					<% if (hasIntro) { %>
+						<div class="mb-3">
+							<label class="form-label" for="intro">Introduction</label>
+							<textarea class="<%= fieldClass('intro') %>" id="intro" name="intro" rows="3" maxlength="400"><%= val(s.intro) %></textarea>
+							<%- include('../partials/field-error', { name: 'intro' }) %>
+						</div>
+					<% } %>
+
+					<% if (isListSection) { %>
+						<div class="row g-3">
+							<div class="col-md-8">
+								<label class="form-label" for="sourceKey">Show the sub-pages of</label>
+								<select class="<%= selectClass('sourceKey') %>" id="sourceKey" name="sourceKey">
+									<option value="">Choose a page</option>
+									<% sourcePages.forEach(function (page) { %>
+										<option value="<%= page.key %>" <%= page.key === s.sourceKey ? 'selected' : '' %>><%= page.title %></option>
+									<% }) %>
+								</select>
+								<small class="text-muted">The section lists this page’s published sub-pages as cards, in their sort order.</small>
+								<%- include('../partials/field-error', { name: 'sourceKey' }) %>
+							</div>
+							<div class="col-md-4">
+								<label class="form-label" for="count">Cards to show</label>
+								<input type="number" class="<%= fieldClass('count') %>" id="count" name="count" value="<%= val(s.count) %>" min="1" max="<%= listMax %>" />
+								<%- include('../partials/field-error', { name: 'count' }) %>
+							</div>
+						</div>
+					<% } %>
+
+					<% if (sectionKey === 'news') { %>
+						<div style="max-width:220px">
+							<label class="form-label" for="count">Stories to show</label>
+							<input type="number" class="<%= fieldClass('count') %>" id="count" name="count" value="<%= val(s.count) %>" min="1" max="<%= listMax %>" />
+							<small class="text-muted">The newest stories from <a href="/admin/news">News</a>.</small>
+							<%- include('../partials/field-error', { name: 'count' }) %>
+						</div>
+					<% } %>
+
+					<% if (sectionKey === 'partners') { %>
+						<p class="text-muted small mb-0">Logos come from <a href="/admin/partners">Partners</a>. Only active partners with a logo are shown.</p>
+					<% } %>
+
+					<% if (sectionKey === 'donate') { %>
+						<div class="mb-3">
+							<label class="form-label" for="text">Text</label>
+							<textarea class="<%= fieldClass('text') %>" id="text" name="text" rows="3" maxlength="400"><%= val(s.text) %></textarea>
+							<%- include('../partials/field-error', { name: 'text' }) %>
+						</div>
+						<div class="mb-0" style="max-width:320px">
+							<label class="form-label" for="label">Button label</label>
+							<input type="text" class="<%= fieldClass('label') %>" id="label" name="label" value="<%= val(s.label) %>" maxlength="80" placeholder="Donate now" />
+							<small class="text-muted">The button opens the Donations page.</small>
+						</div>
+					<% } %>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xl-4">
+			<div class="panel panel-inverse admin-sticky">
+				<div class="panel-heading"><h4 class="panel-title">Save</h4></div>
+				<div class="panel-body">
+					<% if (sectionKey === 'donate') { %>
+						<label class="form-label" for="imageFile">Background photo</label>
+						<%- include('../partials/media-picker', { id: 'imageFile', field: 'imageFile', kind: 'image', current: s.image || '', valueName: 'image', label: 'background photo', hint: 'Shown behind the banner under a green overlay. Converted to WebP, max 2000px.' }) %>
+						<%- include('../partials/field-error', { name: 'image' }) %>
+						<div class="mb-3"></div>
+					<% } %>
+					<div class="d-flex gap-2">
+						<button type="submit" class="btn btn-success flex-fill"><i class="fa fa-save me-1"></i> Save section</button>
+						<a href="/admin/home" class="btn btn-default">Back</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

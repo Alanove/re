@@ -1,0 +1,9 @@
+{
+  "serverPath": "/www/wwwroot/feed-lb.org",
+  "port": 3052,
+  "healthPath": "/",
+  "nodeBin": null,
+  "aapanelProject": "feedlb",
+  "restartCommand": null,
+  "protect": []
+}

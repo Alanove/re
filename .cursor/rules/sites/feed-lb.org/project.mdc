@@ -1,0 +1,27 @@
+---
+description: feed-lb.org (FEED Lebanon) - NGO site on the shared Node CMS; news, partners, donation pledges, legacy importer and design tokens
+globs: websites/feed-lb.org/**
+alwaysApply: false
+---
+
+# feed-lb.org: project rules
+
+Site rule for `websites/feed-lb.org/` (FEED Lebanon, a non-profit). It applies in addition to the global rules in `.cursor/rules/`; where they conflict, the global rules win. Paths are relative to the site folder.
+
+## Site shape
+- Built from the shared CMS core (same layering as the other CMS sites). There are no fuel prices, testimonials or services modules; do not bring them back.
+- Special page kinds are resolved from `transform.config.json` `legacy` keys: `contactPageKey`, `newsPageKey` (news listing and stories), `donationsPageKey` (pledge form) and `partnersPageKey` (logo grid). `productsPageKey` children get an "Order / enquire" button that opens the contact form with `?product=<id>`.
+- Partners live in `data/partners.json` and are managed under Admin > Partners. Logos always go through the media picker and `imageProcessingService` with the `logo` preset.
+
+## Donations
+- No online card payments. `/donations` is a pledge form that posts to `/donate`, is validated with `donationFormSchema`, and is stored as an inquiry with `type: "donation"` (Admin > Inquiries has a type filter).
+- Preset amounts, causes, bank details and the thank-you text come from Site Settings > Donations (`settings.donation`). Never hardcode amounts, causes or bank details in views.
+- The footer "Make a donation" form is a plain GET to the donations page with `?amount=`, which prefills the pledge form.
+
+## Design
+- Colours and fonts come only from `public/scss/_tokens.scss`: primary green `#076532`, secondary `#298754`, donate orange `$color-donate`, Open Sans.
+- Keep the legacy layout: sticky white header with dropdown submenus, home hero slider, card grids, dark four-column footer, mobile drawer. Every control keeps a 44px tap target and the site must not scroll horizontally at 390px.
+
+## Legacy import
+- `npm run import:legacy` reads the workbook and `Slider.config` from the local legacy copy under `wwwroot/` (ignored by git). It keeps an existing `data/partners.json` so admin edits are not overwritten.
+- Legacy `_1` keys and mixed-case URLs are redirected to the lowercase CMS URLs; keep those redirects when changing page keys.

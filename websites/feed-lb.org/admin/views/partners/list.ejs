@@ -1,0 +1,37 @@
+<%
+	const thumbOf = function (url) {
+		return /^\/uploads\/.+\.webp$/i.test(url) && !/-thumb\.webp$/i.test(url) ? url.replace(/\.webp$/i, '-thumb.webp') : url;
+	};
+%>
+<div class="panel panel-inverse">
+	<div class="panel-heading">
+		<h4 class="panel-title">Partners</h4>
+		<div class="panel-heading-btn"><a href="/admin/partners/create" class="btn btn-xs btn-success"><i class="fa fa-plus"></i> Add partner</a></div>
+	</div>
+	<div class="panel-body p-0">
+		<p class="small text-muted px-3 pt-3 mb-2">Active partners with a logo appear on the public Our Partners page and on the home page. Lower order numbers show first.</p>
+		<table class="table table-hover align-middle mb-0">
+			<thead><tr><th style="width:110px">Logo</th><th>Name</th><th>Website</th><th class="text-center">Order</th><th class="text-center">Status</th><th style="width:1%"></th></tr></thead>
+			<tbody>
+				<% partners.forEach(function (partner) { %>
+					<tr>
+						<td>
+							<% if (partner.logo) { %>
+								<img src="<%= thumbOf(partner.logo) %>" data-fallback-src="<%= partner.logo %>" alt="" class="admin-partner-logo" style="max-width:96px;max-height:48px;object-fit:contain" />
+							<% } else { %><span class="text-muted small">No logo</span><% } %>
+						</td>
+						<td><a href="/admin/partners/<%= partner.id %>/edit" class="fw-bold"><%= partner.name %></a></td>
+						<td class="small"><% if (partner.website) { %><a href="<%= partner.website %>" target="_blank" rel="noopener"><%= partner.website.replace(/^https?:\/\//, '') %></a><% } else { %><span class="text-muted">None</span><% } %></td>
+						<td class="text-center"><%= partner.sort %></td>
+						<td class="text-center"><span class="badge <%= partner.active ? 'bg-success' : 'bg-secondary' %>"><%= partner.active ? 'Active' : 'Hidden' %></span></td>
+						<td class="text-nowrap">
+							<a href="/admin/partners/<%= partner.id %>/edit" class="btn btn-sm btn-primary" title="Edit"><i class="fa fa-edit"></i></a>
+							<button type="button" class="btn btn-sm btn-danger" title="Delete" data-delete-url="/admin/partners/<%= partner.id %>" data-delete-title="Delete partner" data-delete-message="Delete <%= partner.name %> and its logo?"><i class="fa fa-trash"></i></button>
+						</td>
+					</tr>
+				<% }) %>
+				<% if (partners.length === 0) { %><tr><td colspan="6" class="text-center text-muted py-4">No partners yet.</td></tr><% } %>
+			</tbody>
+		</table>
+	</div>
+</div>

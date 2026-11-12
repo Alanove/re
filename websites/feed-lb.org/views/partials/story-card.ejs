@@ -1,0 +1,17 @@
+<% const tag = 'h' + (locals.headingLevel || 2); %>
+<article class="story-card">
+	<a class="story-card__media" href="<%= story.url %>" tabindex="-1" aria-hidden="true">
+		<% if (story.image) { %>
+			<img src="<%= thumbUrl(story.image) %>" alt="" loading="lazy" width="480" height="320" />
+		<% } else { %>
+			<span class="story-card__placeholder material-symbols-outlined" aria-hidden="true">newspaper</span>
+		<% } %>
+		<span class="story-card__date"><span class="story-card__day"><%= story.day %></span><span><%= story.month %></span></span>
+	</a>
+	<div class="story-card__body">
+		<p class="story-card__meta"><time datetime="<%= story.date %>"><%= story.dateLabel %></time> · <%= story.readingMinutes %> min read</p>
+		<<%= tag %> class="story-card__title"><a href="<%= story.url %>"><%= story.title %></a></<%= tag %>>
+		<% if (story.summary) { %><p class="story-card__text"><%= story.summary %></p><% } %>
+		<span class="story-card__more" aria-hidden="true">Read story <span class="material-symbols-outlined">arrow_forward</span></span>
+	</div>
+</article>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title><%= locals.pageTitle ? pageTitle + ' | ' : '' %><%= locals.siteTitle || 'CMS' %> Admin</title>
+	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+	<meta name="robots" content="noindex, nofollow" />
+	<meta name="csrf-token" content="<%= locals.csrfToken || '' %>" />
+	<% if (locals.settings && settings.favicon) { %><link rel="icon" href="<%= settings.favicon %>" /><% } %>
+	<link href="/admin/css/vendor.min.css" rel="stylesheet" />
+	<link href="/admin/css/app.min.css" rel="stylesheet" />
+	<% if (locals.includeCustomEditor) { %><link href="/admin/editor/editor.css?v=<%= locals.assetVersion || '' %>" rel="stylesheet" />
+	<link href="/admin/editor/rte-content.css?v=<%= locals.assetVersion || '' %>" rel="stylesheet" /><% } %>
+	<link href="/admin/table-sort/table-sort.css?v=<%= locals.assetVersion || '' %>" rel="stylesheet" />
+	<link href="/admin/css/admin.css" rel="stylesheet" />
+</head>
+<body>
+	<div id="loader" class="app-loader"><span class="spinner"></span></div>
+
+	<% if (locals.currentUser) { %>
+	<div id="app" class="app app-header-fixed app-sidebar-fixed">
+		<%- include('partials/admin-header') %>
+		<%- include('partials/admin-sidebar') %>
+
+		<div id="content" class="app-content">
+			<ol class="breadcrumb float-xl-end">
+				<li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+				<% (locals.breadcrumbs || []).forEach(function (crumb) { %>
+					<li class="breadcrumb-item"><a href="<%= crumb.url %>"><%= crumb.text %></a></li>
+				<% }) %>
+				<li class="breadcrumb-item active"><%= locals.pageTitle || 'Page' %></li>
+			</ol>
+			<h1 class="page-header"><%= locals.pageTitle || 'Page' %><% if (locals.pageSubtitle) { %> <small><%= pageSubtitle %></small><% } %></h1>
+
+			<%- include('partials/admin-alerts') %>
+			<%- body %>
+		</div>
+
+		<a href="#" class="btn btn-icon btn-circle btn-theme btn-scroll-to-top" data-toggle="scroll-to-top"><i class="fa fa-angle-up"></i></a>
+	</div>
+	<% } else { %>
+	<div id="app" class="app">
+		<div class="container py-5">
+			<%- include('partials/admin-alerts') %>
+			<%- body %>
+		</div>
+	</div>
+	<% } %>
+
+	<div class="modal fade" id="modal-dialog" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="modalDialogTitle">Confirm</h4>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" id="modalDialogBody"></div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-white" data-bs-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-danger" id="modalDialogActionBtn">Confirm</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="/admin/js/vendor.min.js"></script>
+	<script src="/admin/js/app.min.js"></script>
+	<script src="/admin/js/re-admin.js"></script>
+	<script src="/admin/table-sort/table-sort.js?v=<%= locals.assetVersion || '' %>"></script>
+	<script src="/admin/js/custom.js"></script>
+	<% if (locals.includeCustomEditor) { %><script src="/admin/editor/editor.js?v=<%= locals.assetVersion || '' %>"></script>
+	<script src="/admin/js/editor-mount.js?v=<%= locals.assetVersion || '' %>"></script><% } %>
+	<script src="/admin/js/theme.js"></script>
+</body>
+</html>

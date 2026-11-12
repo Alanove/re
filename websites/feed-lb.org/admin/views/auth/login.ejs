@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Sign in | <%= locals.siteTitle || 'CMS' %> Admin</title>
+	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+	<meta name="robots" content="noindex, nofollow" />
+	<% if (locals.settings && settings.favicon) { %><link rel="icon" href="<%= settings.favicon %>" /><% } %>
+	<link href="/admin/css/vendor.min.css" rel="stylesheet" />
+	<link href="/admin/css/app.min.css" rel="stylesheet" />
+	<link href="/admin/css/admin.css" rel="stylesheet" />
+</head>
+<body class="pace-top">
+	<div id="app" class="app">
+		<div class="login login-v1">
+			<div class="login-container">
+				<div class="login-header">
+					<div class="brand">
+						<div class="d-flex align-items-center">
+							<% if (locals.settings && settings.logo) { %><img src="<%= settings.logo %>" alt="" class="admin-login-logo me-2" /><% } %>
+							<b><%= locals.siteTitle || 'CMS' %></b>
+						</div>
+						<small>Admin panel</small>
+					</div>
+					<div class="icon"><i class="fa fa-lock"></i></div>
+				</div>
+				<div class="login-body">
+					<div class="login-content fs-13px">
+						<% if (locals.error) { %>
+							<div class="alert alert-danger" role="alert"><i class="fas fa-exclamation-triangle me-2"></i><%= error %></div>
+						<% } %>
+						<form id="admin-login-form" action="/admin/login" method="POST" data-bs-theme="dark" novalidate>
+							<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+							<div class="form-floating mb-20px">
+								<input type="email" class="form-control fs-13px h-45px" id="email" name="email" placeholder="Email address" value="<%= locals.email || '' %>" autocomplete="username" required />
+								<label for="email" class="d-flex align-items-center">Email address</label>
+							</div>
+							<div class="form-floating mb-20px">
+								<input type="password" class="form-control fs-13px h-45px" id="password" name="password" placeholder="Password" autocomplete="current-password" required />
+								<label for="password" class="d-flex align-items-center">Password</label>
+							</div>
+							<div class="login-buttons">
+								<button type="submit" class="btn btn-theme h-45px d-block w-100 btn-lg">Sign in</button>
+							</div>
+						</form>
+						<% if (locals.devLogin) { %>
+							<form action="/admin/dev-login" method="POST" data-bs-theme="dark" class="mt-3">
+								<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+								<button type="submit" class="btn btn-outline-theme h-45px d-block w-100 btn-lg">Dev login</button>
+							</form>
+						<% } %>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="/admin/js/vendor.min.js"></script>
+	<script src="/admin/js/app.min.js"></script>
+</body>
+</html>

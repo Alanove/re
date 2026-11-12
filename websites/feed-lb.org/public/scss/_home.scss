@@ -1,0 +1,560 @@
+@use 'tokens' as t;
+@use 'mixins' as m;
+
+// Our Programs: the four legacy program photos as cards.
+.program-grid {
+  list-style: none;
+  display: grid;
+  gap: t.$gutter;
+
+  @include m.up(sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include m.up(lg) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.program-card {
+  @include m.card-surface;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  color: inherit;
+  box-shadow: t.$shadow-sm;
+  transition: box-shadow t.$transition-slow, transform t.$transition-slow;
+
+  &:hover {
+    color: inherit;
+    box-shadow: t.$shadow-lg;
+    transform: translateY(-3px);
+  }
+
+  &__media {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: t.$color-surface-container;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 64px;
+      height: 4px;
+      background: t.$color-secondary;
+    }
+
+    img {
+      @include m.cover-image;
+      transition: transform t.$transition-slow;
+    }
+  }
+
+  &:hover &__media img {
+    transform: scale(1.05);
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: t.$space-sm;
+    flex: 1;
+    padding: t.$gutter;
+  }
+
+  &__title {
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: t.$color-primary;
+  }
+
+  &__text {
+    @include m.type(body-sm);
+    color: t.$color-slate-gray;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    overflow: hidden;
+  }
+
+  &__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: auto;
+    padding-top: t.$space-sm;
+    @include m.type(button);
+    color: t.$color-primary;
+
+    .material-symbols-outlined {
+      font-size: 18px;
+      transition: transform t.$transition-base;
+    }
+  }
+
+  &:hover &__more .material-symbols-outlined {
+    transform: translateX(4px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
+  }
+}
+
+// About FEED: history, mission and vision as icon cards.
+.about-grid {
+  list-style: none;
+  display: grid;
+  gap: t.$gutter;
+
+  @include m.up(md) {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+}
+
+.about-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-sm;
+  padding: t.$space-lg t.$gutter;
+  background: t.$color-surface-lowest;
+  border-top: 4px solid t.$color-primary;
+  border-radius: t.$radius-md;
+  box-shadow: t.$shadow-sm;
+  transition: box-shadow t.$transition-base;
+
+  &:hover,
+  &:focus-within {
+    box-shadow: t.$shadow-lg;
+  }
+
+  &__icon {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: t.$radius-full;
+    background: t.$color-secondary-fixed;
+    color: t.$color-primary;
+    font-size: 30px;
+    margin-bottom: t.$space-sm;
+  }
+
+  &__title {
+    font-size: 20px;
+    font-weight: 700;
+
+    a {
+      color: t.$color-primary;
+
+      // The whole card is the link target.
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+      }
+    }
+  }
+
+  &__text {
+    color: t.$color-on-surface-variant;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    line-clamp: 5;
+    overflow: hidden;
+  }
+
+  &__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: auto;
+    padding-top: t.$space-sm;
+    @include m.type(button);
+    color: t.$color-primary;
+
+    .material-symbols-outlined {
+      font-size: 18px;
+    }
+  }
+}
+
+.home-about__cta,
+.home-partners__cta {
+  margin-top: t.$space-xl;
+  text-align: center;
+}
+
+// Donate banner over the legacy family photo.
+.donate-band {
+  position: relative;
+  overflow: hidden;
+  background: t.$color-primary-dark;
+  color: t.$color-white;
+  text-align: center;
+  @include m.section-spacing;
+
+  &__image {
+    @include m.cover-image;
+    position: absolute;
+    inset: 0;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(t.$color-primary-dark, 0.86) 0%, rgba(t.$color-tertiary, 0.9) 100%);
+  }
+
+  &__inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: t.$space-md;
+  }
+
+  &__icon {
+    font-size: 48px;
+    color: t.$color-accent-on-dark;
+  }
+
+  &__title {
+    font-size: clamp(26px, 4.6vw, 40px);
+    font-weight: 800;
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+
+  &__text {
+    @include m.type(body-lg);
+    max-width: 40rem;
+    margin-bottom: t.$space-sm;
+    color: rgba(t.$color-white, 0.9);
+  }
+}
+
+// Latest news cards (also used on the news listing).
+.story-grid {
+  list-style: none;
+  display: grid;
+  gap: t.$gutter;
+
+  @include m.up(md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include m.up(lg) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.story-card {
+  @include m.card-surface;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  transition: box-shadow t.$transition-slow;
+
+  &:hover,
+  &:focus-within {
+    box-shadow: t.$shadow-lg;
+  }
+
+  &__media {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    background: t.$color-surface-container;
+    color: t.$color-primary;
+
+    img {
+      @include m.cover-image;
+      transition: transform t.$transition-slow;
+    }
+  }
+
+  &:hover &__media img {
+    transform: scale(1.05);
+  }
+
+  &__placeholder {
+    font-size: 48px;
+  }
+
+  &__date {
+    position: absolute;
+    top: t.$space-md;
+    left: t.$space-md;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 56px;
+    padding: 6px 8px;
+    border-radius: t.$radius-md;
+    background: t.$color-primary;
+    color: t.$color-white;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+
+  &__day {
+    font-size: 22px;
+    font-weight: 800;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: t.$space-sm;
+    flex: 1;
+    padding: t.$gutter;
+  }
+
+  &__meta {
+    font-size: 13px;
+    color: t.$color-slate-gray;
+  }
+
+  &__title {
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.3;
+
+    a {
+      color: t.$color-primary;
+
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+      }
+    }
+  }
+
+  &__text {
+    @include m.type(body-sm);
+    color: t.$color-on-surface-variant;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+  }
+
+  &__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: auto;
+    padding-top: t.$space-sm;
+    @include m.type(button);
+    color: t.$color-primary;
+
+    .material-symbols-outlined {
+      font-size: 18px;
+      transition: transform t.$transition-base;
+    }
+  }
+
+  &:hover &__more .material-symbols-outlined {
+    transform: translateX(4px);
+  }
+}
+
+// Executive team portraits.
+.team-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: t.$gutter t.$space-md;
+
+  @include m.up(md) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @include m.up(lg) {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+.person-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+
+  &__photo {
+    display: grid;
+    place-items: center;
+    width: min(100%, 150px);
+    aspect-ratio: 1 / 1;
+    margin-bottom: t.$space-sm;
+    overflow: hidden;
+    border-radius: t.$radius-full;
+    border: 4px solid t.$color-white;
+    background: t.$color-surface-container;
+    color: t.$color-primary;
+    box-shadow: t.$shadow-md;
+
+    img {
+      @include m.cover-image;
+      transition: transform t.$transition-slow;
+    }
+
+    .material-symbols-outlined {
+      font-size: 56px;
+    }
+  }
+
+  &:hover &__photo img {
+    transform: scale(1.06);
+  }
+
+  &__name {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.3;
+
+    a {
+      display: inline-block;
+      color: t.$color-primary;
+
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+      }
+    }
+  }
+
+  &__role {
+    font-size: 13px;
+    line-height: 1.4;
+    color: t.$color-slate-gray;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+  }
+}
+
+// Partner logos (home strip and the partners page).
+.partner-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: t.$space-md;
+
+  @include m.up(sm) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @include m.up(lg) {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+}
+
+.partner-logo {
+  display: grid;
+  place-items: center;
+  height: 128px;
+  padding: t.$space-sm;
+  background: t.$color-surface-lowest;
+  border: 1px solid t.$color-outline-variant;
+  border-radius: t.$radius-md;
+  transition: border-color t.$transition-base, box-shadow t.$transition-base;
+
+  img {
+    max-width: 100%;
+    max-height: 110px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    filter: grayscale(0.35);
+    transition: filter t.$transition-base;
+  }
+
+  @at-root a#{&}:hover,
+  a#{&}:focus-visible {
+    border-color: t.$color-secondary;
+    box-shadow: t.$shadow-md;
+
+    img {
+      filter: none;
+    }
+  }
+}
+
+.error-page {
+  @include m.section-spacing;
+
+  &__inner {
+    max-width: 44rem;
+  }
+
+  &__code {
+    display: block;
+    font-size: 72px;
+    line-height: 1;
+    font-weight: 900;
+    color: t.$color-accent;
+    margin-bottom: t.$space-md;
+  }
+
+  &__title {
+    @include m.type(headline-lg-mobile);
+    color: t.$color-primary;
+    margin-bottom: t.$space-md;
+
+    @include m.up(md) {
+      @include m.type(headline-lg);
+    }
+  }
+
+  &__text {
+    @include m.type(body-lg);
+    color: t.$color-slate-gray;
+    margin-bottom: t.$space-lg;
+  }
+
+  &__detail {
+    font-size: 12px;
+    white-space: pre-wrap;
+    background: t.$color-surface-low;
+    padding: t.$space-md;
+    border-radius: t.$radius-md;
+    margin-bottom: t.$space-lg;
+    overflow-x: auto;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: t.$space-md;
+  }
+}

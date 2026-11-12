@@ -1,0 +1,134 @@
+<%
+	const form = donationForm;
+	const v = form.values || {};
+	const e = form.errors || {};
+	const invalid = function (name) { return e[name] ? ' is-invalid' : ''; };
+	const described = function (name) { return e[name] ? ' aria-invalid="true" aria-describedby="df-' + name + '-error"' : ''; };
+	const donation = settings.donation;
+	const currency = v.currency || 'USD';
+	const frequency = v.frequency || 'one-time';
+	const telHref = function (value) { return 'tel:' + String(value || '').replace(/[^+\d]/g, ''); };
+%>
+<%- include('partials/page-hero') %>
+<section class="section donations">
+	<div class="container donations__grid">
+		<div class="donations__main">
+			<% if (page.content) { %>
+				<div class="prose"><%- page.content %></div>
+			<% } %>
+
+			<div class="form-panel form-panel--elevated">
+				<p class="contact-page__eyebrow">Pledge a donation</p>
+				<h2 class="form-panel__title">Tell us how you would like to give</h2>
+				<p class="form-panel__intro">Fill in your pledge and our team will contact you to arrange the donation. No payment is taken online.</p>
+
+				<form class="contact-form donation-form" id="donation-form" method="POST" action="/donate" novalidate data-contact-form data-donation-form>
+					<div class="form-status<%= form.sent ? ' is-success' : (form.message ? ' is-error' : '') %>" role="status" aria-live="polite" data-form-status<%= form.sent || form.message ? '' : ' hidden' %>>
+						<%= form.sent ? donation.thankYouMessage : form.message %>
+					</div>
+
+					<fieldset class="form-fieldset">
+						<legend class="form-label">Frequency</legend>
+						<div class="choice-group">
+							<label class="choice"><input type="radio" name="frequency" value="one-time"<%= frequency === 'one-time' ? ' checked' : '' %> /><span>One-time</span></label>
+							<label class="choice"><input type="radio" name="frequency" value="monthly"<%= frequency === 'monthly' ? ' checked' : '' %> /><span>Monthly</span></label>
+						</div>
+						<p class="form-error" id="df-frequency-error" data-error-for="frequency"><%= e.frequency || '' %></p>
+					</fieldset>
+
+					<% if (donation.presetAmounts.length) { %>
+						<div class="amount-presets" role="group" aria-label="Suggested amounts">
+							<% donation.presetAmounts.forEach(function (amount) { %>
+								<button class="amount-preset" type="button" aria-pressed="<%= String(v.amount) === String(amount) %>" data-amount="<%= amount %>"><%= amount.toLocaleString('en-US') %></button>
+							<% }) %>
+						</div>
+					<% } %>
+
+					<div class="form-grid">
+						<div class="form-field<%= invalid('amount') %>">
+							<label class="form-label" for="df-amount">Amount</label>
+							<input class="form-control" id="df-amount" name="amount" type="text" inputmode="numeric" autocomplete="transaction-amount" maxlength="14" required placeholder="50" value="<%= v.amount || '' %>"<%- described('amount') %> />
+							<p class="form-error" id="df-amount-error" data-error-for="amount"><%= e.amount || '' %></p>
+						</div>
+						<div class="form-field<%= invalid('currency') %>">
+							<label class="form-label" for="df-currency">Currency</label>
+							<select class="form-control" id="df-currency" name="currency" required<%- described('currency') %>>
+								<option value="USD"<%= currency === 'USD' ? ' selected' : '' %>>US dollars (USD)</option>
+								<option value="LBP"<%= currency === 'LBP' ? ' selected' : '' %>>Lebanese pounds (LBP)</option>
+							</select>
+							<p class="form-error" id="df-currency-error" data-error-for="currency"><%= e.currency || '' %></p>
+						</div>
+						<div class="form-field form-field--full<%= invalid('cause') %>">
+							<label class="form-label" for="df-cause">Support</label>
+							<select class="form-control" id="df-cause" name="cause" required<%- described('cause') %>>
+								<% donation.causes.forEach(function (cause, index) { %>
+									<option value="<%= cause %>"<%= (v.cause ? v.cause === cause : index === 0) ? ' selected' : '' %>><%= cause %></option>
+								<% }) %>
+							</select>
+							<p class="form-error" id="df-cause-error" data-error-for="cause"><%= e.cause || '' %></p>
+						</div>
+						<div class="form-field<%= invalid('name') %>">
+							<label class="form-label" for="df-name">Full name</label>
+							<input class="form-control" id="df-name" name="name" type="text" autocomplete="name" maxlength="120" required value="<%= v.name || '' %>"<%- described('name') %> />
+							<p class="form-error" id="df-name-error" data-error-for="name"><%= e.name || '' %></p>
+						</div>
+						<div class="form-field<%= invalid('email') %>">
+							<label class="form-label" for="df-email">Email</label>
+							<input class="form-control" id="df-email" name="email" type="email" autocomplete="email" maxlength="254" required placeholder="name@example.com" value="<%= v.email || '' %>"<%- described('email') %> />
+							<p class="form-error" id="df-email-error" data-error-for="email"><%= e.email || '' %></p>
+						</div>
+						<div class="form-field form-field--full<%= invalid('phone') %>">
+							<label class="form-label" for="df-phone">Phone <span class="form-optional">(optional)</span></label>
+							<input class="form-control" id="df-phone" name="phone" type="tel" autocomplete="tel" maxlength="40" value="<%= v.phone || '' %>"<%- described('phone') %> />
+							<p class="form-error" id="df-phone-error" data-error-for="phone"><%= e.phone || '' %></p>
+						</div>
+						<div class="form-field form-field--full<%= invalid('message') %>">
+							<label class="form-label" for="df-message">Message <span class="form-optional">(optional)</span></label>
+							<textarea class="form-control" id="df-message" name="message" rows="4" maxlength="2000"<%- described('message') %>><%= v.message || '' %></textarea>
+							<p class="form-error" id="df-message-error" data-error-for="message"><%= e.message || '' %></p>
+						</div>
+						<div class="form-honeypot" aria-hidden="true">
+							<label for="df-website">Leave this field empty</label>
+							<input id="df-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+						</div>
+					</div>
+					<button class="btn btn--donate btn--block btn--caps" type="submit" data-submit-label="Send my pledge">Send my pledge</button>
+				</form>
+			</div>
+		</div>
+
+		<aside class="donations__aside" aria-labelledby="give-title">
+			<div class="give-card">
+				<span class="give-card__icon material-symbols-outlined is-filled" aria-hidden="true">volunteer_activism</span>
+				<h2 class="give-card__title" id="give-title">Other ways to give</h2>
+				<% if (donation.bankDetails.length) { %>
+					<p class="give-card__label">Bank transfer</p>
+					<ul class="give-card__lines">
+						<% donation.bankDetails.forEach(function (line) { %><li><%= line %></li><% }) %>
+					</ul>
+				<% } %>
+				<p class="give-card__label">Talk to our team</p>
+				<p class="give-card__text">Call or email us to donate in person, by transfer, or in kind (food, clothes, medicine).</p>
+				<ul class="give-card__contacts">
+					<% offices.forEach(function (office) { %>
+						<% office.phones.forEach(function (phone) { %>
+							<li><span class="material-symbols-outlined" aria-hidden="true">call</span><a href="<%= telHref(phone) %>"><%= phone %></a></li>
+						<% }) %>
+						<% office.emails.forEach(function (email) { %>
+							<li><span class="material-symbols-outlined" aria-hidden="true">mail</span><a href="mailto:<%= email %>"><%- include('partials/email-text', { email: email }) %></a></li>
+						<% }) %>
+						<% if (office.address) { %><li><span class="material-symbols-outlined" aria-hidden="true">location_on</span><span><%= office.address %></span></li><% } %>
+					<% }) %>
+				</ul>
+			</div>
+			<div class="give-card give-card--soft">
+				<p class="give-card__label">Your pledge supports</p>
+				<ul class="give-card__causes">
+					<% donation.causes.forEach(function (cause) { %>
+						<li><span class="material-symbols-outlined" aria-hidden="true">check_circle</span><%= cause %></li>
+					<% }) %>
+				</ul>
+			</div>
+		</aside>
+	</div>
+</section>

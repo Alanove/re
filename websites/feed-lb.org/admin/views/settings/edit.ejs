@@ -1,0 +1,192 @@
+<%
+	const v = values;
+	const seo = v.seo || {};
+	const fieldClass = function (name) { return errors[name] ? 'form-control is-invalid' : 'form-control'; };
+%>
+<form method="POST" action="/admin/site-settings?_csrf=<%= encodeURIComponent(csrfToken) %>" enctype="multipart/form-data" novalidate>
+	<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+	<div class="row">
+		<div class="col-xl-8">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Identity</h4></div>
+				<div class="panel-body">
+					<div class="row g-3">
+						<div class="col-md-6">
+							<label class="form-label" for="siteName">Site name <span class="text-danger">*</span></label>
+							<input type="text" class="<%= fieldClass('siteName') %>" id="siteName" name="siteName" value="<%= v.siteName %>" required />
+							<%- include('../partials/field-error', { name: 'siteName' }) %>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label" for="tagline">Tagline</label>
+							<input type="text" class="<%= fieldClass('tagline') %>" id="tagline" name="tagline" value="<%= v.tagline %>" />
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="description">Short description</label>
+							<textarea class="<%= fieldClass('description') %>" id="description" name="description" rows="2"><%= v.description %></textarea>
+							<small class="text-muted">Shown in the footer under the logo.</small>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Contact &amp; footer</h4></div>
+				<div class="panel-body">
+					<div class="row g-3">
+						<div class="col-md-6">
+							<label class="form-label" for="contactEmail">Contact email <span class="text-danger">*</span></label>
+							<input type="email" class="<%= fieldClass('contactEmail') %>" id="contactEmail" name="contactEmail" value="<%= v.contactEmail %>" required />
+							<%- include('../partials/field-error', { name: 'contactEmail' }) %>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label" for="contactPhone">Contact phone</label>
+							<input type="text" class="<%= fieldClass('contactPhone') %>" id="contactPhone" name="contactPhone" value="<%= v.contactPhone %>" />
+						</div>
+						<div class="col-md-6">
+							<label class="form-label" for="whatsappNumber">WhatsApp number</label>
+							<input type="text" class="<%= fieldClass('whatsappNumber') %>" id="whatsappNumber" name="whatsappNumber" value="<%= v.whatsappNumber || '' %>" placeholder="+961 76 073 760" inputmode="tel" autocomplete="tel" />
+							<%- include('../partials/field-error', { name: 'whatsappNumber' }) %>
+							<small class="text-muted">Include the country code. A WhatsApp button appears on every page when this is set.</small>
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="brochureFile">Brochure</label>
+							<%- include('../partials/media-picker', { id: 'brochureFile', field: 'brochureFile', kind: 'document', valueName: 'brochureUrl', current: v.brochureUrl, label: 'brochure', hint: 'PDF, Word, Excel or PowerPoint up to 20 MB. Linked as the Download Brochure button.' }) %>
+							<%- include('../partials/field-error', { name: 'brochureUrl' }) %>
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="footerText">Footer text</label>
+							<textarea class="<%= fieldClass('footerText') %>" id="footerText" name="footerText" rows="2"><%= v.footerText %></textarea>
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="copyright">Copyright line</label>
+							<input type="text" class="<%= fieldClass('copyright') %>" id="copyright" name="copyright" value="<%= v.copyright %>" />
+							<small class="text-muted">Use {year} for the current year.</small>
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="thankYouMessage">Thank-you message <span class="text-danger">*</span></label>
+							<input type="text" class="<%= fieldClass('thankYouMessage') %>" id="thankYouMessage" name="thankYouMessage" value="<%= v.thankYouMessage %>" maxlength="400" required />
+							<small class="text-muted">Shown after a visitor sends the contact form.</small>
+							<%- include('../partials/field-error', { name: 'thankYouMessage' }) %>
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="inquiryTopics">Contact form topics (one per line) <span class="text-danger">*</span></label>
+							<textarea class="<%= fieldClass('inquiryTopics') %>" id="inquiryTopics" name="inquiryTopics" rows="5"><%= (v.inquiryTopics || []).join('\n') %></textarea>
+							<%- include('../partials/field-error', { name: 'inquiryTopics' }) %>
+						</div>
+					</div>
+					<p class="small mt-3 mb-0 <%= mailConfigured ? 'text-success' : 'text-muted' %>">
+						<i class="fa <%= mailConfigured ? 'fa-check-circle' : 'fa-info-circle' %> me-1"></i>
+						<%= mailConfigured ? 'Email notifications are on (SMTP is configured).' : 'Email notifications are off. Inquiries are stored in the admin until SMTP settings are added to the environment.' %>
+					</p>
+				</div>
+			</div>
+
+			<% const donation = v.donation || { bankDetails: [], presetAmounts: [], causes: [], thankYouMessage: '' }; %>
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Donations</h4></div>
+				<div class="panel-body">
+					<p class="text-muted small">The Donations page shows a pledge form. Pledges are saved under Inquiries (filter “Donation pledges”) and emailed when SMTP is configured. No card payment is taken on the website.</p>
+					<div class="row g-3">
+						<div class="col-md-6">
+							<label class="form-label" for="donationPresetAmounts">Suggested amounts in USD (one per line)</label>
+							<textarea class="<%= fieldClass('donationPresetAmounts') %>" id="donationPresetAmounts" name="donationPresetAmounts" rows="4"><%= (donation.presetAmounts || []).join('\n') %></textarea>
+							<small class="text-muted">Up to 6 quick-pick buttons, for example 25.</small>
+							<%- include('../partials/field-error', { name: 'donationPresetAmounts' }) %>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label" for="donationCauses">Causes donors can choose (one per line) <span class="text-danger">*</span></label>
+							<textarea class="<%= fieldClass('donationCauses') %>" id="donationCauses" name="donationCauses" rows="4"><%= (donation.causes || []).join('\n') %></textarea>
+							<%- include('../partials/field-error', { name: 'donationCauses' }) %>
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="donationBankDetails">Other ways to give (one line each)</label>
+							<textarea class="<%= fieldClass('donationBankDetails') %>" id="donationBankDetails" name="donationBankDetails" rows="4" placeholder="Bank: ...&#10;Account name: ...&#10;IBAN: ..."><%= (donation.bankDetails || []).join('\n') %></textarea>
+							<small class="text-muted">Bank transfer details, cash collection or OMT instructions, shown next to the pledge form. Leave empty to hide the box.</small>
+							<%- include('../partials/field-error', { name: 'donationBankDetails' }) %>
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="donationThankYou">Pledge thank-you message <span class="text-danger">*</span></label>
+							<input type="text" class="<%= fieldClass('donationThankYou') %>" id="donationThankYou" name="donationThankYou" value="<%= donation.thankYouMessage %>" maxlength="400" required />
+							<%- include('../partials/field-error', { name: 'donationThankYou' }) %>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Social &amp; call to action</h4></div>
+				<div class="panel-body">
+					<div class="row g-3">
+						<% [['socialFacebook', 'Facebook', 'facebook'], ['socialInstagram', 'Instagram', 'instagram'], ['socialLinkedin', 'LinkedIn', 'linkedin'], ['socialYoutube', 'YouTube', 'youtube']].forEach(function (entry) { %>
+							<div class="col-md-6">
+								<label class="form-label" for="<%= entry[0] %>"><%= entry[1] %> link</label>
+								<input type="url" class="<%= fieldClass(entry[0]) %>" id="<%= entry[0] %>" name="<%= entry[0] %>" value="<%= (v.social || {})[entry[2]] || '' %>" placeholder="https://" />
+								<%- include('../partials/field-error', { name: entry[0] }) %>
+							</div>
+						<% }) %>
+						<div class="col-md-6">
+							<label class="form-label" for="ctaTitle">Call-to-action heading</label>
+							<input type="text" class="<%= fieldClass('ctaTitle') %>" id="ctaTitle" name="ctaTitle" value="<%= (v.ctaBand || {}).title || '' %>" maxlength="160" />
+						</div>
+						<div class="col-md-6">
+							<label class="form-label" for="ctaLabel">Call-to-action button</label>
+							<input type="text" class="<%= fieldClass('ctaLabel') %>" id="ctaLabel" name="ctaLabel" value="<%= (v.ctaBand || {}).label || '' %>" maxlength="80" />
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="ctaText">Call-to-action text</label>
+							<textarea class="<%= fieldClass('ctaText') %>" id="ctaText" name="ctaText" rows="2" maxlength="400"><%= (v.ctaBand || {}).text || '' %></textarea>
+							<small class="text-muted">Shown at the bottom of content pages. Leave the heading empty to hide the band.</small>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label" for="themeColor">Browser theme colour</label>
+							<input type="color" class="form-control form-control-color <%= errors.themeColor ? 'is-invalid' : '' %>" id="themeColor" name="themeColor" value="<%= v.themeColor || '#076532' %>" />
+							<%- include('../partials/field-error', { name: 'themeColor' }) %>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Search engines</h4></div>
+				<div class="panel-body">
+					<div class="mb-3">
+						<label class="form-label" for="seoDefaultTitle">Default title</label>
+						<input type="text" class="form-control" id="seoDefaultTitle" name="seoDefaultTitle" value="<%= seo.defaultTitle %>" data-char-count="60" />
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="seoDefaultDescription">Default description</label>
+						<textarea class="form-control" id="seoDefaultDescription" name="seoDefaultDescription" rows="2" data-char-count="160"><%= seo.defaultDescription %></textarea>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="seoDefaultKeywords">Default keywords</label>
+						<input type="text" class="form-control" id="seoDefaultKeywords" name="seoDefaultKeywords" value="<%= seo.defaultKeywords %>" />
+					</div>
+					<div>
+						<label class="form-label" for="seoImageFile">Default share image</label>
+						<%- include('../partials/media-picker', { id: 'seoImageFile', field: 'seoImageFile', valueName: 'seoDefaultImage', current: seo.defaultImage, label: 'share image', small: true, hint: 'JPEG, PNG, GIF or WebP up to 8 MB, saved as WebP (1200px). Used when a page has no image of its own.' }) %>
+						<%- include('../partials/field-error', { name: 'seoDefaultImage' }) %>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xl-4">
+			<div class="panel panel-inverse admin-sticky">
+				<div class="panel-heading"><h4 class="panel-title">Branding</h4></div>
+				<div class="panel-body">
+					<label class="form-label" for="logoFile">Logo</label>
+					<%- include('../partials/media-picker', { id: 'logoFile', field: 'logoFile', valueName: 'logo', current: v.logo, label: 'logo', small: true, hint: 'PNG, WebP, JPEG or GIF up to 8 MB. Saved as WebP, at most 600px wide.' }) %>
+					<div class="mb-3"></div>
+
+					<label class="form-label" for="faviconFile">Favicon</label>
+					<%- include('../partials/media-picker', { id: 'faviconFile', field: 'faviconFile', valueName: 'favicon', current: v.favicon, label: 'favicon', small: true, hint: 'Square PNG, WebP, JPEG or GIF. Saved as a 512px PNG so every browser can use it.' }) %>
+					<div class="mb-3"></div>
+					<%- include('../partials/field-error', { name: 'logo' }) %>
+					<%- include('../partials/field-error', { name: 'favicon' }) %>
+
+					<button type="submit" class="btn btn-success w-100"><i class="fa fa-save me-1"></i> Save settings</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

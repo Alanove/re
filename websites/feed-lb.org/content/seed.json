@@ -1,0 +1,193 @@
+{
+  "settings": {
+    "tagline": "Strong Will to Make a Change",
+    "description": "FEED is a nonprofit humanitarian organization, powered by the concerted aim of breaking both the poverty cycle and the poverty mindset.",
+    "contactEmail": "info@feed-lb.org",
+    "contactPhone": "+961 3 751 423",
+    "whatsappNumber": "",
+    "brochureUrl": "",
+    "favicon": "legacy:/images/icons/ms-icon-310x310.png",
+    "faviconCrop": null,
+    "footerText": "FEED is a nonprofit humanitarian organization, powered by the concerted aim of breaking both the poverty cycle and the poverty mindset, so that the disadvantaged are empowered to leave the trappings and identifications of helplessness behind.",
+    "copyright": "Copyright {year} © FEED Lebanon. All rights reserved.",
+    "inquiryTopics": [
+      "Volunteering",
+      "Becoming a partner",
+      "Products and orders",
+      "Donations",
+      "Requesting help",
+      "General inquiry"
+    ],
+    "themeColor": "#076532",
+    "social": {
+      "facebook": "https://www.facebook.com/feedlebanon",
+      "instagram": "https://www.instagram.com/feed_lb",
+      "linkedin": "",
+      "youtube": ""
+    },
+    "ctaBand": {
+      "title": "Be part of the change",
+      "text": "Volunteer your time, partner with FEED or support one of our programs. Every effort helps a family in Lebanon.",
+      "label": "Get involved"
+    },
+    "thankYouMessage": "Thank you. Your message has been received and the FEED team will get back to you shortly.",
+    "donation": {
+      "bankDetails": [],
+      "presetAmounts": [10, 25, 50, 100],
+      "causes": ["Where it is needed most", "FEED the Hungry", "FEED the Ill", "FEED the Uneducated", "FEED the Unwanted"],
+      "thankYouMessage": "Thank you for your generosity. The FEED team will contact you shortly to arrange your donation."
+    },
+    "seo": {
+      "defaultTitle": "FEED Lebanon | Strong Will to Make a Change",
+      "defaultDescription": "FEED is a Lebanese nonprofit humanitarian organization working to break the poverty cycle: food boxes, medical aid, education support, housing and legal help for families in need.",
+      "defaultKeywords": "FEED Lebanon, nonprofit Lebanon, NGO Lebanon, humanitarian aid, donate Lebanon, feed the hungry, medical aid, education support, volunteer Lebanon",
+      "defaultImage": "legacy:/images/slides/hungry.jpg"
+    }
+  },
+  "extraAssets": [],
+  "pageIcons": {
+    "history": "history_edu",
+    "mission": "flag",
+    "vision": "visibility",
+    "core-values": "diversity_3",
+    "legal": "gavel",
+    "medical": "medical_services",
+    "housing": "home",
+    "food": "restaurant",
+    "fundraising": "volunteer_activism",
+    "education": "school",
+    "employment": "work"
+  },
+  "pageOverrides": {
+    "about-us": {
+      "summary": "Who we are, what we stand for and the people who make FEED work."
+    },
+    "initiatives": {
+      "summary": "Cases and campaigns FEED has taken on to support families in need."
+    },
+    "archives": {
+      "title": "Past Initiatives",
+      "header": "Past Initiatives"
+    },
+    "products": {
+      "summary": "Every FEED product is a fundraiser: buying one supports our programs."
+    },
+    "partners": {
+      "summary": "Businesses and organizations working hand in hand with FEED."
+    },
+    "donations": {
+      "header": "Donate to FEED",
+      "summary": "Pledge a one-time or monthly gift and the FEED team will contact you to arrange it.",
+      "content": "<p>Your donation goes straight to the families FEED supports: monthly food and cleaning boxes, medicine and medical care, school fees and housing repairs. Fill in the pledge form and a member of the FEED team will contact you to arrange the transfer, collection or delivery of your gift.</p>"
+    },
+    "news": {
+      "summary": "Stories, campaigns and updates from FEED Lebanon."
+    },
+    "contact-us": {
+      "summary": "Write to FEED, call us or visit our office in Zalka."
+    }
+  },
+  "galleryFromContent": [],
+  "redirects": [
+    { "from": "/default.aspx", "to": "/" },
+    { "from": "/checkout", "to": "page:donations" },
+    { "from": "/confirm-order", "to": "page:donations" },
+    { "from": "/checkout-recurring", "to": "page:donations" },
+    { "from": "/confirm-recurring-order", "to": "page:donations" },
+    { "from": "/initiatives/archives/default.aspx", "to": "page:archives" }
+  ],
+  "menus": {
+    "main": [
+      {
+        "title": "About Us",
+        "url": "page:about-us",
+        "children": [
+          { "title": "History", "url": "page:history" },
+          { "title": "Mission", "url": "page:mission" },
+          { "title": "Vision", "url": "page:vision" },
+          { "title": "Core Values", "url": "page:core-values" },
+          { "title": "Our Programs", "url": "page:our-programs" },
+          { "title": "Executive Team", "url": "page:executive-team" },
+          { "title": "Committees", "url": "page:committees" }
+        ]
+      },
+      { "title": "Initiatives", "url": "page:initiatives", "children": [{ "title": "Past Initiatives", "url": "page:archives" }] },
+      {
+        "title": "Products",
+        "url": "page:products",
+        "children": [
+          { "title": "#Motifashion Bracelets", "url": "page:motifashion-bracelets" },
+          { "title": "Carpets", "url": "page:carpets" },
+          { "title": "Maamoul", "url": "page:maamoul" }
+        ]
+      },
+      {
+        "title": "Partners",
+        "url": "page:partners",
+        "children": [
+          { "title": "Our Partners", "url": "page:our-partners" },
+          { "title": "Become a Partner", "url": "page:become-a-partner" }
+        ]
+      },
+      { "title": "News", "url": "page:news" },
+      { "title": "Contact Us", "url": "page:contact-us" }
+    ],
+    "footer": [
+      { "title": "About Us", "url": "page:about-us" },
+      { "title": "Our Programs", "url": "page:our-programs" },
+      { "title": "Executive Team", "url": "page:executive-team" },
+      { "title": "News", "url": "page:news" },
+      { "title": "Become a Partner", "url": "page:become-a-partner" },
+      { "title": "Donations", "url": "page:donations" },
+      { "title": "Contact Us", "url": "page:contact-us" }
+    ]
+  },
+  "offices": [
+    {
+      "id": "zalka",
+      "country": "FEED Lebanon",
+      "role": "Head office",
+      "address": "Warde Building - 9th Floor, Zalka Highway, Metn, Lebanon",
+      "poBox": "",
+      "phones": ["+961 3 751 423"],
+      "fax": "",
+      "emails": ["info@feed-lb.org"],
+      "mapQuery": "Zalka Highway, Zalka, Metn, Lebanon",
+      "isPrimary": true,
+      "sort": 10
+    }
+  ],
+  "home": {
+    "hero": { "enabled": true, "interval": 7, "label": "Read more" },
+    "programs": {
+      "enabled": true,
+      "title": "Our Programs",
+      "intro": "Four programs, one goal: helping families in Lebanon stand on their own feet.",
+      "sourceKey": "our-programs",
+      "count": 4
+    },
+    "about": {
+      "enabled": true,
+      "title": "About FEED",
+      "intro": "A nonprofit run by volunteers who believe that dignity, not dependence, breaks the poverty cycle.",
+      "sourceKey": "about-us",
+      "count": 3
+    },
+    "news": { "enabled": true, "title": "Latest News", "intro": "", "count": 3 },
+    "team": {
+      "enabled": true,
+      "title": "Executive Team",
+      "intro": "The people who give their time to lead FEED.",
+      "sourceKey": "executive-team",
+      "count": 6
+    },
+    "partners": { "enabled": true, "title": "Our Partners", "intro": "Hand in hand with businesses and organizations that share our vision." },
+    "donate": {
+      "enabled": true,
+      "title": "Your support changes lives",
+      "text": "A food box, a month of medicine or a term of school fees: choose an amount and the FEED team will help you make it happen.",
+      "label": "Donate now",
+      "image": "legacy:/images/slides/people-mother-family-father.jpg"
+    }
+  }
+}

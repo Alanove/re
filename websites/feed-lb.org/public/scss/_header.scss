@@ -1,0 +1,539 @@
+@use 'tokens' as t;
+@use 'mixins' as m;
+
+// Legacy layout: white bar, round logo on the left, green menu with dropdowns on the right.
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(t.$color-white, 0.98);
+  color: t.$color-primary;
+  border-top: 4px solid t.$color-primary;
+  box-shadow: 0 1px 0 t.$color-outline-variant;
+  transition: box-shadow t.$transition-slow;
+
+  &.is-scrolled {
+    box-shadow: t.$shadow-md;
+  }
+
+  &__inner {
+    @include m.container;
+    height: t.$header-height-mobile;
+    display: flex;
+    align-items: center;
+    gap: t.$space-md;
+
+    @include m.up(lg) {
+      height: t.$header-height;
+      gap: t.$gutter;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: t.$space-sm;
+    margin-left: auto;
+
+    @include m.up(lg) {
+      margin-left: 0;
+    }
+  }
+
+  &__cta {
+    display: none;
+
+    @include m.up(sm) {
+      display: inline-flex;
+    }
+  }
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: t.$tap-target;
+  min-width: 0;
+  flex-shrink: 1;
+  color: t.$color-primary;
+
+  &:hover {
+    color: t.$color-primary;
+  }
+
+  &__logo {
+    display: block;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    object-fit: contain;
+
+    @include m.up(lg) {
+      width: 64px;
+      height: 64px;
+    }
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  &__name {
+    font-size: 18px;
+    line-height: 1.15;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    @include m.up(lg) {
+      font-size: 20px;
+    }
+  }
+
+  &__tagline {
+    font-size: 12px;
+    line-height: 1.3;
+    color: t.$color-slate-gray;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    @include m.down(sm) {
+      display: none;
+    }
+  }
+
+  // The menu needs the room between 1024 and 1180px; the round logo still names the site.
+  @media (min-width: 1024px) and (max-width: 1180px) {
+    &__text {
+      display: none;
+    }
+  }
+}
+
+.nav-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: t.$tap-target;
+  height: t.$tap-target;
+  border: 1px solid t.$color-outline-variant;
+  border-radius: t.$radius-md;
+  background: transparent;
+  color: t.$color-primary;
+  cursor: pointer;
+
+  &:hover {
+    border-color: t.$color-primary;
+  }
+
+  @include m.up(lg) {
+    display: none;
+  }
+}
+
+.site-nav {
+  // Mobile: off-canvas drawer from the right.
+  position: fixed;
+  inset: 0 0 0 auto;
+  z-index: 70;
+  width: min(86vw, 360px);
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: t.$color-white;
+  box-shadow: t.$shadow-xl;
+  transform: translateX(100%);
+  visibility: hidden;
+  transition: transform 300ms ease, visibility 0s linear 300ms;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-bottom: env(safe-area-inset-bottom);
+
+  &.is-open {
+    transform: translateX(0);
+    visibility: visible;
+    transition: transform 300ms ease, visibility 0s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+
+    &.is-open {
+      transition: none;
+    }
+  }
+
+  @include m.up(lg) {
+    position: static;
+    width: auto;
+    height: auto;
+    flex-direction: row;
+    align-items: center;
+    margin-left: auto;
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+    visibility: visible;
+    overflow: visible;
+    transition: none;
+    padding-bottom: 0;
+  }
+
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px t.$space-md 10px t.$gutter;
+    border-top: 4px solid t.$color-primary;
+    border-bottom: 1px solid t.$color-outline-variant;
+
+    @include m.up(lg) {
+      display: none;
+    }
+  }
+
+  &__title {
+    @include m.label-caps;
+    color: t.$color-primary;
+  }
+
+  &__close {
+    display: inline-grid;
+    place-items: center;
+    width: t.$tap-target;
+    height: t.$tap-target;
+    border: 0;
+    border-radius: t.$radius-md;
+    background: t.$color-surface;
+    color: t.$color-primary;
+    cursor: pointer;
+
+    &:hover {
+      background: t.$color-surface-container;
+    }
+  }
+
+  &__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    padding: t.$space-sm 0;
+
+    @include m.up(lg) {
+      flex-direction: row;
+      align-items: center;
+      gap: 2px;
+      padding: 0;
+    }
+  }
+
+  &__item {
+    position: relative;
+    border-bottom: 1px solid t.$color-outline-variant;
+
+    @include m.up(lg) {
+      border-bottom: 0;
+    }
+  }
+
+  &__row {
+    display: flex;
+    align-items: stretch;
+  }
+
+  &__link {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    min-height: 52px;
+    padding: 0 t.$gutter;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: t.$color-on-surface;
+
+    @include m.up(lg) {
+      min-height: t.$header-height - 4px;
+      padding: 0 12px;
+      font-size: 13px;
+      color: t.$color-on-surface;
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 12px;
+        right: 12px;
+        bottom: 0;
+        height: 3px;
+        background: t.$color-primary;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform t.$transition-base;
+      }
+    }
+
+    &:hover {
+      color: t.$color-primary;
+      background: t.$color-surface;
+
+      @include m.up(lg) {
+        background: transparent;
+      }
+
+      &::after {
+        transform: scaleX(1);
+      }
+    }
+
+    .is-active > .site-nav__row > & {
+      color: t.$color-primary;
+      box-shadow: inset 4px 0 0 t.$color-primary;
+
+      @include m.up(lg) {
+        box-shadow: none;
+      }
+
+      &::after {
+        transform: scaleX(1);
+      }
+    }
+  }
+
+  &__expand {
+    display: inline-grid;
+    place-items: center;
+    width: 52px;
+    flex-shrink: 0;
+    border: 0;
+    border-left: 1px solid t.$color-outline-variant;
+    background: transparent;
+    color: t.$color-primary;
+    cursor: pointer;
+
+    .material-symbols-outlined {
+      transition: transform t.$transition-base;
+    }
+
+    &[aria-expanded='true'] .material-symbols-outlined {
+      transform: rotate(180deg);
+    }
+
+    @include m.up(lg) {
+      // Desktop opens on hover; the button stays for keyboard users as a small chevron.
+      width: 22px;
+      margin-left: -10px;
+      border-left: 0;
+
+      .material-symbols-outlined {
+        font-size: 18px;
+      }
+    }
+  }
+
+  &__contact {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: auto;
+    padding: t.$gutter;
+    border-top: 1px solid t.$color-outline-variant;
+    background: t.$color-surface;
+
+    .btn {
+      margin-bottom: t.$space-sm;
+    }
+
+    @include m.up(lg) {
+      display: none;
+    }
+  }
+
+  &__line {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: t.$tap-target;
+    color: t.$color-on-surface;
+    overflow-wrap: break-word;
+
+    .material-symbols-outlined {
+      font-size: 20px;
+      color: t.$color-primary;
+    }
+
+    &:hover {
+      color: t.$color-primary;
+    }
+  }
+}
+
+.subnav {
+  list-style: none;
+  display: none;
+  padding: 0 0 t.$space-sm;
+  background: t.$color-surface;
+
+  .is-expanded > & {
+    display: block;
+  }
+
+  @include m.up(lg) {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 5;
+    display: block;
+    min-width: 230px;
+    padding: t.$space-sm 0;
+    background: t.$color-white;
+    border-top: 3px solid t.$color-primary;
+    border-radius: 0 0 t.$radius-md t.$radius-md;
+    box-shadow: t.$shadow-lg;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+    transition: opacity t.$transition-base, transform t.$transition-base, visibility 0s linear 200ms;
+
+    .site-nav__item:hover > &,
+    .is-expanded > & {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      transition: opacity t.$transition-base, transform t.$transition-base, visibility 0s;
+    }
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    min-height: t.$tap-target;
+    padding: 0 t.$gutter 0 t.$gutter + 16px;
+    font-size: 15px;
+    color: t.$color-on-surface-variant;
+
+    @include m.up(lg) {
+      padding: 0 20px;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    &:hover,
+    &.is-active {
+      color: t.$color-primary;
+      background: t.$color-surface-low;
+    }
+
+    &[aria-current='page'] {
+      font-weight: 700;
+      color: t.$color-primary;
+    }
+  }
+}
+
+.nav-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 65;
+  background: rgba(t.$color-tertiary, 0.55);
+  backdrop-filter: blur(2px);
+
+  @include m.up(lg) {
+    display: none;
+  }
+}
+
+// Shared social icon list (header, drawer, footer, contact section).
+.social-links {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: t.$space-sm;
+
+  &--header {
+    display: none;
+
+    @include m.up(lg) {
+      display: flex;
+      gap: 2px;
+    }
+
+    .social-link {
+      background: transparent;
+      color: t.$color-primary;
+
+      &:hover {
+        color: t.$color-white;
+      }
+    }
+  }
+
+  &--drawer {
+    margin-top: t.$space-sm;
+
+    .social-link {
+      background: t.$color-white;
+      color: t.$color-primary;
+    }
+  }
+
+  &--buttons {
+    gap: 10px;
+
+    .social-link {
+      width: auto;
+      height: t.$tap-target;
+      padding: 0 16px 0 12px;
+      gap: 8px;
+      border-radius: t.$radius-full;
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: t.$tap-target;
+  height: t.$tap-target;
+  border-radius: t.$radius-full;
+  background: rgba(t.$color-white, 0.1);
+  color: t.$color-white;
+  transition: background-color t.$transition-base, color t.$transition-base;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    background: t.$color-accent;
+    color: t.$color-white;
+  }
+
+  &--whatsapp:hover {
+    background: #25d366;
+    color: t.$color-white;
+  }
+
+  &--instagram:hover {
+    background: #e1306c;
+    color: t.$color-white;
+  }
+
+  &--facebook:hover {
+    background: #1877f2;
+    color: t.$color-white;
+  }
+}

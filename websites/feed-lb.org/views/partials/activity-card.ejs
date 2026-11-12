@@ -1,0 +1,15 @@
+<% const tag = 'h' + (locals.headingLevel || 2); %>
+<a class="activity-card" href="<%= child.url %>">
+	<div class="activity-card__media">
+		<% if (child.heroImage) { %>
+			<img src="<%= thumbUrl(child.heroImage) %>" alt="" loading="lazy" width="480" height="320" />
+		<% } else { %>
+			<span class="activity-card__placeholder material-symbols-outlined" aria-hidden="true"><%= child.icon || 'eco' %></span>
+		<% } %>
+	</div>
+	<div class="activity-card__body">
+		<<%= tag %> class="activity-card__title"><%= child.title %></<%= tag %>>
+		<% if (child.summary) { %><p class="activity-card__text"><%= child.summary %></p><% } %>
+		<span class="activity-card__more">Read more <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></span>
+	</div>
+</a>

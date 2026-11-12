@@ -1,0 +1,65 @@
+<%
+	const telHref = function (value) { return 'tel:' + String(value || '').replace(/[^+\d]/g, ''); };
+	const copyright = (settings.copyright || ('© {year} ' + settings.siteName + '. All rights reserved.')).replace('{year}', year);
+	const mapHref = function (query) { return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(query); };
+	const footerLinks = footerMenu.length ? footerMenu : mainMenu;
+%>
+<footer class="site-footer">
+	<div class="site-footer__inner">
+		<div class="site-footer__col site-footer__brand">
+			<a class="site-footer__logo" href="/" aria-label="<%= settings.siteName %> home">
+				<% if (settings.logo) { %><img src="<%= settings.logo %>" alt="" width="72" height="72" loading="lazy" /><% } %>
+				<span class="site-footer__name"><%= settings.siteName %></span>
+			</a>
+			<% if (settings.footerText || settings.description) { %><p class="site-footer__text"><%= settings.footerText || settings.description %></p><% } %>
+			<%- include('social-links', { socialClass: 'social-links social-links--footer' }) %>
+		</div>
+
+		<nav class="site-footer__col" aria-labelledby="footer-links-title">
+			<h2 class="site-footer__heading" id="footer-links-title">Quick links</h2>
+			<ul class="footer-links">
+				<% footerLinks.forEach(function (item) { %>
+					<li><a href="<%= item.url %>"><span class="material-symbols-outlined" aria-hidden="true">chevron_right</span><%= item.title %></a></li>
+				<% }) %>
+			</ul>
+		</nav>
+
+		<div class="site-footer__col">
+			<h2 class="site-footer__heading">Contact us</h2>
+			<% offices.forEach(function (office) { %>
+				<ul class="footer-contact">
+					<% if (office.address) { %>
+						<li>
+							<span class="material-symbols-outlined" aria-hidden="true">location_on</span>
+							<% if (office.mapQuery) { %><a href="<%= mapHref(office.mapQuery) %>" target="_blank" rel="noopener noreferrer"><%= office.address %><span class="visually-hidden"> (opens Google Maps)</span></a><% } else { %><span><%= office.address %></span><% } %>
+						</li>
+					<% } %>
+					<% office.phones.forEach(function (phone) { %><li><span class="material-symbols-outlined" aria-hidden="true">call</span><a href="<%= telHref(phone) %>"><%= phone %></a></li><% }) %>
+					<% if (office.fax) { %><li><span class="material-symbols-outlined" aria-hidden="true">fax</span><a href="<%= telHref(office.fax) %>"><%= office.fax %></a></li><% } %>
+					<% office.emails.forEach(function (email) { %><li><span class="material-symbols-outlined" aria-hidden="true">mail</span><a href="mailto:<%= email %>"><%- include('email-text', { email: email }) %></a></li><% }) %>
+				</ul>
+			<% }) %>
+		</div>
+
+		<% if (donationsUrl) { %>
+			<div class="site-footer__col">
+				<h2 class="site-footer__heading" id="footer-donate-title">Make a donation</h2>
+				<form class="footer-donate" method="GET" action="<%= donationsUrl %>" aria-labelledby="footer-donate-title">
+					<p class="footer-donate__text">Every gift helps a family in need. Choose an amount and complete your pledge on the next page.</p>
+					<label class="visually-hidden" for="footer-donate-amount">Amount in US dollars</label>
+					<div class="footer-donate__field">
+						<span class="footer-donate__currency" aria-hidden="true">$</span>
+						<input class="footer-donate__input" id="footer-donate-amount" name="amount" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="7" placeholder="50" autocomplete="off" />
+					</div>
+					<button class="btn btn--donate btn--block" type="submit"><span class="material-symbols-outlined is-filled" aria-hidden="true">favorite</span>Donate</button>
+				</form>
+			</div>
+		<% } %>
+	</div>
+	<div class="site-footer__bottom">
+		<p>
+			<span><%= copyright %></span>
+			<span class="site-footer__credit">by <a href="https://www.liteweb.info" target="_blank" rel="noopener noreferrer">www.liteweb.info</a></span>
+		</p>
+	</div>
+</footer>

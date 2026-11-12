@@ -1,0 +1,16 @@
+<ul class="partner-grid">
+	<% partners.forEach(function (partner) { %>
+		<li>
+			<% if (partner.website) { %>
+				<a class="partner-logo" href="<%= partner.website %>" target="_blank" rel="noopener noreferrer" title="<%= partner.name %>">
+					<img src="<%= partner.logo %>" alt="" loading="lazy"<% if (partner.logoWidth && partner.logoHeight) { %> width="<%= partner.logoWidth %>" height="<%= partner.logoHeight %>"<% } %> />
+					<span class="visually-hidden"><%= partner.name %> (opens in a new tab)</span>
+				</a>
+			<% } else { %>
+				<span class="partner-logo">
+					<img src="<%= partner.logo %>" alt="<%= partner.name %>" loading="lazy"<% if (partner.logoWidth && partner.logoHeight) { %> width="<%= partner.logoWidth %>" height="<%= partner.logoHeight %>"<% } %> />
+				</span>
+			<% } %>
+		</li>
+	<% }) %>
+</ul>

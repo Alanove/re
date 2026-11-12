@@ -1,0 +1,154 @@
+<%
+	const hero = home.hero;
+	const slides = hero.enabled ? hero.slides.filter(function (slide) { return slide.image; }) : [];
+	const programs = lists.programs, about = lists.about, team = lists.team;
+	const cardImage = function (url) { return url ? thumbUrl(url) : ''; };
+%>
+<h1 class="visually-hidden"><%= settings.siteName %><% if (settings.tagline) { %>: <%= settings.tagline %><% } %></h1>
+
+<% if (slides.length) { %>
+<section class="hero-slider" aria-roledescription="carousel" aria-label="Featured programs" data-hero-slider data-interval="<%= hero.interval %>">
+	<div class="hero-slider__track" aria-live="off">
+		<% slides.forEach(function (slide, index) { %>
+			<div class="hero-slide<%= index === 0 ? ' is-active' : '' %>" role="group" aria-roledescription="slide" aria-label="<%= index + 1 %> of <%= slides.length %>" data-slide<%- index === 0 ? '' : ' aria-hidden="true" inert' %>>
+				<img class="hero-slide__image" src="<%= slide.image %>" alt="" <%- index === 0 ? 'fetchpriority="high"' : 'loading="lazy"' %> />
+				<div class="hero-slide__inner">
+					<div class="hero-slide__copy">
+						<h2 class="hero-slide__title"><%= slide.title %></h2>
+						<% if (slide.text) { %><p class="hero-slide__text"><%= slide.text %></p><% } %>
+						<div class="hero-slide__actions">
+							<% if (slide.url) { %><a class="btn btn--light btn--lg" href="<%= slide.url %>"><%= slide.label || 'Read more' %><span class="visually-hidden"> about <%= slide.title %></span></a><% } %>
+							<% if (donationsUrl) { %><a class="btn btn--donate btn--lg" href="<%= donationsUrl %>"><span class="material-symbols-outlined is-filled" aria-hidden="true">favorite</span>Donate</a><% } %>
+						</div>
+					</div>
+				</div>
+			</div>
+		<% }) %>
+	</div>
+	<% if (slides.length > 1) { %>
+		<div class="hero-slider__controls">
+			<button class="hero-slider__button" type="button" data-slide-prev><span class="material-symbols-outlined" aria-hidden="true">chevron_left</span><span class="visually-hidden">Previous slide</span></button>
+			<div class="hero-slider__dots">
+				<% slides.forEach(function (slide, index) { %>
+					<button class="hero-slider__dot<%= index === 0 ? ' is-active' : '' %>" type="button" aria-label="Show slide <%= index + 1 %>: <%= slide.title %>"<%- index === 0 ? ' aria-current="true"' : '' %> data-slide-dot="<%= index %>"></button>
+				<% }) %>
+			</div>
+			<button class="hero-slider__button" type="button" data-slide-next><span class="material-symbols-outlined" aria-hidden="true">chevron_right</span><span class="visually-hidden">Next slide</span></button>
+			<button class="hero-slider__button hero-slider__pause" type="button" aria-pressed="false" data-slide-pause>
+				<span class="material-symbols-outlined" aria-hidden="true" data-pause-icon>pause</span><span class="visually-hidden">Pause slideshow</span>
+			</button>
+		</div>
+	<% } %>
+</section>
+<% } %>
+
+<% if (home.programs.enabled && programs.cards.length) { %>
+<section class="section home-programs" id="programs" aria-labelledby="programs-title">
+	<div class="container">
+		<div class="section-head section-head--center">
+			<h2 class="section-title" id="programs-title"><%= home.programs.title %></h2>
+			<% if (home.programs.intro) { %><p class="section-head__intro"><%= home.programs.intro %></p><% } %>
+		</div>
+		<ul class="program-grid">
+			<% programs.cards.forEach(function (card) { %>
+				<li>
+					<a class="program-card" href="<%= card.url %>">
+						<span class="program-card__media">
+							<% if (card.heroImage) { %><img src="<%= cardImage(card.heroImage) %>" alt="" loading="lazy" width="480" height="360" /><% } %>
+						</span>
+						<span class="program-card__body">
+							<span class="program-card__title"><%= card.title %></span>
+							<% if (card.summary) { %><span class="program-card__text"><%= card.summary %></span><% } %>
+							<span class="program-card__more">Read more <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></span>
+						</span>
+					</a>
+				</li>
+			<% }) %>
+		</ul>
+	</div>
+</section>
+<% } %>
+
+<% if (home.about.enabled && about.cards.length) { %>
+<section class="section section--surface home-about" id="about" aria-labelledby="about-title">
+	<div class="container">
+		<div class="section-head section-head--center">
+			<h2 class="section-title" id="about-title"><%= home.about.title %></h2>
+			<% if (home.about.intro) { %><p class="section-head__intro"><%= home.about.intro %></p><% } %>
+		</div>
+		<ul class="about-grid">
+			<% about.cards.forEach(function (card) { %>
+				<li class="about-card">
+					<span class="about-card__icon material-symbols-outlined" aria-hidden="true"><%= card.icon || 'eco' %></span>
+					<h3 class="about-card__title"><a href="<%= card.url %>"><%= card.title %></a></h3>
+					<% if (card.summary) { %><p class="about-card__text"><%= card.summary %></p><% } %>
+					<span class="about-card__more" aria-hidden="true">Read more <span class="material-symbols-outlined">arrow_forward</span></span>
+				</li>
+			<% }) %>
+		</ul>
+		<% if (about.source) { %>
+			<p class="home-about__cta"><a class="btn btn--outline" href="<%= about.source.url %>">More about FEED</a></p>
+		<% } %>
+	</div>
+</section>
+<% } %>
+
+<% if (home.donate.enabled && donationsUrl) { %>
+<section class="donate-band" aria-labelledby="donate-title">
+	<% if (home.donate.image) { %><img class="donate-band__image" src="<%= home.donate.image %>" alt="" loading="lazy" /><% } %>
+	<div class="container donate-band__inner">
+		<span class="donate-band__icon material-symbols-outlined is-filled" aria-hidden="true">volunteer_activism</span>
+		<h2 class="donate-band__title" id="donate-title"><%= home.donate.title %></h2>
+		<% if (home.donate.text) { %><p class="donate-band__text"><%= home.donate.text %></p><% } %>
+		<a class="btn btn--donate btn--lg" href="<%= donationsUrl %>"><span class="material-symbols-outlined is-filled" aria-hidden="true">favorite</span><%= home.donate.label || 'Donate now' %></a>
+	</div>
+</section>
+<% } %>
+
+<% if (home.news.enabled && news.entries.length) { %>
+<section class="section home-news" id="news" aria-labelledby="news-title">
+	<div class="container">
+		<div class="section-head section-head--split">
+			<h2 class="section-title" id="news-title"><%= home.news.title %></h2>
+			<% if (news.root) { %><a class="btn btn--outline btn--sm" href="<%= news.root.url %>">All news</a><% } %>
+		</div>
+		<% if (home.news.intro) { %><p class="section-head__intro section-head__intro--start"><%= home.news.intro %></p><% } %>
+		<ul class="story-grid">
+			<% news.entries.forEach(function (story) { %>
+				<li><%- include('partials/story-card', { story: story, headingLevel: 3 }) %></li>
+			<% }) %>
+		</ul>
+	</div>
+</section>
+<% } %>
+
+<% if (home.team.enabled && team.cards.length) { %>
+<section class="section section--surface home-team" id="team" aria-labelledby="team-title">
+	<div class="container">
+		<div class="section-head section-head--center">
+			<h2 class="section-title" id="team-title"><%= home.team.title %></h2>
+			<% if (home.team.intro) { %><p class="section-head__intro"><%= home.team.intro %></p><% } %>
+		</div>
+		<ul class="team-grid">
+			<% team.cards.forEach(function (person) { %>
+				<li><%- include('partials/person-card', { person: person, headingLevel: 3 }) %></li>
+			<% }) %>
+		</ul>
+	</div>
+</section>
+<% } %>
+
+<% if (home.partners.enabled && partners.length) { %>
+<section class="section section--tight home-partners" id="partners" aria-labelledby="partners-title">
+	<div class="container">
+		<div class="section-head section-head--center">
+			<h2 class="section-title" id="partners-title"><%= home.partners.title %></h2>
+			<% if (home.partners.intro) { %><p class="section-head__intro"><%= home.partners.intro %></p><% } %>
+		</div>
+		<%- include('partials/partner-logos', { partners: partners }) %>
+		<% if (partnersUrl) { %><p class="home-partners__cta"><a class="btn btn--outline btn--sm" href="<%= partnersUrl %>">All partners</a></p><% } %>
+	</div>
+</section>
+<% } %>
+
+<%- include('partials/cta-band-section') %>

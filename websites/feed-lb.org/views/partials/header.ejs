@@ -1,0 +1,74 @@
+<%
+	const telHref = function (value) { return 'tel:' + String(value || '').replace(/[^+\d]/g, ''); };
+	const headerPhone = primaryOffice && primaryOffice.phones.length ? primaryOffice.phones[0] : settings.contactPhone;
+%>
+<header class="site-header" data-site-header>
+	<div class="site-header__inner">
+		<a class="brand" href="/" aria-label="<%= settings.siteName %> home">
+			<% if (settings.logo) { %>
+				<img class="brand__logo" src="<%= settings.logo %>" alt="" width="64" height="64" />
+			<% } %>
+			<span class="brand__text">
+				<span class="brand__name"><%= settings.siteName %></span>
+				<% if (settings.tagline) { %><span class="brand__tagline"><%= settings.tagline %></span><% } %>
+			</span>
+		</a>
+
+		<nav class="site-nav" id="site-nav" aria-label="Main" data-site-nav>
+			<div class="site-nav__head">
+				<p class="site-nav__title">Menu</p>
+				<button class="site-nav__close" type="button" data-nav-close>
+					<span class="material-symbols-outlined" aria-hidden="true">close</span>
+					<span class="visually-hidden">Close menu</span>
+				</button>
+			</div>
+			<ul class="site-nav__list">
+				<% mainMenu.forEach(function (item, index) { const hasChildren = item.children.length > 0; const subId = 'subnav-' + index; %>
+					<li class="site-nav__item<%= item.active ? ' is-active' : '' %><%= hasChildren ? ' has-children' : '' %>"<%- hasChildren ? ' data-subnav' : '' %>>
+						<div class="site-nav__row">
+							<a class="site-nav__link" href="<%= item.url %>"<%- item.current ? ' aria-current="page"' : '' %>><%= item.title %></a>
+							<% if (hasChildren) { %>
+								<button class="site-nav__expand" type="button" aria-expanded="false" aria-controls="<%= subId %>" data-subnav-toggle>
+									<span class="material-symbols-outlined" aria-hidden="true">expand_more</span>
+									<span class="visually-hidden"><%= item.title %> pages</span>
+								</button>
+							<% } %>
+						</div>
+						<% if (hasChildren) { %>
+							<ul class="subnav" id="<%= subId %>">
+								<% item.children.forEach(function (child) { %>
+									<li><a class="subnav__link<%= child.active ? ' is-active' : '' %>" href="<%= child.url %>"<%- child.current ? ' aria-current="page"' : '' %>><%= child.title %></a></li>
+								<% }) %>
+							</ul>
+						<% } %>
+					</li>
+				<% }) %>
+			</ul>
+			<div class="site-nav__contact">
+				<% if (donationsUrl) { %>
+					<a class="btn btn--donate btn--block" href="<%= donationsUrl %>"><span class="material-symbols-outlined is-filled" aria-hidden="true">favorite</span>Donate</a>
+				<% } %>
+				<% if (headerPhone) { %>
+					<a class="site-nav__line" href="<%= telHref(headerPhone) %>"><span class="material-symbols-outlined" aria-hidden="true">call</span><%= headerPhone %></a>
+				<% } %>
+				<% if (settings.contactEmail) { %>
+					<a class="site-nav__line" href="mailto:<%= settings.contactEmail %>"><span class="material-symbols-outlined" aria-hidden="true">mail</span><span><%- include('email-text', { email: settings.contactEmail }) %></span></a>
+				<% } %>
+				<%- include('social-links', { socialClass: 'social-links social-links--drawer' }) %>
+			</div>
+		</nav>
+
+		<div class="site-header__actions">
+			<% if (donationsUrl) { %>
+				<a class="btn btn--donate btn--sm site-header__cta" href="<%= donationsUrl %>">
+					<span class="material-symbols-outlined is-filled" aria-hidden="true">favorite</span>Donate
+				</a>
+			<% } %>
+			<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+				<span class="material-symbols-outlined" aria-hidden="true">menu</span>
+				<span class="visually-hidden">Open menu</span>
+			</button>
+		</div>
+	</div>
+	<div class="nav-backdrop" data-nav-backdrop hidden></div>
+</header>

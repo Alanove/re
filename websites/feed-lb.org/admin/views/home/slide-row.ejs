@@ -1,0 +1,37 @@
+<%
+	const rowError = function (name) { return errors['slides.' + i + '.' + name]; };
+	const rowClass = function (name) { return rowError(name) ? 'form-control form-control-sm is-invalid' : 'form-control form-control-sm'; };
+%>
+<div class="admin-spec-row" data-repeater-row>
+	<div class="row g-2 align-items-start">
+		<div class="col-md-5">
+			<label class="form-label small mb-1" for="slides-<%= i %>-title">Title</label>
+			<input type="text" class="<%= rowClass('title') %>" id="slides-<%= i %>-title" name="slides[<%= i %>][title]" value="<%= slide.title %>" maxlength="120" />
+			<% if (rowError('title')) { %><div class="invalid-feedback"><%= rowError('title') %></div><% } %>
+			<label class="form-label small mb-1 mt-2" for="slides-<%= i %>-text">Text</label>
+			<textarea class="<%= rowClass('text') %>" id="slides-<%= i %>-text" name="slides[<%= i %>][text]" rows="2" maxlength="300"><%= slide.text %></textarea>
+			<% if (rowError('text')) { %><div class="invalid-feedback"><%= rowError('text') %></div><% } %>
+			<div class="row g-2 mt-0">
+				<div class="col-7">
+					<label class="form-label small mb-1" for="slides-<%= i %>-url">Link</label>
+					<input type="text" class="<%= rowClass('url') %>" id="slides-<%= i %>-url" name="slides[<%= i %>][url]" value="<%= slide.url %>" placeholder="/about-us/our-programs" maxlength="500" />
+					<% if (rowError('url')) { %><div class="invalid-feedback"><%= rowError('url') %></div><% } %>
+				</div>
+				<div class="col-5">
+					<label class="form-label small mb-1" for="slides-<%= i %>-label">Button</label>
+					<input type="text" class="<%= rowClass('label') %>" id="slides-<%= i %>-label" name="slides[<%= i %>][label]" value="<%= slide.label %>" placeholder="Read more" maxlength="60" />
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<label class="form-label small mb-1" for="slides-<%= i %>-imageFile">Photo</label>
+			<%- include('../partials/media-picker', { id: 'slides-' + i + '-imageFile', field: 'slides[' + i + '][imageFile]', kind: 'image', current: slide.image || '', valueName: 'slides[' + i + '][image]', label: 'slide photo', small: true, hint: 'Wide landscape photo. Converted to WebP, max 1920px.' }) %>
+			<% if (rowError('image')) { %><div class="invalid-feedback d-block"><%= rowError('image') %></div><% } %>
+		</div>
+		<div class="col-md-1 d-flex flex-md-column gap-1 justify-content-end">
+			<button type="button" class="btn btn-sm btn-default" data-row-up title="Move up" aria-label="Move slide up"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+			<button type="button" class="btn btn-sm btn-default" data-row-down title="Move down" aria-label="Move slide down"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+			<button type="button" class="btn btn-sm btn-danger" data-repeater-remove title="Remove" aria-label="Remove slide"><i class="fa fa-trash" aria-hidden="true"></i></button>
+		</div>
+	</div>
+</div>

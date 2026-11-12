@@ -1,0 +1,12 @@
+<% const tag = 'h' + (locals.headingLevel || 2); %>
+<article class="person-card">
+	<span class="person-card__photo">
+		<% if (person.heroImage) { %>
+			<img src="<%= thumbUrl(person.heroImage) %>" alt="" loading="lazy" width="200" height="200" />
+		<% } else { %>
+			<span class="material-symbols-outlined" aria-hidden="true">person</span>
+		<% } %>
+	</span>
+	<<%= tag %> class="person-card__name"><a href="<%= person.url %>"><%= person.title %></a></<%= tag %>>
+	<% if (person.summary) { %><p class="person-card__role"><%= person.summary %></p><% } %>
+</article>

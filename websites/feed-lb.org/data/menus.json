@@ -1,0 +1,254 @@
+[
+  {
+    "id": "main",
+    "name": "Main navigation",
+    "description": "Header navigation. Sub-items open as a dropdown on desktop and expand in the mobile menu.",
+    "items": [
+      {
+        "id": "item-about-us",
+        "title": "About Us",
+        "url": "/about-us",
+        "pageId": 2784,
+        "sort": 10,
+        "active": true,
+        "children": [
+          {
+            "id": "item-about-us-history",
+            "title": "History",
+            "url": "/about-us/history",
+            "pageId": 3784,
+            "sort": 10,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "item-about-us-mission",
+            "title": "Mission",
+            "url": "/about-us/mission",
+            "pageId": 3785,
+            "sort": 20,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "item-about-us-vision",
+            "title": "Vision",
+            "url": "/about-us/vision",
+            "pageId": 3786,
+            "sort": 30,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "item-about-us-core-values",
+            "title": "Core Values",
+            "url": "/about-us/core-values",
+            "pageId": 3787,
+            "sort": 40,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "item-about-us-our-programs",
+            "title": "Our Programs",
+            "url": "/about-us/our-programs",
+            "pageId": 3796,
+            "sort": 50,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "item-about-us-executive-team",
+            "title": "Executive Team",
+            "url": "/about-us/executive-team",
+            "pageId": 3788,
+            "sort": 60,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "item-about-us-committees",
+            "title": "Committees",
+            "url": "/about-us/committees",
+            "pageId": 3789,
+            "sort": 70,
+            "active": true,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "item-initiatives",
+        "title": "Initiatives",
+        "url": "/initiatives",
+        "pageId": 2785,
+        "sort": 20,
+        "active": true,
+        "children": [
+          {
+            "id": "item-initiatives-past-initiatives",
+            "title": "Past Initiatives",
+            "url": "/initiatives/archives",
+            "pageId": 3846,
+            "sort": 10,
+            "active": true,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "item-products",
+        "title": "Products",
+        "url": "/products",
+        "pageId": 2787,
+        "sort": 30,
+        "active": true,
+        "children": [
+          {
+            "id": "item-products-motifashion-bracelets",
+            "title": "#Motifashion Bracelets",
+            "url": "/products/motifashion-bracelets",
+            "pageId": 3790,
+            "sort": 10,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "item-products-carpets",
+            "title": "Carpets",
+            "url": "/products/carpets",
+            "pageId": 3791,
+            "sort": 20,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "item-products-maamoul",
+            "title": "Maamoul",
+            "url": "/products/maamoul",
+            "pageId": 3792,
+            "sort": 30,
+            "active": true,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "item-partners",
+        "title": "Partners",
+        "url": "/partners",
+        "pageId": 2788,
+        "sort": 40,
+        "active": true,
+        "children": [
+          {
+            "id": "item-partners-our-partners",
+            "title": "Our Partners",
+            "url": "/partners/our-partners",
+            "pageId": 3793,
+            "sort": 10,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "item-partners-become-a-partner",
+            "title": "Become a Partner",
+            "url": "/partners/become-a-partner",
+            "pageId": 3795,
+            "sort": 20,
+            "active": true,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "item-news",
+        "title": "News",
+        "url": "/news",
+        "pageId": 3794,
+        "sort": 50,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-contact-us",
+        "title": "Contact Us",
+        "url": "/contact-us",
+        "pageId": 2789,
+        "sort": 60,
+        "active": true,
+        "children": []
+      }
+    ]
+  },
+  {
+    "id": "footer",
+    "name": "Footer links",
+    "description": "Quick links listed in the footer.",
+    "items": [
+      {
+        "id": "item-about-us",
+        "title": "About Us",
+        "url": "/about-us",
+        "pageId": 2784,
+        "sort": 10,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-our-programs",
+        "title": "Our Programs",
+        "url": "/about-us/our-programs",
+        "pageId": 3796,
+        "sort": 20,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-executive-team",
+        "title": "Executive Team",
+        "url": "/about-us/executive-team",
+        "pageId": 3788,
+        "sort": 30,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-news",
+        "title": "News",
+        "url": "/news",
+        "pageId": 3794,
+        "sort": 40,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-become-a-partner",
+        "title": "Become a Partner",
+        "url": "/partners/become-a-partner",
+        "pageId": 3795,
+        "sort": 50,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-donations",
+        "title": "Donations",
+        "url": "/donations",
+        "pageId": 2786,
+        "sort": 60,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-contact-us",
+        "title": "Contact Us",
+        "url": "/contact-us",
+        "pageId": 2789,
+        "sort": 70,
+        "active": true,
+        "children": []
+      }
+    ]
+  }
+]

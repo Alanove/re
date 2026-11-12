@@ -1,0 +1,41 @@
+<div class="row">
+	<div class="col-xl-8">
+		<div class="panel panel-inverse">
+			<div class="panel-heading"><h4 class="panel-title"><%= inquiry.type === 'donation' ? 'Donation pledge' : inquiry.topic %></h4></div>
+			<div class="panel-body">
+				<% if (inquiry.donation) { %>
+					<div class="alert alert-success mb-3">
+						<div class="fs-5 fw-bold"><%= inquiry.donation.currency %> <%= inquiry.donation.amount.toLocaleString('en-US') %></div>
+						<div><%= inquiry.donation.frequency === 'monthly' ? 'Monthly gift' : 'One-time gift' %> · <%= inquiry.donation.cause %></div>
+						<small class="d-block mt-1 text-muted">A pledge only: no payment was taken online. Contact the donor to arrange the transfer.</small>
+					</div>
+				<% } %>
+				<% if (inquiry.productName) { %>
+					<p class="mb-3"><span class="text-muted">Product:</span>
+						<strong><%= inquiry.productName %></strong>
+					</p>
+				<% } %>
+				<p class="admin-message"><%= inquiry.message %></p>
+				<a href="mailto:<%= inquiry.email %>?subject=<%= encodeURIComponent(inquiry.type === 'donation' ? 'Your donation pledge to ' + settings.siteName : 'Re: ' + (inquiry.productName || inquiry.topic)) %>" class="btn btn-primary"><i class="fa fa-reply me-1"></i> Reply by email</a>
+				<button type="button" class="btn btn-danger ms-2" data-delete-url="/admin/inquiries/<%= inquiry.id %>" data-delete-title="Delete inquiry" data-delete-message="Delete this inquiry?" data-delete-redirect="/admin/inquiries<%= inquiry.type === 'donation' ? '?type=donation' : '' %>"><i class="fa fa-trash me-1"></i> Delete</button>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-4">
+		<div class="panel panel-inverse">
+			<div class="panel-heading"><h4 class="panel-title">Sender</h4></div>
+			<div class="panel-body">
+				<dl class="mb-0">
+					<dt>Name</dt><dd><%= inquiry.name %></dd>
+					<dt>Email</dt><dd><a href="mailto:<%= inquiry.email %>"><%= inquiry.email %></a></dd>
+					<% if (inquiry.company) { %><dt>Company</dt><dd><%= inquiry.company %></dd><% } %>
+					<% if (inquiry.phone) { %><dt>Phone</dt><dd><a href="tel:<%= inquiry.phone.replace(/[^+\d]/g, '') %>"><%= inquiry.phone %></a></dd><% } %>
+					<dt>Received</dt><dd><%= new Date(inquiry.createdAt).toLocaleString('en-GB') %></dd>
+					<dt>Email notification</dt><dd><%= inquiry.emailed ? 'Sent' : 'Not sent (SMTP not configured or failed)' %></dd>
+					<dt>IP address</dt><dd class="small text-muted"><%= inquiry.ip %></dd>
+				</dl>
+			</div>
+		</div>
+		<a href="/admin/inquiries" class="btn btn-default"><i class="fa fa-arrow-left me-1"></i> All inquiries</a>
+	</div>
+</div>

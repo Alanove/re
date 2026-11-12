@@ -1,0 +1,40 @@
+<%- include('partials/page-hero') %>
+<section class="section">
+	<div class="container">
+		<% if (page.content) { %>
+			<div class="prose prose--intro"><%- page.content %></div>
+		<% } %>
+		<% if (listing.entries.length) { %>
+			<ul class="story-grid">
+				<% listing.entries.forEach(function (story) { %>
+					<li><%- include('partials/story-card', { story: story, headingLevel: 2 }) %></li>
+				<% }) %>
+			</ul>
+		<% } else { %>
+			<p class="empty-note">No news has been published yet.</p>
+		<% } %>
+
+		<% if (listing.totalPages > 1) { %>
+			<nav class="pagination" aria-label="News pages">
+				<% if (listing.page > 1) { %>
+					<a class="pagination__link" href="<%= page.url %><%= listing.page - 1 > 1 ? '?page=' + (listing.page - 1) : '' %>" rel="prev"><span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>Newer</a>
+				<% } %>
+				<ul class="pagination__pages">
+					<% for (let n = 1; n <= listing.totalPages; n += 1) { %>
+						<li>
+							<% if (n === listing.page) { %>
+								<span class="pagination__link is-current" aria-current="page"><%= n %></span>
+							<% } else { %>
+								<a class="pagination__link" href="<%= page.url %><%= n > 1 ? '?page=' + n : '' %>"><span class="visually-hidden">Page </span><%= n %></a>
+							<% } %>
+						</li>
+					<% } %>
+				</ul>
+				<% if (listing.page < listing.totalPages) { %>
+					<a class="pagination__link" href="<%= page.url %>?page=<%= listing.page + 1 %>" rel="next">Older<span class="material-symbols-outlined" aria-hidden="true">chevron_right</span></a>
+				<% } %>
+			</nav>
+		<% } %>
+	</div>
+</section>
+<%- include('partials/cta-band-section') %>
