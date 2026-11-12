@@ -1,0 +1,14 @@
+<article class="card album-card">
+	<div class="card__media">
+		<% if (album.cover) { %>
+			<img src="<%= encodePath(thumbUrl(album.cover)) %>" alt="" <% if (album.coverWidth && album.coverHeight) { %>width="<%= album.coverWidth %>" height="<%= album.coverHeight %>"<% } %> loading="lazy" decoding="async" />
+		<% } else { %>
+			<span class="card__placeholder"><svg class="icon" aria-hidden="true"><use href="#i-image"/></svg></span>
+		<% } %>
+	</div>
+	<span class="album-card__count"><svg class="icon" aria-hidden="true"><use href="#i-image"/></svg><%= arabicCount(album.count, { one: 'صورة واحدة', two: 'صورتان', few: 'صور', many: 'صورة', other: 'صورة' }) %></span>
+	<div class="card__body">
+		<h3 class="card__title"><a href="<%= encodePath(album.url) %>"><%= album.title %></a></h3>
+		<% if (album.date) { %><span class="card__meta"><%= album.date %></span><% } %>
+	</div>
+</article>

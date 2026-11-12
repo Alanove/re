@@ -1,0 +1,166 @@
+<%
+	const v = values;
+	const seo = v.seo || {};
+	const social = v.social || {};
+	const links = Array.isArray(v.relatedLinks) ? v.relatedLinks : [];
+	const linkRows = links.concat([{ label: '', url: '' }, { label: '', url: '' }]).slice(0, 8);
+	const fieldClass = function (name) { return errors[name] ? 'form-control is-invalid' : 'form-control'; };
+%>
+<form method="POST" action="/admin/site-settings?_csrf=<%= encodeURIComponent(csrfToken) %>" enctype="multipart/form-data" novalidate>
+	<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+	<div class="row">
+		<div class="col-xl-8">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Identity</h4></div>
+				<div class="panel-body">
+					<div class="row g-3">
+						<div class="col-md-6">
+							<label class="form-label" for="siteName">Site name <span class="text-danger">*</span></label>
+							<input type="text" class="<%= fieldClass('siteName') %>" id="siteName" name="siteName" value="<%= v.siteName %>" required dir="auto" />
+							<%- include('../partials/field-error', { name: 'siteName' }) %>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label" for="tagline">Tagline</label>
+							<input type="text" class="<%= fieldClass('tagline') %>" id="tagline" name="tagline" value="<%= v.tagline %>" dir="auto" />
+							<small class="text-muted">Shown next to the logo and on the home page.</small>
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="description">Short description</label>
+							<textarea class="<%= fieldClass('description') %>" id="description" name="description" rows="2" dir="auto"><%= v.description %></textarea>
+							<small class="text-muted">Shown in the footer under the logo when the footer text is empty.</small>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Contact &amp; footer</h4></div>
+				<div class="panel-body">
+					<div class="row g-3">
+						<div class="col-md-6">
+							<label class="form-label" for="contactEmail">Contact email <span class="text-danger">*</span></label>
+							<input type="email" class="<%= fieldClass('contactEmail') %>" id="contactEmail" name="contactEmail" value="<%= v.contactEmail %>" required dir="ltr" />
+							<%- include('../partials/field-error', { name: 'contactEmail' }) %>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label" for="contactPhone">Contact phone</label>
+							<input type="text" class="<%= fieldClass('contactPhone') %>" id="contactPhone" name="contactPhone" value="<%= v.contactPhone %>" dir="ltr" inputmode="tel" />
+						</div>
+						<div class="col-md-6">
+							<label class="form-label" for="address">Address</label>
+							<input type="text" class="<%= fieldClass('address') %>" id="address" name="address" value="<%= v.address %>" maxlength="300" dir="auto" />
+						</div>
+						<div class="col-md-6">
+							<label class="form-label" for="mapQuery">Map search</label>
+							<input type="text" class="<%= fieldClass('mapQuery') %>" id="mapQuery" name="mapQuery" value="<%= v.mapQuery %>" maxlength="200" dir="auto" placeholder="Zad w Barakat, Lebanon" />
+							<small class="text-muted">What Google Maps should search for. A map appears on the contact page when this is set.</small>
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="footerText">Footer text</label>
+							<textarea class="<%= fieldClass('footerText') %>" id="footerText" name="footerText" rows="2" dir="auto"><%= v.footerText %></textarea>
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="copyright">Copyright line</label>
+							<input type="text" class="<%= fieldClass('copyright') %>" id="copyright" name="copyright" value="<%= v.copyright %>" dir="auto" />
+							<small class="text-muted">Use {year} for the current year.</small>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label" for="thankYouMessage">Contact thank-you message <span class="text-danger">*</span></label>
+							<input type="text" class="<%= fieldClass('thankYouMessage') %>" id="thankYouMessage" name="thankYouMessage" value="<%= v.thankYouMessage %>" maxlength="400" required dir="auto" />
+							<%- include('../partials/field-error', { name: 'thankYouMessage' }) %>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label" for="newsletterThankYou">Newsletter thank-you message <span class="text-danger">*</span></label>
+							<input type="text" class="<%= fieldClass('newsletterThankYou') %>" id="newsletterThankYou" name="newsletterThankYou" value="<%= v.newsletterThankYou %>" maxlength="400" required dir="auto" />
+							<%- include('../partials/field-error', { name: 'newsletterThankYou' }) %>
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="inquiryTopics">Contact form topics (one per line) <span class="text-danger">*</span></label>
+							<textarea class="<%= fieldClass('inquiryTopics') %>" id="inquiryTopics" name="inquiryTopics" rows="5" dir="auto"><%= (v.inquiryTopics || []).join('\n') %></textarea>
+							<%- include('../partials/field-error', { name: 'inquiryTopics' }) %>
+						</div>
+					</div>
+					<p class="small mt-3 mb-0 <%= mailConfigured ? 'text-success' : 'text-muted' %>">
+						<i class="fa <%= mailConfigured ? 'fa-check-circle' : 'fa-info-circle' %> me-1"></i>
+						<%= mailConfigured ? 'Email notifications are on (SMTP is configured).' : 'Email notifications are off. Messages and orders are stored under Inquiries until SMTP settings are added to the environment.' %>
+					</p>
+				</div>
+			</div>
+
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Social links &amp; sister sites</h4></div>
+				<div class="panel-body">
+					<div class="row g-3 mb-3">
+						<% [['socialFacebook', 'Facebook', 'facebook'], ['socialYoutube', 'YouTube', 'youtube'], ['socialInstagram', 'Instagram', 'instagram'], ['socialX', 'X (Twitter)', 'x']].forEach(function (entry) { %>
+							<div class="col-md-6">
+								<label class="form-label" for="<%= entry[0] %>"><%= entry[1] %> link</label>
+								<input type="url" class="<%= fieldClass(entry[0]) %>" id="<%= entry[0] %>" name="<%= entry[0] %>" value="<%= social[entry[2]] || '' %>" placeholder="https://" dir="ltr" />
+								<%- include('../partials/field-error', { name: entry[0] }) %>
+							</div>
+						<% }) %>
+					</div>
+					<label class="form-label">Sister sites (shown in the footer as “مواقع صديقة”)</label>
+					<% linkRows.forEach(function (link, index) { %>
+						<div class="row g-2 mb-2">
+							<div class="col-md-5"><input type="text" class="form-control" name="relatedLinks[<%= index %>][label]" value="<%= link.label %>" placeholder="Label" maxlength="80" dir="auto" aria-label="Link <%= index + 1 %> label" /></div>
+							<div class="col-md-7"><input type="url" class="form-control" name="relatedLinks[<%= index %>][url]" value="<%= link.url %>" placeholder="https://" dir="ltr" aria-label="Link <%= index + 1 %> address" /></div>
+						</div>
+					<% }) %>
+					<small class="text-muted">Clear both boxes to remove a link. Save to get more empty rows (up to 8).</small>
+					<% Object.keys(errors).filter(function (key) { return key.indexOf('relatedLinks') === 0; }).forEach(function (key) { %>
+						<div class="invalid-feedback d-block"><%= errors[key] %></div>
+					<% }) %>
+					<div class="mt-3" style="max-width:220px">
+						<label class="form-label" for="themeColor">Browser theme colour</label>
+						<input type="color" class="form-control form-control-color <%= errors.themeColor ? 'is-invalid' : '' %>" id="themeColor" name="themeColor" value="<%= v.themeColor || '#007d90' %>" />
+						<%- include('../partials/field-error', { name: 'themeColor' }) %>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Search engines</h4></div>
+				<div class="panel-body">
+					<div class="mb-3">
+						<label class="form-label" for="seoDefaultTitle">Default title</label>
+						<input type="text" class="form-control" id="seoDefaultTitle" name="seoDefaultTitle" value="<%= seo.defaultTitle %>" data-char-count="60" dir="auto" />
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="seoDefaultDescription">Default description</label>
+						<textarea class="form-control" id="seoDefaultDescription" name="seoDefaultDescription" rows="2" data-char-count="160" dir="auto"><%= seo.defaultDescription %></textarea>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="seoDefaultKeywords">Default keywords</label>
+						<input type="text" class="form-control" id="seoDefaultKeywords" name="seoDefaultKeywords" value="<%= seo.defaultKeywords %>" dir="auto" />
+					</div>
+					<div>
+						<label class="form-label" for="seoImageFile">Default share image</label>
+						<%- include('../partials/media-picker', { id: 'seoImageFile', field: 'seoImageFile', valueName: 'seoDefaultImage', current: seo.defaultImage, label: 'share image', small: true, hint: 'JPEG, PNG, GIF or WebP up to 8 MB, saved as WebP (1200px). Used when a page has no image of its own.' }) %>
+						<%- include('../partials/field-error', { name: 'seoDefaultImage' }) %>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xl-4">
+			<div class="panel panel-inverse admin-sticky">
+				<div class="panel-heading"><h4 class="panel-title">Branding</h4></div>
+				<div class="panel-body">
+					<label class="form-label" for="logoFile">Logo</label>
+					<%- include('../partials/media-picker', { id: 'logoFile', field: 'logoFile', valueName: 'logo', current: v.logo, label: 'logo', small: true, hint: 'PNG, WebP, JPEG or GIF up to 8 MB. Saved as WebP, at most 600px wide.' }) %>
+					<div class="mb-3"></div>
+					<label class="form-label" for="emblemFile">Emblem</label>
+					<%- include('../partials/media-picker', { id: 'emblemFile', field: 'emblemFile', valueName: 'emblem', current: v.emblem, label: 'emblem', small: true, hint: 'The round mark shown in a white badge in the site header and footer, next to the site name. Square PNG, WebP, JPEG or GIF up to 8 MB. Saved as WebP, at most 600px. Without an emblem the full logo is shown.' }) %>
+					<div class="mb-3"></div>
+					<label class="form-label" for="faviconFile">Favicon</label>
+					<%- include('../partials/media-picker', { id: 'faviconFile', field: 'faviconFile', valueName: 'favicon', current: v.favicon, label: 'favicon', small: true, hint: 'Square PNG, WebP, JPEG or GIF. Saved as a 512px PNG so every browser can use it.' }) %>
+					<div class="mb-3"></div>
+					<%- include('../partials/field-error', { name: 'logo' }) %>
+					<%- include('../partials/field-error', { name: 'emblem' }) %>
+					<%- include('../partials/field-error', { name: 'favicon' }) %>
+					<button type="submit" class="btn btn-success w-100"><i class="fa fa-save me-1"></i> Save settings</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

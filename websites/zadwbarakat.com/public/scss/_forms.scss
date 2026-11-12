@@ -1,0 +1,127 @@
+@use 'tokens' as *;
+
+.form {
+  display: grid;
+  gap: 16px;
+}
+
+.form__row {
+  display: grid;
+  gap: 16px;
+
+  @media (min-width: $bp-sm) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+
+  label {
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+}
+
+.input,
+.select,
+.textarea {
+  inline-size: 100%;
+  min-block-size: $tap;
+  padding: 10px 14px;
+  border: 1px solid $line-strong;
+  border-radius: $radius-sm;
+  background: $surface;
+  transition: border-color 0.15s, box-shadow 0.15s;
+
+  &:focus {
+    outline: 0;
+    border-color: var(--brand);
+    box-shadow: 0 0 0 3px rgba($teal, 0.15);
+  }
+
+  &[aria-invalid='true'] {
+    border-color: $danger;
+  }
+}
+
+.select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, $muted 50%), linear-gradient(135deg, $muted 50%, transparent 50%);
+  background-position:
+    left 18px center,
+    left 13px center;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+  padding-inline-end: 14px;
+  padding-inline-start: 36px;
+
+  [dir='ltr'] & {
+    background-position:
+      right 13px center,
+      right 18px center;
+  }
+}
+
+.textarea {
+  min-block-size: 140px;
+  resize: vertical;
+}
+
+.field__error {
+  color: $danger;
+  font-size: 0.88rem;
+}
+
+.alert {
+  padding: 14px 16px;
+  border-radius: $radius-sm;
+  border: 1px solid $line;
+  background: $surface;
+
+  &--success {
+    border-color: rgba($success, 0.35);
+    background: rgba($success, 0.08);
+    color: $success;
+  }
+
+  &--danger {
+    border-color: rgba($danger, 0.35);
+    background: rgba($danger, 0.06);
+    color: $danger;
+  }
+}
+
+.hp-field {
+  position: absolute;
+  inset-inline-start: -10000px;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+}
+
+.filters {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  background: $surface;
+  border: 1px solid $line;
+  border-radius: $radius;
+  margin-block-end: 24px;
+
+  @media (min-width: $bp-md) {
+    grid-template-columns: 2fr repeat(auto-fit, minmax(150px, 1fr));
+    align-items: end;
+  }
+}
+
+.filters__actions {
+  display: flex;
+  gap: 8px;
+}
+
+.result-count {
+  color: $muted;
+  margin-block-end: 16px;
+}

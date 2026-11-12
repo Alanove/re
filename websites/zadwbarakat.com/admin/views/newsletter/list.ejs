@@ -1,0 +1,34 @@
+<div class="panel panel-inverse">
+	<div class="panel-heading">
+		<h4 class="panel-title">Newsletter subscribers (<%= rows.length %>)</h4>
+		<div class="panel-heading-btn">
+			<a href="/admin/newsletter/export.csv" class="btn btn-xs btn-success"><i class="fa fa-download"></i> Export CSV</a>
+		</div>
+	</div>
+	<div class="panel-body">
+		<p class="text-muted">Visitors subscribe from the sign-up band above the footer. Export the list to import it into your mailing tool. Remove an address when someone asks to unsubscribe.</p>
+		<div class="row g-2 mb-3">
+			<div class="col-md-6">
+				<div class="input-group">
+					<span class="input-group-text"><i class="fa fa-search"></i></span>
+					<input type="search" class="form-control" placeholder="Filter by email" data-table-filter="#subscribers-table" aria-label="Filter subscribers" />
+				</div>
+			</div>
+		</div>
+		<div class="table-responsive">
+			<table class="table table-striped table-bordered align-middle" id="subscribers-table">
+				<thead><tr><th>Email</th><th>Subscribed</th><th style="width:1%" data-sort="off"></th></tr></thead>
+				<tbody>
+					<% rows.slice().sort(function (a, b) { return b.createdAt.localeCompare(a.createdAt); }).forEach(function (row) { %>
+						<tr data-filter-text="<%= row.email %>">
+							<td><a href="mailto:<%= row.email %>"><%= row.email %></a></td>
+							<td class="small text-nowrap" data-sort-value="<%= row.createdAt %>"><%= new Date(row.createdAt).toLocaleString('en-GB') %></td>
+							<td><button type="button" class="btn btn-sm btn-danger" title="Remove" data-delete-url="/admin/newsletter/<%= row.id %>" data-delete-title="Remove subscriber" data-delete-message="Remove <%= row.email %> from the newsletter list?"><i class="fa fa-trash"></i></button></td>
+						</tr>
+					<% }) %>
+					<% if (rows.length === 0) { %><tr><td colspan="3" class="text-center text-muted py-4">No subscribers yet.</td></tr><% } %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,32 @@
+<%
+	/* Locals: pagination {page, totalPages}, basePath, query (object of extra parameters, optional). */
+	const extra = locals.query || {};
+	const pageHref = function (number) {
+		const params = new URLSearchParams();
+		Object.keys(extra).forEach(function (key) {
+			const value = extra[key];
+			if (value !== '' && value !== null && value !== undefined && key !== 'p') { params.set(key, String(value)); }
+		});
+		if (number > 1) { params.set('p', String(number)); }
+		const qs = params.toString();
+		return encodePath(basePath) + (qs ? '?' + qs : '');
+	};
+	const current = pagination.page;
+	const total = pagination.totalPages;
+	const numbers = [];
+	for (let n = 1; n <= total; n++) {
+		if (n === 1 || n === total || Math.abs(n - current) <= 2) { numbers.push(n); }
+		else if (numbers[numbers.length - 1] !== 0) { numbers.push(0); }
+	}
+%>
+<% if (total > 1) { %>
+	<nav class="pagination" aria-label="الصفحات">
+		<% if (current > 1) { %><a href="<%= pageHref(current - 1) %>" rel="prev" aria-label="الصفحة السابقة"><svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg></a><% } %>
+		<% numbers.forEach(function (n) { %>
+			<% if (n === 0) { %><span class="pagination__gap" aria-hidden="true">…</span>
+			<% } else if (n === current) { %><span aria-current="page"><%= n %></span>
+			<% } else { %><a href="<%= pageHref(n) %>"><%= n %></a><% } %>
+		<% }) %>
+		<% if (current < total) { %><a href="<%= pageHref(current + 1) %>" rel="next" aria-label="الصفحة التالية"><svg class="icon icon-flip" aria-hidden="true"><use href="#i-chevron"/></svg></a><% } %>
+	</nav>
+<% } %>

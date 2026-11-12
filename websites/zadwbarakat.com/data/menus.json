@@ -1,0 +1,253 @@
+[
+  {
+    "id": "main",
+    "name": "القائمة الرئيسية",
+    "description": "Header navigation. Sub-items open as a dropdown on desktop and expand in the mobile menu.",
+    "items": [
+      {
+        "id": "item-1",
+        "title": "الرئيسية",
+        "url": "/",
+        "pageId": null,
+        "sort": 10,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-2",
+        "title": "أضواء",
+        "url": "/أضواء",
+        "pageId": null,
+        "sort": 20,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-3",
+        "title": "تنشئة روحية",
+        "url": "/تنشئة-روحية",
+        "pageId": 1,
+        "sort": 30,
+        "active": true,
+        "children": [
+          {
+            "id": "item-4",
+            "title": "الكتاب المقدس",
+            "url": "/الكتاب-المقدس",
+            "pageId": null,
+            "sort": 10,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "item-5",
+            "title": "تعليم الكنيسة",
+            "url": "/تعليم-الكنيسة",
+            "pageId": null,
+            "sort": 20,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "item-6",
+            "title": "ليتورجية الكلمة",
+            "url": "/ليتورجية-الكلمة",
+            "pageId": null,
+            "sort": 30,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "item-7",
+            "title": "رسائل كنسية",
+            "url": "/رسائل-كنسية",
+            "pageId": null,
+            "sort": 40,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "item-8",
+            "title": "رسائل بابوية",
+            "url": "/رسائل-بابوية",
+            "pageId": null,
+            "sort": 50,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "item-9",
+            "title": "لاهوت مريمي",
+            "url": "/لاهوت-مريمي",
+            "pageId": null,
+            "sort": 60,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "item-10",
+            "title": "شهادات القديسين",
+            "url": "/شهادات-القديسين",
+            "pageId": null,
+            "sort": 70,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "item-11",
+            "title": "رأي وفكر",
+            "url": "/رأي-وفكر",
+            "pageId": null,
+            "sort": 80,
+            "active": true,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "item-12",
+        "title": "سؤال وجواب",
+        "url": "/سؤال-وجواب",
+        "pageId": 2,
+        "sort": 40,
+        "active": true,
+        "children": [
+          {
+            "id": "item-13",
+            "title": "سؤال الى الكاهن",
+            "url": "/سؤال-الى-الكاهن",
+            "pageId": null,
+            "sort": 10,
+            "active": true,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "item-14",
+        "title": "المكتبة الروحية",
+        "url": "/المكتبة-الروحية",
+        "pageId": 7,
+        "sort": 50,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-15",
+        "title": "ميديا",
+        "url": "/ميديا",
+        "pageId": 3,
+        "sort": 60,
+        "active": true,
+        "children": [
+          {
+            "id": "item-16",
+            "title": "تراتيل",
+            "url": "/ميديا/تراتيل",
+            "pageId": 4,
+            "sort": 10,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "item-17",
+            "title": "فيديو",
+            "url": "/videos",
+            "pageId": 5,
+            "sort": 20,
+            "active": true,
+            "children": []
+          },
+          {
+            "id": "item-18",
+            "title": "ألبومات الصور",
+            "url": "/photo-gallery",
+            "pageId": 6,
+            "sort": 30,
+            "active": true,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "item-19",
+        "title": "مشتريات",
+        "url": "/مشتريات",
+        "pageId": 8,
+        "sort": 70,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-20",
+        "title": "اتصل بنا",
+        "url": "/اتصل-بنا",
+        "pageId": 10,
+        "sort": 80,
+        "active": true,
+        "children": []
+      }
+    ]
+  },
+  {
+    "id": "footer",
+    "name": "روابط التذييل",
+    "description": "Quick links listed in the footer.",
+    "items": [
+      {
+        "id": "item-21",
+        "title": "أضواء",
+        "url": "/أضواء",
+        "pageId": null,
+        "sort": 10,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-22",
+        "title": "المكتبة الروحية",
+        "url": "/المكتبة-الروحية",
+        "pageId": 7,
+        "sort": 20,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-23",
+        "title": "تراتيل",
+        "url": "/ميديا/تراتيل",
+        "pageId": 4,
+        "sort": 30,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-24",
+        "title": "سؤال الى الكاهن",
+        "url": "/سؤال-الى-الكاهن",
+        "pageId": null,
+        "sort": 40,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-25",
+        "title": "مواقع صديقة",
+        "url": "/مواقع-صديقة",
+        "pageId": 9,
+        "sort": 50,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "item-26",
+        "title": "اتصل بنا",
+        "url": "/اتصل-بنا",
+        "pageId": 10,
+        "sort": 60,
+        "active": true,
+        "children": []
+      }
+    ]
+  }
+]

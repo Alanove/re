@@ -1,0 +1,10 @@
+<% const brandLoading = locals.priority ? ' fetchpriority="high"' : ' loading="lazy"'; %>
+<% if (settings.emblem) { %>
+	<span class="brand__badge"><img src="<%= thumbUrl(settings.emblem) %>" alt="" width="38" height="40" decoding="async"<%- brandLoading %> /></span>
+<% } else if (settings.logo) { %>
+	<span class="brand__logo"><img src="<%= settings.logo %>" alt="" decoding="async"<%- brandLoading %> /></span>
+<% } %>
+<span class="brand__text<%= !settings.emblem && settings.logo ? ' visually-hidden' : '' %>">
+	<strong><%= settings.siteName %></strong>
+	<% if (settings.tagline) { %><small><%= settings.tagline %></small><% } %>
+</span>

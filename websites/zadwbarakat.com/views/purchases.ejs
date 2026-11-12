@@ -1,0 +1,36 @@
+<%- include('partials/page-head', { title: page.header || page.title, lead: page.summary }) %>
+<div class="container page-body">
+	<% if (page.content.trim()) { %><div class="prose rte-content"><%- page.content %></div><% } %>
+	<% if (groups.length) { %>
+		<% if (groups.length > 1) { %>
+			<nav class="chip-list" aria-label="التصنيفات">
+				<% groups.forEach(function (group, index) { %><a href="#purchase-group-<%= index %>"><%= group.category %> <small><%= group.items.length %></small></a><% }) %>
+			</nav>
+		<% } %>
+		<% groups.forEach(function (group, index) { %>
+			<section class="section" id="purchase-group-<%= index %>" style="padding-block:16px 32px" aria-labelledby="purchase-group-title-<%= index %>">
+				<div class="section-head"><h2 id="purchase-group-title-<%= index %>"><%= group.category %></h2></div>
+				<div class="grid grid--4">
+					<% group.items.forEach(function (item) { %>
+						<article class="card">
+							<div class="card__media">
+								<% if (item.image) { %>
+									<img src="<%= encodePath(thumbUrl(item.image.src)) %>" alt="" <% if (item.image.width && item.image.height) { %>width="<%= item.image.width %>" height="<%= item.image.height %>"<% } %> loading="lazy" decoding="async" />
+								<% } else { %>
+									<span class="card__placeholder"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
+								<% } %>
+							</div>
+							<div class="card__body">
+								<h3 class="card__title"><a href="<%= encodePath(page.url + '/' + item.slug) %>"><%= item.title %></a></h3>
+								<% if (item.author) { %><span class="card__eyebrow"><%= item.author %></span><% } %>
+								<% if (item.price) { %><span class="card__meta price"><%= item.price %></span><% } %>
+							</div>
+						</article>
+					<% }) %>
+				</div>
+			</section>
+		<% }) %>
+	<% } else { %>
+		<p class="empty-state">لا توجد منشورات للبيع حالياً.</p>
+	<% } %>
+</div>

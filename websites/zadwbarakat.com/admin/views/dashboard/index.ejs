@@ -1,0 +1,86 @@
+<%
+	const tiles = [
+		{ title: 'ARTICLES', number: summary.articles.total, desc: summary.articles.published + ' published · ' + summary.articles.drafts + ' drafts', icon: 'fa-newspaper', color: 'bg-red', href: '/admin/articles' },
+		{ title: 'SECTIONS · PAGES', number: summary.sections + ' · ' + summary.pages, desc: 'Article sections and content pages', icon: 'fa-sitemap', color: 'bg-orange', href: '/admin/sections' },
+		{ title: 'LIBRARY BOOKS', number: summary.books, desc: 'Catalogue of the spiritual library', icon: 'fa-book', color: 'bg-teal', href: '/admin/books' },
+		{ title: 'HYMNS', number: summary.hymns, desc: 'Audio files in the hymn player', icon: 'fa-music', color: 'bg-indigo', href: '/admin/hymns' },
+		{ title: 'ALBUMS · VIDEOS', number: summary.albums + ' · ' + summary.videos, desc: 'Photo albums and YouTube videos', icon: 'fa-photo-video', color: 'bg-blue', href: '/admin/albums' },
+		{ title: 'INQUIRIES', number: summary.inquiries.total, desc: summary.inquiries.unread + ' unread', icon: 'fa-envelope', color: 'bg-dark', href: '/admin/inquiries' },
+		{ title: 'SUBSCRIBERS', number: summary.subscribers, desc: 'Newsletter sign-ups', icon: 'fa-paper-plane', color: 'bg-green', href: '/admin/newsletter' },
+		{ title: 'USERS', number: summary.users, desc: 'People who can sign in here', icon: 'fa-users', color: 'bg-gray-700', href: '/admin/users' }
+	];
+%>
+<div class="row">
+	<% tiles.forEach(function (tile) { %>
+		<div class="col-xl-3 col-md-6">
+			<a class="widget widget-stats <%= tile.color %> d-block text-decoration-none" href="<%= tile.href %>">
+				<div class="stats-icon stats-icon-lg"><i class="fa <%= tile.icon %> fa-fw"></i></div>
+				<div class="stats-content">
+					<div class="stats-title"><%= tile.title %></div>
+					<div class="stats-number"><%= tile.number %></div>
+					<div class="stats-desc"><%= tile.desc %></div>
+				</div>
+			</a>
+		</div>
+	<% }) %>
+</div>
+
+<div class="row">
+	<div class="col-xl-6">
+		<div class="panel panel-inverse">
+			<div class="panel-heading">
+				<h4 class="panel-title">Recently updated articles</h4>
+				<div class="panel-heading-btn"><a href="/admin/articles" class="btn btn-xs btn-default">All articles</a></div>
+			</div>
+			<div class="panel-body p-0">
+				<table class="table table-hover mb-0 recent-items-table">
+					<tbody>
+						<% summary.recentArticles.forEach(function (article) { %>
+							<tr>
+								<td dir="auto"><a href="/admin/articles/<%= article.id %>/edit" class="fw-bold"><%= article.title %></a><div class="small text-muted"><%= article.sectionTitle %></div></td>
+								<td class="text-end text-nowrap small text-muted"><%= new Date(article.updatedAt).toLocaleDateString('en-GB') %></td>
+							</tr>
+						<% }) %>
+						<% if (summary.recentArticles.length === 0) { %><tr><td class="text-muted p-3">No articles yet.</td></tr><% } %>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-6">
+		<div class="panel panel-inverse">
+			<div class="panel-heading">
+				<h4 class="panel-title">Latest inquiries</h4>
+				<div class="panel-heading-btn"><a href="/admin/inquiries" class="btn btn-xs btn-default">All inquiries</a></div>
+			</div>
+			<div class="panel-body p-0">
+				<table class="table table-hover mb-0 recent-items-table">
+					<tbody>
+						<% summary.inquiries.latest.forEach(function (item) { %>
+							<tr>
+								<td>
+									<a href="/admin/inquiries/<%= item.id %>" class="<%= item.read ? '' : 'fw-bold' %>" dir="auto"><%= item.name %></a>
+									<div class="small text-muted"><% if (item.type === 'purchase') { %><span class="badge bg-warning text-dark me-1">Order</span><%= item.purchaseTitle %> · <% } %><%= item.topic %> · <%= item.email %></div>
+								</td>
+								<td class="text-end text-nowrap small text-muted"><%= new Date(item.createdAt).toLocaleString('en-GB') %></td>
+							</tr>
+						<% }) %>
+						<% if (summary.inquiries.latest.length === 0) { %><tr><td class="text-muted p-3">No inquiries yet.</td></tr><% } %>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-inverse quick-actions-panel">
+	<div class="panel-heading"><h4 class="panel-title">Quick actions</h4></div>
+	<div class="panel-body d-flex flex-wrap gap-2">
+		<a href="/admin/articles/create" class="btn btn-success"><i class="fa fa-newspaper me-1"></i> New article</a>
+		<a href="/admin/hymns/create" class="btn btn-default"><i class="fa fa-music me-1"></i> New hymn</a>
+		<a href="/admin/albums/create" class="btn btn-default"><i class="fa fa-images me-1"></i> New album</a>
+		<a href="/admin/videos/create" class="btn btn-default"><i class="fa fa-video me-1"></i> New video</a>
+		<a href="/admin/home" class="btn btn-primary"><i class="fa fa-home me-1"></i> Edit home page</a>
+		<a href="/admin/menus/main/edit" class="btn btn-default"><i class="fa fa-bars me-1"></i> Main menu</a>
+	</div>
+</div>

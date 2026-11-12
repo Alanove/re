@@ -1,0 +1,51 @@
+{
+  "spotlight": {
+    "enabled": true,
+    "title": "أضواء",
+    "count": 5,
+    "sectionId": 1
+  },
+  "sections": {
+    "enabled": true,
+    "title": "تنشئة روحية",
+    "sectionIds": [
+      2,
+      3,
+      4,
+      5,
+      7,
+      8,
+      9
+    ],
+    "count": 3
+  },
+  "questions": {
+    "enabled": true,
+    "title": "سؤال الى الكاهن",
+    "count": 4,
+    "sectionId": 10,
+    "intro": "أسئلة من حياة الإيمان يجيب عنها الكاهن."
+  },
+  "hymns": {
+    "enabled": true,
+    "title": "تراتيل",
+    "count": 6,
+    "intro": "ألحان وتراتيل للصلاة والتأمل."
+  },
+  "videos": {
+    "enabled": true,
+    "title": "فيديو",
+    "count": 4
+  },
+  "albums": {
+    "enabled": true,
+    "title": "ألبومات الصور",
+    "count": 4
+  },
+  "newsletter": {
+    "enabled": true,
+    "title": "الرسالة الإخبارية",
+    "text": "اشتركوا ليصلكم جديد المقالات والتأملات على بريدكم الإلكتروني."
+  },
+  "updatedAt": "2026-11-12T09:50:48.325Z"
+}

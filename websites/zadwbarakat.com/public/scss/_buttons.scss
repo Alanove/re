@@ -1,0 +1,67 @@
+@use 'tokens' as *;
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-block-size: $tap;
+  padding: 10px 22px;
+  border-radius: $radius;
+  border: 1px solid transparent;
+  font-weight: 500;
+  font-size: 0.98rem;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s, box-shadow 0.15s;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: progress;
+  }
+}
+
+.btn--primary {
+  background: var(--brand);
+  color: #fff;
+
+  &:hover {
+    background: var(--brand-dark);
+    color: #fff;
+  }
+}
+
+.btn--accent {
+  background: $aqua;
+  color: $ink;
+
+  &:hover {
+    background: $brown;
+    color: #fff;
+  }
+}
+
+.btn--outline {
+  border-color: $line-strong;
+  background: $surface;
+  color: $ink;
+
+  &:hover {
+    border-color: var(--brand);
+    color: var(--brand);
+  }
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--brand);
+
+  &:hover {
+    background: $teal-soft;
+  }
+}
+
+.btn--block {
+  inline-size: 100%;
+}

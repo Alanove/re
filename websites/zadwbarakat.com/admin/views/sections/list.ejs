@@ -1,0 +1,55 @@
+<div class="panel panel-inverse">
+	<div class="panel-heading">
+		<h4 class="panel-title">Article sections</h4>
+		<div class="panel-heading-btn">
+			<a href="<%= basePath %>/create" class="btn btn-xs btn-success"><i class="fa fa-plus"></i> Add section</a>
+		</div>
+	</div>
+	<div class="panel-body">
+		<p class="text-muted">Each section lists its articles at its address, newest first. Articles open at <code>&lt;section address&gt;/&lt;article slug&gt;</code>.</p>
+		<div class="row g-2 mb-3">
+			<div class="col-md-6">
+				<div class="input-group">
+					<span class="input-group-text"><i class="fa fa-search"></i></span>
+					<input type="search" class="form-control" placeholder="Filter by title or address" data-table-filter="#sections-table" aria-label="Filter sections" />
+				</div>
+			</div>
+		</div>
+		<div class="table-responsive">
+			<table class="table table-striped table-bordered align-middle" id="sections-table">
+				<thead>
+					<tr>
+						<th style="width:56px" data-sort="off">Image</th>
+						<th>Title</th>
+						<th>Address</th>
+						<th class="text-center">Articles</th>
+						<th>Status</th>
+						<th class="text-center">Sort</th>
+						<th style="width:1%" data-sort="off">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% rows.forEach(function (row) { %>
+						<tr data-filter-text="<%= (row.title + ' ' + row.path).toLowerCase() %>">
+							<td>
+								<% if (row.image) { %><img src="<%= thumbUrl(row.image) %>" alt="" class="rounded admin-thumb" loading="lazy" data-fallback-src="<%= row.image %>" /><% } else { %><div class="admin-thumb admin-thumb-empty rounded"><i class="fa fa-image text-muted"></i></div><% } %>
+							</td>
+							<td dir="auto"><a href="<%= basePath %>/<%= row.id %>/edit" class="fw-bold"><%= row.title %></a></td>
+							<td><a href="<%= encodePath(row.path) %>" target="_blank" rel="noopener" class="small" dir="rtl"><%= row.path %></a></td>
+							<td class="text-center"><a href="/admin/articles?section=<%= row.id %>"><%= row.articleCount %></a></td>
+							<td><% if (row.status === 'published') { %><span class="badge bg-success">Published</span><% } else { %><span class="badge bg-secondary">Draft</span><% } %></td>
+							<td class="text-center"><%= row.sort %></td>
+							<td class="text-nowrap">
+								<a href="<%= basePath %>/<%= row.id %>/edit" class="btn btn-sm btn-primary" title="Edit"><i class="fa fa-edit"></i></a>
+								<button type="button" class="btn btn-sm btn-danger" title="Delete" data-delete-url="<%= basePath %>/<%= row.id %>" data-delete-title="Delete section" data-delete-message="Delete “<%= row.title %>”? Sections that still have articles cannot be deleted."><i class="fa fa-trash"></i></button>
+							</td>
+						</tr>
+					<% }) %>
+					<% if (rows.length === 0) { %>
+						<tr><td colspan="7" class="text-center text-muted py-4">No sections yet. <a href="<%= basePath %>/create">Create the first section</a>.</td></tr>
+					<% } %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

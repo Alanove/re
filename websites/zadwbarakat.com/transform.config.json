@@ -1,0 +1,64 @@
+{
+  "siteKey": "zadwbarakat",
+  "siteName": "المركز الدائم للتنشئة المسيحية",
+  "legacySiteUrl": "https://www.zadwbarakat.com",
+  "cmsSource": "C:\\ai\\tests\\btb\\solu-new",
+  "contentWorkbook": "wwwroot/wwwroot/markaz.xls",
+  "contentSeed": "content/seed.json",
+  "designDir": "design",
+  "outputDir": ".",
+  "port": 3054,
+  "logo": {
+    "url": "https://www.zadwbarakat.com/images/logo.png",
+    "localPath": "/uploads/site/logo.webp",
+    "note": "Teal banner (#008397) with the centre name in white and a round emblem of aqua (#68c8c8) and brown (#543c24) figures on white (images/logo.png). The header and footer show the emblem cropped from it (/uploads/site/emblem.webp). The favicon is built from images/icons/android-icon-192x192.png."
+  },
+  "legacy": {
+    "localRoot": "wwwroot/wwwroot",
+    "pageImagePattern": "/PRV/Images/Pages/Page_{pageId}/{fileName}",
+    "contactPageKey": "contact-us",
+    "uploadsMirrorPrefix": "/uploads/legacy",
+    "booksFile": "downloads/public/books.xml",
+    "legacyHosts": ["www.zadwbarakat.com", "zadwbarakat.com", "markaz.marantoniosalkabir.com", "markaz.liteweb.info", "localhost"]
+  },
+  "crawl": {
+    "seeds": [
+      "/",
+      "/المكتبة-الروحية",
+      "/تنشئة-روحية",
+      "/سؤال-وجواب",
+      "/ميديا",
+      "/ميديا/تراتيل-1070",
+      "/مشتريات",
+      "/مواقع-صديقة",
+      "/الرعية/أضواء",
+      "/الكتاب-المقدس",
+      "/تعليم-الكنيسة",
+      "/ليتورجية-الكلمة",
+      "/رسائل-كنسية",
+      "/لاهوت-مريمي",
+      "/شهادات-القديسين",
+      "/رأي-وفكر",
+      "/سؤال-الى-الكاهن"
+    ],
+    "concurrency": 2,
+    "delayMs": 400,
+    "userAgent": "ZadwbarakatMigration/1.0 (site owner content migration; +https://www.zadwbarakat.com)",
+    "cacheDir": "content/crawl-cache",
+    "outputDir": "content/crawl"
+  },
+  "cmsSync": {
+    "adminPublicFiles": [
+      "css/vendor.min.css",
+      "css/app.min.css",
+      "js/vendor.min.js",
+      "js/app.min.js",
+      "js/custom.js",
+      "js/theme.js"
+    ],
+    "adminPublicDirs": [
+      "css/images",
+      "webfonts"
+    ]
+  }
+}

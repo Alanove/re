@@ -1,0 +1,76 @@
+<%
+	const listHref = function (page) {
+		const params = new URLSearchParams();
+		if (filter.q) { params.set('q', filter.q); }
+		if (page > 1) { params.set('p', String(page)); }
+		const qs = params.toString();
+		return basePath + (qs ? '?' + qs : '');
+	};
+%>
+<div class="panel panel-inverse">
+	<div class="panel-heading">
+		<h4 class="panel-title">Library books</h4>
+		<div class="panel-heading-btn">
+			<a href="<%= basePath %>/create" class="btn btn-xs btn-success"><i class="fa fa-plus"></i> Add book</a>
+		</div>
+	</div>
+	<div class="panel-body">
+		<% if (libraryPage) { %><p class="text-muted">Visitors browse and filter these books on <a href="<%= encodePath(libraryPage.url) %>" target="_blank" rel="noopener" dir="auto"><%= libraryPage.title %></a>.</p><% } else { %><p class="alert alert-warning">No published page uses the “Spiritual library” type, so the catalogue is not visible on the site.</p><% } %>
+		<form class="row g-2 mb-3" method="get" action="<%= basePath %>">
+			<div class="col-md-6">
+				<div class="input-group">
+					<span class="input-group-text"><i class="fa fa-search"></i></span>
+					<input type="search" class="form-control" name="q" value="<%= filter.q %>" placeholder="Search by title or author" aria-label="Search books" dir="auto" />
+					<button type="submit" class="btn btn-primary">Search</button>
+				</div>
+			</div>
+		</form>
+		<p class="text-muted small"><%= pagination.total %> books<% if (pagination.totalPages > 1) { %> · page <%= pagination.page %> of <%= pagination.totalPages %><% } %></p>
+		<div class="table-responsive">
+			<table class="table table-striped table-bordered align-middle">
+				<thead>
+					<tr><th>Title</th><th>Author</th><th>Language</th><th>Genre</th><th>Year</th><th>Shown</th><th style="width:1%">Actions</th></tr>
+				</thead>
+				<tbody>
+					<% rows.forEach(function (row) { %>
+						<tr>
+							<td dir="auto"><a href="<%= basePath %>/<%= row.id %>/edit" class="fw-bold"><%= row.title %></a></td>
+							<td dir="auto" class="small"><%= row.author %></td>
+							<td class="small"><%= row.language %></td>
+							<td class="small"><%= row.genre %></td>
+							<td class="small"><%= row.year %></td>
+							<td><% if (row.active) { %><span class="badge bg-success">Yes</span><% } else { %><span class="badge bg-secondary">Hidden</span><% } %></td>
+							<td class="text-nowrap">
+								<a href="<%= basePath %>/<%= row.id %>/edit" class="btn btn-sm btn-primary" title="Edit"><i class="fa fa-edit"></i></a>
+								<button type="button" class="btn btn-sm btn-danger" title="Delete" data-delete-url="<%= basePath %>/<%= row.id %>" data-delete-title="Delete book" data-delete-message="Delete “<%= row.title %>” from the library?"><i class="fa fa-trash"></i></button>
+							</td>
+						</tr>
+					<% }) %>
+					<% if (rows.length === 0) { %><tr><td colspan="7" class="text-center text-muted py-4">No books match.</td></tr><% } %>
+				</tbody>
+			</table>
+		</div>
+		<%- include('../partials/admin-pagination', { pagination: pagination, hrefFor: listHref }) %>
+	</div>
+</div>
+
+<div class="panel panel-inverse">
+	<div class="panel-heading"><h4 class="panel-title">Bulk edit with a spreadsheet</h4></div>
+	<div class="panel-body">
+		<ol class="mb-3">
+			<li><a href="<%= basePath %>/export.csv"><i class="fa fa-download me-1"></i>Download all books as CSV</a> and open the file in Excel, LibreOffice or Google Sheets.</li>
+			<li>Edit the cells. Leave the <code>id</code> cell empty on a new row to add a book. Set <code>active</code> to <code>no</code> to hide a book. Rows you delete from the file are kept on the site; delete books here instead.</li>
+			<li>Save as CSV (UTF-8) and upload it below. If any row has a problem, nothing is changed and the problem rows are listed.</li>
+		</ol>
+		<form method="POST" action="<%= basePath %>/import?_csrf=<%= encodeURIComponent(csrfToken) %>" enctype="multipart/form-data" class="row g-2 align-items-end">
+			<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+			<div class="col-md-8">
+				<label class="form-label" for="csvFile">CSV file</label>
+				<%- include('../partials/media-picker', { id: 'csvFile', field: 'csvFile', kind: 'document', accept: '.csv,text/csv', label: 'CSV file', hint: 'A .csv file up to 5 MB with the same columns as the export.' }) %>
+			</div>
+			<div class="col-md-4">
+				<button type="submit" class="btn btn-success w-100"><i class="fa fa-upload me-1"></i> Import</button>
+			</div>
+		</form>
+	</div>
+</div>

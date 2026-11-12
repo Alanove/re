@@ -1,0 +1,15 @@
+<% if (pagination.totalPages > 1) { %>
+	<nav aria-label="Pages">
+		<ul class="pagination pagination-sm flex-wrap mb-0">
+			<li class="page-item <%= pagination.page === 1 ? 'disabled' : '' %>"><a class="page-link" href="<%= hrefFor(Math.max(1, pagination.page - 1)) %>">Previous</a></li>
+			<% for (let n = 1; n <= pagination.totalPages; n++) { %>
+				<% if (n === 1 || n === pagination.totalPages || Math.abs(n - pagination.page) <= 2) { %>
+					<li class="page-item <%= n === pagination.page ? 'active' : '' %>"><a class="page-link" href="<%= hrefFor(n) %>"><%= n %></a></li>
+				<% } else if (Math.abs(n - pagination.page) === 3) { %>
+					<li class="page-item disabled"><span class="page-link">…</span></li>
+				<% } %>
+			<% } %>
+			<li class="page-item <%= pagination.page === pagination.totalPages ? 'disabled' : '' %>"><a class="page-link" href="<%= hrefFor(Math.min(pagination.totalPages, pagination.page + 1)) %>">Next</a></li>
+		</ul>
+	</nav>
+<% } %>

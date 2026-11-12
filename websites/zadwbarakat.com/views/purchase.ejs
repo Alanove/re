@@ -1,0 +1,22 @@
+<%- include('partials/page-head', { title: item.title }) %>
+<div class="container page-body">
+	<div class="purchase-item">
+		<div>
+			<% if (item.image) { %>
+				<img src="<%= encodePath(item.image.src) %>" alt="<%= item.title %>" <% if (item.image.width && item.image.height) { %>width="<%= item.image.width %>" height="<%= item.image.height %>"<% } %> fetchpriority="high" />
+			<% } else { %>
+				<div class="card__media"><span class="card__placeholder"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span></div>
+			<% } %>
+		</div>
+		<div>
+			<dl class="page-head__meta" style="margin-block:0 16px">
+				<% if (item.author) { %><span><dt>المؤلف:</dt><dd style="margin:0"><%= item.author %></dd></span><% } %>
+				<span><dt>التصنيف:</dt><dd style="margin:0"><%= item.category %></dd></span>
+			</dl>
+			<% if (item.price) { %><p class="price"><%= item.price %></p><% } %>
+			<% if (item.summary) { %><p class="page-head__lead"><%= item.summary %></p><% } %>
+			<% if (item.content.trim()) { %><div class="prose rte-content"><%- item.content %></div><% } %>
+			<a class="btn btn--primary" href="<%= encodePath(orderUrl) %>"><svg class="icon" aria-hidden="true"><use href="#i-cart"/></svg>اطلب هذا الكتاب</a>
+		</div>
+	</div>
+</div>

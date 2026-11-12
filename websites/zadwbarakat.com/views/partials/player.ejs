@@ -1,0 +1,21 @@
+<div class="player" data-player hidden>
+	<div class="container player__inner">
+		<div class="player__controls">
+			<button type="button" data-player-prev aria-label="الترنيمة السابقة"><svg class="icon" aria-hidden="true"><use href="#i-next"/></svg></button>
+			<button class="player__toggle" type="button" data-player-toggle aria-label="تشغيل أو إيقاف">
+				<svg class="icon" aria-hidden="true" data-player-icon><use href="#i-pause"/></svg>
+			</button>
+			<button type="button" data-player-next aria-label="الترنيمة التالية"><svg class="icon" aria-hidden="true"><use href="#i-prev"/></svg></button>
+		</div>
+		<div class="player__meta">
+			<strong data-player-title></strong>
+			<div class="player__progress">
+				<span data-player-current>0:00</span>
+				<input type="range" min="0" max="100" step="0.1" value="0" dir="ltr" aria-label="موضع التشغيل" data-player-seek />
+				<span data-player-duration>0:00</span>
+			</div>
+		</div>
+		<button class="icon-button player__close" type="button" data-player-close aria-label="إغلاق المشغل"><svg class="icon" aria-hidden="true"><use href="#i-close"/></svg></button>
+	</div>
+	<audio preload="none" data-player-audio></audio>
+</div>

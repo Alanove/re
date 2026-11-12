@@ -1,0 +1,22 @@
+<%
+	/* Locals: card (ArticleCard), variant ('' | 'lead' | 'row'), showSection (boolean), eager (boolean). */
+	const variant = locals.variant || '';
+	const showSection = locals.showSection !== false;
+	const isLead = variant === 'lead';
+	const imageSrc = card.image ? (isLead ? card.image.replace(/-thumb\.webp$/, '.webp') : card.image) : '';
+%>
+<article class="card<%= variant ? ' card--' + variant : '' %>">
+	<div class="card__media">
+		<% if (imageSrc) { %>
+			<img src="<%= encodePath(imageSrc) %>" alt="" <% if (card.imageWidth && card.imageHeight) { %>width="<%= card.imageWidth %>" height="<%= card.imageHeight %>"<% } %> <%- locals.eager ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"' %> />
+		<% } else { %>
+			<span class="card__placeholder"><svg class="icon" aria-hidden="true"><use href="#i-cross"/></svg></span>
+		<% } %>
+	</div>
+	<div class="card__body"<% if (card.direction === 'ltr') { %> dir="ltr"<% } %>>
+		<% if (showSection && card.sectionTitle) { %><span class="card__eyebrow" dir="rtl"><%= card.sectionTitle %></span><% } %>
+		<h3 class="card__title"><a href="<%= encodePath(card.url) %>"><%= card.title %></a></h3>
+		<% if (card.summary) { %><p class="card__text"><%= card.summary %></p><% } %>
+		<% if (card.date) { %><time class="card__meta" datetime="<%= card.publishedAt.slice(0, 10) %>"><%= card.date %></time><% } %>
+	</div>
+</article>

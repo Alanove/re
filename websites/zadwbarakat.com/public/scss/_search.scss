@@ -1,0 +1,157 @@
+@use 'tokens' as *;
+
+.search-form {
+  display: flex;
+  gap: 8px;
+  margin-block-end: 20px;
+
+  .input {
+    flex: 1;
+    font-size: 1.1rem;
+    min-block-size: 52px;
+  }
+}
+
+.search-layout {
+  display: grid;
+  gap: 28px;
+
+  @media (min-width: $bp-md) {
+    grid-template-columns: 240px minmax(0, 1fr);
+  }
+}
+
+.facets {
+  display: grid;
+  gap: 20px;
+  align-content: start;
+
+  h2 {
+    font-size: 0.95rem;
+    color: $muted;
+    margin-block-end: 8px;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 2px;
+
+    @media (max-width: #{$bp-md - 1px}) {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+  }
+
+  a {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    align-items: center;
+    min-block-size: 40px;
+    padding-inline: 12px;
+    border-radius: $radius-sm;
+    color: $ink;
+    text-decoration: none;
+
+    &:hover {
+      background: $surface;
+      color: var(--brand);
+    }
+
+    &[aria-current='true'] {
+      background: var(--brand);
+      color: #fff;
+    }
+
+    @media (max-width: #{$bp-md - 1px}) {
+      border: 1px solid $line;
+      background: $surface;
+      border-radius: 999px;
+    }
+  }
+
+  small {
+    opacity: 0.7;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.results {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.result {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  background: $surface;
+  border: 1px solid $line;
+  border-radius: $radius;
+
+  &:hover {
+    border-color: $line-strong;
+  }
+
+  img {
+    flex: none;
+    inline-size: 112px;
+    block-size: 84px;
+    object-fit: cover;
+    border-radius: $radius-sm;
+
+    @media (max-width: #{$bp-sm - 1px}) {
+      inline-size: 80px;
+      block-size: 64px;
+    }
+  }
+
+  h2 {
+    font-size: 1.08rem;
+    margin-block-end: 4px;
+
+    a {
+      color: $ink;
+      text-decoration: none;
+
+      &:hover {
+        color: var(--brand);
+      }
+    }
+  }
+
+  p {
+    margin: 0;
+    color: $ink-soft;
+    font-family: $font-reading;
+    font-size: 0.98rem;
+  }
+}
+
+.result__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  font-size: 0.8rem;
+  color: $muted;
+  margin-block-end: 4px;
+}
+
+.result__type {
+  color: $brown;
+  font-weight: 500;
+}
+
+mark {
+  background: rgba($aqua, 0.28);
+  color: inherit;
+  border-radius: 3px;
+  padding-inline: 2px;
+}

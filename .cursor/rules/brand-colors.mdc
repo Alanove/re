@@ -1,0 +1,15 @@
+---
+description: Site colours come from the site's logo when they are not specified
+alwaysApply: true
+---
+
+# Brand colours come from the logo
+
+Applies to every site under `websites/` and to every design or theming change.
+
+- If the request does not give the colours, or you are not sure which colours to use, take them from the site's logo. Never invent a palette and never fall back to generic red, gold, navy or similar.
+- Sample the logo image itself (for example with `sharp`: count the dominant pixel colours, ignoring white and near-white). Do not trust colour descriptions from memory, from file names, or from notes in `transform.config.json` or the seed; check them against the image and correct a wrong note.
+- Use the logo's main colour as the brand colour, its secondary colours as accents, and derive the dark, soft and neutral shades from them. Keep neutrals in the same temperature as the brand colour (cool greys with teal or blue, warm greys with red or brown).
+- Text must pass WCAG AA (4.5:1 for body text, 3:1 for large text and icons). If the exact logo colour fails against white text, deepen it slightly for text and button backgrounds, and keep the exact sampled value as a reference token.
+- Record the sampled hex values in the site's `public/scss/_tokens.scss` (with a comment naming the logo file) and in the site rule under `.cursor/rules/sites/<folder>/`, and update the site's notes in `docs/site-transformation.md`.
+- Admin theme colours (`themeColor` default, admin SCSS) use the same brand token as the public site.

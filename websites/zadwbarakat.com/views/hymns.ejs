@@ -1,0 +1,43 @@
+<%
+	const categoryHref = function (name) {
+		const params = new URLSearchParams();
+		if (query.q) { params.set('q', query.q); }
+		if (name) { params.set('category', name); }
+		const qs = params.toString();
+		return encodePath(page.url) + (qs ? '?' + qs : '');
+	};
+%>
+<%- include('partials/page-head', { title: page.header || page.title, lead: page.summary }) %>
+<div class="container page-body" data-hymn-page>
+	<form class="filters" method="get" data-filters action="<%= encodePath(page.url) %>" role="search">
+		<div class="field">
+			<label for="hymns-q">ابحث عن ترنيمة</label>
+			<input class="input" id="hymns-q" name="q" type="search" maxlength="120" value="<%= query.q %>" placeholder="العنوان، المرنّم، الكلمات..." />
+		</div>
+		<% if (query.category) { %><input type="hidden" name="category" value="<%= query.category %>" /><% } %>
+		<div class="filters__actions">
+			<button class="btn btn--primary" type="submit"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>بحث</button>
+			<% if (query.q || query.category) { %><a class="btn btn--outline" href="<%= encodePath(page.url) %>">مسح</a><% } %>
+		</div>
+	</form>
+
+	<% if (result.categories.length > 1) { %>
+		<nav class="chip-list" aria-label="التصنيفات">
+			<a href="<%= categoryHref('') %>"<%- query.category ? '' : ' aria-current="true"' %>>الكل</a>
+			<% result.categories.forEach(function (category) { %>
+				<a href="<%= categoryHref(category.name) %>"<%- category.name === query.category ? ' aria-current="true"' : '' %>><%= category.name %> <small><%= category.count %></small></a>
+			<% }) %>
+		</nav>
+	<% } %>
+
+	<p class="result-count" role="status"><%= arabicCount(result.hymns.length, { one: 'ترنيمة واحدة', two: 'ترنيمتان', few: 'ترانيم', many: 'ترنيمة', other: 'ترنيمة' }) %><% if (result.hymns.length !== result.total) { %> من أصل <%= result.total %><% } %></p>
+
+	<% if (result.hymns.length) { %>
+		<ul class="hymn-list" data-hymn-list>
+			<% result.hymns.forEach(function (hymn) { %><%- include('partials/hymn-row', { hymn: hymn }) %><% }) %>
+		</ul>
+	<% } else { %>
+		<p class="empty-state">لا توجد ترانيم مطابقة.</p>
+	<% } %>
+</div>
+<%- include('partials/player') %>

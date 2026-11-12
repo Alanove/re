@@ -1,0 +1,19 @@
+<%- include('partials/page-head', { title: section.title, lead: section.intro }) %>
+<div class="container page-body">
+	<% if (siblings.length) { %>
+		<nav class="chip-list" aria-label="أقسام ذات صلة">
+			<% if (parentPage) { %><a href="<%= encodePath(parentPage.url) %>"><%= parentPage.title %></a><% } %>
+			<a href="<%= encodePath(section.path) %>" aria-current="true"><%= section.title %></a>
+			<% siblings.forEach(function (sibling) { %><a href="<%= encodePath(sibling.path) %>"><%= sibling.title %></a><% }) %>
+		</nav>
+	<% } %>
+	<% if (listing.cards.length) { %>
+		<p class="result-count"><%= listing.pagination.total %> مقالاً<% if (listing.pagination.totalPages > 1) { %> · صفحة <%= listing.pagination.page %> من <%= listing.pagination.totalPages %><% } %></p>
+		<div class="grid grid--3">
+			<% listing.cards.forEach(function (card, index) { %><%- include('partials/article-card', { card: card, showSection: false, eager: index < 3 && listing.pagination.page === 1 }) %><% }) %>
+		</div>
+		<%- include('partials/pagination', { pagination: listing.pagination, basePath: section.path }) %>
+	<% } else { %>
+		<p class="empty-state">لا توجد مقالات في هذا القسم بعد.</p>
+	<% } %>
+</div>

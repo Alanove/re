@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+	<title><%= seo.title %></title>
+	<% if (seo.description) { %><meta name="description" content="<%= seo.description %>" /><% } %>
+	<% if (seo.keywords) { %><meta name="keywords" content="<%= seo.keywords %>" /><% } %>
+	<meta name="robots" content="<%= robots %>" />
+	<link rel="canonical" href="<%= seo.canonical %>" />
+	<meta property="og:type" content="<%= seo.type || 'website' %>" />
+	<meta property="og:locale" content="ar_LB" />
+	<meta property="og:site_name" content="<%= settings.siteName %>" />
+	<meta property="og:title" content="<%= seo.title %>" />
+	<% if (seo.description) { %><meta property="og:description" content="<%= seo.description %>" /><% } %>
+	<meta property="og:url" content="<%= seo.canonical %>" />
+	<% if (seo.image) { %><meta property="og:image" content="<%= /^https?:/.test(seo.image) ? seo.image : baseUrl + encodePath(seo.image) %>" /><% } %>
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="theme-color" content="<%= settings.themeColor %>" />
+	<% if (settings.favicon) { %><link rel="icon" href="<%= settings.favicon %>" /><link rel="apple-touch-icon" href="<%= settings.favicon %>" /><% } %>
+	<link rel="preload" href="/fonts/readex-pro-arabic.woff2" as="font" type="font/woff2" crossorigin />
+	<link rel="preload" href="/fonts/noto-naskh-arabic-arabic.woff2" as="font" type="font/woff2" crossorigin />
+	<link rel="stylesheet" href="/css/main.css?v=<%= assetVersion %>" />
+	<link rel="stylesheet" href="/admin/editor/rte-content.css?v=<%= assetVersion %>" />
+	<script type="module" src="/js/site.js?v=<%= assetVersion %>"></script>
+	<% if (locals.jsonLd) { %><script type="application/ld+json"><%- jsonLd %></script><% } %>
+</head>
+<body class="<%= locals.bodyClass || '' %>">
+	<%- include('partials/icons') %>
+	<a class="skip-link" href="#main">انتقل إلى المحتوى</a>
+	<%- include('partials/header') %>
+	<main id="main" tabindex="-1">
+		<%- body %>
+	</main>
+	<%- include('partials/footer') %>
+	<a class="back-to-top" href="#main" data-back-to-top hidden>
+		<svg class="icon"><use href="#i-arrow-up"/></svg>
+		<span class="visually-hidden">العودة إلى الأعلى</span>
+	</a>
+</body>
+</html>

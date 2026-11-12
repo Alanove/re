@@ -1,0 +1,140 @@
+<%
+	const slides = spotlight.slice(0, 5);
+	const titleOr = function (value, fallback) { return value || fallback; };
+	const heroLabel = titleOr(home.spotlight.title, spotlightSection ? spotlightSection.title : 'أحدث المقالات');
+	const fullImage = function (src) { return src ? src.replace(/-thumb\.webp$/, '.webp') : ''; };
+%>
+<h1 class="visually-hidden"><%= settings.siteName %><% if (settings.tagline) { %> - <%= settings.tagline %><% } %></h1>
+
+<% if (slides.length) { %>
+	<section class="hero" aria-roledescription="carousel" aria-labelledby="hero-label" data-hero>
+		<div class="hero__stage" data-hero-stage>
+			<% slides.forEach(function (card, index) { %>
+				<article class="hero__slide<%= index === 0 ? ' is-active' : '' %>" id="hero-slide-<%= index %>" aria-roledescription="slide" aria-label="<%= index + 1 %> / <%= slides.length %>" data-hero-slide>
+					<% if (card.image) { %>
+						<img class="hero__image" src="<%= encodePath(fullImage(card.image)) %>" alt="" <% if (card.imageWidth && card.imageHeight) { %>width="<%= card.imageWidth %>" height="<%= card.imageHeight %>" <% } %><%- index === 0 ? 'fetchpriority="high"' : 'loading="lazy"' %> decoding="async" />
+					<% } %>
+					<div class="container hero__content"<% if (card.direction === 'ltr') { %> dir="ltr"<% } %>>
+						<% if (index === 0) { %>
+							<% if (spotlightSection) { %>
+								<a class="hero__label" id="hero-label" href="<%= encodePath(spotlightSection.path) %>" dir="rtl"><%= heroLabel %></a>
+							<% } else { %>
+								<span class="hero__label" id="hero-label" dir="rtl"><%= heroLabel %></span>
+							<% } %>
+						<% } else { %>
+							<span class="hero__label" aria-hidden="true" dir="rtl"><%= heroLabel %></span>
+						<% } %>
+						<h2 class="hero__title"><a href="<%= encodePath(card.url) %>"><%= card.title %></a></h2>
+						<% if (card.summary) { %><p class="hero__summary"><%= card.summary %></p><% } %>
+						<a class="btn btn--accent hero__more" href="<%= encodePath(card.url) %>" tabindex="-1" aria-hidden="true">اقرأ المزيد<svg class="icon icon-flip" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+					</div>
+				</article>
+			<% }) %>
+		</div>
+
+		<% if (slides.length > 1) { %>
+			<div class="container hero__picker">
+				<div class="hero__tabs" aria-label="<%= heroLabel %>" data-hero-tabs>
+					<% slides.forEach(function (card, index) { %>
+						<a class="hero__tab" href="<%= encodePath(card.url) %>" id="hero-tab-<%= index %>" data-hero-tab<%- index === 0 ? ' aria-current="true"' : '' %>>
+							<span class="hero__tab-index"><%= index + 1 %></span>
+							<span class="hero__tab-title"><%= card.title %></span>
+						</a>
+					<% }) %>
+				</div>
+				<button class="hero__toggle" type="button" aria-label="إيقاف التمرير التلقائي" data-hero-toggle hidden>
+					<svg class="icon" aria-hidden="true"><use href="#i-pause"/></svg>
+				</button>
+			</div>
+		<% } %>
+	</section>
+<% } %>
+
+<% if (sectionGrid.length) { %>
+	<section class="section section--tint" aria-labelledby="sections-title">
+		<div class="container">
+			<div class="section-head"><h2 id="sections-title"><%= titleOr(home.sections.title, 'أقسام الموقع') %></h2></div>
+			<div class="grid grid--3">
+				<% sectionGrid.forEach(function (entry) { %>
+					<div class="section-block">
+						<h3><a href="<%= encodePath(entry.section.path) %>"><%= entry.section.title %></a><svg class="icon icon-flip" aria-hidden="true"><use href="#i-arrow"/></svg></h3>
+						<ul>
+							<% entry.cards.forEach(function (card) { %>
+								<li>
+									<a href="<%= encodePath(card.url) %>"<% if (card.direction === 'ltr') { %> dir="ltr"<% } %>>
+										<% if (card.image) { %><img src="<%= encodePath(card.image) %>" alt="" width="64" height="48" loading="lazy" decoding="async" /><% } %>
+										<span><%= card.title %></span>
+									</a>
+								</li>
+							<% }) %>
+						</ul>
+					</div>
+				<% }) %>
+			</div>
+		</div>
+	</section>
+<% } %>
+
+<% if (questions.length) { %>
+	<section class="section" aria-labelledby="questions-title">
+		<div class="container">
+			<div class="section-head">
+				<h2 id="questions-title"><%= titleOr(home.questions.title, questionsSection.title) %></h2>
+				<a class="section-head__more" href="<%= encodePath(questionsSection.path) %>">كل الأسئلة<svg class="icon icon-flip" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+				<% if (home.questions.intro) { %><p><%= home.questions.intro %></p><% } %>
+			</div>
+			<div class="qa-strip">
+				<% questions.forEach(function (card) { %>
+					<article class="qa-card"<% if (card.direction === 'ltr') { %> dir="ltr"<% } %>>
+						<h3><a href="<%= encodePath(card.url) %>"><%= card.title %></a></h3>
+						<% if (card.summary) { %><p><%= card.summary %></p><% } %>
+					</article>
+				<% }) %>
+			</div>
+		</div>
+	</section>
+<% } %>
+
+<% if (hymns.length) { %>
+	<section class="section section--accent" aria-labelledby="hymns-title">
+		<div class="container">
+			<div class="section-head">
+				<h2 id="hymns-title"><%= titleOr(home.hymns.title, 'ترانيم') %></h2>
+				<a class="section-head__more" href="<%= encodePath(hymnsUrl) %>">كل الترانيم<svg class="icon icon-flip" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+				<% if (home.hymns.intro) { %><p><%= home.hymns.intro %></p><% } %>
+			</div>
+			<ul class="hymn-list" data-hymn-list>
+				<% hymns.forEach(function (hymn) { %><%- include('partials/hymn-row', { hymn: hymn }) %><% }) %>
+			</ul>
+		</div>
+	</section>
+	<%- include('partials/player') %>
+<% } %>
+
+<% if (videos.length) { %>
+	<section class="section" aria-labelledby="videos-title">
+		<div class="container">
+			<div class="section-head">
+				<h2 id="videos-title"><%= titleOr(home.videos.title, 'فيديو') %></h2>
+				<a class="section-head__more" href="<%= encodePath(videosUrl) %>">كل الفيديوهات<svg class="icon icon-flip" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+			</div>
+			<div class="grid grid--4">
+				<% videos.forEach(function (video) { %><%- include('partials/video-card', { video: video }) %><% }) %>
+			</div>
+		</div>
+	</section>
+<% } %>
+
+<% if (albums.length) { %>
+	<section class="section section--tint" aria-labelledby="albums-title">
+		<div class="container">
+			<div class="section-head">
+				<h2 id="albums-title"><%= titleOr(home.albums.title, 'ألبومات الصور') %></h2>
+				<a class="section-head__more" href="<%= encodePath(albumsUrl) %>">كل الألبومات<svg class="icon icon-flip" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+			</div>
+			<div class="grid grid--4">
+				<% albums.forEach(function (album) { %><%- include('partials/album-card', { album: album }) %><% }) %>
+			</div>
+		</div>
+	</section>
+<% } %>

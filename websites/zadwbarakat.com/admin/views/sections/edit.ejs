@@ -1,0 +1,63 @@
+<%
+	const action = isCreate ? basePath + '/create' : basePath + '/' + item.id + '/edit';
+	const seo = item.seo || { title: '', description: '', keywords: '' };
+%>
+<form method="POST" action="<%= action %>?_csrf=<%= encodeURIComponent(csrfToken) %>" enctype="multipart/form-data" novalidate>
+	<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+	<div class="row">
+		<div class="col-xl-8">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Section</h4></div>
+				<div class="panel-body">
+					<div class="mb-3">
+						<label class="form-label" for="title">Title <span class="text-danger">*</span></label>
+						<input type="text" class="form-control <%= errors.title ? 'is-invalid' : '' %>" id="title" name="title" value="<%= item.title %>" maxlength="160" required dir="auto" />
+						<%- include('../partials/field-error', { name: 'title' }) %>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="path">Address <span class="text-danger">*</span></label>
+						<input type="text" class="form-control <%= errors.path ? 'is-invalid' : '' %>" id="path" name="path" value="<%= item.path %>" maxlength="400" required dir="auto" placeholder="/الرعية/أضواء" />
+						<small class="text-muted">The full path, starting with <code>/</code>. Put it under a hub page (for example <code>/الكتاب-المقدس/دراسات</code>) so it appears as a card there. Changing it moves every article; the old addresses stop working.</small>
+						<%- include('../partials/field-error', { name: 'path' }) %>
+					</div>
+					<div class="mb-1">
+						<label class="form-label" for="intro">Introduction</label>
+						<textarea class="form-control <%= errors.intro ? 'is-invalid' : '' %>" id="intro" name="intro" rows="4" maxlength="2000" dir="auto"><%= item.intro %></textarea>
+						<small class="text-muted">Shown under the heading of the section page.</small>
+						<%- include('../partials/field-error', { name: 'intro' }) %>
+					</div>
+				</div>
+			</div>
+			<%- include('../partials/seo-fields', { seo: seo }) %>
+		</div>
+		<div class="col-xl-4 admin-sticky-stack">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Publish</h4></div>
+				<div class="panel-body">
+					<div class="form-check form-switch mb-3">
+						<input class="form-check-input" type="checkbox" id="published" name="published" value="1" <%= item.status === 'published' ? 'checked' : '' %> />
+						<label class="form-check-label" for="published">Published</label>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="sort">Sort order</label>
+						<input type="number" class="form-control <%= errors.sort ? 'is-invalid' : '' %>" id="sort" name="sort" value="<%= item.sort %>" min="0" />
+						<small class="text-muted">Lower numbers come first on hub pages.</small>
+						<%- include('../partials/field-error', { name: 'sort' }) %>
+					</div>
+					<% if (!isCreate) { %><p class="small mb-3">Live address: <a href="<%= encodePath(item.path) %>" target="_blank" rel="noopener" dir="auto"><%= item.path %></a> · <a href="/admin/articles?section=<%= item.id %>">Articles</a></p><% } %>
+					<div class="d-flex gap-2">
+						<button type="submit" class="btn btn-success flex-fill"><i class="fa fa-save me-1"></i> <%= isCreate ? 'Create section' : 'Save changes' %></button>
+						<a href="<%= basePath %>" class="btn btn-default">Cancel</a>
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Image</h4></div>
+				<div class="panel-body">
+					<%- include('../partials/media-picker', { id: 'imageFile', field: 'imageFile', kind: 'image', current: item.image, valueName: 'image', removeName: 'removeImage', label: 'section image', hint: 'JPEG, PNG, GIF or WebP up to 8 MB. Converted to WebP. Used for social shares of the section page.' }) %>
+					<%- include('../partials/field-error', { name: 'image' }) %>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

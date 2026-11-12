@@ -1,0 +1,98 @@
+<%
+	const hasCount = sectionKey !== 'newsletter';
+	const hasSection = sectionKey === 'spotlight' || sectionKey === 'questions';
+	const hasIntro = sectionKey === 'questions' || sectionKey === 'hymns';
+	const selectedIds = (section.sectionIds || []).map(Number);
+	const countMax = sectionKey === 'sections' ? 6 : listMax;
+	const countLabel = sectionKey === 'sections' ? 'Articles per section' : sectionKey === 'spotlight' ? 'Stories (the first is the lead story)' : 'Items to show';
+	const descriptions = {
+		spotlight: 'A large lead story with up to four smaller stories beside it, taken from the newest articles of one section (أضواء on the old site). Choose “All sections” to use the newest articles of the whole site.',
+		sections: 'A grid of sections, each with its newest article titles. Tick the sections in the order you want them shown.',
+		questions: 'A strip of the newest questions and answers from one section.',
+		hymns: 'The newest hymns with play buttons; they play in the sticky player at the bottom of the screen.',
+		videos: 'The newest published videos.',
+		albums: 'The newest photo albums.',
+		newsletter: 'The red sign-up band above the footer. It appears on every page; the heading and text set here are used on the home page.'
+	};
+%>
+<form method="POST" action="/admin/home/<%= sectionKey %>/edit" novalidate>
+	<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+	<div class="row">
+		<div class="col-xl-8">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title"><%= sectionLabel %></h4></div>
+				<div class="panel-body">
+					<p class="text-muted"><%= descriptions[sectionKey] %></p>
+					<div class="mb-3">
+						<label class="form-label" for="title">Heading <span class="text-danger">*</span></label>
+						<input type="text" class="form-control <%= errors.title ? 'is-invalid' : '' %>" id="title" name="title" value="<%= section.title %>" maxlength="160" required dir="auto" />
+						<%- include('../partials/field-error', { name: 'title' }) %>
+					</div>
+					<% if (hasIntro) { %>
+						<div class="mb-3">
+							<label class="form-label" for="intro">Introduction</label>
+							<textarea class="form-control <%= errors.intro ? 'is-invalid' : '' %>" id="intro" name="intro" rows="2" maxlength="400" dir="auto"><%= section.intro %></textarea>
+							<%- include('../partials/field-error', { name: 'intro' }) %>
+						</div>
+					<% } %>
+					<% if (sectionKey === 'newsletter') { %>
+						<div class="mb-3">
+							<label class="form-label" for="text">Text</label>
+							<textarea class="form-control <%= errors.text ? 'is-invalid' : '' %>" id="text" name="text" rows="2" maxlength="400" dir="auto"><%= section.text %></textarea>
+							<%- include('../partials/field-error', { name: 'text' }) %>
+						</div>
+						<p class="small text-muted mb-0">Subscribers are listed under <a href="/admin/newsletter">Newsletter</a>; the thank-you message is in <a href="/admin/site-settings">Site settings</a>.</p>
+					<% } %>
+					<% if (hasSection) { %>
+						<div class="mb-3">
+							<label class="form-label" for="sectionId">Section</label>
+							<select class="form-select <%= errors.sectionId ? 'is-invalid' : '' %>" id="sectionId" name="sectionId">
+								<option value=""><%= sectionKey === 'spotlight' ? 'All sections (newest articles)' : '— Choose a section —' %></option>
+								<% sections.forEach(function (option) { %><option value="<%= option.id %>" <%= section.sectionId === option.id ? 'selected' : '' %>><%= option.title %> (<%= option.path %>)</option><% }) %>
+							</select>
+							<%- include('../partials/field-error', { name: 'sectionId' }) %>
+						</div>
+					<% } %>
+					<% if (sectionKey === 'sections') { %>
+						<fieldset class="mb-3">
+							<legend class="form-label fs-6">Sections to show (up to <%= sectionsMax %>)</legend>
+							<div class="row">
+								<% sections.forEach(function (option) { %>
+									<div class="col-md-6">
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox" name="sectionIds" value="<%= option.id %>" id="section-<%= option.id %>" <%= selectedIds.indexOf(option.id) !== -1 ? 'checked' : '' %> />
+											<label class="form-check-label" for="section-<%= option.id %>" dir="auto"><%= option.title %></label>
+										</div>
+									</div>
+								<% }) %>
+							</div>
+							<%- include('../partials/field-error', { name: 'sectionIds' }) %>
+						</fieldset>
+					<% } %>
+					<% if (hasCount) { %>
+						<div class="mb-1" style="max-width:240px">
+							<label class="form-label" for="count"><%= countLabel %></label>
+							<input type="number" class="form-control <%= errors.count ? 'is-invalid' : '' %>" id="count" name="count" value="<%= section.count %>" min="1" max="<%= countMax %>" />
+							<%- include('../partials/field-error', { name: 'count' }) %>
+						</div>
+					<% } %>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-4">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Visibility</h4></div>
+				<div class="panel-body">
+					<div class="form-check form-switch mb-3">
+						<input class="form-check-input" type="checkbox" id="enabled" name="enabled" value="1" <%= section.enabled ? 'checked' : '' %> />
+						<label class="form-check-label" for="enabled">Show this section</label>
+					</div>
+					<div class="d-flex gap-2">
+						<button type="submit" class="btn btn-success flex-fill"><i class="fa fa-save me-1"></i> Save</button>
+						<a href="/admin/home" class="btn btn-default">Back</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

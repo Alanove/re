@@ -1,0 +1,92 @@
+<%
+	const action = isCreate ? basePath + '/create' : basePath + '/' + item.id + '/edit';
+	const images = Array.isArray(item.images) ? item.images : [];
+	const dateValue = typeof item.publishedAt === 'string' && item.dateKnown !== false ? item.publishedAt.slice(0, 10) : '';
+%>
+<form method="POST" action="<%= action %>?_csrf=<%= encodeURIComponent(csrfToken) %>" enctype="multipart/form-data" novalidate>
+	<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+	<div class="row">
+		<div class="col-xl-8">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Album</h4></div>
+				<div class="panel-body">
+					<div class="mb-3">
+						<label class="form-label" for="title">Title <span class="text-danger">*</span></label>
+						<input type="text" class="form-control <%= errors.title ? 'is-invalid' : '' %>" id="title" name="title" value="<%= item.title %>" maxlength="200" required dir="auto" data-slug-source="#slug" />
+						<%- include('../partials/field-error', { name: 'title' }) %>
+					</div>
+					<div class="mb-1">
+						<label class="form-label" for="summary">Description</label>
+						<textarea class="form-control <%= errors.summary ? 'is-invalid' : '' %>" id="summary" name="summary" rows="3" maxlength="1000" dir="auto"><%= item.summary %></textarea>
+						<%- include('../partials/field-error', { name: 'summary' }) %>
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Photos (<%= images.length %>)</h4></div>
+				<div class="panel-body">
+					<% if (images.length) { %>
+						<p class="small text-muted">The first photo (lowest sort number) is the album cover.</p>
+						<div class="row g-3 mb-3">
+							<% images.forEach(function (image, index) { %>
+								<div class="col-6 col-md-4 col-xxl-3">
+									<div class="card h-100 admin-gallery-card">
+										<img src="<%= thumbUrl(image.src) %>" alt="" class="card-img-top" loading="lazy" data-fallback-src="<%= image.src %>" />
+										<div class="card-body p-2">
+											<input type="hidden" name="images[<%= index %>][src]" value="<%= image.src %>" />
+											<input type="text" class="form-control form-control-sm mb-1" name="images[<%= index %>][caption]" value="<%= image.caption %>" placeholder="Caption" maxlength="300" aria-label="Caption" dir="auto" />
+											<div class="d-flex align-items-center gap-2">
+												<input type="number" class="form-control form-control-sm" name="images[<%= index %>][sort]" value="<%= (index + 1) * 10 %>" min="0" style="max-width:80px" aria-label="Sort order" />
+												<div class="form-check mb-0">
+													<input class="form-check-input" type="checkbox" name="images[<%= index %>][remove]" value="1" id="remove-image-<%= index %>" />
+													<label class="form-check-label small text-danger" for="remove-image-<%= index %>">Remove</label>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							<% }) %>
+						</div>
+					<% } %>
+					<label class="form-label" for="imageFiles">Add photos</label>
+					<%- include('../partials/media-picker', { id: 'imageFiles', field: 'imageFiles', kind: 'image', multiple: true, label: 'photos', hint: 'Up to 30 photos per save, 8 MB each. Converted to WebP and resized automatically; new photos go after the existing ones.' }) %>
+					<% Object.keys(errors).filter(function (key) { return key.indexOf('images') === 0; }).forEach(function (key) { %>
+						<div class="invalid-feedback d-block"><%= errors[key] %></div>
+					<% }) %>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-4 admin-sticky-stack">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Publish</h4></div>
+				<div class="panel-body">
+					<div class="form-check form-switch mb-3">
+						<input class="form-check-input" type="checkbox" id="published" name="published" value="1" <%= item.status === 'published' ? 'checked' : '' %> />
+						<label class="form-check-label" for="published">Published</label>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="slug">URL slug</label>
+						<input type="text" class="form-control <%= errors.slug ? 'is-invalid' : '' %>" id="slug" name="slug" value="<%= item.slug %>" maxlength="120" dir="auto" />
+						<small class="text-muted">Leave empty to build it from the title.</small>
+						<%- include('../partials/field-error', { name: 'slug' }) %>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="publishedAt">Date</label>
+						<input type="date" class="form-control <%= errors.publishedAt ? 'is-invalid' : '' %>" id="publishedAt" name="publishedAt" value="<%= dateValue %>" />
+						<small class="text-muted">Albums are listed newest first.</small>
+						<%- include('../partials/field-error', { name: 'publishedAt' }) %>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="sort">Sort order</label>
+						<input type="number" class="form-control <%= errors.sort ? 'is-invalid' : '' %>" id="sort" name="sort" value="<%= item.sort %>" min="0" />
+						<%- include('../partials/field-error', { name: 'sort' }) %>
+					</div>
+					<div class="d-flex gap-2">
+						<button type="submit" class="btn btn-success flex-fill"><i class="fa fa-save me-1"></i> <%= isCreate ? 'Create album' : 'Save changes' %></button>
+						<a href="<%= basePath %>" class="btn btn-default">Cancel</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

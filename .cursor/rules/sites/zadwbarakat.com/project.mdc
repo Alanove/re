@@ -1,0 +1,32 @@
+---
+description: zadwbarakat.com (المركز الدائم للتنشئة المسيحية) - Arabic RTL catechesis site on the shared Node CMS; article sections, library, hymns, albums, videos, search
+globs: websites/zadwbarakat.com/**
+alwaysApply: false
+---
+
+# zadwbarakat.com: project rules
+
+Site rule for `websites/zadwbarakat.com/`. It applies in addition to the global rules in `.cursor/rules/`; where they conflict, the global rules win. Paths are relative to the site folder.
+
+## Site shape
+- Arabic, right to left. The layout is always `<html lang="ar" dir="rtl">`; a page, article or video whose text is French or English switches only its content block to `dir="ltr"` with the right `lang` (`direction` field: `auto` detects it, `rtl`/`ltr` force it).
+- Content model: **sections** (`data/sections.json`) hold **articles** (one file per article in `data/articles/<id>.json`, cached in memory by `articlesRepository`). An article lives at `<section path>/<article slug>`.
+- Other modules: library books (`books.json`, from the legacy `books.xml`), hymns (`hymns.json`, MP3s), photo albums, videos (YouTube ids) and purchases. Each module is shown by the published page whose `kind` matches (`library`, `hymns`, `albums`, `videos`, `purchases`); albums, videos and purchases open their items at `<page url>/<slug>`.
+- URLs keep the legacy Arabic paths (NFC, unencoded in the data). Always decode request paths with `decodeRequestPath` and encode links in `Location` headers and sitemaps with `encodePath`. Slugs follow `SLUG_PATTERN` (Unicode letters and digits); never lowercase or transliterate Arabic.
+
+## Search
+- `searchService` keeps a MiniSearch index in memory over articles, books, hymns, albums, videos and pages. All text goes through `src/lib/arabicNormalize.ts` (tashkeel, tatweel, alef/ya/ta marbuta folding, "ال" prefix); never index or query raw text.
+- Services announce writes through `contentEvents.changed(kind, id)`; the search index and the HTML page cache listen to it. Every new write path must emit it.
+- The library and hymn filters reuse `searchService.rankedIds`. Do not add a second search implementation.
+
+## Legacy import
+- `npm run crawl:legacy` crawls the live site politely (rate limit, cache in `content/crawl-cache/`) into `content/crawl/pages.json`; `npm run import:legacy` builds the data files from it, from `books.xml`, the hashtag sheets of `markaz.xls` and the local legacy copy under `wwwroot/` (ignored by git).
+- `npm run download:assets` reads files only from the local copy (`legacy.localRoot`, the `wwwroot` folder) and never fetches from the live site. Images go through `imageProcessingService`; MP3s are copied unchanged to `/uploads/legacy/hymns/`. Files missing from `wwwroot` are reported, and their references are removed.
+
+## Design
+- Colours come from the logo. Sampled values: banner teal `#008397`, aqua `#68c8c8`, brown `#543c24`. Tokens live in `public/scss/_tokens.scss`: `$teal` `#007d90` (the logo teal deepened slightly so white text passes AA), `$teal-dark` `#006b7b`, `$teal-deep` `#004d59` (footer and player), `$aqua`, `$brown`, ink `#182426`, paper `#f6f9f9`. Do not reintroduce red or gold.
+- The header is teal and the footer is deep teal. Both show the round emblem (`settings.emblem`, imported from the legacy `images/markaz-logo.svg`) in a white badge, next to the site name as live text. The full logo image is used only in the admin and as a fallback when there is no emblem.
+- The home page opens with the أضواء hero slider (the latest أضواء articles), as on the legacy site. Search lives only in the header panel; do not add a permanent search box on the home page.
+- Fonts are self-hosted (Noto Naskh Arabic for reading, Readex Pro for headings and UI).
+- Use CSS logical properties only (`margin-inline-start`, `inset-inline-end`, `padding-block`...), never `left`/`right`, so LTR content blocks mirror correctly.
+- No jQuery or third-party widgets. YouTube uses a click-to-play facade; hymns share one sticky audio player.

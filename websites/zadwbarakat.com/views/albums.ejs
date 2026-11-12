@@ -1,0 +1,10 @@
+<%- include('partials/page-head', { title: page.header || page.title, lead: page.summary }) %>
+<div class="container page-body">
+	<% if (albums.length) { %>
+		<div class="grid grid--4">
+			<% albums.forEach(function (album) { %><%- include('partials/album-card', { album: album }) %><% }) %>
+		</div>
+	<% } else { %>
+		<p class="empty-state">لا توجد ألبومات بعد.</p>
+	<% } %>
+</div>

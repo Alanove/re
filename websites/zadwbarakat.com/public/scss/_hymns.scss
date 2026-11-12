@@ -1,0 +1,185 @@
+@use 'tokens' as *;
+
+.hymn-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+}
+
+.hymn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  background: $surface;
+  border: 1px solid $line;
+  border-radius: $radius;
+  transition: border-color 0.15s, background-color 0.15s;
+
+  &.is-playing {
+    border-color: var(--brand);
+    background: $teal-soft;
+  }
+
+  &:target {
+    border-color: $aqua;
+    box-shadow: 0 0 0 3px rgba($aqua, 0.3);
+  }
+}
+
+.hymn__play {
+  flex: none;
+  display: grid;
+  place-items: center;
+  inline-size: $tap;
+  block-size: $tap;
+  border-radius: 50%;
+  border: 0;
+  background: var(--brand);
+  color: #fff;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--brand-dark);
+  }
+
+  .icon-pause {
+    display: none;
+  }
+
+  .is-playing & {
+    .icon-play {
+      display: none;
+    }
+
+    .icon-pause {
+      display: block;
+    }
+  }
+}
+
+.hymn__info {
+  min-inline-size: 0;
+  flex: 1;
+
+  strong {
+    display: block;
+    font-weight: 600;
+  }
+
+  small {
+    color: $muted;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.hymn__tag {
+  flex: none;
+  font-size: 0.8rem;
+  color: $brown;
+  background: $aqua-soft;
+  border-radius: 999px;
+  padding: 2px 10px;
+
+  @media (max-width: #{$bp-sm - 1px}) {
+    display: none;
+  }
+}
+
+.hymn__download {
+  flex: none;
+}
+
+// Sticky player shared by every hymn on the page.
+.player {
+  position: fixed;
+  inset-inline: 0;
+  inset-block-end: 0;
+  z-index: 45;
+  background: $teal-deep;
+  color: #fff;
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.2);
+  padding-block: 10px;
+  padding-block-end: max(10px, env(safe-area-inset-bottom));
+}
+
+.player__inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.player__controls {
+  display: flex;
+  gap: 4px;
+
+  button {
+    display: grid;
+    place-items: center;
+    inline-size: $tap;
+    block-size: $tap;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(#fff, 0.1);
+    }
+  }
+
+  .player__toggle {
+    background: $aqua;
+    color: $ink;
+
+    &:hover {
+      background: #fff;
+    }
+  }
+}
+
+.player__meta {
+  min-inline-size: 0;
+  flex: 1;
+  display: grid;
+  gap: 4px;
+
+  strong {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 500;
+  }
+}
+
+.player__progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: rgba(#fff, 0.7);
+  font-variant-numeric: tabular-nums;
+
+  input[type='range'] {
+    flex: 1;
+    min-inline-size: 0;
+    accent-color: $aqua;
+  }
+}
+
+.player__close {
+  flex: none;
+  color: #fff;
+
+  &:hover {
+    background: rgba(#fff, 0.1);
+    color: $aqua;
+  }
+}

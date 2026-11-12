@@ -1,0 +1,86 @@
+<%
+	const listHref = function (overrides) {
+		const merged = Object.assign({ q: filter.q, section: filter.sectionId || '', status: filter.status || '', p: '' }, overrides);
+		const params = new URLSearchParams();
+		Object.keys(merged).forEach(function (key) { if (merged[key] !== '' && merged[key] !== null && merged[key] !== 1) { params.set(key, String(merged[key])); } });
+		const qs = params.toString();
+		return basePath + (qs ? '?' + qs : '');
+	};
+	const sectionTitle = {};
+	sections.forEach(function (section) { sectionTitle[section.id] = section.title; });
+%>
+<div class="panel panel-inverse">
+	<div class="panel-heading">
+		<h4 class="panel-title">Articles</h4>
+		<div class="panel-heading-btn">
+			<a href="<%= basePath %>/create" class="btn btn-xs btn-success"><i class="fa fa-plus"></i> Add article</a>
+		</div>
+	</div>
+	<div class="panel-body">
+		<form class="row g-2 mb-3" method="get" action="<%= basePath %>">
+			<div class="col-md-5">
+				<div class="input-group">
+					<span class="input-group-text"><i class="fa fa-search"></i></span>
+					<input type="search" class="form-control" name="q" value="<%= filter.q %>" placeholder="Search by title or legacy page ID" aria-label="Search articles" dir="auto" />
+				</div>
+			</div>
+			<div class="col-md-3">
+				<select class="form-select" name="section" aria-label="Section">
+					<option value="">All sections</option>
+					<% sections.forEach(function (section) { %><option value="<%= section.id %>" <%= filter.sectionId === section.id ? 'selected' : '' %>><%= section.title %></option><% }) %>
+				</select>
+			</div>
+			<div class="col-md-2">
+				<select class="form-select" name="status" aria-label="Status">
+					<option value="">Any status</option>
+					<option value="published" <%= filter.status === 'published' ? 'selected' : '' %>>Published</option>
+					<option value="draft" <%= filter.status === 'draft' ? 'selected' : '' %>>Draft</option>
+				</select>
+			</div>
+			<div class="col-md-2 d-flex gap-2">
+				<button type="submit" class="btn btn-primary flex-fill">Filter</button>
+				<a href="<%= basePath %>" class="btn btn-default" title="Clear filters"><i class="fa fa-times"></i></a>
+			</div>
+		</form>
+		<p class="text-muted small"><%= pagination.total %> articles<% if (pagination.totalPages > 1) { %> · page <%= pagination.page %> of <%= pagination.totalPages %><% } %></p>
+		<div class="table-responsive">
+			<table class="table table-striped table-bordered align-middle">
+				<thead>
+					<tr>
+						<th style="width:56px">Image</th>
+						<th>Title</th>
+						<th>Section</th>
+						<th>Status</th>
+						<th>Date</th>
+						<th style="width:1%">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% rows.forEach(function (row) { %>
+						<tr>
+							<td>
+								<% if (row.image) { %><img src="<%= thumbUrl(row.image.src) %>" alt="" class="rounded admin-thumb" loading="lazy" data-fallback-src="<%= row.image.src %>" /><% } else { %><div class="admin-thumb admin-thumb-empty rounded"><i class="fa fa-image text-muted"></i></div><% } %>
+							</td>
+							<td dir="auto">
+								<a href="<%= basePath %>/<%= row.id %>/edit" class="fw-bold"><%= row.title %></a>
+								<% if (row.tags.length) { %><div class="small text-muted"><%= row.tags.slice(0, 5).map(function (tag) { return '#' + tag; }).join(' ') %></div><% } %>
+							</td>
+							<td class="small"><a href="<%= listHref({ section: row.sectionId }) %>"><%= sectionTitle[row.sectionId] || '—' %></a></td>
+							<td><% if (row.status === 'published') { %><span class="badge bg-success">Published</span><% } else { %><span class="badge bg-secondary">Draft</span><% } %></td>
+							<td class="text-nowrap small"><%= row.dateKnown ? row.publishedAt.slice(0, 10) : '—' %></td>
+							<td class="text-nowrap">
+								<% if (row.url && row.status === 'published') { %><a href="<%= encodePath(row.url) %>" target="_blank" rel="noopener" class="btn btn-sm btn-default" title="View"><i class="fa fa-external-link-alt"></i></a><% } %>
+								<a href="<%= basePath %>/<%= row.id %>/edit" class="btn btn-sm btn-primary" title="Edit"><i class="fa fa-edit"></i></a>
+								<button type="button" class="btn btn-sm btn-danger" title="Delete" data-delete-url="<%= basePath %>/<%= row.id %>" data-delete-title="Delete article" data-delete-message="Delete “<%= row.title %>”? Its image is deleted too."><i class="fa fa-trash"></i></button>
+							</td>
+						</tr>
+					<% }) %>
+					<% if (rows.length === 0) { %>
+						<tr><td colspan="6" class="text-center text-muted py-4">No articles match these filters.</td></tr>
+					<% } %>
+				</tbody>
+			</table>
+		</div>
+		<%- include('../partials/admin-pagination', { pagination: pagination, hrefFor: function (page) { return listHref({ p: page }); } }) %>
+	</div>
+</div>

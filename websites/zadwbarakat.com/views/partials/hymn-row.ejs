@@ -1,0 +1,24 @@
+<%
+	/* Locals: hymn (Hymn), href (optional link target for the title). WMA files cannot play in browsers, so they get a download link only. */
+	const playable = /\.(mp3|m4a)$/i.test(hymn.file);
+	const fileUrl = /^https?:/.test(hymn.file) ? hymn.file : encodePath(hymn.file);
+	const credits = [hymn.singer, hymn.author ? 'كلمات: ' + hymn.author : '', hymn.album].filter(Boolean).join(' · ');
+%>
+<li class="hymn" id="hymn-<%= hymn.id %>"<% if (playable) { %> data-hymn data-src="<%= fileUrl %>" data-title="<%= hymn.title %>"<% } %>>
+	<% if (playable) { %>
+		<button class="hymn__play" type="button" data-hymn-play aria-label="تشغيل: <%= hymn.title %>">
+			<svg class="icon icon-play" aria-hidden="true"><use href="#i-play"/></svg>
+			<svg class="icon icon-pause" aria-hidden="true"><use href="#i-pause"/></svg>
+		</button>
+	<% } else { %>
+		<a class="hymn__play" href="<%= fileUrl %>" download aria-label="تنزيل: <%= hymn.title %>"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg></a>
+	<% } %>
+	<div class="hymn__info">
+		<% if (locals.href) { %><strong><a href="<%= href %>"><%= hymn.title %></a></strong><% } else { %><strong><%= hymn.title %></strong><% } %>
+		<% if (credits) { %><small><%= credits %></small><% } %>
+	</div>
+	<% if (hymn.category) { %><span class="hymn__tag"><%= hymn.category %></span><% } %>
+	<% if (playable) { %>
+		<a class="icon-button hymn__download" href="<%= fileUrl %>" download aria-label="تنزيل: <%= hymn.title %>"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg></a>
+	<% } %>
+</li>

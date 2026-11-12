@@ -1,0 +1,29 @@
+<%- include('partials/page-head', { title: video.title, headDir: video.direction }) %>
+<div class="container page-body">
+	<div class="article__layout">
+		<div>
+			<button class="video-facade" type="button" data-youtube="<%= video.youtubeId %>" data-title="<%= video.title %>" aria-label="تشغيل الفيديو: <%= video.title %>">
+				<img src="<%= /^https?:/.test(video.poster) ? video.poster : encodePath(video.poster) %>" alt="" width="1280" height="720" fetchpriority="high" />
+				<span class="video-facade__play" aria-hidden="true"><svg class="icon"><use href="#i-play"/></svg></span>
+			</button>
+			<% if (video.summary) { %><div class="prose" dir="<%= contentDir %>" lang="<%= contentLang %>" style="margin-block-start:24px"><p><%= video.summary %></p></div><% } %>
+			<p class="result-count" style="margin-block-start:12px">
+				<% if (video.date) { %><%= video.date %> · <% } %><a href="https://www.youtube.com/watch?v=<%= video.youtubeId %>" target="_blank" rel="noopener noreferrer">مشاهدة على يوتيوب</a>
+			</p>
+		</div>
+		<% if (others.length) { %>
+			<aside class="article__aside" aria-labelledby="more-videos">
+				<div class="aside-box">
+					<h2 id="more-videos">فيديوهات أخرى</h2>
+					<div class="section-block" style="padding:0;border:0">
+						<ul>
+							<% others.forEach(function (entry) { %>
+								<li><a href="<%= encodePath(entry.url) %>"><img src="<%= /^https?:/.test(entry.poster) ? entry.poster : encodePath(entry.poster) %>" alt="" width="64" height="48" loading="lazy" /><span<% if (entry.direction === 'ltr') { %> dir="ltr"<% } %>><%= entry.title %></span></a></li>
+							<% }) %>
+						</ul>
+					</div>
+				</div>
+			</aside>
+		<% } %>
+	</div>
+</div>

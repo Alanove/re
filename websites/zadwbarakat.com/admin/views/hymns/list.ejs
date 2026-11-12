@@ -1,0 +1,45 @@
+<div class="panel panel-inverse">
+	<div class="panel-heading">
+		<h4 class="panel-title">Hymns</h4>
+		<div class="panel-heading-btn">
+			<a href="<%= basePath %>/create" class="btn btn-xs btn-success"><i class="fa fa-plus"></i> Add hymn</a>
+		</div>
+	</div>
+	<div class="panel-body">
+		<div class="row g-2 mb-3">
+			<div class="col-md-6">
+				<div class="input-group">
+					<span class="input-group-text"><i class="fa fa-search"></i></span>
+					<input type="search" class="form-control" placeholder="Filter by title, singer or category" data-table-filter="#hymns-table" aria-label="Filter hymns" dir="auto" />
+				</div>
+			</div>
+		</div>
+		<div class="table-responsive">
+			<table class="table table-striped table-bordered align-middle" id="hymns-table">
+				<thead>
+					<tr><th>Title</th><th>Singer</th><th>Category</th><th>File</th><th class="text-center">Sort</th><th>Shown</th><th style="width:1%" data-sort="off">Actions</th></tr>
+				</thead>
+				<tbody>
+					<% rows.forEach(function (row) { const ext = (row.file.split('.').pop() || '').toUpperCase(); %>
+						<tr data-filter-text="<%= (row.title + ' ' + row.singer + ' ' + row.category).toLowerCase() %>">
+							<td dir="auto"><a href="<%= basePath %>/<%= row.id %>/edit" class="fw-bold"><%= row.title %></a></td>
+							<td dir="auto" class="small"><%= row.singer %></td>
+							<td dir="auto" class="small"><%= row.category %></td>
+							<td class="small">
+								<% if (row.file) { %><a href="<%= row.file %>" target="_blank" rel="noopener"><%= ext %></a><% if (ext === 'WMA') { %> <span class="badge bg-warning text-dark" title="Browsers cannot play WMA; visitors get a download link. Upload an MP3 to enable the player.">download only</span><% } %>
+								<% } else { %><span class="badge bg-danger">No file</span><% } %>
+							</td>
+							<td class="text-center"><%= row.sort %></td>
+							<td><% if (row.active) { %><span class="badge bg-success">Yes</span><% } else { %><span class="badge bg-secondary">Hidden</span><% } %></td>
+							<td class="text-nowrap">
+								<a href="<%= basePath %>/<%= row.id %>/edit" class="btn btn-sm btn-primary" title="Edit"><i class="fa fa-edit"></i></a>
+								<button type="button" class="btn btn-sm btn-danger" title="Delete" data-delete-url="<%= basePath %>/<%= row.id %>" data-delete-title="Delete hymn" data-delete-message="Delete “<%= row.title %>” and its uploaded audio file?"><i class="fa fa-trash"></i></button>
+							</td>
+						</tr>
+					<% }) %>
+					<% if (rows.length === 0) { %><tr><td colspan="7" class="text-center text-muted py-4">No hymns yet.</td></tr><% } %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

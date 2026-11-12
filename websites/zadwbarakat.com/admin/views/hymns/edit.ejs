@@ -1,0 +1,75 @@
+<%
+	const action = isCreate ? basePath + '/create' : basePath + '/' + item.id + '/edit';
+	const playable = /\.(mp3|m4a)$/i.test(item.file || '');
+%>
+<form method="POST" action="<%= action %>?_csrf=<%= encodeURIComponent(csrfToken) %>" enctype="multipart/form-data" novalidate>
+	<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+	<datalist id="category-options"><% categories.forEach(function (category) { %><option value="<%= category %>"></option><% }) %></datalist>
+	<div class="row">
+		<div class="col-xl-8">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Hymn</h4></div>
+				<div class="panel-body">
+					<div class="mb-3">
+						<label class="form-label" for="title">Title <span class="text-danger">*</span></label>
+						<input type="text" class="form-control <%= errors.title ? 'is-invalid' : '' %>" id="title" name="title" value="<%= item.title %>" maxlength="250" required dir="auto" />
+						<%- include('../partials/field-error', { name: 'title' }) %>
+					</div>
+					<div class="row">
+						<div class="col-md-6 mb-3">
+							<label class="form-label" for="singer">Singer / choir</label>
+							<input type="text" class="form-control <%= errors.singer ? 'is-invalid' : '' %>" id="singer" name="singer" value="<%= item.singer %>" maxlength="250" dir="auto" />
+							<%- include('../partials/field-error', { name: 'singer' }) %>
+						</div>
+						<div class="col-md-6 mb-3">
+							<label class="form-label" for="author">Lyrics by</label>
+							<input type="text" class="form-control <%= errors.author ? 'is-invalid' : '' %>" id="author" name="author" value="<%= item.author %>" maxlength="250" dir="auto" />
+							<%- include('../partials/field-error', { name: 'author' }) %>
+						</div>
+						<div class="col-md-6 mb-3">
+							<label class="form-label" for="album">Album</label>
+							<input type="text" class="form-control <%= errors.album ? 'is-invalid' : '' %>" id="album" name="album" value="<%= item.album %>" maxlength="250" dir="auto" />
+							<%- include('../partials/field-error', { name: 'album' }) %>
+						</div>
+						<div class="col-md-6 mb-3">
+							<label class="form-label" for="category">Category</label>
+							<input type="text" class="form-control <%= errors.category ? 'is-invalid' : '' %>" id="category" name="category" value="<%= item.category %>" maxlength="160" dir="auto" list="category-options" />
+							<small class="text-muted">Visitors filter hymns by category.</small>
+							<%- include('../partials/field-error', { name: 'category' }) %>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Audio</h4></div>
+				<div class="panel-body">
+					<% if (item.file && playable) { %><audio class="w-100 mb-2" src="<%= item.file %>" controls preload="none"></audio><% } %>
+					<% if (item.file && !playable) { %><p class="alert alert-warning small">The current file is WMA, which browsers cannot play. Visitors get a download link. Upload an MP3 to enable the player.</p><% } %>
+					<%- include('../partials/media-picker', { id: 'audioFile', field: 'audioFile', kind: 'document', current: item.file, valueName: 'file', accept: 'audio/mpeg,.mp3', label: 'audio file', hint: 'MP3 up to 30 MB. The file is stored as uploaded.' }) %>
+					<%- include('../partials/field-error', { name: 'file' }) %>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-4 admin-sticky-stack">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Publish</h4></div>
+				<div class="panel-body">
+					<div class="form-check form-switch mb-3">
+						<input class="form-check-input" type="checkbox" id="active" name="active" value="1" <%= item.active ? 'checked' : '' %> />
+						<label class="form-check-label" for="active">Shown on the site</label>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="sort">Sort order</label>
+						<input type="number" class="form-control <%= errors.sort ? 'is-invalid' : '' %>" id="sort" name="sort" value="<%= item.sort %>" min="0" />
+						<small class="text-muted">Lower numbers play first in the hymn list.</small>
+						<%- include('../partials/field-error', { name: 'sort' }) %>
+					</div>
+					<div class="d-flex gap-2">
+						<button type="submit" class="btn btn-success flex-fill"><i class="fa fa-save me-1"></i> <%= isCreate ? 'Add hymn' : 'Save changes' %></button>
+						<a href="<%= basePath %>" class="btn btn-default">Cancel</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

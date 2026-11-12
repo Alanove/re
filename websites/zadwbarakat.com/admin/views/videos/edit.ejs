@@ -1,0 +1,79 @@
+<%
+	const action = isCreate ? basePath + '/create' : basePath + '/' + item.id + '/edit';
+	const youtubeValue = typeof item.youtube === 'string' ? item.youtube : (item.youtubeId ? 'https://www.youtube.com/watch?v=' + item.youtubeId : '');
+	const imageSrc = item.image && typeof item.image === 'object' ? item.image.src : (typeof item.image === 'string' ? item.image : '');
+	const dateValue = typeof item.publishedAt === 'string' && item.dateKnown !== false ? item.publishedAt.slice(0, 10) : '';
+%>
+<form method="POST" action="<%= action %>?_csrf=<%= encodeURIComponent(csrfToken) %>" enctype="multipart/form-data" novalidate>
+	<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+	<div class="row">
+		<div class="col-xl-8">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Video</h4></div>
+				<div class="panel-body">
+					<div class="mb-3">
+						<label class="form-label" for="title">Title <span class="text-danger">*</span></label>
+						<input type="text" class="form-control <%= errors.title ? 'is-invalid' : '' %>" id="title" name="title" value="<%= item.title %>" maxlength="200" required dir="auto" data-slug-source="#slug" />
+						<%- include('../partials/field-error', { name: 'title' }) %>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="youtube">YouTube link <span class="text-danger">*</span></label>
+						<input type="url" class="form-control <%= errors.youtube ? 'is-invalid' : '' %>" id="youtube" name="youtube" value="<%= youtubeValue %>" maxlength="300" required dir="ltr" placeholder="https://www.youtube.com/watch?v=…" />
+						<small class="text-muted">Paste the address from YouTube (watch, youtu.be, shorts or embed links all work). The player loads only when a visitor presses play.</small>
+						<%- include('../partials/field-error', { name: 'youtube' }) %>
+					</div>
+					<div class="mb-1">
+						<label class="form-label" for="summary">Description</label>
+						<textarea class="form-control <%= errors.summary ? 'is-invalid' : '' %>" id="summary" name="summary" rows="4" maxlength="1000" dir="auto"><%= item.summary %></textarea>
+						<%- include('../partials/field-error', { name: 'summary' }) %>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-4 admin-sticky-stack">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Publish</h4></div>
+				<div class="panel-body">
+					<div class="form-check form-switch mb-3">
+						<input class="form-check-input" type="checkbox" id="published" name="published" value="1" <%= item.status === 'published' ? 'checked' : '' %> />
+						<label class="form-check-label" for="published">Published</label>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="slug">URL slug</label>
+						<input type="text" class="form-control <%= errors.slug ? 'is-invalid' : '' %>" id="slug" name="slug" value="<%= item.slug %>" maxlength="120" dir="auto" />
+						<%- include('../partials/field-error', { name: 'slug' }) %>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="publishedAt">Date</label>
+						<input type="date" class="form-control <%= errors.publishedAt ? 'is-invalid' : '' %>" id="publishedAt" name="publishedAt" value="<%= dateValue %>" />
+						<%- include('../partials/field-error', { name: 'publishedAt' }) %>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="direction">Text direction</label>
+						<select class="form-select" id="direction" name="direction">
+							<option value="auto" <%= (item.direction || 'auto') === 'auto' ? 'selected' : '' %>>Automatic</option>
+							<option value="rtl" <%= item.direction === 'rtl' ? 'selected' : '' %>>Right to left (Arabic)</option>
+							<option value="ltr" <%= item.direction === 'ltr' ? 'selected' : '' %>>Left to right (French / English)</option>
+						</select>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="sort">Sort order</label>
+						<input type="number" class="form-control <%= errors.sort ? 'is-invalid' : '' %>" id="sort" name="sort" value="<%= item.sort %>" min="0" />
+						<%- include('../partials/field-error', { name: 'sort' }) %>
+					</div>
+					<div class="d-flex gap-2">
+						<button type="submit" class="btn btn-success flex-fill"><i class="fa fa-save me-1"></i> <%= isCreate ? 'Add video' : 'Save changes' %></button>
+						<a href="<%= basePath %>" class="btn btn-default">Cancel</a>
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Poster image</h4></div>
+				<div class="panel-body">
+					<%- include('../partials/media-picker', { id: 'imageFile', field: 'imageFile', kind: 'image', current: imageSrc, valueName: 'image', removeName: 'removeImage', label: 'poster', hint: 'Optional. Without one, the YouTube thumbnail is used. JPEG, PNG, GIF or WebP up to 8 MB, converted to WebP.' }) %>
+					<%- include('../partials/field-error', { name: 'image' }) %>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

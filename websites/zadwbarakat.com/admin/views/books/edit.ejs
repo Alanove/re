@@ -1,0 +1,69 @@
+<%
+	const action = isCreate ? basePath + '/create' : basePath + '/' + item.id + '/edit';
+	const text = function (name, label, max, options) {
+		options = options || {};
+		return { name: name, label: label, max: max, list: options.list || null, hint: options.hint || '' };
+	};
+	const fields = [
+		text('author', 'Author', 300),
+		text('publisher', 'Publisher', 300),
+		text('language', 'Language', 80, { hint: 'For example عربي, Français or English. Visitors filter by this value.' }),
+		text('genre', 'Genre', 120, { list: 'genre-options', hint: 'Visitors filter by this value; reuse an existing genre where possible.' }),
+		text('subject', 'Subject', 300),
+		text('format', 'Format', 80),
+		text('year', 'Year', 20)
+	];
+%>
+<form method="POST" action="<%= action %>?_csrf=<%= encodeURIComponent(csrfToken) %>" enctype="multipart/form-data" novalidate>
+	<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+	<datalist id="genre-options"><% genres.forEach(function (genre) { %><option value="<%= genre %>"></option><% }) %></datalist>
+	<div class="row">
+		<div class="col-xl-8">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Book</h4></div>
+				<div class="panel-body">
+					<div class="mb-3">
+						<label class="form-label" for="title">Title <span class="text-danger">*</span></label>
+						<input type="text" class="form-control <%= errors.title ? 'is-invalid' : '' %>" id="title" name="title" value="<%= item.title %>" maxlength="300" required dir="auto" />
+						<%- include('../partials/field-error', { name: 'title' }) %>
+					</div>
+					<div class="row">
+						<% fields.forEach(function (field) { %>
+							<div class="col-md-6 mb-3">
+								<label class="form-label" for="<%= field.name %>"><%= field.label %></label>
+								<input type="text" class="form-control <%= errors[field.name] ? 'is-invalid' : '' %>" id="<%= field.name %>" name="<%= field.name %>" value="<%= item[field.name] %>" maxlength="<%= field.max %>" dir="auto"<% if (field.list) { %> list="<%= field.list %>"<% } %> />
+								<% if (field.hint) { %><small class="text-muted"><%= field.hint %></small><% } %>
+								<%- include('../partials/field-error', { name: field.name }) %>
+							</div>
+						<% }) %>
+						<div class="col-md-6 mb-3">
+							<label class="form-label" for="pageCount">Pages</label>
+							<input type="number" class="form-control <%= errors.pageCount ? 'is-invalid' : '' %>" id="pageCount" name="pageCount" value="<%= item.pageCount === null ? '' : item.pageCount %>" min="0" />
+							<%- include('../partials/field-error', { name: 'pageCount' }) %>
+						</div>
+					</div>
+					<div>
+						<label class="form-label" for="notes">Notes</label>
+						<textarea class="form-control <%= errors.notes ? 'is-invalid' : '' %>" id="notes" name="notes" rows="3" maxlength="2000" dir="auto"><%= item.notes %></textarea>
+						<%- include('../partials/field-error', { name: 'notes' }) %>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-4 admin-sticky-stack">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Visibility</h4></div>
+				<div class="panel-body">
+					<div class="form-check form-switch mb-3">
+						<input class="form-check-input" type="checkbox" id="active" name="active" value="1" <%= item.active ? 'checked' : '' %> />
+						<label class="form-check-label" for="active">Shown in the library</label>
+					</div>
+					<div class="d-flex gap-2">
+						<button type="submit" class="btn btn-success flex-fill"><i class="fa fa-save me-1"></i> <%= isCreate ? 'Add book' : 'Save changes' %></button>
+						<a href="<%= basePath %>" class="btn btn-default">Cancel</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

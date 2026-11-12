@@ -1,0 +1,238 @@
+@use 'tokens' as *;
+
+.container {
+  inline-size: 100%;
+  max-inline-size: $container;
+  margin-inline: auto;
+  padding-inline: clamp(16px, 4vw, 32px);
+}
+
+.section {
+  padding-block: clamp(40px, 6vw, 72px);
+}
+
+.section--tint {
+  background: $surface;
+  border-block: 1px solid $line;
+}
+
+.section--accent {
+  background: $aqua-soft;
+}
+
+.section-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-block-end: 24px;
+  flex-wrap: wrap;
+
+  h2 {
+    margin: 0;
+    position: relative;
+    padding-inline-start: 16px;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset-inline-start: 0;
+      inset-block: 0.25em;
+      inline-size: 4px;
+      border-radius: 2px;
+      background: $aqua;
+    }
+  }
+
+  p {
+    margin: 6px 0 0;
+    color: $muted;
+    flex-basis: 100%;
+  }
+}
+
+.section-head__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  text-decoration: none;
+  min-block-size: $tap;
+}
+
+.page-head {
+  background:
+    radial-gradient(120% 140% at 100% 0%, rgba($aqua, 0.18), transparent 55%),
+    linear-gradient(180deg, $surface, $paper);
+  border-block-end: 1px solid $line;
+  padding-block: clamp(28px, 4vw, 48px) clamp(24px, 3vw, 36px);
+
+  h1 {
+    margin-block-end: 8px;
+  }
+}
+
+.page-head__lead {
+  max-inline-size: 70ch;
+  color: $ink-soft;
+  font-family: $font-reading;
+  font-size: 1.15rem;
+  margin: 0;
+}
+
+.page-head__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  color: $muted;
+  font-size: 0.92rem;
+  margin-block-start: 12px;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+}
+
+.breadcrumbs {
+  font-size: 0.88rem;
+  color: $muted;
+  margin-block-end: 12px;
+
+  ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+
+    & + li::before {
+      content: '‹';
+      color: $line-strong;
+      margin-inline-end: 4px;
+    }
+  }
+
+  [dir='ltr'] & li + li::before {
+    content: '›';
+  }
+
+  a {
+    color: $muted;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--brand);
+    }
+  }
+}
+
+.layout-split {
+  display: grid;
+  gap: clamp(24px, 4vw, 48px);
+
+  @media (min-width: $bp-md) {
+    grid-template-columns: minmax(0, 1fr) 300px;
+  }
+}
+
+.grid {
+  display: grid;
+  gap: clamp(16px, 2.4vw, 28px);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+}
+
+.grid--3 {
+  @media (min-width: $bp-md) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.grid--4 {
+  @media (min-width: $bp-lg) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-block-start: 36px;
+
+  a,
+  span {
+    min-inline-size: $tap;
+    min-block-size: $tap;
+    display: inline-grid;
+    place-items: center;
+    padding-inline: 12px;
+    border-radius: $radius-sm;
+    border: 1px solid $line;
+    background: $surface;
+    text-decoration: none;
+    color: $ink;
+    font-variant-numeric: tabular-nums;
+  }
+
+  a:hover {
+    border-color: var(--brand);
+    color: var(--brand);
+  }
+
+  [aria-current='page'] {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: #fff;
+  }
+
+  .pagination__gap {
+    border: 0;
+    background: none;
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 48px 16px;
+  color: $muted;
+  background: $surface;
+  border: 1px dashed $line-strong;
+  border-radius: $radius;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  a,
+  span {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 32px;
+    padding-inline: 12px;
+    border-radius: 999px;
+    background: $aqua-soft;
+    color: $brown;
+    font-size: 0.88rem;
+    text-decoration: none;
+  }
+
+  a:hover {
+    background: var(--brand);
+    color: #fff;
+  }
+}

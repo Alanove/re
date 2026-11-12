@@ -1,0 +1,38 @@
+<%
+	const showAside = sectionRoot.children.length > 0 && !(sectionRoot.id === page.id && page.children.length === 0);
+%>
+<%- include('partials/page-head', { title: page.header || page.title, lead: page.summary, headDir: contentDir }) %>
+<div class="container page-body">
+	<div class="<%= showAside ? 'layout-split' : '' %>">
+		<div>
+			<% if (page.heroImage) { %>
+				<figure class="article__figure"><img src="<%= encodePath(page.heroImage) %>" alt="" fetchpriority="high" /></figure>
+			<% } %>
+			<div class="prose rte-content" dir="<%= contentDir %>" lang="<%= contentLang %>"><%- page.content %></div>
+			<% if (gallery.length) { %>
+				<h2 class="visually-hidden">صور</h2>
+				<div class="photo-grid" data-lightbox-group>
+					<% gallery.forEach(function (image) { %>
+						<a href="<%= encodePath(image.src) %>" data-lightbox data-caption="<%= image.caption %>">
+							<img src="<%= encodePath(thumbUrl(image.src)) %>" alt="<%= image.caption %>" <% if (image.width && image.height) { %>width="<%= image.width %>" height="<%= image.height %>"<% } %> loading="lazy" decoding="async" />
+						</a>
+					<% }) %>
+				</div>
+			<% } %>
+		</div>
+		<% if (showAside) { %>
+			<aside class="article__aside" aria-label="صفحات القسم">
+				<div class="aside-box">
+					<h2><a href="<%= encodePath(sectionRoot.url) %>"><%= sectionRoot.title %></a></h2>
+					<nav class="drawer__nav">
+						<ul>
+							<% sectionRoot.children.forEach(function (child) { %>
+								<li><a href="<%= encodePath(child.url) %>"<%- child.id === page.id ? ' aria-current="page"' : '' %>><%= child.title %></a></li>
+							<% }) %>
+						</ul>
+					</nav>
+				</div>
+			</aside>
+		<% } %>
+	</div>
+</div>

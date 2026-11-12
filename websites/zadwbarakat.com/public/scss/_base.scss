@@ -1,0 +1,173 @@
+@use 'tokens' as *;
+
+:root {
+  --brand: #{$teal};
+  --brand-dark: #{$teal-dark};
+  --accent: #{$aqua};
+  --ink: #{$ink};
+  --muted: #{$muted};
+  --paper: #{$paper};
+  --line: #{$line};
+  --player-height: 0px;
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-block-start: calc(#{$header-height} + 16px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  margin: 0;
+  min-block-size: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: $paper;
+  color: $ink;
+  font-family: $font-ui;
+  font-size: 1rem;
+  line-height: 1.7;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  padding-block-end: var(--player-height);
+}
+
+main {
+  flex: 1 0 auto;
+  outline: none;
+}
+
+img,
+svg,
+video,
+iframe {
+  display: block;
+  max-inline-size: 100%;
+}
+
+img {
+  block-size: auto;
+}
+
+a {
+  color: var(--brand);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+
+  &:hover {
+    color: var(--brand-dark);
+  }
+}
+
+:focus-visible {
+  outline: 3px solid rgba($aqua, 0.85);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: $font-ui;
+  font-weight: 600;
+  line-height: 1.35;
+  margin-block: 0 0.6em;
+  color: $ink;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: clamp(1.75rem, 1.3rem + 2vw, 2.6rem);
+}
+
+h2 {
+  font-size: clamp(1.35rem, 1.1rem + 1vw, 1.8rem);
+}
+
+h3 {
+  font-size: 1.15rem;
+}
+
+p {
+  margin-block: 0 1em;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  inline-size: 1px;
+  block-size: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  inset-inline-start: 1rem;
+  inset-block-start: -100px;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  background: $ink;
+  color: #fff;
+  border-radius: $radius-sm;
+
+  &:focus {
+    inset-block-start: 1rem;
+    color: #fff;
+  }
+}
+
+.icon {
+  inline-size: 1.25em;
+  block-size: 1.25em;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.icon--fill {
+  fill: currentColor;
+  stroke: none;
+}
+
+// Arrows and chevrons point "forward" in the reading direction.
+[dir='rtl'] .icon-flip {
+  transform: scaleX(-1);
+}
+
+.ltr-text {
+  direction: ltr;
+  unicode-bidi: isolate;
+}

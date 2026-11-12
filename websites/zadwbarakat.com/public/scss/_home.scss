@@ -1,0 +1,481 @@
+@use 'tokens' as *;
+
+// أضواء hero: the latest articles as full-bleed slides, as on the legacy home page.
+.hero {
+  position: relative;
+  isolation: isolate;
+  background: #111;
+  color: #fff;
+  overflow: hidden;
+}
+
+.hero__stage {
+  display: grid;
+  min-block-size: clamp(440px, 64vh, 620px);
+  touch-action: pan-y;
+}
+
+.hero__slide {
+  grid-area: 1 / 1;
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+  display: flex;
+  align-items: flex-end;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.6s $ease, visibility 0.6s;
+
+  &.is-active {
+    z-index: 1;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    // A neutral shade only behind the text, so the photo keeps its own colours.
+    background:
+      linear-gradient(to top, rgba(#000, 0.78) 0%, rgba(#000, 0.5) 30%, rgba(#000, 0.12) 60%, transparent 80%),
+      linear-gradient(to left, rgba(#000, 0.28), transparent 55%);
+  }
+}
+
+html[dir='ltr'] .hero__slide::after {
+  background:
+    linear-gradient(to top, rgba(#000, 0.78) 0%, rgba(#000, 0.5) 30%, rgba(#000, 0.12) 60%, transparent 80%),
+    linear-gradient(to right, rgba(#000, 0.28), transparent 55%);
+}
+
+.hero__image {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  inline-size: 100%;
+  block-size: 100%;
+  max-inline-size: none;
+  object-fit: cover;
+  transform: scale(1.04);
+  transition: transform 7s linear;
+
+  .is-active > & {
+    transform: none;
+  }
+}
+
+.hero__content {
+  padding-block: clamp(40px, 8vw, 96px) clamp(120px, 14vw, 150px);
+  max-inline-size: $container;
+
+  > * {
+    max-inline-size: 760px;
+  }
+}
+
+.hero__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-block-size: 32px;
+  padding-inline: 14px;
+  border-radius: 999px;
+  background: rgba(#000, 0.35);
+  border: 1px solid rgba(#fff, 0.3);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  margin-block-end: 14px;
+
+  &::before {
+    content: '';
+    inline-size: 8px;
+    block-size: 8px;
+    border-radius: 50%;
+    background: $aqua;
+  }
+}
+
+a.hero__label:hover {
+  background: rgba(#fff, 0.24);
+  color: #fff;
+}
+
+.hero__title {
+  font-size: clamp(1.7rem, 1.1rem + 2.6vw, 3rem);
+  line-height: 1.25;
+  margin-block-end: 10px;
+  text-wrap: balance;
+  text-shadow: 0 2px 16px rgba(#000, 0.45);
+
+  a {
+    color: #fff;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+      text-decoration-color: $aqua;
+      text-decoration-thickness: 2px;
+    }
+  }
+}
+
+.hero__summary {
+  font-family: $font-reading;
+  font-size: clamp(1.05rem, 0.95rem + 0.5vw, 1.3rem);
+  color: rgba(#fff, 0.92);
+  text-shadow: 0 1px 10px rgba(#000, 0.5);
+  margin: 0 0 20px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.hero__more {
+  @media (max-width: #{$bp-sm - 1px}) {
+    display: none;
+  }
+}
+
+.hero__picker {
+  position: absolute;
+  z-index: 2;
+  inset-inline: 0;
+  inset-block-end: 0;
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+  padding-block-end: 20px;
+}
+
+.hero__tabs {
+  flex: 1;
+  min-inline-size: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.hero__tab {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-block-size: $tap;
+  padding: 14px 4px 4px;
+  color: rgba(#fff, 0.72);
+  text-decoration: none;
+  font-size: 0.9rem;
+  line-height: 1.45;
+
+  // Track along the top edge; it fills while the tab is current.
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    inset-block-start: 0;
+    block-size: 3px;
+    border-radius: 2px;
+    background: rgba(#fff, 0.28);
+  }
+
+  &::after {
+    background: $aqua;
+    transform: scaleX(0);
+    transform-origin: right;
+  }
+
+  &:hover {
+    color: #fff;
+  }
+
+  &[aria-current='true'],
+  &[aria-selected='true'] {
+    color: #fff;
+
+    &::after {
+      transform: scaleX(1);
+    }
+  }
+}
+
+html[dir='ltr'] .hero__tab::after {
+  transform-origin: left;
+}
+
+.hero[data-running] .hero__tab[aria-selected='true']::after {
+  animation: hero-progress var(--hero-interval, 7s) linear forwards;
+}
+
+.hero[data-paused] .hero__tab[aria-selected='true']::after {
+  animation-play-state: paused;
+}
+
+@keyframes hero-progress {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.hero__tab-index {
+  flex: none;
+  font-weight: 700;
+  color: $aqua;
+  font-variant-numeric: tabular-nums;
+}
+
+.hero__tab-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// Phones show the tabs as dots.
+@media (max-width: #{$bp-md - 1px}) {
+  .hero__tabs {
+    display: flex;
+    gap: 4px;
+  }
+
+  .hero__tab {
+    flex: none;
+    inline-size: $tap;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+
+    &::before,
+    &::after {
+      inset: auto;
+      inset-block-start: 50%;
+      inset-inline-start: 50%;
+      inline-size: 10px;
+      block-size: 10px;
+      margin-block-start: -5px;
+      margin-inline-start: -5px;
+      border-radius: 50%;
+    }
+
+    &::after {
+      transform: scale(0);
+      transform-origin: center;
+    }
+
+    &[aria-current='true']::after,
+    &[aria-selected='true']::after {
+      transform: scale(1);
+    }
+  }
+
+  html[dir='ltr'] .hero__tab::after {
+    transform-origin: center;
+  }
+
+  .hero[data-running] .hero__tab[aria-selected='true']::after {
+    animation: none;
+  }
+
+  .hero__tab-index,
+  .hero__tab-title {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+.hero__toggle {
+  flex: none;
+  align-self: flex-end;
+  display: grid;
+  place-items: center;
+  inline-size: $tap;
+  block-size: $tap;
+  border-radius: 50%;
+  border: 1px solid rgba(#fff, 0.35);
+  background: rgba($teal-deep, 0.4);
+  color: #fff;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(#fff, 0.18);
+  }
+
+  .icon {
+    inline-size: 18px;
+    block-size: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__slide,
+  .hero__image {
+    transition: none;
+  }
+
+  .hero__image {
+    transform: none;
+  }
+}
+
+.home-search {
+  display: flex;
+  gap: 8px;
+  max-inline-size: 640px;
+  background: $surface;
+  border: 1px solid $line-strong;
+  border-radius: 999px;
+  padding: 6px;
+  box-shadow: $shadow-sm;
+
+  input {
+    flex: 1;
+    min-inline-size: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    padding-inline: 16px;
+    font-size: 1.05rem;
+  }
+
+  .btn {
+    border-radius: 999px;
+  }
+}
+
+.section-block {
+  background: $surface;
+  border: 1px solid $line;
+  border-radius: $radius;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  h3 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+
+    a {
+      color: $ink;
+      text-decoration: none;
+
+      &:hover {
+        color: var(--brand);
+      }
+    }
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 2px;
+  }
+
+  li a {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 8px;
+    margin-inline: -8px;
+    border-radius: $radius-sm;
+    color: $ink;
+    text-decoration: none;
+    min-block-size: $tap;
+
+    &:hover {
+      background: $paper;
+      color: var(--brand);
+    }
+  }
+
+  img {
+    inline-size: 64px;
+    block-size: 48px;
+    object-fit: cover;
+    border-radius: $radius-sm;
+    flex: none;
+  }
+}
+
+.qa-strip {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+}
+
+.qa-card {
+  position: relative;
+  background: $surface;
+  border: 1px solid $line;
+  border-radius: $radius;
+  padding: 20px 20px 20px 20px;
+  padding-inline-start: 64px;
+
+  &::before {
+    content: '؟';
+    position: absolute;
+    inset-inline-start: 18px;
+    inset-block-start: 16px;
+    inline-size: 34px;
+    block-size: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: $aqua-soft;
+    color: $brown;
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
+
+  h3 {
+    font-size: 1.02rem;
+    margin-block-end: 6px;
+
+    a {
+      color: $ink;
+      text-decoration: none;
+
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+      }
+    }
+  }
+
+  &:hover h3 a {
+    color: var(--brand);
+  }
+
+  p {
+    margin: 0;
+    color: $muted;
+    font-size: 0.95rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}

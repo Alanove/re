@@ -1,0 +1,19 @@
+<section class="error-page">
+	<div class="container">
+		<p class="error-page__code"><%= status %></p>
+		<h1><%= title %></h1>
+		<p><%= message %></p>
+		<% if (status === 404) { %>
+			<form class="home-search" action="/search" method="get" role="search" style="margin:24px auto 0">
+				<label class="visually-hidden" for="error-search">ابحث في الموقع</label>
+				<input id="error-search" name="q" type="search" maxlength="120" placeholder="ابحث عن ما تريد..." />
+				<button class="btn btn--primary" type="submit">بحث</button>
+			</form>
+		<% } %>
+		<% if (detail) { %><pre class="error-page__detail"><%= detail %></pre><% } %>
+		<div class="error-page__actions">
+			<a class="btn btn--primary" href="/">الصفحة الرئيسية</a>
+			<a class="btn btn--outline" href="<%= locals.contactUrl ? encodePath(contactUrl) : '/' %>">اتصل بنا</a>
+		</div>
+	</div>
+</section>

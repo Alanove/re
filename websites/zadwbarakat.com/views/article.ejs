@@ -1,0 +1,72 @@
+<%
+	const article = view.article;
+	const shareUrl = baseUrl + encodePath(view.url);
+	const shareText = encodeURIComponent(article.title);
+	const shareTarget = encodeURIComponent(shareUrl);
+	const image = article.image;
+%>
+<article class="article">
+	<div class="container">
+		<%- include('partials/breadcrumbs') %>
+		<div class="article__layout">
+			<div>
+				<header dir="<%= contentDir %>" lang="<%= contentLang %>">
+					<h1><%= article.title %></h1>
+					<% if (article.summary) { %><p class="page-head__lead"><%= article.summary %></p><% } %>
+					<div class="page-head__meta" dir="rtl">
+						<span><svg class="icon" aria-hidden="true"><use href="#i-folder"/></svg><a href="<%= encodePath(view.section.path) %>"><%= view.section.title %></a></span>
+						<% if (view.date) { %><span><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg><time datetime="<%= article.publishedAt.slice(0, 10) %>"><%= view.date %></time></span><% } %>
+						<span><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg><%= view.minutes %> د قراءة</span>
+					</div>
+				</header>
+				<% if (image) { %>
+					<figure class="article__figure">
+						<img src="<%= encodePath(image.src) %>" alt="" <% if (image.width && image.height) { %>width="<%= image.width %>" height="<%= image.height %>"<% } %> fetchpriority="high" />
+					</figure>
+				<% } %>
+				<div class="prose rte-content" dir="<%= contentDir %>" lang="<%= contentLang %>"><%- article.content %></div>
+
+				<footer class="article__footer">
+					<% if (article.tags.length) { %>
+						<ul class="tag-list" aria-label="الوسوم">
+							<% article.tags.forEach(function (tag) { %><li><a href="/search?q=<%= encodeURIComponent(tag) %>">#<%= tag %></a></li><% }) %>
+						</ul>
+					<% } %>
+					<% if (view.newer || view.older) { %>
+						<nav class="prev-next" aria-label="مقالات القسم">
+							<% if (view.newer) { %>
+								<a href="<%= encodePath(view.newer.url) %>" rel="prev"><small>المقال الأحدث</small><span<% if (view.newer.direction === 'ltr') { %> dir="ltr"<% } %>><%= view.newer.title %></span></a>
+							<% } else { %><span></span><% } %>
+							<% if (view.older) { %>
+								<a class="prev-next__older" href="<%= encodePath(view.older.url) %>" rel="next"><small>المقال الأقدم</small><span<% if (view.older.direction === 'ltr') { %> dir="ltr"<% } %>><%= view.older.title %></span></a>
+							<% } %>
+						</nav>
+					<% } %>
+				</footer>
+			</div>
+
+			<aside class="article__aside" aria-label="مشاركة">
+				<div class="aside-box">
+					<h2>شارك المقال</h2>
+					<div class="share">
+						<a href="https://www.facebook.com/sharer/sharer.php?u=<%= shareTarget %>" target="_blank" rel="noopener noreferrer" aria-label="مشاركة على فيسبوك"><svg class="icon" aria-hidden="true"><use href="#i-facebook"/></svg></a>
+						<a href="https://x.com/intent/post?url=<%= shareTarget %>&text=<%= shareText %>" target="_blank" rel="noopener noreferrer" aria-label="مشاركة على إكس"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
+						<a href="https://wa.me/?text=<%= shareText %>%20<%= shareTarget %>" target="_blank" rel="noopener noreferrer" aria-label="مشاركة على واتساب"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg></a>
+						<a href="mailto:?subject=<%= shareText %>&body=<%= shareTarget %>" aria-label="مشاركة بالبريد"><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg></a>
+						<button type="button" data-copy-link="<%= shareUrl %>" aria-label="نسخ الرابط"><svg class="icon" aria-hidden="true"><use href="#i-link"/></svg></button>
+					</div>
+					<p class="newsletter-form__status" role="status" data-copy-status></p>
+				</div>
+			</aside>
+		</div>
+
+		<% if (view.related.length) { %>
+			<section class="related" aria-labelledby="related-title">
+				<div class="section-head"><h2 id="related-title">مقالات ذات صلة</h2></div>
+				<div class="grid grid--3">
+					<% view.related.forEach(function (card) { %><%- include('partials/article-card', { card: card }) %><% }) %>
+				</div>
+			</section>
+		<% } %>
+	</div>
+</article>

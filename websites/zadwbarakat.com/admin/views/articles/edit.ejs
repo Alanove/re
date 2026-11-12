@@ -1,0 +1,103 @@
+<%
+	const action = isCreate ? basePath + '/create' : basePath + '/' + item.id + '/edit';
+	const seo = item.seo || { title: '', description: '', keywords: '' };
+	const tagText = Array.isArray(item.tags) ? item.tags.join('، ') : (item.tags || '');
+	const sectionId = item.sectionId === null || item.sectionId === undefined ? '' : String(item.sectionId);
+	const dateValue = typeof item.publishedAt === 'string' && item.dateKnown !== false ? item.publishedAt.slice(0, 10) : '';
+	const imageSrc = item.image && typeof item.image === 'object' ? item.image.src : (typeof item.image === 'string' ? item.image : '');
+%>
+<form method="POST" action="<%= action %>?_csrf=<%= encodeURIComponent(csrfToken) %>" enctype="multipart/form-data" novalidate>
+	<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+	<div class="row">
+		<div class="col-xl-8">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Article</h4></div>
+				<div class="panel-body">
+					<div class="mb-3">
+						<label class="form-label" for="title">Title <span class="text-danger">*</span></label>
+						<input type="text" class="form-control <%= errors.title ? 'is-invalid' : '' %>" id="title" name="title" value="<%= item.title %>" maxlength="250" required dir="auto" data-slug-source="#slug" />
+						<%- include('../partials/field-error', { name: 'title' }) %>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="summary">Summary</label>
+						<textarea class="form-control <%= errors.summary ? 'is-invalid' : '' %>" id="summary" name="summary" rows="3" maxlength="2000" dir="auto"><%= item.summary %></textarea>
+						<small class="text-muted">Shown on cards and in search results. Leave empty to use the start of the text.</small>
+						<%- include('../partials/field-error', { name: 'summary' }) %>
+					</div>
+					<div class="mb-1">
+						<label class="form-label" for="content">Text</label>
+						<textarea class="form-control rich-text" id="content" name="content" rows="18"><%= item.content %></textarea>
+						<%- include('../partials/field-error', { name: 'content' }) %>
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Tags</h4></div>
+				<div class="panel-body">
+					<label class="form-label" for="tags">Tags</label>
+					<textarea class="form-control <%= errors.tags ? 'is-invalid' : '' %>" id="tags" name="tags" rows="2" dir="auto"><%= tagText %></textarea>
+					<small class="text-muted">Separate tags with commas (, or ،) or new lines. Tags link to a site search and help find related articles.</small>
+					<%- include('../partials/field-error', { name: 'tags' }) %>
+					<% if (allTags.length) { %>
+						<details class="mt-2">
+							<summary class="small">Tags already in use (<%= allTags.length %>)</summary>
+							<p class="small text-muted mt-2 mb-0" dir="rtl"><%= allTags.slice(0, 200).join('، ') %></p>
+						</details>
+					<% } %>
+				</div>
+			</div>
+			<%- include('../partials/seo-fields', { seo: seo }) %>
+		</div>
+		<div class="col-xl-4 admin-sticky-stack">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Publish</h4></div>
+				<div class="panel-body">
+					<div class="form-check form-switch mb-3">
+						<input class="form-check-input" type="checkbox" id="published" name="published" value="1" <%= item.status === 'published' ? 'checked' : '' %> />
+						<label class="form-check-label" for="published">Published</label>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="sectionId">Section <span class="text-danger">*</span></label>
+						<select class="form-select <%= errors.sectionId ? 'is-invalid' : '' %>" id="sectionId" name="sectionId" required>
+							<option value="">— Choose —</option>
+							<% sections.forEach(function (section) { %><option value="<%= section.id %>" <%= sectionId === String(section.id) ? 'selected' : '' %>><%= section.title %> (<%= section.path %>)</option><% }) %>
+						</select>
+						<%- include('../partials/field-error', { name: 'sectionId' }) %>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="slug">URL slug</label>
+						<input type="text" class="form-control <%= errors.slug ? 'is-invalid' : '' %>" id="slug" name="slug" value="<%= item.slug %>" maxlength="120" dir="auto" />
+						<small class="text-muted d-block">Leave empty to build it from the title.</small>
+						<% if (!isCreate && item.url) { %><small class="text-muted">Live address: <a href="<%= encodePath(item.url) %>" target="_blank" rel="noopener" dir="auto"><%= item.url %></a></small><% } %>
+						<%- include('../partials/field-error', { name: 'slug' }) %>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="publishedAt">Publication date</label>
+						<input type="date" class="form-control <%= errors.publishedAt ? 'is-invalid' : '' %>" id="publishedAt" name="publishedAt" value="<%= dateValue %>" />
+						<small class="text-muted"><%= item.dateKnown === false ? 'Imported without a date, so no date is shown. Set one to show it.' : 'Articles are listed newest first.' %></small>
+						<%- include('../partials/field-error', { name: 'publishedAt' }) %>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="direction">Text direction</label>
+						<select class="form-select" id="direction" name="direction">
+							<option value="auto" <%= (item.direction || 'auto') === 'auto' ? 'selected' : '' %>>Automatic (detect from the text)</option>
+							<option value="rtl" <%= item.direction === 'rtl' ? 'selected' : '' %>>Right to left (Arabic)</option>
+							<option value="ltr" <%= item.direction === 'ltr' ? 'selected' : '' %>>Left to right (French / English)</option>
+						</select>
+					</div>
+					<div class="d-flex gap-2">
+						<button type="submit" class="btn btn-success flex-fill"><i class="fa fa-save me-1"></i> <%= isCreate ? 'Create article' : 'Save changes' %></button>
+						<a href="<%= basePath %>" class="btn btn-default">Cancel</a>
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Main image</h4></div>
+				<div class="panel-body">
+					<%- include('../partials/media-picker', { id: 'imageFile', field: 'imageFile', kind: 'image', current: imageSrc, valueName: 'image', removeName: 'removeImage', label: 'main image', hint: 'JPEG, PNG, GIF or WebP up to 8 MB. Converted to WebP and resized automatically. Shown at the top of the article and on cards.' }) %>
+					<%- include('../partials/field-error', { name: 'image' }) %>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

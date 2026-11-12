@@ -1,0 +1,126 @@
+{
+  "settings": {
+    "tagline": "زاد وبركات",
+    "description": "المركز الدائم للتنشئة المسيحية: مقالات في الكتاب المقدس وتعليم الكنيسة والليتورجيا، مكتبة روحية، تراتيل وأسئلة وأجوبة.",
+    "logoSource": "/images/logo.png",
+    "emblemSource": "/images/markaz-logo.svg",
+    "faviconSource": "/images/icons/android-icon-192x192.png",
+    "contactEmail": "info@marantoniosalkabir.com",
+    "contactPhone": "",
+    "address": "رعية مار أنطونيوس الكبير، الجديدة، لبنان",
+    "mapQuery": "Saint Anthony the Great Church, Jdeideh, Lebanon",
+    "footerText": "المركز الدائم للتنشئة المسيحية في رعية مار أنطونيوس الكبير: زادٌ روحيّ للتأمل والتعليم والصلاة.",
+    "copyright": "المركز الدائم للتنشئة المسيحية",
+    "inquiryTopics": ["استفسار عام", "سؤال إلى الكاهن", "المكتبة الروحية", "مشتريات"],
+    "themeColor": "#007d90",
+    "social": {
+      "facebook": "https://www.facebook.com/pages/Mar-Antonios-al-Kabir/128692230538377",
+      "x": "https://twitter.com/Mar_Antonios",
+      "instagram": "",
+      "youtube": ""
+    },
+    "relatedLinks": [
+      { "label": "كنيسة مار أنطونيوس الكبير", "url": "http://church.marantoniosalkabir.com" },
+      { "label": "شبيبة مار أنطونيوس", "url": "http://chabiba.marantoniosalkabir.com" }
+    ],
+    "thankYouMessage": "شكرًا لكم. وصلتنا رسالتكم وسنتواصل معكم قريبًا.",
+    "newsletterThankYou": "لقد تمّت إضافة بريدكم الإلكتروني إلى الرسالة الإخبارية بنجاح.",
+    "seo": {
+      "defaultTitle": "المركز الدائم للتنشئة المسيحية | زاد وبركات",
+      "defaultDescription": "مقالات روحية في الكتاب المقدس وتعليم الكنيسة والليتورجيا، مكتبة روحية، تراتيل وأسئلة وأجوبة من المركز الدائم للتنشئة المسيحية.",
+      "defaultKeywords": "تنشئة مسيحية, الكتاب المقدس, تعليم الكنيسة, ليتورجيا, تراتيل, مكتبة روحية, الكنيسة المارونية"
+    }
+  },
+  "sections": [
+    { "path": "/أضواء", "listingPaths": ["/الرعية/أضواء"], "title": "أضواء", "intro": "" },
+    { "path": "/الكتاب-المقدس", "listingPaths": [], "title": "الكتاب المقدس", "intro": "" },
+    { "path": "/تعليم-الكنيسة", "listingPaths": [], "title": "تعليم الكنيسة", "intro": "" },
+    { "path": "/ليتورجية-الكلمة", "listingPaths": [], "title": "ليتورجية الكلمة", "intro": "" },
+    { "path": "/رسائل-كنسية", "listingPaths": [], "title": "رسائل كنسية", "intro": "" },
+    { "path": "/رسائل-بابوية", "listingPaths": [], "title": "رسائل بابوية", "intro": "" },
+    { "path": "/لاهوت-مريمي", "listingPaths": [], "title": "لاهوت مريمي", "intro": "" },
+    { "path": "/شهادات-القديسين", "listingPaths": [], "title": "شهادات القديسين", "intro": "" },
+    { "path": "/رأي-وفكر", "listingPaths": [], "title": "رأي وفكر", "intro": "" },
+    { "path": "/سؤال-الى-الكاهن", "listingPaths": [], "title": "سؤال الى الكاهن", "intro": "" }
+  ],
+  "pages": [
+    { "key": "تنشئة-روحية", "slug": "تنشئة-روحية", "parent": null, "kind": "section", "title": "تنشئة روحية", "summary": "مقالات في الكتاب المقدس وتعليم الكنيسة والليتورجيا والقديسين.", "icon": "book", "legacyPath": null },
+    { "key": "سؤال-وجواب", "slug": "سؤال-وجواب", "parent": null, "kind": "section", "title": "سؤال وجواب", "summary": "أسئلة إيمانية يجيب عنها الكاهن.", "icon": "cross", "legacyPath": null },
+    { "key": "ميديا", "slug": "ميديا", "parent": null, "kind": "section", "title": "ميديا", "summary": "تراتيل وفيديو وألبومات صور.", "icon": "music", "legacyPath": null },
+    { "key": "تراتيل", "slug": "تراتيل", "parent": "ميديا", "kind": "hymns", "title": "تراتيل", "summary": "استمعوا إلى التراتيل والألحان السريانية والمارونية.", "icon": "music", "legacyPath": null },
+    { "key": "videos", "slug": "videos", "parent": null, "kind": "videos", "title": "فيديو", "summary": "مكتبة الفيديو.", "icon": "video", "legacyPath": null },
+    { "key": "photo-gallery", "slug": "photo-gallery", "parent": null, "kind": "albums", "title": "ألبومات الصور", "summary": "صور من نشاطات المركز والرعية.", "icon": "image", "legacyPath": null },
+    { "key": "المكتبة-الروحية", "slug": "المكتبة-الروحية", "parent": null, "kind": "library", "title": "المكتبة الروحية", "summary": "ابحثوا في كتب المكتبة الروحية حسب العنوان أو المؤلف أو النوع أو اللغة.", "icon": "book", "legacyPath": null },
+    { "key": "مشتريات", "slug": "مشتريات", "parent": null, "kind": "purchases", "title": "مشتريات", "summary": "كتب ومنشورات المركز المتوفرة للشراء.", "icon": "cart", "legacyPath": null },
+    { "key": "مواقع-صديقة", "slug": "مواقع-صديقة", "parent": null, "kind": "page", "title": "مواقع صديقة", "summary": "مواقع كاثوليكية وإذاعات وتلفزيونات نوصي بها.", "icon": "link", "legacyPath": "/مواقع-صديقة" },
+    { "key": "contact-us", "slug": "اتصل-بنا", "parent": null, "kind": "contact", "title": "اتصل بنا", "summary": "راسلونا بأسئلتكم واقتراحاتكم.", "icon": "mail", "legacyPath": null }
+  ],
+  "menus": {
+    "main": [
+      { "title": "الرئيسية", "url": "/" },
+      { "title": "أضواء", "url": "section:/أضواء" },
+      {
+        "title": "تنشئة روحية",
+        "url": "page:تنشئة-روحية",
+        "children": [
+          { "title": "الكتاب المقدس", "url": "section:/الكتاب-المقدس" },
+          { "title": "تعليم الكنيسة", "url": "section:/تعليم-الكنيسة" },
+          { "title": "ليتورجية الكلمة", "url": "section:/ليتورجية-الكلمة" },
+          { "title": "رسائل كنسية", "url": "section:/رسائل-كنسية" },
+          { "title": "رسائل بابوية", "url": "section:/رسائل-بابوية" },
+          { "title": "لاهوت مريمي", "url": "section:/لاهوت-مريمي" },
+          { "title": "شهادات القديسين", "url": "section:/شهادات-القديسين" },
+          { "title": "رأي وفكر", "url": "section:/رأي-وفكر" }
+        ]
+      },
+      {
+        "title": "سؤال وجواب",
+        "url": "page:سؤال-وجواب",
+        "children": [{ "title": "سؤال الى الكاهن", "url": "section:/سؤال-الى-الكاهن" }]
+      },
+      { "title": "المكتبة الروحية", "url": "page:المكتبة-الروحية" },
+      {
+        "title": "ميديا",
+        "url": "page:ميديا",
+        "children": [
+          { "title": "تراتيل", "url": "page:تراتيل" },
+          { "title": "فيديو", "url": "page:videos" },
+          { "title": "ألبومات الصور", "url": "page:photo-gallery" }
+        ]
+      },
+      { "title": "مشتريات", "url": "page:مشتريات" },
+      { "title": "اتصل بنا", "url": "page:contact-us" }
+    ],
+    "footer": [
+      { "title": "أضواء", "url": "section:/أضواء" },
+      { "title": "المكتبة الروحية", "url": "page:المكتبة-الروحية" },
+      { "title": "تراتيل", "url": "page:تراتيل" },
+      { "title": "سؤال الى الكاهن", "url": "section:/سؤال-الى-الكاهن" },
+      { "title": "مواقع صديقة", "url": "page:مواقع-صديقة" },
+      { "title": "اتصل بنا", "url": "page:contact-us" }
+    ]
+  },
+  "home": {
+    "spotlight": { "enabled": true, "title": "أضواء", "count": 5, "section": "/أضواء" },
+    "sections": {
+      "enabled": true,
+      "title": "تنشئة روحية",
+      "count": 3,
+      "sections": ["/الكتاب-المقدس", "/تعليم-الكنيسة", "/ليتورجية-الكلمة", "/رسائل-كنسية", "/لاهوت-مريمي", "/شهادات-القديسين", "/رأي-وفكر"]
+    },
+    "questions": { "enabled": true, "title": "سؤال الى الكاهن", "intro": "أسئلة من حياة الإيمان يجيب عنها الكاهن.", "count": 4, "section": "/سؤال-الى-الكاهن" },
+    "hymns": { "enabled": true, "title": "تراتيل", "intro": "ألحان وتراتيل للصلاة والتأمل.", "count": 6 },
+    "videos": { "enabled": true, "title": "فيديو", "count": 4 },
+    "albums": { "enabled": true, "title": "ألبومات الصور", "count": 4 },
+    "newsletter": { "enabled": true, "title": "الرسالة الإخبارية", "text": "اشتركوا ليصلكم جديد المقالات والتأملات على بريدكم الإلكتروني." }
+  },
+  "redirects": [
+    { "from": "/الرعية", "to": "section:/أضواء" },
+    { "from": "/الرعية/أضواء", "to": "section:/أضواء" },
+    { "from": "/ميديا/تراتيل-1070", "to": "page:تراتيل" },
+    { "from": "/taratil", "to": "page:تراتيل" },
+    { "from": "/contact-us", "to": "page:contact-us" },
+    { "from": "/default.aspx", "to": "/" },
+    { "from": "/index.aspx", "to": "/" }
+  ]
+}

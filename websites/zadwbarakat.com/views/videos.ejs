@@ -1,0 +1,10 @@
+<%- include('partials/page-head', { title: page.header || page.title, lead: page.summary }) %>
+<div class="container page-body">
+	<% if (videos.length) { %>
+		<div class="grid grid--3">
+			<% videos.forEach(function (video) { %><%- include('partials/video-card', { video: video }) %><% }) %>
+		</div>
+	<% } else { %>
+		<p class="empty-state">لا توجد فيديوهات بعد.</p>
+	<% } %>
+</div>

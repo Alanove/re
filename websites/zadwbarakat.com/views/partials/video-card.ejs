@@ -1,0 +1,10 @@
+<article class="card video-card">
+	<div class="card__media">
+		<img src="<%= /^https?:/.test(video.poster) ? video.poster : encodePath(video.poster) %>" alt="" width="480" height="360" loading="lazy" decoding="async" />
+		<span class="video-card__badge" aria-hidden="true"><span><svg class="icon"><use href="#i-play"/></svg></span></span>
+	</div>
+	<div class="card__body"<% if (video.direction === 'ltr') { %> dir="ltr"<% } %>>
+		<h3 class="card__title"><a href="<%= encodePath(video.url) %>"><%= video.title %></a></h3>
+		<% if (video.date) { %><span class="card__meta"><%= video.date %></span><% } %>
+	</div>
+</article>

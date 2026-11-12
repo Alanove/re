@@ -1,0 +1,23 @@
+<%- include('partials/page-head', { title: album.title, lead: album.summary }) %>
+<div class="container page-body">
+	<p class="result-count"><%= arabicCount(album.images.length, { one: 'صورة واحدة', two: 'صورتان', few: 'صور', many: 'صورة', other: 'صورة' }) %><% if (date) { %> · <%= date %><% } %></p>
+	<div class="photo-grid" data-lightbox-group>
+		<% album.images.forEach(function (image, index) { %>
+			<a href="<%= encodePath(image.src) %>" data-lightbox data-caption="<%= image.caption %>">
+				<img src="<%= encodePath(thumbUrl(image.src)) %>" alt="<%= image.caption || (album.title + ' - ' + (index + 1)) %>" <% if (image.width && image.height) { %>width="<%= image.width %>" height="<%= image.height %>"<% } %> <%- index < 8 ? '' : 'loading="lazy" ' %>decoding="async" />
+			</a>
+		<% }) %>
+	</div>
+
+	<% if (others.length) { %>
+		<section class="related" aria-labelledby="other-albums">
+			<div class="section-head">
+				<h2 id="other-albums">ألبومات أخرى</h2>
+				<a class="section-head__more" href="<%= encodePath(page.url) %>">كل الألبومات<svg class="icon icon-flip" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+			</div>
+			<div class="grid grid--4">
+				<% others.forEach(function (entry) { %><%- include('partials/album-card', { album: entry }) %><% }) %>
+			</div>
+		</section>
+	<% } %>
+</div>

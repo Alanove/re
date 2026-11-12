@@ -1,0 +1,62 @@
+<%
+	const filtered = query.q || query.genre || query.language || query.author;
+	const filterQuery = { q: query.q, genre: query.genre, language: query.language, author: query.author };
+	const authorHref = function (author) { return encodePath(page.url) + '?author=' + encodeURIComponent(author); };
+%>
+<%- include('partials/page-head', { title: page.header || page.title, lead: page.summary }) %>
+<div class="container page-body">
+	<% if (page.content.trim()) { %><div class="prose rte-content" style="margin-block-end:24px"><%- page.content %></div><% } %>
+	<form class="filters" method="get" data-filters action="<%= encodePath(page.url) %>" role="search">
+		<div class="field">
+			<label for="library-q">ابحث عن كتاب</label>
+			<input class="input" id="library-q" name="q" type="search" maxlength="120" value="<%= query.q %>" placeholder="العنوان، المؤلف، الناشر..." />
+		</div>
+		<div class="field">
+			<label for="library-genre">التصنيف</label>
+			<select class="select" id="library-genre" name="genre">
+				<option value="">الكل</option>
+				<% result.genres.forEach(function (genre) { %><option value="<%= genre.name %>"<%= genre.name === query.genre ? ' selected' : '' %>><%= genre.name %> (<%= genre.count %>)</option><% }) %>
+			</select>
+		</div>
+		<div class="field">
+			<label for="library-language">اللغة</label>
+			<select class="select" id="library-language" name="language">
+				<option value="">الكل</option>
+				<% result.languages.forEach(function (language) { %><option value="<%= language.name %>"<%= language.name === query.language ? ' selected' : '' %>><%= language.name %> (<%= language.count %>)</option><% }) %>
+			</select>
+		</div>
+		<div class="field">
+			<label for="library-author">المؤلف</label>
+			<input class="input" id="library-author" name="author" type="text" maxlength="120" value="<%= query.author %>" />
+		</div>
+		<div class="filters__actions">
+			<button class="btn btn--primary" type="submit"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>بحث</button>
+			<% if (filtered) { %><a class="btn btn--outline" href="<%= encodePath(page.url) %>">مسح</a><% } %>
+		</div>
+	</form>
+
+	<p class="result-count" role="status"><%= arabicCount(result.pagination.total, { one: 'كتاب واحد', two: 'كتابان', few: 'كتب', many: 'كتاباً', other: 'كتاب' }) %><% if (result.pagination.totalPages > 1) { %> · صفحة <%= result.pagination.page %> من <%= result.pagination.totalPages %><% } %></p>
+
+	<% if (result.books.length) { %>
+		<table class="book-table">
+			<thead>
+				<tr><th scope="col">العنوان</th><th scope="col">المؤلف</th><th scope="col">الناشر</th><th scope="col">اللغة</th><th scope="col">التصنيف</th><th scope="col">السنة</th></tr>
+			</thead>
+			<tbody>
+				<% result.books.forEach(function (book) { %>
+					<tr>
+						<td><bdi><%= book.title %></bdi></td>
+						<td data-label="المؤلف"><% if (book.author) { %><a href="<%= authorHref(book.author) %>"><bdi><%= book.author %></bdi></a><% } %></td>
+						<td data-label="الناشر"><bdi><%= book.publisher %></bdi></td>
+						<td data-label="اللغة"><%= book.language %></td>
+						<td data-label="التصنيف"><%= book.genre %></td>
+						<td data-label="السنة"><%= book.year %></td>
+					</tr>
+				<% }) %>
+			</tbody>
+		</table>
+		<%- include('partials/pagination', { pagination: result.pagination, basePath: page.url, query: filterQuery }) %>
+	<% } else { %>
+		<p class="empty-state">لم يتم العثور على كتب مطابقة. جرّب كلمات أخرى أو امسح عوامل التصفية.</p>
+	<% } %>
+</div>

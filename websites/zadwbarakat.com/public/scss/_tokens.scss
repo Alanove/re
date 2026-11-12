@@ -1,0 +1,50 @@
+// Design tokens for zadwbarakat.com. Every colour, font and size used by the site comes from here.
+
+// Brand colours are sampled from the logo (public/uploads/site/logo.webp):
+// banner teal #008397, emblem aqua #68c8c8, emblem brown #543c24.
+$teal-logo: #008397;
+// Slightly deeper than the logo banner so white text on it passes WCAG AA (4.9:1).
+$teal: #007d90;
+$teal-dark: #006b7b;
+$teal-deep: #004d59;
+$teal-soft: #e4f3f5;
+$aqua: #68c8c8;
+$aqua-soft: #e9f6f6;
+$brown: #543c24;
+$brown-soft: #f2ece5;
+$ink: #182426;
+$ink-soft: #33413f;
+$muted: #5d6a6b;
+$paper: #f6f9f9;
+$surface: #ffffff;
+$line: #dde8e9;
+$line-strong: #c3d4d6;
+$success: #2f6b3c;
+$danger: #a3262f;
+
+$font-reading: 'Noto Naskh Arabic', 'Amiri', 'Times New Roman', serif;
+$font-ui: 'Readex Pro', 'Segoe UI', Tahoma, system-ui, sans-serif;
+
+$radius-sm: 6px;
+$radius: 12px;
+$radius-lg: 20px;
+
+$shadow-sm: 0 1px 2px rgba(29, 27, 26, 0.06), 0 1px 1px rgba(29, 27, 26, 0.04);
+$shadow: 0 6px 24px rgba(29, 27, 26, 0.08);
+$shadow-lg: 0 18px 48px rgba(29, 27, 26, 0.14);
+
+$container: 1200px;
+$header-container: 1360px;
+$reading: 68ch;
+$header-height: 80px;
+$tap: 44px;
+
+$bp-sm: 600px;
+$bp-md: 900px;
+$bp-lg: 1200px;
+// The full menu needs this much width beside the site name; below it the header uses the drawer (also in site.js).
+$bp-nav: 1280px;
+// From here the header has room for the site name on one line beside the full menu.
+$bp-xl: 1340px;
+
+$ease: cubic-bezier(0.2, 0.7, 0.2, 1);

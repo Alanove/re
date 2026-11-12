@@ -1,0 +1,35 @@
+<div class="row">
+	<div class="col-xl-8">
+		<div class="panel panel-inverse">
+			<div class="panel-heading"><h4 class="panel-title" dir="auto"><%= inquiry.type === 'purchase' ? 'Purchase request' : inquiry.topic %></h4></div>
+			<div class="panel-body">
+				<% if (inquiry.type === 'purchase') { %>
+					<div class="alert alert-warning mb-3">
+						<span class="text-muted">Item:</span> <strong dir="auto"><%= inquiry.purchaseTitle || ('#' + inquiry.purchaseId) %></strong>
+						<% if (inquiry.purchaseId) { %> · <a href="/admin/purchases/<%= inquiry.purchaseId %>/edit">Open item</a><% } %>
+						<small class="d-block mt-1 text-muted">No payment is taken online. Reply to arrange delivery and payment.</small>
+					</div>
+				<% } %>
+				<p class="admin-message" dir="auto"><%= inquiry.message %></p>
+				<a href="mailto:<%= inquiry.email %>?subject=<%= encodeURIComponent('Re: ' + (inquiry.purchaseTitle || inquiry.topic)) %>" class="btn btn-primary"><i class="fa fa-reply me-1"></i> Reply by email</a>
+				<button type="button" class="btn btn-danger ms-2" data-delete-url="/admin/inquiries/<%= inquiry.id %>" data-delete-title="Delete inquiry" data-delete-message="Delete this inquiry?" data-delete-redirect="/admin/inquiries<%= inquiry.type === 'purchase' ? '?type=purchase' : '' %>"><i class="fa fa-trash me-1"></i> Delete</button>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-4">
+		<div class="panel panel-inverse">
+			<div class="panel-heading"><h4 class="panel-title">Sender</h4></div>
+			<div class="panel-body">
+				<dl class="mb-0">
+					<dt>Name</dt><dd dir="auto"><%= inquiry.name %></dd>
+					<dt>Email</dt><dd><a href="mailto:<%= inquiry.email %>"><%= inquiry.email %></a></dd>
+					<% if (inquiry.phone) { %><dt>Phone</dt><dd><a href="tel:<%= inquiry.phone.replace(/[^+\d]/g, '') %>" dir="ltr"><%= inquiry.phone %></a></dd><% } %>
+					<dt>Received</dt><dd><%= new Date(inquiry.createdAt).toLocaleString('en-GB') %></dd>
+					<dt>Email notification</dt><dd><%= inquiry.emailed ? 'Sent' : 'Not sent (SMTP not configured or failed)' %></dd>
+					<dt>IP address</dt><dd class="small text-muted"><%= inquiry.ip %></dd>
+				</dl>
+			</div>
+		</div>
+		<a href="/admin/inquiries" class="btn btn-default"><i class="fa fa-arrow-left me-1"></i> All inquiries</a>
+	</div>
+</div>

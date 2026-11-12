@@ -1,0 +1,88 @@
+<%
+	const telHref = function (value) { return 'tel:' + String(value || '').replace(/[^+\d]/g, ''); };
+	const copyright = (settings.copyright || ('© {year} ' + settings.siteName)).replace('{year}', year);
+	const footerLinks = footerMenu.length ? footerMenu : mainMenu;
+	const socialLinks = [
+		{ key: 'facebook', label: 'فيسبوك', url: settings.social.facebook },
+		{ key: 'youtube', label: 'يوتيوب', url: settings.social.youtube },
+		{ key: 'instagram', label: 'إنستغرام', url: settings.social.instagram },
+		{ key: 'x', label: 'إكس', url: settings.social.x }
+	].filter(function (link) { return link.url; });
+	const showNewsletter = !locals.hideNewsletter && (!locals.home || home.newsletter.enabled);
+	const newsletterTitle = locals.home && home.newsletter.title ? home.newsletter.title : 'النشرة الإخبارية';
+	const newsletterText = locals.home && home.newsletter.text ? home.newsletter.text : 'اشترك لتصلك المقالات الجديدة على بريدك الإلكتروني.';
+%>
+<% if (showNewsletter) { %>
+	<section class="newsletter-band" id="newsletter" aria-labelledby="newsletter-title">
+		<div class="container newsletter-band__inner">
+			<div>
+				<h2 id="newsletter-title"><%= newsletterTitle %></h2>
+				<p><%= newsletterText %></p>
+			</div>
+			<form class="newsletter-form" method="post" action="/newsletter" data-newsletter-form>
+				<label class="visually-hidden" for="newsletter-email">البريد الإلكتروني</label>
+				<input id="newsletter-email" name="email" type="email" required maxlength="200" autocomplete="email" placeholder="بريدك الإلكتروني" dir="ltr" />
+				<span class="hp-field" aria-hidden="true"><label for="newsletter-website">الموقع</label><input id="newsletter-website" name="website" type="text" tabindex="-1" autocomplete="off" /></span>
+				<button class="btn btn--accent" type="submit">اشترك</button>
+				<p class="newsletter-form__status" role="status" data-newsletter-status></p>
+			</form>
+		</div>
+	</section>
+<% } %>
+<footer class="site-footer">
+	<div class="container site-footer__grid">
+		<div class="site-footer__brand">
+			<a class="brand brand--footer" href="/" aria-label="<%= settings.siteName %> - الصفحة الرئيسية">
+				<%- include('brand') %>
+			</a>
+			<% if (settings.footerText || settings.description) { %><p><%= settings.footerText || settings.description %></p><% } %>
+			<% if (socialLinks.length) { %>
+				<div class="social">
+					<% socialLinks.forEach(function (link) { %>
+						<a href="<%= link.url %>" target="_blank" rel="noopener noreferrer" aria-label="<%= link.label %>"><svg class="icon" aria-hidden="true"><use href="#i-<%= link.key %>"/></svg></a>
+					<% }) %>
+				</div>
+			<% } %>
+		</div>
+
+		<nav aria-labelledby="footer-links-title">
+			<h3 id="footer-links-title">روابط سريعة</h3>
+			<ul>
+				<% footerLinks.forEach(function (item) { %>
+					<li><a href="<%= encodePath(item.url) %>"><%= item.title %></a></li>
+				<% }) %>
+			</ul>
+		</nav>
+
+		<% if (settings.relatedLinks.length) { %>
+			<nav aria-labelledby="footer-related-title">
+				<h3 id="footer-related-title">مواقع صديقة</h3>
+				<ul>
+					<% settings.relatedLinks.forEach(function (link) { %>
+						<li><a href="<%= link.url %>" target="_blank" rel="noopener"><%= link.label %></a></li>
+					<% }) %>
+				</ul>
+			</nav>
+		<% } %>
+
+		<div class="site-footer__contact">
+			<h3>تواصل معنا</h3>
+			<ul>
+				<% if (settings.address) { %>
+					<li><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg><span><%= settings.address %></span></li>
+				<% } %>
+				<% if (settings.contactPhone) { %>
+					<li><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg><a href="<%= telHref(settings.contactPhone) %>" dir="ltr"><%= settings.contactPhone %></a></li>
+				<% } %>
+				<% if (settings.contactEmail) { %>
+					<li><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg><a href="mailto:<%= settings.contactEmail %>" dir="ltr"><%- include('email-text', { email: settings.contactEmail }) %></a></li>
+				<% } %>
+				<li><svg class="icon icon-flip" aria-hidden="true"><use href="#i-arrow"/></svg><a href="<%= encodePath(contactUrl) %>">أرسل لنا رسالة</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="container site-footer__bottom">
+		<span><%= copyright %></span>
+		<span>by <a href="https://www.liteweb.info" target="_blank" rel="noopener noreferrer">www.liteweb.info</a></span>
+	</div>
+</footer>

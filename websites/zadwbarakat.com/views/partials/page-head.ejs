@@ -1,0 +1,10 @@
+<%
+	/* Locals: title, lead (optional), headDir (optional 'ltr'). */
+%>
+<header class="page-head">
+	<div class="container">
+		<%- include('breadcrumbs') %>
+		<h1<% if (locals.headDir === 'ltr') { %> dir="ltr"<% } %>><%= title %></h1>
+		<% if (locals.lead) { %><p class="page-head__lead"<% if (locals.headDir === 'ltr') { %> dir="ltr"<% } %>><%= lead %></p><% } %>
+	</div>
+</header>

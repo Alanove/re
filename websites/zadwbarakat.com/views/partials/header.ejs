@@ -1,0 +1,78 @@
+<header class="site-header">
+	<div class="container site-header__bar">
+		<a class="brand" href="/" aria-label="<%= settings.siteName %> - الصفحة الرئيسية">
+			<%- include('brand', { priority: true }) %>
+		</a>
+
+		<nav class="nav" aria-label="القائمة الرئيسية">
+			<ul>
+				<% mainMenu.forEach(function (item) { %>
+					<li class="<%= item.active ? 'is-active' : '' %>">
+						<a href="<%= encodePath(item.url) %>"<%- item.current ? ' aria-current="page"' : '' %><%- item.children.length ? ' aria-haspopup="true"' : '' %>>
+							<%= item.title %>
+							<% if (item.children.length) { %><svg class="icon" aria-hidden="true"><use href="#i-chevron-down"/></svg><% } %>
+						</a>
+						<% if (item.children.length) { %>
+							<ul class="nav__sub">
+								<% item.children.forEach(function (child) { %>
+									<li><a href="<%= encodePath(child.url) %>"<%- child.current ? ' aria-current="page"' : '' %>><%= child.title %></a></li>
+								<% }) %>
+							</ul>
+						<% } %>
+					</li>
+				<% }) %>
+			</ul>
+		</nav>
+
+		<div class="header-actions">
+			<a class="icon-button" href="/search" data-search-open aria-label="بحث" title="بحث (/)">
+				<svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+			</a>
+			<button class="icon-button menu-toggle" type="button" aria-expanded="false" aria-controls="drawer" data-drawer-open aria-label="فتح القائمة">
+				<svg class="icon" aria-hidden="true"><use href="#i-menu"/></svg>
+			</button>
+		</div>
+	</div>
+</header>
+
+<div class="search-panel" role="dialog" aria-modal="true" aria-label="البحث في الموقع" data-search-panel hidden>
+	<div class="search-panel__box">
+		<form class="search-panel__form" action="/search" method="get" role="search">
+			<svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+			<label class="visually-hidden" for="search-panel-input">ابحث في الموقع</label>
+			<input id="search-panel-input" name="q" type="search" autocomplete="off" maxlength="120" placeholder="ابحث عن مقال، كتاب، ترنيمة..." value="<%= searchQuery %>" role="combobox" aria-expanded="false" aria-controls="search-panel-results" aria-autocomplete="list" data-search-input />
+			<button class="icon-button" type="button" data-search-close aria-label="إغلاق البحث">
+				<svg class="icon" aria-hidden="true"><use href="#i-close"/></svg>
+			</button>
+		</form>
+		<ul class="search-panel__results" id="search-panel-results" role="listbox" data-search-results></ul>
+		<p class="search-panel__hint" data-search-hint>اكتب كلمتين على الأقل. البحث لا يتأثر بالتشكيل أو بالهمزات.</p>
+		<a class="search-panel__all" href="/search" data-search-all hidden>عرض كل النتائج</a>
+	</div>
+</div>
+
+<div class="drawer-backdrop" data-drawer-backdrop hidden></div>
+<aside class="drawer" id="drawer" aria-label="القائمة" data-drawer>
+	<div class="drawer__head">
+		<strong><%= settings.siteName %></strong>
+		<button class="icon-button" type="button" data-drawer-close aria-label="إغلاق القائمة">
+			<svg class="icon" aria-hidden="true"><use href="#i-close"/></svg>
+		</button>
+	</div>
+	<nav class="drawer__nav" aria-label="القائمة الرئيسية">
+		<ul>
+			<% mainMenu.forEach(function (item) { %>
+				<li>
+					<a href="<%= encodePath(item.url) %>"<%- item.current ? ' aria-current="page"' : '' %>><%= item.title %></a>
+					<% if (item.children.length) { %>
+						<ul>
+							<% item.children.forEach(function (child) { %>
+								<li><a href="<%= encodePath(child.url) %>"<%- child.current ? ' aria-current="page"' : '' %>><%= child.title %></a></li>
+							<% }) %>
+						</ul>
+					<% } %>
+				</li>
+			<% }) %>
+		</ul>
+	</nav>
+</aside>

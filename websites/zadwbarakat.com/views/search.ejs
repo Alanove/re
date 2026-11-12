@@ -1,0 +1,69 @@
+<%
+	const searchHref = function (overrides) {
+		const params = new URLSearchParams();
+		const merged = Object.assign({ q: query.q, type: query.type || '', section: query.section || '' }, overrides);
+		Object.keys(merged).forEach(function (key) { if (merged[key] !== '' && merged[key] !== null && merged[key] !== undefined) { params.set(key, String(merged[key])); } });
+		return '/search?' + params.toString();
+	};
+	const totalAll = result.types.reduce(function (sum, facet) { return sum + facet.count; }, 0);
+%>
+<%- include('partials/page-head', { title: query.q ? 'نتائج البحث عن: ' + query.q : 'البحث في الموقع' }) %>
+<div class="container page-body">
+	<form class="search-form" action="/search" method="get" role="search">
+		<label class="visually-hidden" for="search-q">كلمات البحث</label>
+		<input class="input" id="search-q" name="q" type="search" maxlength="120" value="<%= query.q %>" placeholder="ابحث عن مقال، كتاب، ترنيمة..." autofocus />
+		<button class="btn btn--primary" type="submit"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>بحث</button>
+	</form>
+
+	<% if (!query.q) { %>
+		<p class="empty-state">اكتب كلمة أو أكثر للبحث في المقالات والأقسام والكتب والترانيم والألبومات والفيديوهات. البحث لا يتأثر بالتشكيل ولا بأشكال الهمزة والتاء المربوطة.</p>
+	<% } else if (!result || result.total === 0 && totalAll === 0) { %>
+		<p class="empty-state">لا توجد نتائج لـ «<%= query.q %>». جرّب كلمات أقل أو أكثر عمومية.</p>
+	<% } else { %>
+		<div class="search-layout">
+			<aside class="facets" aria-label="تصفية النتائج">
+				<div>
+					<h2>النوع</h2>
+					<ul>
+						<li><a href="<%= searchHref({ type: '', section: '', p: '' }) %>"<%- !query.type ? ' aria-current="true"' : '' %>>الكل <small><%= totalAll %></small></a></li>
+						<% result.types.forEach(function (facet) { %>
+							<li><a href="<%= searchHref({ type: facet.key, section: '', p: '' }) %>"<%- query.type === facet.key ? ' aria-current="true"' : '' %>><%= facet.label %> <small><%= facet.count %></small></a></li>
+						<% }) %>
+					</ul>
+				</div>
+				<% if (result.sections.length) { %>
+					<div>
+						<h2>القسم</h2>
+						<ul>
+							<% result.sections.forEach(function (facet) { %>
+								<li><a href="<%= searchHref({ type: 'article', section: facet.key, p: '' }) %>"<%- query.section === facet.key ? ' aria-current="true"' : '' %>><%= facet.label %> <small><%= facet.count %></small></a></li>
+							<% }) %>
+						</ul>
+					</div>
+				<% } %>
+			</aside>
+			<div>
+				<p class="result-count" role="status">
+					<%= arabicCount(result.total, { one: 'نتيجة واحدة', two: 'نتيجتان', few: 'نتائج', many: 'نتيجة', other: 'نتيجة' }) %><% if (!result.matchedAll) { %> (لا توجد نتائج تحتوي على كل الكلمات، لذلك نعرض النتائج التي تحتوي على بعضها)<% } %>
+				</p>
+				<ol class="results">
+					<% result.hits.forEach(function (hit) { %>
+						<li class="result">
+							<% if (hit.image) { %><img src="<%= /^https?:/.test(hit.image) ? hit.image : encodePath(hit.image) %>" alt="" loading="lazy" decoding="async" /><% } %>
+							<div>
+								<div class="result__meta">
+									<span class="result__type"><%= hit.typeLabel %></span>
+									<% if (hit.sectionTitle) { %><span><%= hit.sectionTitle %></span><% } %>
+									<% if (hit.date) { %><span><%= hit.date %></span><% } %>
+								</div>
+								<h2<% if (hit.direction === 'ltr') { %> dir="ltr"<% } %>><a href="<%= encodePath(hit.url) %>"><%- hit.titleHtml %></a></h2>
+								<% if (hit.snippetHtml) { %><p<% if (hit.direction === 'ltr') { %> dir="ltr"<% } %>><%- hit.snippetHtml %></p><% } %>
+							</div>
+						</li>
+					<% }) %>
+				</ol>
+				<%- include('partials/pagination', { pagination: result.pagination, basePath: '/search', query: { q: query.q, type: query.type || '', section: query.section || '' } }) %>
+			</div>
+		</div>
+	<% } %>
+</div>
