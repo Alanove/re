@@ -141,6 +141,12 @@
     min-inline-size: 0;
     overflow-wrap: anywhere;
   }
+
+  // LTR links (phone, email) would otherwise stretch across the cell and start at its far edge, away from the icon.
+  > a[dir='ltr'] {
+    justify-self: start;
+    text-align: end;
+  }
 }
 
 .social {
@@ -178,6 +184,7 @@
   padding-block: 18px;
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   justify-content: space-between;
   gap: 8px;
   font-size: 0.85rem;
