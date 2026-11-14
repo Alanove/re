@@ -53,20 +53,18 @@
 						</div>
 						<div class="col-md-2">
 							<select class="form-select" name="status" id="statusFilter">
-								<option value="">All <%= typeof t !== 'undefined' ? t('common.status') : 'Status' %></option>
+								<option value=""><%= typeof t !== 'undefined' ? t('common.allStatus') : 'All Status' %></option>
 								<option value="published" <%= typeof filters !== 'undefined' && filters.status === 'published' ? 'selected' : '' %>>
 									<%= typeof t !== 'undefined' ? t('ecommerce.products.published') : 'Published' %>
 								</option>
 								<option value="draft" <%= typeof filters !== 'undefined' && filters.status === 'draft' ? 'selected' : '' %>>
 									<%= typeof t !== 'undefined' ? t('ecommerce.products.draft') : 'Draft' %>
 								</option>
-							</select>
-						</div>
-						<div class="col-md-2">
-							<select class="form-select" name="is_featured" id="featuredFilter">
-								<option value="">All Products</option>
-								<option value="true" <%= typeof filters !== 'undefined' && filters.is_featured === true ? 'selected' : '' %>>
-									<%= typeof t !== 'undefined' ? t('ecommerce.products.featured') : 'Featured' %> Only
+								<option value="featured" <%= typeof filters !== 'undefined' && filters.status === 'featured' ? 'selected' : '' %>>
+									<%= typeof t !== 'undefined' ? t('ecommerce.products.featured') : 'Featured' %>
+								</option>
+								<option value="on_sale" <%= typeof filters !== 'undefined' && filters.status === 'on_sale' ? 'selected' : '' %>>
+									<%= typeof t !== 'undefined' ? t('ecommerce.products.onSale') : 'On Sale' %>
 								</option>
 							</select>
 						</div>
@@ -116,6 +114,11 @@
 											<% if (product.is_featured) { %>
 												<span class="badge bg-warning text-dark">
 													<i class="fa fa-star"></i> <%= typeof t !== 'undefined' ? t('ecommerce.products.featured') : 'Featured' %>
+												</span>
+											<% } %>
+											<% if (product.is_on_sale) { %>
+												<span class="badge bg-danger">
+													<%= typeof t !== 'undefined' ? t('ecommerce.products.onSale') : 'On Sale' %>
 												</span>
 											<% } %>
 										</td>
@@ -220,7 +223,6 @@
 										if (filters.search) queryParams.set('search', filters.search);
 										if (filters.category_id) queryParams.set('category_id', filters.category_id);
 										if (filters.status) queryParams.set('status', filters.status);
-										if (filters.is_featured) queryParams.set('is_featured', filters.is_featured);
 									}
 									
 									// Previous button

@@ -7,6 +7,7 @@ import { DashboardController } from '../controllers/dashboardController';
 import { UsersController } from '../controllers/usersController';
 import { PagesController } from '../controllers/pagesController';
 import { SliderController } from '../controllers/sliderController';
+import { HomepageController } from '../controllers/homepageController';
 import { ProjectsController } from '../controllers/projectsController';
 import { ProfileController } from '../controllers/profileController';
 import { ThemeController } from '../controllers/themeController';
@@ -99,6 +100,9 @@ router.get('/slider/:id/move-up', AdminController.requireAuth, requireRole(['Sup
 router.get('/slider/:id/move-down', AdminController.requireAuth, requireRole(['Super Admin', 'Admin', 'Content Manager']), SliderController.moveSlideDown);
 router.get('/slider/:id/toggle-active', AdminController.requireAuth, requireRole(['Super Admin', 'Admin', 'Content Manager']), SliderController.toggleSlideActive);
 router.post('/api/slider/upload-image', AdminController.requireAuth, requireRole(['Super Admin', 'Admin', 'Content Manager']), SliderController.uploadImage);
+
+router.get('/homepage', AdminController.requireAuth, requireRole(['Super Admin', 'Admin', 'Content Manager']), HomepageController.index);
+router.post('/homepage', AdminController.requireAuth, requireRole(['Super Admin', 'Admin', 'Content Manager']), HomepageController.handleBannerUpload, HomepageController.update);
 
 // Projects management - Super Admin, Admin, Content Manager
 router.get('/projects', AdminController.requireAuth, requireRole(['Super Admin', 'Admin', 'Content Manager']), ProjectsController.projects);

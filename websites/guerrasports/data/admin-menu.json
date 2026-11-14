@@ -153,6 +153,16 @@
           "order": 3.3,
           "roles": ["Super Admin", "Admin", "Content Manager"],
           "isVisible": true
+        },
+        {
+          "id": 30,
+          "title": "Homepage",
+          "text": "Homepage",
+          "icon": "fa fa-home",
+          "url": "/admin/homepage",
+          "order": 3.4,
+          "roles": ["Super Admin", "Admin", "Content Manager"],
+          "isVisible": true
         }
       ]
     },

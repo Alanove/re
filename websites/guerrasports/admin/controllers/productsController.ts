@@ -151,14 +151,24 @@ export class ProductsController {
       const limit = parseInt(req.query.limit as string) || 50;
       const search = req.query.search as string;
       const category_id = req.query.category_id ? parseInt(req.query.category_id as string) : undefined;
-      const status = req.query.status as string;
-      const is_featured = req.query.is_featured === 'true' ? true : undefined;
+      const statusQuery = typeof req.query.status === 'string' ? req.query.status : '';
+      let status: string | undefined;
+      let is_featured: boolean | undefined;
+      let is_on_sale: boolean | undefined;
+      if (statusQuery === 'featured') {
+        is_featured = true;
+      } else if (statusQuery === 'on_sale') {
+        is_on_sale = true;
+      } else if (statusQuery) {
+        status = statusQuery;
+      }
 
-      const filters: { search?: string; category_id?: number; status?: string; is_featured?: boolean } = {};
+      const filters: { search?: string; category_id?: number; status?: string; is_featured?: boolean; is_on_sale?: boolean } = {};
       if (search) filters.search = search;
       if (category_id !== undefined) filters.category_id = category_id;
       if (status) filters.status = status;
       if (is_featured !== undefined) filters.is_featured = is_featured;
+      if (is_on_sale !== undefined) filters.is_on_sale = is_on_sale;
 
       const result = await productService.getAllProducts(page, limit, filters);
 
@@ -180,7 +190,7 @@ export class ProductsController {
           totalPages: result.totalPages
         },
         categories,
-        filters: { search, category_id, status, is_featured }
+        filters: { search, category_id, status: statusQuery || undefined }
       });
     } catch (error) {
       console.error('Error rendering products page:', error);
@@ -226,6 +236,7 @@ export class ProductsController {
         stock_quantity: parseInt(req.body.stock_quantity) || 0,
         low_stock_threshold: req.body.low_stock_threshold ? parseInt(req.body.low_stock_threshold) : 5,
         is_featured: req.body.is_featured === 'true' || req.body.is_featured === 'on',
+        is_on_sale: req.body.is_on_sale === 'true' || req.body.is_on_sale === 'on',
         is_active: req.body.is_active !== 'false' && req.body.is_active !== 'off',
         include_in_auto_ads:
           req.body.include_in_auto_ads !== 'false' && req.body.include_in_auto_ads !== 'off',
@@ -383,6 +394,7 @@ export class ProductsController {
       if (req.body.height !== undefined) productData.height = req.body.height ? parseFloat(req.body.height) : null;
       // Checkboxes: unchecked = not sent, so always set from body (absent => false)
       productData.is_featured = req.body.is_featured === 'true' || req.body.is_featured === 'on';
+      productData.is_on_sale = req.body.is_on_sale === 'true' || req.body.is_on_sale === 'on';
       productData.is_active = req.body.is_active === 'true' || req.body.is_active === 'on';
       productData.include_in_auto_ads =
         req.body.include_in_auto_ads === 'true' || req.body.include_in_auto_ads === 'on';

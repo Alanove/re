@@ -23,6 +23,7 @@ import type { Order } from '../services/orderService';
 import { fetchCities, fetchStates } from '../aramex/aramexApiClient';
 import { buildVariantDisplayModel } from '../services/variantDisplayService';
 import { ogImageUrlFromProduct, ogImageUrlFromProductList } from '../utils/productOgImage';
+import { HomepageSettingsService, DEFAULT_SALE_META_DESCRIPTION } from '../../admin/services/homepageSettingsService';
 import {
   parseMetaShopProductsParam,
   resolveFacebookCatalogContentId,
@@ -98,8 +99,9 @@ export class ShopController {
       // Check if any filters are applied
       const hasFilters = !!(categorySlug || brandSlug || search || min_price || max_price || featured || Object.keys(attributeFilters).length > 0);
       const isProductsPage = req.path === '/products';
+      const isOnSalePage = req.path === '/on-sale';
 
-      if (!hasFilters && !isProductsPage) {
+      if (!hasFilters && !isProductsPage && !isOnSalePage) {
         (res.locals as any).pageTitle = 'Shop';
         const fp = (res.locals as any).randomFeaturedProduct;
         const ogFeatured = fp ? ogImageUrlFromProduct(fp) : '';
@@ -138,6 +140,7 @@ export class ShopController {
 
       if (search) baseFilters.search = search as string;
       if (featured === 'true') baseFilters.is_featured = true;
+      if (isOnSalePage) baseFilters.on_sale = true;
       if (Object.keys(attributeFilters).length > 0) baseFilters.attributes = attributeFilters;
 
       // Fetch all matching products (broad match)
@@ -229,6 +232,11 @@ export class ShopController {
         const brandData = await brandService.getBrandBySlug(brandSlug);
         (res.locals as any).pageTitle = brandData?.name || 'Brand';
         (res.locals as any).pageDescription = (brandData as any)?.meta_description || '';
+      } else if (isOnSalePage) {
+        const homepageSettings = await HomepageSettingsService.getInstance().getSettings();
+        (res.locals as any).pageTitle = homepageSettings.saleMetaTitle || homepageSettings.saleTitle || 'Sale';
+        (res.locals as any).pageDescription = homepageSettings.saleMetaDescription || DEFAULT_SALE_META_DESCRIPTION;
+        (res.locals as any).listingTitle = homepageSettings.saleTitle || 'Sale';
       } else if (isProductsPage) {
         (res.locals as any).pageTitle = 'All Products';
       } else if (search) {
@@ -261,6 +269,8 @@ export class ShopController {
         currentCategory: categorySlug,
         currentBrand: brandSlug,
         isProductsPage: isProductsPage,
+        isOnSalePage: isOnSalePage,
+        listingTitle: (res.locals as any).listingTitle || '',
         filters: {
           search,
           min_price,
@@ -1042,8 +1052,9 @@ export class ShopController {
 
       const hasAddress = !!(country && String(country).trim());
       let rates: any[] = [];
+      let ratesError: 'carrier_unavailable' | undefined;
       if (hasAddress) {
-        rates = await shippingService.getAvailableShippingRates({
+        const available = await shippingService.getAvailableShippingRates({
           subtotal: cartSubtotal,
           totalPrice: cartSubtotal,
           itemCount: cartItemCount,
@@ -1054,11 +1065,14 @@ export class ShopController {
           postal_code: postcode || undefined,
           items: cartItems
         });
+        rates = available.rates;
+        if (rates.length === 0) ratesError = available.ratesError;
       }
 
       res.json({
         success: true,
         rates: Array.isArray(rates) ? rates : [],
+        ...(ratesError ? { ratesError } : {}),
         cart: {
           subtotal: cartTotals.subtotal,
           itemCount: cartItemCount,
@@ -1637,7 +1651,7 @@ export class ShopController {
           );
         } else {
           // Synthetic rate (e.g. Aramex id 9999) – not in shipping_rates table; get cost from same API as checkout page
-          const availableRates = await shippingService.getAvailableShippingRates({
+          const available = await shippingService.getAvailableShippingRates({
             subtotal: cartTotals.subtotal,
             totalPrice: totalBeforeShipping,
             itemCount: cartTotals.itemCount,
@@ -1648,6 +1662,7 @@ export class ShopController {
             postal_code: shipping_address.postal_code || shipping_address.zip_code,
             items: cartItems
           });
+          const availableRates = available.rates;
           const match = Array.isArray(availableRates) ? availableRates.find((r: any) => r.rate && Number(r.rate.id) === rateId) : null;
           if (match != null && typeof match.cost === 'number') {
             shippingAmount = match.cost;

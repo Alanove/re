@@ -226,6 +226,8 @@ CREATE TABLE slider (
     order_index INT DEFAULT 0,
     is_active BOOLEAN DEFAULT TRUE,
     duration_seconds INT NOT NULL DEFAULT 5,
+    mobile_image_url VARCHAR(500) NULL,
+    mobile_video_url VARCHAR(500) NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

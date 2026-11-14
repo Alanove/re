@@ -423,15 +423,26 @@
             });
         }
 
+        function visibleHeroVideo(root) {
+            if (!root) return null;
+            var videos = root.querySelectorAll(".hero-carousel-video");
+            for (var i = 0; i < videos.length; i++) {
+                if (videos[i].offsetParent !== null) return videos[i];
+            }
+            return null;
+        }
+
         function syncActiveSlideVideo() {
             pauseAllHeroVideos();
             if (!videosReady) return;
-            var active = carousel.querySelector(".carousel-item.active .hero-carousel-video");
+            var activeItem = carousel.querySelector(".carousel-item.active");
+            var active = visibleHeroVideo(activeItem);
             if (active) loadHeroVideo(active);
         }
 
         function scheduleFirstSlideVideo() {
-            var first = carousel.querySelector(".carousel-item.active .hero-carousel-video");
+            var firstItem = carousel.querySelector(".carousel-item.active");
+            var first = visibleHeroVideo(firstItem);
             if (!first) return;
             window.setTimeout(function () {
                 loadHeroVideo(first);
@@ -723,9 +734,13 @@
                 return { presetValue: null, presetValueId: null };
             }
             
-            // Prioritize explicitly selected swatch first
+            // Prioritize explicitly selected swatch first.
+            // A gallery photo fills an empty slot and must not preset a color.
             var $sel = $card.find('.product-color-swatch.selected').first();
             if ($sel.length) {
+                if ($sel.attr('data-gallery-photo') === '1') {
+                    return { presetValue: null, presetValueId: null };
+                }
                 var fromSel = readPresetFromSwatchEl($sel);
                 if (fromSel.presetValue || fromSel.presetValueId) return fromSel;
             }
@@ -737,6 +752,7 @@
                 var matched = null;
                 $card.find('.product-color-swatch').each(function () {
                     var $sw = $(this);
+                    if ($sw.attr('data-gallery-photo') === '1') return;
                     var swUrl = $sw.attr('data-image-url') || '';
                     var $inner = $sw.find('.product-color-swatch-img');
                     if (!swUrl && $inner.length) swUrl = $inner.attr('src') || '';

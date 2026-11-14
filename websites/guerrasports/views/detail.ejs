@@ -28,6 +28,7 @@
         <div class="col-lg-5 mb-30">
             <% if (product.images && product.images.length> 0) { %>
                 <div id="product-carousel" class="carousel slide" data-ride="carousel">
+                    <%- include('partials/product-sale-badge', { product }) %>
                     <div class="carousel-inner bg-light">
                         <% product.images.forEach(function(image, index) { %>
                             <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
@@ -507,6 +508,7 @@
                     <div class="swiper-slide">
                     <div class="product-item bg-light mb-4">
                         <div class="product-img position-relative overflow-hidden">
+                            <%- include('partials/product-sale-badge', { product: relatedProduct }) %>
                             <% if (relatedProduct.images && relatedProduct.images.length> 0) { %>
                                 <a href="/shop/product/<%= relatedProduct.slug %>">
                                     <img class="img-fluid w-100" src="<%= relatedProduct.images[0].thumb_url || relatedProduct.images[0].image_url %>" alt="<%= relatedProduct.name %>">
@@ -633,7 +635,7 @@
             const oldRaw = compareAt;
             const oldP = oldRaw != null && String(oldRaw) !== '' ? parseFloat(String(oldRaw)) : null;
             if (oldP != null && Number.isFinite(oldP) && oldP > c) {
-                container.innerHTML = '<span>' + sym + formatMoneyClient(c) + '</span><span class="text-muted ml-2 product-price-compare"><del>' + sym + formatMoneyClient(oldP) + '</del></span>';
+                container.innerHTML = '<span class="product-price-current">' + sym + formatMoneyClient(c) + '</span><span class="product-price-compare"><del>' + sym + formatMoneyClient(oldP) + '</del></span>';
             } else {
                 container.innerHTML = '<span>' + sym + formatMoneyClient(c) + '</span>';
             }

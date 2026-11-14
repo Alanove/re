@@ -12,27 +12,51 @@
             <% if (typeof slides !=='undefined' && slides && slides.length> 0) { %>
                 <% slides.forEach((slide, index)=> { %>
                     <div class="carousel-item position-relative <%= index === 0 ? 'active' : '' %>" data-slide-duration-sec="<%= (slide.durationSeconds && slide.durationSeconds > 0) ? Math.min(600, slide.durationSeconds) : 5 %>">
-                        <% const posterSrc=slide.posterImage ? (slide.posterImage.startsWith('http') ||
-                            slide.posterImage.startsWith('/') ? slide.posterImage : '/images/slide/' +
-                            slide.posterImage) : (slide.image ? (slide.image.startsWith('http') ||
-                            slide.image.startsWith('/') ? slide.image : '/images/slide/' + slide.image) : '' );
-                            %>
-                        <% if (slide.mediaType==='video' && slide.videoUrl) { %>
-                            <% const videoSrc=slide.videoUrl.startsWith('http') || slide.videoUrl.startsWith('/') ?
-                                slide.videoUrl : '/images/slide/' + slide.videoUrl; %>
-                                    <%# Same as CMS: real <source> in HTML. Production loads app.min.js; defer-only injection broke if minify/deploy drifted. JS in app.js only plays + handles slide changes. %>
+                        <%
+                            function slideFileSrc(file) {
+                                if (!file) return '';
+                                const value = String(file);
+                                if (value.startsWith('http') || value.startsWith('/')) return value;
+                                return '/images/slide/' + value;
+                            }
+                            const desktopPoster = slide.posterImage ? slideFileSrc(slide.posterImage) : slideFileSrc(slide.image);
+                            const desktopVideo = (slide.mediaType === 'video' && slide.videoUrl) ? slideFileSrc(slide.videoUrl) : '';
+                            const desktopImage = slideFileSrc(slide.image);
+                            const mobileImage = slideFileSrc(slide.mobileImage);
+                            const mobileVideo = slideFileSrc(slide.mobileVideo);
+                            const hasMobileMedia = !!(mobileImage || mobileVideo);
+                        %>
+                        <% if (hasMobileMedia) { %>
+                            <div class="hero-media hero-media-mobile d-md-none">
+                                <% if (mobileVideo) { %>
                                     <video class="position-absolute w-100 h-100 hero-carousel-video" style="object-fit: cover;"
-                                        muted loop playsinline preload="metadata" poster="<%= posterSrc %>"
+                                        muted loop playsinline preload="metadata" poster="<%= mobileImage || desktopPoster %>"
                                         <% if (index === 0) { %>fetchpriority="high"<% } %>>
-                                        <source src="<%= videoSrc %>" type="video/mp4" />
-                                        Your browser does not support the video tag.
+                                        <source src="<%= mobileVideo %>" type="video/mp4" />
                                     </video>
-                                    <% } else { %>
-                                        <% const imgSrc=slide.image.startsWith('http') || slide.image.startsWith('/') ?
-                                            slide.image : '/images/slide/' + slide.image; %>
-                                            <img class="position-absolute w-100 h-100" src="<%= imgSrc %>"
-                                                style="object-fit: cover;" alt="<%= slide.alt || slide.title %>">
-                                            <% } %>
+                                <% } else { %>
+                                    <img class="position-absolute w-100 h-100" src="<%= mobileImage %>" style="object-fit: cover;" alt="<%= slide.alt || slide.title %>">
+                                <% } %>
+                            </div>
+                            <div class="hero-media hero-media-desktop d-none d-md-block">
+                                <% if (desktopVideo) { %>
+                                    <video class="position-absolute w-100 h-100 hero-carousel-video" style="object-fit: cover;"
+                                        muted loop playsinline preload="metadata" poster="<%= desktopPoster %>">
+                                        <source src="<%= desktopVideo %>" type="video/mp4" />
+                                    </video>
+                                <% } else if (desktopImage) { %>
+                                    <img class="position-absolute w-100 h-100" src="<%= desktopImage %>" style="object-fit: cover;" alt="<%= slide.alt || slide.title %>">
+                                <% } %>
+                            </div>
+                        <% } else if (desktopVideo) { %>
+                            <video class="position-absolute w-100 h-100 hero-carousel-video" style="object-fit: cover;"
+                                muted loop playsinline preload="metadata" poster="<%= desktopPoster %>"
+                                <% if (index === 0) { %>fetchpriority="high"<% } %>>
+                                <source src="<%= desktopVideo %>" type="video/mp4" />
+                            </video>
+                        <% } else if (desktopImage) { %>
+                            <img class="position-absolute w-100 h-100" src="<%= desktopImage %>" style="object-fit: cover;" alt="<%= slide.alt || slide.title %>">
+                        <% } %>
                                                 <div
                                                     class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                                     <div class="p-3" style="max-width: 700px;">
@@ -85,7 +109,7 @@
 <% if (typeof featuredProducts !=='undefined' && featuredProducts && featuredProducts.length> 0) { %>
     <div class="container-fluid pt-5 pb-3">
         <div class="section-header-row d-flex justify-content-between align-items-baseline mx-xl-5 mb-4">
-            <h2 class="section-title position-relative text-uppercase mb-0"><span class="bg-secondary pr-3">New Products</span></h2>
+            <h2 class="section-title position-relative text-uppercase mb-0"><span class="bg-secondary pr-3"><%= (typeof homepageSettings !== 'undefined' && homepageSettings && homepageSettings.newArrivalsTitle) ? homepageSettings.newArrivalsTitle : 'New Arrivals' %></span></h2>
             <a href="/products?featured=true" class="section-view-all-link text-decoration-none">View All</a>
         </div>
         <div class="swiper product-carousel px-xl-5">
@@ -94,6 +118,7 @@
                 <div class="swiper-slide">
                 <div class="product-item product-item-home bg-light mb-4">
                     <div class="product-img position-relative overflow-hidden">
+                        <%- include('partials/product-sale-badge', { product }) %>
                         <% if (product.images && product.images.length> 0) { %>
                             <a href="/shop/product/<%= product.slug %>">
                                 <img class="img-fluid w-100 product-card-img" src="<%= product.images[0].thumb_url || product.images[0].image_url %>"
@@ -124,22 +149,7 @@
                         <div class="d-flex align-items-center justify-content-start mt-1 money product-card-price">
                             <%- include('partials/product-listing-price', { product, customClass: '', multi_price_display: (typeof ecommerceSettings !== 'undefined' && ecommerceSettings && ecommerceSettings.multi_price_display) ? ecommerceSettings.multi_price_display : '' }) %>
                         </div>
-                        <% if (product.color_options && product.color_options.length > 0) { %>
-                            <div class="product-color-swatches d-flex justify-content-start align-items-center pl-0 pr-0">
-                                <% const maxSwatches = 3; const opts = product.color_options; const showOpts = opts.slice(0, maxSwatches); const rest = opts.length - maxSwatches; %>
-                                <% showOpts.forEach(function(opt) { %>
-                                    <button type="button" class="product-color-swatch border-0" aria-label="<%= opt.value %>"
-                                        style="background-color: <%= opt.color_code || '#ddd' %>;"
-                                        data-image-url="<%= opt.image_url %>"
-                                        <% if (opt.value_id) { %>data-attribute-value-id="<%= opt.value_id %>"<% } %>
-                                        data-option-value="<%= opt.value %>"
-                                        title="<%= opt.value %>">
-                                        <img src="<%= opt.swatch_image_url || opt.image_url %>" alt="" class="product-color-swatch-img" width="90" height="90">
-                                    </button>
-                                <% }); %>
-                                <% if (rest > 0) { %><span class="product-color-more text-muted ml-1"><%= rest %>+</span><% } %>
-                            </div>
-                        <% } %>
+                        <%- include('partials/product-listing-swatches', { product }) %>
                     </div>
                 </div>
                 </div>
@@ -152,6 +162,63 @@
     <% } %>
 
         <!-- Featured Products End -->
+
+        <!-- Sale Start -->
+        <% if (typeof saleProducts !== 'undefined' && saleProducts && saleProducts.length > 0 && typeof homepageSettings !== 'undefined' && homepageSettings && homepageSettings.saleEnabled) { %>
+            <div class="container-fluid pt-5 pb-3">
+                <div class="section-header-row d-flex justify-content-between align-items-baseline mx-xl-5 mb-4">
+                    <h2 class="section-title position-relative text-uppercase mb-0"><span class="bg-secondary pr-3"><%= homepageSettings.saleTitle || 'Sale' %></span></h2>
+                    <a href="/on-sale" class="section-view-all-link text-decoration-none">View All</a>
+                </div>
+                <div class="swiper product-carousel px-xl-5">
+                    <div class="swiper-wrapper">
+                    <% saleProducts.forEach(function(product) { %>
+                        <div class="swiper-slide">
+                        <div class="product-item product-item-home bg-light mb-4">
+                            <div class="product-img position-relative overflow-hidden">
+                                <%- include('partials/product-sale-badge', { product }) %>
+                                <% if (product.images && product.images.length> 0) { %>
+                                    <a href="/shop/product/<%= product.slug %>">
+                                        <img class="img-fluid w-100 product-card-img" src="<%= product.images[0].thumb_url || product.images[0].image_url %>"
+                                            alt="<%= product.name %>" data-default-src="<%= product.images[0].image_url %>">
+                                    </a>
+                                <% } else { %>
+                                    <a href="/shop/product/<%= product.slug %>">
+                                        <img class="img-fluid w-100 product-card-img" src="<%= siteImage %>"
+                                            alt="<%= product.name %>" data-default-src="<%= siteImage %>">
+                                    </a>
+                                <% } %>
+                                <div class="product-action">
+                                    <a class="btn btn-outline-dark btn-square add-to-wishlist-btn" href="#"
+                                        data-product-id="<%= product.id %>"><i class="far fa-heart"></i></a>
+                                    <a class="btn btn-outline-dark btn-square add-to-cart-btn" href="#"
+                                        data-product-id="<%= product.id %>"
+                                        data-has-variants="<%= !!product.has_variants %>"
+                                        data-slug="<%= product.slug %>"><i class="fa fa-shopping-cart"></i></a>
+                                </div>
+                            </div>
+                            <div class="text-left py-3 px-2 product-card-body">
+                                <a class="product-card-title text-decoration-none text-truncate d-block" href="/shop/product/<%= product.slug %>">
+                                    <%= product.name %>
+                                </a>
+                                <% if (product.short_description && product.short_description.trim()) { %>
+                                    <p class="product-card-desc text-truncate mb-1"><%= product.short_description.trim() %></p>
+                                <% } %>
+                                <div class="d-flex align-items-center justify-content-start mt-1 money product-card-price">
+                                    <%- include('partials/product-listing-price', { product, customClass: '', multi_price_display: (typeof ecommerceSettings !== 'undefined' && ecommerceSettings && ecommerceSettings.multi_price_display) ? ecommerceSettings.multi_price_display : '' }) %>
+                                </div>
+                                <%- include('partials/product-listing-swatches', { product }) %>
+                            </div>
+                        </div>
+                        </div>
+                    <% }); %>
+                    </div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                </div>
+            </div>
+        <% } %>
+        <!-- Sale End -->
 
         <!-- Shop by Category Start -->
         <% if (typeof featuredCategories !=='undefined' && featuredCategories && featuredCategories.length> 0) { %>
@@ -176,6 +243,7 @@
                                         <div class="swiper-slide">
                                         <div class="product-item product-item-home bg-light mb-4">
                                             <div class="product-img position-relative overflow-hidden">
+                                                <%- include('partials/product-sale-badge', { product }) %>
                                                 <% if (product.images && product.images.length> 0) { %>
                                                     <a href="/shop/product/<%= product.slug %>">
                                                         <img class="img-fluid w-100 product-card-img" src="<%= product.images[0].thumb_url || product.images[0].image_url %>" alt="<%= product.name %>" data-default-src="<%= product.images[0].image_url %>">
@@ -201,22 +269,7 @@
                                                 <div class="d-flex align-items-center justify-content-start mt-1 money product-card-price">
                                                     <%- include('partials/product-listing-price', { product, customClass: '', multi_price_display: (typeof ecommerceSettings !== 'undefined' && ecommerceSettings && ecommerceSettings.multi_price_display) ? ecommerceSettings.multi_price_display : '' }) %>
                                                 </div>
-                                                <% if (product.color_options && product.color_options.length > 0) { %>
-                                                    <div class="product-color-swatches d-flex justify-content-start align-items-center pl-0 pr-0">
-                                                        <% const maxSwatchesCat = 3; const optsCat = product.color_options; const showOptsCat = optsCat.slice(0, maxSwatchesCat); const restCat = optsCat.length - maxSwatchesCat; %>
-                                                        <% showOptsCat.forEach(function(opt) { %>
-                                                            <button type="button" class="product-color-swatch border-0" aria-label="<%= opt.value %>"
-                                                                style="background-color: <%= opt.color_code || '#ddd' %>;"
-                                                                data-image-url="<%= opt.image_url %>"
-                                                                <% if (opt.value_id) { %>data-attribute-value-id="<%= opt.value_id %>"<% } %>
-                                                                data-option-value="<%= opt.value %>"
-                                                                title="<%= opt.value %>">
-                                                                <img src="<%= opt.swatch_image_url || opt.image_url %>" alt="" class="product-color-swatch-img" width="90" height="90">
-                                                            </button>
-                                                        <% }); %>
-                                                        <% if (restCat > 0) { %><span class="product-color-more text-muted ml-1"><%= restCat %>+</span><% } %>
-                                                    </div>
-                                                <% } %>
+                                                <%- include('partials/product-listing-swatches', { product }) %>
                                             </div>
                                         </div>
                                         </div>
@@ -237,12 +290,17 @@
 
                         <!-- Shop Banner Start -->
                                 <div class="container-fluid p-0 mb-5">
+                                    <%
+                                        const shopBannerImage = (typeof homepageSettings !== 'undefined' && homepageSettings && homepageSettings.bannerImage) ? homepageSettings.bannerImage : '/images/Firefly-2.jpg';
+                                        const shopBannerText = (typeof homepageSettings !== 'undefined' && homepageSettings && homepageSettings.bannerText) ? homepageSettings.bannerText : 'SHOP GUERRA PRODUCTS';
+                                        const shopBannerLink = (typeof homepageSettings !== 'undefined' && homepageSettings && homepageSettings.bannerLink) ? homepageSettings.bannerLink : '/products';
+                                    %>
                                     <div class="shop-banner position-relative"
-                                        style="height: 400px; background-image: url('/images/Firefly-2.jpg');">
+                                        style="height: 400px; background-image: url('<%= shopBannerImage %>');">
                                         <div class="shop-banner-overlay position-absolute w-100 h-100 d-flex align-items-end justify-content-end"
                                             style="background: rgba(0, 0, 0, 0.4);">
-                                            <a href="/products" class="btn btn-primary shop-banner-btn">
-                                                SHOP GUERRA PRODUCTS
+                                            <a href="<%= shopBannerLink %>" class="btn btn-primary shop-banner-btn">
+                                                <%= shopBannerText %>
                                             </a>
                                         </div>
                                     </div>
@@ -430,7 +488,7 @@
   }
   function initSelectedSwatches() {
     document.querySelectorAll('.product-item .product-color-swatches').forEach(function(container) {
-      var first = container.querySelector('.product-color-swatch');
+      var first = container.querySelector('.product-color-swatch:not([data-gallery-photo="1"])');
       if (first) first.classList.add('selected');
     });
   }
@@ -450,7 +508,7 @@
 
 <%# Confirmation modal for Add to Cart / Add to Wishlist on home page %>
 <% 
-var showHomeConfirmationModal = (typeof featuredProducts !== 'undefined' && featuredProducts && featuredProducts.length > 0) || (typeof featuredCategories !== 'undefined' && featuredCategories && featuredCategories.length > 0); 
+var showHomeConfirmationModal = (typeof featuredProducts !== 'undefined' && featuredProducts && featuredProducts.length > 0) || (typeof featuredCategories !== 'undefined' && featuredCategories && featuredCategories.length > 0) || (typeof saleProducts !== 'undefined' && saleProducts && saleProducts.length > 0); 
 if (showHomeConfirmationModal) { %>
 <%- include('partials/confirmation-modal') %>
 <%- include('partials/variant-selection-modal') %>

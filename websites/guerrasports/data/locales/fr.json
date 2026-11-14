@@ -3,6 +3,7 @@
     "dashboard": "Tableau de bord",
     "pages": "Pages",
     "slider": "Diaporama de la page d'accueil",
+    "homepage": "Page d'accueil",
     "projects": "Projets",
     "menus": "Menus",
     "users": "Utilisateurs",
@@ -228,7 +229,10 @@
       "copyProduct": "Copier le produit",
       "copyProductConfirm": "Créer une copie de ce produit ? Les images, variantes, attributs et le stock seront dupliqués.",
       "includeInAutoAds": "Inclure dans Auto Ads",
-      "includeInAutoAdsHelp": "Si coché, ce produit apparaît dans le flux Meta (product-feed.xml)."
+      "includeInAutoAdsHelp": "Si coché, ce produit apparaît dans le flux Meta (product-feed.xml).",
+      "featured": "En vedette",
+      "onSale": "En solde",
+      "off": "de réduction"
     },
     "categories": {
       "deleteCategory": "Supprimer la catégorie"
@@ -329,6 +333,7 @@
       "calculatingShipping": "Calcul du transport...",
       "cannotShipToDestination": "Impossible d'expédier vers cette destination.",
       "enterFullAddressForShipping": "Veuillez indiquer votre adresse de livraison complète (ville et code postal) pour obtenir les tarifs de livraison.",
+      "shippingTemporarilyUnavailable": "Les tarifs de livraison sont temporairement indisponibles. Veuillez réessayer plus tard.",
       "selectAddress": "Sélectionner l'adresse",
       "waitForShipping": "Veuillez attendre le calcul des frais de livraison avant de passer commande.",
       "chooseAnotherAddress": "Nous ne pouvons pas livrer à cette adresse. Veuillez en choisir une autre.",
@@ -429,6 +434,30 @@
       "discountUsage": "Rapport d'utilisation des remises"
     }
   },
+  "homepage": {
+    "title": "Page d'accueil",
+    "bannerSection": "Bannière boutique",
+    "bannerHelp": "L'image sous Acheter par catégorie sur la page d'accueil.",
+    "currentImage": "Image actuelle",
+    "bannerImage": "Image de la bannière",
+    "bannerImageHelp": "JPEG, PNG, GIF ou WebP. 10 Mo max. Laissez vide pour conserver l'image actuelle.",
+    "useDefaultImage": "Supprimer l'image personnalisée et utiliser l'image par défaut",
+    "bannerText": "Texte du bouton",
+    "bannerLink": "Lien du bouton",
+    "bannerLinkHelp": "Un chemin du site comme /products, ou une URL http(s) complète.",
+    "newArrivalsSection": "Nouveautés",
+    "newArrivalsTitle": "Titre de la section",
+    "newArrivalsTitleHelp": "Titre des produits mis en avant sur la page d'accueil.",
+    "saleSection": "Soldes",
+    "saleEnabled": "Afficher la section soldes sur la page d'accueil",
+    "saleEnabledHelp": "Si désactivé, le bloc disparaît de la page d'accueil. /on-sale liste toujours les produits en solde.",
+    "saleTitle": "Titre de la section",
+    "saleTitleHelp": "Titre des produits actuellement en solde. Tout voir mène à /on-sale.",
+    "saleMetaTitle": "Titre de la page Soldes",
+    "saleMetaTitleHelp": "Titre du navigateur pour /on-sale. Laissez vide pour utiliser le titre de la section.",
+    "saleMetaDescription": "Description de la page Soldes",
+    "saleMetaDescriptionHelp": "Méta-description de /on-sale. Laissez vide pour utiliser la description par défaut."
+  },
   "slider": {
     "currentPoster": "Image d'affiche actuelle",
     "posterBadge": "Affiche",
@@ -436,6 +465,15 @@
     "durationSecondsLabel": "Durée d'affichage (secondes)",
     "durationSecondsDescription": "Durée d'affichage sur la page d'accueil avant le passage au slide suivant. Par défaut 5, maximum 600.",
     "copySlide": "Copier",
-    "copySlideTitle": "Nouveau slide avec le même texte et le même lien ; téléversez une nouvelle image ou vidéo"
+    "copySlideTitle": "Nouveau slide avec le même texte et le même lien ; téléversez une nouvelle image ou vidéo",
+    "mobileImage": "Image mobile (facultatif)",
+    "mobileImageHelp": "Affichée sous 768 px à la place de l'image bureau. Laissez vide pour conserver le fichier actuel.",
+    "mobileVideo": "Vidéo mobile (facultatif)",
+    "mobileVideoHelp": "Affichée sous 768 px à la place de la vidéo bureau. MP4, WebM ou OGG. 100 Mo max.",
+    "mobileMediaNote": "Sur téléphone, la vidéo mobile est utilisée en premier, puis l'image mobile. Sans fichier mobile, l'image ou la vidéo bureau est affichée.",
+    "removeMobileImage": "Supprimer l'image mobile",
+    "removeMobileVideo": "Supprimer la vidéo mobile",
+    "currentMobileImage": "Image mobile actuelle",
+    "currentMobileVideo": "Vidéo mobile actuelle"
   }
 }

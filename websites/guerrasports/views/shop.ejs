@@ -1,3 +1,8 @@
+<%
+  var listingBaseUrl = '/shop';
+  if (typeof isOnSalePage !== 'undefined' && isOnSalePage) listingBaseUrl = '/on-sale';
+  else if (typeof isProductsPage !== 'undefined' && isProductsPage) listingBaseUrl = '/products';
+%>
 <!-- Breadcrumb Start -->
 <div class="container-fluid">
     <div class="row px-xl-5">
@@ -5,7 +10,11 @@
             <nav class="breadcrumb bg-light mb-30">
                 <a class="breadcrumb-item text-dark" href="/">Home</a>
                 <span class="breadcrumb-item active">
-                    <%= typeof t !=='undefined' ? t('ecommerce.productCatalog') : 'Shop' %>
+                    <% if (typeof isOnSalePage !== 'undefined' && isOnSalePage && typeof listingTitle !== 'undefined' && listingTitle) { %>
+                        <%= listingTitle %>
+                    <% } else { %>
+                        <%= typeof t !=='undefined' ? t('ecommerce.productCatalog') : 'Shop' %>
+                    <% } %>
                 </span>
             </nav>
         </div>
@@ -81,7 +90,7 @@
                         </span></h5>
                     <div class="bg-light p-4 mb-30">
                         <ul class="list-unstyled">
-                            <li><a href="<%= typeof isProductsPage !== 'undefined' && isProductsPage ? '/products' : '/shop' %>" class="text-dark <%= !currentCategory ? 'font-weight-bold' : '' %>">
+                            <li><a href="<%= listingBaseUrl %>" class="text-dark <%= !currentCategory ? 'font-weight-bold' : '' %>">
                                     <%= typeof t !=='undefined' ? t('ecommerce.allCategories') : 'All Categories' %>
                                 </a></li>
                             <% if (typeof filterCategories !== 'undefined' && filterCategories && filterCategories.length> 0) { %>
@@ -114,7 +123,7 @@
                             <%= typeof t !=='undefined' ? t('ecommerce.filterByPrice') : 'Filter by Price' %>
                         </span></h5>
                     <div class="bg-light">
-                        <% var actionUrl = (typeof isProductsPage !== 'undefined' && isProductsPage) ? '/products' : '/shop'; 
+                        <% var actionUrl = listingBaseUrl; 
                             if (typeof currentCategory !=='undefined' && currentCategory) {
                             actionUrl='/shop/category/' + currentCategory; } if (typeof currentBrand !=='undefined' &&
                             currentBrand) { if (typeof currentCategory !=='undefined' && currentCategory) {
@@ -214,7 +223,7 @@
                             </span></h5>
                         <div class="bg-light p-4 mb-30">
                             <ul class="list-unstyled">
-                                <li><a href="<%= typeof isProductsPage !== 'undefined' && isProductsPage ? '/products' : '/shop' %>" class="text-dark <%= !currentCategory ? 'font-weight-bold' : '' %>">
+                                <li><a href="<%= listingBaseUrl %>" class="text-dark <%= !currentCategory ? 'font-weight-bold' : '' %>">
                                         <%= typeof t !=='undefined' ? t('ecommerce.allCategories') : 'All Categories' %>
                                     </a></li>
 <% if (typeof filterCategories !== 'undefined' && filterCategories && filterCategories.length> 0) { %>
@@ -247,7 +256,7 @@
                                 <%= typeof t !=='undefined' ? t('ecommerce.filterByPrice') : 'Filter by Price' %>
                             </span></h5>
                         <div class="bg-light p-4 mb-30">
-                            <% var actionUrlDesktop = (typeof isProductsPage !== 'undefined' && isProductsPage) ? '/products' : '/shop'; 
+                            <% var actionUrlDesktop = listingBaseUrl; 
                                 if (typeof currentCategory !=='undefined' && currentCategory) {
                                 actionUrlDesktop='/shop/category/' + currentCategory; } if (typeof currentBrand !=='undefined' &&
                                 currentBrand) { if (typeof currentCategory !=='undefined' && currentCategory) {
@@ -343,7 +352,7 @@
                     <!-- Search Bar -->
                     <div class="row pb-3">
                         <div class="col-12 pb-1">
-                            <% var searchActionUrl = (typeof isProductsPage !== 'undefined' && isProductsPage) ? '/products' : '/shop'; if (typeof currentCategory !== 'undefined' && currentCategory) { searchActionUrl = '/shop/category/' + currentCategory; } if (typeof currentBrand !== 'undefined' && currentBrand) { searchActionUrl = (typeof currentCategory !== 'undefined' && currentCategory) ? '/shop/category/' + currentCategory + '/brand/' + currentBrand : '/shop/brand/' + currentBrand; } %>
+                            <% var searchActionUrl = listingBaseUrl; if (typeof currentCategory !== 'undefined' && currentCategory) { searchActionUrl = '/shop/category/' + currentCategory; } if (typeof currentBrand !== 'undefined' && currentBrand) { searchActionUrl = (typeof currentCategory !== 'undefined' && currentCategory) ? '/shop/category/' + currentCategory + '/brand/' + currentBrand : '/shop/brand/' + currentBrand; } %>
                             <form method="GET" action="<%= searchActionUrl %>" class="mb-3">
                                 <% if (filters.category) { %>
                                     <input type="hidden" name="category" value="<%= filters.category %>">
@@ -418,7 +427,7 @@
                                             <%= typeof t !=='undefined' ? t('ecommerce.sortBy') : 'Sorting' %>
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-right">
-                                            <% var sortBaseUrl = (typeof isProductsPage !== 'undefined' && isProductsPage) ? '/products' : '/shop'; if (typeof currentCategory !== 'undefined' && currentCategory) { sortBaseUrl = '/shop/category/' + currentCategory; } if (typeof currentBrand !== 'undefined' && currentBrand) { sortBaseUrl = (typeof currentCategory !== 'undefined' && currentCategory) ? '/shop/category/' + currentCategory + '/brand/' + currentBrand : '/shop/brand/' + currentBrand; }
+                                            <% var sortBaseUrl = listingBaseUrl; if (typeof currentCategory !== 'undefined' && currentCategory) { sortBaseUrl = '/shop/category/' + currentCategory; } if (typeof currentBrand !== 'undefined' && currentBrand) { sortBaseUrl = (typeof currentCategory !== 'undefined' && currentCategory) ? '/shop/category/' + currentCategory + '/brand/' + currentBrand : '/shop/brand/' + currentBrand; }
                                             function buildFilterUrl(sortBy, sortOrder) { const params = new URLSearchParams({ sort_by: sortBy, sort_order: sortOrder }); if (filters.search) params.set('search', filters.search); if (filters.min_price) params.set('min_price', filters.min_price); if (filters.max_price) params.set('max_price', filters.max_price); if (filters.featured) params.set('featured', filters.featured); return sortBaseUrl + '?' + params.toString(); } %>
                                                 <a class="dropdown-item"
                                                     href="<%= buildFilterUrl('created_at', 'DESC') %>">
@@ -448,6 +457,7 @@
                                 <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
                                     <div class="product-item product-item-home bg-light mb-4">
                                         <div class="product-img position-relative overflow-hidden">
+                                            <%- include('partials/product-sale-badge', { product }) %>
                                             <% if (product.images && product.images.length> 0) { %>
                                                 <a href="/shop/product/<%= product.slug %>">
                                                     <img class="img-fluid w-100 product-card-img" src="<%= product.images[0].thumb_url || product.images[0].image_url %>"
@@ -492,22 +502,7 @@
                                             <div class="d-flex align-items-center justify-content-start mt-1 money product-card-price">
                                                 <%- include('partials/product-listing-price', { product, customClass: '', multi_price_display: (typeof ecommerceSettings !== 'undefined' && ecommerceSettings && ecommerceSettings.multi_price_display) ? ecommerceSettings.multi_price_display : '' }) %>
                                             </div>
-                                            <% if (product.color_options && product.color_options.length > 0) { %>
-                                                <div class="product-color-swatches d-flex justify-content-start align-items-center pl-0 pr-0">
-                                                    <% const maxSwatches = 3; const opts = product.color_options; const showOpts = opts.slice(0, maxSwatches); const rest = opts.length - maxSwatches; %>
-                                                    <% showOpts.forEach(function(opt) { %>
-                                                        <button type="button" class="product-color-swatch border-0" aria-label="<%= opt.value %>"
-                                                            style="background-color: <%= opt.color_code || '#ddd' %>;"
-                                                            data-image-url="<%= opt.image_url %>"
-                                                            <% if (opt.value_id) { %>data-attribute-value-id="<%= opt.value_id %>"<% } %>
-                                                            data-option-value="<%= opt.value %>"
-                                                            title="<%= opt.value %>">
-                                                            <img src="<%= opt.swatch_image_url || opt.image_url %>" alt="" class="product-color-swatch-img" width="90" height="90">
-                                                        </button>
-                                                    <% }); %>
-                                                    <% if (rest > 0) { %><span class="product-color-more text-muted ml-1"><%= rest %>+</span><% } %>
-                                                </div>
-                                            <% } %>
+                                            <%- include('partials/product-listing-swatches', { product }) %>
                                             <% if (product.stock_quantity <=0) { %>
                                                 <span class="badge badge-danger mt-2">
                                                     <%= typeof t !=='undefined' ? t('ecommerce.outOfStock')
@@ -545,7 +540,7 @@
                             <nav aria-label="Page navigation">
                                 <ul class="pagination justify-content-center mb-3">
                                     <% const currentPage=pagination.page; const totalPages=pagination.totalPages;
-                                        let paginationBaseUrl = (typeof isProductsPage !== 'undefined' && isProductsPage) ? '/products' : '/shop';
+                                        let paginationBaseUrl = listingBaseUrl;
                                         if (typeof currentCategory !== 'undefined' && currentCategory) { paginationBaseUrl = '/shop/category/' + currentCategory; }
                                         if (typeof currentBrand !== 'undefined' && currentBrand) { paginationBaseUrl = (typeof currentCategory !== 'undefined' && currentCategory) ? '/shop/category/' + currentCategory + '/brand/' + currentBrand : '/shop/brand/' + currentBrand; }
                                         function buildPaginationUrl(pageNum) { const params = new URLSearchParams(); if (filters.search) params.set('search', filters.search); if (filters.min_price) params.set('min_price', filters.min_price); if (filters.max_price) params.set('max_price', filters.max_price); if (filters.featured) params.set('featured', filters.featured); if (filters.sort_by) params.set('sort_by', filters.sort_by); if (filters.sort_order) params.set('sort_order', filters.sort_order); params.set('page', pageNum.toString()); return paginationBaseUrl + '?' + params.toString(); } %>
@@ -762,7 +757,7 @@
   }
   function initSelectedSwatches() {
     document.querySelectorAll('.product-item .product-color-swatches').forEach(function(container) {
-      var first = container.querySelector('.product-color-swatch');
+      var first = container.querySelector('.product-color-swatch:not([data-gallery-photo="1"])');
       if (first) first.classList.add('selected');
     });
   }

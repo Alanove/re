@@ -413,12 +413,13 @@
         var msgSelectAddress = <%- JSON.stringify((typeof t !== 'undefined' && t('ecommerce.checkout.selectAddress') !== 'ecommerce.checkout.selectAddress') ? t('ecommerce.checkout.selectAddress') : 'Select address') %>;
         var msgChooseAnotherAddress = <%- JSON.stringify((typeof t !== 'undefined' && t('ecommerce.checkout.chooseAnotherAddress') !== 'ecommerce.checkout.chooseAnotherAddress') ? t('ecommerce.checkout.chooseAnotherAddress') : 'We cannot ship to this address. Please choose another address.') %>;
         var msgEnterFullAddressForShippingBanner = <%- JSON.stringify((typeof t !== 'undefined' && t('ecommerce.checkout.enterFullAddressForShipping') !== 'ecommerce.checkout.enterFullAddressForShipping') ? t('ecommerce.checkout.enterFullAddressForShipping') : 'Please enter your full shipping address including city and zip/postal code to get shipping rates.') %>;
+        var msgShippingTemporarilyUnavailable = <%- JSON.stringify((typeof t !== 'undefined' && t('ecommerce.checkout.shippingTemporarilyUnavailable') !== 'ecommerce.checkout.shippingTemporarilyUnavailable') ? t('ecommerce.checkout.shippingTemporarilyUnavailable') : 'Shipping rates are temporarily unavailable. Please try again later.') %>;
         var msgNoPaymentsForCountry = <%- JSON.stringify((typeof t !== 'undefined' && t('ecommerce.checkout.noPaymentsForCountry') !== 'ecommerce.checkout.noPaymentsForCountry') ? t('ecommerce.checkout.noPaymentsForCountry') : 'No payment options available for this country.') %>;
         var placeOrderLabel = <%- JSON.stringify((typeof t !== 'undefined' && t('ecommerce.checkout.placeOrder') !== 'ecommerce.checkout.placeOrder') ? t('ecommerce.checkout.placeOrder') : 'Place Order') %>;
         var isLoggedIn = <%= (typeof customerId !== 'undefined' && customerId) ? 'true' : 'false' %>;
         var initialAddress = <%- JSON.stringify(typeof address !== 'undefined' && address ? { country: address.country || '', city: address.city || '', state: address.state || '', zip: (address.postal_code || address.zip || '') } : null) %>;
 
-        var shippingCheckoutState = 'loading'; // 'loading' | 'ready' | 'cannot_ship' | 'no_address'
+        var shippingCheckoutState = 'loading'; // 'loading' | 'ready' | 'incomplete' | 'unavailable' | 'cannot_ship' | 'no_address'
         var noPaymentForCountry = false;
         var shippingCheckoutMessageEl = document.getElementById('shipping-checkout-message');
         var placeOrderBtn = document.getElementById('place-order-btn');
@@ -426,7 +427,9 @@
         function getMessageForState() {
             if (shippingCheckoutState === 'loading') return msgWaitForShipping;
             if (shippingCheckoutState === 'no_address') return msgSelectAddress;
-            if (shippingCheckoutState === 'cannot_ship') return msgEnterFullAddressForShippingBanner;
+            if (shippingCheckoutState === 'incomplete') return msgEnterFullAddressForShippingBanner;
+            if (shippingCheckoutState === 'unavailable') return msgShippingTemporarilyUnavailable;
+            if (shippingCheckoutState === 'cannot_ship') return msgChooseAnotherAddress;
             return '';
         }
 
@@ -443,7 +446,7 @@
                     shippingCheckoutMessageEl.classList.remove('d-none');
                     shippingCheckoutMessageEl.textContent = noPaymentForCountry ? msgNoPaymentsForCountry : getMessageForState();
                     shippingCheckoutMessageEl.classList.toggle('alert-warning', shippingCheckoutState === 'loading' && !noPaymentForCountry);
-                    shippingCheckoutMessageEl.classList.toggle('alert-danger', noPaymentForCountry || shippingCheckoutState === 'no_address' || shippingCheckoutState === 'cannot_ship');
+                    shippingCheckoutMessageEl.classList.toggle('alert-danger', noPaymentForCountry || shippingCheckoutState === 'no_address' || shippingCheckoutState === 'incomplete' || shippingCheckoutState === 'unavailable' || shippingCheckoutState === 'cannot_ship');
                 }
             }
         }
@@ -512,7 +515,16 @@
             }
         }
 
-        var msgEnterFullAddressForShipping = (typeof t !== 'undefined' && t('ecommerce.checkout.enterFullAddressForShipping')) ? t('ecommerce.checkout.enterFullAddressForShipping') : 'Please enter your full shipping address including city and zip/postal code to get shipping rates.';
+        function escapeShippingText(value) {
+            return String(value || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        function emptyRatesPresentation(country, city, ratesError) {
+            if (!country) return { state: 'no_address', msg: msgSelectAddress, cls: 'text-muted' };
+            if (!city) return { state: 'incomplete', msg: msgEnterFullAddressForShippingBanner, cls: 'text-dark' };
+            if (ratesError === 'carrier_unavailable') return { state: 'unavailable', msg: msgShippingTemporarilyUnavailable, cls: 'text-dark' };
+            return { state: 'cannot_ship', msg: msgChooseAnotherAddress, cls: 'text-dark' };
+        }
 
         function setShippingUI(state, wrapperHtml) {
             shippingCheckoutState = state;
@@ -537,7 +549,11 @@
 
             var addressEmpty = !country;
             if (addressEmpty && !isLoggedIn) {
-                setShippingUI('no_address', '<p class="text-muted small mb-0">' + msgSelectAddress.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</p>');
+                setShippingUI('no_address', '<p class="text-muted small mb-0">' + escapeShippingText(msgSelectAddress) + '</p>');
+                return;
+            }
+            if (!addressEmpty && !city) {
+                setShippingUI('incomplete', '<p class="text-dark small mb-0">' + escapeShippingText(msgEnterFullAddressForShippingBanner) + '</p>');
                 return;
             }
 
@@ -566,11 +582,8 @@
                 var result = await response.json();
 
                 if (!result.success || !Array.isArray(result.rates)) {
-                    if (addressEmpty) {
-                        setShippingUI('no_address', '<p class="text-muted small mb-0">' + msgSelectAddress.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</p>');
-                    } else {
-                        setShippingUI('cannot_ship', '<p class="text-dark small mb-0">' + msgEnterFullAddressForShipping.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</p>');
-                    }
+                    var failed = emptyRatesPresentation(country, city, result && result.ratesError ? result.ratesError : (country && city ? 'carrier_unavailable' : ''));
+                    setShippingUI(failed.state, '<p class="' + failed.cls + ' small mb-0">' + escapeShippingText(failed.msg) + '</p>');
                     return;
                 }
 
@@ -592,15 +605,15 @@
                     newRadios.forEach(function (r) { r.removeEventListener('change', updateTotal); r.addEventListener('change', updateTotal); });
                     updateTotal();
                 } else {
-                    var noRatesState = addressEmpty ? 'no_address' : 'cannot_ship';
-                    var noRatesMsg = addressEmpty ? msgSelectAddress : msgEnterFullAddressForShipping;
-                    var noRatesClass = addressEmpty ? 'text-muted' : 'text-dark';
-                    setShippingUI(noRatesState, '<p class="' + noRatesClass + ' small mb-0">' + noRatesMsg.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</p>');
+                    var noRates = emptyRatesPresentation(country, city, result.ratesError);
+                    setShippingUI(noRates.state, '<p class="' + noRates.cls + ' small mb-0">' + escapeShippingText(noRates.msg) + '</p>');
                 }
                 hideLoading();
             } catch (err) {
                 console.error('Error fetching shipping rates:', err);
-                setShippingUI(addressEmpty ? 'no_address' : 'cannot_ship', '<p class="text-danger small mb-0">' + (err && err.name === 'AbortError' ? 'Request timed out.' : 'Unable to load shipping.') + '</p>');
+                var fetchFailed = emptyRatesPresentation(country, city, (country && city) ? 'carrier_unavailable' : '');
+                var fetchMsg = (err && err.name === 'AbortError') ? 'Request timed out.' : fetchFailed.msg;
+                setShippingUI(fetchFailed.state, '<p class="text-danger small mb-0">' + escapeShippingText(fetchMsg) + '</p>');
             } finally {
                 clearTimeout(timeoutId);
                 hideLoading();

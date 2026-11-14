@@ -19,10 +19,10 @@
 %>
 
 <% if (oldPrice && oldPrice > currentPrice) { %>
-    <span class="<%= typeof customClass !== 'undefined' ? customClass : '' %>">
+    <span class="product-price-current <%= typeof customClass !== 'undefined' ? customClass : '' %>">
         <%= symbol %><%= fmtMoney(currentPrice) %>
     </span>
-    <span class="text-muted ml-2 product-price-compare">
+    <span class="product-price-compare">
         <del><%= symbol %><%= fmtMoney(oldPrice) %></del>
     </span>
 <% } else { %>

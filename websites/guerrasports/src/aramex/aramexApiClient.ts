@@ -320,10 +320,22 @@ export async function calculateRate(params: {
     process.env.ARAMEX_LOG_REQUEST === 'true' ||
     process.env.ARAMEX_LOG_REQUEST === '1';
   if (shouldLog) {
+    const safeBody = {
+      ...body,
+      ClientInfo: {
+        UserName: '[redacted]',
+        Password: '[redacted]',
+        Version: ClientInfo.Version,
+        AccountNumber: '[redacted]',
+        AccountPin: '[redacted]',
+        AccountEntity: ClientInfo.AccountEntity,
+        AccountCountryCode: ClientInfo.AccountCountryCode
+      }
+    };
     process.stdout.write('\n========== Aramex CalculateRate (copy to Postman) ==========\n');
     process.stdout.write('POST ' + RATE_CALCULATOR_URL + '\n');
     process.stdout.write('Content-Type: application/json\n\n');
-    process.stdout.write(JSON.stringify(body, null, 2) + '\n');
+    process.stdout.write(JSON.stringify(safeBody, null, 2) + '\n');
     process.stdout.write('==========\n\n');
   }
   return postJson<CalculateRateResponse>(RATE_CALCULATOR_URL, body);

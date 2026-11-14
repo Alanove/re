@@ -54,6 +54,7 @@ export interface Product {
   low_stock_threshold: number;
   track_inventory: boolean;
   is_featured: boolean;
+  is_on_sale?: boolean;
   is_active: boolean;
   include_in_auto_ads: boolean;
   status: string;
@@ -116,6 +117,8 @@ export interface ProductFilters {
   is_active?: boolean;
   status?: string;
   in_stock?: boolean;
+  /** Product or an active variant has compare_at_price above the selling price. */
+  on_sale?: boolean;
   sort_by?: 'name' | 'price' | 'created_at' | 'rating' | 'popularity';
   sort_order?: 'ASC' | 'DESC';
   page?: number;
@@ -322,6 +325,10 @@ export class ProductService {
 
       if (in_stock) {
         whereConditions.push('(p.track_inventory = FALSE OR p.stock_quantity > 0)');
+      }
+
+      if (filters.on_sale) {
+        whereConditions.push('p.is_on_sale = 1');
       }
 
       // Handle attribute filters
@@ -545,6 +552,10 @@ export class ProductService {
 
       if (in_stock) {
         whereConditions.push('(p.track_inventory = FALSE OR p.stock_quantity > 0)');
+      }
+
+      if (filters.on_sale) {
+        whereConditions.push('p.is_on_sale = 1');
       }
 
       // Handle attribute filters

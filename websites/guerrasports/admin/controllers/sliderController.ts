@@ -52,7 +52,9 @@ export class SliderController {
   public static handleSliderUpload(req: Request, res: Response, next: NextFunction): void {
     const uploadHandler = upload.fields([
       { name: 'image', maxCount: 1 },
-      { name: 'video', maxCount: 1 }
+      { name: 'video', maxCount: 1 },
+      { name: 'mobile_image', maxCount: 1 },
+      { name: 'mobile_video', maxCount: 1 }
     ]);
 
     uploadHandler(req as any, res as any, (err: any) => {
@@ -129,7 +131,9 @@ export class SliderController {
         buttonText: '',
         mediaType: 'image' as 'image' | 'video',
         videoUrl: '',
-        durationSeconds: 5
+        durationSeconds: 5,
+        mobileImage: '',
+        mobileVideo: ''
       };
 
       const copyFrom = typeof req.query['copyFrom'] === 'string' ? req.query['copyFrom'].trim() : '';
@@ -148,7 +152,9 @@ export class SliderController {
             buttonText: src.buttonText || '',
             mediaType: (src.mediaType as 'image' | 'video') || 'image',
             videoUrl: '',
-            durationSeconds: src.durationSeconds != null && src.durationSeconds > 0 ? src.durationSeconds : 5
+            durationSeconds: src.durationSeconds != null && src.durationSeconds > 0 ? src.durationSeconds : 5,
+            mobileImage: '',
+            mobileVideo: ''
           };
         }
       }
@@ -192,6 +198,8 @@ export class SliderController {
       // Check if at least one file was uploaded (image or video)
       const imageFile = files?.image?.[0];
       const videoFile = files?.video?.[0];
+      const mobileImageFile = files?.mobile_image?.[0];
+      const mobileVideoFile = files?.mobile_video?.[0];
       
       if (!imageFile && !videoFile) {
         console.log('No files uploaded');
@@ -237,7 +245,9 @@ export class SliderController {
           mediaType,
           videoUrl,
           posterImage,
-          durationSeconds
+          durationSeconds,
+          mobileImageFile ? mobileImageFile.filename : null,
+          mobileVideoFile ? mobileVideoFile.filename : null
         );
         console.log('Slide created successfully:', newSlide);
         
@@ -348,6 +358,8 @@ export class SliderController {
         // Handle file uploads (partial updates: only replace what was uploaded)
         const imageFile = files?.image?.[0];
         const videoFile = files?.video?.[0];
+        const mobileImageFile = files?.mobile_image?.[0];
+        const mobileVideoFile = files?.mobile_video?.[0];
 
         if (imageFile || videoFile) {
           const isVideoSlide = existingSlide.mediaType === 'video' && !!existingSlide.videoUrl;
@@ -373,6 +385,19 @@ export class SliderController {
               updates.posterImage = null;
             }
           }
+        }
+
+        const removeMobileImage = req.body.remove_mobile_image === '1' || req.body.remove_mobile_image === 'on';
+        const removeMobileVideo = req.body.remove_mobile_video === '1' || req.body.remove_mobile_video === 'on';
+        if (mobileImageFile) {
+          updates.mobileImage = mobileImageFile.filename;
+        } else if (removeMobileImage) {
+          updates.mobileImage = null;
+        }
+        if (mobileVideoFile) {
+          updates.mobileVideo = mobileVideoFile.filename;
+        } else if (removeMobileVideo) {
+          updates.mobileVideo = null;
         }
 
         // Update slide

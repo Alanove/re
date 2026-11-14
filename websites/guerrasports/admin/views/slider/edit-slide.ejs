@@ -91,6 +91,37 @@
 											<strong><%= typeof t !== 'undefined' ? t('slider.note') : 'Note' %>:</strong> <%= typeof t !== 'undefined' ? t('slider.videoNote') : 'If both image and video are uploaded, the image will be used as a poster/fallback.' %>
 										</div>
 									</div>
+
+									<div class="mb-3">
+										<label for="mobile_image" class="form-label">
+											<%= typeof t !== 'undefined' ? t('slider.mobileImage') : 'Mobile image (optional)' %>
+										</label>
+										<input type="file" class="form-control" id="mobile_image" name="mobile_image" accept="image/*" />
+										<div class="form-text"><%= typeof t !== 'undefined' ? t('slider.mobileImageHelp') : 'Shown below 768px instead of the desktop image. Leave empty to keep the current file.' %></div>
+										<% if (isEdit && slide.mobileImage) { %>
+											<div class="form-check mt-2">
+												<input class="form-check-input" type="checkbox" id="remove_mobile_image" name="remove_mobile_image" value="1">
+												<label class="form-check-label" for="remove_mobile_image"><%= typeof t !== 'undefined' ? t('slider.removeMobileImage') : 'Remove mobile image' %></label>
+											</div>
+										<% } %>
+									</div>
+
+									<div class="mb-3">
+										<label for="mobile_video" class="form-label">
+											<%= typeof t !== 'undefined' ? t('slider.mobileVideo') : 'Mobile video (optional)' %>
+										</label>
+										<input type="file" class="form-control" id="mobile_video" name="mobile_video" accept="video/*" />
+										<div class="form-text">
+											<%= typeof t !== 'undefined' ? t('slider.mobileVideoHelp') : 'Shown below 768px instead of the desktop video. MP4, WebM, or OGG. Max 100MB.' %>
+											<strong><%= typeof t !== 'undefined' ? t('slider.mobileMediaNote') : 'On phones, a mobile video is used first, then a mobile image. If neither is uploaded, the desktop image or video is shown.' %></strong>
+										</div>
+										<% if (isEdit && slide.mobileVideo) { %>
+											<div class="form-check mt-2">
+												<input class="form-check-input" type="checkbox" id="remove_mobile_video" name="remove_mobile_video" value="1">
+												<label class="form-check-label" for="remove_mobile_video"><%= typeof t !== 'undefined' ? t('slider.removeMobileVideo') : 'Remove mobile video' %></label>
+											</div>
+										<% } %>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -134,6 +165,20 @@
 													<img src="/images/slide/<%= slide.image %>" alt="<%= slide.alt %>" class="img-fluid rounded" style="max-height: 200px; object-fit: cover;" />
 													<div class="mt-2">
 														<small class="text-muted"><%= typeof t !== 'undefined' ? t('slider.currentImage') : 'Current Image' %></small>
+													</div>
+												<% } %>
+												<% if (slide.mobileImage || slide.mobileVideo) { %>
+													<div class="mt-3 pt-3 border-top text-center">
+														<% if (slide.mobileVideo) { %>
+															<video controls class="img-fluid rounded" style="max-height: 140px; width: 100%;">
+																<source src="/images/slide/<%= slide.mobileVideo %>" type="video/mp4">
+															</video>
+															<div class="mt-2"><small class="text-muted"><%= typeof t !== 'undefined' ? t('slider.currentMobileVideo') : 'Current mobile video' %></small></div>
+														<% } %>
+														<% if (slide.mobileImage) { %>
+															<img src="/images/slide/<%= slide.mobileImage %>" alt="" class="img-fluid rounded border mt-2" style="max-height: 120px; object-fit: cover;" />
+															<div class="mt-2"><small class="text-muted"><%= typeof t !== 'undefined' ? t('slider.currentMobileImage') : 'Current mobile image' %></small></div>
+														<% } %>
 													</div>
 												<% } %>
 											<% } else { %>

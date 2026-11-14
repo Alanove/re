@@ -23,6 +23,7 @@ export interface ProductCreateData {
   low_stock_threshold?: number | undefined;
   track_inventory?: boolean | undefined;
   is_featured?: boolean | undefined;
+  is_on_sale?: boolean | undefined;
   is_active?: boolean | undefined;
   include_in_auto_ads?: boolean | undefined;
   status?: string | undefined;
@@ -71,9 +72,9 @@ export class ProductManagementService {
         `INSERT INTO products (
           name, slug, sku, short_description, description, price, compare_at_price,
           cost_price, weight, length, width, height, stock_quantity, low_stock_threshold,
-          track_inventory, is_featured, is_active, include_in_auto_ads, status, category_id, brand_id, size_chart_id,
+          track_inventory, is_featured, is_on_sale, is_active, include_in_auto_ads, status, category_id, brand_id, size_chart_id,
           meta_title, meta_description, meta_keywords
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
           data.name,
           data.slug,
@@ -91,6 +92,7 @@ export class ProductManagementService {
           data.low_stock_threshold || 5,
           data.track_inventory !== undefined ? data.track_inventory : true,
           data.is_featured || false,
+          data.is_on_sale || false,
           data.is_active !== undefined ? data.is_active : true,
           data.include_in_auto_ads !== undefined ? data.include_in_auto_ads : true,
           data.status || 'draft',
@@ -250,6 +252,7 @@ export class ProductManagementService {
       category_id?: number;
       status?: string;
       is_featured?: boolean;
+      is_on_sale?: boolean;
     }
   ): Promise<{
     products: Product[];
@@ -280,6 +283,11 @@ export class ProductManagementService {
       if (filters?.is_featured !== undefined) {
         whereConditions.push('p.is_featured = ?');
         queryParams.push(filters.is_featured);
+      }
+
+      if (filters?.is_on_sale !== undefined) {
+        whereConditions.push('p.is_on_sale = ?');
+        queryParams.push(filters.is_on_sale);
       }
 
       const whereClause = whereConditions.length > 0
@@ -651,9 +659,9 @@ export class ProductManagementService {
         `INSERT INTO products (
           name, slug, sku, short_description, description, price, compare_at_price,
           cost_price, weight, length, width, height, stock_quantity, low_stock_threshold,
-          track_inventory, is_featured, is_active, include_in_auto_ads, status, category_id, brand_id, size_chart_id,
+          track_inventory, is_featured, is_on_sale, is_active, include_in_auto_ads, status, category_id, brand_id, size_chart_id,
           meta_title, meta_description, meta_keywords
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
           name,
           slug,
@@ -671,6 +679,7 @@ export class ProductManagementService {
           src.low_stock_threshold ?? 5,
           src.track_inventory ?? true,
           src.is_featured ?? false,
+          src.is_on_sale ?? false,
           src.is_active ?? true,
           src.include_in_auto_ads ?? true,
           src.status || 'draft',

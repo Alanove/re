@@ -183,6 +183,24 @@ export class HomeController {
       });
       await productService.attachColorOptionsForListing(featuredResult.products || []);
 
+      const { HomepageSettingsService } = await import('../../admin/services/homepageSettingsService');
+      const homepageSettings = await HomepageSettingsService.getInstance().getSettings();
+
+      let saleProducts: any[] = [];
+      if (homepageSettings.saleEnabled) {
+        const saleResult = await productService.getProducts({
+          is_active: true,
+          status: 'published',
+          on_sale: true,
+          page: 1,
+          limit: 8,
+          sort_by: 'created_at',
+          sort_order: 'DESC'
+        });
+        saleProducts = saleResult.products || [];
+        await productService.attachColorOptionsForListing(saleProducts);
+      }
+
       // Attach color options for category products
       for (const cat of featuredCategories) {
         const catProducts = categoryProductsMap[cat.id] || [];
@@ -246,6 +264,8 @@ export class HomeController {
         categoryProductsMap,
         featuredProducts: featuredResult.products,
         recentProducts: recentResult.products,
+        homepageSettings,
+        saleProducts,
         brands,
         eventPages
       });

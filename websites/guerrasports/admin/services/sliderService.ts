@@ -1,11 +1,19 @@
 import { db } from '../../src/config/database';
 
-/** When `duration_seconds` is not migrated yet, MySQL returns errno 1054; queries must fall back. */
-function isUnknownDurationColumnError(err: unknown): boolean {
-  const e = err as { errno?: number; code?: string; message?: string };
-  if (e?.errno === 1054) return true;
+/** When a column is not migrated yet, MySQL returns errno 1054; queries must fall back. */
+function isUnknownColumnError(err: unknown, column: string): boolean {
+  const e = err as { errno?: number; message?: string };
   const msg = String(e?.message || '');
-  return /duration_seconds/i.test(msg) && /Unknown column/i.test(msg);
+  if (e?.errno !== 1054 && !/Unknown column/i.test(msg)) return false;
+  return new RegExp(column, 'i').test(msg);
+}
+
+function isUnknownDurationColumnError(err: unknown): boolean {
+  return isUnknownColumnError(err, 'duration_seconds');
+}
+
+function isUnknownMobileColumnError(err: unknown): boolean {
+  return isUnknownColumnError(err, 'mobile_image_url') || isUnknownColumnError(err, 'mobile_video_url');
 }
 
 export interface Slide {
@@ -22,6 +30,10 @@ export interface Slide {
   posterImage?: string;
   /** Seconds each slide is shown on the home carousel (default 5) */
   durationSeconds?: number;
+  /** Optional phone image. Empty means the desktop image is used below 768px. */
+  mobileImage?: string | null;
+  /** Optional phone video. Empty means the desktop video or image is used below 768px. */
+  mobileVideo?: string | null;
 }
 
 export class SliderService {
@@ -54,6 +66,13 @@ export class SliderService {
           video_url as videoUrl,
           poster_image as posterImage`;
 
+  private static readonly SLIDER_SELECT_DURATION = `,
+          duration_seconds as durationSeconds`;
+
+  private static readonly SLIDER_SELECT_MOBILE = `,
+          mobile_image_url as mobileImage,
+          mobile_video_url as mobileVideo`;
+
   private withDefaultDuration(rows: any[]): Slide[] {
     return (rows as any[]).map((r) => {
       const d = r.durationSeconds;
@@ -68,24 +87,29 @@ export class SliderService {
    * Reads slides; if `duration_seconds` column is missing (migration not run), falls back and defaults duration to 5.
    */
   private async querySlides(whereOrderSql: string, params: any[]): Promise<Slide[]> {
-    const withDuration = `${SliderService.SLIDER_SELECT_CORE}
-          , duration_seconds as durationSeconds
+    const fromSql = `
         FROM slider
         ${whereOrderSql}`;
-    const noDuration = `${SliderService.SLIDER_SELECT_CORE}
-        FROM slider
-        ${whereOrderSql}`;
+    const attempts = [
+      SliderService.SLIDER_SELECT_CORE + SliderService.SLIDER_SELECT_DURATION + SliderService.SLIDER_SELECT_MOBILE + fromSql,
+      SliderService.SLIDER_SELECT_CORE + SliderService.SLIDER_SELECT_DURATION + fromSql,
+      SliderService.SLIDER_SELECT_CORE + SliderService.SLIDER_SELECT_MOBILE + fromSql,
+      SliderService.SLIDER_SELECT_CORE + fromSql
+    ];
 
-    try {
-      const [rows] = await db.query(withDuration, params);
-      return this.withDefaultDuration(rows as any[]);
-    } catch (err) {
-      if (isUnknownDurationColumnError(err)) {
-        const [rows] = await db.query(noDuration, params);
+    let lastError: unknown;
+    for (const sql of attempts) {
+      try {
+        const [rows] = await db.query(sql, params);
         return this.withDefaultDuration(rows as any[]);
+      } catch (err) {
+        lastError = err;
+        if (!isUnknownDurationColumnError(err) && !isUnknownMobileColumnError(err)) {
+          throw err;
+        }
       }
-      throw err;
     }
+    throw lastError;
   }
 
   public async getAllSlides(): Promise<Slide[]> {
@@ -128,7 +152,7 @@ export class SliderService {
     }
   }
 
-  public async addSlide(image: string, alt: string, order?: number, title?: string, link?: string, buttonText?: string, mediaType?: 'image' | 'video', videoUrl?: string, posterImage?: string, durationSeconds: number = 5): Promise<Slide> {
+  public async addSlide(image: string, alt: string, order?: number, title?: string, link?: string, buttonText?: string, mediaType?: 'image' | 'video', videoUrl?: string, posterImage?: string, durationSeconds: number = 5, mobileImage?: string | null, mobileVideo?: string | null): Promise<Slide> {
     try {
       // Missing order means "put this slide first". A real number is kept and made unique.
       const placeFirst = order === undefined || order === null || Number.isNaN(order);
@@ -143,19 +167,42 @@ export class SliderService {
         orderIndex = order as number;
       }
 
-      let result: any;
-      try {
-        [result] = await db.query(`
-        INSERT INTO slider (image_url, title, subtitle, order_index, link_url, link_text, is_active, media_type, video_url, poster_image, duration_seconds)
-        VALUES (?, ?, ?, ?, ?, ?, 1, ?, ?, ?, ?)
-      `, [image, title || '', alt, orderIndex, link || '', buttonText || '', mediaType || 'image', videoUrl || null, posterImage || null, durationSeconds]);
-      } catch (insertErr) {
-        if (!isUnknownDurationColumnError(insertErr)) throw insertErr;
-        [result] = await db.query(`
-        INSERT INTO slider (image_url, title, subtitle, order_index, link_url, link_text, is_active, media_type, video_url, poster_image)
-        VALUES (?, ?, ?, ?, ?, ?, 1, ?, ?, ?)
-      `, [image, title || '', alt, orderIndex, link || '', buttonText || '', mediaType || 'image', videoUrl || null, posterImage || null]);
+      const baseCols = 'image_url, title, subtitle, order_index, link_url, link_text, is_active, media_type, video_url, poster_image';
+      const baseVals = [image, title || '', alt, orderIndex, link || '', buttonText || '', mediaType || 'image', videoUrl || null, posterImage || null];
+
+      const insertAttempts: Array<{ sql: string; vals: any[] }> = [
+        {
+          sql: `INSERT INTO slider (${baseCols}, duration_seconds, mobile_image_url, mobile_video_url) VALUES (?, ?, ?, ?, ?, ?, 1, ?, ?, ?, ?, ?, ?)`,
+          vals: [...baseVals, durationSeconds, mobileImage || null, mobileVideo || null]
+        },
+        {
+          sql: `INSERT INTO slider (${baseCols}, duration_seconds) VALUES (?, ?, ?, ?, ?, ?, 1, ?, ?, ?, ?)`,
+          vals: [...baseVals, durationSeconds]
+        },
+        {
+          sql: `INSERT INTO slider (${baseCols}, mobile_image_url, mobile_video_url) VALUES (?, ?, ?, ?, ?, ?, 1, ?, ?, ?, ?, ?)`,
+          vals: [...baseVals, mobileImage || null, mobileVideo || null]
+        },
+        {
+          sql: `INSERT INTO slider (${baseCols}) VALUES (?, ?, ?, ?, ?, ?, 1, ?, ?, ?)`,
+          vals: baseVals
+        }
+      ];
+
+      let result: any = null;
+      let inserted = false;
+      let lastInsertError: unknown = new Error('Failed to insert slide');
+      for (const attempt of insertAttempts) {
+        try {
+          [result] = await db.query(attempt.sql, attempt.vals);
+          inserted = true;
+          break;
+        } catch (insertErr) {
+          lastInsertError = insertErr;
+          if (!isUnknownDurationColumnError(insertErr) && !isUnknownMobileColumnError(insertErr)) throw insertErr;
+        }
       }
+      if (!inserted) throw lastInsertError;
 
       const insertId = (result as any).insertId;
       if (placeFirst) {
@@ -220,6 +267,14 @@ export class SliderService {
         updateFields.push('duration_seconds = ?');
         values.push(updates.durationSeconds);
       }
+      if (updates.mobileImage !== undefined) {
+        updateFields.push('mobile_image_url = ?');
+        values.push(updates.mobileImage || null);
+      }
+      if (updates.mobileVideo !== undefined) {
+        updateFields.push('mobile_video_url = ?');
+        values.push(updates.mobileVideo || null);
+      }
 
       if (updateFields.length === 0) {
         return await this.getSlideById(id);
@@ -233,11 +288,19 @@ export class SliderService {
         WHERE id = ?
       `, values);
       } catch (updateErr) {
-        if (isUnknownDurationColumnError(updateErr) && updates.durationSeconds !== undefined) {
-          console.warn(
-            '[slider] UPDATE skipped duration_seconds: column missing. Run migration 2026-04-26-add-slider-duration-seconds.ts'
-          );
-          const { durationSeconds: _omit, ...rest } = updates;
+        const dropDuration = isUnknownDurationColumnError(updateErr) && updates.durationSeconds !== undefined;
+        const dropMobile = isUnknownMobileColumnError(updateErr) && (updates.mobileImage !== undefined || updates.mobileVideo !== undefined);
+        if (dropDuration || dropMobile) {
+          const rest: Partial<Omit<Slide, 'id'>> = { ...updates };
+          if (dropDuration) {
+            console.warn('[slider] UPDATE skipped duration_seconds: column missing.');
+            delete rest.durationSeconds;
+          }
+          if (dropMobile) {
+            console.warn('[slider] UPDATE skipped mobile media columns: run migration 2026-10-15-add-slider-mobile-media.ts');
+            delete rest.mobileImage;
+            delete rest.mobileVideo;
+          }
           return this.updateSlide(id, rest);
         }
         throw updateErr;

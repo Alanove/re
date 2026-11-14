@@ -52,6 +52,12 @@ export interface ShippingCalculation {
   estimatedDays: number | null;
 }
 
+export interface AvailableShippingRatesResult {
+  rates: ShippingCalculation[];
+  /** Set when no rates were returned because the carrier request failed. Never includes credentials. */
+  ratesError?: 'carrier_unavailable';
+}
+
 export interface CartShippingData {
   subtotal: number;
   totalPrice: number;
@@ -158,10 +164,11 @@ export class ShippingService {
    */
   public async getAvailableShippingRates(
     cartData: CartShippingData
-  ): Promise<ShippingCalculation[]> {
+  ): Promise<AvailableShippingRatesResult> {
     try {
       const calculations: ShippingCalculation[] = [];
       const settings = await this.getShippingSettings();
+      let carrierFailed = false;
 
       // Normalize country to ISO 2-letter code so zone lookup and Aramex get a consistent value
       // (checkout sends code e.g. "FR", but saved addresses or APIs might send "France")
@@ -303,15 +310,21 @@ export class ShippingService {
               : `Aramex CalculateRate no rate for ${destCountry}/${destinationCity} (TotalAmount missing or HasErrors): ${JSON.stringify(result)}`;
             logger.error('ShippingService', msg);
             console.error('[Aramex shipping]', msg);
+            if (result.HasErrors) carrierFailed = true;
           }
         } catch (error) {
+          carrierFailed = true;
           const msg = `Failed to fetch Aramex rates: ${error instanceof Error ? error.message : String(error)}`;
           logger.error('ShippingService', msg);
           console.error('[Aramex shipping]', msg);
         }
       }
 
-      return calculations.sort((a, b) => a.cost - b.cost);
+      const rates = calculations.sort((a, b) => a.cost - b.cost);
+      if (rates.length === 0 && carrierFailed) {
+        return { rates, ratesError: 'carrier_unavailable' };
+      }
+      return { rates };
     } catch (error) {
       console.error('Error getting available shipping rates:', error);
       throw error;

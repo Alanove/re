@@ -29,12 +29,14 @@ export class StorageService {
   private pagesDir: string;
   private imagesDir: string;
   private sliderDir: string;
+  private homepageDir: string;
 
   private constructor() {
     this.tempDir = DATA_PATHS.TEMP_DIR;
     this.pagesDir = DATA_PATHS.PAGES_DIR;
     this.imagesDir = DATA_PATHS.IMAGES_DIR;
     this.sliderDir = DATA_PATHS.SLIDER_DIR;
+    this.homepageDir = DATA_PATHS.HOMEPAGE_DIR;
 
     // Ensure directories exist
     this.ensureDirectories();
@@ -51,7 +53,7 @@ export class StorageService {
    * Ensure required directories exist
    */
   private ensureDirectories(): void {
-    const directories = [this.tempDir, this.pagesDir, this.imagesDir, this.sliderDir];
+    const directories = [this.tempDir, this.pagesDir, this.imagesDir, this.sliderDir, this.homepageDir];
     directories.forEach(dir => {
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
@@ -170,6 +172,43 @@ export class StorageService {
           cb(null, true);
         } else {
           cb(new Error('Only image files (JPEG, PNG, GIF, WebP) and video files (MP4, WebM, OGG, MOV) are allowed'));
+        }
+      }
+    });
+  }
+
+  /**
+   * Create multer configuration for the homepage shop-banner image
+   */
+  public createHomepageBannerUploadConfig(): multer.Multer {
+    const storage = multer.diskStorage({
+      destination: (_req, _file, cb) => {
+        if (!fs.existsSync(this.homepageDir)) {
+          fs.mkdirSync(this.homepageDir, { recursive: true });
+        }
+        cb(null, this.homepageDir);
+      },
+      filename: (_req, file, cb) => {
+        const timestamp = Date.now();
+        const randomSuffix = Math.round(Math.random() * 1E9);
+        const ext = path.extname(file.originalname);
+        cb(null, `banner-${timestamp}-${randomSuffix}${ext}`);
+      }
+    });
+
+    return multer({
+      storage,
+      limits: {
+        fileSize: 10 * 1024 * 1024,
+        fieldSize: 1 * 1024 * 1024,
+        fields: 30
+      },
+      fileFilter: (_req, file, cb) => {
+        const allowedImageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+        if (allowedImageTypes.includes(file.mimetype)) {
+          cb(null, true);
+        } else {
+          cb(new Error('Only image files (JPEG, PNG, GIF, WebP) are allowed'));
         }
       }
     });

@@ -1,0 +1,100 @@
+<%
+  const maxSwatches = 3;
+  const opts = (product && product.color_options && product.color_options.length) ? product.color_options : [];
+  function mediaKey(url) {
+    if (!url) return '';
+    const seg = String(url).split('?')[0].replace(/\\/g, '/').split('/').filter(Boolean).pop() || '';
+    return seg.replace(/\.[^.]+$/, '').toLowerCase();
+  }
+  if (opts.length > 0) {
+    const showOpts = opts.slice(0, maxSwatches);
+    const rest = opts.length - maxSwatches;
+    const used = {};
+    showOpts.forEach(function(opt) {
+      const kFull = mediaKey(opt.image_url);
+      const kThumb = mediaKey(opt.swatch_image_url);
+      if (kFull) used[kFull] = true;
+      if (kThumb) used[kThumb] = true;
+    });
+    const fillers = [];
+    const slotsLeft = maxSwatches - showOpts.length;
+    if (slotsLeft > 0 && product.images && product.images.length) {
+      for (let i = 0; i < product.images.length && fillers.length < slotsLeft; i++) {
+        const img = product.images[i];
+        const full = (img && img.image_url) ? String(img.image_url) : '';
+        const thumb = (img && img.thumb_url) ? String(img.thumb_url) : full;
+        const kFull = mediaKey(full);
+        const kThumb = mediaKey(thumb);
+        if (!full && !thumb) continue;
+        if ((kFull && used[kFull]) || (kThumb && used[kThumb])) continue;
+        if (kFull) used[kFull] = true;
+        if (kThumb) used[kThumb] = true;
+        fillers.push({
+          image_url: full || thumb,
+          swatch_image_url: thumb || full,
+          alt: (img && img.alt_text) ? String(img.alt_text) : ''
+        });
+      }
+    }
+%>
+<div class="product-color-swatches d-flex justify-content-start align-items-center pl-0 pr-0">
+    <% showOpts.forEach(function(opt) { %>
+        <button type="button" class="product-color-swatch border-0" aria-label="<%= opt.value %>"
+            style="background-color: <%= opt.color_code || '#ddd' %>;"
+            data-image-url="<%= opt.image_url %>"
+            <% if (opt.value_id) { %>data-attribute-value-id="<%= opt.value_id %>"<% } %>
+            data-option-value="<%= opt.value %>"
+            title="<%= opt.value %>">
+            <img src="<%= opt.swatch_image_url || opt.image_url %>" alt="" class="product-color-swatch-img" width="90" height="90">
+        </button>
+    <% }); %>
+    <% fillers.forEach(function(photo) { %>
+        <button type="button" class="product-color-swatch border-0" aria-label="<%= photo.alt || 'Photo' %>"
+            data-gallery-photo="1"
+            data-image-url="<%= photo.image_url %>"
+            title="<%= photo.alt || 'Photo' %>">
+            <img src="<%= photo.swatch_image_url || photo.image_url %>" alt="" class="product-color-swatch-img" width="90" height="90">
+        </button>
+    <% }); %>
+    <% if (rest > 0) { %><span class="product-color-more text-muted ml-1"><%= rest %>+</span><% } %>
+</div>
+<% } else if (product && product.images && product.images.length > 1) {
+    const used = {};
+    const main = product.images[0];
+    const mainFull = mediaKey(main && main.image_url);
+    const mainThumb = mediaKey(main && main.thumb_url);
+    if (mainFull) used[mainFull] = true;
+    if (mainThumb) used[mainThumb] = true;
+    const extras = [];
+    for (let i = 1; i < product.images.length; i++) {
+      const img = product.images[i];
+      const full = (img && img.image_url) ? String(img.image_url) : '';
+      const thumb = (img && img.thumb_url) ? String(img.thumb_url) : full;
+      const kFull = mediaKey(full);
+      const kThumb = mediaKey(thumb);
+      if (!full && !thumb) continue;
+      if ((kFull && used[kFull]) || (kThumb && used[kThumb])) continue;
+      if (kFull) used[kFull] = true;
+      if (kThumb) used[kThumb] = true;
+      extras.push({
+        image_url: full || thumb,
+        swatch_image_url: thumb || full,
+        alt: (img && img.alt_text) ? String(img.alt_text) : ''
+      });
+    }
+    const showExtras = extras.slice(0, maxSwatches);
+    const extraRest = extras.length - showExtras.length;
+    if (showExtras.length > 0) {
+%>
+<div class="product-color-swatches d-flex justify-content-start align-items-center pl-0 pr-0">
+    <% showExtras.forEach(function(photo) { %>
+        <button type="button" class="product-color-swatch border-0" aria-label="<%= photo.alt || 'Photo' %>"
+            data-gallery-photo="1"
+            data-image-url="<%= photo.image_url %>"
+            title="<%= photo.alt || 'Photo' %>">
+            <img src="<%= photo.swatch_image_url || photo.image_url %>" alt="" class="product-color-swatch-img" width="90" height="90">
+        </button>
+    <% }); %>
+    <% if (extraRest > 0) { %><span class="product-color-more text-muted ml-1"><%= extraRest %>+</span><% } %>
+</div>
+<% } } %>

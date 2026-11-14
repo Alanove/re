@@ -45,6 +45,7 @@ export const DATA_PATHS = {
   PUBLIC_DIR: path.resolve(BASE_DIR, 'public'),
   IMAGES_DIR: path.resolve(BASE_DIR, 'public/images'),
   SLIDER_DIR: path.resolve(BASE_DIR, 'public/images/slide'),
+  HOMEPAGE_DIR: path.resolve(BASE_DIR, 'public/images/homepage'),
   PAGES_DIR: path.resolve(BASE_DIR, 'public/pages'),
   TEMP_DIR: path.resolve(BASE_DIR, 'public/temp'),
   DOWNLOADS_DIR: path.resolve(BASE_DIR, 'public/downloads'),

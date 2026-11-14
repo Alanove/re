@@ -1,0 +1,19 @@
+<%
+  const item = (typeof product !== 'undefined' && product) ? product : null;
+  const hasMulti = item && (
+    item.has_multi_prices === true
+    || item.has_multi_prices === 1
+    || String(item.has_multi_prices) === '1'
+    || String(item.has_multi_prices) === 'true'
+  );
+  const currentPrice = item && item.price != null ? parseFloat(item.price) : NaN;
+  const oldPrice = item && item.compare_at_price != null && String(item.compare_at_price) !== ''
+    ? parseFloat(item.compare_at_price)
+    : NaN;
+  const percent = (!hasMulti && Number.isFinite(currentPrice) && Number.isFinite(oldPrice) && oldPrice > currentPrice && oldPrice > 0)
+    ? Math.round(((oldPrice - currentPrice) / oldPrice) * 100)
+    : 0;
+%>
+<% if (percent >= 1) { %>
+<span class="product-sale-badge"><%= percent %>% <%= typeof t !== 'undefined' ? t('ecommerce.products.off') : 'Off' %></span>
+<% } %>

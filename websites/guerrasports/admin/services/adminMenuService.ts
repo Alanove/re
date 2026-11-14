@@ -80,6 +80,7 @@ export class AdminMenuService {
       'Pages': 'menu.pages',
       'Tags': 'menu.tags',
       'Home Page Slider': 'menu.slider',
+      'Homepage': 'menu.homepage',
       'Projects': 'menu.projects',
       'Menus': 'menu.menus',
       'Users': 'menu.users',

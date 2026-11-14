@@ -465,6 +465,7 @@ export function configureRoutes(app: Express): void {
   // Shop routes - SEO-friendly URLs
   app.get('/shop', ShopController.index);
   app.get('/products', ShopController.index); // All products page with filters
+  app.get('/on-sale', ShopController.index);
   app.get('/shop/category/:categorySlug', ShopController.index);
   app.get('/shop/brand/:brandSlug', ShopController.index);
   app.get('/shop/category/:categorySlug/brand/:brandSlug', ShopController.index);
@@ -574,7 +575,7 @@ export function configureRoutes(app: Express): void {
     const staticFileExtensions = ['.css', '.js', '.json', '.xml', '.jpg', '.jpeg', '.png', '.gif', '.svg', '.webp', '.ico', '.woff', '.woff2', '.ttf', '.eot', '.pdf', '.zip', '.txt', '.html', '.htm', '.mp4', '.webm', '.avi', '.mov', '.mkv', '.flv', '.wmv', '.m4v', '.3gp', '.ogv', '.mpg', '.mpeg'];
     const isStaticFile = staticFileExtensions.some(ext => pageSlug.toLowerCase().endsWith(ext));
 
-    if (pageSlug.startsWith('admin') || isStaticFile || pageSlug === 'novosti' || pageSlug === 'objav' || pageSlug === 'video' || pageSlug === 'events') {
+    if (pageSlug.startsWith('admin') || isStaticFile || pageSlug === 'novosti' || pageSlug === 'objav' || pageSlug === 'video' || pageSlug === 'events' || pageSlug === 'on-sale') {
       return next();
     }
 
