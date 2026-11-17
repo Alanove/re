@@ -1,0 +1,1086 @@
+===== HOST / DATE =====
+ubuntuliteweb
+Tue Nov 17 12:37:04 PM UTC 2026
+Tue Nov 17 12:37:04 PM UTC 2026
+root
+uid=0(root) gid=0(root) groups=0(root)
+
+===== /www/backup.sh =====
+-rw-r--r-- 1 www www 7139 Dec  1  2025 /www/backup.sh
+--- contents ---
+#!/bin/bash
+# Enhanced Server Backup Script
+# Purpose: Back up server data to Google Drive with intelligent retention policy
+# Retention: 7 daily + 4 weekly + unlimited monthly backups
+# NOTE: This script must be run as ROOT
+
+# Exit on error, but allow for proper cleanup
+set -o errexit
+set -o pipefail
+
+# Constants
+LOG_FILE="/var/log/server-backup.log"
+LOCK_FILE="/var/run/server-backup.lock"
+HOSTNAME=$(hostname)
+BACKUP_DIR="/www/backup"
+REMOTE="gdrive:/server-backups/$HOSTNAME"
+DATE_FORMAT="%Y-%m-%d"
+TODAY=$(date +${DATE_FORMAT})
+
+# Retention policy settings
+DAILY_RETENTION_DAYS=7      # Keep all backups for last 7 days
+WEEKLY_RETENTION_WEEKS=4    # Keep 4 weekly backups after daily period
+# Monthly backups are kept indefinitely
+
+# Function to log messages
+log() {
+  local message="$1"
+  local timestamp=$(date "+%Y-%m-%d %H:%M:%S")
+  echo "[${timestamp}] ${message}" | tee -a "$LOG_FILE"
+}
+
+# Function for cleanup on exit
+cleanup() {
+  log "Cleaning up and removing lock file"
+  rm -f "$LOCK_FILE"
+  
+  # Report execution time
+  END_TIME=$(date +%s)
+  RUNTIME=$((END_TIME - START_TIME))
+  log "Backup process completed in ${RUNTIME} seconds"
+}
+
+# Function to handle errors
+error_handler() {
+  local exit_code=$?
+  local line_no=$1
+  log "ERROR: Script failed with exit code $exit_code at line $line_no"
+  cleanup
+  exit $exit_code
+}
+
+# Check if running as root
+if [ "$(id -u)" -ne 0 ]; then
+  echo "ERROR: This script must be run as root"
+  echo "Please run with: sudo $0"
+  exit 1
+fi
+
+# Set up trap for error handling and cleanup
+trap 'error_handler ${LINENO}' ERR
+trap cleanup EXIT
+
+# Check if script is already running
+if [ -f "$LOCK_FILE" ]; then
+  LOCK_PID=$(cat "$LOCK_FILE")
+  if ps -p "$LOCK_PID" > /dev/null 2>&1; then
+    log "ERROR: Backup already running with PID $LOCK_PID"
+    exit 1
+  else
+    log "WARNING: Found stale lock file. Previous backup may have failed."
+    rm -f "$LOCK_FILE"
+  fi
+fi
+
+# Create lock file
+echo $$ > "$LOCK_FILE"
+
+# Record start time
+START_TIME=$(date +%s)
+log "Starting backup process (running as root)"
+
+# Ensure backup directory exists
+if [ ! -d "$BACKUP_DIR" ]; then
+  log "ERROR: Backup directory '$BACKUP_DIR' does not exist"
+  exit 1
+fi
+
+# Check if backup directory has content
+if [ -z "$(ls -A "$BACKUP_DIR" 2>/dev/null)" ]; then
+  log "WARNING: Backup directory '$BACKUP_DIR' is empty"
+  # Continue anyway as this might be intentional
+fi
+
+# Verify rclone is installed and configured
+if ! command -v rclone &> /dev/null; then
+  log "ERROR: rclone command not found"
+  exit 1
+fi
+
+# Test rclone access to the remote
+log "Testing access to remote storage"
+if ! rclone lsf "$REMOTE" &> /dev/null; then
+  log "ERROR: Cannot access remote storage. Check rclone configuration for root user."
+  log "Run 'rclone config' as root to configure Google Drive access"
+  exit 1
+fi
+
+# Perform the backup
+log "Copying backup to ${REMOTE}/${TODAY}/"
+if rclone copy "$BACKUP_DIR" "$REMOTE/$TODAY/" --stats-one-line -P; then
+  log "Backup completed successfully"
+else
+  log "ERROR: Backup failed"
+  exit 1
+fi
+
+# Verify the backup (check files were copied)
+log "Verifying backup integrity"
+REMOTE_FILE_COUNT=$(rclone size "$REMOTE/$TODAY/" --json | grep -o '"count":[0-9]*' | cut -d':' -f2)
+if [ "$REMOTE_FILE_COUNT" -eq 0 ]; then
+  log "WARNING: No files were copied to the remote. Backup may be empty or failed."
+else
+  log "Successfully copied $REMOTE_FILE_COUNT files to remote storage"
+fi
+
+# Calculate retention dates using more portable date formats
+get_date_days_ago() {
+  if date -d "today" &>/dev/null 2>&1; then
+    # GNU date
+    date -d "-$1 days" +${DATE_FORMAT}
+  else
+    # BSD date (macOS)
+    date -v-"$1"d +${DATE_FORMAT}
+  fi
+}
+
+# Calculate cutoff dates
+DAILY_CUTOFF=$(get_date_days_ago $DAILY_RETENTION_DAYS)
+WEEKLY_CUTOFF=$(get_date_days_ago $((DAILY_RETENTION_DAYS + (WEEKLY_RETENTION_WEEKS * 7))))
+
+log "Retention policy:"
+log "  - Daily: Keep all backups from last $DAILY_RETENTION_DAYS days (after $DAILY_CUTOFF)"
+log "  - Weekly: Keep $WEEKLY_RETENTION_WEEKS weekly backups (after $WEEKLY_CUTOFF)"
+log "  - Monthly: Keep one backup per month indefinitely"
+
+# List all remote backup folders
+log "Retrieving list of existing backups"
+BACKUP_DATES=$(rclone lsf "$REMOTE" --dirs-only | grep -Eo '[0-9]{4}-[0-9]{2}-[0-9]{2}' | sort)
+
+if [ -z "$BACKUP_DATES" ]; then
+  log "No existing backups found to clean up"
+  log "Backup process completed successfully"
+  exit 0
+fi
+
+# Identify backups to retain
+declare -A WEEKLY_BACKUPS
+declare -A MONTHLY_BACKUPS
+
+log "Identifying weekly and monthly backups to retain"
+
+# Process each backup date
+for d in $BACKUP_DATES; do
+  # Get week number and month for this backup
+  if date -d "$d" &>/dev/null 2>&1; then
+    # GNU date
+    WEEK=$(date -d "$d" +%Y-W%U)  # Year-Week format
+    MONTH=$(date -d "$d" +%Y-%m)   # Year-Month format
+  else
+    # BSD date (macOS)
+    WEEK=$(date -j -f %Y-%m-%d "$d" +%Y-W%U)
+    MONTH=$(date -j -f %Y-%m-%d "$d" +%Y-%m)
+  fi
+  
+  # Keep the most recent backup for each week
+  if [[ -z "${WEEKLY_BACKUPS[$WEEK]}" || "$d" > "${WEEKLY_BACKUPS[$WEEK]}" ]]; then
+    WEEKLY_BACKUPS[$WEEK]=$d
+  fi
+  
+  # Keep the most recent backup for each month
+  if [[ -z "${MONTHLY_BACKUPS[$MONTH]}" || "$d" > "${MONTHLY_BACKUPS[$MONTH]}" ]]; then
+    MONTHLY_BACKUPS[$MONTH]=$d
+  fi
+done
+
+# Apply retention policy
+log "Applying retention policy"
+DELETED_COUNT=0
+KEPT_COUNT=0
+
+for d in $BACKUP_DATES; do
+  SHOULD_KEEP=0
+  KEEP_REASON=""
+  
+  # Rule 1: Keep all backups from the last DAILY_RETENTION_DAYS days
+  if [[ "$d" > "$DAILY_CUTOFF" ]]; then
+    SHOULD_KEEP=1
+    KEEP_REASON="daily retention"
+  fi
+  
+  # Rule 2: Keep weekly backups for WEEKLY_RETENTION_WEEKS
+  if [[ $SHOULD_KEEP -eq 0 && "$d" > "$WEEKLY_CUTOFF" ]]; then
+    # Get week for this backup
+    if date -d "$d" &>/dev/null 2>&1; then
+      WEEK=$(date -d "$d" +%Y-W%U)
+    else
+      WEEK=$(date -j -f %Y-%m-%d "$d" +%Y-W%U)
+    fi
+    
+    # Check if this is the selected weekly backup
+    if [[ "${WEEKLY_BACKUPS[$WEEK]}" == "$d" ]]; then
+      SHOULD_KEEP=1
+      KEEP_REASON="weekly retention"
+    fi
+  fi
+  
+  # Rule 3: Keep monthly backups indefinitely
+  if [[ $SHOULD_KEEP -eq 0 ]]; then
+    # Get month for this backup
+    if date -d "$d" &>/dev/null 2>&1; then
+      MONTH=$(date -d "$d" +%Y-%m)
+    else
+      MONTH=$(date -j -f %Y-%m-%d "$d" +%Y-%m)
+    fi
+    
+    # Check if this is the selected monthly backup
+    if [[ "${MONTHLY_BACKUPS[$MONTH]}" == "$d" ]]; then
+      SHOULD_KEEP=1
+      KEEP_REASON="monthly retention"
+    fi
+  fi
+  
+  # Keep or delete based on rules
+  if [[ $SHOULD_KEEP -eq 1 ]]; then
+    log "Keeping backup: $d ($KEEP_REASON)"
+    KEPT_COUNT=$((KEPT_COUNT + 1))
+  else
+    log "Deleting old backup: $d"
+    FOLDER="$REMOTE/$d"
+    
+    if rclone delete "$FOLDER" --drive-use-trash && \
+       rclone rmdir "$FOLDER"; then
+      DELETED_COUNT=$((DELETED_COUNT + 1))
+    else
+      log "WARNING: Failed to delete backup $d"
+    fi
+  fi
+done
+
+# Summarize retention results
+log "Retention policy applied. Kept: $KEPT_COUNT backups. Deleted: $DELETED_COUNT backups."
+log "Backup process completed successfully"
+
+exit 0
+===== Related scripts under /www (backup/rclone) =====
+/www/test-backup.backup.sh
+/www/backup.sh
+/www/backup/database/backup.sql
+/www/backup/backup_restore/cron_full_backup.log
+/www/backup/backup_restore/backup_task.json
+/www/backup/backup_restore/backup.log
+--- /www/*.sh ---
+-rw-r--r-- 1 www  www  7139 Dec  1  2025 /www/backup.sh
+-rwxr-xr-x 1 www  www   387 Mar  1  2026 /www/start-node-projects.sh
+-rwxr-xr-x 1 root root 5894 Nov 21  2025 /www/test-backup.backup.sh
+
+===== Related under /root =====
+total 100
+dr-xr-x--- 12 root root 4096 Nov 17 00:16 .
+drwxr-xr-x 23 root root 4096 Feb  2  2026 ..
+-rw-------  1 root root 7478 Oct 18 07:39 .bash_history
+-rw-r--r--  1 root root 3223 Nov 17 00:16 .bashrc
+drwxr-xr-x  7 root root 4096 Oct 18 08:51 .cache
+drwxr-xr-x  3 root root 4096 Apr 27  2025 .config
+lrwxrwxrwx  1 root root   48 Jul 29 18:46 credentials.json -> /www/server/panel/plugin/gdrive/credentials.json
+-rw-r--r--  1 root root  623 Nov  9 23:21 crontab.bak.20261109-232112
+lrwxrwxrwx  1 root root   43 Jul 29 18:52 gdrive_token.json -> /www/server/panel/plugin/gdrive/config.conf
+-rw-r--r--  1 root root  863 Jul 29 18:43 .gitconfig
+drwx------  3 root root 4096 Oct 18 07:25 .launchpadlib
+-rw-------  1 root root  812 Oct 23 11:56 .lesshst
+drwxr-xr-x  3 root root 4096 Apr 20  2024 .local
+drwxr-xr-x  2 root root 4096 Aug 25 00:48 mysql-bin-backup
+-rw-r-----  1 root root   38 Oct 18 08:32 mysql-bin.index.bak
+drwxr-xr-x  4 root root 4096 Jul  6  2025 .npm
+-rw-------  1 root root  118 Nov 17  2025 .npmrc
+drwxr-xr-x  2 root root 4096 Apr 20  2024 .pip
+drwxr-xr-x  5 root root 4096 Aug 24 17:34 .pm2
+-rw-r--r--  1 root root  244 Aug 13 07:48 .profile
+drwx------  3 root root 4096 Apr 20  2024 snap
+-rw-r--r--  1 root root 1486 Aug 24 01:36 soft.json
+drwx------  3 root root 4096 Jul 28 14:13 .ssh
+-rw-r--r--  1 root root    0 Apr 20  2024 .sudo_as_admin_successful
+-rwxr-xr-x  1 root root 5894 Nov 16  2025 test-backup.sh
+-rw-r--r--  1 root root  294 Oct 30 02:43 .wget-hsts
+/root/test-backup.sh
+--- FILE: /root/test-backup.sh ---
+-rwxr-xr-x 1 root root 5894 Nov 16  2025 /root/test-backup.sh
+#!/bin/bash
+# Enhanced Server Backup Script
+# Purpose: Back up server data to Google Drive with intelligent retention policy
+
+# Exit on error, but allow for proper cleanup
+set -o errexit
+set -o pipefail
+
+# Constants
+LOG_FILE="/home/backupuser/logs/server-backup.log"
+LOCK_FILE="/home/backupuser/logs/server-backup.lock"
+HOSTNAME=$(hostname)
+BACKUP_DIR="/www/backup"
+REMOTE="gdrive:/server-backups/$HOSTNAME"
+DATE_FORMAT="%Y-%m-%d"
+TODAY=$(date +${DATE_FORMAT})
+BACKUP_USER="backupuser"
+
+# Function to log messages
+log() {
+  local message="$1"
+  local timestamp=$(date "+%Y-%m-%d %H:%M:%S")
+  echo "[${timestamp}] ${message}" | tee -a "$LOG_FILE"
+}
+
+# Function for cleanup on exit
+cleanup() {
+  log "Cleaning up and removing lock file"
+  rm -f "$LOCK_FILE"
+  
+  # Report execution time
+  END_TIME=$(date +%s)
+  RUNTIME=$((END_TIME - START_TIME))
+  log "Backup process completed in ${RUNTIME} seconds"
+}
+
+# Function to handle errors
+error_handler() {
+  local exit_code=$?
+  local line_no=$1
+  log "ERROR: Script failed with exit code $exit_code at line $line_no"
+  cleanup
+  exit $exit_code
+}
+
+# Set up trap for error handling and cleanup
+trap 'error_handler ${LINENO}' ERR
+trap cleanup EXIT
+
+# Check if script is already running
+if [ -f "$LOCK_FILE" ]; then
+  LOCK_PID=$(cat "$LOCK_FILE")
+  if ps -p "$LOCK_PID" > /dev/null 2>&1; then
+    log "ERROR: Backup already running with PID $LOCK_PID"
+    exit 1
+  else
+    log "WARNING: Found stale lock file. Previous backup may have failed."
+    rm -f "$LOCK_FILE"
+  fi
+fi
+
+# Create lock file
+echo $$ > "$LOCK_FILE"
+
+# Record start time
+START_TIME=$(date +%s)
+log "Starting backup process"
+
+# Ensure backup directory exists
+if [ ! -d "$BACKUP_DIR" ]; then
+  log "ERROR: Backup directory '$BACKUP_DIR' does not exist"
+  exit 1
+fi
+
+# Check if backup directory has content
+if [ -z "$(ls -A "$BACKUP_DIR" 2>/dev/null)" ]; then
+  log "WARNING: Backup directory '$BACKUP_DIR' is empty"
+  # Continue anyway as this might be intentional
+fi
+
+# Verify rclone is installed and configured
+if ! command -v rclone &> /dev/null; then
+  log "ERROR: rclone command not found"
+  exit 1
+fi
+
+# Test rclone access to the remote
+log "Testing access to remote storage"
+if ! sudo -u "$BACKUP_USER" rclone lsf "$REMOTE" &> /dev/null; then
+  log "ERROR: Cannot access remote storage. Check rclone configuration for user '$BACKUP_USER'."
+  exit 1
+fi
+
+# Perform the backup
+log "Copying backup to ${REMOTE}/${TODAY}/"
+if sudo -u "$BACKUP_USER" rclone copy "$BACKUP_DIR" "$REMOTE/$TODAY/" --stats-one-line -P; then
+  log "Backup completed successfully"
+else
+  log "ERROR: Backup failed"
+  exit 1
+fi
+
+# Verify the backup (check files were copied)
+log "Verifying backup integrity"
+REMOTE_FILE_COUNT=$(sudo -u "$BACKUP_USER" rclone size "$REMOTE/$TODAY/" --json | grep -o '"count":[0-9]*' | cut -d':' -f2)
+if [ "$REMOTE_FILE_COUNT" -eq 0 ]; then
+  log "WARNING: No files were copied to the remote. Backup may be empty or failed."
+fi
+
+# Calculate retention dates using more portable date formats
+get_date_days_ago() {
+  # Fallback to BSD date if GNU date is not available
+  if date -d "today" &>/dev/null 2>&1; then
+    # GNU date
+    date -d "-$1 days" +${DATE_FORMAT}
+  else
+    # BSD date (macOS)
+    date -v-"$1"d +${DATE_FORMAT}
+  fi
+}
+
+get_date_months_ago() {
+  # Fallback to BSD date if GNU date is not available
+  if date -d "today" &>/dev/null 2>&1; then
+    # GNU date
+    date -d "-$1 months" +%Y-%m-01
+  else
+    # BSD date (macOS)
+    date -v-"$1"m -v1d +%Y-%m-%d
+  fi
+}
+
+SEVEN_DAYS_AGO=$(get_date_days_ago 7)
+THREE_MONTHS_AGO=$(get_date_months_ago 3)
+
+log "Retention policy: keeping backups newer than $SEVEN_DAYS_AGO and monthly backups after $THREE_MONTHS_AGO"
+
+# List all remote backup folders
+log "Retrieving list of existing backups"
+BACKUP_DATES=$(sudo -u "$BACKUP_USER" rclone lsf "$REMOTE" --dirs-only | grep -Eo '[0-9]{4}-[0-9]{2}-[0-9]{2}' | sort)
+
+if [ -z "$BACKUP_DATES" ]; then
+  log "No existing backups found"
+  log "Backup process completed successfully"
+  exit 0
+fi
+
+# Identify backups to retain
+declare -A MONTHLY_BACKUPS
+log "Identifying monthly backups to retain"
+
+# Find the most recent backup for each month in the retention period
+for d in $BACKUP_DATES; do
+  # Convert date to month format (YYYY-MM)
+  if date -d "$d" &>/dev/null 2>&1; then
+    # GNU date
+    MONTH=$(date -d "$d" +%Y-%m)
+  else
+    # BSD date (macOS)
+    MONTH=$(date -j -f %Y-%m-%d "$d" +%Y-%m)
+  fi
+  
+  # Keep the most recent backup for each month within the retention period
+  # Note: removed the THREE_MONTHS_AGO check to keep one backup per month for ALL months
+  if [[ -z "${MONTHLY_BACKUPS[$MONTH]}" || "$d" > "${MONTHLY_BACKUPS[$MONTH]}" ]]; then
+    MONTHLY_BACKUPS[$MONTH]=$d
+  fi
+done
+
+# Apply retention policy
+log "Applying retention policy"
+DELETED_COUNT=0
+KEPT_COUNT=0
+
+for d in $BACKUP_DATES; do
+  # Always keep backups from the last 7 days
+  if [[ "$d" > "$SEVEN_DAYS_AGO" ]]; then
+    log "Keeping recent backup: $d"
+    KEPT_COUNT=$((KEPT_COUNT + 1))
+    continue
+  fi
+  
+  # Convert date to month format (YYYY-MM)
+  if date -d "$d" &>/dev/null 2>&1; then
+    # GNU date
+    MONTH=$(date -d "$d" +%Y-%m)
+  else
+    # BSD date (macOS)
+    MONTH=$(date -j -f %Y-%m-%d "$d" +%Y-%m)
+  fi
+  
+  # Keep the selected monthly backup
+  if [[ "${MONTHLY_BACKUPS[$MONTH]}" == "$d" ]]; then
+    log "Keeping monthly backup: $d"
+    KEPT_COUNT=$((KEPT_COUNT + 1))
+    continue
+  fi
+  
+  # Delete old backup
+  log "Deleting old backup: $d"
+  FOLDER="$REMOTE/$d"
+
+  if sudo -u "$BACKUP_USER" rclone delete "$FOLDER" --drive-use-trash && \
+     sudo -u "$BACKUP_USER" rclone rmdir "$FOLDER"; then
+    DELETED_COUNT=$((DELETED_COUNT + 1))
+  else
+    log "WARNING: Failed to delete backup $d"
+  fi
+done
+
+# Summarize retention results
+log "Retention policy applied. Kept: $KEPT_COUNT backups. Deleted: $DELETED_COUNT backups."
+log "Backup process completed successfully"
+
+exit 0
+--- FILE: /root/.bashrc ---
+-rw-r--r-- 1 root root 3223 Nov 17 00:16 /root/.bashrc
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
+# don't put duplicate lines in the history. See bash(1) for more options
+# ... or force ignoredups and ignorespace
+HISTCONTROL=ignoredups:ignorespace
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color) color_prompt=yes;;
+esac
+
+# uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
+#force_color_prompt=yes
+
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+	# We have color support; assume it's compliant with Ecma-48
+	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+	# a case would tend to support setf rather than setaf.)
+	color_prompt=yes
+    else
+	color_prompt=
+    fi
+fi
+
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+unset color_prompt force_color_prompt
+
+# If this is an xterm set the title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    ;;
+*)
+    ;;
+esac
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+#if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+#    . /etc/bash_completion
+#fi
+
+alias php74='php74 -c /www/server/php/74/etc/php-cli.ini'
+alias php84='php84 -c /www/server/php/84/etc/php-cli.ini'
+--- FILE: /root/.profile ---
+-rw-r--r-- 1 root root 244 Aug 13 07:48 /root/.profile
+# ~/.profile: executed by Bourne-compatible login shells.
+
+if [ "$BASH" ]; then
+  if [ -f ~/.bashrc ]; then
+    . ~/.bashrc
+  fi
+fi
+
+mesg n 2> /dev/null || true
+PATH=/www/server/nodejs/v22.20.0/bin:$PATH # BT-NODE-ENV
+export PATH # BT-NODE-ENV
+
+===== crontab root =====
+
+58 14 * * *  /www/server/cron/a50afd8f7d0e95dc2fd7bbbcfdcccd82 >> /www/server/cron/a50afd8f7d0e95dc2fd7bbbcfdcccd82.log 2>&1
+0 3 * * 0  flock -n /tmp/80f6db9e6cbd95c755006801411c361f.lock /www/server/cron/80f6db9e6cbd95c755006801411c361f >> /www/server/cron/80f6db9e6cbd95c755006801411c361f.log 2>&1
+38 19 * * *  /www/server/cron/3ab48c27ec99cb9787749c362afae517 >> /www/server/cron/3ab48c27ec99cb9787749c362afae517.log 2>&1
+30 1 * * *  /www/server/cron/d7ed380e96c4f82b7ae62fb9bad35545 >> /www/server/cron/d7ed380e96c4f82b7ae62fb9bad35545.log 2>&1
+3 0 * * *  /www/server/cron/4984195e1286dbbbf90bb77a83eb7db8 >> /www/server/cron/4984195e1286dbbbf90bb77a83eb7db8.log 2>&1
+
+===== crontab www =====
+no crontab for www
+
+===== crontab litewebchatlb =====
+no crontab for litewebchatlb
+
+===== /etc/cron.* backup-related =====
+/etc/cron.daily/dpkg:8:/usr/libexec/dpkg/dpkg-db-backup
+/etc/cron.daily/aptitude:3:bak=/var/backups
+--- listing cron dirs ---
+/etc/cron.d:
+total 20
+drwxr-xr-x   2 root root 4096 Dec 10  2025 .
+drwxr-xr-x 108 root root 4096 Nov 13 06:07 ..
+-rw-r--r--   1 root root  201 Jan  8  2022 e2scrub_all
+-rw-r--r--   1 root root  102 Mar 23  2022 .placeholder
+-rw-r--r--   1 root root  396 Feb  2  2021 sysstat
+
+/etc/cron.daily:
+total 40
+drwxr-xr-x   2 root root 4096 Nov  6 06:10 .
+drwxr-xr-x 108 root root 4096 Nov 13 06:07 ..
+-rwxr-xr-x   1 root root  376 Oct 26  2021 apport
+-rwxr-xr-x   1 root root 1478 Apr  8  2022 apt-compat
+-rwxr-xr-x   1 root root  314 Feb 14  2021 aptitude
+-rwxr-xr-x   1 root root  123 Dec  5  2021 dpkg
+-rwxr-xr-x   1 root root  377 May 25  2022 logrotate
+-rwxr-xr-x   1 root root 1330 Mar 17  2022 man-db
+-rw-r--r--   1 root root  102 Mar 23  2022 .placeholder
+-rwxr-xr-x   1 root root  518 Feb  2  2021 sysstat
+
+/etc/cron.hourly:
+total 12
+drwxr-xr-x   2 root root 4096 Aug  9  2022 .
+drwxr-xr-x 108 root root 4096 Nov 13 06:07 ..
+-rw-r--r--   1 root root  102 Mar 23  2022 .placeholder
+
+===== aaPanel cron if present =====
+total 77520
+drwx------  2 root root     4096 Nov 17 01:36 .
+drwxr-xr-x 19 root root     4096 Oct 17 09:47 ..
+-rwx------  1 root root      738 Aug  1 03:30 2c8c8f84b5ebec5dc5f82253108ef69f
+-rw-------  1 root root    32205 Aug 24 01:30 2c8c8f84b5ebec5dc5f82253108ef69f.log
+-rwx------  1 root root      438 Sep  2  2025 3ab48c27ec99cb9787749c362afae517
+-rw-------  1 root root   989481 Nov 16 19:38 3ab48c27ec99cb9787749c362afae517.log
+-rwx------  1 root root      659 Aug 20 00:18 4984195e1286dbbbf90bb77a83eb7db8
+-rw-------  1 root root 74455685 Nov 17 01:36 4984195e1286dbbbf90bb77a83eb7db8.log
+-rwx------  1 root root      698 Jul  6  2025 80f6db9e6cbd95c755006801411c361f
+-rw-------  1 root root   374852 Nov 15 12:51 80f6db9e6cbd95c755006801411c361f.log
+-rwx------  1 root root      419 Jun  3  2025 a50afd8f7d0e95dc2fd7bbbcfdcccd82
+-rw-------  1 root root   996490 Nov 16 14:59 a50afd8f7d0e95dc2fd7bbbcfdcccd82.log
+-rwx------  1 root root      728 Jul 31 02:05 b4172d9e4ce13014fc515569f6cf3138
+-rw-------  1 root root     1979 Aug 24 18:09 b4172d9e4ce13014fc515569f6cf3138.log
+-rwx------  1 root root      738 Jul 31 02:04 b6398158cd6176b83fe5557e37f70dde
+-rw-------  1 root root    46355 Aug 24 05:58 b6398158cd6176b83fe5557e37f70dde.log
+-rwx------  1 root root      723 Jul 31 02:05 d7ed380e96c4f82b7ae62fb9bad35545
+-rw-------  1 root root  2385244 Nov 17 01:33 d7ed380e96c4f82b7ae62fb9bad35545.log
+-rwx------  1 root root     1456 Oct 13 06:46 once_1791873995.sh
+-rw-------  1 root root     4401 Oct 17 09:47 once_1791873995.sh.log
+/www/server/panel/class/crontab.py
+/www/server/panel/class/crontab_ssl.py
+/www/server/panel/class/__pycache__/crontab.cpython-312.pyc
+/www/server/panel/script/crontab_task_exec.py
+/www/server/panel/script/cron_scaning.py
+/www/server/panel/config/crontab.json
+/www/server/panel/class_v2/crontab_v2.py
+/www/server/panel/class_v2/crontabModelV2
+/www/server/panel/class_v2/__pycache__/crontab_v2.cpython-312.pyc
+/www/server/panel/class_v2/crontab_ssl_v2.py
+--- listing /www/server/cron ---
+total 77520
+drwx------  2 root root     4096 Nov 17 01:36 .
+drwxr-xr-x 19 root root     4096 Oct 17 09:47 ..
+-rwx------  1 root root      738 Aug  1 03:30 2c8c8f84b5ebec5dc5f82253108ef69f
+-rw-------  1 root root    32205 Aug 24 01:30 2c8c8f84b5ebec5dc5f82253108ef69f.log
+-rwx------  1 root root      438 Sep  2  2025 3ab48c27ec99cb9787749c362afae517
+-rw-------  1 root root   989481 Nov 16 19:38 3ab48c27ec99cb9787749c362afae517.log
+-rwx------  1 root root      659 Aug 20 00:18 4984195e1286dbbbf90bb77a83eb7db8
+-rw-------  1 root root 74455685 Nov 17 01:36 4984195e1286dbbbf90bb77a83eb7db8.log
+-rwx------  1 root root      698 Jul  6  2025 80f6db9e6cbd95c755006801411c361f
+-rw-------  1 root root   374852 Nov 15 12:51 80f6db9e6cbd95c755006801411c361f.log
+-rwx------  1 root root      419 Jun  3  2025 a50afd8f7d0e95dc2fd7bbbcfdcccd82
+-rw-------  1 root root   996490 Nov 16 14:59 a50afd8f7d0e95dc2fd7bbbcfdcccd82.log
+-rwx------  1 root root      728 Jul 31 02:05 b4172d9e4ce13014fc515569f6cf3138
+-rw-------  1 root root     1979 Aug 24 18:09 b4172d9e4ce13014fc515569f6cf3138.log
+-rwx------  1 root root      738 Jul 31 02:04 b6398158cd6176b83fe5557e37f70dde
+-rw-------  1 root root    46355 Aug 24 05:58 b6398158cd6176b83fe5557e37f70dde.log
+-rwx------  1 root root      723 Jul 31 02:05 d7ed380e96c4f82b7ae62fb9bad35545
+-rw-------  1 root root  2385244 Nov 17 01:33 d7ed380e96c4f82b7ae62fb9bad35545.log
+-rwx------  1 root root     1456 Oct 13 06:46 once_1791873995.sh
+-rw-------  1 root root     4401 Oct 17 09:47 once_1791873995.sh.log
+--- listing /www/server/panel/data ---
+total 139944
+drw------- 22 root root     12288 Nov 17 12:36 .
+drwxr-xr-x 23 root root      4096 Oct 20 09:56 ..
+-rw-------  1 root root         1 Feb  3  2025 2025-02-02_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Feb 21  2025 2025-02-20_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Mar  4  2025 2025-03-03_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Mar  7  2025 2025-03-06_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Mar  9  2025 2025-03-08_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Mar 14  2025 2025-03-13_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Apr 12  2025 2025-04-11_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Apr 28  2025 2025-04-27_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Jun  4  2025 2025-06-03_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Jul  7  2025 2025-07-06_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Jul 10  2025 2025-07-09_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Sep  3  2025 2025-09-02_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Sep 10  2025 2025-09-09_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Oct 18  2025 2025-10-17_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Oct 29  2025 2025-10-28_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Nov 28  2025 2025-11-27_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Dec 12  2025 2025-12-11_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Jan  8  2026 2026-01-07_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Feb 17  2026 2026-02-16_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Feb 20  2026 2026-02-19_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Mar 21  2026 2026-03-20_submit_module_call_statistics.pl
+-rw-------  1 root root         1 May 18  2026 2026-05-17_submit_module_call_statistics.pl
+-rw-------  1 root root         1 May 31 00:52 2026-05-30_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Jun 20 00:24 2026-06-19_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Jun 28 00:40 2026-06-27_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Jul 20 00:13 2026-07-19_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Jul 30 00:27 2026-07-29_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Aug  2 00:50 2026-08-01_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Aug  7 00:25 2026-08-06_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Aug 12 00:51 2026-08-11_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Aug 14 00:28 2026-08-13_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Aug 17 00:33 2026-08-16_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Aug 22 00:14 2026-08-21_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Aug 27 01:27 2026-08-26_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Aug 30 00:18 2026-08-29_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Sep  1 00:41 2026-08-31_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Sep  7 00:54 2026-09-06_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Sep  9 00:13 2026-09-08_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Sep 14 00:24 2026-09-13_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Sep 21 00:24 2026-09-20_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Sep 24 00:25 2026-09-23_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Sep 28 00:27 2026-09-27_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Oct  2 00:28 2026-10-01_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Oct  6 00:30 2026-10-05_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Oct 10 04:21 2026-10-09_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Oct 14 01:24 2026-10-13_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Oct 19 00:44 2026-10-18_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Oct 21 01:05 2026-10-20_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Oct 25 00:11 2026-10-24_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Oct 28 04:29 2026-10-27_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Nov  1 00:15 2026-10-31_submit_module_call_statistics.pl
+-rw-------  1 root root         1 Nov  8 00:00 2026-11-07_submit_module_call_statistics.pl
+-rw-r--r--  1 root root         1 Nov 13 00:48 2026-11-12_submit_module_call_statistics.pl
+-rw-r--r--  1 root root         1 Nov 15 00:18 2026-11-14_submit_module_call_statistics.pl
+-rw-------  1 root root     58362 Apr 19  2024 404.html
+-rw-------  1 root root     58294 Oct 17 09:47 502.html
+drw-------  3 root root      4096 Mar 28  2026 aapanel-maintenance
+-rw-------  1 root root        10 Apr 20  2024 admin_path.pl
+drw-------  3 root root      4096 Jul 19 14:13 agent
+-rw-------  1 root root        16 Apr 20  2024 a_pass.pl
+-rw-------  1 root root        20 Nov 15 14:48 auto_scan.pl
+-rw-------  1 root root        16 Jul 29 19:07 backend_record.json
+-rw-------  1 root root       267 Sep 14  2024 breaking_through.json
+-rw-------  1 root root         0 Jul  6  2025 bt_hids.db
+drw-------  3 root root      4096 Aug 26 21:08 bt_security
+drw-------  2 root root      4096 Oct 18 09:15 check_domain
+-rw-------  1 root root         2 Sep 14  2024 control.conf
+-rw-------  1 root root         2 Nov 10 14:49 daemon_restart_record.pl
+-rw-------  1 root root         0 Jul  6  2025 daemon_service_lock.pl
+-rw-------  1 root root        31 Jun  3  2025 daemon_service.pl
+drw-------  2 root root      4096 Nov 17 12:36 db
+drw-------  2 root root      4096 Sep 15  2024 db_backups
+-rw-------  1 root root   1565696 Nov 17 12:25 default.db
+-rw-------  1 root root      1412 Apr 19  2024 defaultDoc.html
+-rw-------  1 root root      5913 Oct 17 09:47 deployment_list.json
+drw-------  2 root root      4096 Nov 27  2025 deploy_script_git
+-rw-------  1 root root         2 Sep 13 03:05 dingding.json
+
+===== /www/backup/path/wwwroot/ listing =====
+total 122G
+drw---S---+ 2 root root 4.0K Aug 23 01:36 .
+drw---S---+ 3 root root 4.0K Jul 31 02:02 ..
+-rw-------+ 1 root root  61G Aug 22 10:14 path_wwwroot_20260822_013002_rn3i5i.tar.gz
+-rw-------+ 1 root root  61G Aug 24 16:54 path_wwwroot_20260823_013003_XTJ1sB.tar.gz
+--- newest 30 by mtime ---
+total 127427360
+-rw-------+ 1 root root 65242732757 Aug 24 16:54 path_wwwroot_20260823_013003_XTJ1sB.tar.gz
+-rw-------+ 1 root root 65242766319 Aug 22 10:14 path_wwwroot_20260822_013002_rn3i5i.tar.gz
+--- path_wwwroot_* newest ---
+-rw-------+ 1 root root 65242732757 Aug 24 16:54 /www/backup/path/wwwroot/path_wwwroot_20260823_013003_XTJ1sB.tar.gz
+-rw-------+ 1 root root 65242766319 Aug 22 10:14 /www/backup/path/wwwroot/path_wwwroot_20260822_013002_rn3i5i.tar.gz
+--- last path_wwwroot date candidates ---
+20260822_013002_rn3i5i.tar.gz
+20260823_013003_XTJ1sB.tar.gz
+--- count ---
+2
+--- total size ---
+122G	/www/backup/path/wwwroot
+
+===== df -h /www / =====
+Filesystem                         Size  Used Avail Use% Mounted on
+/dev/mapper/ubuntu--vg-ubuntu--lv  500G  293G  182G  62% /
+/dev/mapper/ubuntu--vg-ubuntu--lv  500G  293G  182G  62% /
+Filesystem                         Size  Used Avail Use% Mounted on
+tmpfs                              2.9G  1.2M  2.9G   1% /run
+/dev/mapper/ubuntu--vg-ubuntu--lv  500G  293G  182G  62% /
+tmpfs                               15G  1.1M   15G   1% /dev/shm
+tmpfs                              5.0M     0  5.0M   0% /run/lock
+/dev/sda2                          2.0G  260M  1.6G  15% /boot
+tmpfs                              2.9G  4.0K  2.9G   1% /run/user/1000
+
+===== backup / rclone logs =====
+/www/backup/database/backup.sql
+/www/backup/backup_restore/cron_full_backup.log
+/www/backup/backup_restore/backup_task.json
+/www/backup/backup_restore/backup.log
+/var/log/server-backup.log
+/tmp/backup-probe.sh
+/tmp/backup-probe-report.txt
+/tmp/backup-probe-report.txt
+--- journalctl backup/rclone last 30d (grep) ---
+Nov 17 01:56:54 ubuntuliteweb sshd[662595]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=197.221.232.44  user=backup
+Nov 17 01:56:57 ubuntuliteweb sshd[662595]: Failed password for backup from 197.221.232.44 port 48700 ssh2
+Nov 17 01:56:59 ubuntuliteweb sshd[662595]: Disconnected from authenticating user backup 197.221.232.44 port 48700 [preauth]
+Nov 17 02:11:49 ubuntuliteweb sshd[663996]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=31.76.57.198  user=backup
+Nov 17 02:11:51 ubuntuliteweb sshd[663996]: Failed password for backup from 31.76.57.198 port 51210 ssh2
+Nov 17 02:11:51 ubuntuliteweb sshd[663996]: Disconnected from authenticating user backup 31.76.57.198 port 51210 [preauth]
+Nov 17 02:25:19 ubuntuliteweb sshd[664603]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=195.178.110.217  user=backup
+Nov 17 02:25:21 ubuntuliteweb sshd[664603]: Failed password for backup from 195.178.110.217 port 33946 ssh2
+Nov 17 02:25:22 ubuntuliteweb sshd[664603]: Connection closed by authenticating user backup 195.178.110.217 port 33946 [preauth]
+Nov 17 02:26:35 ubuntuliteweb sshd[664654]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=195.178.110.217  user=backup
+Nov 17 02:26:37 ubuntuliteweb sshd[664654]: Failed password for backup from 195.178.110.217 port 37114 ssh2
+Nov 17 02:26:39 ubuntuliteweb sshd[664654]: Connection closed by authenticating user backup 195.178.110.217 port 37114 [preauth]
+Nov 17 02:27:49 ubuntuliteweb sshd[664708]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=195.178.110.217  user=backup
+Nov 17 02:27:51 ubuntuliteweb sshd[664708]: Failed password for backup from 195.178.110.217 port 40244 ssh2
+Nov 17 02:27:51 ubuntuliteweb sshd[664708]: Connection closed by authenticating user backup 195.178.110.217 port 40244 [preauth]
+Nov 17 08:14:22 ubuntuliteweb sudo[679934]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/bash -c 'echo ===aapanel-backup-roots===; ls -la /www/backup 2>/dev/null | head -30; ls -la /www/backup/path 2>/dev/null | head -20; ls -la /www/backup/site 2>/dev/null | head -20; echo ===guerra-named===; find /www/backup -maxdepth 3 -iname " *guerra*\\ 2>/dev/null | head -40; echo ===recent-tars===; find /www/backup -maxdepth 3 -type f \\( -name \\*.tar.gz\\ -o -name \\*.zip\\ -o -name \\*.tar\\ \\) -printf \\%T@ %p %s\\\\n\\ 2>/dev/null | sort -nr | head -25'
+Nov 17 08:14:57 ubuntuliteweb sudo[680204]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/ls -la /www/backup
+Nov 17 08:15:29 ubuntuliteweb sudo[680495]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/ls -la /www/backup/site /www/backup/path /www/backup/database /www/backup/file_history /www/backup/nodejs
+Nov 17 08:16:00 ubuntuliteweb sudo[680756]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/ls -la /www/backup/path/wwwroot /www/backup/file_history/www /www/backup/database/mysql
+Nov 17 08:16:03 ubuntuliteweb sudo[681207]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/bash -c tar -tzf /www/backup/nodejs/full_guerrasports_20260801_043928.tar.gz
+Nov 17 08:16:41 ubuntuliteweb sudo[681503]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/bash -c tar -tzf /www/backup/nodejs/full_guerrasports_20260801_043928.tar.gz
+Nov 17 08:17:09 ubuntuliteweb sudo[681583]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/ls /www/backup/file_history/www/wwwroot
+Nov 17 08:17:48 ubuntuliteweb sudo[681934]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/ls -la /www/backup/file_history/www/wwwroot/guerrasports
+Nov 17 08:17:48 ubuntuliteweb sudo[681962]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/tar -tzf /www/backup/nodejs/full_guerrasports_20260801_043928.tar.gz
+Nov 17 08:24:17 ubuntuliteweb sudo[683100]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/bash -c ls -la /www/backup/file_history/www/backup.sh
+Nov 17 08:28:16 ubuntuliteweb sudo[685852]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/ls -la /www/backup/path/wwwroot
+Nov 17 08:28:18 ubuntuliteweb sudo[686107]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/grep -RIl path|backup.py|cloud /www/server/panel/data/crontab* /www/server/panel/data/db
+Nov 17 08:28:45 ubuntuliteweb sudo[686390]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/head -200 /www/backup.sh
+Nov 17 08:28:50 ubuntuliteweb sudo[687149]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/ls -la /www/backup.sh /www/backup/file_history/www/backup.sh
+Nov 17 08:28:52 ubuntuliteweb sudo[687403]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/grep -i error|fail|drive|rclone|gdrive|Successful|path_wwwroot /www/server/cron/4984195e1286dbbbf90bb77a83eb7db8.log
+Nov 17 08:29:33 ubuntuliteweb sudo[687885]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/grep -E Copying backup
+Nov 17 08:29:35 ubuntuliteweb sudo[687948]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/rclone lsf gdrive:/server-backups/ --dirs-only
+Nov 17 08:30:11 ubuntuliteweb sudo[688515]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/rclone lsf gdrive:/server-backups/ --dirs-only
+Nov 17 08:30:17 ubuntuliteweb sudo[688780]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/rclone lsf gdrive:/server-backups/ubuntuliteweb/ --dirs-only
+Nov 17 08:30:22 ubuntuliteweb sudo[689045]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/tail -60 /var/log/server-backup.log
+Nov 17 08:30:46 ubuntuliteweb sudo[689824]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/rclone lsf gdrive:/server-backups/ubuntuliteweb/2026-11-17/ --max-depth 2
+Nov 17 08:30:51 ubuntuliteweb sudo[690091]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/rclone lsf gdrive:/server-backups/ubuntuliteweb/2026-11-17/path/wwwroot/
+Nov 17 08:30:55 ubuntuliteweb sudo[690362]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/rclone size gdrive:/server-backups/ubuntuliteweb/2026-11-17/path/wwwroot/
+Nov 17 08:34:41 ubuntuliteweb sudo[693053]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/rclone lsf gdrive:/server-backups/ubuntuliteweb/ --dirs-only
+Nov 17 08:34:46 ubuntuliteweb sudo[693327]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/rclone lsf gdrive:/ --dirs-only
+Nov 17 08:35:18 ubuntuliteweb sudo[693613]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/rclone lsf gdrive:/server-backups/ubuntuliteweb/ --dirs-only
+Nov 17 08:35:25 ubuntuliteweb sudo[694392]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/ls /www/backup/backup_restore/history
+Nov 17 08:35:28 ubuntuliteweb sudo[694645]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/head -50 /www/backup/backup_restore/backup_task.json
+Nov 17 08:35:33 ubuntuliteweb sudo[694901]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/tail -40 /www/backup/backup_restore/cron_full_backup.log
+Nov 17 08:35:35 ubuntuliteweb sudo[695154]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/tail -40 /www/backup/backup_restore/backup.log
+Nov 17 08:35:58 ubuntuliteweb sudo[695427]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/ls -lah /www/backup/backup_restore/
+Nov 17 08:36:01 ubuntuliteweb sudo[695682]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/ls -lah /www/backup/backup_restore/history/
+Nov 17 08:36:04 ubuntuliteweb sudo[695935]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/rclone lsf gdrive:/ --max-depth 2
+Nov 17 08:36:07 ubuntuliteweb sudo[696198]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/find /www/backup/backup_restore -name *.tar.gz -printf %T+ %s %pn
+Nov 17 08:39:33 ubuntuliteweb sudo[696587]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/tar -tzf /www/backup/path/wwwroot/path_wwwroot_20260823_013003_XTJ1sB.tar.gz
+Nov 17 12:03:40 ubuntuliteweb sshd[727943]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=43.166.242.149  user=backup
+Nov 17 12:03:42 ubuntuliteweb sshd[727943]: Failed password for backup from 43.166.242.149 port 60360 ssh2
+Nov 17 12:03:44 ubuntuliteweb sshd[727943]: Disconnected from authenticating user backup 43.166.242.149 port 60360 [preauth]
+Nov 17 12:35:44 ubuntuliteweb sudo[734653]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/bash /tmp/backup-probe.sh
+Nov 17 12:37:04 ubuntuliteweb sudo[735235]: litewebchatlb : PWD=/home/litewebchatlb ; USER=root ; COMMAND=/usr/bin/bash /tmp/backup-probe.sh
+--- /www/backup logs dir ---
+total 159432
+drw---S---+ 12 root root     4096 Oct 18 14:17 .
+drwxr-xr-x   9 root root     4096 Nov 10 07:16 ..
+drwx--S---+  2 root root     4096 Nov 11 02:59 aisocial-migrations
+drw---S---+  3 root root     4096 Aug 25 01:26 backup_restore
+drw-------+  6 root root     4096 Oct 18 06:43 database
+drw-------+  4 root root     4096 Apr 23  2024 file_history
+-rw-------+  1 root root 13046248 Feb 26  2024 nginxBak
+drw---S---+  2 root root     4096 Sep  5 21:05 nodejs
+drw-------+  2 root root     4096 Nov 17 00:15 panel
+drw---S---+  3 root root     4096 Jul 31 02:02 path
+drw-------+  3 root root     4096 Apr 20  2024 pgsql_bak
+-rw-------+  1 root root 18875640 Mar  8  2024 php74.Bak
+-rw-------   1 root root 60306616 Oct 30 02:54 php84.Bak
+-rw-------+  1 root root 18891896 Mar  8  2024 php-fpm74.Bak
+-rw-------   1 root root 60601792 Oct 30 02:54 php-fpm84.Bak
+drw---S---+  2 root root     4096 Aug 11 15:31 pure-ftpd
+drw-------+  2 root root     4096 Apr 20  2024 site
+/www/backup/backup_restore/cron_full_backup.log
+/www/backup/backup_restore/history/log/1785893417_backup.log
+/www/backup/backup_restore/history/log/1786843810_backup.log
+/www/backup/backup_restore/history/log/1785547812_backup.log
+/www/backup/backup_restore/history/log/1785720614_backup.log
+/www/backup/backup_restore/history/log/1787535042_backup.log
+/www/backup/backup_restore/history/log/1787275814_backup.log
+/www/backup/backup_restore/history/log/1785463536_backup.log
+/www/backup/backup_restore/history/log/1787189406_backup.log
+/www/backup/backup_restore/history/log/1787103009_backup.log
+/www/backup/backup_restore/history/log/1787448653_backup.log
+/www/backup/backup_restore/history/log/1786757408_backup.log
+/www/backup/backup_restore/history/log/1785634229_backup.log
+/www/backup/backup_restore/history/log/1787362207_backup.log
+/www/backup/backup_restore/backup.log
+
+===== aaPanel path backup settings =====
+/www/server/panel/BTPanel/static/js/public_backup.js
+/www/server/panel/data/admin_path.pl
+/www/server/panel/data/db_backups
+/www/server/panel/data/warning/result/sw_panel_path.pl
+/www/server/panel/data/warning/result/sw_database_backup.pl
+/www/server/panel/data/warning/result/sw_site_spath.pl
+/www/server/panel/data/warning/risk/sw_database_backup.pl
+/www/server/panel/data/warning/risk/sw_site_spath.pl
+/www/server/panel/pyenv_update-panel/lib/python3.7/ntpath.py
+/www/server/panel/pyenv_update-panel/lib/python3.7/genericpath.py
+/www/server/panel/pyenv_update-panel/lib/python3.7/posixpath.py
+/www/server/panel/pyenv_update-panel/lib/python3.7/macpath.py
+/www/server/panel/pyenv_update-panel/lib/python3.7/pathlib.py
+/www/server/panel/pyenv_update-panel/lib/python3.7/nturl2path.py
+/www/server/panel/class/backup_bak.py
+/www/server/panel/class/safe_warning/sw_panel_path.py
+/www/server/panel/class/safe_warning/sw_site_spath.py
+/www/server/panel/class/safe_warning/sw_database_backup.py
+/www/server/panel/class/safe_warning/__pycache__/sw_site_spath.cpython-37.pyc
+/www/server/panel/class/safe_warning/__pycache__/sw_database_backup.cpython-37.pyc
+/www/server/panel/class/safe_warning/__pycache__/sw_panel_path.cpython-37.pyc
+/www/server/panel/class/panelBackup.py
+/www/server/panel/class/panelModel/backupModel.py
+/www/server/panel/script/logsBackup
+/www/server/panel/script/logsBackup.py
+/www/server/panel/script/backup.py
+/www/server/panel/script/jsonpath-0.82.2.tar.gz
+/www/server/panel/script/backup
+/www/server/panel/class_v2/panelModelV2/backupModel.py
+/www/server/panel/class_v2/panel_backup_v2.py
+/www/server/panel/class_v2/backup_bak_v2.py
+/www/server/panel/class_v2/safe_warning_v2/sw_panel_path.py
+/www/server/panel/class_v2/safe_warning_v2/bt_basic/sw_panel_path.py
+/www/server/panel/class_v2/safe_warning_v2/bt_basic/sw_site_spath.py
+/www/server/panel/class_v2/safe_warning_v2/bt_basic/sw_database_backup.py
+/www/server/panel/class_v2/safe_warning_v2/sw_site_spath.py
+/www/server/panel/class_v2/safe_warning_v2/sw_database_backup.py
+/www/server/panel/class_v2/safe_warning_v2/__pycache__/sw_site_spath.cpython-312.pyc
+/www/server/panel/class_v2/safe_warning_v2/__pycache__/sw_panel_path.cpython-312.pyc
+/www/server/panel/class_v2/safe_warning_v2/__pycache__/sw_database_backup.cpython-312.pyc
+/www/server/panel/class_v2/safe_warning_v2/nginx/sw_site_spath.py
+/www/server/panel/class_v2/btdockerModelV2/backupModel.py
+/www/server/panel/class_v2/__pycache__/panel_backup_v2.cpython-312.pyc
+/www/server/panel/pyenv/lib/python3.12/ntpath.py
+/www/server/panel/pyenv/lib/python3.12/genericpath.py
+/www/server/panel/pyenv/lib/python3.12/posixpath.py
+/www/server/panel/pyenv/lib/python3.12/pathlib.py
+/www/server/panel/pyenv/lib/python3.12/nturl2path.py
+/www/server/panel/mod/test/test_backup_tool.py
+/www/server/panel/mod/project/nodejs/backupMod.py
+/www/server/panel/mod/project/backup_restore
+/www/server/panel/mod/project/backup_restore/cron_full_backup.py
+/www/server/panel/mod/project/backup_restore/backup_manager.py
+/www/server/panel/mod/base/backup_tool
+--- /www/server/panel/class/backup_bak.py ---
+-rw------- 1 root root 25458 Oct 17 09:47 /www/server/panel/class/backup_bak.py
+/www/server/panel/data/safeCloud/config.json:4:        "/web/wwwroot"
+/www/server/panel/data/safeCloud/config.json:43:        "/www/wwwroot/theaisocialfeed/backend/uploads/share_jpeg/generated/1": {
+/www/server/panel/data/safeCloud/config.json:47:        "/www/wwwroot/theaisocialfeed/backend/uploads/generated/1": {
+/www/server/panel/data/search.json:1:{"tasks": {"get_list": [{"val": "1", "time": 1793329707}]}, "domain": {"get_list": [{"val": "70", "time": 1794266112}, {"val": "71", "time": 1794299601}, {"val": "72", "time": 1794311323}, {"val": "73", "time": 1794317873}, {"val": "74", "time": 1794465673}]}, "files": {"get_list": [{"val": "kers", "time": 1745752362}, {"val": "appsettings", "time": 1745791965}, {"val": "wwwroot", "time": 1745792601}, {"val": "www", "time": 1745792653}, {"val": "backup", "time": 1745795634}]}, "backup": {"get_list": [{"val": "53", "time": 1788642013}, {"val": "40", "time": 1788642022}, {"val": "56", "time": 1788642166}, {"val": "54", "time": 1788642284}, {"val": "57", "time": 1788642310}]}}
+/www/server/panel/data/agent/skills/wordpress_deploy/script/wp_helper.py:553:    site_path = f"/www/wwwroot/{domain}"
+/www/server/panel/data/dir_history.json:1:{"files": {"GetDirList": [{"val": "/www/wwwroot/e-medicalcyprus.com", "time": 1713611512}, {"val": "/www/wwwroot/e-medicalcyprus.com", "time": 1713611605}, {"val": "/www/wwwroot/e-medicalcyprus.com", "time": 1713611643}, {"val": "/www/wwwroot/e-medicalcyprus.com", "time": 1713611664}, {"val": "/www/wwwroot/e-medicalcyprus.com", "time": 1713611707}, {"val": "/www/wwwroot/e-medicalcyprus.com", "time": 1713611933}, {"val": "/www/wwwroot/e-medicalcyprus.com", "time": 1713613167}, {"val": "/www/wwwroot/e-medicalcyprus.com", "time": 1713613623}, {"val": "/www/wwwroot/e-medicalcyprus.com/wwwroot/img", "time": 1713613648}, {"val": "/www/wwwroot/e-medicalcyprus.com/wwwroot", "time": 1713613656}]}}
+/www/server/panel/config/letsencrypt_v2.json:1:{"orders": {"ea87db5edc696c04ba45a75ae6727495": {"status": "pending", "expires": 1794903859, "identifiers": [{"type": "dns", "value": "belfaystudios.com"}, {"type": "dns", "value": "belfaystudios.liteweb.info"}, {"type": "dns", "value": "www.belfaystudios.com"}], "authorizations": ["https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/816289773572", "https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/816289773822", "https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/816289773872"], "finalize": "https://acme-v02.api.letsencrypt.org/acme/finalize/1683409907/580466874982", "auth_type": "http", "domains": ["belfaystudios.com", "belfaystudios.liteweb.info", "www.belfaystudios.com"], "auth_to": "/www/wwwroot/belfaystudios.com", "index": "ea87db5edc696c04ba45a75ae6727495", "create_time": 1794299059, "renew_time": 0, "auths": [{"domain": "belfaystudios.com", "url": "https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/816289773572", "wildcard": false, "token": "TEe7Ja8a-Irj6aEbi2Dok6b0B6wsZs52ODH8Ef-6I_M", "dns_challenge_url": "https://acme-v02.api.letsencrypt.org/acme/chall/1683409907/816289773572/bw41LQ", "acme_keyauthorization": "TEe7Ja8a-Irj6aEbi2Dok6b0B6wsZs52ODH8Ef-6I_M.snOuweiR67iykAiSmsUbiGqxklQwj50mwo8T5OMn0p4", "auth_value": "w9RyLm_c43R9pm8w_nOWlAMFhsn7HTTkOQ2RN0M5UzU", "expires": 1794903862, "auth_to": "/www/wwwroot/belfaystudios.com", "type": "http"}, {"domain": "belfaystudios.liteweb.info", "url": "https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/816289773822", "wildcard": false, "token": "Eqh0UMD6BHx15hC7ZJqs9jqgOX4PcDCSDeYStY1xguk", "dns_challenge_url": "https://acme-v02.api.letsencrypt.org/acme/chall/1683409907/816289773822/5SKFMw", "acme_keyauthorization": "Eqh0UMD6BHx15hC7ZJqs9jqgOX4PcDCSDeYStY1xguk.snOuweiR67iykAiSmsUbiGqxklQwj50mwo8T5OMn0p4", "auth_value": "CZyzeuE-QyAyWiJdAviwZ7Cyxe_IbUqtyNRvHyj1Rdc", "expires": 1794903863, "auth_to": "/www/wwwroot/belfaystudios.com", "type": "http"}, {"domain": "www.belfaystudios.com", "url": "https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/816289773872", "wildcard": false, "token": "SSijnJgODQezGsBIdtsNyKMG64ti0tTy8LYU9dEdwIA", "dns_challenge_url": "https://acme-v02.api.letsencrypt.org/acme/chall/1683409907/816289773872/APfknw", "acme_keyauthorization": "SSijnJgODQezGsBIdtsNyKMG64ti0tTy8LYU9dEdwIA.snOuweiR67iykAiSmsUbiGqxklQwj50mwo8T5OMn0p4", "auth_value": "AdD7Q058_DfGDe2xvtS81G9tfdPKjNJugC3v-6hgkYI", "expires": 1794903864, "auth_to": "/www/wwwroot/belfaystudios.com", "type": "http"}], "auth_tag": true}, "45ff275803760ae16541f46c725a8295": {"status": "pending", "expires": 1794904408, "identifiers": [{"type": "dns", "value": "belfaystudios.com"}, {"type": "dns", "value": "belfaystudios.liteweb.info"}, {"type": "dns", "value": "www.belfaystudios.com"}], "authorizations": ["https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/816293982962", "https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/816293982972", "https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/816293982982"], "finalize": "https://acme-v02.api.letsencrypt.org/acme/finalize/1683409907/580469597012", "auth_type": "http", "domains": ["belfaystudios.com", "belfaystudios.liteweb.info", "www.belfaystudios.com"], "auth_to": "/www/wwwroot/belfaystudios.com", "index": "45ff275803760ae16541f46c725a8295", "create_time": 1794299608, "renew_time": 0, "auths": [{"domain": "belfaystudios.com", "url": "https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/816293982962", "wildcard": false, "token": "Ijds2sJI7FoMK9oPAe_EpqndEHaV4l2qald_BRjECCY", "dns_challenge_url": "https://acme-v02.api.letsencrypt.org/acme/chall/1683409907/816293982962/GWMArg", "acme_keyauthorization": "Ijds2sJI7FoMK9oPAe_EpqndEHaV4l2qald_BRjECCY.snOuweiR67iykAiSmsUbiGqxklQwj50mwo8T5OMn0p4", "auth_value": "fdZhmhZVFy6I-Bmp1BT00HS2tDH9C2-e1Wo697wB5Xo", "expires": 1794904414, "auth_to": "/www/wwwroot/belfaystudios.com", "type": "http"}, {"domain": "belfaystudios.liteweb.info", "url": "https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/816293982972", "wildcard": false, "token": "BAEJt9B9Az-yeVRH4FSxJaVrzGtjohCA7ficaHD4eBA", "dns_challenge_url": "https://acme-v02.api.letsencrypt.org/acme/chall/1683409907/816293982972/b-D_xg", "acme_keyauthorization": "BAEJt9B9Az-yeVRH4FSxJaVrzGtjohCA7ficaHD4eBA.snOuweiR67iykAiSmsUbiGqxklQwj50mwo8T5OMn0p4", "auth_value": "vlxmf-wqBcGAx1ccc9Ts5_PV9K9FUYRJWruwOXGrcN4", "expires": 1794904415, "auth_to": "/www/wwwroot/belfaystudios.com", "type": "http"}, {"domain": "www.belfaystudios.com", "url": "https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/816293982982", "wildcard": false, "token": "5MuHT3lIFmes0oSFAK2iTBCm4SXrQn-awRKvULFyGFA", "dns_challenge_url": "https://acme-v02.api.letsencrypt.org/acme/chall/1683409907/816293982982/sHmJyw", "acme_keyauthorization": "5MuHT3lIFmes0oSFAK2iTBCm4SXrQn-awRKvULFyGFA.snOuweiR67iykAiSmsUbiGqxklQwj50mwo8T5OMn0p4", "auth_value": "a1rZ37tGrF9ANkB85yiNJWEE3L0Thm8x38jfDDk3WK8", "expires": 1794904416, "auth_to": "/www/wwwroot/belfaystudios.com", "type": "http"}], "auth_tag": true}, "1eb85abbd327787106c82a9e37b7d4cd": {"status": "pending", "expires": 1794916036, "identifiers": [{"type": "dns", "value": "bypec-lb.com"}, {"type": "dns", "value": "www.bypec-lb.com"}], "authorizations": ["https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/816384698532", "https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/816384698602"], "finalize": "https://acme-v02.api.letsencrypt.org/acme/finalize/1683409907/580527268782", "auth_type": "http", "domains": ["bypec-lb.com", "www.bypec-lb.com"], "auth_to": "/www/wwwroot/bypec-lb.com", "index": "1eb85abbd327787106c82a9e37b7d4cd", "create_time": 1794311236, "renew_time": 0, "auths": [{"domain": "bypec-lb.com", "url": "https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/816384698532", "wildcard": false, "token": "kVnkvRMMBVhnmbY7jWhV7bzN80Y5cH2sbgmMrcfB_9k", "dns_challenge_url": "https://acme-v02.api.letsencrypt.org/acme/chall/1683409907/816384698532/EvFi5g", "acme_keyauthorization": "kVnkvRMMBVhnmbY7jWhV7bzN80Y5cH2sbgmMrcfB_9k.snOuweiR67iykAiSmsUbiGqxklQwj50mwo8T5OMn0p4", "auth_value": "QdipcrX7KrxlwauJ20l1g_5IDkA-VcWC-GZRl1GYeSw", "expires": 1794916038, "auth_to": "/www/wwwroot/bypec-lb.com", "type": "http"}, {"domain": "www.bypec-lb.com", "url": "https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/816384698602", "wildcard": false, "token": "miHmIq2BdrEr0vbhplfonBIhWbMxWEyHFWix6kr6d9k", "dns_challenge_url": "https://acme-v02.api.letsencrypt.org/acme/chall/1683409907/816384698602/YZWiaw", "acme_keyauthorization": "miHmIq2BdrEr0vbhplfonBIhWbMxWEyHFWix6kr6d9k.snOuweiR67iykAiSmsUbiGqxklQwj50mwo8T5OMn0p4", "auth_value": "Q0N23yLyZYydD5t0T17pRzFK6-7O92iLU7kscdeHXSk", "expires": 1794916040, "auth_to": "/www/wwwroot/bypec-lb.com", "type": "http"}], "auth_tag": true}, "7077237b03283ffd5e4792d8742f6b85": {"status": "pending", "expires": 1794916126, "identifiers": [{"type": "dns", "value": "bypec-lb.com"}, {"type": "dns", "value": "www.bypec-lb.com"}], "authorizations": ["https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/816384698532", "https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/816385344972"], "finalize": "https://acme-v02.api.letsencrypt.org/acme/finalize/1683409907/580527674592", "auth_type": "http", "domains": ["bypec-lb.com", "www.bypec-lb.com"], "auth_to": "/www/wwwroot/bypec-lb.com", "index": "7077237b03283ffd5e4792d8742f6b85", "create_time": 1794311326, "renew_time": 0, "auths": [{"domain": "www.bypec-lb.com", "url": "https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/816385344972", "wildcard": false, "token": "oAqbwvMkTXFRHEQI8v4y-HFuFOhWlrYzdZuefSQVh3g", "dns_challenge_url": "https://acme-v02.api.letsencrypt.org/acme/chall/1683409907/816385344972/bGXzow", "acme_keyauthorization": "oAqbwvMkTXFRHEQI8v4y-HFuFOhWlrYzdZuefSQVh3g.snOuweiR67iykAiSmsUbiGqxklQwj50mwo8T5OMn0p4", "auth_value": "IGoM3Yhwxrlo-nQIj6Wl-jSGEgbizqxskmrjlKr0QU0", "expires": 1794916128, "auth_to": "/www/wwwroot/bypec-lb.com", "type": "http"}], "auth_tag": true}, "7d719641831ab1916ddf1588f5b5296b": {"status": "pending", "expires": 1794927487, "identifiers": [{"type": "dns", "value": "nazirandjoelle.com"}], "authorizations": ["https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/816472120112"], "finalize": "https://acme-v02.api.letsencrypt.org/acme/finalize/1683409907/580581731292", "auth_type": "http", "domains": ["nazirandjoelle.com"], "auth_to": "/www/server/panel/vhost/.http_fallback_tmp", "index": "7d719641831ab1916ddf1588f5b5296b", "create_time": 1794322687, "renew_time": 0, "auths": [{"domain": "nazirandjoelle.com", "url": "https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/816472120112", "wildcard": false, "token": "GRg2RnMhC03myMpnWp6pdaoDdv44_L84dgoFi2eRqXk", "dns_challenge_url": "https://acme-v02.api.letsencrypt.org/acme/chall/1683409907/816472120112/AtAnFg", "acme_keyauthorization": "GRg2RnMhC03myMpnWp6pdaoDdv44_L84dgoFi2eRqXk.snOuweiR67iykAiSmsUbiGqxklQwj50mwo8T5OMn0p4", "auth_value": "rFE12Tt2u4qKcYuVhiSATQ3tI2PUngI79gtQnmZujco", "expires": 1794927488, "auth_to": "/www/server/panel/vhost/.http_fallback_tmp", "type": "http"}], "auth_tag": true}, "ed7ecf676ec666bdc3746522586f9ab3": {"status": "pending", "expires": 1794944286, "identifiers": [{"type": "dns", "value": "nazirandjoelle.com"}], "authorizations": ["https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/816603135422"], "finalize": "https://acme-v02.api.letsencrypt.org/acme/finalize/1683409907/580663287372", "auth_type": "http", "domains": ["nazirandjoelle.com"], "auth_to": "/www/server/panel/vhost/.http_fallback_tmp", "index": "ed7ecf676ec666bdc3746522586f9ab3", "create_time": 1794339486, "renew_time": 0, "auths": [{"domain": "nazirandjoelle.com", "url": "https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/816603135422", "wildcard": false, "token": "2i0SKf-_-yyNNhyg0RIyhrC_DcfKaV2-X0XPHGvW_KQ", "dns_challenge_url": "https://acme-v02.api.letsencrypt.org/acme/chall/1683409907/816603135422/MzP6KQ", "acme_keyauthorization": "2i0SKf-_-yyNNhyg0RIyhrC_DcfKaV2-X0XPHGvW_KQ.snOuweiR67iykAiSmsUbiGqxklQwj50mwo8T5OMn0p4", "auth_value": "rwPKah_hzLP4AD1eKDKRro8CJEFx697YbwpFSUq1wvo", "expires": 1794944287, "auth_to": "/www/server/panel/vhost/.http_fallback_tmp", "type": "http"}], "auth_tag": true}, "fbcc0395364a01fd83c4107b76bf4cb8": {"status": "pending", "expires": 1795013886, "identifiers": [{"type": "dns", "value": "nazirandjoelle.com"}], "authorizations": ["https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/817145538492"], "finalize": "https://acme-v02.api.letsencrypt.org/acme/finalize/1683409907/580996474832", "auth_type": "http", "domains": ["nazirandjoelle.com"], "auth_to": "/www/server/panel/vhost/.http_fallback_tmp", "index": "fbcc0395364a01fd83c4107b76bf4cb8", "create_time": 1794409086, "renew_time": 0, "auths": [{"domain": "nazirandjoelle.com", "url": "https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/817145538492", "wildcard": false, "token": "qBllmEpEJ-OJWD8zHo8ksVDBykgvqF7xzx-C24gdSPU", "dns_challenge_url": "https://acme-v02.api.letsencrypt.org/acme/chall/1683409907/817145538492/aBdxHA", "acme_keyauthorization": "qBllmEpEJ-OJWD8zHo8ksVDBykgvqF7xzx-C24gdSPU.snOuweiR67iykAiSmsUbiGqxklQwj50mwo8T5OMn0p4", "auth_value": "kwogtWfoE2W81lB4Z9MzUg91hGQJD4slVTzbbozy2X4", "expires": 1795013886, "auth_to": "/www/server/panel/vhost/.http_fallback_tmp", "type": "http"}], "auth_tag": true}, "d8d95ef9b44ebffbe892833aa541d0b8": {"status": "pending", "expires": 1795030685, "identifiers": [{"type": "dns", "value": "nazirandjoelle.com"}], "authorizations": ["https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/817276808102"], "finalize": "https://acme-v02.api.letsencrypt.org/acme/finalize/1683409907/581075622892", "auth_type": "http", "domains": ["nazirandjoelle.com"], "auth_to": "/www/server/panel/vhost/.http_fallback_tmp", "index": "d8d95ef9b44ebffbe892833aa541d0b8", "create_time": 1794425885, "renew_time": 0, "auths": [{"domain": "nazirandjoelle.com", "url": "https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/817276808102", "wildcard": false, "token": "d1uqPUEScpZ5buVAFR--XPQXTqXLouyrlGlAvcNd6Hk", "dns_challenge_url": "https://acme-v02.api.letsencrypt.org/acme/chall/1683409907/817276808102/xfeI0A", "acme_keyauthorization": "d1uqPUEScpZ5buVAFR--XPQXTqXLouyrlGlAvcNd6Hk.snOuweiR67iykAiSmsUbiGqxklQwj50mwo8T5OMn0p4", "auth_value": "lxDxiOrwN05k4he2g-ijr37H5nypiJmus6_iN42nhHo", "expires": 1795030686, "auth_to": "/www/server/panel/vhost/.http_fallback_tmp", "type": "http"}], "auth_tag": true}, "4a745ad699d464880d9b258994e67e6d": {"status": "pending", "expires": 1795100289, "identifiers": [{"type": "dns", "value": "nazirandjoelle.com"}], "authorizations": ["https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/817836709212"], "finalize": "https://acme-v02.api.letsencrypt.org/acme/finalize/1683409907/581419568542", "auth_type": "http", "domains": ["nazirandjoelle.com"], "auth_to": "/www/server/panel/vhost/.http_fallback_tmp", "index": "4a745ad699d464880d9b258994e67e6d", "create_time": 1794495489, "renew_time": 0, "auths": [{"domain": "nazirandjoelle.com", "url": "https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/817836709212", "wildcard": false, "token": "7PLUouDVEjwd850iZME0GAK4SBcEyRKWvhVTSkYT4bo", "dns_challenge_url": "https://acme-v02.api.letsencrypt.org/acme/chall/1683409907/817836709212/EwuDCg", "acme_keyauthorization": "7PLUouDVEjwd850iZME0GAK4SBcEyRKWvhVTSkYT4bo.snOuweiR67iykAiSmsUbiGqxklQwj50mwo8T5OMn0p4", "auth_value": "OszSDIoi2Lh2Wd7BXafSXPAhtVZyl18lxxB2toUJL3M", "expires": 1795100290, "auth_to": "/www/server/panel/vhost/.http_fallback_tmp", "type": "http"}], "auth_tag": true}, "02aa61a34402a0297e934a066fa02159": {"status": "pending", "expires": 1795117086, "identifiers": [{"type": "dns", "value": "nazirandjoelle.com"}], "authorizations": ["https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/817971249092"], "finalize": "https://acme-v02.api.letsencrypt.org/acme/finalize/1683409907/581503081942", "auth_type": "http", "domains": ["nazirandjoelle.com"], "auth_to": "/www/server/panel/vhost/.http_fallback_tmp", "index": "02aa61a34402a0297e934a066fa02159", "create_time": 1794512286, "renew_time": 0, "auths": [{"domain": "nazirandjoelle.com", "url": "https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/817971249092", "wildcard": false, "token": "nReliS4ELwZh6HwpBjZTY1ghA54DTRauSM3OBUmmqjk", "dns_challenge_url": "https://acme-v02.api.letsencrypt.org/acme/chall/1683409907/817971249092/vCnODg", "acme_keyauthorization": "nReliS4ELwZh6HwpBjZTY1ghA54DTRauSM3OBUmmqjk.snOuweiR67iykAiSmsUbiGqxklQwj50mwo8T5OMn0p4", "auth_value": "uLqQFO5LXcX46TXEd4KHbO4g5bhmkxLOto8YJyfCgZo", "expires": 1795117088, "auth_to": "/www/server/panel/vhost/.http_fallback_tmp", "type": "http"}], "auth_tag": true}, "8c5e479b4855f3ac5060f3174057bbcd": {"status": "pending", "expires": 1795186689, "identifiers": [{"type": "dns", "value": "nazirandjoelle.com"}], "authorizations": ["https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/818526428662"], "finalize": "https://acme-v02.api.letsencrypt.org/acme/finalize/1683409907/581853562472", "auth_type": "http", "domains": ["nazirandjoelle.com"], "auth_to": "/www/server/panel/vhost/.http_fallback_tmp", "index": "8c5e479b4855f3ac5060f3174057bbcd", "create_time": 1794581889, "renew_time": 0, "auths": [{"domain": "nazirandjoelle.com", "url": "https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/818526428662", "wildcard": false, "token": "ukwutvAgkDm5U0gsbHl0vYjQ5hBdL8F0ngm1hGwv8ls", "dns_challenge_url": "https://acme-v02.api.letsencrypt.org/acme/chall/1683409907/818526428662/ivxQWQ", "acme_keyauthorization": "ukwutvAgkDm5U0gsbHl0vYjQ5hBdL8F0ngm1hGwv8ls.snOuweiR67iykAiSmsUbiGqxklQwj50mwo8T5OMn0p4", "auth_value": "8z8PUInrqLF6ISNnQBO1RGbEbYCGiW-s4lE5sSPotFk", "expires": 1795186689, "auth_to": "/www/server/panel/vhost/.http_fallback_tmp", "type": "http"}], "auth_tag": true}, "2f0c38552d61dc0925e7dc1d42f9342f": {"status": "pending", "expires": 1795203485, "identifiers": [{"type": "dns", "value": "nazirandjoelle.com"}], "authorizations": ["https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/818660755832"], "finalize": "https://acme-v02.api.letsencrypt.org/acme/finalize/1683409907/581937807222", "auth_type": "http", "domains": ["nazirandjoelle.com"], "auth_to": "/www/server/panel/vhost/.http_fallback_tmp", "index": "2f0c38552d61dc0925e7dc1d42f9342f", "create_time": 1794598685, "renew_time": 0, "auths": [{"domain": "nazirandjoelle.com", "url": "https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/818660755832", "wildcard": false, "token": "RSSLEyAQVsvFfwzMrRKLzedHJ9CU0eBfcEX5tSQejP0", "dns_challenge_url": "https://acme-v02.api.letsencrypt.org/acme/chall/1683409907/818660755832/TX8HVA", "acme_keyauthorization": "RSSLEyAQVsvFfwzMrRKLzedHJ9CU0eBfcEX5tSQejP0.snOuweiR67iykAiSmsUbiGqxklQwj50mwo8T5OMn0p4", "auth_value": "SgyO8N3ceE9aYgj6HPxc31_NGZU2LVpcA8VFHqPkYyM", "expires": 1795203485, "auth_to": "/www/server/panel/vhost/.http_fallback_tmp", "type": "http"}], "auth_tag": true}, "fc21cc96d5f380204db8b8ce08d1686f": {"status": "pending", "expires": 1795273091, "identifiers": [{"type": "dns", "value": "nazirandjoelle.com"}], "authorizations": ["https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/819203028612"], "finalize": "https://acme-v02.api.letsencrypt.org/acme/finalize/1683409907/582273541152", "auth_type": "http", "domains": ["nazirandjoelle.com"], "auth_to": "/www/server/panel/vhost/.http_fallback_tmp", "index": "fc21cc96d5f380204db8b8ce08d1686f", "create_time": 1794668291, "renew_time": 0, "auths": [{"domain": "nazirandjoelle.com", "url": "https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/819203028612", "wildcard": false, "token": "dIXe19lMYq_JElMf7hSpxaV15mc5Fx9pMVmRHaA1RQ8", "dns_challenge_url": "https://acme-v02.api.letsencrypt.org/acme/chall/1683409907/819203028612/a_-GCg", "acme_keyauthorization": "dIXe19lMYq_JElMf7hSpxaV15mc5Fx9pMVmRHaA1RQ8.snOuweiR67iykAiSmsUbiGqxklQwj50mwo8T5OMn0p4", "auth_value": "k7gMPuE9JSPyHVAVTX2wgQvgVOGrIjpNtoLHOC1Ni24", "expires": 1795273092, "auth_to": "/www/server/panel/vhost/.http_fallback_tmp", "type": "http"}], "auth_tag": true}, "f6bd2c25a07aa8bf003e2f4cf91a4061": {"status": "pending", "expires": 1795289886, "identifiers": [{"type": "dns", "value": "nazirandjoelle.com"}], "authorizations": ["https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/819330356812"], "finalize": "https://acme-v02.api.letsencrypt.org/acme/finalize/1683409907/582351500732", "auth_type": "http", "domains": ["nazirandjoelle.com"], "auth_to": "/www/server/panel/vhost/.http_fallback_tmp", "index": "f6bd2c25a07aa8bf003e2f4cf91a4061", "create_time": 1794685086, "renew_time": 0, "auths": [{"domain": "nazirandjoelle.com", "url": "https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/819330356812", "wildcard": false, "token": "oqW2MxcHfwcs-I1-t_sPL6rPNNZ3FaDwT3ym53IEgaI", "dns_challenge_url": "https://acme-v02.api.letsencrypt.org/acme/chall/1683409907/819330356812/PcX8JQ", "acme_keyauthorization": "oqW2MxcHfwcs-I1-t_sPL6rPNNZ3FaDwT3ym53IEgaI.snOuweiR67iykAiSmsUbiGqxklQwj50mwo8T5OMn0p4", "auth_value": "wQ7_8B2sB0677xo5z9eYN1oaEhS8E27jmM0f6EnzN4E", "expires": 1795289887, "auth_to": "/www/server/panel/vhost/.http_fallback_tmp", "type": "http"}], "auth_tag": true}, "91d90893b360639a497dd9ea691e1a64": {"status": "pending", "expires": 1795359499, "identifiers": [{"type": "dns", "value": "nazirandjoelle.com"}], "authorizations": ["https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/819875553502"], "finalize": "https://acme-v02.api.letsencrypt.org/acme/finalize/1683409907/582687986812", "auth_type": "http", "domains": ["nazirandjoelle.com"], "auth_to": "/www/server/panel/vhost/.http_fallback_tmp", "index": "91d90893b360639a497dd9ea691e1a64", "create_time": 1794754699, "renew_time": 0, "auths": [{"domain": "nazirandjoelle.com", "url": "https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/819875553502", "wildcard": false, "token": "KRONFN-Sa214zgfSEc1a2CQOhU6L-PVIBJxcc3w54oY", "dns_challenge_url": "https://acme-v02.api.letsencrypt.org/acme/chall/1683409907/819875553502/ue_QJQ", "acme_keyauthorization": "KRONFN-Sa214zgfSEc1a2CQOhU6L-PVIBJxcc3w54oY.snOuweiR67iykAiSmsUbiGqxklQwj50mwo8T5OMn0p4", "auth_value": "RCcjtC7ApcxP_0BlLcLBVED49GF43NH_GEqtbpvTCXo", "expires": 1795359500, "auth_to": "/www/server/panel/vhost/.http_fallback_tmp", "type": "http"}], "auth_tag": true}, "0b572df0e4c2ff569475707a616d9490": {"status": "pending", "expires": 1795376286, "identifiers": [{"type": "dns", "value": "nazirandjoelle.com"}], "authorizations": ["https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/820004983722"], "finalize": "https://acme-v02.api.letsencrypt.org/acme/finalize/1683409907/582767231902", "auth_type": "http", "domains": ["nazirandjoelle.com"], "auth_to": "/www/server/panel/vhost/.http_fallback_tmp", "index": "0b572df0e4c2ff569475707a616d9490", "create_time": 1794771486, "renew_time": 0, "auths": [{"domain": "nazirandjoelle.com", "url": "https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/820004983722", "wildcard": false, "token": "Ze3RUE84z19dkXyMyEj0r8RAtGXHp0pv7aQNp9BXesQ", "dns_challenge_url": "https://acme-v02.api.letsencrypt.org/acme/chall/1683409907/820004983722/8FNbRw", "acme_keyauthorization": "Ze3RUE84z19dkXyMyEj0r8RAtGXHp0pv7aQNp9BXesQ.snOuweiR67iykAiSmsUbiGqxklQwj50mwo8T5OMn0p4", "auth_value": "qJXT3suQTIi6BBcepErlh7ETEV39DiSa0x2sfAgFblw", "expires": 1795376287, "auth_to": "/www/server/panel/vhost/.http_fallback_tmp", "type": "http"}], "auth_tag": true}, "471e3d1ed80fb2fe2f286a7eb470a622": {"status": "pending", "expires": 1795445886, "identifiers": [{"type": "dns", "value": "nazirandjoelle.com"}], "authorizations": ["https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/820560660812"], "finalize": "https://acme-v02.api.letsencrypt.org/acme/finalize/1683409907/583111461912", "auth_type": "http", "domains": ["nazirandjoelle.com"], "auth_to": "/www/server/panel/vhost/.http_fallback_tmp", "index": "471e3d1ed80fb2fe2f286a7eb470a622", "create_time": 1794841086, "renew_time": 0, "auths": [{"domain": "nazirandjoelle.com", "url": "https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/820560660812", "wildcard": false, "token": "GQkOjEnnAURiFDZ74h_wnKBWvkmXCRzFwe3il6te3FI", "dns_challenge_url": "https://acme-v02.api.letsencrypt.org/acme/chall/1683409907/820560660812/JnL_sA", "acme_keyauthorization": "GQkOjEnnAURiFDZ74h_wnKBWvkmXCRzFwe3il6te3FI.snOuweiR67iykAiSmsUbiGqxklQwj50mwo8T5OMn0p4", "auth_value": "pKDUtG1pjcgjaIB0u0AbhlI12mO4LWrrDQcT8U0stVQ", "expires": 1795445886, "auth_to": "/www/server/panel/vhost/.http_fallback_tmp", "type": "http"}], "auth_tag": true}, "6d3818c7c53362303f68d3e8396c81cd": {"status": "pending", "expires": 1795462683, "identifiers": [{"type": "dns", "value": "nazirandjoelle.com"}], "authorizations": ["https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/820694969282"], "finalize": "https://acme-v02.api.letsencrypt.org/acme/finalize/1683409907/583194375722", "auth_type": "http", "domains": ["nazirandjoelle.com"], "auth_to": "/www/server/panel/vhost/.http_fallback_tmp", "index": "6d3818c7c53362303f68d3e8396c81cd", "create_time": 1794857883, "renew_time": 0, "auths": [{"domain": "nazirandjoelle.com", "url": "https://acme-v02.api.letsencrypt.org/acme/authz/1683409907/820694969282", "wildcard": false, "token": "HjKAVZBZjRiQV_40t4oAZQJjKimi2OgIB7lOuioJeMc", "dns_challenge_url": "https://acme-v02.api.letsencrypt.org/acme/chall/1683409907/820694969282/DIXePw", "acme_keyauthorization": "HjKAVZBZjRiQV_40t4oAZQJjKimi2OgIB7lOuioJeMc.snOuweiR67iykAiSmsUbiGqxklQwj50mwo8T5OMn0p4", "auth_value": "GRDktFakvlDtFPlLggdRiHCMLoC5SpniIN1xA_AXmBk", "expires": 1795462684, "auth_to": "/www/server/panel/vhost/.http_fallback_tmp", "type": "http"}], "auth_tag": true}}, "account": {"Production": {"key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCrS85q1wqM9R2W\nlG4HqxCUx48DYM3YLJdtj23U79lLZWcWcs7HUIdxuihYy6XL39/N0mSmShgR+rjn\nu/TFQv/P5xAtZXkN2mZSK1j5Pg7rP6/jZs5CH/oQKaQyWy7x6ZerlApQ6GcMctMd\nXgvWnPco01uOFHe1PSyligkQJXalM/NyfZql5Kf/vVCZmJYTRvDSE3mXLLtJwpbz\nIbRWjYNwAeq5L3TBgnZ3O4yW2k1NiNXC/YafzAOBjSQyDhuC1zWOzlXM72J+wDoK\n4DFfieb7WinpPRzKA1Iq2dfhqqV+fAbaTq1xpA62XsnypP2K63ljN0rrCiSFaWmK\nZEFUfZilAgMBAAECggEAD+yVrWf9UppM3F1DF1JnUbV1jZZXvIN0tloxlyyO8kvk\nd/lHUM8jMEbijlKsQJY424z2D2Fu+Gjq/JwEBrySRHUSE25OASQvA++Er3L99w+u\nHcFGZm5LlGoSmh3Q8OtKzsgN53Sbc9RO3PmLtzFTZsezSLONZ1tfBaqd6hLZg0T4\njLvQyCHPnu7Kri6HfOC+cTuGBzk3q80Ca3LxRZQMTnSTcjK4BVCgh7DZE9FR1xyP\nVB1U7p7zjT/NlBhu3G8s+sVRPzZ9uF2yn0BfbHVqA9u+z18SqRZXmiUgLeVF+IOG\n1TceLb4oN0TwKJFEX7ALu5pg+/uZWjsIUvRa6bGUYQKBgQDiXDlf1hx/0T6eBOXr\n4BCweFe6ad4vCEFA7U1YiLn9EFN6UpulR2AyIiwOMy1USqECtbUHdX3DKvx6a3z0\nvx6NURhaNozZuwqo7dl79pXyFMGZs3Rb+hK1FZJLTCr/XIWtmewFajLkSxrpKlQi\nX0FQ/he4Phekpx4GHtxeBMZgdQKBgQDBucnkIQAdj8W0aOfKY/GvIl/81EzvQGe3\nXHptzufDByGuEqikgujaydtryf73RTyO2RFodL87mkN7U/slV2qG1prmnmaHYkVb\nHwsXnXu94vispudnlBV6Kn1Mdlf3vgVAMrXWUZdc0uCRyWlVqFEqR5RRmBo22MC5\nSUHDlchRcQKBgDDRXvZSQPc38181Azkpq6/DZHgpmOdfymLsSsALTMFNIhPBeRve\nFtr5D7NISkBhj/P7qD0hk6vhu23TfLFz/mzPzoa2OQ5EDnp8QWlAtvnsjAxP7Ypg\nlmRDcLeYh7VnCNV12rcYPj2KDRW4MUjwbi+/fPIZQhQajpkXUsNcGER5AoGAVY+J\n5JDSrTu/lQO0RAZKSxCClnbpl825QRm+FNuKLu/qZyhkhWwwDdmTaJLpYiqZKXoj\nnx/ZCikC3uhjhsWKDg2gknSpUegMO8eFLaPncCFbtV1t3Khhp/g2KNwn1Ap/5S/A\ncezNTjjw6FKtjCBv4J2Gm1bzVP/8dpktS4XO2HECgYB0INWb+rbeUra970XwjDE4\nmHAQUF6OwtkTfCSehHql/3NUYUBf+LbYItAaP+beWVakT3tr85pDDZoVKytydW8B\nx0hRyu2sMSt+a7BwSH8JHnU3WqHVKtofSIvgA/jO2SvkaafxmPelRdmh1F7S/vXK\npJeuTmPKdJF2UIybQGcxQg==\n-----END PRIVATE KEY-----\n", "kid": "https://acme-v02.api.letsencrypt.org/acme/acct/1683409907"}}, "apis": {"Production": {"directory": {"newAccount": "https://acme-v02.api.letsencrypt.org/acme/new-acct", "newNonce": "https://acme-v02.api.letsencrypt.org/acme/new-nonce", "newOrder": "https://acme-v02.api.letsencrypt.org/acme/new-order", "revokeCert": "https://acme-v02.api.letsencrypt.org/acme/revoke-cert", "keyChange": "https://acme-v02.api.letsencrypt.org/acme/key-change"}, "expires": 1794857885.6961048}}, "email": null}
+
+===== rclone remotes (read-only) =====
+/usr/bin/rclone
+rclone v1.69.1
+- os/version: ubuntu 22.04 (64 bit)
+- os/kernel: 5.15.0-203-generic (x86_64)
+- os/type: linux
+- os/arch: amd64
+google_drive:
+backup:
+gdrive:
+--- rclone config path ---
+Configuration file is stored at:
+/root/.config/rclone/rclone.conf
+--- lsd gdrive:/server-backups/ ---
+           0 2025-04-27 23:53:37        -1 ubuntuliteweb
+--- lsl newest under gdrive:/server-backups/ (limited) ---
+
+===== /www/wwwroot site folders (names only) =====
+3d.liteweb.info
+aiadmin.liteweb.info
+alignea.liteweb.info
+antonioscouture.com
+api.theaisocialfeed.com
+arar-co.com
+belfaystudios.com
+bigkahuna.liteweb.info
+bluefieldco
+bypec-lb.com
+capitalprogroup.ca
+default
+emdcconsult.com
+emdc.group
+e-medicalcyprus.com
+emenu.pixelsspark.com
+feed-lb.org
+fleurealle.com
+gebcosteel.com
+gerogulf.com
+goldencyprustrails.com
+guerrasports
+gwip
+hajjgroup.co
+jahidawehbe.com
+lebanoninapicture.com
+lebanoninapicture.com`
+liteweb-backup-2026-10-24
+liteweb.info
+marantoniosalkabir.com
+podvorie-livan.com
+public
+re-petroleum.com
+santamariabouar.com
+solutec-lb.com
+somecointernational.com
+someco.liteweb.info
+theaisocialfeed
+theaisocialfeed.com
+thronetrading.com
+ubuntu.liteweb.info
+www.lebanoninapicture.com
+zadwbarakat.com
+zenaassi.com
+
+===== EXTRA: systemd timers related =====
+Wed 2026-11-18 00:00:00 UTC 11h left      Tue 2026-11-17 00:00:02 UTC 12h ago          dpkg-db-backup.timer           dpkg-db-backup.service
+
+===== DONE =====

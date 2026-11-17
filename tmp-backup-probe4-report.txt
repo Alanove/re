@@ -1,0 +1,41 @@
+COLS ['id', 'name', 'type', 'where1', 'where_hour', 'where_minute', 'echo', 'addtime', 'status', 'save', 'backupTo', 'sName', 'sBody', 'sType', 'urladdress', 'save_local', 'notice', 'notice_channel', 'db_type', 'split_type', 'split_value', 'rname', 'type_id', 'keyword', 'post_param', 'flock', 'time_set', 'backup_mode', 'db_backup_path', 'time_type', 'special_time', 'log_cut_path', 'user_agent', 'version', 'table_list', 'result', 'second']
+--- all crontab rows (key fields) ---
+(1, "Renew Let's Encrypt Certificate", 'day', 19, 38, '3ab48c27ec99cb9787749c362afae517', 1, '', '', '', 'toShell', 0, '2024-04-20 12:28:15', 1)
+(2, 'Backup Directory[/www/wwwroot]', 'day', 1, 30, 'b4172d9e4ce13014fc515569f6cf3138', 0, 1, 'gdrive', '/www/wwwroot', 'path', 1, '2025-02-20 23:01:56', 1)
+(3, 'Backup Database[ALL]--mysql', 'day', 1, 30, 'd7ed380e96c4f82b7ae62fb9bad35545', 1, 1, 'gdrive', 'ALL', 'database', 1, '2025-02-20 23:02:16', 0)
+(4, 'Backgup gdrive', 'day', 0, 3, '4984195e1286dbbbf90bb77a83eb7db8', 1, '', '', 'ALL', 'toShell', 0, '2025-04-27 23:51:09', 1)
+(5, "Domain SSL Renew Let's Encrypt Certificate", 'day', 14, 58, 'a50afd8f7d0e95dc2fd7bbbcfdcccd82', 1, '', 'localhost', '', 'toShell', 0, '2025-06-03 22:58:54', 1)
+(8, 'Full Backup', 'day', 1, 30, 'b6398158cd6176b83fe5557e37f70dde', 0, 5, 'gdrive', 'ALL', 'full_backup', 0, '2026-07-31 02:04:35', 1)
+(9, 'Full Backup', 'day', 1, 30, '2c8c8f84b5ebec5dc5f82253108ef69f', 0, 3, 'gdrive', 'ALL', 'full_backup', 1, '2026-08-01 03:30:03', 1)
+(10, 'Delay the update of the panel to version 8.0.7', 'once', 0, 0, 'once_1791873995.sh', 1, 0, '', '', 'toShell', 0, None, 1)
+--- backup table last path_wwwroot ---
+backup cols ['id', 'type', 'name', 'pid', 'filename', 'size', 'addtime', 'ps', 'cron_id', 'backup_type']
+(4310, 2, '/www/wwwroot', 0, '/www/backup/path/wwwroot/path_wwwroot_20260822_013002_rn3i5i.tar.gz', 65242766319, '2026-08-22 10:14:48', 'Plan task backup to localhost', 2, 0)
+(4309, 2, '/www/wwwroot', 0, 'gdrive|backup_path/path/path_wwwroot_20260822_013002_rn3i5i.tar.gz', 65242766319, '2026-08-22 10:14:48', 'Plan task backup to Google Drive', 2, 0)
+
+===== gdrive path/wwwroot under recent days =====
+--- 2026-11-17/path ---
+wwwroot/
+wwwroot/path_wwwroot_20260822_013002_rn3i5i.tar.gz
+wwwroot/path_wwwroot_20260823_013003_XTJ1sB.tar.gz
+--- 2026-11-16/path ---
+wwwroot/
+wwwroot/path_wwwroot_20260822_013002_rn3i5i.tar.gz
+wwwroot/path_wwwroot_20260823_013003_XTJ1sB.tar.gz
+--- 2026-08-23/path ---
+2026/11/17 12:59:58 ERROR : : error listing: directory not found
+2026/11/17 12:59:58 NOTICE: Failed to lsf with 2 errors: last error was: error in ListJSON: directory not found
+--- 2026-08-22/path ---
+2026/11/17 13:00:01 ERROR : : error listing: directory not found
+2026/11/17 13:00:01 NOTICE: Failed to lsf with 2 errors: last error was: error in ListJSON: directory not found
+--- 2026-08-24/path ---
+2026/11/17 13:00:04 ERROR : : error listing: directory not found
+2026/11/17 13:00:04 NOTICE: Failed to lsf with 2 errors: last error was: error in ListJSON: directory not found
+
+===== local path/wwwroot via rclone today =====
+path_wwwroot_20260822_013002_rn3i5i.tar.gz
+path_wwwroot_20260823_013003_XTJ1sB.tar.gz
+Total objects: 2
+Total size: 121.524 GiB (130485499076 Byte)
+
+===== du wwwroot (for per-site planning) =====
