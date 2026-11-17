@@ -8,11 +8,20 @@
   <div class="panel-body">
     <% if (success) { %><div class="alert alert-success"><%= success %></div><% } %>
     <% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+    <div class="mb-3" style="max-width:320px">
+      <label class="form-label" for="categoryFilter">Category</label>
+      <select id="categoryFilter" class="form-select">
+        <option value="">All categories</option>
+        <% (categories || []).forEach(function(category) { %>
+          <option value="<%= category.slug %>"><%= category.name %></option>
+        <% }) %>
+      </select>
+    </div>
     <table class="table table-striped">
-      <thead><tr><th>Picture</th><th>Title</th><th>SKU</th><th>Price</th><th>Categories</th><th></th></tr></thead>
+      <thead><tr><th data-sort="off">Picture</th><th>Title</th><th>SKU</th><th>Price</th><th>Categories</th><th data-sort="off"></th></tr></thead>
       <tbody>
         <% products.forEach(function(product) { %>
-          <tr>
+          <tr data-categories="<%= (product.categories || []).join(' ') %>">
             <td>
               <% if (product.image) { %>
                 <img src="<%= product.image %>" alt="<%= product.title %>" class="rounded" width="48" height="48" style="object-fit:contain;background:#f8f8f8;">
@@ -23,7 +32,9 @@
             <td><%= product.title %></td>
             <td><%= product.sku || '' %></td>
             <td><%= product.price || '' %></td>
-            <td><%= (product.categories || []).join(', ') %></td>
+            <td><% (product.categories || []).forEach(function(slug) {
+              var match = (categories || []).find(function(category) { return category.slug === slug; });
+            %><span class="me-1"><%= match ? match.name : slug %></span><% }) %></td>
             <td>
               <a class="btn btn-xs btn-primary" href="/admin/products/<%= product.key %>/edit">Edit</a>
               <form method="post" action="/admin/products/<%= product.key %>/delete" style="display:inline" onsubmit="return confirm('Delete this product?')">
@@ -36,3 +47,18 @@
     </table>
   </div>
 </div>
+<script>
+(function () {
+  var filter = document.getElementById('categoryFilter');
+  if (!filter) return;
+  filter.addEventListener('change', function () {
+    var slug = filter.value;
+    var table = filter.closest('.panel').querySelector('tbody');
+    if (!table) return;
+    table.querySelectorAll('tr').forEach(function (row) {
+      var categories = (row.getAttribute('data-categories') || '').split(/\s+/).filter(Boolean);
+      row.style.display = slug !== '' && categories.indexOf(slug) < 0 ? 'none' : '';
+    });
+  });
+})();
+</script>

@@ -3,22 +3,41 @@ import fs from 'fs';
 import path from 'path';
 import multer from 'multer';
 import { CatalogAdminService } from '../services/catalogAdminService';
-import { ProductRecord } from '../../src/services/productsService';
+import { ProductRecord, presentProductBody } from '../../src/services/productsService';
 
 const catalogDir = path.resolve(process.cwd(), 'public', 'uploads', 'catalog');
+
+function slugify(value: string): string {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 80);
+}
+
 const catalogUpload = multer({
   storage: multer.diskStorage({
-    destination: (_req, _file, cb) => {
+    destination: (req, file, cb) => {
+      if (file.fieldname === 'pdfFile') {
+        const key = slugify(String(req.body?.key || req.body?.title || 'product')) || 'product';
+        const dir = path.resolve(process.cwd(), 'public', 'downloads', key);
+        fs.mkdirSync(dir, { recursive: true });
+        cb(null, dir);
+        return;
+      }
       fs.mkdirSync(catalogDir, { recursive: true });
       cb(null, catalogDir);
     },
     filename: (_req, file, cb) => {
-      const safe = file.originalname.replace(/[^a-zA-Z0-9._-]/g, '_');
-      cb(null, `${Date.now()}-${safe}`);
+      const ext = path.extname(file.originalname).toLowerCase();
+      const safe = path.basename(file.originalname, path.extname(file.originalname)).replace(/[^a-zA-Z0-9._-]/g, '_');
+      cb(null, `${Date.now()}-${safe}${file.fieldname === 'pdfFile' ? '.pdf' : ext}`);
     }
   }),
   limits: { fileSize: 8 * 1024 * 1024, fieldSize: 10 * 1024 * 1024 },
   fileFilter: (_req, file, cb) => {
+    if (file.fieldname === 'pdfFile') {
+      const ext = path.extname(file.originalname).toLowerCase();
+      if (file.mimetype === 'application/pdf' || ext === '.pdf') cb(null, true);
+      else cb(new Error('Only PDF files are allowed'));
+      return;
+    }
     if (file.mimetype.startsWith('image/')) cb(null, true);
     else cb(new Error('Only image files are allowed'));
   }
@@ -26,6 +45,17 @@ const catalogUpload = multer({
 
 function publicUpload(file?: Express.Multer.File): string {
   return file ? `/uploads/catalog/${file.filename}` : '';
+}
+
+function publicPdf(key: string, file?: Express.Multer.File): string {
+  return file ? `/downloads/${key}/${file.filename}` : '';
+}
+
+function deleteOwnedDownload(key: string, publicPath?: string, replacement?: string): void {
+  if (!publicPath || publicPath === replacement) return;
+  if (!publicPath.startsWith(`/downloads/${key}/`)) return;
+  const filePath = path.resolve(process.cwd(), 'public', publicPath.replace(/^\/+/, ''));
+  if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
 }
 
 function asList(value: unknown): string[] {
@@ -36,16 +66,13 @@ function asList(value: unknown): string[] {
 
 const catalog = CatalogAdminService.getInstance();
 
-function slugify(value: string): string {
-  return value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 80);
-}
-
 export class CatalogController {
   public static products(req: Request, res: Response): void {
     res.render('products/products', {
       title: 'Products',
       pageTitle: 'Products',
       products: catalog.getProducts(),
+      categories: catalog.getCategories(),
       success: req.query['success'],
       error: req.query['error']
     });
@@ -59,10 +86,12 @@ export class CatalogController {
       res.redirect('/admin/products?error=Product not found');
       return;
     }
+    const brochure = product ? presentProductBody(product.content || '', product.pdf || '') : { content: '', pdf: '' };
     res.render('products/edit-product', {
       title: creating ? 'New product' : 'Edit product',
       pageTitle: creating ? 'New product' : 'Edit product',
       product,
+      pdfUrl: brochure.pdf,
       categories: catalog.getCategories(),
       isCreate: creating,
       includeCustomEditor: true
@@ -72,7 +101,8 @@ export class CatalogController {
   public static saveProduct(req: Request, res: Response): void {
     catalogUpload.fields([
       { name: 'imageFile', maxCount: 1 },
-      { name: 'galleryFiles', maxCount: 12 }
+      { name: 'galleryFiles', maxCount: 12 },
+      { name: 'pdfFile', maxCount: 1 }
     ])(req, res, (err) => {
       if (err) {
         res.redirect(`/admin/products?error=${encodeURIComponent(err.message)}`);
@@ -92,6 +122,12 @@ export class CatalogController {
       const gallery = (existing?.gallery || []).filter((image) => !removed.has(image));
       (files?.galleryFiles || []).forEach((file) => gallery.push(publicUpload(file)));
       const image = body.removeImage === '1' && !uploadedImage ? '' : (uploadedImage || existing?.image || '');
+      const cleaned = presentProductBody(String(body.content || ''), '');
+      const uploadedPdf = publicPdf(key, files?.pdfFile?.[0]);
+      let pdf = existing?.pdf || cleaned.pdf;
+      if (uploadedPdf) pdf = uploadedPdf;
+      if (body.removePdf === '1' && !uploadedPdf) pdf = '';
+      deleteOwnedDownload(key, existing?.pdf, pdf);
       const title = String(body.title).trim();
       const seoTitle = String(body.seoTitle || title);
       const product: ProductRecord = {
@@ -101,9 +137,10 @@ export class CatalogController {
         sku: String(body.sku || ''),
         price: String(body.price || ''),
         excerpt: String(body.excerpt || ''),
-        content: String(body.content || ''),
+        content: cleaned.content,
         image,
         gallery,
+        pdf,
         categories,
         status: body.status === 'draft' ? 'draft' : 'published',
         seo: {

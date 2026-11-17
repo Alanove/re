@@ -131,7 +131,7 @@
 									<th>Title</th>
 									<th>Status</th>
 									<th>Last Updated</th>
-									<th>Actions</th>
+									<th data-sort="off">Actions</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -148,7 +148,7 @@
 												<span class="badge bg-warning">Draft</span>
 											<% } %>
 										</td>
-										<td>
+										<td data-sort-value="<%= page.lastUpdated || '' %>">
 											<small class="text-muted">
 												<% if (page.lastUpdated) { %>
 													<%= new Date(page.lastUpdated).toLocaleDateString() %>

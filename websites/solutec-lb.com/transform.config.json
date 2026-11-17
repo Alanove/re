@@ -1,0 +1,28 @@
+{
+  "siteKey": "solutec",
+  "siteName": "Solutec",
+  "legacySiteUrl": "https://solutec-lb.com",
+  "cmsSource": "",
+  "contentWorkbook": "",
+  "contentSeed": "",
+  "designDir": "",
+  "outputDir": ".",
+  "port": 3030,
+  "logo": {
+    "url": "https://solutec-lb.com/uploads/2018/07/Solutec-Logo.bmp",
+    "localPath": "/uploads/2018/07/Solutec-Logo.bmp",
+    "note": "WordPress import. The mark is the existing BMP logo; colours were not resampled for this deploy."
+  },
+  "legacy": {
+    "pageImagePattern": "",
+    "footerPageKey": null,
+    "contactPageKey": "contact-us",
+    "uploadsMirrorPrefix": "/uploads",
+    "source": "wordpress-sql",
+    "note": "Imported by scripts/import-solutec.js from a WordPress SQL dump, not the shared workbook importer. cmsSource and contentWorkbook are unused."
+  },
+  "cmsSync": {
+    "adminPublicFiles": [],
+    "adminPublicDirs": []
+  }
+}

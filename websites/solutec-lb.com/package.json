@@ -4,8 +4,13 @@
   "description": "Solutec site on the Node.js CMS",
   "main": "dist/src/app.js",
   "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit",
     "build": "tsc",
+    "media:check": "node scripts/check-media.js",
+    "media:check:prod": "node scripts/check-media.js",
     "captcha:build": "node ../../packages/captcha/esbuild.config.mjs --public public/captcha --server src/vendor/captcha",
+    "table-sort:build": "node ../../packages/table-sort/esbuild.config.mjs --out admin/public/table-sort",
     "start": "node dist/src/app.js",
     "prod:run": "NODE_ENV=production node dist/src/app.js",
     "prod": "npm run build && npm run prod:run",

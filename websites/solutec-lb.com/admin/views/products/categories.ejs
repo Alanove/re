@@ -9,7 +9,7 @@
     <% if (success) { %><div class="alert alert-success"><%= success %></div><% } %>
     <% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
     <table class="table table-striped">
-      <thead><tr><th>Picture</th><th>Name</th><th>Slug</th><th>Sort</th><th>Products</th><th>Home page</th><th>Status</th><th></th></tr></thead>
+      <thead><tr><th data-sort="off">Picture</th><th>Name</th><th>Slug</th><th>Sort</th><th>Products</th><th>Home page</th><th>Status</th><th data-sort="off"></th></tr></thead>
       <tbody>
         <% categories.slice().sort(function(a, b) { return (a.sort || 0) - (b.sort || 0); }).forEach(function(category) { %>
           <% var categoryProducts = productsByCategory[category.slug] || []; %>

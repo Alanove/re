@@ -103,7 +103,7 @@
 								<th>Description</th>
 								<th>Items Count</th>
 								<th>Last Updated</th>
-								<th width="1%">Actions</th>
+								<th width="1%" data-sort="off">Actions</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -121,7 +121,7 @@
 										<td>
 											<%= menu.description %>
 										</td>
-										<td>
+										<td data-sort-value="<%= menu.items.length %>">
 											<span class="badge bg-primary"><%= menu.items.length %> items</span>
 										</td>
 										<td>

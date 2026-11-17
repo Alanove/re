@@ -266,3 +266,7 @@ Run these as root, or as a user with sudo.
 | `media:check:prod` fails | sharp is on its WebAssembly fallback or uploads are not writable. See `.cursor/rules/cms-media.mdc`. |
 
 `re-petroleum.com` has no `media:check:prod` script yet, so its deploy skips that check and prints a warning.
+
+## Server path backups
+
+Live files under `/www/wwwroot` are backed up **per site** (not one giant wwwroot tar). See [backups.md](backups.md) for the daily script, restore steps, and why the old `path_wwwroot` aaPanel job stays off.

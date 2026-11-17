@@ -34,6 +34,15 @@
       </div>
       <div class="mb-3"><label>Short description</label><textarea class="form-control" name="excerpt" rows="3"><%= product ? (product.excerpt || '') : '' %></textarea></div>
       <div class="mb-3">
+        <label class="form-label">Brochure PDF</label>
+        <% if (typeof pdfUrl !== 'undefined' && pdfUrl) { %>
+          <div class="mb-2"><a href="<%= pdfUrl %>" target="_blank" rel="noopener"><%= pdfUrl %></a></div>
+          <label class="form-check"><input type="checkbox" name="removePdf" value="1"> Remove brochure</label>
+        <% } %>
+        <input class="form-control" type="file" name="pdfFile" accept="application/pdf,.pdf">
+        <small class="text-muted">Shown as a Download PDF button under the technical specifications.</small>
+      </div>
+      <div class="mb-3">
         <label class="form-label">Description</label>
         <textarea class="form-control rich-text" id="content" name="content" rows="12"><%= product ? (product.content || '') : '' %></textarea>
       </div>

@@ -17,6 +17,12 @@ const storageService = StorageService.getInstance();
 const upload = storageService.createNewsUploadConfig();
 const editorUpload = storageService.createEditorUploadConfig();
 
+function deleteOwnedNewsFile(newsKey: string, publicPath: string | undefined, replacement?: string): void {
+  if (!publicPath || publicPath === replacement) return;
+  if (!publicPath.startsWith(`/news/${newsKey}/`)) return;
+  storageService.deleteFile(path.join(DATA_PATHS.PUBLIC_DIR, publicPath.replace(/^\/+/, '')));
+}
+
 export class NewsController {
   /**
    * Render news management page
@@ -575,7 +581,9 @@ export class NewsController {
         // Handle page image upload
         const files = req.files as { [fieldname: string]: Express.Multer.File[] } | undefined;
         if (files?.['pagePicture'] && files['pagePicture'].length > 0 && files['pagePicture'][0]?.filename) {
+          const previousImage = imagePath;
           imagePath = `/news/${newsKey}/${files['pagePicture'][0].filename}`;
+          deleteOwnedNewsFile(newsKey, previousImage, imagePath);
           console.log('New news image uploaded:', imagePath);
         } else {
           // Check if pageImage from form is valid (shouldn't be empty string)
@@ -589,7 +597,9 @@ export class NewsController {
         // Handle SEO image upload (only if not using page image)
         if (!(usePageImage === '1' || usePageImage === true)) {
           if (files?.['seoImageFile'] && files['seoImageFile'].length > 0 && files['seoImageFile'][0]?.filename) {
+            const previousSeo = normalizeImagePath(existingNews.seo?.pageImage);
             seoImagePath = `/news/${newsKey}/${files['seoImageFile'][0].filename}`;
+            deleteOwnedNewsFile(newsKey, previousSeo, seoImagePath);
             console.log('New SEO image uploaded:', seoImagePath);
           } else {
             // Check if seoImageUrl was provided from the form

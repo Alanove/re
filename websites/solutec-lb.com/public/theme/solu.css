@@ -9,6 +9,57 @@
 .animated { animation-fill-mode: both; }
 .solu-product-layout { display: grid; grid-template-columns: 320px 1fr; gap: 24px; }
 .solu-product-layout img { max-width: 100%; height: auto; }
+.solu-product-specs { margin-top: 2rem; }
+.solu-product-specs h2 { margin: 0 0 1rem; font-size: 22px; }
+.solu-product a.btn.solu-pdf {
+  background: #566dfb;
+  color: #fff;
+  border-radius: 30px;
+  padding: 14px 21px;
+  display: inline-block;
+  text-decoration: none;
+}
+.stm-products-main .stm-product-item__image {
+  width: 220px;
+  height: 220px;
+  max-width: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.stm-products-main .stm-product-item__image img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none;
+  object-fit: contain;
+  object-position: center;
+}
+.stm-products-main.grid .stm-product-item__image {
+  width: 100%;
+  max-width: none;
+  height: 220px;
+  float: none;
+}
+.stm-products-main.list .solu-listing-excerpt {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: #4f4f4f;
+  font-size: 14px;
+  line-height: 22px;
+}
+@media (max-width: 767px) {
+  .stm-products-main .stm-product-item__image,
+  .stm-products-main.grid .stm-product-item__image {
+    width: 100%;
+    max-width: none;
+    height: 220px;
+    float: none;
+  }
+}
 @media (max-width: 800px) {
   .solu-product-layout { grid-template-columns: 1fr; }
 }

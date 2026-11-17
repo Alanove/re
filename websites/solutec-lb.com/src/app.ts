@@ -24,6 +24,7 @@ import { NewsService } from '../admin/services/newsService';
 import productsService from './services/productsService';
 
 const app = express();
+app.locals.assetVersion = Date.now().toString(36);
 const siteSettingsService = SiteSettingsService.getInstance();
 const newsService = NewsService.getInstance();
 

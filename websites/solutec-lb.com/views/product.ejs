@@ -7,8 +7,16 @@
       </div>
       <div>
         <% if (product.sku) { %><p>SKU: <%= product.sku %></p><% } %>
-        <% if (product.excerpt) { %><div><%- product.excerpt %></div><% } %>
-        <div class="solu-product-body"><%- product.content || '' %></div>
+        <% if (product.excerpt) { %><div class="solu-product-excerpt"><%- product.excerpt %></div><% } %>
+        <% if (product.content) { %>
+          <div class="solu-product-specs">
+            <h2>Product Technical Specifications</h2>
+            <div class="solu-product-body"><%- product.content %></div>
+          </div>
+        <% } %>
+        <% if (product.pdf) { %>
+          <p class="spacer"><a class="btn solu-pdf" href="<%= product.pdf %>" target="_blank" rel="noopener">Download PDF</a></p>
+        <% } %>
       </div>
     </div>
   </div>

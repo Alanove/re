@@ -149,22 +149,11 @@ export class StorageService {
       filename: (req, file, cb) => {
         // Get news key from URL params or body
         let newsKey = req.params['key'] || req.body.key || 'temp';
-        
-        // Use news key and image type for naming
-        const ext = path.extname(file.originalname);
-        let filename;
-        
-        if (file.fieldname === 'seoImageFile') {
-          filename = `${newsKey}-seo${ext}`;
-        } else if (file.fieldname === 'pagePicture') {
-          filename = `${newsKey}-default${ext}`;
-        } else {
-          // Fallback for other file types
-          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-          filename = `${newsKey}-${file.fieldname}-${uniqueSuffix}${ext}`;
-        }
-        
-        cb(null, filename);
+        const safeKey = String(newsKey).replace(/[^a-zA-Z0-9_-]/g, '') || 'temp';
+        const ext = path.extname(file.originalname).toLowerCase() || '.jpg';
+        const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1E9)}`;
+        const kind = file.fieldname === 'seoImageFile' ? 'seo' : 'image';
+        cb(null, `${safeKey}-${kind}-${uniqueSuffix}${ext}`);
       }
     });
 

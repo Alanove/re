@@ -51,7 +51,7 @@
                       <% if (category) { %><div class="product-categories"><a href="/product-category/<%= category.slug %>" rel="tag"><%= category.name %></a></div><% } %>
                       <a class="stm-product-item__title" href="<%= product.url %>"><%= product.title %></a>
                     </div>
-                    <div class="meta-middle"><div class="meta-middle-unit"></div></div>
+                    <div class="meta-middle"><% if (product.excerpt) { %><div class="meta-middle-unit solu-listing-excerpt"><%= product.excerpt %></div><% } %></div>
                     <div class="meta-bottom">
                       <div class="stm-product-item__price"></div>
                       <div class="stm-product-item__add_cart man_button_round">

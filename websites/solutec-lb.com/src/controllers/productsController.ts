@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import productsService from '../services/productsService';
+import productsService, { presentProductBody } from '../services/productsService';
 
 export class ProductsController {
   public static category(req: Request, res: Response, next: NextFunction): void {
@@ -41,8 +41,9 @@ export class ProductsController {
     (res.locals as any).pageImage = product.image || '';
     (res.locals as any).selected = 'products';
     (res.locals as any).bodyClass += ' woocommerce woocommerce-page';
+    const body = presentProductBody(product.content || '', product.pdf || '');
     res.render('product', {
-      product,
+      product: { ...product, content: body.content, pdf: body.pdf },
       categories: productsService.getCategories().map((item) => ({
         ...item,
         count: productsService.getByCategory(item.slug).length

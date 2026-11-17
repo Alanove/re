@@ -15,7 +15,7 @@
     <% } else { %>
       <p class="text-muted">This screen edits the home page content blocks, shown in this order. The top banner is managed under <a href="/admin/slider">Slider</a> (the Hero section below is only used when there are no active slides). Title and SEO settings are edited on the <a href="/admin/pages/home/edit">Home page settings</a>.</p>
       <table class="table table-striped">
-        <thead><tr><th>#</th><th>Section</th><th>Type</th><th>Visible</th><th>Last updated</th><th></th></tr></thead>
+        <thead><tr><th>#</th><th>Section</th><th>Type</th><th>Visible</th><th>Last updated</th><th data-sort="off"></th></tr></thead>
         <tbody>
           <% sections.forEach(function(section, index) { %>
             <tr>
@@ -31,7 +31,7 @@
                 <% } %>
               </td>
               <td><%= section.enabled !== false ? 'Yes' : 'No' %></td>
-              <td><%= section.lastUpdated ? new Date(section.lastUpdated).toLocaleString() : '' %></td>
+              <td data-sort-value="<%= section.lastUpdated || '' %>"><%= section.lastUpdated ? new Date(section.lastUpdated).toLocaleString() : '' %></td>
               <td><a class="btn btn-xs btn-primary" href="/admin/home/<%= section.key %>/edit">Edit</a></td>
             </tr>
           <% }) %>

@@ -1,9 +1,9 @@
 {
   "serverPath": "/www/wwwroot/emdc.group",
-  "port": null,
+  "port": 3001,
   "healthPath": "/",
   "nodeBin": null,
-  "aapanelProject": "emdc",
+  "aapanelProject": "emdcgroup",
   "restartCommand": null,
   "protect": []
 }

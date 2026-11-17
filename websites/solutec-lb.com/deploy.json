@@ -1,9 +1,15 @@
 {
   "serverPath": "/www/wwwroot/solutec-lb.com",
-  "port": null,
+  "port": 3030,
   "healthPath": "/",
   "nodeBin": null,
-  "aapanelProject": "soluteclb",
+  "aapanelProject": "solutec",
   "restartCommand": null,
-  "protect": []
+  "protect": [
+    "public/news",
+    "public/downloads",
+    "public/temp",
+    "public/videos",
+    "public/projects"
+  ]
 }
