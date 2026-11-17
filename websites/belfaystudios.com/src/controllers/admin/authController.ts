@@ -3,6 +3,7 @@ import { devLoginCredentials, isDevelopment } from '../../config/env.js';
 import { HttpError, NotFoundError } from '../../errors/httpError.js';
 import { safeParseFields } from '../../middleware/validate.js';
 import { loginSchema } from '../../schemas/adminSchemas.js';
+import { captchaService } from '../../services/captchaService.js';
 import { usersService } from '../../services/usersService.js';
 
 function regenerate(req: Request): Promise<void> {
@@ -66,12 +67,13 @@ export class AuthController {
       return;
     }
     try {
+      captchaService.verify(parsed.data.captcha, 'admin-login', req.ip ?? '');
       const user = await usersService.authenticate(parsed.data.email, parsed.data.password);
       const returnTo = await establishSession(req, user.id);
       res.redirect(returnTo);
     } catch (error) {
-      if (error instanceof HttpError && error.status === 401) {
-        renderLogin(res, 401, error.message, email);
+      if (error instanceof HttpError && (error.status === 401 || error.fields?.captcha)) {
+        renderLogin(res, error.status, error.message, email);
         return;
       }
       throw error;

@@ -616,7 +616,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     emailInput.value = form.dataset.devEmail || '';
     passwordInput.value = form.dataset.devPassword || '';
-    form.submit();
+    form.requestSubmit();
   });
 });
 
@@ -711,6 +711,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     emailInput.value = form.dataset.devEmail || '';
     passwordInput.value = form.dataset.devPassword || '';
-    form.submit();
+    form.requestSubmit();
   });
 });

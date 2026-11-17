@@ -1,5 +1,16 @@
 import { envConfig } from '../config/env.config';
 
+/** Cloudflare always-pass test site key for non-production when env keys are unset. */
+const TURNSTILE_DEV_SITE_KEY = '1x00000000000000000000AA';
+
+/**
+ * Site key for public Turnstile widgets. Uses env key, or the Cloudflare test key outside production.
+ */
+export function getTurnstileSiteKey(): string | undefined {
+  return envConfig.turnstileSiteKey
+    ?? (envConfig.nodeEnv !== 'production' ? TURNSTILE_DEV_SITE_KEY : undefined);
+}
+
 /**
  * Verify Cloudflare Turnstile token. Returns true if not configured or verification succeeds.
  */

@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import { CatalogController } from '../controllers/catalogController.js';
+import { CaptchaController } from '../controllers/captchaController.js';
 import { PublicController } from '../controllers/publicController.js';
 import { asyncHandler } from '../middleware/asyncHandler.js';
 import { verifySameOrigin } from '../middleware/csrf.js';
 import { legacyRedirects } from '../middleware/redirects.js';
-import { contactRateLimit } from '../middleware/security.js';
+import { captchaChallengeRateLimit, contactRateLimit } from '../middleware/security.js';
 import { siteLocals } from '../middleware/siteLocals.js';
 import { BRANDS_BASE, PRODUCTS_BASE } from '../services/catalogService.js';
 
@@ -13,6 +14,7 @@ export function createPublicRouter(): Router {
 
   router.get('/robots.txt', PublicController.robots);
   router.get('/sitemap.xml', asyncHandler(PublicController.sitemap));
+  router.get('/captcha/challenge', captchaChallengeRateLimit, CaptchaController.challenge);
 
   router.use(legacyRedirects);
   router.use(siteLocals);

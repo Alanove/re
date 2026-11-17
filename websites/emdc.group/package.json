@@ -5,6 +5,7 @@
   "main": "dist/src/app.js",
   "scripts": {
     "build": "tsc",
+    "captcha:build": "node ../../packages/captcha/esbuild.config.mjs --public public/captcha --server src/vendor/captcha",
     "start": "node dist/src/app.js",
     "prod": "npm run build && node dist/src/app.js",
     "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
@@ -12,7 +13,7 @@
     "dev:debug-brk": "ts-node-dev --respawn --transpile-only --inspect-brk=9299 ./src/app.ts",
     "start:debug": "node --inspect dist/src/app.js",
     "scss": "npx node-sass public/css/styles.scss public/css/styles.css --output-style compressed --watch",
-  "scss:once": "npx node-sass public/css/styles.scss public/css/styles.css --output-style compressed",
+    "scss:once": "npx node-sass public/css/styles.scss public/css/styles.css --output-style compressed",
     "scss-dev": "npx node-sass public/css/styles.scss public/css/styles.css --output-style expanded --watch",
     "scss-admin": "npx node-sass admin/public/css/admin.scss admin/public/css/admin.css --output-style compressed --watch",
     "scss-admin-dev": "npx node-sass admin/public/css/admin.scss admin/public/css/admin.css --output-style expanded --watch",
@@ -26,9 +27,9 @@
     "test:debug": "playwright test --debug",
     "test:report": "playwright show-report",
     "install:playwright": "playwright install",
-  "generate-test-images": "node scripts/generate-test-images.js",
-  "clients:ocr": "node scripts/clients-ocr.js",
-  "js:build": "node src/scripts/build-script.js"
+    "generate-test-images": "node scripts/generate-test-images.js",
+    "clients:ocr": "node scripts/clients-ocr.js",
+    "js:build": "node src/scripts/build-script.js"
   },
   "dependencies": {
     "@types/express-session": "^1.18.2",
@@ -42,8 +43,8 @@
     "multer": "^2.0.1",
     "node-sass": "^9.0.0",
     "officegen": "^0.6.5",
-  "pptx2json": "^0.0.10",
-  "tesseract.js": "^5.0.0-alpha.3"
+    "pptx2json": "^0.0.10",
+    "tesseract.js": "^5.0.0-alpha.3"
   },
   "devDependencies": {
     "@playwright/test": "^1.40.0",

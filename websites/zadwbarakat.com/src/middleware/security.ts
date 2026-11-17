@@ -17,6 +17,7 @@ export function securityHeaders(): RequestHandler {
         imgSrc: ["'self'", 'data:', 'blob:', 'https:'],
         mediaSrc: ["'self'"],
         connectSrc: ["'self'"],
+        workerSrc: ["'self'"],
         frameSrc: ["'self'", 'https://www.youtube.com', 'https://www.youtube-nocookie.com', 'https://www.google.com'],
         formAction: ["'self'"],
         frameAncestors: ["'self'"],
@@ -45,7 +46,7 @@ function limiter(options: LimiterOptions): RequestHandler {
   });
 }
 
-const STATIC_PREFIXES = ['/css/', '/js/', '/fonts/', '/icons/', '/uploads/', '/admin/css/', '/admin/js/', '/admin/editor/', '/admin/table-sort/', '/admin/webfonts/', '/favicon'];
+const STATIC_PREFIXES = ['/css/', '/js/', '/fonts/', '/icons/', '/uploads/', '/admin/css/', '/admin/js/', '/admin/editor/', '/admin/table-sort/', '/admin/webfonts/', '/favicon', '/captcha/captcha'];
 
 export const globalRateLimit = limiter({
   windowMs: 60_000,
@@ -77,6 +78,12 @@ export const suggestRateLimit = limiter({
   windowMs: 60_000,
   limit: 90,
   message: 'Too many search requests. Please slow down.'
+});
+
+export const captchaChallengeRateLimit = limiter({
+  windowMs: 60_000,
+  limit: 30,
+  message: 'Too many verification requests. Please wait a minute and try again.'
 });
 
 export const adminWriteRateLimit = limiter({

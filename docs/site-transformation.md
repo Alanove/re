@@ -181,6 +181,22 @@ To deploy on Ubuntu:
 - The lockfile must list `@img/sharp-linux-x64` and `@img/sharp-linux-arm64`.
 - After `npm run build`, run `npm run media:check:prod`. Deployment is done only when it passes.
 
+## Spam protection (captcha)
+
+Every admin login and public POST form is protected, either by the shared self-hosted captcha in `packages/captcha` (no third-party keys, no limits; install guide in `packages/captcha/INSTALL.md`) or by a third-party service the site already had configured. New sites use the shared captcha: add `captcha:build`, run `node scripts/captcha/add-secret.mjs websites/<domain>`, and give each form its own scope.
+
+- Kept on third-party services: antonioscouture.com (Cloudflare Turnstile, keys in Admin > Integration settings), guerrasports (Turnstile, `.env.production`), santamariabouar.com (Google reCAPTCHA, `.env*`).
+- re-petroleum.com, belfaystudios.com, bypec-lb.com: `admin-login`, `contact`.
+- feed-lb.org: `admin-login`, `contact`, `donate` (pledge form). The footer donate box is a GET link and needs none.
+- thronetrading.com: `admin-login`, `contact`, `enquiry` (product page form).
+- zadwbarakat.com: `admin-login`, `contact`, `newsletter` (footer, starts solving on first focus). Public wording and the rejection message are Arabic; the admin stays English.
+- jahidawehbe.com: `admin-login` only (no public forms, so the public layout does not load the widget).
+- bluefieldco: `admin-login`, `contact`, `careers` (CV upload; the check runs after multer and the upload is deleted on failure). `public/js/forms.js` posts the CMS forms itself, so it uses manual mode (`SiteCaptcha.getToken`); rebuild `public/js/script.js` with `npm run js:build` after editing it.
+- capitalprogroup.ca: `admin-login`, `contact`, `careers` (the careers endpoint has no form on the site but is protected).
+- solutec-lb.com: `admin-login`, `contact`. The unconfigured Google reCAPTCHA (site settings fields, `verifyRecaptcha`, the Google script) was removed.
+- emdc.group, emdcconsult: `admin-login` only. Their public contact forms do not submit anywhere yet, so there is nothing to protect until they are wired. Both now load `.env` / `.env.production` through `src/loadEnv.ts`.
+- liteweb.info still contains reCAPTCHA code with no keys; it was not part of this change. emedicalinstruments.com is ASP.NET only and out of scope.
+
 ## Enhancement sequence
 
 R&E Petroleum starts with `cmsSource` = `C:\ai\tests\btb\solu-new`.
@@ -274,6 +290,12 @@ Do not recopy `solu-new` for later sites and do not paste enhancements into site
 - Home sections in Admin > Home Page: hero slider (four slides from `PRV/conf/Slider.config`, `slide` preset), Our Programs, About FEED and Executive Team (each lists the children of a chosen page), Latest News, Partners (logo strip) and a Donate banner over the legacy family photo.
 - Logo: `images/logo.png` converted to WebP. The legacy `favicon.ico` is only 16px and sharp cannot read ICO, so the favicon is made from `images/icons/ms-icon-310x310.png` (512px PNG).
 - Tokens: primary green `#076532`, dark `#054a24`, secondary `#298754`, leaf highlight `#5fb37f`, donate orange `#b5471b`. Font Open Sans; icons are Material Symbols. Sticky white header (68px on mobile, 88px on desktop) with dropdown submenus and a Donate button, mobile drawer, dark four-column footer, 44px minimum tap targets.
+
+## Known OCEANAIR specifics (reference)
+
+- Site folder `websites/oceanair-leb.com/`. Design stage only: three static HTML proposals in `designs/` (`option-1` "Horizon", a one-page site close to the client's reference image; `option-2` "Meridian", a one-page corporate split layout; `option-3` "Horizon multi-page", the Horizon style with normal navigation, a short home page and 11 inner pages) plus a chooser page. `NOT_READY.md` lists the work left before a CMS build and deploy. Legacy dump and WWA API workbooks live in `websites/oceanair-leb.com/docs/`; see `docs/api-integration.md` there. Tracking and sailing APIs on `api.wwalliance.com` are real and usable; the old sailingschedule.com embed is not. Intro video: YouTube `ioJ2m-B_T3s`.
+- Legacy site is static `.htm` pages at `https://www.oceanair-leb.com/`. The legacy slider photos are only 800×400, so the proposals use stock photos converted to WebP; final photos are still to be chosen with the client.
+- Tokens, sampled from the logo SVG (`styles/images/header-logo.svg`): blue `#0E73B9` (passes AA with white text unchanged), yellow `#FFE600` (navy text only), grey `#939597` (reference). Derived navy `#062A46` and cool neutrals; full list in `.cursor/rules/sites/oceanair-leb.com/project.mdc`.
 
 ## Known zadwbarakat specifics (reference)
 

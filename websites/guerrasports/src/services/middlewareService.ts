@@ -9,6 +9,7 @@ import pagesService from './pagesService';
 import { SiteSettingsService } from '../../admin/services/siteSettingsService';
 import { categoryListingImageUrl, formatMoneyAmount, formatTrademarks } from '../utils/viewHelpers';
 import { envConfig } from '../config/env.config';
+import { getTurnstileSiteKey } from '../utils/turnstile';
 
 export class MiddlewareService {
   private static instance: MiddlewareService;
@@ -48,6 +49,7 @@ export class MiddlewareService {
         (res.locals as any).isHomePage = req.path === '/';
         (res.locals as any).assetVersion = envConfig.assetVersion;
         (res.locals as any).isProduction = envConfig.nodeEnv === 'production';
+        (res.locals as any).turnstileSiteKey = getTurnstileSiteKey();
 
         (res.locals as any).items = pagesService.getMenuItems();
         (res.locals as any).menus = {

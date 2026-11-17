@@ -557,6 +557,29 @@
         }
         // Type of user check or other init can go here
 
+        window.headerLoginTurnstileToken = '';
+        window.onHeaderLoginTurnstileSuccess = function (token) {
+            window.headerLoginTurnstileToken = token || '';
+            var btn = document.getElementById('headerLoginSubmit');
+            if (btn) btn.disabled = false;
+            var err = document.getElementById('header-login-turnstile-error');
+            if (err) err.style.display = 'none';
+        };
+        window.onHeaderLoginTurnstileError = function () {
+            window.headerLoginTurnstileToken = '';
+            var btn = document.getElementById('headerLoginSubmit');
+            if (btn) btn.disabled = true;
+            var err = document.getElementById('header-login-turnstile-error');
+            if (err) err.style.display = 'block';
+        };
+        window.onHeaderLoginTurnstileExpired = function () {
+            window.headerLoginTurnstileToken = '';
+            var btn = document.getElementById('headerLoginSubmit');
+            if (btn) btn.disabled = true;
+            var err = document.getElementById('header-login-turnstile-error');
+            if (err) err.style.display = 'block';
+        };
+
         const loginForm = document.getElementById('headerLoginForm');
         if (loginForm) {
             loginForm.addEventListener('submit', function (e) {
@@ -564,10 +587,18 @@
                 const formData = new FormData(e.target);
                 const errorDiv = document.getElementById('headerLoginError');
                 const submitBtn = e.target.querySelector('button[type="submit"]');
+                const turnstileError = document.getElementById('header-login-turnstile-error');
+                const turnstileWidget = e.target.querySelector('.cf-turnstile');
 
                 // Reset error
                 errorDiv.classList.add('d-none');
                 errorDiv.textContent = '';
+
+                if (turnstileWidget && !window.headerLoginTurnstileToken) {
+                    if (turnstileError) turnstileError.style.display = 'block';
+                    return;
+                }
+
                 submitBtn.disabled = true;
 
                 fetch('/api/customer/login', {
@@ -580,7 +611,7 @@
                         email: formData.get('email'),
                         password: formData.get('password'),
                         _csrf: formData.get('_csrf'),
-                        skip_turnstile: true
+                        cf_turnstile_response: window.headerLoginTurnstileToken || ''
                     })
                 })
                     .then(response => response.json())
@@ -588,15 +619,21 @@
                         if (data.success) {
                             window.location.href = '/customer/account';
                         } else {
-                            // Redirect to login page on invalid credentials (header form has no turnstile)
-                            window.location.href = '/customer/login?error=' + encodeURIComponent(data.error || 'Invalid credentials');
+                            errorDiv.textContent = data.error || 'Invalid credentials';
+                            errorDiv.classList.remove('d-none');
+                            submitBtn.disabled = !turnstileWidget || !!window.headerLoginTurnstileToken;
+                            if (window.turnstile && turnstileWidget) {
+                                window.turnstile.reset(turnstileWidget);
+                                window.headerLoginTurnstileToken = '';
+                                submitBtn.disabled = true;
+                            }
                         }
                     })
                     .catch(error => {
                         console.error('Error:', error);
                         errorDiv.textContent = 'An error occurred. Please try again.';
                         errorDiv.classList.remove('d-none');
-                        submitBtn.disabled = false;
+                        submitBtn.disabled = !turnstileWidget || !!window.headerLoginTurnstileToken;
                     });
             });
         }

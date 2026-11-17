@@ -1,0 +1,15 @@
+
+/*------------------------------------------------
+	Structure
+------------------------------------------------*/
+
+#Holder{width:100%;margin:0 auto;}
+#Header{  width:800px;margin:0 auto; float:none;}
+#Main{ width:800px; float:none; clear:both; margin:0 auto 30px auto}
+#Footer{ width:800px; float:none; clear:both;margin:20px auto 0; }
+#Content { min-height:0;}
+#ContactAddHolder{ width:800px; margin:0 auto;}
+
+.ContactAdd{float:left; padding-bottom:20px;}
+
+#Iframe { border: 0px solid red; width: 100%; height:300px; margin: 0 auto; margin-bottom:20px; }

@@ -76,9 +76,14 @@
                             <div class="input-group">
                                 <input type="email" class="form-control" name="email" id="newsletter-email" placeholder="Your Email Address" required autocomplete="email">
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary" type="submit" id="newsletter-submit">Sign Up</button>
+                                    <button class="btn btn-primary" type="submit" id="newsletter-submit" <%= (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) ? 'disabled' : '' %>>Sign Up</button>
                                 </div>
                             </div>
+                            <% if (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) { %>
+                            <div class="mt-2 turnstile-wrapper" style="min-height: 65px;">
+                                <div class="cf-turnstile" data-sitekey="<%= turnstileSiteKey %>" data-callback="onNewsletterTurnstileSuccess" data-error-callback="onNewsletterTurnstileError" data-expired-callback="onNewsletterTurnstileExpired" data-size="compact"></div>
+                            </div>
+                            <% } %>
                             <div id="newsletter-error" class="alert alert-danger small py-2 mt-2 mb-0" style="display: none;" role="alert"></div>
                         </form>
                     </div>
@@ -90,14 +95,33 @@
                         var errorEl = document.getElementById('newsletter-error');
                         var submitBtn = document.getElementById('newsletter-submit');
                         var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        var newsletterTurnstileReady = <%= (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) ? 'false' : 'true' %>;
 
                         function showError(msg) {
                             errorEl.textContent = msg || '';
                             errorEl.style.display = msg ? 'block' : 'none';
                         }
 
+                        <% if (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) { %>
+                        window.onNewsletterTurnstileSuccess = function() {
+                            newsletterTurnstileReady = true;
+                            if (submitBtn) submitBtn.disabled = false;
+                            showError('');
+                        };
+                        window.onNewsletterTurnstileError = function() {
+                            newsletterTurnstileReady = false;
+                            if (submitBtn) submitBtn.disabled = true;
+                            showError('Please complete the security verification.');
+                        };
+                        window.onNewsletterTurnstileExpired = function() {
+                            newsletterTurnstileReady = false;
+                            if (submitBtn) submitBtn.disabled = true;
+                            showError('Please complete the security verification.');
+                        };
+                        <% } %>
+
                         function setLoading(loading) {
-                            submitBtn.disabled = loading;
+                            submitBtn.disabled = loading || !newsletterTurnstileReady;
                             submitBtn.textContent = loading ? '...' : 'Sign Up';
                         }
 
@@ -113,12 +137,18 @@
                                 showError('Please enter a valid email address.');
                                 return;
                             }
+                            var turnstileInput = form.querySelector('textarea[name="cf-turnstile-response"], input[name="cf-turnstile-response"]');
+                            var turnstileToken = turnstileInput ? turnstileInput.value : '';
+                            if (!newsletterTurnstileReady || (<%= (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) ? 'true' : 'false' %> && !turnstileToken)) {
+                                showError('Please complete the security verification.');
+                                return;
+                            }
                             setLoading(true);
                             var csrfToken = form.querySelector('input[name="_csrf"]').value;
                             fetch('/newsletter', {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
-                                body: JSON.stringify({ email: email, _csrf: csrfToken })
+                                body: JSON.stringify({ email: email, _csrf: csrfToken, 'cf-turnstile-response': turnstileToken })
                             })
                             .then(function(r) { return r.json().then(function(data) { return { ok: r.ok, status: r.status, data: data }; }); })
                             .then(function(result) {

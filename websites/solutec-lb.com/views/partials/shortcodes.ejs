@@ -1,5 +1,5 @@
 <%
-  const formHtml = include('partials/contact-form', { recaptchaSiteKey: typeof recaptchaSiteKey !== 'undefined' ? recaptchaSiteKey : '' }).trim();
+  const formHtml = include('partials/contact-form').trim();
   const mapHtml = include('partials/contact-map').trim();
   const rendered = String(content || '')
     .replace(/<p>\s*\[contact-form\]\s*<\/p>|\[contact-form\]/g, function () { return formHtml; })

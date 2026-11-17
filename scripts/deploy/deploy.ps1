@@ -8,6 +8,7 @@
   .\scripts\deploy\deploy.ps1 -Site thronetrading.com -OverwriteData
   .\scripts\deploy\deploy.ps1 -Site thronetrading.com -DataFiles settings.json,menus.json
   .\scripts\deploy\deploy.ps1 -Site santamariabouar.com -ForceMigrations
+  .\scripts\deploy\deploy.ps1 -Site thronetrading.com -Full
 #>
 [CmdletBinding()]
 param(
@@ -23,6 +24,8 @@ param(
   [switch]$SkipChecks,
 
   [switch]$ForceMigrations,
+
+  [switch]$Full,
 
   [switch]$Yes
 )
@@ -271,6 +274,11 @@ if (-not $migrationsScript) {
 } else {
   Write-Host "Migrations: run if $migrationsDir changed since the last deploy (database backup, then npm run $migrationsScript)"
 }
+if ($Full) {
+  Write-Host 'Server build: FULL (npm ci and npm run build forced)' -ForegroundColor Yellow
+} else {
+  Write-Host 'Server build: incremental (npm ci / build only when package or build inputs changed since last deploy)'
+}
 Write-Host ''
 if (-not $Yes) {
   if (-not (Confirm-YesNo "Deploy $Site now?")) { Fail 'Cancelled.' }
@@ -289,7 +297,8 @@ $remoteArgs = @(
   $overwriteSpec,
   $(if ($migrationsDir) { $migrationsDir } else { '-' }),
   $(if ($migrationsScript) { $migrationsScript } else { '-' }),
-  $(if ($ForceMigrations) { 'force' } else { 'auto' })
+  $(if ($ForceMigrations) { 'force' } else { 'auto' }),
+  $(if ($Full) { 'full' } else { 'auto' })
 )
 $quoted = ($remoteArgs | ForEach-Object { "'$_'" }) -join ' '
 if ($sshUser -eq $runAs) {

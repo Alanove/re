@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { searchTypes } from '../domain/search.js';
+import { captchaField } from './captchaSchemas.js';
 import { optionalTrimmed } from './formHelpers.js';
 
 const requiredText = (max: number, message: string) => z.string({ error: message }).trim().min(1, message).max(max, `الحد الأقصى ${max} حرفاً`);
@@ -19,6 +20,7 @@ const phoneField = optionalTrimmed(40).refine((value) => value === '' || /^[+()\
 });
 
 export const contactFormSchema = z.object({
+  captcha: captchaField,
   name: fullName,
   email: emailField,
   phone: phoneField,
@@ -37,6 +39,7 @@ export const contactFormSchema = z.object({
 export type ContactFormInput = z.infer<typeof contactFormSchema>;
 
 export const newsletterFormSchema = z.object({
+  captcha: captchaField,
   email: emailField,
   website: optionalTrimmed(200)
 });

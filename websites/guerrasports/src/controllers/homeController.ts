@@ -445,6 +445,13 @@ export class HomeController {
     const typeLabel = isEvent ? 'Events' : isAthlete ? 'Athlete' : 'Sponsorship';
     const redirectUrl = isEvent ? '/sponsorship/event' : isAthlete ? '/sponsorship/athlete' : '/sponsorship/event';
 
+    const unlinkUpload = () => {
+      const file = (req as any).file as Express.Multer.File | undefined;
+      if (file?.path && fs.existsSync(file.path)) {
+        try { fs.unlinkSync(file.path); } catch (_) { /* ignore */ }
+      }
+    };
+
     const setError = (message: string) => {
       const body = { ...(req.body || {}) };
       if (isEvent) {
@@ -461,6 +468,7 @@ export class HomeController {
       if ((req as any)._skipCsrfValidation) {
         const csrfToken = req.body?._csrf;
         if (!csrfToken) {
+          unlinkUpload();
           setError('Security token missing. Please refresh the page and try again.');
           return res.redirect(redirectUrl);
         }
@@ -475,26 +483,41 @@ export class HomeController {
         });
       }
 
+      if (envConfig.turnstileSecretKey) {
+        const token = req.body['cf-turnstile-response'];
+        const remoteip = typeof req.ip === 'string' ? req.ip : undefined;
+        const valid = await verifyTurnstileToken(token, remoteip);
+        if (!valid) {
+          unlinkUpload();
+          setError('Security verification failed. Please try again.');
+          return res.redirect(redirectUrl);
+        }
+      }
+
       const name = (req.body?.name || '').trim();
       const email = (req.body?.email || '').trim();
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
       if (!name) {
+        unlinkUpload();
         setError('Name is required.');
         return res.redirect(redirectUrl);
       }
       if (!email || !emailRegex.test(email)) {
+        unlinkUpload();
         setError('Please enter a valid email address.');
         return res.redirect(redirectUrl);
       }
 
       const ageVal = (req.body?.age || '').toString().trim();
       if (ageVal !== '' && !/^\d+$/.test(ageVal)) {
+        unlinkUpload();
         setError('Age must be a number.');
         return res.redirect(redirectUrl);
       }
       const ageNum = ageVal === '' ? undefined : parseInt(ageVal, 10);
       if (ageNum !== undefined && (ageNum < 1 || ageNum > 150)) {
+        unlinkUpload();
         setError('Age must be between 1 and 150.');
         return res.redirect(redirectUrl);
       }
@@ -529,13 +552,12 @@ export class HomeController {
       }
       const sent = await emailService.sendEmail(emailOptions);
       if (!sent) {
+        unlinkUpload();
         setError('There was a problem sending your form. Please try again later.');
         return res.redirect(redirectUrl);
       }
 
-      if (file && file.path && fs.existsSync(file.path)) {
-        try { fs.unlinkSync(file.path); } catch (_) { /* ignore */ }
-      }
+      unlinkUpload();
 
       if (isEvent) {
         (req.session as any).sponsorshipEventSuccess = 'Your sponsorship form has been submitted successfully. We will get back to you soon!';
@@ -549,6 +571,7 @@ export class HomeController {
       return res.redirect(redirectUrl);
     } catch (error) {
       console.error('Error submitting sponsorship form:', error);
+      unlinkUpload();
       setError('There was a problem sending your form. Please try again later.');
       return res.redirect(redirectUrl);
     }
@@ -571,6 +594,16 @@ export class HomeController {
     };
 
     try {
+      if (envConfig.turnstileSecretKey) {
+        const token = req.body['cf-turnstile-response'] || req.body?.cf_turnstile_response;
+        const remoteip = typeof req.ip === 'string' ? req.ip : undefined;
+        const valid = await verifyTurnstileToken(token, remoteip);
+        if (!valid) {
+          sendJson(false, 'Security verification failed. Please try again.');
+          return;
+        }
+      }
+
       const email = (req.body?.email || '').trim().toLowerCase();
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!email || !emailRegex.test(email)) {

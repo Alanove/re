@@ -1,0 +1,25 @@
+---
+description: oceanair-leb.com - design proposals, brand palette sampled from the logo, legacy content sources
+globs: websites/oceanair-leb.com/**
+alwaysApply: false
+---
+
+# oceanair-leb.com: project rules
+
+Site rule for `websites/oceanair-leb.com/`. It applies in addition to the global rules in `.cursor/rules/`; where they conflict, the global rules win. Paths are relative to the site folder.
+
+## Current state
+- Only static HTML design proposals exist, in `designs/` (`index.html` chooser, `option-1/` "Horizon", `option-2/` "Meridian", `option-3/` "Horizon multi-page" with a short home page plus About, Services, six service pages, Sailing Schedule, Tracking and Contact, shared `assets/`). Option 3 pages repeat the same header, footer and quote dialog, so change all of them together. There is no CMS yet, and `NOT_READY.md` blocks deployment.
+- Each option is plain HTML with its own `styles.css` and `main.js`; there is no build step. Photos in `designs/assets/img/` are WebP with `-thumb.webp` siblings.
+- Forms, tracking and schedules in the designs are previews only and send nothing. Real WWA Tracking and Sailing Schedule APIs are documented in `docs/api-integration.md` and are confirmed live; wire them through a Node proxy when the CMS is built. The old sailingschedule.com iframe is dead (403). Intro video is YouTube `ioJ2m-B_T3s`.
+
+## Brand palette (sampled from the logo)
+- Source: legacy `styles/images/header-logo.svg`, copied to `designs/assets/logo.svg`. Fills read directly from the SVG.
+- Brand blue `#0E73B9` (logo background; 5.0:1 against white text, passes AA as is).
+- Accent yellow `#FFE600` (logo "CONSOLIDATORS" band). Use navy text on it, never white.
+- Logo grey `#939597` (reference only; too light for body text).
+- Derived shades: blue deep `#0A5A92`, blue dark `#073F68`, navy `#062A46`, navy ink `#041D31`, cool neutrals `#F2F7FB` / `#F5F8FB` paper, `#DBE5EE` / `#E1E8EF` lines, `#526476` / `#536578` muted text.
+
+## Legacy content
+- Live site: `https://www.oceanair-leb.com/default.htm` (static `.htm` pages, Cloudflare email obfuscation).
+- Contacts: head office Saint Antoine Center 44/49, Block B, 3rd floor, Pasteur Street, Gemmayzeh, Beirut; warehouse 17, Logistic Free Zone, Beirut port. Department emails: `info@`, `rfq@`, `wwa@`, `warehouse@` (all `@oceanair-leb.com`).

@@ -1,0 +1,77 @@
+
+
+API URL: https://www.wwalliance.com/webservice/rest/shipment/search.xml
+
+Request: 
+
+<?xml version="1.0" encoding="UTF-8"?>
+<ShipmentRequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="WWA_Shipment_Search_Request_version_2.0.1.xsd">
+   <ShipmentEnvelope>
+ <SenderID>edi_oceanairconsolidators_prod</SenderID>
+      <ReceiverID>restapi</ReceiverID>
+      <Password>tTE@cvj4LqRY7</Password>
+      <Type>Shipment_Status_XML_1.0.0</Type>
+      <Version>2.0.1</Version>
+      <EnvelopeID>20152611104537</EnvelopeID>
+   </ShipmentEnvelope>
+   <ShipmentRequestDetails>
+      <SearchBy>BillofLadingNumber</SearchBy>
+      <Reference>LZS22040206</Reference>
+   </ShipmentRequestDetails>
+</ShipmentRequest>
+
+
+
+
+Response: 
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<ShipmentResponse>
+    <ShipmentResponseEnvelope>
+        <SenderID>WWA</SenderID>
+        <ReceiverID>edi_oceanairconsolidators_prod</ReceiverID>
+        <Password>asdhn2*@22sddddJJS</Password>
+        <Type>Shipment_Status_Response</Type>
+        <Version>2.0.1</Version>
+        <EnvelopeID>1656921024</EnvelopeID>
+    </ShipmentResponseEnvelope>
+    <ShipmentResponseDetails>
+        <ShipmentID>15085129</ShipmentID>
+        <ShipperReference></ShipperReference>
+        <ForwarderReference>411102068</ForwarderReference>
+        <ConsigneeReference></ConsigneeReference>
+        <CommunicationReference></CommunicationReference>
+        <BookingNumber>0</BookingNumber>
+        <WWAReference></WWAReference>
+        <LotNumber>-</LotNumber>
+        <HouseBillOfLadingNumber>LZS22040206</HouseBillOfLadingNumber>
+        <ArrivalNoticeNumber>2384</ArrivalNoticeNumber>
+        <ContainerNumber>MSMU7395700</ContainerNumber>
+        <SealNumber>FJ13378676</SealNumber>
+        <OceanVessel>MSC MALENA AB224R </OceanVessel>
+        <CustomerAlias></CustomerAlias>
+        <StatusCode>80</StatusCode>
+        <ProcessOrder>92</ProcessOrder>
+        <StatusTextFromCode>Freight Picked up</StatusTextFromCode>
+        <StatusLocationCode>LBBEY</StatusLocationCode>
+        <StatusLocationName>Beirut,Lebanon</StatusLocationName>
+        <RoutingDetails>
+            <ReceivingWarehouse></ReceivingWarehouse>
+            <CutoffReceivingWarehouse></CutoffReceivingWarehouse>
+            <PlaceOfReceipt>Kwai Chung</PlaceOfReceipt>
+            <ETSPlaceOfReceipt>-</ETSPlaceOfReceipt>
+            <PortOfLoading>Kwai Chung</PortOfLoading>
+            <ETSPortOfLoading>2022-05-18</ETSPortOfLoading>
+            <PortOfDischarge>Beirut</PortOfDischarge>
+            <ETAPortOfDischarge>2022-06-19</ETAPortOfDischarge>
+            <PlaceOfDelivery>Beirut</PlaceOfDelivery>
+            <ETAPlaceOfDeliver>2022-06-23</ETAPlaceOfDeliver>
+        </RoutingDetails>
+        <StatusDateTimeDetails>
+            <Date>2022-07-01</Date>
+            <Time>09:46</Time>
+            <Timezone>GMT</Timezone>
+        </StatusDateTimeDetails>
+    </ShipmentResponseDetails>
+</ShipmentResponse>

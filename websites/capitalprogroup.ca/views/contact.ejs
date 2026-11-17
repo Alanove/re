@@ -92,7 +92,7 @@
       <div class="col-lg-7 col-xl-8">
         <div class="contact-form p-4 p-md-5 ms-xl-3">
           <h2 class="h3 mb-4">Quick Contact</h2>
-          <form id="ContactUs" method="post" action="/api/forms/contact">
+          <form id="ContactUs" method="post" action="/api/forms/contact" data-captcha="contact">
             <div class="quform-elements">
               <div class="row">
                 <div class="col-md-6">
@@ -141,6 +141,16 @@
                     <label for="message">Message <span class="quform-required">*</span></label>
                     <textarea class="form-control h-auto" id="message" name="message" rows="3" placeholder="Tell us a few words" required></textarea>
                   </div>
+                </div>
+                <div class="col-md-12">
+                  <input type="hidden" name="captcha" value="">
+                  <div class="site-captcha mb-3" data-captcha-status
+                    data-text-idle="Spam protection is ready."
+                    data-text-solving="Checking that you are human..."
+                    data-text-ready="Verified. You can send the form."
+                    data-text-error="The spam check could not finish."
+                    data-text-retry="Try again"></div>
+                  <noscript><p class="site-captcha-noscript">Please turn on JavaScript to send this form. It runs a quick spam check.</p></noscript>
                 </div>
                 <div class="col-md-12">
                   <div class="quform-submit-inner">

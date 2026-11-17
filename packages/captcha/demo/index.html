@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Self-hosted captcha playground</title>
+  <link rel="stylesheet" href="/captcha/captcha.css">
+  <link rel="stylesheet" href="/demo.css">
+</head>
+<body>
+  <header class="intro">
+    <h1>Self-hosted captcha playground</h1>
+    <p>
+      This page runs the real <code>@local/captcha</code> code. The server issues a signed challenge, the browser
+      finds the hidden number in a Web Worker (a few hundred milliseconds), and the server checks the answer.
+      No Google or Cloudflare account, no keys to create, no limits. The page uses a strict Content Security Policy,
+      the same as the sites.
+    </p>
+  </header>
+
+  <section class="card controls" aria-labelledby="controls-title">
+    <h2 id="controls-title">Settings</h2>
+    <div class="control-grid">
+      <label>
+        <span>Difficulty (max number): <strong id="difficulty-value">100000</strong></span>
+        <input id="difficulty" type="range" min="0" max="6" step="1" value="2">
+        <small>Higher means more work for bots and a longer wait for people. Sites use 100000 by default.</small>
+      </label>
+      <label>
+        <span>Token lifetime (seconds)</span>
+        <input id="ttl" type="number" min="5" max="3600" value="600">
+        <small>How long a solved token stays valid. Sites use 600 (10 minutes).</small>
+      </label>
+      <label>
+        <span>Language</span>
+        <select id="language">
+          <option value="en">English</option>
+          <option value="ar">العربية (right to left)</option>
+        </select>
+      </label>
+      <label class="check">
+        <input id="nojs" type="checkbox">
+        <span>Simulate JavaScript turned off (forms send no token)</span>
+      </label>
+    </div>
+  </section>
+
+  <div class="forms">
+    <section class="card" aria-labelledby="form-native-title">
+      <h2 id="form-native-title">1. Normal form (like the contact form)</h2>
+      <p class="hint">Posts the page the classic way. The widget holds the submit until the token is ready.</p>
+      <form id="form-native" class="demo-form" method="POST" action="/demo/submit?scope=contact" data-captcha="contact" novalidate>
+        <label>Name <input name="name" value="Jane Doe" autocomplete="name"></label>
+        <label>Message <textarea name="message" rows="2">Hello from the normal form.</textarea></label>
+        <input type="hidden" name="captcha" value="">
+        <div class="site-captcha" data-captcha-status></div>
+        <p class="site-captcha-noscript" hidden data-demo-nojs>Please enable JavaScript to send this form.</p>
+        <button type="submit">Send</button>
+        <p class="readout" data-readout aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="card" aria-labelledby="form-fetch-title">
+      <h2 id="form-fetch-title">2. Fetch form (sends without reloading)</h2>
+      <p class="hint">Uses <code>SiteCaptcha.getToken(form)</code>, then posts JSON. Send it twice: each send gets a fresh token.</p>
+      <form id="form-fetch" class="demo-form" data-captcha="contact" data-captcha-mode="manual" novalidate>
+        <label>Email <input name="email" type="email" value="jane@example.com" autocomplete="email"></label>
+        <label>Message <textarea name="message" rows="2">Hello from the fetch form.</textarea></label>
+        <div class="site-captcha" data-captcha-status></div>
+        <p class="site-captcha-noscript" hidden data-demo-nojs>Please enable JavaScript to send this form.</p>
+        <button type="submit">Send with fetch</button>
+        <p class="readout" data-readout aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="card" aria-labelledby="form-login-title">
+      <h2 id="form-login-title">3. Admin login style</h2>
+      <p class="hint">Its own scope (<code>admin-login</code>), so a contact token can't be used here and the other way round.</p>
+      <form id="form-login" class="demo-form" method="POST" action="/demo/submit?scope=admin-login" data-captcha="admin-login" novalidate>
+        <label>Email address <input name="email" type="email" value="admin@example.com" autocomplete="username"></label>
+        <label>Password <input name="password" type="password" value="not-a-real-password" autocomplete="current-password"></label>
+        <input type="hidden" name="captcha" value="">
+        <div class="site-captcha" data-captcha-status></div>
+        <p class="site-captcha-noscript" hidden data-demo-nojs>Please enable JavaScript to sign in.</p>
+        <button type="submit">Sign in</button>
+        <p class="readout" data-readout aria-live="polite"></p>
+      </form>
+    </section>
+  </div>
+
+  <section class="card" aria-labelledby="attacks-title">
+    <h2 id="attacks-title">Try to cheat</h2>
+    <p class="hint">Each button sends a bad request to the contact scope. The server should reject every one of them.</p>
+    <div class="attacks">
+      <button type="button" data-attack="missing">Submit without token</button>
+      <button type="button" data-attack="tamper">Tamper with the signature</button>
+      <button type="button" data-attack="answer">Send a wrong answer</button>
+      <button type="button" data-attack="replay">Replay a used token</button>
+      <button type="button" data-attack="scope">Use a login token on contact</button>
+      <button type="button" data-attack="expired">Use an expired token (waits 3 s)</button>
+    </div>
+    <form id="form-helper" data-captcha="contact" data-captcha-mode="manual" data-captcha-start="interact" hidden></form>
+    <form id="form-helper-login" data-captcha="admin-login" data-captcha-mode="manual" data-captcha-start="interact" hidden></form>
+  </section>
+
+  <section class="card" aria-labelledby="log-title">
+    <div class="log-head">
+      <h2 id="log-title">Server log</h2>
+      <button type="button" id="clear-log">Clear</button>
+    </div>
+    <ol id="log" class="log" aria-live="polite"></ol>
+  </section>
+
+  <script src="/captcha/captcha.js" data-captcha-url="/captcha/challenge"></script>
+  <script src="/demo.js"></script>
+</body>
+</html>

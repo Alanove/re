@@ -60,6 +60,12 @@
   min-block-size: 1.4em;
 }
 
+// Green and red tints stay below 4.5:1 on the teal band; white passes.
+.newsletter-band .site-captcha {
+  --site-captcha-ok: #fff;
+  --site-captcha-error: #fff;
+}
+
 .site-footer {
   background: $teal-deep;
   color: rgba(#fff, 0.82);

@@ -5,7 +5,7 @@
 	const invalid = function (name) { return e[name] ? ' is-invalid' : ''; };
 	const described = function (name) { return e[name] ? ' aria-invalid="true" aria-describedby="cf-' + name + '-error"' : ''; };
 %>
-<form class="contact-form" id="contact-form" method="POST" action="/contact" novalidate data-contact-form>
+<form class="contact-form" id="contact-form" method="POST" action="/contact" novalidate data-contact-form data-captcha="contact">
 	<div class="form-status<%= form.sent ? ' is-success' : (form.message ? ' is-error' : '') %>" role="status" aria-live="polite" data-form-status<%= form.sent || form.message ? '' : ' hidden' %>>
 		<%= form.sent ? settings.thankYouMessage : form.message %>
 	</div>
@@ -57,5 +57,6 @@
 			<input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off" />
 		</div>
 	</div>
+	<%- include('captcha', { captchaId: 'cf-captcha', captchaError: e.captcha || '' }) %>
 	<button class="btn btn--primary btn--block btn--caps" type="submit" data-submit-label="Send message">Send message</button>
 </form>

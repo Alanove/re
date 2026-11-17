@@ -21,8 +21,6 @@ interface SiteSettings {
   portalCtaCaption?: string;
   investiaDisclaimer?: string;
   concernEmails?: Record<string, string>;
-  recaptchaSiteKey?: string;
-  recaptchaSecretKey?: string;
   smtpHost?: string;
   smtpPort?: number;
   smtpSecure?: boolean;
@@ -203,20 +201,6 @@ export class SiteSettingsService {
    */
   public getCareersEmail(): string {
     return this.loadSettings().careersEmail || '';
-  }
-
-  /**
-   * Get Google reCAPTCHA (v2 Invisible) site key, safe to expose to the browser
-   */
-  public getRecaptchaSiteKey(): string {
-    return (this.loadSettings().recaptchaSiteKey || '').trim();
-  }
-
-  /**
-   * Get Google reCAPTCHA secret key, server-side only
-   */
-  public getRecaptchaSecretKey(): string {
-    return (this.loadSettings().recaptchaSecretKey || '').trim();
   }
 
   /**

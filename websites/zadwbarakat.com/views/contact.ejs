@@ -15,7 +15,7 @@
 				<p class="alert alert--success" role="status"><%= settings.thankYouMessage %></p>
 			<% } %>
 			<% if (contactForm.message) { %><p class="alert alert--danger" role="alert"><%= contactForm.message %></p><% } %>
-			<form class="form" method="post" action="/contact" novalidate data-contact-form>
+			<form class="form" method="post" action="/contact" novalidate data-contact-form data-captcha="contact">
 				<% if (purchase) { %><input type="hidden" name="purchaseId" value="<%= purchase.id %>" /><% } %>
 				<div class="form__row">
 					<div class="field">
@@ -49,6 +49,7 @@
 					<% if (errors.message) { %><span class="field__error" id="error-message"><%= errors.message %></span><% } %>
 				</div>
 				<span class="hp-field" aria-hidden="true"><label for="contact-website">الموقع</label><input id="contact-website" name="website" type="text" tabindex="-1" autocomplete="off" /></span>
+				<%- include('partials/captcha', { captchaId: 'contact-captcha', captchaError: errors.captcha || '' }) %>
 				<div><button class="btn btn--primary" type="submit"><svg class="icon icon-flip" aria-hidden="true"><use href="#i-arrow"/></svg>إرسال</button></div>
 			</form>
 		</div>

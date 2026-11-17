@@ -20,6 +20,7 @@
     "cms:sync": "tsx scripts/sync-cms.ts",
     "editor:build": "node ../../packages/rich-text-editor/esbuild.config.mjs --out admin/public/editor",
     "table-sort:build": "node ../../packages/table-sort/esbuild.config.mjs --out admin/public/table-sort",
+    "captcha:build": "node ../../packages/captcha/esbuild.config.mjs --public public/captcha --server src/vendor/captcha",
     "import:legacy": "tsx scripts/import-legacy.ts",
     "download:assets": "tsx scripts/download-assets.ts",
     "seed:admin": "tsx scripts/seed-admin.ts"

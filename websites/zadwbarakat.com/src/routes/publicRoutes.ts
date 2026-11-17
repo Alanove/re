@@ -1,10 +1,11 @@
 import { Router } from 'express';
+import { CaptchaController } from '../controllers/captchaController.js';
 import { PublicController } from '../controllers/publicController.js';
 import { SearchController } from '../controllers/searchController.js';
 import { asyncHandler } from '../middleware/asyncHandler.js';
 import { verifySameOrigin } from '../middleware/csrf.js';
 import { legacyRedirects } from '../middleware/redirects.js';
-import { contactRateLimit, newsletterRateLimit, suggestRateLimit } from '../middleware/security.js';
+import { captchaChallengeRateLimit, contactRateLimit, newsletterRateLimit, suggestRateLimit } from '../middleware/security.js';
 import { siteLocals } from '../middleware/siteLocals.js';
 
 export function createPublicRouter(): Router {
@@ -12,6 +13,7 @@ export function createPublicRouter(): Router {
 
   router.get('/robots.txt', PublicController.robots);
   router.get('/sitemap.xml', asyncHandler(PublicController.sitemap));
+  router.get('/captcha/challenge', captchaChallengeRateLimit, CaptchaController.challenge);
   router.get('/api/search/suggest', suggestRateLimit, asyncHandler(SearchController.suggest));
 
   router.use(legacyRedirects);

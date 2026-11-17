@@ -480,10 +480,17 @@
                                     <input type="email" class="form-control" id="review-email" name="email" required>
                                 </div>
                                 <input type="hidden" name="product_id" value="<%= product.id %>">
+                                <% if (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) { %>
+                                <div class="form-group mt-3 turnstile-wrapper" style="min-height: 65px;">
+                                    <div class="cf-turnstile" data-sitekey="<%= turnstileSiteKey %>" data-callback="onReviewTurnstileSuccess" data-error-callback="onReviewTurnstileError" data-expired-callback="onReviewTurnstileExpired"></div>
+                                    <div id="review-turnstile-error" class="alert alert-danger small mt-2 py-2" style="display: none;">Please complete the security verification.</div>
+                                </div>
+                                <% } %>
                                 <div class="form-group mb-0">
-                                    <input type="submit"
+                                    <input type="submit" id="review-submit"
                                         value="<%= typeof t !== 'undefined' ? t('ecommerce.submitReview') : 'Leave Your Review' %>"
-                                        class="btn btn-primary px-3">
+                                        class="btn btn-primary px-3"
+                                        <%= (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) ? 'disabled' : '' %>>
                                 </div>
                             </form>
                         </div>
@@ -1035,6 +1042,27 @@
             });
         }
 
+        <% if (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) { %>
+        window.onReviewTurnstileSuccess = function() {
+            var btn = document.getElementById('review-submit');
+            if (btn) btn.disabled = false;
+            var err = document.getElementById('review-turnstile-error');
+            if (err) err.style.display = 'none';
+        };
+        window.onReviewTurnstileError = function() {
+            var btn = document.getElementById('review-submit');
+            if (btn) btn.disabled = true;
+            var err = document.getElementById('review-turnstile-error');
+            if (err) err.style.display = 'block';
+        };
+        window.onReviewTurnstileExpired = function() {
+            var btn = document.getElementById('review-submit');
+            if (btn) btn.disabled = true;
+            var err = document.getElementById('review-turnstile-error');
+            if (err) err.style.display = 'block';
+        };
+        <% } %>
+
         // Review form submission
         document.getElementById('review-form').addEventListener('submit', function (e) {
             e.preventDefault();
@@ -1046,7 +1074,7 @@
                 showAlert('<%= typeof t !== 'undefined' ? t('ecommerce.pleaseSelectRating') : 'Please select a rating' %>', 'Rating Required');
                 return;
             }
-            <% if (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey && typeof isDevelopment !== 'undefined' && !isDevelopment) { %>
+            <% if (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) { %>
             if (!formData.get('cf-turnstile-response')) {
                 document.getElementById('review-turnstile-error').style.display = 'block';
                 return;
@@ -1078,6 +1106,14 @@
                         selectedRating = 0;
                         highlightStars(0);
                         ratingValue.value = '0';
+                        <% if (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) { %>
+                        if (window.turnstile) {
+                            var reviewWidget = e.target.querySelector('.cf-turnstile');
+                            if (reviewWidget) window.turnstile.reset(reviewWidget);
+                        }
+                        var reviewSubmit = document.getElementById('review-submit');
+                        if (reviewSubmit) reviewSubmit.disabled = true;
+                        <% } %>
                     } else {
                         showAlert('Error: ' + (data.error || 'Failed to submit review'), 'Error');
                     }

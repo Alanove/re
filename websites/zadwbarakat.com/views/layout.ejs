@@ -22,6 +22,8 @@
 	<link rel="preload" href="/fonts/noto-naskh-arabic-arabic.woff2" as="font" type="font/woff2" crossorigin />
 	<link rel="stylesheet" href="/css/main.css?v=<%= assetVersion %>" />
 	<link rel="stylesheet" href="/admin/editor/rte-content.css?v=<%= assetVersion %>" />
+	<link rel="stylesheet" href="/captcha/captcha.css?v=<%= assetVersion %>" />
+	<script src="/captcha/captcha.js?v=<%= assetVersion %>" defer data-captcha-url="/captcha/challenge"></script>
 	<script type="module" src="/js/site.js?v=<%= assetVersion %>"></script>
 	<% if (locals.jsonLd) { %><script type="application/ld+json"><%- jsonLd %></script><% } %>
 </head>

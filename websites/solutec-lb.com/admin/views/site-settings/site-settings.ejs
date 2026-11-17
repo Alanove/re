@@ -111,31 +111,6 @@
 					</div>
 
 					<div class="row mb-15px">
-						<label class="form-label col-form-label col-md-3">reCAPTCHA Site Key</label>
-						<div class="col-md-9">
-							<input type="text" class="form-control" id="recaptchaSiteKey" name="recaptchaSiteKey"
-								value="<%= settings.recaptchaSiteKey || '' %>" autocomplete="off" />
-							<small class="fs-12px text-gray-500-darker">Google reCAPTCHA v2 "Invisible" site key, used by the contact forms</small>
-						</div>
-					</div>
-
-					<div class="row mb-15px">
-						<label class="form-label col-form-label col-md-3">reCAPTCHA Secret Key</label>
-						<div class="col-md-9">
-							<input type="password" class="form-control" id="recaptchaSecretKey" name="recaptchaSecretKey"
-								value="" autocomplete="new-password"
-								placeholder="<%= settings.recaptchaSecretKey ? 'Saved. Leave blank to keep the current secret' : 'Not set' %>" />
-							<% if (settings.recaptchaSecretKey) { %>
-							<div class="form-check mt-1">
-								<input class="form-check-input" type="checkbox" id="clearRecaptchaSecret" name="clearRecaptchaSecret" value="1" />
-								<label class="form-check-label" for="clearRecaptchaSecret">Remove saved secret</label>
-							</div>
-							<% } %>
-							<small class="fs-12px text-gray-500-darker">Contact form messages are rejected until both keys are saved</small>
-						</div>
-					</div>
-
-					<div class="row mb-15px">
 						<label class="form-label col-form-label col-md-3">Contact Phone</label>
 						<div class="col-md-9">
 							<input type="text" class="form-control" id="contactPhone" name="contactPhone"

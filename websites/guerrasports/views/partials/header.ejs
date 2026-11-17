@@ -364,13 +364,21 @@
                                                             </div>
                                                         </div>
 
+                                                        <% if (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) { %>
+                                                        <div class="form-group mb-3 turnstile-wrapper" style="min-height: 65px;">
+                                                            <div class="cf-turnstile" data-sitekey="<%= turnstileSiteKey %>" data-callback="onHeaderLoginTurnstileSuccess" data-error-callback="onHeaderLoginTurnstileError" data-expired-callback="onHeaderLoginTurnstileExpired" data-size="compact"></div>
+                                                            <div id="header-login-turnstile-error" class="alert alert-danger small p-2 mt-2 mb-0" style="display: none;">Please complete the security verification.</div>
+                                                        </div>
+                                                        <% } %>
+
                                                         <div id="headerLoginError"
                                                             class="alert alert-danger small p-2 d-none mb-3"></div>
 
                                                         <div
                                                             class="d-flex justify-content-between align-items-center mb-3">
-                                                            <button type="submit"
-                                                                class="btn btn-primary px-4 py-2 font-weight-bold text-uppercase login-btn">Log
+                                                            <button type="submit" id="headerLoginSubmit"
+                                                                class="btn btn-primary px-4 py-2 font-weight-bold text-uppercase login-btn"
+                                                                <%= (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) ? 'disabled' : '' %>>Log
                                                                 In</button>
                                                             <!-- <div class="custom-control custom-checkbox">
                                                         <input type="checkbox" class="custom-control-input" id="rememberMeHeader">

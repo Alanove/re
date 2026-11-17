@@ -16,6 +16,7 @@ export function securityHeaders(): RequestHandler {
         fontSrc: ["'self'", 'data:', 'https://fonts.gstatic.com'],
         imgSrc: ["'self'", 'data:', 'blob:', 'https://i.ytimg.com', 'https:'],
         connectSrc: ["'self'"],
+        workerSrc: ["'self'"],
         frameSrc: [
           "'self'",
           'https://www.youtube.com',
@@ -50,7 +51,7 @@ function limiter(options: LimiterOptions): RequestHandler {
   });
 }
 
-const STATIC_PREFIXES = ['/css/', '/js/', '/uploads/', '/admin/css/', '/admin/js/', '/admin/editor/', '/admin/table-sort/', '/admin/webfonts/', '/favicon'];
+const STATIC_PREFIXES = ['/css/', '/js/', '/uploads/', '/admin/css/', '/admin/js/', '/admin/editor/', '/admin/table-sort/', '/admin/webfonts/', '/favicon', '/captcha/captcha'];
 
 export const globalRateLimit = limiter({
   windowMs: 60_000,
@@ -64,6 +65,12 @@ export const loginRateLimit = limiter({
   limit: 10,
   skipSuccessfulRequests: true,
   message: 'Too many sign-in attempts. Please wait 15 minutes and try again.'
+});
+
+export const captchaChallengeRateLimit = limiter({
+  windowMs: 60_000,
+  limit: 30,
+  message: 'Too many verification requests. Please wait a minute and try again.'
 });
 
 export const adminWriteRateLimit = limiter({

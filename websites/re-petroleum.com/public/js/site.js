@@ -83,7 +83,7 @@
     }
     var status = form.querySelector('[data-form-status]');
     var submit = form.querySelector('[type="submit"]');
-    var names = ['name', 'email', 'company', 'phone', 'topic', 'message'];
+    var names = ['name', 'email', 'company', 'phone', 'topic', 'message', 'captcha'];
 
     function showStatus(kind, message) {
       status.hidden = false;

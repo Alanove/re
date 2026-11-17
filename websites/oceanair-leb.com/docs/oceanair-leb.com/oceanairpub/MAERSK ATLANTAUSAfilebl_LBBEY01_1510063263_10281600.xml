@@ -1,0 +1,1940 @@
+<File xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://isnet.shipco.com/Documents/STi-Online%20(external)/STi-EI/Documentation/Schemas/File_Bl_version_1.0.9.xsd">
+  <FileEnvelope>
+    <SenderID>edi_shipco_prod</SenderID>
+    <ReceiverID>LBBEY01</ReceiverID>
+    <Password>wiDxwQ3ReGtvW3ve1rtH</Password>
+    <Type>FILEBL_XML_AGENT</Type>
+    <Version>1.0.9</Version>
+    <EnvelopeID>20151028160053 1510063263</EnvelopeID>
+  </FileEnvelope>
+  <FileDetails>
+    <FileNumber>1510063263</FileNumber>
+    <TypeOfMove>L</TypeOfMove>
+    <Coload>N</Coload>
+    <Mode>O</Mode>
+    <MasterBLNumber>954818205</MasterBLNumber>
+    <SailingDetails>
+      <ImoNumber>9348649</ImoNumber>
+      <SCAC>MAEU</SCAC>
+      <VesselName>MAERSK ATLANTA</VesselName>
+      <Voyage>1509</Voyage>
+      <EtdOrigin></EtdOrigin>
+      <EtsLoadPort>2015-10-24</EtsLoadPort>
+      <EtaDischarge></EtaDischarge>
+      <EtaFinalDestination>2015-11-17</EtaFinalDestination>
+    </SailingDetails>
+    <RoutingDetails>
+      <OriginCode>USNYC</OriginCode>
+      <OriginName>NEW YORK,NY</OriginName>
+      <LoadCode>USNYC</LoadCode>
+      <LoadName>NEW YORK,NY</LoadName>
+      <DischargeCode>LBBEY</DischargeCode>
+      <DischargeName>BEIRUT</DischargeName>
+      <DestinationCode>LBBEY</DestinationCode>
+      <DestinationName>BEIRUT</DestinationName>
+    </RoutingDetails>
+    <ContainerDetails>
+      <ContainerNumber>MSKU5992244</ContainerNumber>
+      <SealNumber>085050</SealNumber>
+      <ContainerSize>20</ContainerSize>
+      <ContainerType>STD</ContainerType>
+      <Weight>0.000</Weight>
+      <UOM>M</UOM>
+    </ContainerDetails>
+    <BillOfLadingDetails>
+      <BillOfLadingNumber>1510063263</BillOfLadingNumber>
+      <Type>L</Type>
+      <ReleaseType>E</ReleaseType>
+      <NumberOfOriginals>0</NumberOfOriginals>
+      <Terms>CYCY</Terms>
+      <BLReleasePoint>NEW YORK,NY</BLReleasePoint>
+      <ReferenceDetails>
+        <ShipperReference>954818205, ,</ShipperReference>
+        <ConsigneeReference></ConsigneeReference>
+        <NotifyReference></NotifyReference>
+        <ForwarderReference></ForwarderReference>
+      </ReferenceDetails>
+      <BookingDetails>
+        <BookingStation>NYC</BookingStation>
+        <BookingNumber></BookingNumber>
+        <LotNo></LotNo>
+      </BookingDetails>
+      <AddressDetails>
+        <ConsigneeDetails>
+          <Name>OCEANAIR CONSOLIDATORS</Name>
+          <Address>MEDAWAR-PASTEUR STREET</Address>
+          <CityName>MEDAWAR BUILDING 3RD FLOOR</CityName>
+          <StateProvince>BEIRUT</StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </ConsigneeDetails>
+        <ShipperExporterDetails>
+          <Name>SHIPCO TRANSPORT INC</Name>
+          <Address>699 KAPKOWSKI ROAD</Address>
+          <CityName>TAX ID: 13-3468377</CityName>
+          <StateProvince>ELIZABETH NJ 07201</StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </ShipperExporterDetails>
+        <NotifyPartyDetails>
+          <Name>OCEANAIR CONSOLIDATORS SARL</Name>
+          <Address>WAREHOUSE 17 &#226;&#128;&#147; LOGISTICS FREE ZONE</Address>
+          <CityName>BEIRUT PORT LEBANON</CityName>
+          <StateProvince></StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </NotifyPartyDetails>
+        <AgentDetails>
+          <Name></Name>
+          <Address></Address>
+          <CityName></CityName>
+          <StateProvince></StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </AgentDetails>
+      </AddressDetails>
+      <SailingDetails>
+        <ImoNumber>9348649</ImoNumber>
+        <SCAC></SCAC>
+        <VesselName>MAERSK ATLANTA</VesselName>
+        <Voyage>1509</Voyage>
+        <Precarriage></Precarriage>
+        <EtdOrigin></EtdOrigin>
+        <EtsLoadPort>2015-10-24</EtsLoadPort>
+        <EtaDischarge>2015-11-17</EtaDischarge>
+        <EtaFinalDestination></EtaFinalDestination>
+      </SailingDetails>
+      <RoutingDetails>
+        <OriginCode>USNYC</OriginCode>
+        <OriginName>NEW YORK,NY</OriginName>
+        <LoadCode>USNYC</LoadCode>
+        <LoadName>NEW YORK,NY</LoadName>
+        <DischargeCode>LBBEY</DischargeCode>
+        <DischargeName>BEIRUT FREE ZONE</DischargeName>
+        <DestinationCode>LBBEY</DestinationCode>
+        <DestinationName>BEIRUT FREE ZONE</DestinationName>
+      </RoutingDetails>
+      <ContainerDetails>
+        <LclCargoDetails>
+          <Pieces>1</Pieces>
+          <Packaging></Packaging>
+          <Commodity>20 FOOT CONTAINER (SLAC)</Commodity>
+          <Weight>4453.472</Weight>
+          <Volume>21.860</Volume>
+          <UOM>M</UOM>
+          <Marks>CN-MSKU5992244</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>24 PKGS CONSOLIDATED CARGO OF</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks>SN-085050</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>MIXED COMMODITIES</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>AS PER ATTACHED MANIFEST</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity></Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>S/C # 746810</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity></Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>"CONSOLIDATED CARGO OF MIXED CARGO</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>AS PER ATTACHED LIST"</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity></Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>"EXPRESS BILL OF LADING"</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+      </ContainerDetails>
+      <GeneralBlDetails>
+        <Marks></Marks>
+        <Description></Description>
+      </GeneralBlDetails>
+      <CommentDetails>
+        <Remarks>CY / CY</Remarks>
+      </CommentDetails>
+    </BillOfLadingDetails>
+    <BillOfLadingDetails>
+      <BillOfLadingNumber>BRT10209720</BillOfLadingNumber>
+      <Type>H</Type>
+      <ReleaseType>E</ReleaseType>
+      <NumberOfOriginals>0</NumberOfOriginals>
+      <Terms>CFCF</Terms>
+      <BLReleasePoint>MIAMI,FL</BLReleasePoint>
+      <ReferenceDetails>
+        <ShipperReference>WWEXDD-1443553605, ,</ShipperReference>
+        <ConsigneeReference></ConsigneeReference>
+        <NotifyReference></NotifyReference>
+        <ForwarderReference></ForwarderReference>
+      </ReferenceDetails>
+      <BookingDetails>
+        <BookingStation>MIA</BookingStation>
+        <BookingNumber>10209720</BookingNumber>
+        <LotNo>10209720</LotNo>
+      </BookingDetails>
+      <AddressDetails>
+        <ConsigneeDetails>
+          <Name>GHORAYEB CLEARING &#38; FORWARDING CO</Name>
+          <Address>BEIRUT/LEBANON</Address>
+          <CityName>AIRPORT ROAD-GIFCO BLDG,</CityName>
+          <StateProvince>BEIRUT,   LEBANON</StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName>PH : +961 1 450550 FAX : + 961 1 455618</CountryName>
+        </ConsigneeDetails>
+        <ShipperExporterDetails>
+          <Name>EX-FREIGHT ZETA INC</Name>
+          <Address>2290 - 10TH AVE, SUITE 501</Address>
+          <CityName>LAKE WORTH, FL 33461, USA</CityName>
+          <StateProvince>877-208-5645</StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </ShipperExporterDetails>
+        <NotifyPartyDetails>
+          <Name>GHORAYEB CLEARING &#38; FORWARDING CO</Name>
+          <Address>BEIRUT/LEBANON</Address>
+          <CityName>AIRPORT ROAD-GIFCO BLDG,</CityName>
+          <StateProvince>BEIRUT,   LEBANON</StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </NotifyPartyDetails>
+        <AgentDetails>
+          <Name>OCEANAIR CONSOLIDATORS</Name>
+          <Address>MEDAWAR-PASTEUR STREET</Address>
+          <CityName>MEDAWAR BUILDING 3RD FLOOR</CityName>
+          <StateProvince>BEIRUT</StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </AgentDetails>
+      </AddressDetails>
+      <SailingDetails>
+        <ImoNumber>9348649</ImoNumber>
+        <SCAC></SCAC>
+        <VesselName>MAERSK ATLANTA</VesselName>
+        <Voyage>1509</Voyage>
+        <Precarriage></Precarriage>
+        <EtdOrigin></EtdOrigin>
+        <EtsLoadPort>2015-10-24</EtsLoadPort>
+        <EtaDischarge>2015-11-17</EtaDischarge>
+        <EtaFinalDestination></EtaFinalDestination>
+      </SailingDetails>
+      <RoutingDetails>
+        <OriginCode>USDAL</OriginCode>
+        <OriginName>DALLAS,TX</OriginName>
+        <LoadCode>USNYC</LoadCode>
+        <LoadName>NEW YORK,NY</LoadName>
+        <DischargeCode>LBBEY</DischargeCode>
+        <DischargeName>BEIRUT</DischargeName>
+        <DestinationCode>LBBEY</DestinationCode>
+        <DestinationName>BEIRUT</DestinationName>
+      </RoutingDetails>
+      <ContainerDetails>
+        <LclCargoDetails>
+          <Pieces>1</Pieces>
+          <Packaging></Packaging>
+          <Commodity>PALLET SLAC : SHAMPOO</Commodity>
+          <Weight>222.260</Weight>
+          <Volume>0.516</Volume>
+          <UOM>M</UOM>
+          <Marks>1@32X24X41 IN</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>HS&#160;: 3305100000</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity></Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>NO EEI REQUIRED: SEC 30.37(A) FTR</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+      </ContainerDetails>
+      <GeneralBlDetails>
+        <Marks></Marks>
+        <Description>FREIGHT PREPAID</Description>
+      </GeneralBlDetails>
+      <ChargeDetails>
+        <ChargeDescription>OCEAN FREIGHT</ChargeDescription>
+        <PrepaidCollect>P</PrepaidCollect>
+        <Rate>136.00</Rate>
+        <Basis>MIN</Basis>
+        <ForeignAmount>136.00</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>136.00</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>EXFREIGHT ZETA INC.</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>LOW SULPHUR SURCHARGE</ChargeDescription>
+        <PrepaidCollect>P</PrepaidCollect>
+        <Rate>2.00</Rate>
+        <Basis>MIN</Basis>
+        <ForeignAmount>2.00</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>2.00</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>EXFREIGHT ZETA INC.</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>CHASSIS FEE</ChargeDescription>
+        <PrepaidCollect>P</PrepaidCollect>
+        <Rate>4.00</Rate>
+        <Basis>MIN</Basis>
+        <ForeignAmount>4.00</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>4.00</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>EXFREIGHT ZETA INC.</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>ENS FILING FEE</ChargeDescription>
+        <PrepaidCollect>P</PrepaidCollect>
+        <Rate>7.00</Rate>
+        <Basis>LS</Basis>
+        <ForeignAmount>7.00</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>7.00</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>EXFREIGHT ZETA INC.</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>B/L SECURITY FEE</ChargeDescription>
+        <PrepaidCollect>P</PrepaidCollect>
+        <Rate>10.00</Rate>
+        <Basis>LS</Basis>
+        <ForeignAmount>10.00</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>10.00</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>EXFREIGHT ZETA INC.</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>INLAND FUEL SURCHARGE</ChargeDescription>
+        <PrepaidCollect>P</PrepaidCollect>
+        <Rate>2.00</Rate>
+        <Basis>MIN</Basis>
+        <ForeignAmount>2.00</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>2.00</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>EXFREIGHT ZETA INC.</PCName>
+      </ChargeDetails>
+      <CommentDetails>
+        <Remarks>CFS / CFS</Remarks>
+      </CommentDetails>
+    </BillOfLadingDetails>
+    <BillOfLadingDetails>
+      <BillOfLadingNumber>BRT10210623</BillOfLadingNumber>
+      <Type>H</Type>
+      <ReleaseType>E</ReleaseType>
+      <NumberOfOriginals>0</NumberOfOriginals>
+      <Terms>DRCF</Terms>
+      <BLReleasePoint>RNYC</BLReleasePoint>
+      <ReferenceDetails>
+        <ShipperReference>**REF 287/CS/2015, ,</ShipperReference>
+        <ConsigneeReference></ConsigneeReference>
+        <NotifyReference></NotifyReference>
+        <ForwarderReference></ForwarderReference>
+      </ReferenceDetails>
+      <BookingDetails>
+        <BookingStation>RNYC</BookingStation>
+        <BookingNumber>10210623</BookingNumber>
+        <LotNo>10210623</LotNo>
+      </BookingDetails>
+      <AddressDetails>
+        <ConsigneeDetails>
+          <Name>KBE INTERNATIONAL SAL</Name>
+          <Address>PO BOX 90691 BEIRUT LEBANON</Address>
+          <CityName>TEL: 961 898 268</CityName>
+          <StateProvince>FAX 961 188 7113</StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </ConsigneeDetails>
+        <ShipperExporterDetails>
+          <Name>ELSIE MANUFACTURING</Name>
+          <Address>600 WEST MAPLE STREET WATERLOO</Address>
+          <CityName>IN 46793 CONTACT: JULIE MINNICK</CityName>
+          <StateProvince>TITLE/DEPT:INFO@ELSIEMFG.COM</StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </ShipperExporterDetails>
+        <NotifyPartyDetails>
+          <Name>KBE INTERNATIONAL SAL</Name>
+          <Address>PO BOX 90691 BEIRUT LEBANON</Address>
+          <CityName>TEL: 961 898 268</CityName>
+          <StateProvince>FAX 961 1 887 113</StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </NotifyPartyDetails>
+        <AgentDetails>
+          <Name>OCEANAIR CONSOLIDATORS</Name>
+          <Address>MEDAWAR-PASTEUR STREET</Address>
+          <CityName>MEDAWAR BUILDING 3RD FLOOR</CityName>
+          <StateProvince>BEIRUT</StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </AgentDetails>
+      </AddressDetails>
+      <SailingDetails>
+        <ImoNumber>9348649</ImoNumber>
+        <SCAC></SCAC>
+        <VesselName>MAERSK ATLANTA</VesselName>
+        <Voyage>1509</Voyage>
+        <Precarriage></Precarriage>
+        <EtdOrigin></EtdOrigin>
+        <EtsLoadPort>2015-10-24</EtsLoadPort>
+        <EtaDischarge>2015-11-17</EtaDischarge>
+        <EtaFinalDestination></EtaFinalDestination>
+      </SailingDetails>
+      <RoutingDetails>
+        <OriginCode></OriginCode>
+        <OriginName>WATERLOO, IN</OriginName>
+        <LoadCode>USNYC</LoadCode>
+        <LoadName>NEW YORK,NY</LoadName>
+        <DischargeCode>LBBEY</DischargeCode>
+        <DischargeName>BEIRUT</DischargeName>
+        <DestinationCode>LBBEY</DestinationCode>
+        <DestinationName>BEIRUT</DestinationName>
+      </RoutingDetails>
+      <ContainerDetails>
+        <LclCargoDetails>
+          <Pieces>1</Pieces>
+          <Packaging></Packaging>
+          <Commodity>PALLET : FUSIBLE LINKS</Commodity>
+          <Weight>386.007</Weight>
+          <Volume>0.571</Volume>
+          <UOM>M</UOM>
+          <Marks>IPPC OK</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>HTS 8311900000</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks>KBE INTERNATIO</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>PC:1 L:33IN W:33IN H:32IN</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks>NAL</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity></Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks>BERIUT LEBANON</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>ITN # X20151007916751</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+      </ContainerDetails>
+      <GeneralBlDetails>
+        <Marks></Marks>
+        <Description>FREIGHT COLLECT</Description>
+      </GeneralBlDetails>
+      <ChargeDetails>
+        <ChargeDescription>OCEAN FREIGHT</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>95.00</Rate>
+        <Basis>WM</Basis>
+        <ForeignAmount>54.25</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>54.25</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>ENS FILING FEE</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>7.00</Rate>
+        <Basis>LS</Basis>
+        <ForeignAmount>7.00</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>7.00</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>CHASSIS FEE</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>4.00</Rate>
+        <Basis>MIN</Basis>
+        <ForeignAmount>4.00</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>4.00</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>LOW SULPHUR SURCHARGE</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>2.00</Rate>
+        <Basis>MIN</Basis>
+        <ForeignAmount>2.00</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>2.00</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>INLAND FUEL SURCHARGE</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>2.00</Rate>
+        <Basis>MIN</Basis>
+        <ForeignAmount>2.00</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>2.00</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>B/L SECURITY FEE</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>10.00</Rate>
+        <Basis>LS</Basis>
+        <ForeignAmount>10.00</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>10.00</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>PROCESSING FEE</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>75.00</Rate>
+        <Basis>LS</Basis>
+        <ForeignAmount>75.00</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>75.00</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>INLAND FREIGHT</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>121.41</Rate>
+        <Basis>LS</Basis>
+        <ForeignAmount>121.41</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>121.41</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <CommentDetails>
+        <Remarks>DOOR / CFS</Remarks>
+      </CommentDetails>
+    </BillOfLadingDetails>
+    <BillOfLadingDetails>
+      <BillOfLadingNumber>BRT10211464</BillOfLadingNumber>
+      <Type>H</Type>
+      <ReleaseType>E</ReleaseType>
+      <NumberOfOriginals>0</NumberOfOriginals>
+      <Terms>DRCF</Terms>
+      <BLReleasePoint>RNYC</BLReleasePoint>
+      <ReferenceDetails>
+        <ShipperReference>**REF 288/CS/2015, ,</ShipperReference>
+        <ConsigneeReference></ConsigneeReference>
+        <NotifyReference></NotifyReference>
+        <ForwarderReference></ForwarderReference>
+      </ReferenceDetails>
+      <BookingDetails>
+        <BookingStation>RNYC</BookingStation>
+        <BookingNumber>10211464</BookingNumber>
+        <LotNo>10211464</LotNo>
+      </BookingDetails>
+      <AddressDetails>
+        <ConsigneeDetails>
+          <Name>AVINOX</Name>
+          <Address>CHARBEL SEJAAN INDUSTRIAL BLDG.</Address>
+          <CityName>DEKWANEK, MAR ROUKOZ, LEBANON</CityName>
+          <StateProvince>TEL: 01-682 721</StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </ConsigneeDetails>
+        <ShipperExporterDetails>
+          <Name>CAPTIVEAIRE</Name>
+          <Address>CONTACT : JOSH YOUNG</Address>
+          <CityName>TEL : 800 382 2194</CityName>
+          <StateProvince>FAX : 866 845 9754</StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </ShipperExporterDetails>
+        <NotifyPartyDetails>
+          <Name>AIRLINK LEBANON SAL</Name>
+          <Address>BEIRUT - LEBANON</Address>
+          <CityName></CityName>
+          <StateProvince></StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </NotifyPartyDetails>
+        <AgentDetails>
+          <Name>OCEANAIR CONSOLIDATORS</Name>
+          <Address>MEDAWAR-PASTEUR STREET</Address>
+          <CityName>MEDAWAR BUILDING 3RD FLOOR</CityName>
+          <StateProvince>BEIRUT</StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </AgentDetails>
+      </AddressDetails>
+      <SailingDetails>
+        <ImoNumber>9348649</ImoNumber>
+        <SCAC></SCAC>
+        <VesselName>MAERSK ATLANTA</VesselName>
+        <Voyage>1509</Voyage>
+        <Precarriage></Precarriage>
+        <EtdOrigin></EtdOrigin>
+        <EtsLoadPort>2015-10-24</EtsLoadPort>
+        <EtaDischarge>2015-11-17</EtaDischarge>
+        <EtaFinalDestination></EtaFinalDestination>
+      </SailingDetails>
+      <RoutingDetails>
+        <OriginCode></OriginCode>
+        <OriginName>GROVELAND FL</OriginName>
+        <LoadCode>USNYC</LoadCode>
+        <LoadName>NEW YORK,NY</LoadName>
+        <DischargeCode>LBBEY</DischargeCode>
+        <DischargeName>BEIRUT</DischargeName>
+        <DestinationCode>LBBEY</DestinationCode>
+        <DestinationName>BEIRUT</DestinationName>
+      </RoutingDetails>
+      <ContainerDetails>
+        <LclCargoDetails>
+          <Pieces>3</Pieces>
+          <Packaging></Packaging>
+          <Commodity>PALLETS : EXHAUST FAN</Commodity>
+          <Weight>109.801</Weight>
+          <Volume>3.636</Volume>
+          <UOM>M</UOM>
+          <Marks>DEKWENEN</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity></Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks>MAROUKOZ,</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>HTS : 8414.51.9090</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks>CHAEBEL SEJEAN</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>PC:3 L:42IN W:42IN H:40IN</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks>N INDUSTRIAL.,</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity></Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks>LEBANON</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>NO EEI REQUIRED</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+      </ContainerDetails>
+      <GeneralBlDetails>
+        <Marks></Marks>
+        <Description>FREIGHT COLLECT</Description>
+      </GeneralBlDetails>
+      <ChargeDetails>
+        <ChargeDescription>OCEAN FREIGHT</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>106.00</Rate>
+        <Basis>WM</Basis>
+        <ForeignAmount>385.42</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>385.42</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>PROCESSING FEE</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>75.00</Rate>
+        <Basis>LS</Basis>
+        <ForeignAmount>75.00</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>75.00</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>ENS FILING FEE</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>7.00</Rate>
+        <Basis>LS</Basis>
+        <ForeignAmount>7.00</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>7.00</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>CHASSIS FEE</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>4.00</Rate>
+        <Basis>WM</Basis>
+        <ForeignAmount>14.54</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>14.54</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>LOW SULPHUR SURCHARGE</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>2.00</Rate>
+        <Basis>WM</Basis>
+        <ForeignAmount>7.27</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>7.27</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>INLAND FUEL SURCHARGE</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>2.00</Rate>
+        <Basis>WM</Basis>
+        <ForeignAmount>7.27</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>7.27</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>B/L SECURITY FEE</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>10.00</Rate>
+        <Basis>LS</Basis>
+        <ForeignAmount>10.00</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>10.00</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>INLAND FREIGHT</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>216.52</Rate>
+        <Basis>LS</Basis>
+        <ForeignAmount>216.52</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>216.52</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <CommentDetails>
+        <Remarks>DOOR / CFS</Remarks>
+      </CommentDetails>
+    </BillOfLadingDetails>
+    <BillOfLadingDetails>
+      <BillOfLadingNumber>BRT10211596</BillOfLadingNumber>
+      <Type>H</Type>
+      <ReleaseType>E</ReleaseType>
+      <NumberOfOriginals>0</NumberOfOriginals>
+      <Terms>DRCF</Terms>
+      <BLReleasePoint>CHICAGO,IL</BLReleasePoint>
+      <ReferenceDetails>
+        <ShipperReference>486001460, ,</ShipperReference>
+        <ConsigneeReference></ConsigneeReference>
+        <NotifyReference></NotifyReference>
+        <ForwarderReference></ForwarderReference>
+      </ReferenceDetails>
+      <BookingDetails>
+        <BookingStation>CHI</BookingStation>
+        <BookingNumber>10211596</BookingNumber>
+        <LotNo>10211596</LotNo>
+      </BookingDetails>
+      <AddressDetails>
+        <ConsigneeDetails>
+          <Name>METRANS FORWARDING S.A.R.L.</Name>
+          <Address>SAIFI, AL-ARZ ST., KANAFANI BLDG</Address>
+          <CityName>6TH FLOOR, PO BOX 175-166, MAR</CityName>
+          <StateProvince>MICHAEL, BEITUR, LEBANON</StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName>TEL: 9611-562-384</CountryName>
+        </ConsigneeDetails>
+        <ShipperExporterDetails>
+          <Name>DELMAR INTERNATIONAL (USA) INC.</Name>
+          <Address>1555 MITTEL BLVD.</Address>
+          <CityName>WOOD DALE ILLINOIS</CityName>
+          <StateProvince>SUITE T</StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </ShipperExporterDetails>
+        <NotifyPartyDetails>
+          <Name>SAME AS CONSIGNEE</Name>
+          <Address></Address>
+          <CityName></CityName>
+          <StateProvince></StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </NotifyPartyDetails>
+        <AgentDetails>
+          <Name>OCEANAIR CONSOLIDATORS</Name>
+          <Address>MEDAWAR-PASTEUR STREET</Address>
+          <CityName>MEDAWAR BUILDING 3RD FLOOR</CityName>
+          <StateProvince>BEIRUT</StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </AgentDetails>
+      </AddressDetails>
+      <SailingDetails>
+        <ImoNumber>9348649</ImoNumber>
+        <SCAC></SCAC>
+        <VesselName>MAERSK ATLANTA</VesselName>
+        <Voyage>1509</Voyage>
+        <Precarriage></Precarriage>
+        <EtdOrigin></EtdOrigin>
+        <EtsLoadPort>2015-10-24</EtsLoadPort>
+        <EtaDischarge>2015-11-17</EtaDischarge>
+        <EtaFinalDestination></EtaFinalDestination>
+      </SailingDetails>
+      <RoutingDetails>
+        <OriginCode></OriginCode>
+        <OriginName>GRAND RAPIDS MI</OriginName>
+        <LoadCode>USNYC</LoadCode>
+        <LoadName>NEW YORK,NY</LoadName>
+        <DischargeCode>LBBEY</DischargeCode>
+        <DischargeName>BEIRUT</DischargeName>
+        <DestinationCode>LBBEY</DestinationCode>
+        <DestinationName>BEIRUT</DestinationName>
+      </RoutingDetails>
+      <ContainerDetails>
+        <LclCargoDetails>
+          <Pieces>1</Pieces>
+          <Packaging></Packaging>
+          <Commodity>PALLET STC 7 BOXES CHAIRS AND</Commodity>
+          <Weight>68.039</Weight>
+          <Volume>3.020</Volume>
+          <UOM>M</UOM>
+          <Marks>VIVRE</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>ARMCHAIRS</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks>INSIDE</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>HARM CODE: 9401692000</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks>LEBANON</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity></Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks>NO IPPC</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>ITN # X20151008948942</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+      </ContainerDetails>
+      <GeneralBlDetails>
+        <Marks></Marks>
+        <Description>FREIGHT COLLECT</Description>
+      </GeneralBlDetails>
+      <ChargeDetails>
+        <ChargeDescription>OCEAN FREIGHT</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>95.00</Rate>
+        <Basis>WM</Basis>
+        <ForeignAmount>286.90</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>286.90</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>ENS FILING FEE</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>7.00</Rate>
+        <Basis>LS</Basis>
+        <ForeignAmount>7.00</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>7.00</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>CHASSIS FEE</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>4.00</Rate>
+        <Basis>WM</Basis>
+        <ForeignAmount>12.08</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>12.08</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>LOW SULPHUR SURCHARGE</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>2.00</Rate>
+        <Basis>WM</Basis>
+        <ForeignAmount>6.04</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>6.04</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>INLAND FUEL SURCHARGE</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>2.00</Rate>
+        <Basis>WM</Basis>
+        <ForeignAmount>6.04</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>6.04</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>B/L SECURITY FEE</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>10.00</Rate>
+        <Basis>LS</Basis>
+        <ForeignAmount>10.00</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>10.00</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>INLAND FREIGHT</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>225.00</Rate>
+        <Basis>LS</Basis>
+        <ForeignAmount>225.00</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>225.00</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <CommentDetails>
+        <Remarks>DOOR / CFS</Remarks>
+      </CommentDetails>
+    </BillOfLadingDetails>
+    <BillOfLadingDetails>
+      <BillOfLadingNumber>BRT10212753</BillOfLadingNumber>
+      <Type>H</Type>
+      <ReleaseType>E</ReleaseType>
+      <NumberOfOriginals>0</NumberOfOriginals>
+      <Terms>DRCF</Terms>
+      <BLReleasePoint>CHICAGO,IL</BLReleasePoint>
+      <ReferenceDetails>
+        <ShipperReference>486001496, ,</ShipperReference>
+        <ConsigneeReference></ConsigneeReference>
+        <NotifyReference></NotifyReference>
+        <ForwarderReference></ForwarderReference>
+      </ReferenceDetails>
+      <BookingDetails>
+        <BookingStation>CHI</BookingStation>
+        <BookingNumber>10212753</BookingNumber>
+        <LotNo>10212753</LotNo>
+      </BookingDetails>
+      <AddressDetails>
+        <ConsigneeDetails>
+          <Name>METRANS FORWARDING S.A.R.L.</Name>
+          <Address>SAIFI,AI-ARZ ST., KANAFANI BLDG</Address>
+          <CityName>6TH FLOOR, PO BOX 175-166, MAR</CityName>
+          <StateProvince>MACHAEL, BEITUR, LEBANON</StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName>TEL:9611-562-384</CountryName>
+        </ConsigneeDetails>
+        <ShipperExporterDetails>
+          <Name>DELMAR INTERNATIONAL (USA) INC.</Name>
+          <Address>1555 MITTEL BLVD.</Address>
+          <CityName>WOOD DALE ILLINOIS SUITE T</CityName>
+          <StateProvince>60191</StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </ShipperExporterDetails>
+        <NotifyPartyDetails>
+          <Name>SAME AS CONSIGNEE</Name>
+          <Address></Address>
+          <CityName></CityName>
+          <StateProvince></StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </NotifyPartyDetails>
+        <AgentDetails>
+          <Name>OCEANAIR CONSOLIDATORS</Name>
+          <Address>MEDAWAR-PASTEUR STREET</Address>
+          <CityName>MEDAWAR BUILDING 3RD FLOOR</CityName>
+          <StateProvince>BEIRUT</StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </AgentDetails>
+      </AddressDetails>
+      <SailingDetails>
+        <ImoNumber>9348649</ImoNumber>
+        <SCAC></SCAC>
+        <VesselName>MAERSK ATLANTA</VesselName>
+        <Voyage>1509</Voyage>
+        <Precarriage></Precarriage>
+        <EtdOrigin></EtdOrigin>
+        <EtsLoadPort>2015-10-24</EtsLoadPort>
+        <EtaDischarge>2015-11-17</EtaDischarge>
+        <EtaFinalDestination></EtaFinalDestination>
+      </SailingDetails>
+      <RoutingDetails>
+        <OriginCode></OriginCode>
+        <OriginName>HANOVER PA</OriginName>
+        <LoadCode>USNYC</LoadCode>
+        <LoadName>NEW YORK,NY</LoadName>
+        <DischargeCode>LBBEY</DischargeCode>
+        <DischargeName>BEIRUT</DischargeName>
+        <DestinationCode>LBBEY</DestinationCode>
+        <DestinationName>BEIRUT</DestinationName>
+      </RoutingDetails>
+      <ContainerDetails>
+        <LclCargoDetails>
+          <Pieces>10</Pieces>
+          <Packaging></Packaging>
+          <Commodity>CARTONS SLAC</Commodity>
+          <Weight>95.256</Weight>
+          <Volume>2.501</Volume>
+          <UOM>M</UOM>
+          <Marks>INOUT</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>CHAIRS AND STOOLS</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks>HORSH TABLET</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity></Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks>BEIRUT,</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>HS 940171:940179</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks>LEBANON</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity></Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>NO EEI REQUIRED: SEC 30.37(A) FTR</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+      </ContainerDetails>
+      <GeneralBlDetails>
+        <Marks></Marks>
+        <Description>FREIGHT COLLECT</Description>
+      </GeneralBlDetails>
+      <ChargeDetails>
+        <ChargeDescription>OCEAN FREIGHT</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>76.00</Rate>
+        <Basis>WM</Basis>
+        <ForeignAmount>190.08</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>190.08</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>ENS FILING FEE</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>7.00</Rate>
+        <Basis>LS</Basis>
+        <ForeignAmount>7.00</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>7.00</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>CHASSIS FEE</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>4.00</Rate>
+        <Basis>WM</Basis>
+        <ForeignAmount>10.00</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>10.00</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>LOW SULPHUR SURCHARGE</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>2.00</Rate>
+        <Basis>WM</Basis>
+        <ForeignAmount>5.00</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>5.00</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>B/L SECURITY FEE</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>10.00</Rate>
+        <Basis>LS</Basis>
+        <ForeignAmount>10.00</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>10.00</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>INLAND FREIGHT</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>107.26</Rate>
+        <Basis>LS</Basis>
+        <ForeignAmount>107.26</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>107.26</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <CommentDetails>
+        <Remarks>DOOR / CFS</Remarks>
+      </CommentDetails>
+    </BillOfLadingDetails>
+    <BillOfLadingDetails>
+      <BillOfLadingNumber>BRT10213110</BillOfLadingNumber>
+      <Type>H</Type>
+      <ReleaseType>E</ReleaseType>
+      <NumberOfOriginals>0</NumberOfOriginals>
+      <Terms>DRCF</Terms>
+      <BLReleasePoint>NEW YORK,NY</BLReleasePoint>
+      <ReferenceDetails>
+        <ShipperReference>MSLC2150145, ,</ShipperReference>
+        <ConsigneeReference></ConsigneeReference>
+        <NotifyReference></NotifyReference>
+        <ForwarderReference></ForwarderReference>
+      </ReferenceDetails>
+      <BookingDetails>
+        <BookingStation>NYC</BookingStation>
+        <BookingNumber>10213110</BookingNumber>
+        <LotNo>10213110</LotNo>
+      </BookingDetails>
+      <AddressDetails>
+        <ConsigneeDetails>
+          <Name>GEZAIRI TRANSPORT S.A.L.</Name>
+          <Address>1ST &#38; 2ND FLOOR BOLOUS FAYAD BLDG</Address>
+          <CityName>CHAFIC WAZZAN AVE P.O.BOX 11-1402</CityName>
+          <StateProvince>RIAD EL SOLH 11072080 BEIRUT</StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName>LEBANON T:009611580808 FX:</CountryName>
+        </ConsigneeDetails>
+        <ShipperExporterDetails>
+          <Name>ATLANTIC PACIFIC LINES INC</Name>
+          <Address>1074 BROADWAY SUITE 200</Address>
+          <CityName>WEST LONG BRANCH NJ 07764</CityName>
+          <StateProvince>TEL: 732 2835300</StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </ShipperExporterDetails>
+        <NotifyPartyDetails>
+          <Name>SAME AS CONSIGNEE</Name>
+          <Address></Address>
+          <CityName></CityName>
+          <StateProvince></StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </NotifyPartyDetails>
+        <AgentDetails>
+          <Name>OCEANAIR CONSOLIDATORS</Name>
+          <Address>MEDAWAR-PASTEUR STREET</Address>
+          <CityName>MEDAWAR BUILDING 3RD FLOOR</CityName>
+          <StateProvince>BEIRUT</StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </AgentDetails>
+      </AddressDetails>
+      <SailingDetails>
+        <ImoNumber>9348649</ImoNumber>
+        <SCAC></SCAC>
+        <VesselName>MAERSK ATLANTA</VesselName>
+        <Voyage>1509</Voyage>
+        <Precarriage></Precarriage>
+        <EtdOrigin></EtdOrigin>
+        <EtsLoadPort>2015-10-24</EtsLoadPort>
+        <EtaDischarge>2015-11-17</EtaDischarge>
+        <EtaFinalDestination></EtaFinalDestination>
+      </SailingDetails>
+      <RoutingDetails>
+        <OriginCode></OriginCode>
+        <OriginName>EAST PROVINCE / RUMFORD</OriginName>
+        <LoadCode>USNYC</LoadCode>
+        <LoadName>NEW YORK,NY</LoadName>
+        <DischargeCode>LBBEY</DischargeCode>
+        <DischargeName>BEIRUT</DischargeName>
+        <DestinationCode>LBBEY</DestinationCode>
+        <DestinationName>BEIRUT</DestinationName>
+      </RoutingDetails>
+      <ContainerDetails>
+        <LclCargoDetails>
+          <Pieces>4</Pieces>
+          <Packaging></Packaging>
+          <Commodity>SHRINK WRAPPED PALLETS SLAC 100</Commodity>
+          <Weight>1306.346</Weight>
+          <Volume>8.243</Volume>
+          <UOM>M</UOM>
+          <Marks>10213110</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>CARTONS TISSUE PAPER IN SHEETS IN</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>CARTONS H.S. CODE : 4811.90</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks>SIOM ORFEVRES</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity></Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks>LEBANON</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity></Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>ITN # X20151014275399</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity></Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>*:</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>AHALLAK@GEZAIRI.COM</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>RMUNTHER@GEZAIRI.COM</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>MYASSINE@GEZAIRI.COM</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+      </ContainerDetails>
+      <GeneralBlDetails>
+        <Marks></Marks>
+        <Description>FREIGHT PREPAID</Description>
+      </GeneralBlDetails>
+      <ChargeDetails>
+        <ChargeDescription>OCEAN FREIGHT</ChargeDescription>
+        <PrepaidCollect>P</PrepaidCollect>
+        <Rate>80.00</Rate>
+        <Basis>WM</Basis>
+        <ForeignAmount>659.44</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>659.44</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>ATLANTIC PACIFIC LINES</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>ENS FILING FEE</ChargeDescription>
+        <PrepaidCollect>P</PrepaidCollect>
+        <Rate>7.00</Rate>
+        <Basis>LS</Basis>
+        <ForeignAmount>7.00</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>7.00</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>ATLANTIC PACIFIC LINES</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>CHASSIS FEE</ChargeDescription>
+        <PrepaidCollect>P</PrepaidCollect>
+        <Rate>4.00</Rate>
+        <Basis>WM</Basis>
+        <ForeignAmount>32.97</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>32.97</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>ATLANTIC PACIFIC LINES</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>LOW SULPHUR SURCHARGE</ChargeDescription>
+        <PrepaidCollect>P</PrepaidCollect>
+        <Rate>2.00</Rate>
+        <Basis>WM</Basis>
+        <ForeignAmount>16.49</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>16.49</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>ATLANTIC PACIFIC LINES</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>INLAND FUEL SURCHARGE</ChargeDescription>
+        <PrepaidCollect>P</PrepaidCollect>
+        <Rate>2.00</Rate>
+        <Basis>WM</Basis>
+        <ForeignAmount>16.49</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>16.49</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>ATLANTIC PACIFIC LINES</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>B/L SECURITY FEE</ChargeDescription>
+        <PrepaidCollect>P</PrepaidCollect>
+        <Rate>10.00</Rate>
+        <Basis>LS</Basis>
+        <ForeignAmount>10.00</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>10.00</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>ATLANTIC PACIFIC LINES</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>INLAND FREIGHT</ChargeDescription>
+        <PrepaidCollect>P</PrepaidCollect>
+        <Rate>155.85</Rate>
+        <Basis>LS</Basis>
+        <ForeignAmount>155.85</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>155.85</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>ATLANTIC PACIFIC LINES</PCName>
+      </ChargeDetails>
+      <CommentDetails>
+        <Remarks>DOOR / CFS</Remarks>
+      </CommentDetails>
+    </BillOfLadingDetails>
+    <BillOfLadingDetails>
+      <BillOfLadingNumber>BRT80259238</BillOfLadingNumber>
+      <Type>H</Type>
+      <ReleaseType>E</ReleaseType>
+      <NumberOfOriginals>0</NumberOfOriginals>
+      <Terms>CFCF</Terms>
+      <BLReleasePoint>CHICAGO,IL</BLReleasePoint>
+      <ReferenceDetails>
+        <ShipperReference>OCN00450334, ,</ShipperReference>
+        <ConsigneeReference></ConsigneeReference>
+        <NotifyReference></NotifyReference>
+        <ForwarderReference></ForwarderReference>
+      </ReferenceDetails>
+      <BookingDetails>
+        <BookingStation>CHI</BookingStation>
+        <BookingNumber>80259238</BookingNumber>
+        <LotNo>80259238</LotNo>
+      </BookingDetails>
+      <AddressDetails>
+        <ConsigneeDetails>
+          <Name>ANTARSPED FORWARDING SERVICES SAL</Name>
+          <Address>IMM. BERBERI</Address>
+          <CityName>SECTEUR MAR MIKHAEL</CityName>
+          <StateProvince>50 RUE NICOLAS TURK</StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName>, BEIRUT LB</CountryName>
+        </ConsigneeDetails>
+        <ShipperExporterDetails>
+          <Name>UTI UNITED STATES INC.</Name>
+          <Address>825 ARTHUR AVENUE</Address>
+          <CityName>ELK GROVE VILLAGE, IL 60007 US</CityName>
+          <StateProvince></StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </ShipperExporterDetails>
+        <NotifyPartyDetails>
+          <Name>SAME AS CONSIGNEE</Name>
+          <Address></Address>
+          <CityName></CityName>
+          <StateProvince></StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </NotifyPartyDetails>
+        <AgentDetails>
+          <Name>OCEANAIR CONSOLIDATORS</Name>
+          <Address>MEDAWAR-PASTEUR STREET</Address>
+          <CityName>MEDAWAR BUILDING 3RD FLOOR</CityName>
+          <StateProvince>BEIRUT</StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </AgentDetails>
+      </AddressDetails>
+      <SailingDetails>
+        <ImoNumber>9348649</ImoNumber>
+        <SCAC></SCAC>
+        <VesselName>MAERSK ATLANTA</VesselName>
+        <Voyage>1509</Voyage>
+        <Precarriage></Precarriage>
+        <EtdOrigin></EtdOrigin>
+        <EtsLoadPort>2015-10-24</EtsLoadPort>
+        <EtaDischarge>2015-11-17</EtaDischarge>
+        <EtaFinalDestination></EtaFinalDestination>
+      </SailingDetails>
+      <RoutingDetails>
+        <OriginCode>USCHI</OriginCode>
+        <OriginName>CHICAGO,IL</OriginName>
+        <LoadCode>USNYC</LoadCode>
+        <LoadName>NEW YORK,NY</LoadName>
+        <DischargeCode>LBBEY</DischargeCode>
+        <DischargeName>BEIRUT</DischargeName>
+        <DestinationCode>LBBEY</DestinationCode>
+        <DestinationName>BEIRUT</DestinationName>
+      </RoutingDetails>
+      <ContainerDetails>
+        <LclCargoDetails>
+          <Pieces>2</Pieces>
+          <Packaging></Packaging>
+          <Commodity>PALLETS SLAC 99 CASES</Commodity>
+          <Weight>891.763</Weight>
+          <Volume>2.243</Volume>
+          <UOM>M</UOM>
+          <Marks>80259238</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>COPPER FITTINGS</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity></Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>HS CODES: 7412.10, 7412.20</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity></Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>AESPOST 35055256000</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>REF# DN# 88357198</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+      </ContainerDetails>
+      <GeneralBlDetails>
+        <Marks></Marks>
+        <Description>FREIGHT PREPAID</Description>
+      </GeneralBlDetails>
+      <ChargeDetails>
+        <ChargeDescription>OCEAN FREIGHT</ChargeDescription>
+        <PrepaidCollect>P</PrepaidCollect>
+        <Rate>81.00</Rate>
+        <Basis>WM</Basis>
+        <ForeignAmount>181.68</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>181.68</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>UTI, UNITED STATES, INC.</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>ENS FILING FEE</ChargeDescription>
+        <PrepaidCollect>P</PrepaidCollect>
+        <Rate>7.00</Rate>
+        <Basis>LS</Basis>
+        <ForeignAmount>7.00</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>7.00</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>UTI, UNITED STATES, INC.</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>B/L SECURITY FEE</ChargeDescription>
+        <PrepaidCollect>P</PrepaidCollect>
+        <Rate>7.00</Rate>
+        <Basis>LS</Basis>
+        <ForeignAmount>7.00</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>7.00</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>UTI, UNITED STATES, INC.</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>LOW SULPHUR SURCHARGE</ChargeDescription>
+        <PrepaidCollect>P</PrepaidCollect>
+        <Rate>2.00</Rate>
+        <Basis>WM</Basis>
+        <ForeignAmount>4.49</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>4.49</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>UTI, UNITED STATES, INC.</PCName>
+      </ChargeDetails>
+      <CommentDetails>
+        <Remarks>CFS / CFS</Remarks>
+      </CommentDetails>
+    </BillOfLadingDetails>
+    <BillOfLadingDetails>
+      <BillOfLadingNumber>BRT80260316</BillOfLadingNumber>
+      <Type>H</Type>
+      <ReleaseType>E</ReleaseType>
+      <NumberOfOriginals>0</NumberOfOriginals>
+      <Terms>CFCF</Terms>
+      <BLReleasePoint>TORONTO</BLReleasePoint>
+      <ReferenceDetails>
+        <ShipperReference>YYZ8009797, ,</ShipperReference>
+        <ConsigneeReference></ConsigneeReference>
+        <NotifyReference></NotifyReference>
+        <ForwarderReference></ForwarderReference>
+      </ReferenceDetails>
+      <BookingDetails>
+        <BookingStation>TOR</BookingStation>
+        <BookingNumber>80260316</BookingNumber>
+        <LotNo>80260316</LotNo>
+      </BookingDetails>
+      <AddressDetails>
+        <ConsigneeDetails>
+          <Name>EXPEDITORS INTERNATIONAL - LEBANON</Name>
+          <Address>TANNOUS TOWER, 1ST FLOOR</Address>
+          <CityName>DORA HIGHWAYDORA LEBANON</CityName>
+          <StateProvince></StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </ConsigneeDetails>
+        <ShipperExporterDetails>
+          <Name>EXPEDITORS CANADA INC.   (CASS)</Name>
+          <Address>55 STANDISH COURT, 11TH FLOOR</Address>
+          <CityName>MISSISSAUGA ON L5R 4A1</CityName>
+          <StateProvince>CANADA</StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </ShipperExporterDetails>
+        <NotifyPartyDetails>
+          <Name>SAME AS CONSIGNEE</Name>
+          <Address></Address>
+          <CityName></CityName>
+          <StateProvince></StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </NotifyPartyDetails>
+        <AgentDetails>
+          <Name>OCEANAIR CONSOLIDATORS</Name>
+          <Address>MEDAWAR-PASTEUR STREET</Address>
+          <CityName>MEDAWAR BLDG 3RD FLOOR</CityName>
+          <StateProvince>BEIRUT  LEBANON</StateProvince>
+          <PostalCode></PostalCode>
+          <CountryName></CountryName>
+        </AgentDetails>
+      </AddressDetails>
+      <SailingDetails>
+        <ImoNumber>9348649</ImoNumber>
+        <SCAC></SCAC>
+        <VesselName>MAERSK ATLANTA</VesselName>
+        <Voyage>1509</Voyage>
+        <Precarriage></Precarriage>
+        <EtdOrigin></EtdOrigin>
+        <EtsLoadPort>2015-10-24</EtsLoadPort>
+        <EtaDischarge>2015-11-17</EtaDischarge>
+        <EtaFinalDestination></EtaFinalDestination>
+      </SailingDetails>
+      <RoutingDetails>
+        <OriginCode>CATOR</OriginCode>
+        <OriginName>TORONTO</OriginName>
+        <LoadCode>USNYC</LoadCode>
+        <LoadName>NEW YORK,NY</LoadName>
+        <DischargeCode>LBBEY</DischargeCode>
+        <DischargeName>BEIRUT</DischargeName>
+        <DestinationCode>LBBEY</DestinationCode>
+        <DestinationName>BEIRUT</DestinationName>
+      </RoutingDetails>
+      <ContainerDetails>
+        <LclCargoDetails>
+          <Pieces>2</Pieces>
+          <Packaging></Packaging>
+          <Commodity>PACKAGES SLAC</Commodity>
+          <Weight>1374.000</Weight>
+          <Volume>1.234</Volume>
+          <UOM>M</UOM>
+          <Marks>EI REF:</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>HYDRAULIC PISTON,</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks>6100045421</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>GEAR, VANE TYPE PUMPS AND PARTS</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks>BABIKIAN</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>NON FLUID POWERED</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks>HYDRAULIC</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>HS: 841360 HS: 841391</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks>BEIRUT</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity></Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks>LEBANAN</Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+        <LclCargoDetails>
+          <Pieces></Pieces>
+          <Packaging></Packaging>
+          <Commodity>CAED#04H690 TC1703 2015100312</Commodity>
+          <Weight>0.000</Weight>
+          <Volume>0.000</Volume>
+          <UOM>M</UOM>
+          <Marks></Marks>
+          <HazardousFlag>N</HazardousFlag>
+        </LclCargoDetails>
+      </ContainerDetails>
+      <GeneralBlDetails>
+        <Marks></Marks>
+        <Description>FREIGHT COLLECT</Description>
+      </GeneralBlDetails>
+      <ChargeDetails>
+        <ChargeDescription>OCEAN FREIGHT</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>175.00</Rate>
+        <Basis>WM</Basis>
+        <ForeignAmount>240.45</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>240.45</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <ChargeDetails>
+        <ChargeDescription>ENS FILING FEE</ChargeDescription>
+        <PrepaidCollect>C</PrepaidCollect>
+        <Rate>7.00</Rate>
+        <Basis>LS</Basis>
+        <ForeignAmount>7.00</ForeignAmount>
+        <ExchangeRate>1.0000</ExchangeRate>
+        <LocalAmount>7.00</LocalAmount>
+        <Currency>USD</Currency>
+        <PCName>OCEANAIR CONSOLIDATORS</PCName>
+      </ChargeDetails>
+      <CommentDetails>
+        <Remarks>CFS / CFS</Remarks>
+      </CommentDetails>
+    </BillOfLadingDetails>
+  </FileDetails>
+</File>

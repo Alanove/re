@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
   <link rel="stylesheet" href="/themes/bluefieldco/style.css">
   <link rel="stylesheet" href="/css/cms-overrides.css">
+  <link rel="stylesheet" href="/captcha/captcha.css">
   <% const isHomePage = typeof bodyClass !== 'undefined' && bodyClass.includes('home'); %>
   <% if (typeof pageImage !== 'undefined' && pageImage && pageImage.trim() !== '' && !isHomePage) { %>
   <style>
@@ -57,6 +58,7 @@
   <script src="/themes/bluefieldco/js/reveal/dist/scrollreveal.min.js"></script>
   <script src="/themes/bluefieldco/js/navigation.js"></script>
   <script src="/themes/bluefieldco/js/reavel-custom.js"></script>
+  <script src="/captcha/captcha.js" data-captcha-url="/captcha/challenge"></script>
   <script src="/js/script.js"></script>
 </body>
 </html>

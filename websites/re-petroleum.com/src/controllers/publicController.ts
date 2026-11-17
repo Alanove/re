@@ -5,6 +5,7 @@ import { HttpError, NotFoundError } from '../errors/httpError.js';
 import { resolveBaseUrl } from '../middleware/siteLocals.js';
 import { safeParseFields } from '../middleware/validate.js';
 import { contactFormSchema } from '../schemas/publicSchemas.js';
+import { captchaService } from '../services/captchaService.js';
 import { contactService } from '../services/contactService.js';
 import { homeService } from '../services/homeService.js';
 import { pagesService, type PageNode } from '../services/pagesService.js';
@@ -67,6 +68,7 @@ export class PublicController {
       return;
     }
     try {
+      captchaService.verify(parsed.data.captcha, 'contact', req.ip ?? '');
       await contactService.submit(parsed.data, { ip: req.ip ?? '', userAgent: req.get('user-agent') ?? '' });
     } catch (error) {
       if (error instanceof HttpError && error.fields) {

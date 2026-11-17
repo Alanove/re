@@ -1,10 +1,12 @@
 import { Request, Response } from 'express';
 import * as fs from 'fs';
 import { SiteSettingsService } from '../../admin/services/siteSettingsService';
+import { CAPTCHA_FAILED_MESSAGE, CaptchaService } from '../services/captchaService';
 import { EmailService } from '../services/emailService';
 
 const siteSettingsService = SiteSettingsService.getInstance();
 const emailService = EmailService.getInstance();
+const captchaService = CaptchaService.getInstance();
 
 function trimField(value: unknown): string {
   return typeof value === 'string' ? value.trim() : '';
@@ -59,6 +61,9 @@ export class FormsController {
       if (fname && !phone) {
         return jsonError(res, 400, 'Phone number is required.');
       }
+      if (!captchaService.isValid(req.body.captcha, 'contact', req.ip ?? '')) {
+        return jsonError(res, 400, CAPTCHA_FAILED_MESSAGE);
+      }
 
       const siteTitle = siteSettingsService.getSiteTitle() || 'BlueField Group';
       const subject = `[${siteTitle}] Contact inquiry from ${name}`;
@@ -104,6 +109,11 @@ export class FormsController {
     let cvPath: string | undefined;
 
     try {
+      cvPath = (req.file as Express.Multer.File | undefined)?.path;
+      if (!captchaService.isValid(req.body?.captcha, 'careers', req.ip ?? '')) {
+        return jsonError(res, 400, CAPTCHA_FAILED_MESSAGE);
+      }
+
       const fname = trimField(req.body.fname);
       const lname = trimField(req.body.lname);
       const email = trimField(req.body.email);
@@ -124,11 +134,9 @@ export class FormsController {
       const allowed = ['.pdf', '.txt'];
       const ext = file.originalname.slice(file.originalname.lastIndexOf('.')).toLowerCase();
       if (!allowed.includes(ext)) {
-        fs.unlinkSync(file.path);
         return jsonError(res, 400, 'CV must be a PDF or TXT file.');
       }
 
-      cvPath = file.path;
       const siteTitle = siteSettingsService.getSiteTitle() || 'BlueField Group';
       const subject = `[${siteTitle}] Careers application from ${name}`;
       const text = [

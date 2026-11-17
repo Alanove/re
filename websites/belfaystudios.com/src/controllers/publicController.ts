@@ -6,6 +6,7 @@ import { resolveBaseUrl } from '../middleware/siteLocals.js';
 import { parseOrThrow, safeParseFields } from '../middleware/validate.js';
 import { blogListQuerySchema, contactFormSchema } from '../schemas/publicSchemas.js';
 import { blogService, toPostCard } from '../services/blogService.js';
+import { captchaService } from '../services/captchaService.js';
 import { contactService } from '../services/contactService.js';
 import { homeService } from '../services/homeService.js';
 import { pagesService, type PageNode } from '../services/pagesService.js';
@@ -73,6 +74,7 @@ export class PublicController {
       return;
     }
     try {
+      captchaService.verify(parsed.data.captcha, 'contact', req.ip ?? '');
       await contactService.submit(parsed.data, { ip: req.ip ?? '', userAgent: req.get('user-agent') ?? '' });
     } catch (error) {
       if (error instanceof HttpError && error.fields) {

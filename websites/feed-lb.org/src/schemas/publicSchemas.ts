@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { donationCurrencySchema, donationFrequencySchema } from '../domain/models.js';
+import { captchaField } from './captchaSchemas.js';
 import { optionalTrimmed, requiredTrimmed } from './formHelpers.js';
 
 const fullName = requiredTrimmed(120, 'Full name').refine((value) => value.length >= 2, { message: 'Full name must be at least 2 characters' });
@@ -16,6 +17,7 @@ const phoneField = optionalTrimmed(40).refine((value) => value === '' || /^[+()\
 });
 
 export const contactFormSchema = z.object({
+  captcha: captchaField,
   name: fullName,
   email: emailField,
   company: optionalTrimmed(160),
@@ -40,6 +42,7 @@ export const contactFormSchema = z.object({
 export type ContactFormInput = z.infer<typeof contactFormSchema>;
 
 export const donationFormSchema = z.object({
+  captcha: captchaField,
   name: fullName,
   email: emailField,
   phone: phoneField,

@@ -22,7 +22,7 @@ import { AdminMenuService } from '../../admin/services/adminMenuService';
 import { usersService } from '../../admin/services/usersService';
 import { i18nService, SupportedLanguage } from '../../admin/services/i18nService';
 import { themeService } from '../../admin/services/themeService';
-import { envConfig } from '../config/env.config';
+import { getTurnstileSiteKey } from '../utils/turnstile';
 import { DATA_PATHS } from '../constants/data-paths';
 import adminRoutes from '../../admin/routes/index';
 
@@ -96,6 +96,8 @@ export function configureRoutes(app: Express): void {
       } else {
         (res.locals as any).newsletterError = null;
       }
+
+      (res.locals as any).turnstileSiteKey = getTurnstileSiteKey();
       
       next();
     } catch (error) {
@@ -336,8 +338,7 @@ export function configureRoutes(app: Express): void {
     res.render('about-compound');
   });
 
-  // Contact page - Turnstile always shown (use Cloudflare test key in dev when env not set)
-  const contactTurnstileSiteKey = envConfig.turnstileSiteKey ?? (envConfig.nodeEnv !== 'production' ? '1x00000000000000000000AA' : undefined);
+  // Contact page - Turnstile site key comes from global locals (getTurnstileSiteKey)
   app.get('/contact-us', async (req: Request, res: Response) => {
     try {
       const siteSettings = await siteSettingsService.getAllSettings();
@@ -364,7 +365,6 @@ export function configureRoutes(app: Express): void {
         successMessage: successMessage,
         errorMessage: errorMessage,
         formData: formData,
-        turnstileSiteKey: contactTurnstileSiteKey,
         layout: 'layout' // keep it here too just in case
       });
     } catch (error) {
@@ -373,8 +373,7 @@ export function configureRoutes(app: Express): void {
       (res.locals as any).pageTitle = 'Contact Us';
       res.render('contact', {
         siteData: pagesService.getSiteData(),
-        siteSettings: {},
-        turnstileSiteKey: contactTurnstileSiteKey
+        siteSettings: {}
       });
     }
   });

@@ -1,3 +1,4 @@
+import './loadEnv';
 import express, { Request, Response, NextFunction } from 'express';
 import * as path from 'path';
 import expressLayouts from 'express-ejs-layouts';
@@ -9,6 +10,8 @@ import { HomeController } from './controllers/homeController';
 import { ClientsController } from './controllers/clientsController';
 import { PagesController } from './controllers/pagesController';
 import { validatePageImages } from './middleware/imageValidation';
+import { CaptchaController } from './controllers/captchaController';
+import { createRateLimit } from './middleware/rateLimit';
 
 import adminRoutes from '../admin/routes';
 import { AdminMenuService } from '../admin/services/adminMenuService';
@@ -129,6 +132,12 @@ app.get('/contact', PagesController.contact);
 app.get('/:pageSlug', validatePageImages, PagesController.dynamicPage);
 
 // Admin routes - moved after main app routes to prevent conflicts
+app.get(
+  '/captcha/challenge',
+  createRateLimit({ windowMs: 60_000, limit: 30, message: 'Too many requests. Please wait a minute and try again.' }),
+  CaptchaController.challenge
+);
+
 app.get('/admin', (_req: Request, res: Response) => {
   res.redirect('/admin/login');
 });

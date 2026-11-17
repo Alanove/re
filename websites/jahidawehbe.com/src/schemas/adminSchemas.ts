@@ -16,11 +16,13 @@ import {
   youtubeIdSchema,
   type SocialNetworkKey
 } from '../domain/models.js';
+import { captchaField } from './captchaSchemas.js';
 import { checkbox, httpsUrl, imagePath, intField, linkUrl, optionalTrimmed, requiredTrimmed, rows, videoPath } from './formHelpers.js';
 
 export const loginSchema = z.object({
   email: z.string().trim().toLowerCase().pipe(z.email('Enter a valid email address')),
-  password: z.string().min(1, 'Password is required').max(200)
+  password: z.string().min(1, 'Password is required').max(200),
+  captcha: captchaField
 });
 
 export const idParamSchema = z.object({ id: z.coerce.number().int().positive() });

@@ -1,7 +1,9 @@
 import { z } from 'zod';
+import { captchaField } from './captchaSchemas.js';
 import { optionalTrimmed, requiredTrimmed } from './formHelpers.js';
 
 export const contactFormSchema = z.object({
+  captcha: captchaField,
   name: requiredTrimmed(120, 'Full name').refine((value) => value.length >= 2, { message: 'Full name must be at least 2 characters' }),
   email: z
     .string({ error: 'Email is required' })

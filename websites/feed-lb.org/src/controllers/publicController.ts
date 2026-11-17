@@ -7,6 +7,7 @@ import { resolveBaseUrl } from '../middleware/siteLocals.js';
 import { safeParseFields } from '../middleware/validate.js';
 import { contactFormSchema, donationFormSchema, donationQuerySchema } from '../schemas/publicSchemas.js';
 import { collectionService, toStoryCard } from '../services/collectionService.js';
+import { captchaService } from '../services/captchaService.js';
 import { contactService } from '../services/contactService.js';
 import { homeService } from '../services/homeService.js';
 import { pagesService, type PageNode } from '../services/pagesService.js';
@@ -163,6 +164,7 @@ export class PublicController {
       return;
     }
     try {
+      captchaService.verify(parsed.data.captcha, 'contact', req.ip ?? '');
       await contactService.submit(parsed.data, { ip: req.ip ?? '', userAgent: req.get('user-agent') ?? '' });
     } catch (error) {
       if (error instanceof HttpError && error.fields) {
@@ -186,6 +188,7 @@ export class PublicController {
       return;
     }
     try {
+      captchaService.verify(parsed.data.captcha, 'donate', req.ip ?? '');
       await contactService.pledge(parsed.data, { ip: req.ip ?? '', userAgent: req.get('user-agent') ?? '' });
     } catch (error) {
       if (error instanceof HttpError && error.fields) {

@@ -184,6 +184,9 @@
   <!-- Custom Scripts (script.js + site.js) -->
   <script src="/js/meta-pixel.js?v=<%= typeof assetVersion !== 'undefined' ? assetVersion : '1' %>"></script>
   <script src="/js/<%= typeof isProduction !== 'undefined' && isProduction ? 'app.min.js' : 'app.js' %>?v=<%= typeof assetVersion !== 'undefined' ? assetVersion : '1' %>"></script>
+  <% if (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) { %>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <% } %>
 
   </body>
 

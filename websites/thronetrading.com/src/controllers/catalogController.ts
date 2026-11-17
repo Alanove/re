@@ -4,6 +4,7 @@ import { HttpError, NotFoundError } from '../errors/httpError.js';
 import { parseOrThrow, safeParseFields } from '../middleware/validate.js';
 import { brandSlugParamsSchema, catalogPageQuerySchema, catalogSlugParamsSchema, productEnquirySchema } from '../schemas/publicSchemas.js';
 import { BRANDS_BASE, PRODUCTS_BASE, catalogService, type ProductView } from '../services/catalogService.js';
+import { captchaService } from '../services/captchaService.js';
 import { contactService } from '../services/contactService.js';
 import { excerpt } from '../services/sanitizeService.js';
 
@@ -171,6 +172,7 @@ export class CatalogController {
     }
     let productUrl: string;
     try {
+      captchaService.verify(parsed.data.captcha, 'enquiry', req.ip ?? '');
       ({ productUrl } = await contactService.submitProductEnquiry(parsed.data, { ip: req.ip ?? '', userAgent: req.get('user-agent') ?? '' }));
     } catch (error) {
       if (error instanceof HttpError && error.fields) {

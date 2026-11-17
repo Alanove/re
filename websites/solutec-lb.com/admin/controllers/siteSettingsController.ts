@@ -138,12 +138,6 @@ export class SiteSettingsController {
           updatedSettings.siteUrl = req.body.siteUrl || '';
           updatedSettings.contactEmail = req.body.contactEmail || '';
           updatedSettings.careersEmail = req.body.careersEmail || '';
-          updatedSettings.recaptchaSiteKey = String(req.body.recaptchaSiteKey || '').trim();
-          if (String(req.body.recaptchaSecretKey || '').trim()) {
-            updatedSettings.recaptchaSecretKey = String(req.body.recaptchaSecretKey).trim();
-          } else if (req.body.clearRecaptchaSecret === '1') {
-            updatedSettings.recaptchaSecretKey = '';
-          }
           updatedSettings.smtpHost = String(req.body.smtpHost || '').trim();
           updatedSettings.smtpPort = parseInt(String(req.body.smtpPort || ''), 10) || 465;
           updatedSettings.smtpSecure = req.body.smtpSecure === '1';

@@ -21,6 +21,8 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&display=block" />
 	<link rel="stylesheet" href="/css/main.css?v=<%= assetVersion %>" />
 	<link rel="stylesheet" href="/admin/editor/rte-content.css?v=<%= assetVersion %>" />
+	<link rel="stylesheet" href="/captcha/captcha.css?v=<%= assetVersion %>" />
+	<script src="/captcha/captcha.js?v=<%= assetVersion %>" defer data-captcha-url="/captcha/challenge"></script>
 	<script src="/js/site.js?v=<%= assetVersion %>" defer></script>
 </head>
 <body class="<%= [locals.bodyClass || '', locals.whatsappUrl ? 'has-whatsapp' : ''].filter(Boolean).join(' ') %>">

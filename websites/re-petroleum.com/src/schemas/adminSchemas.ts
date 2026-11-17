@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { HERO_SLIDES_MAX, menuItemSchema, pageKindSchema, userRoleSchema } from '../domain/models.js';
+import { captchaField } from './captchaSchemas.js';
 import {
   checkbox,
   imagePath,
@@ -14,7 +15,8 @@ import {
 
 export const loginSchema = z.object({
   email: z.string().trim().toLowerCase().pipe(z.email('Enter a valid email address')),
-  password: z.string().min(1, 'Password is required').max(200)
+  password: z.string().min(1, 'Password is required').max(200),
+  captcha: captchaField
 });
 
 export const idParamSchema = z.object({ id: z.coerce.number().int().positive() });

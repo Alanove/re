@@ -1,0 +1,16 @@
+<%
+	const captchaId = locals.captchaId || 'captcha';
+	const captchaError = locals.captchaError || '';
+	const captchaClass = locals.captchaClass ? ' ' + locals.captchaClass : '';
+%>
+<div class="form-captcha">
+	<input type="hidden" name="captcha" value="" />
+	<div class="site-captcha<%= captchaClass %>" data-captcha-status
+		data-text-idle="الحماية من الرسائل المزعجة جاهزة."
+		data-text-solving="جارٍ التحقق من أنك لست روبوتًا..."
+		data-text-ready="تم التحقق. يمكنك إرسال النموذج."
+		data-text-error="تعذّر إكمال التحقق من الحماية."
+		data-text-retry="أعد المحاولة"></div>
+	<noscript><p class="site-captcha-noscript">يرجى تفعيل JavaScript لإرسال هذا النموذج، فهو يجري تحققًا سريعًا من الرسائل المزعجة.</p></noscript>
+	<% if (captchaError) { %><span class="field__error" id="<%= captchaId %>-error"><%= captchaError %></span><% } %>
+</div>

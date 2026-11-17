@@ -6,7 +6,7 @@
 	const described = function (name) { return e[name] ? ' aria-invalid="true" aria-describedby="eq-' + name + '-error"' : ''; };
 	const defaultMessage = 'I would like a quotation for the ' + product.name + (product.model ? ' (' + product.model + ')' : '') + '.';
 %>
-<form class="contact-form enquiry-form" id="enquiry-form" method="POST" action="/products/enquiry" novalidate data-contact-form>
+<form class="contact-form enquiry-form" id="enquiry-form" method="POST" action="/products/enquiry" novalidate data-contact-form data-captcha="enquiry">
 	<input type="hidden" name="productId" value="<%= product.id %>" />
 	<div class="form-status<%= form.sent ? ' is-success' : (form.message ? ' is-error' : '') %>" role="status" aria-live="polite" data-form-status<%= form.sent || form.message ? '' : ' hidden' %>>
 		<%= form.sent ? settings.thankYouMessage : form.message %>
@@ -42,5 +42,6 @@
 			<input id="eq-website" name="website" type="text" tabindex="-1" autocomplete="off" />
 		</div>
 	</div>
+	<%- include('captcha', { captchaId: 'eq-captcha', captchaError: e.captcha || '' }) %>
 	<button class="btn btn--primary btn--block btn--caps" type="submit" data-submit-label="Send enquiry">Send enquiry</button>
 </form>

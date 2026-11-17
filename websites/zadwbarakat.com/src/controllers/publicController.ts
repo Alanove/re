@@ -8,6 +8,7 @@ import { safeParseFields } from '../middleware/validate.js';
 import { contactFormSchema, contactQuerySchema, hymnsQuerySchema, libraryQuerySchema, listingQuerySchema, newsletterFormSchema } from '../schemas/publicSchemas.js';
 import { albumsService } from '../services/albumsService.js';
 import { articlesService, articleUrl, effectiveDirection } from '../services/articlesService.js';
+import { captchaService } from '../services/captchaService.js';
 import { contactService } from '../services/contactService.js';
 import { formatDate } from '../services/format.js';
 import { homeService } from '../services/homeService.js';
@@ -216,6 +217,7 @@ export class PublicController {
       return;
     }
     try {
+      captchaService.verify(parsed.data.captcha, 'contact', req.ip ?? '');
       await contactService.submit(parsed.data, { ip: req.ip ?? '', userAgent: req.get('user-agent') ?? '' });
     } catch (error) {
       if (error instanceof HttpError && error.fields) {
@@ -241,6 +243,19 @@ export class PublicController {
       }
       res.redirect(303, '/?newsletter=invalid#newsletter');
       return;
+    }
+    try {
+      captchaService.verify(parsed.data.captcha, 'newsletter', req.ip ?? '');
+    } catch (error) {
+      if (error instanceof HttpError && error.fields) {
+        if (wantsJson(req)) {
+          res.status(422).json({ success: false, message: error.message, fields: error.fields });
+          return;
+        }
+        res.redirect(303, '/?newsletter=invalid#newsletter');
+        return;
+      }
+      throw error;
     }
     if (!parsed.data.website) {
       await newsletterService.subscribe(parsed.data.email, req.ip ?? '');

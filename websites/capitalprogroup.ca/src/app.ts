@@ -12,6 +12,8 @@ import { getMenuItems, getUtilityMenuItems, getFooterMenuItems } from './service
 import { HomeController } from './controllers/homeController';
 import { PagesController } from './controllers/pagesController';
 import { FormsController } from './controllers/formsController';
+import { CaptchaController } from './controllers/captchaController';
+import { createRateLimit } from './middleware/rateLimit';
 
 import adminRoutes from '../admin/routes';
 import { AdminMenuService } from '../admin/services/adminMenuService';
@@ -144,6 +146,11 @@ Object.entries(SUSTAINABILITY_REDIRECTS).forEach(([from, to]) => {
   app.get(from, (_req, res) => res.redirect(301, to));
 });
 
+app.get(
+  '/captcha/challenge',
+  createRateLimit({ windowMs: 60_000, limit: 30, message: 'Too many requests. Please wait a minute and try again.' }),
+  CaptchaController.challenge
+);
 app.post('/api/forms/contact', FormsController.submitContact);
 app.post(
   '/api/forms/careers',

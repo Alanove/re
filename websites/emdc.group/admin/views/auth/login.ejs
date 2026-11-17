@@ -10,6 +10,7 @@
 	<!-- ================== BEGIN core-css ================== -->
 	<link href="/admin/css/vendor.min.css" rel="stylesheet" />
 	<link href="/admin/css/app.min.css" rel="stylesheet" />
+	<link href="/captcha/captcha.css" rel="stylesheet" />
 	<!-- ================== END core-css ================== -->
 </head>
 <body class='pace-top'>
@@ -60,7 +61,7 @@
 							</div>
 						<% } %>
 						
-						<form action="/admin/login" method="POST" data-bs-theme="dark">
+						<form action="/admin/login" method="POST" data-bs-theme="dark" data-captcha="admin-login">
 							<div class="form-floating mb-20px">
 								<input type="email" class="form-control fs-13px h-45px" id="email" name="email" placeholder="Email Address" required />
 								<label for="email" class="d-flex align-items-center">Email Address</label>
@@ -69,6 +70,14 @@
 								<input type="password" class="form-control fs-13px h-45px" id="password" name="password" placeholder="Password" required />
 								<label for="password" class="d-flex align-items-center">Password</label>
 							</div>
+							<input type="hidden" name="captcha" value="" />
+							<div class="site-captcha mb-15px" data-captcha-status
+								data-text-idle="Spam protection is ready."
+								data-text-solving="Checking that you are human..."
+								data-text-ready="Verified. You can sign in."
+								data-text-error="The spam check could not finish."
+								data-text-retry="Try again"></div>
+							<noscript><p class="site-captcha-noscript">Please turn on JavaScript to sign in. It runs a quick spam check.</p></noscript>
 							<div class="login-buttons">
 								<button type="submit" class="btn btn-theme h-45px d-block w-100 btn-lg">Sign me in</button>
 							</div>
@@ -94,6 +103,7 @@
 	<!-- ================== BEGIN core-js ================== -->
 	<script src="/admin/js/vendor.min.js"></script>
 	<script src="/admin/js/app.min.js"></script>
+	<script src="/captcha/captcha.js" data-captcha-url="/captcha/challenge"></script>
 	<!-- ================== END core-js ================== -->
 	
 	<!-- ================== BEGIN theme-js ================== -->

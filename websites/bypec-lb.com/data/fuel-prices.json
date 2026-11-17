@@ -2,17 +2,17 @@
   "unit": "L.L. / 20 L",
   "sync": {
     "enabled": true,
-    "officialDate": "2026-10-02",
-    "lastAttemptAt": "2026-11-11T01:20:21.321Z",
-    "lastSuccessAt": "2026-11-11T01:20:21.321Z",
-    "lastChangeAt": "2026-11-10T09:48:07.706Z",
+    "officialDate": "2026-11-10",
+    "lastAttemptAt": "2026-11-14T02:48:24.089Z",
+    "lastSuccessAt": "2026-11-14T02:48:24.089Z",
+    "lastChangeAt": "2026-11-14T02:48:24.089Z",
     "lastError": ""
   },
   "products": [
     {
       "key": "unleaded98",
       "label": "Unleaded 98",
-      "officialPrice": 2854000,
+      "officialPrice": 2463000,
       "override": null,
       "overrideUpdatedAt": null,
       "visible": true,
@@ -21,7 +21,7 @@
     {
       "key": "unleaded95",
       "label": "Unleaded 95",
-      "officialPrice": 2837000,
+      "officialPrice": 2445000,
       "override": null,
       "overrideUpdatedAt": null,
       "visible": true,
@@ -30,7 +30,7 @@
     {
       "key": "dieselVehicle",
       "label": "Diesel Oil",
-      "officialPrice": 2726000,
+      "officialPrice": 2559000,
       "override": null,
       "overrideUpdatedAt": null,
       "visible": true,
@@ -64,7 +64,16 @@
         "unleaded98": 2854000,
         "dieselVehicle": 2726000
       }
+    },
+    {
+      "officialDate": "2026-11-10",
+      "fetchedAt": "2026-11-14T02:48:24.089Z",
+      "prices": {
+        "unleaded95": 2445000,
+        "unleaded98": 2463000,
+        "dieselVehicle": 2559000
+      }
     }
   ],
-  "updatedAt": "2026-11-10T10:15:25.523Z"
+  "updatedAt": "2026-11-14T02:48:24.089Z"
 }

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { captchaField } from './captchaSchemas.js';
 import { optionalTrimmed, requiredTrimmed } from './formHelpers.js';
 
 export const contactFormSchema = z.object({
@@ -19,7 +20,8 @@ export const contactFormSchema = z.object({
     .trim()
     .min(10, 'Message must be at least 10 characters')
     .max(5000, 'Message must be 5000 characters or fewer'),
-  website: optionalTrimmed(200)
+  website: optionalTrimmed(200),
+  captcha: captchaField
 });
 
 export type ContactFormInput = z.infer<typeof contactFormSchema>;

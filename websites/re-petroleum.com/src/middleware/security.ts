@@ -16,6 +16,7 @@ export function securityHeaders(): RequestHandler {
         fontSrc: ["'self'", 'data:', 'https://fonts.gstatic.com'],
         imgSrc: ["'self'", 'data:', 'blob:', 'https:'],
         connectSrc: ["'self'"],
+        workerSrc: ["'self'"],
         frameSrc: ["'self'", 'https://www.youtube.com', 'https://www.youtube-nocookie.com', 'https://player.vimeo.com', 'https://www.google.com'],
         formAction: ["'self'"],
         frameAncestors: ["'self'"],
@@ -44,7 +45,7 @@ function limiter(options: LimiterOptions): RequestHandler {
   });
 }
 
-const STATIC_PREFIXES = ['/css/', '/js/', '/uploads/', '/admin/css/', '/admin/js/', '/admin/editor/', '/admin/table-sort/', '/admin/webfonts/', '/favicon'];
+const STATIC_PREFIXES = ['/css/', '/js/', '/uploads/', '/admin/css/', '/admin/js/', '/admin/editor/', '/admin/table-sort/', '/admin/webfonts/', '/favicon', '/captcha/captcha'];
 
 export const globalRateLimit = limiter({
   windowMs: 60_000,
@@ -64,6 +65,12 @@ export const contactRateLimit = limiter({
   windowMs: 15 * 60_000,
   limit: 5,
   message: 'Too many messages from this connection. Please wait a few minutes and try again.'
+});
+
+export const captchaChallengeRateLimit = limiter({
+  windowMs: 60_000,
+  limit: 30,
+  message: 'Too many verification requests. Please wait a minute and try again.'
 });
 
 export const adminWriteRateLimit = limiter({

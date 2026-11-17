@@ -13,7 +13,7 @@ import emailService from '../services/emailService';
 import { EcommerceSettingsService } from '../../admin/services/ecommerceSettingsService';
 import { db } from '../config/database';
 import { envConfig } from '../config/env.config';
-import { verifyTurnstileToken } from '../utils/turnstile';
+import { getTurnstileSiteKey, verifyTurnstileToken } from '../utils/turnstile';
 import { getDataFilePath } from '../constants/data-paths';
 import * as fs from 'fs';
 import encryptionService from '../services/encryptionService';
@@ -519,7 +519,7 @@ export class ShopController {
         productAttributes,
         variantDisplay,
         currentFullUrl: req.protocol + '://' + req.get('host') + req.originalUrl,
-        turnstileSiteKey: envConfig.turnstileSiteKey,
+        turnstileSiteKey: getTurnstileSiteKey(),
         isDevelopment: envConfig.nodeEnv !== 'production'
       });
     } catch (error) {

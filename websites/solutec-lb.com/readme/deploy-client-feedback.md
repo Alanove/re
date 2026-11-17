@@ -36,7 +36,6 @@ No new npm packages are required.
    ```
 
 5. In **Admin → Site Settings**:
-   - **reCAPTCHA Site Key / Secret Key**: Google reCAPTCHA v2 "Invisible" keys for the live domain. Contact forms reject submissions until both are saved.
    - **Outgoing Mail (SMTP)**: for Resend use host `smtp.resend.com`, port `465` with SSL, username `resend`, password = Resend API key, From = address on a domain verified in Resend. Save, then click **Send test email**.
 
 ## Check after deploy

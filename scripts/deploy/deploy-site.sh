@@ -84,11 +84,39 @@ env_value() {
   printf '%s' "$value"
 }
 
+# Relative path inside websites/<site>. Returns 0 if npm ci is required.
+path_needs_deps() {
+  case "$1" in
+    package.json|package-lock.json|.npmrc) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+# Relative path inside websites/<site>. Returns 0 if npm run build is required.
+path_needs_build() {
+  local p="$1"
+  path_needs_deps "$p" && return 0
+  case "$p" in
+    src|src/*|scripts|scripts/*|public/scss|public/scss/*) return 0 ;;
+    tsconfig.json|tsconfig.*.json) return 0 ;;
+    *.scss) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+copy_tree() {
+  local src="$1" dest="$2"
+  [[ -e "$src" ]] || return 1
+  mkdir -p "$(dirname "$dest")"
+  rm -rf "$dest"
+  cp -a "$src" "$dest"
+}
+
 main() {
-  [[ $# -eq 14 ]] || die "Expected 14 arguments, got $#. Run deploys through scripts/deploy/deploy.ps1."
+  [[ $# -eq 15 ]] || die "Expected 15 arguments, got $#. Run deploys through scripts/deploy/deploy.ps1."
   local site="$1" sha="$2" server_path="$3" port="$4" health_path="$5" node_bin_arg="$6" project="$7"
   local restart_b64="$8" protect_list="$9" repo_url="${10}" overwrite_spec="${11}"
-  local migrations_dir="${12}" migrations_script="${13}" migrations_mode="${14}"
+  local migrations_dir="${12}" migrations_script="${13}" migrations_mode="${14}" build_mode="${15}"
   local restart_command=""
 
   [[ "$(id -un)" == "$REQUIRED_USER" ]] || die "Running as $(id -un); the deploy must run as $REQUIRED_USER."
@@ -98,6 +126,7 @@ main() {
     [[ "$migrations_script" =~ ^[A-Za-z0-9][A-Za-z0-9:._-]*$ ]] || die "Invalid migrations script: $migrations_script"
   fi
   [[ "$migrations_mode" == "auto" || "$migrations_mode" == "force" ]] || die "Invalid migrations mode: $migrations_mode"
+  [[ "$build_mode" == "auto" || "$build_mode" == "full" ]] || die "Invalid build mode: $build_mode"
   [[ "$sha" =~ ^[0-9a-f]{40}$ ]] || die "Invalid commit: $sha"
   [[ "$server_path" =~ ^/[A-Za-z0-9._/-]+$ && "$server_path" != *..* && "$server_path" != "/" ]] || die "Invalid serverPath: $server_path"
   [[ "$port" =~ ^[0-9]+$ ]] || die "Invalid port: $port"
@@ -170,6 +199,54 @@ main() {
   git -C "$repo_dir" cat-file -e "$sha^{commit}" 2>/dev/null || die "Commit $sha is not on GitHub. Push it first."
   git -C "$repo_dir" cat-file -e "$sha:websites/$site/.env.production" 2>/dev/null || die "websites/$site/.env.production is not in commit $sha."
 
+  local previous_sha="" previous_build=""
+  [[ -f "$state_dir/current.sha" ]] && previous_sha="$(tr -dc '0-9a-f' < "$state_dir/current.sha")"
+  if [[ -f "$state_dir/current" ]]; then
+    previous_build="$(cat "$state_dir/current")"
+    [[ -d "$previous_build" ]] || previous_build=""
+  fi
+  if [[ -n "$previous_sha" ]] && ! git -C "$repo_dir" cat-file -e "$previous_sha^{commit}" 2>/dev/null; then
+    warn "Previous deploy SHA ${previous_sha:0:8} is not in the bare repo; treating this as a full build"
+    previous_sha=""
+  fi
+
+  if [[ "$build_mode" != "full" && -n "$previous_sha" && "$previous_sha" == "$sha" ]]; then
+    log "$site is already deployed at ${sha:0:8}; nothing to do (pass -Full to rebuild)."
+    KEEP_BUILD=1
+    exit 0
+  fi
+
+  local need_deps=1 need_build=1
+  if [[ "$build_mode" == "full" ]]; then
+    log "Full build forced (-Full)"
+  elif [[ -z "$previous_sha" || -z "$previous_build" ]]; then
+    log "No reusable previous build; running full npm ci and build"
+  elif [[ ! -d "$previous_build/node_modules" ]]; then
+    log "Previous build has no node_modules; running full npm ci and build"
+  else
+    local prefix="websites/$site/" rel path
+    need_deps=0
+    need_build=0
+    while IFS= read -r path; do
+      [[ -n "$path" ]] || continue
+      rel="${path#"$prefix"}"
+      [[ "$rel" != "$path" ]] || continue
+      if path_needs_deps "$rel"; then
+        need_deps=1
+        need_build=1
+      elif path_needs_build "$rel"; then
+        need_build=1
+      fi
+    done < <(git -C "$repo_dir" diff --name-only "$previous_sha" "$sha" -- "websites/$site")
+    if [[ $need_deps -eq 1 ]]; then
+      log "Dependencies changed since ${previous_sha:0:8}; running npm ci and build"
+    elif [[ $need_build -eq 1 ]]; then
+      log "Build inputs changed since ${previous_sha:0:8}; reusing node_modules, running build"
+    else
+      log "No dependency or build-input changes since ${previous_sha:0:8}; reusing node_modules and dist"
+    fi
+  fi
+
   local build_dir
   build_dir="$builds_dir/$(date +%Y%m%d-%H%M%S)-${sha:0:8}"
   BUILD_DIR="$build_dir"
@@ -187,19 +264,46 @@ main() {
     die ".env.production sets PORT=$env_port but deploy.json port is $port."
   fi
 
-  log "Installing dependencies (npm ci)"
-  (cd "$build_dir" && npm ci --include=dev --no-audit --no-fund) || die "npm ci failed."
-  log "Building (npm run build)"
-  (cd "$build_dir" && npm run build) || die "npm run build failed."
+  local ran_npm=0
+  if [[ $need_deps -eq 1 ]]; then
+    log "Installing dependencies (npm ci)"
+    (cd "$build_dir" && npm ci --include=dev --no-audit --no-fund) || die "npm ci failed."
+    ran_npm=1
+  else
+    log "Reusing node_modules from $(basename "$previous_build")"
+    copy_tree "$previous_build/node_modules" "$build_dir/node_modules" || die "Could not copy node_modules from previous build."
+  fi
+
+  if [[ $need_build -eq 1 ]]; then
+    if [[ $need_deps -eq 0 ]]; then
+      log "Restoring devDependencies for build (npm install --include=dev)"
+      (cd "$build_dir" && npm install --include=dev --no-audit --no-fund) || die "npm install --include=dev failed."
+      ran_npm=1
+    fi
+    log "Building (npm run build)"
+    (cd "$build_dir" && npm run build) || die "npm run build failed."
+  else
+    log "Reusing dist and compiled CSS from $(basename "$previous_build")"
+    if [[ -d "$previous_build/dist" ]]; then
+      copy_tree "$previous_build/dist" "$build_dir/dist" || die "Could not copy dist from previous build."
+    fi
+    if [[ -d "$previous_build/public/css" ]]; then
+      copy_tree "$previous_build/public/css" "$build_dir/public/css" || die "Could not copy public/css from previous build."
+    fi
+    if [[ -f "$previous_build/admin/public/css/admin.css" ]]; then
+      mkdir -p "$build_dir/admin/public/css"
+      cp -a "$previous_build/admin/public/css/admin.css" "$build_dir/admin/public/css/admin.css" \
+        || die "Could not copy admin.css from previous build."
+    fi
+  fi
 
   local db_backup="" migrations_ran=0
   if [[ "$migrations_script" != "-" ]]; then
-    local previous_sha="" migrations_needed=0
-    [[ -f "$state_dir/current.sha" ]] && previous_sha="$(tr -dc '0-9a-f' < "$state_dir/current.sha")"
+    local migrations_needed=0
     if [[ "$migrations_mode" == "force" ]]; then
       log "Migrations forced (-ForceMigrations)"
       migrations_needed=1
-    elif [[ -z "$previous_sha" ]] || ! git -C "$repo_dir" cat-file -e "$previous_sha^{commit}" 2>/dev/null; then
+    elif [[ -z "$previous_sha" ]]; then
       log "No earlier deploy of $site is recorded; running migrations"
       migrations_needed=1
     elif ! git -C "$repo_dir" diff --quiet "$previous_sha" "$sha" -- "websites/$site/$migrations_dir"; then
@@ -231,20 +335,21 @@ main() {
       mv "$db_backup.partial" "$db_backup"
       find "$state_dir/db-backups" -maxdepth 1 -name 'db-*.sql.gz' | sort -r | tail -n +$((KEEP_DB_BACKUPS + 1)) | xargs -r rm -f
 
+      if [[ $ran_npm -eq 0 ]]; then
+        log "Restoring devDependencies for migrations (npm install --include=dev)"
+        (cd "$build_dir" && npm install --include=dev --no-audit --no-fund) || die "npm install --include=dev failed."
+        ran_npm=1
+      fi
       log "Running npm run $migrations_script"
       (cd "$build_dir" && npm run "$migrations_script") || die "Migrations failed. The live site was not changed. Database backup from before the migrations: $db_backup"
       migrations_ran=1
     fi
   fi
 
-  (cd "$build_dir" && npm prune --omit=dev --no-audit --no-fund) || die "npm prune failed."
-  [[ -f "$build_dir/dist/src/server.js" ]] || die "Build did not produce dist/src/server.js."
-
-  local previous_build=""
-  if [[ -f "$state_dir/current" ]]; then
-    previous_build="$(cat "$state_dir/current")"
-    [[ -d "$previous_build" ]] || previous_build=""
+  if [[ $ran_npm -eq 1 ]]; then
+    (cd "$build_dir" && npm prune --omit=dev --no-audit --no-fund) || die "npm prune failed."
   fi
+  [[ -f "$build_dir/dist/src/server.js" ]] || die "Build did not produce dist/src/server.js."
 
   if [[ -f "$server_path/.env" ]] && ! cmp -s "$server_path/.env" "$build_dir/.env.production"; then
     local backup="$state_dir/env-backups/.env.$(date +%Y%m%d-%H%M%S)"

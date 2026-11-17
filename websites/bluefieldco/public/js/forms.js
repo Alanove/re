@@ -60,6 +60,22 @@
     }
   }
 
+  /** Resolves with a single-use spam-check token ('' when the captcha script is missing; the server then refuses). */
+  function getCaptchaToken(form) {
+    if (!window.SiteCaptcha) {
+      return Promise.resolve('');
+    }
+    return window.SiteCaptcha.getToken(form);
+  }
+
+  function prepareCaptcha(form) {
+    form.setAttribute('data-captcha', getFormType(form));
+    form.setAttribute('data-captcha-mode', 'manual');
+    if (window.SiteCaptcha) {
+      window.SiteCaptcha.init(form.parentNode || document);
+    }
+  }
+
   function collectContactPayload(form) {
     var get = function (name) {
       var el = form.querySelector('[name="' + name + '"]');
@@ -113,11 +129,15 @@
 
     setSubmitting(form, true);
 
-    fetch('/api/forms/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify(payload)
-    })
+    getCaptchaToken(form)
+      .then(function (token) {
+        payload.captcha = token;
+        return fetch('/api/forms/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      })
       .then(function (res) {
         return res.json().then(function (data) {
           return { ok: res.ok, data: data };
@@ -162,11 +182,15 @@
 
     setSubmitting(form, true);
 
-    fetch('/api/forms/careers', {
-      method: 'POST',
-      body: formData,
-      headers: { Accept: 'application/json' }
-    })
+    getCaptchaToken(form)
+      .then(function (token) {
+        formData.set('captcha', token);
+        return fetch('/api/forms/careers', {
+          method: 'POST',
+          body: formData,
+          headers: { Accept: 'application/json' }
+        });
+      })
       .then(function (res) {
         return res.json().then(function (data) {
           return { ok: res.ok, data: data };
@@ -261,6 +285,7 @@
       }
       form.setAttribute('action', 'javascript:void(0)');
       form.setAttribute('method', 'post');
+      prepareCaptcha(form);
       if (form.closest('#submit_your_inquiry')) {
         setInquiryTabOrder(form);
       }

@@ -10,7 +10,7 @@ import emailService from '../services/emailService';
 import * as crypto from 'crypto';
 import encryptionService from '../services/encryptionService';
 import { envConfig } from '../config/env.config';
-import { verifyTurnstileToken } from '../utils/turnstile';
+import { getTurnstileSiteKey, verifyTurnstileToken } from '../utils/turnstile';
 import { getDataFilePath } from '../constants/data-paths';
 import * as fs from 'fs';
 import { trackShipmentsJson } from '../aramex';
@@ -21,7 +21,7 @@ const shipmentService = OrderShipmentService.getInstance();
 const siteSettingsService = SiteSettingsService.getInstance();
 
 // Turnstile always shown on login/register in dev (Cloudflare test key when env not set)
-const authTurnstileSiteKey = envConfig.turnstileSiteKey ?? (envConfig.nodeEnv !== 'production' ? '1x00000000000000000000AA' : undefined);
+const authTurnstileSiteKey = getTurnstileSiteKey();
 
 export class CustomerController {
   /**
@@ -482,7 +482,8 @@ export class CustomerController {
       res.render('customer/forgot-password', {
         title: typeof t !== 'undefined' ? t('ecommerce.customer.forgotPassword') : 'Forgot Password',
         siteTitle,
-        t
+        t,
+        turnstileSiteKey: authTurnstileSiteKey
       });
     } catch (error) {
       console.error('Error rendering forgot password page:', error);
@@ -495,7 +496,19 @@ export class CustomerController {
    */
   public static async forgotPassword(req: Request, res: Response): Promise<void> {
     try {
-      const { email } = req.body;
+      const { email, cf_turnstile_response } = req.body;
+
+      if (envConfig.turnstileSecretKey && !cf_turnstile_response) {
+        res.status(400).json({ error: 'Please complete the security verification' });
+        return;
+      }
+      if (envConfig.turnstileSecretKey && cf_turnstile_response) {
+        const valid = await verifyTurnstileToken(cf_turnstile_response, req.ip || (req.socket as any)?.remoteAddress);
+        if (!valid) {
+          res.status(400).json({ error: 'Security verification failed. Please try again.' });
+          return;
+        }
+      }
 
       if (!email) {
         res.status(400).json({ error: 'Email is required' });
@@ -638,15 +651,13 @@ export class CustomerController {
    */
   public static async login(req: Request, res: Response): Promise<void> {
     try {
-      const { email, password, cf_turnstile_response, skip_turnstile } = req.body;
+      const { email, password, cf_turnstile_response } = req.body;
 
-      // Skip turnstile only for in-page login (e.g. header dropdown on cart/shop) when explicitly requested
-      const requireTurnstile = envConfig.turnstileSecretKey && !skip_turnstile;
-      if (requireTurnstile && !cf_turnstile_response) {
+      if (envConfig.turnstileSecretKey && !cf_turnstile_response) {
         res.status(400).json({ error: 'Please complete the security verification' });
         return;
       }
-      if (requireTurnstile && cf_turnstile_response) {
+      if (envConfig.turnstileSecretKey && cf_turnstile_response) {
         const valid = await verifyTurnstileToken(cf_turnstile_response, req.ip || (req.socket as any)?.remoteAddress);
         if (!valid) {
           res.status(400).json({ error: 'Security verification failed. Please try again.' });

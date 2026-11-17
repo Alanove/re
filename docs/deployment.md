@@ -19,10 +19,11 @@ If PowerShell blocks the script, run it as
 2. Connects over SSH and runs [scripts/deploy/deploy-site.sh](../scripts/deploy/deploy-site.sh) on the server as `www`. The script is sent each time, so nothing has to be updated on the server.
 3. On the server:
    - fetches the commit from GitHub into `/www/deploy/repo`
+   - compares the commit to the last successful deploy (`/www/deploy/state/<domain>/current.sha`). If they are the same, exits without rebuilding (use `-Full` to force a rebuild anyway)
    - extracts `websites/<domain>` into `/www/deploy/builds/<domain>/<time>-<sha>/`
-   - runs `npm ci` (Linux sharp binaries come from the lockfile) and `npm run build` there
+   - installs and builds only what changed since the last deploy (see "Incremental server build" below)
    - for sites with `migrations` in `deploy.json`: backs up the database and runs pending migrations when needed (see "Database migrations" below)
-   - runs `npm prune --omit=dev`; the live site is not touched until all of this succeeds
+   - runs `npm prune --omit=dev` when install or build ran; the live site is not touched until all of this succeeds
 4. Copies the build into the site folder (`serverPath`):
    - **Code**, including `dist`, `src`, `views`, `admin`, `public` (except uploads), `node_modules` and `package*.json`, is mirrored exactly. Old files are removed.
    - **`data/`, `content/`, `public/uploads/`**: new files from git are added, but files that already exist on the server are never overwritten or deleted. Admin edits made on the live site are kept. To overwrite them on purpose, see "Intentionally overwriting live data" below.
@@ -58,9 +59,23 @@ By default the server's `data/` and `content/` win. To push the committed versio
 .\scripts\deploy\deploy.ps1 -Site thronetrading.com -Ref 1a2b3c4d
 ```
 
-The commit must already be on `origin/main`. Local build checks are skipped for `-Ref`, because that commit is not checked out on the laptop. The server still builds it from scratch. Deploy history is in `/www/deploy/state/<domain>/history.log`.
+The commit must already be on `origin/main`. Local build checks are skipped for `-Ref`, because that commit is not checked out on the laptop. The server still uses the incremental install/build rules against that commit. Deploy history is in `/www/deploy/state/<domain>/history.log`.
 
-Other options: `-SkipChecks` skips the local typecheck, lint and build. `-Yes` skips the confirmation prompt. `-ForceMigrations` runs the site's migrations even when its migrations folder did not change.
+Other options: `-SkipChecks` skips the local typecheck, lint and build. `-Yes` skips the confirmation prompt. `-ForceMigrations` runs the site's migrations even when its migrations folder did not change. `-Full` forces a cold `npm ci` and `npm run build` on the server (and rebuilds even when the site is already at that commit).
+
+## Incremental server build
+
+The server reuses the previous build under `/www/deploy/builds/<domain>/` when it can, so most deploys avoid a full dependency install and a full rsync of `node_modules`:
+
+| Change since last deploy | Server action |
+| --- | --- |
+| Same commit as `current.sha` | No-op (unless `-Full`) |
+| `package.json`, `package-lock.json` or `.npmrc` | `npm ci --include=dev`, then `npm run build`, then prune |
+| `src/`, `scripts/`, `public/scss/`, any `.scss`, or `tsconfig*.json` (deps unchanged) | Copy previous `node_modules`, `npm install --include=dev`, `npm run build`, then prune |
+| Views, static assets, committed bundles, `data/`, `content/`, `.env.production`, etc. | Copy previous `node_modules`, `dist/` and compiled CSS; skip npm install and build |
+| No previous build, previous build missing `node_modules`, or `-Full` | Full `npm ci` and `npm run build` as before |
+
+Linux sharp binaries still come from the lockfile when `npm ci` runs. Template-only and content-only deploys keep previous `node_modules` mtimes, so syncing into the live site stays cheap.
 
 ## Database migrations
 
@@ -100,7 +115,7 @@ Options:
 .\scripts\deploy\deploy-all.ps1 -SkipChecks
 ```
 
-`-Ref`, `-OverwriteData` and `-DataFiles` are not available for deploy-all; use `deploy.ps1` for the one site that needs them. Never deploy several sites by looping `deploy.ps1` by hand.
+`-Ref`, `-OverwriteData`, `-DataFiles` and `-Full` are not available for deploy-all; use `deploy.ps1` for the one site that needs them. Never deploy several sites by looping `deploy.ps1` by hand.
 
 ## Per-site settings: `websites/<domain>/deploy.json`
 

@@ -22,7 +22,7 @@
 				<h2 class="form-panel__title">Tell us how you would like to give</h2>
 				<p class="form-panel__intro">Fill in your pledge and our team will contact you to arrange the donation. No payment is taken online.</p>
 
-				<form class="contact-form donation-form" id="donation-form" method="POST" action="/donate" novalidate data-contact-form data-donation-form>
+				<form class="contact-form donation-form" id="donation-form" method="POST" action="/donate" novalidate data-contact-form data-donation-form data-captcha="donate">
 					<div class="form-status<%= form.sent ? ' is-success' : (form.message ? ' is-error' : '') %>" role="status" aria-live="polite" data-form-status<%= form.sent || form.message ? '' : ' hidden' %>>
 						<%= form.sent ? donation.thankYouMessage : form.message %>
 					</div>
@@ -92,6 +92,7 @@
 							<input id="df-website" name="website" type="text" tabindex="-1" autocomplete="off" />
 						</div>
 					</div>
+					<%- include('partials/captcha', { captchaId: 'df-captcha', captchaError: e.captcha || '' }) %>
 					<button class="btn btn--donate btn--block btn--caps" type="submit" data-submit-label="Send my pledge">Send my pledge</button>
 				</form>
 			</div>

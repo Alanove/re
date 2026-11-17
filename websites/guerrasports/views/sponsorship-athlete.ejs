@@ -239,11 +239,40 @@
                             </div>
                         </section>
 
+                        <% if (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) { %>
+                        <div class="form-group mt-3 turnstile-wrapper" style="min-height: 65px;">
+                            <div class="cf-turnstile" data-sitekey="<%= turnstileSiteKey %>" data-callback="onSponsorshipAthleteTurnstileSuccess" data-error-callback="onSponsorshipAthleteTurnstileError" data-expired-callback="onSponsorshipAthleteTurnstileExpired"></div>
+                            <div id="sponsorship-athlete-turnstile-error" class="alert alert-danger small mt-2 py-2" style="display: none;">Please complete the security verification.</div>
+                        </div>
+                        <% } %>
                         <div class="mt-4">
-                            <button class="btn btn-primary py-2 px-4" type="submit">Submit</button>
+                            <button class="btn btn-primary py-2 px-4" type="submit" id="sponsorshipAthleteSubmit" <%= (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) ? 'disabled' : '' %>>Submit</button>
                         </div>
                     </form>
+                    <% if (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) { %>
+                    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+                    <% } %>
                     <script>
+                        <% if (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) { %>
+                        window.onSponsorshipAthleteTurnstileSuccess = function() {
+                            var btn = document.getElementById('sponsorshipAthleteSubmit');
+                            if (btn) btn.disabled = false;
+                            var err = document.getElementById('sponsorship-athlete-turnstile-error');
+                            if (err) err.style.display = 'none';
+                        };
+                        window.onSponsorshipAthleteTurnstileError = function() {
+                            var btn = document.getElementById('sponsorshipAthleteSubmit');
+                            if (btn) btn.disabled = true;
+                            var err = document.getElementById('sponsorship-athlete-turnstile-error');
+                            if (err) err.style.display = 'block';
+                        };
+                        window.onSponsorshipAthleteTurnstileExpired = function() {
+                            var btn = document.getElementById('sponsorshipAthleteSubmit');
+                            if (btn) btn.disabled = true;
+                            var err = document.getElementById('sponsorship-athlete-turnstile-error');
+                            if (err) err.style.display = 'block';
+                        };
+                        <% } %>
                         document.addEventListener('DOMContentLoaded', function() {
                             var form = document.getElementById('sponsorshipFormAthlete');
                             if (form) {

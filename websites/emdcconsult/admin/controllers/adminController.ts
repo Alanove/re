@@ -2,9 +2,11 @@ import { Request, Response } from 'express';
 import { AdminMenuService } from '../services/adminMenuService';
 import { usersService } from '../services/usersService';
 import { SiteSettingsService } from '../services/siteSettingsService';
+import { CAPTCHA_FAILED_MESSAGE, CaptchaService } from '../../src/services/captchaService';
 
 const menuService = AdminMenuService.getInstance();
 const siteSettingsService = SiteSettingsService.getInstance();
+const captchaService = CaptchaService.getInstance();
 
 export class AdminController {
   /**
@@ -42,6 +44,15 @@ export class AdminController {
           title: 'Admin Login',
           siteTitle: siteTitle,
           error: 'Email and password are required.',
+          layout: false
+        });
+      }
+
+      if (!captchaService.isValid(req.body.captcha, 'admin-login', req.ip ?? '')) {
+        return res.render('auth/login', {
+          title: 'Admin Login',
+          siteTitle: siteSettingsService.getSiteTitle(),
+          error: CAPTCHA_FAILED_MESSAGE,
           layout: false
         });
       }

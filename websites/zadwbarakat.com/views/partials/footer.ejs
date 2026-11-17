@@ -19,11 +19,12 @@
 				<h2 id="newsletter-title"><%= newsletterTitle %></h2>
 				<p><%= newsletterText %></p>
 			</div>
-			<form class="newsletter-form" method="post" action="/newsletter" data-newsletter-form>
+			<form class="newsletter-form" method="post" action="/newsletter" data-newsletter-form data-captcha="newsletter" data-captcha-start="interact">
 				<label class="visually-hidden" for="newsletter-email">البريد الإلكتروني</label>
 				<input id="newsletter-email" name="email" type="email" required maxlength="200" autocomplete="email" placeholder="بريدك الإلكتروني" dir="ltr" />
 				<span class="hp-field" aria-hidden="true"><label for="newsletter-website">الموقع</label><input id="newsletter-website" name="website" type="text" tabindex="-1" autocomplete="off" /></span>
 				<button class="btn btn--accent" type="submit">اشترك</button>
+				<%- include('captcha', { captchaId: 'newsletter-captcha', captchaClass: 'site-captcha--on-dark' }) %>
 				<p class="newsletter-form__status" role="status" data-newsletter-status></p>
 			</form>
 		</div>

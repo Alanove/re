@@ -11,6 +11,8 @@ const envSchema = z.object({
   PORT: z.coerce.number().int().min(1).max(65535).optional(),
   PUBLIC_BASE_URL: z.url().optional(),
   SESSION_SECRET: z.string().min(32, 'SESSION_SECRET must be at least 32 characters'),
+  CAPTCHA_SECRET: z.string().min(32, 'CAPTCHA_SECRET must be at least 32 characters'),
+  CAPTCHA_DIFFICULTY: z.coerce.number().int().min(1_000).max(10_000_000).default(100_000),
   TRUST_PROXY: z.coerce.number().int().min(0).max(10).default(0),
   SMTP_HOST: z.string().optional().default(''),
   SMTP_PORT: z.coerce.number().int().min(1).max(65535).default(587),

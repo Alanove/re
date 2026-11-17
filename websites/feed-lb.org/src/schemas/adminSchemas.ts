@@ -24,10 +24,12 @@ import {
   rows,
   videoPath
 } from './formHelpers.js';
+import { captchaField } from './captchaSchemas.js';
 
 export const loginSchema = z.object({
   email: z.string().trim().toLowerCase().pipe(z.email('Enter a valid email address')),
-  password: z.string().min(1, 'Password is required').max(200)
+  password: z.string().min(1, 'Password is required').max(200),
+  captcha: captchaField
 });
 
 export const idParamSchema = z.object({ id: z.coerce.number().int().positive() });
