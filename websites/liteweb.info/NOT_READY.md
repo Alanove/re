@@ -5,7 +5,7 @@ This site was imported from its own repository and has not been brought up to th
 - [ ] Move to the shared TypeScript CMS layout (`src/`, `admin/`, `views/`, `tsconfig.json`); it is currently a plain Node site
 - [x] `deploy.json` created (server folder, aaPanel project)
 - [ ] Set `port` in `deploy.json` (the deploy stops while it is `null`)
-- [ ] Build output must include `dist/src/server.js` (the server deploy checks for it and aaPanel runs `npm start`); this site currently starts from `scripts/server.js`
+- [ ] Build entry must be `dist/src/server.js` or `dist/src/app.js` (deploy checks for either; aaPanel runs `npm start`); this site currently starts from `scripts/server.js`
 - [ ] Committed `.env` and `.env.production` (`NODE_ENV=production`, `PORT` matching `deploy.json`)
 - [ ] `transform.config.json`
 - [ ] `typecheck` and `lint` npm scripts; `npm run typecheck`, `npm run lint` and `npm run build` pass

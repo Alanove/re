@@ -237,7 +237,7 @@ Run these as root, or as a user with sudo.
    On GitHub, open the repository, go to Settings > Deploy keys > Add deploy key, paste the public key and leave write access off. The first deploy clones the repo into `/www/deploy/repo` by itself.
 4. **aaPanel Node Project, for each site**:
    - **Project folder**: the site's `serverPath`. Make sure `www` owns it: `chown -R www:www /www/wwwroot/<domain>`.
-   - **Start command**: `npm start` (runs `node dist/src/server.js`).
+   - **Start command**: `npm start` (typically `node dist/src/server.js`, or `node dist/src/app.js` on older sites). The deploy accepts either build entry.
    - **Port**: the same as `deploy.json`.
    - **Run user**: `www`.
    - **Node version**: 22.12 or newer (the server's v22.20.0 is fine; 24 LTS also works). Older versions fail during `npm run build` because the current `sass` and `eslint` releases need them.

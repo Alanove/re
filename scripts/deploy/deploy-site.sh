@@ -349,7 +349,13 @@ main() {
   if [[ $ran_npm -eq 1 ]]; then
     (cd "$build_dir" && npm prune --omit=dev --no-audit --no-fund) || die "npm prune failed."
   fi
-  [[ -f "$build_dir/dist/src/server.js" ]] || die "Build did not produce dist/src/server.js."
+  if [[ -f "$build_dir/dist/src/server.js" ]]; then
+    log "Build entry: dist/src/server.js"
+  elif [[ -f "$build_dir/dist/src/app.js" ]]; then
+    log "Build entry: dist/src/app.js"
+  else
+    die "Build did not produce dist/src/server.js or dist/src/app.js."
+  fi
 
   if [[ -f "$server_path/.env" ]] && ! cmp -s "$server_path/.env" "$build_dir/.env.production"; then
     local backup="$state_dir/env-backups/.env.$(date +%Y%m%d-%H%M%S)"
