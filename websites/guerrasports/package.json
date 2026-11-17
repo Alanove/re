@@ -4,6 +4,8 @@
   "description": "TypeScript Node.js CMS Project",
   "main": "dist/src/app.js",
   "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit",
     "build": "tsc && npm run js:minify",
     "start": "node dist/src/app.js",
     "dev": "cross-env NODE_ENV=development ts-node-dev --respawn --transpile-only src/app.ts",
