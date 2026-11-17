@@ -369,6 +369,7 @@ main() {
   local -a excludes=(
     --exclude=/.env --exclude='/.env.*' --exclude=/deploy.json
     --exclude=/data/ --exclude=/content/ --exclude=/public/uploads/
+    --exclude=/public/images/ --exclude=/public/pages/
     --exclude=/node_modules/
     --exclude=/logs/ --exclude=/.user.ini --exclude=/.htaccess --exclude=/.well-known/
   )
@@ -442,7 +443,7 @@ main() {
   sync_build() {
     local source="$1" with_overwrite="$2" force_npm="${3:-no}" dir
     rsync -a --delete "${excludes[@]}" "$source/" "$server_path/" || return 1
-    for dir in data content public/uploads; do
+    for dir in data content public/uploads public/images public/pages; do
       if [[ -d "$source/$dir" ]]; then
         mkdir -p "$server_path/$dir" || return 1
         rsync -a --ignore-existing "$source/$dir/" "$server_path/$dir/" || return 1

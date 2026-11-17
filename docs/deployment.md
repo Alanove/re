@@ -26,7 +26,7 @@ If PowerShell blocks the script, run it as
    - runs `npm prune --omit=dev` in the build folder when install or build ran; the live site is not touched until all of this succeeds
 4. Copies the build into the site folder (`serverPath`):
    - **Code**, including `dist`, `src`, `views`, `admin`, `public` (except uploads) and `package*.json`, is mirrored exactly. Old files are removed. **`node_modules` is not copied** (that was the slow step); the server runs `npm ci --omit=dev` in `serverPath` using the shared npm cache when the lockfile changed or modules are missing.
-   - **`data/`, `content/`, `public/uploads/`**: new files from git are added, but files that already exist on the server are never overwritten or deleted. Admin edits made on the live site are kept. To overwrite them on purpose, see "Intentionally overwriting live data" below.
+   - **`data/`, `content/`, `public/uploads/`, `public/images/`, `public/pages/`**: new files from git are added, but files that already exist on the server are never overwritten or deleted. Admin uploads and live media under these trees are kept. To overwrite `data/`/`content/` on purpose, see "Intentionally overwriting live data" below.
    - **`.env`** is written from the commit's `.env.production` with mode 600. If the server `.env` was different, the old copy is saved in `/www/deploy/state/<domain>/env-backups/`.
    - **Never touched**: `deploy.json`, `logs/`, `.user.ini`, `.htaccess`, `.well-known/` and anything listed in `protect`.
 5. Stops the running process from aaPanel's PID file and starts it again with aaPanel's own start script, so the panel still shows the right status.
@@ -46,7 +46,7 @@ By default the server's `data/` and `content/` win. To push the committed versio
 ```
 
 - **Confirmation:** the summary shows the files in yellow, and you get a second `y`/`n` question after the deploy confirmation. `-Yes` skips both prompts.
-- **What's never overwritten:** `data/users.json` and `data/submissions.json` are not in git, so they are never touched. `public/uploads/` is never overwritten or cleaned either. Server data files that are not in git are kept.
+- **What's never overwritten:** `data/users.json` and `data/submissions.json` are not in git, so they are never touched. `public/uploads/`, `public/images/` and `public/pages/` are never overwritten or cleaned either. Server data files that are not in git are kept.
 - **Backup:** the server's `data/` and `content/` are saved to `/www/deploy/state/<domain>/data-backups/data-<time>.tar.gz` before anything changes. The last 10 backups are kept.
 - **Logging:** each file that actually changed is listed in the deploy output.
 - **On failure:** if the deploy fails (build, health check or media check), the backup is restored before the previous build goes back online.
