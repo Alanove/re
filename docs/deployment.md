@@ -23,9 +23,9 @@ If PowerShell blocks the script, run it as
    - extracts `websites/<domain>` into `/www/deploy/builds/<domain>/<time>-<sha>/`
    - installs and builds only what changed since the last deploy (see "Incremental server build" below)
    - for sites with `migrations` in `deploy.json`: backs up the database and runs pending migrations when needed (see "Database migrations" below)
-   - runs `npm prune --omit=dev` when install or build ran; the live site is not touched until all of this succeeds
+   - runs `npm prune --omit=dev` in the build folder when install or build ran; the live site is not touched until all of this succeeds
 4. Copies the build into the site folder (`serverPath`):
-   - **Code**, including `dist`, `src`, `views`, `admin`, `public` (except uploads), `node_modules` and `package*.json`, is mirrored exactly. Old files are removed.
+   - **Code**, including `dist`, `src`, `views`, `admin`, `public` (except uploads) and `package*.json`, is mirrored exactly. Old files are removed. **`node_modules` is not copied** (that was the slow step); the server runs `npm ci --omit=dev` in `serverPath` using the shared npm cache when the lockfile changed or modules are missing.
    - **`data/`, `content/`, `public/uploads/`**: new files from git are added, but files that already exist on the server are never overwritten or deleted. Admin edits made on the live site are kept. To overwrite them on purpose, see "Intentionally overwriting live data" below.
    - **`.env`** is written from the commit's `.env.production` with mode 600. If the server `.env` was different, the old copy is saved in `/www/deploy/state/<domain>/env-backups/`.
    - **Never touched**: `deploy.json`, `logs/`, `.user.ini`, `.htaccess`, `.well-known/` and anything listed in `protect`.
@@ -75,7 +75,7 @@ The server reuses the previous build under `/www/deploy/builds/<domain>/` when i
 | Views, static assets, committed bundles, `data/`, `content/`, `.env.production`, etc. | Copy previous `node_modules`, `dist/` and compiled CSS; skip npm install and build |
 | No previous build, previous build missing `node_modules`, or `-Full` | Full `npm ci` and `npm run build` as before |
 
-Linux sharp binaries still come from the lockfile when `npm ci` runs. Template-only and content-only deploys keep previous `node_modules` mtimes, so syncing into the live site stays cheap.
+Linux sharp binaries still come from the lockfile when `npm ci` runs. The build folder still installs deps for compile/migrations; the live site gets its own production `npm ci` on the server (fast registry + cache) instead of a multi-minute local rsync of `node_modules`. Template-only deploys skip that live install when `package-lock.json` is unchanged.
 
 ## Database migrations
 

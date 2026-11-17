@@ -312,6 +312,10 @@ if ($identityFile) { $sshArgs += @('-i', [Environment]::ExpandEnvironmentVariabl
 $sshArgs += @("$sshUser@$sshHost", $remoteCommand)
 
 $scriptText = (Get-Content -Raw (Join-Path $PSScriptRoot 'deploy-site.sh')) -replace "`r`n", "`n"
+# Strip a UTF-8 BOM so bash -s does not treat the shebang as a command name.
+if ($scriptText.Length -gt 0 -and [int][char]$scriptText[0] -eq 0xFEFF) {
+  $scriptText = $scriptText.Substring(1)
+}
 $OutputEncoding = New-Object System.Text.UTF8Encoding $false
 
 Step "Deploying $Site to $sshHost"

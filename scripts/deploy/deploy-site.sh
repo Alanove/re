@@ -151,6 +151,9 @@ main() {
   umask 022
   local repo_dir="$DEPLOY_ROOT/repo" builds_dir="$DEPLOY_ROOT/builds/$site" state_dir="$DEPLOY_ROOT/state/$site"
   mkdir -p "$builds_dir" "$state_dir/env-backups" "$state_dir/data-backups" "$state_dir/db-backups" "$DEPLOY_ROOT/.npm"
+  # SSH often starts in the login user's home, which www cannot access; find(1) then fails
+  # restoring cwd after walking db-backups. Work from the deploy root instead.
+  cd "$DEPLOY_ROOT" || die "Cannot cd to $DEPLOY_ROOT"
 
   exec 9>"$state_dir/deploy.lock"
   flock -n 9 || die "Another deploy of $site is already running."
@@ -366,6 +369,7 @@ main() {
   local -a excludes=(
     --exclude=/.env --exclude='/.env.*' --exclude=/deploy.json
     --exclude=/data/ --exclude=/content/ --exclude=/public/uploads/
+    --exclude=/node_modules/
     --exclude=/logs/ --exclude=/.user.ini --exclude=/.htaccess --exclude=/.well-known/
   )
   local item
@@ -419,8 +423,24 @@ main() {
     tar -xzf "$data_backup" -C "$server_path"
   }
 
+  # Install production deps in the live site folder (server npm cache / registry),
+  # instead of rsyncing node_modules from the build dir (very slow on disk).
+  sync_live_node_modules() {
+    local source="$1" force_install="$2"
+    local live_lock="$server_path/package-lock.json" src_lock="$source/package-lock.json"
+    if [[ "$force_install" != "yes" && $need_deps -eq 0 \
+        && -d "$server_path/node_modules" \
+        && -f "$live_lock" && -f "$src_lock" ]] \
+      && cmp -s "$live_lock" "$src_lock"; then
+      log "Live node_modules already matches package-lock.json; skipping npm ci"
+      return 0
+    fi
+    log "Installing production dependencies in $server_path (npm ci --omit=dev)"
+    (cd "$server_path" && npm ci --omit=dev --no-audit --no-fund) || return 1
+  }
+
   sync_build() {
-    local source="$1" with_overwrite="$2" dir
+    local source="$1" with_overwrite="$2" force_npm="${3:-no}" dir
     rsync -a --delete "${excludes[@]}" "$source/" "$server_path/" || return 1
     for dir in data content public/uploads; do
       if [[ -d "$source/$dir" ]]; then
@@ -432,6 +452,7 @@ main() {
       overwrite_data "$source" || return 1
     fi
     install -m 600 "$source/.env.production" "$server_path/.env" || return 1
+    sync_live_node_modules "$source" "$force_npm" || return 1
   }
 
   stop_site() {
@@ -495,9 +516,9 @@ main() {
     (cd "$server_path" && npm run --silent media:check:prod) || return 1
   }
 
-  log "Syncing build into $server_path"
+  log "Syncing build into $server_path (code only; node_modules installed on the live path)"
   local failed=0
-  sync_build "$build_dir" yes || failed=1
+  sync_build "$build_dir" yes no || failed=1
   if [[ $failed -eq 0 ]]; then
     restart_site || failed=1
   fi
@@ -517,7 +538,7 @@ main() {
       die "Deploy of $site failed and there is no previous build to roll back to. Check the aaPanel project log."
     fi
     warn "Deploy failed; rolling back to $previous_build"
-    if restore_data && sync_build "$previous_build" no && restart_site && site_healthy; then
+    if restore_data && sync_build "$previous_build" no yes && restart_site && site_healthy; then
       die "Deploy of ${sha:0:8} failed. $site was rolled back to $(basename "$previous_build")."
     fi
     die "Deploy failed AND rollback failed. $site may be down; check the aaPanel project log."
