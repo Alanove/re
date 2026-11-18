@@ -66,6 +66,13 @@
   font-size: 14px;
   line-height: 22px;
 }
+/* The list footer keeps a 50% column for a price. These cards have no price, so that empty column left Read more in the middle. */
+.stm-products-main.list .stm-product-item__content .meta-bottom {
+  justify-content: flex-start;
+}
+.stm-products-main.list .stm-product-item__content .meta-bottom .stm-product-item__price:empty {
+  display: none;
+}
 @media (max-width: 767px) {
   .stm-products-main .stm-product-item__image,
   .stm-products-main.grid .stm-product-item__image {
