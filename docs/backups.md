@@ -65,6 +65,21 @@ To avoid overwriting newer live files, extract to a staging directory first, the
 
 Database restore is separate: use a dump from `/www/backup/database/` (or the matching folder on Drive), not the site tar.
 
+## JSON save copies (`data-backups/`)
+
+Sites that use the shared [`packages/json-backup`](../packages/json-backup) package keep dated copies of each JSON file under that site's `data-backups/` folder (next to `data/`, not inside it). On every admin save that changes a file, the previous bytes are written into `daily/`, and on Sunday / the 1st / quarter starts also into `weekly/`, `monthly/` and `quarterly/`. Retention is 7 / 8 / 12 / 8. A period that already has a snapshot is left alone.
+
+Only **solutec-lb.com** uses the package so far. To add it to another site, follow [`packages/json-backup/INSTALL.md`](../packages/json-backup/INSTALL.md) (build into `src/vendor/json-backup/`, switch that site's JSON writes, gitignore `data-backups/`, add `data-backups` to `deploy.json` `protect`).
+
+Restore one file from a snapshot (example on the server):
+
+```bash
+sudo -u www cp /www/wwwroot/solutec-lb.com/data-backups/pages.json/daily/2026-11-18.json \
+  /www/wwwroot/solutec-lb.com/data/pages.json
+```
+
+Then restart the site's aaPanel Node project. These copies live as the site user (`www`), so they protect against a bad save; they are not a substitute for the root-owned path tars above if the whole site tree is deleted.
+
 ## Related
 
 Deploy keeps live `public/images/` and `public/pages/` across deploys (see [deployment.md](deployment.md)). Path backups are the safety net when those trees are lost outside deploy (disk failure, accidental delete, etc.).

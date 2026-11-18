@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { DATA_PATHS } from '../../src/constants';
+import { writeJsonFileSync } from '../../src/vendor/json-backup/writeJsonFileSync';
 
 // Theme configuration interface
 export interface ThemeConfig {
@@ -83,7 +84,7 @@ export class ThemeService {
    */
   private saveTheme(config: ThemeConfig): void {
     try {
-      fs.writeFileSync(this.configFile, JSON.stringify(config, null, 2));
+      writeJsonFileSync(this.configFile, JSON.stringify(config, null, 2));
     } catch (error) {
       console.error('Error saving theme to file:', error);
     }

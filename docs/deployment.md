@@ -267,6 +267,44 @@ Run these as root, or as a user with sudo.
 
 `re-petroleum.com` has no `media:check:prod` script yet, so its deploy skips that check and prints a warning.
 
+## Pulling live data onto a laptop
+
+Deploy leaves the server's `data/`, `content/` and upload trees alone. To copy them onto this laptop (for example after the client edited the site online):
+
+```powershell
+.\scripts\deploy\pull-data.ps1 -Site solutec-lb.com
+```
+
+- Uses the same `deploy.local.json` SSH settings and the site's `deploy.json` (`serverPath`, `protect`) as deploy. It does not require a clean git tree and does not deploy.
+- Downloads, when they exist on the server: `data/`, `content/`, `public/uploads/`, `public/images/`, `public/pages/`, and every path in `protect` except `data-backups`.
+- Omits `data/users.json` and `data/submissions.json` (password hashes and form submissions). Pass `-IncludePrivate` to keep them.
+- Overwrites matching files under `websites/<domain>/`. Files that exist only on the laptop are left alone. Nothing is committed.
+- `-Yes` skips the confirmation prompt.
+
+If PowerShell blocks the script, run it as
+`powershell -ExecutionPolicy Bypass -File scripts\deploy\pull-data.ps1 -Site solutec-lb.com`.
+
+## Pushing local data to the server
+
+To upload laptop `data/` / `content/` (for example after a pull and local edits) without a full deploy:
+
+```powershell
+# Everything under data/ and content/, except users.json and submissions.json
+.\scripts\deploy\push-data.ps1 -Site solutec-lb.com
+
+# Only the listed files (bare names are taken from data/)
+.\scripts\deploy\push-data.ps1 -Site solutec-lb.com -DataFiles pages.json,products.json,news.json
+```
+
+- Uses the same SSH settings and `deploy.json` as deploy and pull. Does not require a clean git tree and does not deploy code or media.
+- Default set matches a non-private pull: local `data/` and `content/` files, skipping `users.json`, `submissions.json` and `*.bak`.
+- `-DataFiles` limits the upload to specific paths under `data/` or `content/`. Those private files still need `-IncludePrivate`.
+- Backs up the server's current `data/` and `content/` to `/www/deploy/state/<domain>/data-backups/push-data-<time>.tar.gz` before overwriting.
+- Does not upload `public/uploads`, images, pages or other media. Does not restart the site; restart the aaPanel Node project if the process caches JSON.
+- `-Yes` skips the confirmation prompt.
+
+This is separate from deploy's `-OverwriteData` / `-DataFiles`, which only push **committed** files as part of a deploy. `push-data.ps1` uploads whatever is on disk under `websites/<domain>/` right now.
+
 ## Server path backups
 
-Live files under `/www/wwwroot` are backed up **per site** (not one giant wwwroot tar). See [backups.md](backups.md) for the daily script, restore steps, and why the old `path_wwwroot` aaPanel job stays off.
+Live files under `/www/wwwroot` are backed up **per site** (not one giant wwwroot tar). See [backups.md](backups.md) for the daily script, restore steps, and why the old `path_wwwroot` aaPanel job stays off. Admin JSON saves on sites that use the shared package also keep dated copies under that site's `data-backups/` folder; see [backups.md](backups.md#json-save-copies-data-backups).

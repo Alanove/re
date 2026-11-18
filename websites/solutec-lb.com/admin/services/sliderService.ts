@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { DATA_PATHS } from '../../src/constants/data-paths';
+import { writeJsonFileSync } from '../../src/vendor/json-backup/writeJsonFileSync';
 
 export interface Slide {
   id: string;
@@ -61,7 +62,7 @@ export class SliderService {
    */
   private saveData(): void {
     try {
-      fs.writeFileSync(DATA_PATHS.SLIDER_FILE, JSON.stringify(this.data, null, 2));
+      writeJsonFileSync(DATA_PATHS.SLIDER_FILE, JSON.stringify(this.data, null, 2));
     } catch (error) {
       console.error('Error saving slider data:', error);
       throw new Error('Failed to save slider data');

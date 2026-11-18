@@ -1,3 +1,17 @@
+/* Sampled from public/uploads/2018/07/Solutec-Logo.bmp (main #8890C0).
+   --color-primary is that blue deepened to 4.6:1 against white. */
+:root {
+  --color-primary: #6d739a;
+  --color-primary-dark: #525673;
+  --color-secondary: #8890c0;
+  --color-secondary-fixed: #dde0ed;
+  --color-on-surface: #303243;
+  --color-surface: #f4f5fa;
+  --color-surface-low: #e7e9f2;
+  --color-surface-high: #ffffff;
+  --color-white: #ffffff;
+}
+
 .solu-wrap { width: min(1140px, calc(100% - 32px)); margin: 24px auto 48px; }
 .solu-nav { background: #102a43; }
 .solu-nav ul { display: flex; flex-wrap: wrap; gap: 8px 18px; list-style: none; margin: 0 auto; padding: 12px 16px; width: min(1140px, 100%); }

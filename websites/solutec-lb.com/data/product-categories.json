@@ -116,6 +116,16 @@
       "image": "",
       "sort": 13,
       "showOnHome": false
+    },
+    {
+      "key": "consumables",
+      "name": "Consumables",
+      "slug": "consumables",
+      "description": "Consumables",
+      "image": "",
+      "sort": 14,
+      "showOnHome": false,
+      "status": "active"
     }
   ]
 }

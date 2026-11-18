@@ -1,7 +1,7 @@
 {
   "site": {
     "name": "Solutec",
-    "domain": "http://localhost:3030",
+    "domain": "https://solutec-lb.com/",
     "description": "POS SOLUTION PROVIDER",
     "logo": "/uploads/2018/07/Solutec-Logo.bmp",
     "favicon": "/uploads/2018/07/Solutec-Logo.bmp",
@@ -49,7 +49,7 @@
       "key": "about-us",
       "title": "About Us",
       "url": "/about-us",
-      "content": "<div class=\"elementor elementor-346\" data-elementor-type=\"wp-page\" data-elementor-id=\"346\"><div class=\"elementor-section-wrap\"><section class=\"elementor-section elementor-top-section elementor-element elementor-element-10b3474 elementor-section-boxed elementor-section-height-default\" data-id=\"10b3474\" data-element_type=\"section\"><div class=\"elementor-container elementor-column-gap-default\"><div class=\"elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-9f7d21a elementor-invisible\" data-id=\"9f7d21a\" data-element_type=\"column\" data-settings=\"{&quot;animation&quot;:&quot;fadeIn&quot;}\"><div class=\"elementor-widget-wrap elementor-element-populated\"><div class=\"elementor-element elementor-element-6b8b15c elementor-widget elementor-widget-image\" data-id=\"6b8b15c\" data-element_type=\"widget\" data-widget_type=\"image.default\"><div class=\"elementor-widget-container\"><img src=\"/uploads/2023/07/aboutus-scaled.jpg\" alt=\"About us\" /></div></div></div></div><div class=\"elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-988c61c elementor-invisible\" data-id=\"988c61c\" data-element_type=\"column\" data-settings=\"{&quot;animation&quot;:&quot;fadeIn&quot;,&quot;animation_delay&quot;:200}\"><div class=\"elementor-widget-wrap elementor-element-populated\"><div class=\"elementor-element elementor-element-7b75cff elementor-widget elementor-widget-heading\" data-id=\"7b75cff\" data-element_type=\"widget\" data-widget_type=\"heading.default\"><div class=\"elementor-widget-container\"><h2 class=\"elementor-heading-title elementor-size-default elementor-align-after-left elementor-align-after-tablet-left elementor-align-after-mobile-center\">Welcome</h2></div></div><div class=\"elementor-element elementor-element-9cdd897 elementor-widget elementor-widget-text-editor\" data-id=\"9cdd897\" data-element_type=\"widget\" data-widget_type=\"text-editor.default\"><div class=\"elementor-widget-container\"><p style=\"font-weight: 400;\">Founded in 2004, SOLUTEC sarl is offering the latest Technology in Point Of Sale (POS) Hardware, Auto-ID, CCTV surveillance &amp; ID Card printing. We have developed a wide experience in Retail and Hospitality market over the past years. We have established a strong relationship with dedicated Dealers/Distributors and Retail Software developers.</p><p style=\"font-weight: 400;\">Our objective is to create a reliable, viable and affordable Hardware solution provider and to have maximum satisfaction customer base in the market.<br />Besides excellent product quality and product innovation, we believe in and are committed to: Good Service, Warranty, and full customer Support.</p></div></div></div></div></div></section></div></div>",
+      "content": "<div class=\"elementor elementor-346\" data-elementor-type=\"wp-page\" data-elementor-id=\"346\"><div class=\"elementor-section-wrap\"><section class=\"elementor-section elementor-top-section elementor-element elementor-element-10b3474 elementor-section-boxed elementor-section-height-default\" data-id=\"10b3474\" data-element_type=\"section\"><div class=\"elementor-container elementor-column-gap-default\"><div class=\"elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-9f7d21a elementor-invisible\" data-id=\"9f7d21a\" data-element_type=\"column\" data-settings=\"{&quot;animation&quot;:&quot;fadeIn&quot;}\"><div class=\"elementor-widget-wrap elementor-element-populated\"><div class=\"elementor-element elementor-element-6b8b15c elementor-widget elementor-widget-image\" data-id=\"6b8b15c\" data-element_type=\"widget\" data-widget_type=\"image.default\"><div class=\"elementor-widget-container\"><img src=\"/uploads/2023/07/aboutus-scaled.jpg\" alt=\"About us\"></div></div></div></div><div class=\"elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-988c61c elementor-invisible\" data-id=\"988c61c\" data-element_type=\"column\" data-settings=\"{&quot;animation&quot;:&quot;fadeIn&quot;,&quot;animation_delay&quot;:200}\"><div class=\"elementor-widget-wrap elementor-element-populated\"><div class=\"elementor-element elementor-element-7b75cff elementor-widget elementor-widget-heading\" data-id=\"7b75cff\" data-element_type=\"widget\" data-widget_type=\"heading.default\"><div class=\"elementor-widget-container\"><h2 class=\"elementor-heading-title elementor-size-default elementor-align-after-left elementor-align-after-tablet-left elementor-align-after-mobile-center\">Welcome</h2></div></div><div class=\"elementor-element elementor-element-9cdd897 elementor-widget elementor-widget-text-editor\" data-id=\"9cdd897\" data-element_type=\"widget\" data-widget_type=\"text-editor.default\"><div class=\"elementor-widget-container\"><p style=\"font-weight: 400;\">Founded in 2004, SOLUTEC sarl is offering the latest Technology in Point Of Sale (POS) Hardware, Auto-ID, CCTV surveillance &amp; ID Card printing. We have developed a wide experience in Retail and Hospitality market over the past years. We have established a strong relationship with dedicated Dealers/Distributors and Retail Software developers.</p><p style=\"font-weight: 400;\">Our objective is to create a reliable, viable and affordable Hardware solution provider and to have maximum satisfaction customer base in the market.<br>Besides excellent product quality and product innovation, we believe in and are committed to: Good Service, Warranty, and full customer Support.</p></div></div></div></div></div></section></div></div>",
       "status": "published",
       "kind": "page",
       "parentKey": "",
@@ -61,7 +61,21 @@
         "pageKeywords": "Solutec, POS",
         "pageImage": "/uploads/2023/07/aboutus-scaled.jpg",
         "pageType": "website"
-      }
+      },
+      "includeInMenu": false,
+      "menuSort": 1000,
+      "logo": "",
+      "secondaryLogo": "",
+      "portalUrl": "",
+      "tagline": "",
+      "icon": "",
+      "helpPhone": "",
+      "helpFax": "",
+      "helpEmail": "",
+      "showInvestiaDisclaimer": false,
+      "carouselImages": [],
+      "brandColor": "#3d5896",
+      "lastUpdated": "2026-10-28T10:31:09.276Z"
     },
     "contact-us": {
       "key": "contact-us",

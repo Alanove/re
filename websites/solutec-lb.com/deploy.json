@@ -6,6 +6,7 @@
   "aapanelProject": "solutec",
   "restartCommand": null,
   "protect": [
+    "data-backups",
     "public/news",
     "public/downloads",
     "public/temp",

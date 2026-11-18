@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import { DATA_PATHS } from '../../src/constants';
 import { ProductCategory, ProductRecord } from '../../src/services/productsService';
+import { writeJsonFileSync } from '../../src/vendor/json-backup/writeJsonFileSync';
 
 interface ProductsFile {
   products: Record<string, ProductRecord>;
@@ -27,7 +28,7 @@ export class CatalogAdminService {
   }
 
   private writeProducts(data: ProductsFile): void {
-    fs.writeFileSync(DATA_PATHS.PRODUCTS_FILE, JSON.stringify(data, null, 2));
+    writeJsonFileSync(DATA_PATHS.PRODUCTS_FILE, JSON.stringify(data, null, 2));
   }
 
   private readCategories(): CategoriesFile {
@@ -39,7 +40,7 @@ export class CatalogAdminService {
   }
 
   private writeCategories(data: CategoriesFile): void {
-    fs.writeFileSync(DATA_PATHS.PRODUCT_CATEGORIES_FILE, JSON.stringify(data, null, 2));
+    writeJsonFileSync(DATA_PATHS.PRODUCT_CATEGORIES_FILE, JSON.stringify(data, null, 2));
   }
 
   getProducts(): ProductRecord[] {

@@ -1,0 +1,16 @@
+{
+  "name": "@local/json-backup",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Atomic JSON writes with daily, weekly, monthly and quarterly snapshots under data-backups/",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "check": "tsc --noEmit",
+    "test": "node --test test/*.test.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.8.2"
+  }
+}

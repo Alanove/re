@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { DATA_PATHS } from '../../src/constants';
+import { writeJsonFileSync } from '../../src/vendor/json-backup/writeJsonFileSync';
 
 export type HomeSectionType = 'html' | 'categories';
 
@@ -81,7 +82,7 @@ export class HomeSectionsService {
 
   private save(data: HomeSectionsData): void {
     this.backup();
-    fs.writeFileSync(this.dataPath, JSON.stringify(data, null, 2), 'utf8');
+    writeJsonFileSync(this.dataPath, JSON.stringify(data, null, 2));
   }
 
   private backup(): void {

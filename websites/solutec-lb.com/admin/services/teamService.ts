@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import { DATA_PATHS } from '../../src/constants';
+import { writeJsonFileSync } from '../../src/vendor/json-backup/writeJsonFileSync';
 
 export interface TeamCompanyAssignment {
   key: string;
@@ -58,7 +59,7 @@ export class TeamService {
   }
 
   private save(): void {
-    fs.writeFileSync(this.dataPath, JSON.stringify(this.data, null, 2), 'utf8');
+    writeJsonFileSync(this.dataPath, JSON.stringify(this.data, null, 2));
     this.data = this.load();
   }
 

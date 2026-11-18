@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { DATA_PATHS } from '../../src/constants/data-paths';
+import { writeJsonFileSync } from '../../src/vendor/json-backup/writeJsonFileSync';
 
 export interface HeroQuote {
   id: number;
@@ -61,7 +62,7 @@ export class HeroService {
    */
   private saveData(): void {
     try {
-      fs.writeFileSync(DATA_PATHS.HERO_SECTION_FILE, JSON.stringify(this.data, null, 2));
+      writeJsonFileSync(DATA_PATHS.HERO_SECTION_FILE, JSON.stringify(this.data, null, 2));
     } catch (error) {
       console.error('Error saving hero section data:', error);
       throw new Error('Failed to save hero section data');

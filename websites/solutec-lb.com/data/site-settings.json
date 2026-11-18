@@ -5,7 +5,7 @@
   "footerLogo": "/uploads/2018/07/Solutec-Logo.bmp",
   "favicon": "/uploads/2018/07/Solutec-Logo.bmp",
   "siteImage": "/uploads/2018/07/Solutec-Logo.bmp",
-  "siteUrl": "http://localhost:3030",
+  "siteUrl": "https://solutec-lb.com/",
   "contactEmail": "sales@solutec-lb.com",
   "contactPhone": "00961 1 276828",
   "fax": "",
@@ -15,7 +15,13 @@
   "privacyPolicyUrl": "",
   "portalCtaCaption": "",
   "investiaDisclaimer": "",
-  "concernEmails": {},
+  "concernEmails": {
+    "advisory": "",
+    "taxes": "",
+    "bookkeeping": "",
+    "wealth-management": "",
+    "income-replacement": ""
+  },
   "socialMedia": {
     "facebook": "",
     "twitter": "",
@@ -32,6 +38,24 @@
     "brochure": "",
     "catalog": ""
   },
-  "successIndicators": {},
-  "careersEmail": "sales@solutec-lb.com"
+  "successIndicators": {
+    "totalProjects": "",
+    "totalProjectsShowPlus": false,
+    "totalCountries": "",
+    "totalCountriesShowPlus": false,
+    "specialists": "48",
+    "specialistsShowPlus": false,
+    "specialistsSublabel": "Beirut - Cairo - Riyadh",
+    "totalClients": "",
+    "totalClientsShowPlus": false
+  },
+  "careersEmail": "sales@solutec-lb.com",
+  "recaptchaSiteKey": "6LdWm_stAAAAAJ4ZVJ8-P0w0VCcccuUQk5SzXv9T",
+  "recaptchaSecretKey": "6LdWm_stAAAAAKH80nkE9mhP2hlKmzp90jJHUuhd",
+  "smtpHost": "smtp.resend.com",
+  "smtpPort": 465,
+  "smtpSecure": true,
+  "smtpUser": "resend",
+  "smtpFrom": "noreply@solutec-lb.com",
+  "smtpPass": ""
 }

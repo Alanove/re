@@ -27,3 +27,7 @@ Site rule for `websites/solutec-lb.com/`. It applies in addition to the global r
 
 ## Architecture
 - Follow the MVC pattern: all business logic in services, request handling in controllers, and all design and presentation in views.
+
+## Rich text editor
+- The admin editor is the shared package `packages/rich-text-editor`. Refresh it with `npm run editor:build` from this site folder. Do not edit `admin/public/editor/` by hand.
+- Logo colours, sampled from `public/uploads/2018/07/Solutec-Logo.bmp`: main `#8890C0`. `--color-primary` is `#6D739A` (that blue deepened to 4.6:1 on white), `--color-primary-dark` is `#525673`, and the exact sample is `--color-secondary`. These tokens live on `:root` in `admin/public/css/admin.scss` and `public/theme/solu.css`.

@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { DATA_PATHS, getProjectImageUrl, getWorkImageUrl, getProjectDirPath } from '../../src/constants';
+import { writeJsonFileSync } from '../../src/vendor/json-backup/writeJsonFileSync';
 
 export interface ProjectWork {
   description: string;
@@ -83,7 +84,7 @@ export class ProjectsService {
    */
   public saveProjects(data: ProjectsData): void {
     try {
-      fs.writeFileSync(this.projectsPath, JSON.stringify(data, null, 2), 'utf8');
+      writeJsonFileSync(this.projectsPath, JSON.stringify(data, null, 2));
     } catch (error) {
       console.error('Error saving projects:', error);
       throw new Error('Failed to save projects');
