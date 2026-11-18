@@ -316,11 +316,23 @@ $scriptText = (Get-Content -Raw (Join-Path $PSScriptRoot 'deploy-site.sh')) -rep
 if ($scriptText.Length -gt 0 -and [int][char]$scriptText[0] -eq 0xFEFF) {
   $scriptText = $scriptText.Substring(1)
 }
-$OutputEncoding = New-Object System.Text.UTF8Encoding $false
+# Write the remote script as UTF-8 without BOM. PowerShell's string pipe can prepend a BOM and break the shebang.
+$scriptBytes = [System.Text.UTF8Encoding]::new($false).GetBytes($scriptText)
+$scriptTmp = Join-Path $env:TEMP ("deploy-site-" + [guid]::NewGuid().ToString('N') + ".sh")
+[System.IO.File]::WriteAllBytes($scriptTmp, $scriptBytes)
 
 Step "Deploying $Site to $sshHost"
-$scriptText | & ssh @sshArgs
-$exitCode = $LASTEXITCODE
+try {
+  # cmd redirection feeds ssh stdin as raw bytes (no PowerShell encoding layer).
+  $argLine = ($sshArgs | ForEach-Object {
+    $a = [string]$_
+    if ($a -match '[\s"]') { '"' + ($a -replace '"', '\"') + '"' } else { $a }
+  }) -join ' '
+  cmd /c "ssh $argLine < `"$scriptTmp`""
+  $exitCode = $LASTEXITCODE
+} finally {
+  Remove-Item -LiteralPath $scriptTmp -Force -ErrorAction SilentlyContinue
+}
 if ($exitCode -ne 0) {
   Fail "Deploy of $Site failed (exit code $exitCode). See the output above."
 }

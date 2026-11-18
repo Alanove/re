@@ -452,7 +452,8 @@ main() {
     if [[ "$with_overwrite" == "yes" && "$overwrite_spec" != "-" ]]; then
       overwrite_data "$source" || return 1
     fi
-    install -m 600 "$source/.env.production" "$server_path/.env" || return 1
+    # Strip a UTF-8 BOM if a Windows editor left one; bash/Node treat it as part of the first key.
+    sed '1s/^\xEF\xBB\xBF//' "$source/.env.production" | install -m 600 /dev/stdin "$server_path/.env" || return 1
     sync_live_node_modules "$source" "$force_npm" || return 1
   }
 
