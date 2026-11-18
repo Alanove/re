@@ -1,0 +1,52 @@
+<div class="row">
+	<div class="col-xl-8">
+		<div class="panel panel-inverse">
+			<div class="panel-heading"><h4 class="panel-title">Menus</h4></div>
+			<div class="panel-body p-0">
+				<table class="table table-hover align-middle mb-0">
+					<thead><tr><th>Name</th><th>ID</th><th class="text-center">Items</th><th style="width:1%"></th></tr></thead>
+					<tbody>
+						<% menus.forEach(function (menu) { %>
+							<tr>
+								<td><a href="/admin/menus/<%= menu.id %>/edit" class="fw-bold"><%= menu.name %></a><div class="small text-muted"><%= menu.description %></div></td>
+								<td><code><%= menu.id %></code></td>
+								<td class="text-center"><%= menu.items.length %></td>
+								<td class="text-nowrap">
+									<a href="/admin/menus/<%= menu.id %>/edit" class="btn btn-sm btn-primary" title="Edit"><i class="fa fa-edit"></i></a>
+									<% if (menu.id !== 'main' && menu.id !== 'footer') { %>
+										<button type="button" class="btn btn-sm btn-danger" title="Delete" data-delete-url="/admin/menus/<%= menu.id %>" data-delete-title="Delete menu" data-delete-message="Delete the “<%= menu.name %>” menu?"><i class="fa fa-trash"></i></button>
+									<% } %>
+								</td>
+							</tr>
+						<% }) %>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-4">
+		<div class="panel panel-inverse">
+			<div class="panel-heading"><h4 class="panel-title">New menu</h4></div>
+			<div class="panel-body">
+				<form method="POST" action="/admin/menus" novalidate>
+					<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+					<div class="mb-3">
+						<label class="form-label" for="menu-id">ID</label>
+						<input type="text" class="form-control <%= errors.id ? 'is-invalid' : '' %>" id="menu-id" name="id" value="<%= values.id || '' %>" placeholder="quick-links" required />
+						<%- include('../partials/field-error', { name: 'id' }) %>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="menu-name">Name</label>
+						<input type="text" class="form-control <%= errors.name ? 'is-invalid' : '' %>" id="menu-name" name="name" value="<%= values.name || '' %>" required />
+						<%- include('../partials/field-error', { name: 'name' }) %>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="menu-description">Description</label>
+						<input type="text" class="form-control" id="menu-description" name="description" value="<%= values.description || '' %>" />
+					</div>
+					<button type="submit" class="btn btn-success w-100"><i class="fa fa-plus me-1"></i> Create menu</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

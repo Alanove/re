@@ -1,0 +1,12 @@
+<% if (locals.flash) { %>
+	<div class="alert alert-<%= flash.type %> alert-dismissible fade show" role="alert">
+		<%= flash.message %>
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+<% } %>
+<% if (locals.error) { %>
+	<div class="alert alert-danger" role="alert">
+		<i class="fa fa-exclamation-triangle me-1"></i> <%= error %>
+		<% if (locals.errors && errors._form) { %><div class="mt-1"><%= errors._form %></div><% } %>
+	</div>
+<% } %>

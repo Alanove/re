@@ -1,0 +1,20 @@
+---
+description: khalafcanonlaw.com site rules
+globs:
+  - websites/khalafcanonlaw.com/**
+alwaysApply: false
+---
+
+# khalafcanonlaw.com: project rules
+
+Site rule for `websites/khalafcanonlaw.com/`. It applies in addition to the global rules in `.cursor/rules/`; where they conflict, the global rules win. Paths are relative to the site folder.
+
+## Site shape
+- One-page home: about with portrait, six practice cards, contact. Phone `+961 71 662 444`, email `info@khalafcanonlaw.com`. Office in Dbayeh (`mapQuery` `33.9302222,35.5910556`).
+- In The Press uses the blog module: public `/press`, admin menu label "In The Press", `blog.rootKey` = `press`. Listing stays empty until editors add articles.
+- Press posts support body links (rich text) and an optional external link (`externalUrl` / `externalLabel`) shown as a button on the article.
+- Instagram: `https://www.instagram.com/dr.habibkhalaf/` (Site Settings > Social).
+
+## Design
+- Colours from `wwwroot/logo.png`: seal red and gold. Tokens: primary `#8b2e2e` (AA with white), accent `#b89a2e`, navy secondary `#1a2744`.
+- Fonts: Playfair Display (headings), Lato (body).

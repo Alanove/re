@@ -1,0 +1,26 @@
+<%
+	const rowError = function (name) { return errors['items.' + i + '.' + name]; };
+	const rowClass = function (name) { return rowError(name) ? 'form-control form-control-sm is-invalid' : 'form-control form-control-sm'; };
+%>
+<div class="admin-spec-row" data-repeater-row>
+	<div class="row g-2 align-items-start">
+		<div class="col-md-4">
+			<label class="form-label small mb-1" for="items-<%= i %>-title">Title</label>
+			<input type="text" class="<%= rowClass('title') %>" id="items-<%= i %>-title" name="items[<%= i %>][title]" value="<%= item.title %>" maxlength="120" />
+			<% if (rowError('title')) { %><div class="invalid-feedback"><%= rowError('title') %></div><% } %>
+			<label class="form-label small mb-1 mt-2" for="items-<%= i %>-icon">Icon</label>
+			<input type="text" class="<%= rowClass('icon') %>" id="items-<%= i %>-icon" name="items[<%= i %>][icon]" value="<%= item.icon %>" placeholder="mic" maxlength="60" />
+			<% if (rowError('icon')) { %><div class="invalid-feedback"><%= rowError('icon') %></div><% } %>
+		</div>
+		<div class="col-md-7">
+			<label class="form-label small mb-1" for="items-<%= i %>-text">Description</label>
+			<textarea class="<%= rowClass('text') %>" id="items-<%= i %>-text" name="items[<%= i %>][text]" rows="4" maxlength="800"><%= item.text %></textarea>
+			<% if (rowError('text')) { %><div class="invalid-feedback"><%= rowError('text') %></div><% } %>
+		</div>
+		<div class="col-md-1 d-flex flex-md-column gap-1 justify-content-end">
+			<button type="button" class="btn btn-sm btn-default" data-row-up title="Move up" aria-label="Move service up"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+			<button type="button" class="btn btn-sm btn-default" data-row-down title="Move down" aria-label="Move service down"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+			<button type="button" class="btn btn-sm btn-danger" data-repeater-remove title="Remove" aria-label="Remove service"><i class="fa fa-trash" aria-hidden="true"></i></button>
+		</div>
+	</div>
+</div>

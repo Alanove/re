@@ -1,0 +1,18 @@
+---
+description: mekbeirut.com site rules
+globs:
+  - websites/mekbeirut.com/**
+alwaysApply: false
+---
+
+# mekbeirut.com: project rules
+
+Site rule for `websites/mekbeirut.com/`. It applies in addition to the global rules in `.cursor/rules/`; where they conflict, the global rules win. Paths are relative to the site folder.
+
+## Site shape
+- One-page home: hero, about, work gallery (images from the published `our-work` page gallery), contact.
+- Contact: `+961 81 33 11 44`, `+961 1 444 335`, WhatsApp `96181331144`, `mkhoury@mekbeirut.com`, Achrafieh office with map.
+- Social: Facebook and Instagram in Site Settings.
+
+## Design
+- Logo matches the legacy site: large mark only (`brand--mark-only`, greyscale), no text name beside it. Wood tones from project photos. Tokens: primary `#5c4330`, accent `#856b54`, warm neutrals. Font Inter.

@@ -1,0 +1,58 @@
+{
+  "hero": {
+    "enabled": true,
+    "eyebrow": "Mek Beirut",
+    "slogans": [
+      "High-end woodwork & furniture execution"
+    ],
+    "image": "/uploads/gallery/work-1.webp",
+    "primaryCta": {
+      "label": "Contact us",
+      "url": "/#ContactUs"
+    },
+    "secondaryCta": {
+      "label": "Our work",
+      "url": "/#OurWork"
+    }
+  },
+  "about": {
+    "enabled": true,
+    "title": "About Us",
+    "content": "<p>At Mek Beirut, we specialize in transforming visions into tangible masterpieces. Our dedication to high-end woodwork and furniture execution is unmatched in Lebanon. We blend traditional craftsmanship with modern innovation to create bespoke pieces that define luxury.</p>\n<p>From intricate joinery to seamless finishes, every project is a testament to our commitment to excellence. We work closely with architects and designers to ensure that every detail is executed to perfection, bringing sophistication and elegance to your residential and commercial spaces.</p>",
+    "highlight": "Bespoke woodwork for residential and commercial spaces",
+    "statValue": "",
+    "statLabel": ""
+  },
+  "studios": {
+    "enabled": true,
+    "title": "Our Work",
+    "content": "<p>A selection of recent projects. Open any photo for a closer look on the <a href=\"/our-work\">Our Work</a> page.</p>",
+    "quote": "",
+    "image": "/uploads/gallery/work-2.webp"
+  },
+  "services": {
+    "enabled": false,
+    "title": "",
+    "intro": "",
+    "items": []
+  },
+  "team": {
+    "enabled": false,
+    "title": "",
+    "content": "",
+    "members": []
+  },
+  "latestPosts": {
+    "enabled": false,
+    "title": "",
+    "intro": "",
+    "limit": 3
+  },
+  "contact": {
+    "enabled": true,
+    "title": "Get In Touch",
+    "intro": "Call, message on WhatsApp, or send an email.",
+    "image": ""
+  },
+  "updatedAt": "2026-11-18T00:39:52.931Z"
+}

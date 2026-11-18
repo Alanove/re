@@ -1,0 +1,32 @@
+<div id="header" class="app-header">
+	<div class="navbar-header">
+		<a href="/admin/dashboard" class="navbar-brand">
+			<% if (locals.settings && settings.logo) { %><img src="<%= settings.logo %>" alt="" class="admin-brand-logo" /><% } %>
+			<b class="me-3px"><%= locals.siteTitle || 'CMS' %></b> <span class="text-muted fs-12px fw-normal">Admin</span>
+		</a>
+		<button type="button" class="navbar-mobile-toggler" data-toggle="app-sidebar-mobile" aria-label="Toggle menu">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+	</div>
+	<div class="navbar-nav">
+		<div class="navbar-item">
+			<a href="/" class="navbar-link" target="_blank" rel="noopener"><i class="fa fa-external-link-alt"></i> <span class="d-none d-md-inline">View site</span></a>
+		</div>
+		<div class="navbar-item navbar-user dropdown">
+			<a href="#" class="navbar-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
+				<span class="d-none d-md-inline fw-bold"><%= currentUser.name %></span>
+				<b class="caret ms-1"></b>
+			</a>
+			<div class="dropdown-menu dropdown-menu-end me-1">
+				<a href="/admin/profile" class="dropdown-item">My profile</a>
+				<div class="dropdown-divider"></div>
+				<form method="POST" action="/admin/logout" class="m-0">
+					<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+					<button type="submit" class="dropdown-item">Log out</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

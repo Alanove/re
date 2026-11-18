@@ -1,0 +1,145 @@
+@use 'tokens' as t;
+@use 'mixins' as m;
+
+.gallery {
+  &__grid {
+    list-style: none;
+    display: grid;
+    gap: t.$space-md;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    @include m.up(md) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    &--single {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__link {
+    display: block;
+    position: relative;
+    height: 256px;
+    border-radius: t.$radius-md;
+    overflow: hidden;
+    background: t.$color-surface-variant;
+
+    @include m.down(md) {
+      height: 180px;
+    }
+
+    img {
+      @include m.cover-image;
+      transition: transform t.$transition-slow;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.2);
+      transition: background-color t.$transition-base;
+    }
+
+    &:hover img {
+      transform: scale(1.05);
+    }
+
+    &:hover::after {
+      background: rgba(0, 0, 0, 0);
+    }
+  }
+
+  &__grid--single &__link {
+    height: auto;
+    max-height: 560px;
+
+    img {
+      height: auto;
+      object-fit: contain;
+    }
+  }
+
+  &__caption {
+    @include m.type(body-sm);
+    color: t.$color-slate-gray;
+    margin-top: t.$space-sm;
+  }
+}
+
+.lightbox {
+  width: 100vw;
+  height: 100vh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: rgba(18, 20, 22, 0.94);
+  color: t.$color-white;
+
+  &[open] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &::backdrop {
+    background: rgba(18, 20, 22, 0.94);
+  }
+
+  &__figure {
+    max-width: min(1200px, 88vw);
+    text-align: center;
+
+    img {
+      max-width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: t.$radius-sm;
+    }
+
+    figcaption {
+      margin-top: t.$space-md;
+      color: t.$color-tertiary-fixed-dim;
+    }
+  }
+
+  &__close,
+  &__nav {
+    position: absolute;
+    border: 0;
+    background: rgba(t.$color-white, 0.1);
+    color: t.$color-white;
+    width: 48px;
+    height: 48px;
+    border-radius: t.$radius-full;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    &:hover {
+      background: t.$color-primary;
+    }
+  }
+
+  &__close {
+    top: t.$space-md;
+    right: t.$space-md;
+  }
+
+  &__nav {
+    top: 50%;
+    transform: translateY(-50%);
+
+    &--prev {
+      left: t.$space-md;
+    }
+
+    &--next {
+      right: t.$space-md;
+    }
+  }
+}

@@ -1,0 +1,33 @@
+<%
+	const linkClass = function (item) {
+		if (item.current) { return 'side-nav__link is-current'; }
+		if (item.active) { return 'side-nav__link is-open'; }
+		return 'side-nav__link';
+	};
+	const shopUrl = settings.brochureUrl || 'https://drinks4lessonline.com/';
+%>
+<aside class="page-sidebar">
+	<div class="page-sidebar__panel">
+		<div class="page-sidebar__head">
+			<p class="page-sidebar__eyebrow">Menu</p>
+			<h2 class="page-sidebar__title"><%= settings.siteName %></h2>
+		</div>
+		<nav class="side-nav" aria-label="Site">
+			<ul>
+				<% mainMenu.forEach(function (item) {
+					const title = String(item.title || '').toLowerCase();
+					const url = String(item.url || '').toLowerCase();
+					const isShop = title.indexOf('shop') !== -1 || url.indexOf('drinks4less') !== -1;
+					const href = isShop ? shopUrl : item.url;
+				%>
+					<li>
+						<a class="<%= linkClass(item) %>" href="<%= href %>"<%- isShop ? ' target="_blank" rel="noopener noreferrer"' : '' %><%- item.current && !isShop ? ' aria-current="page"' : '' %>>
+							<span class="material-symbols-outlined<%= item.current ? ' is-filled' : '' %>" aria-hidden="true"><%= isShop ? 'storefront' : 'chevron_right' %></span>
+							<span><%= item.title %></span>
+						</a>
+					</li>
+				<% }) %>
+			</ul>
+		</nav>
+	</div>
+</aside>

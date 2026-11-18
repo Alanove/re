@@ -1,0 +1,120 @@
+// Design tokens. Sampled from wwwroot/logo.png: seal red #aa5555 / #ff0000 and gold #e3d44a.
+@use 'sass:list';
+@use 'sass:map';
+
+// Brand: deep red for AA with white text; gold as accent.
+$color-primary: #8b2e2e;
+$color-primary-dark: #6a2222;
+$color-primary-container: #f3d6d6;
+$color-on-primary-container: #3d1212;
+$color-deep-burgundy: #8b2e2e;
+$color-navy: #1a2744;
+$color-accent: #b89a2e;
+$color-accent-dark: #8a7420;
+$color-accent-on-dark: #e3d44a;
+$color-secondary: #1a2744;
+$color-secondary-fixed: #dfe6f2;
+$color-industrial-gold: $color-accent;
+
+$color-background: #ffffff;
+$color-surface: #f7f5f2;
+$color-surface-bright: #fbfaf8;
+$color-surface-lowest: #ffffff;
+$color-surface-low: #f2efe9;
+$color-surface-container: #eae6de;
+$color-surface-high: #e1dcd3;
+$color-surface-variant: #d5cfc4;
+$color-on-surface: #1b1a18;
+$color-on-surface-variant: #524e48;
+$color-slate-gray: #5c5852;
+$color-outline: #8a857c;
+$color-outline-variant: #ddd8ce;
+$color-tertiary: #1a2744;
+$color-tertiary-container: #121b30;
+$color-tertiary-fixed-dim: #b4bccb;
+$color-white: #ffffff;
+
+$color-error: #ba1a1a;
+$color-error-container: #ffdad6;
+$color-success: #1e6b3a;
+$color-success-container: #d7f2df;
+
+$font-family-base: 'Lato', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+$font-family-heading: 'Playfair Display', Georgia, 'Times New Roman', serif;
+$font-family-icons: 'Material Symbols Outlined';
+
+$type-scale: (
+  display-lg: (48px, 56px, 700, -0.01em),
+  headline-lg: (32px, 40px, 700, 0),
+  headline-lg-mobile: (26px, 34px, 700, 0),
+  headline-md: (22px, 30px, 700, 0),
+  body-lg: (18px, 28px, 400, 0),
+  body-md: (16px, 24px, 400, 0),
+  body-sm: (14px, 20px, 400, 0),
+  label-caps: (12px, 16px, 700, 0.08em),
+  button: (14px, 20px, 700, 0.02em)
+);
+
+$space-xs: 4px;
+$space-sm: 8px;
+$space-md: 16px;
+$space-lg: 32px;
+$space-xl: 48px;
+$gutter: 24px;
+$margin-mobile: 20px;
+$margin-desktop: 64px;
+$section-gap: 100px;
+$section-gap-mobile: 64px;
+$container-max: 1120px;
+$header-height: 72px;
+$header-height-mobile: 64px;
+$tap-target: 44px;
+$page-bar-height: 52px;
+
+$radius-sm: 0.25rem;
+$radius-md: 0.5rem;
+$radius-lg: 0.75rem;
+$radius-full: 9999px;
+$shadow-sm: 0 1px 2px rgba(26, 39, 68, 0.06);
+$shadow-md: 0 8px 24px rgba(26, 39, 68, 0.1);
+$shadow-lg: 0 18px 40px rgba(26, 39, 68, 0.14);
+$shadow-xl: 0 25px 50px -12px rgba(26, 39, 68, 0.35);
+
+$transition-fast: 150ms ease;
+$transition-base: 200ms ease;
+$transition-slow: 500ms ease;
+
+$breakpoints: (
+  sm: 640px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px
+);
+
+@function type-value($name, $index) {
+  @return list.nth(map.get($type-scale, $name), $index);
+}
+
+$css-colors: (
+  'primary': $color-primary,
+  'primary-dark': $color-primary-dark,
+  'primary-container': $color-primary-container,
+  'accent': $color-accent,
+  'secondary': $color-secondary,
+  'secondary-fixed': $color-secondary-fixed,
+  'industrial-gold': $color-industrial-gold,
+  'on-surface': $color-on-surface,
+  'on-surface-variant': $color-on-surface-variant,
+  'surface': $color-surface,
+  'surface-low': $color-surface-low,
+  'surface-high': $color-surface-high,
+  'slate-gray': $color-slate-gray,
+  'tertiary': $color-tertiary,
+  'white': $color-white
+);
+
+@mixin color-vars {
+  @each $name, $value in $css-colors {
+    --color-#{$name}: #{$value};
+  }
+}

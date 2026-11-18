@@ -1,0 +1,96 @@
+{
+  "hero": {
+    "enabled": true,
+    "eyebrow": "Canon Law",
+    "slogans": [
+      "Expert marriage and divorce consultations"
+    ],
+    "image": "",
+    "primaryCta": {
+      "label": "Get in touch",
+      "url": "/#ContactUs"
+    },
+    "secondaryCta": {
+      "label": "Areas of practice",
+      "url": "/#OurServices"
+    }
+  },
+  "about": {
+    "enabled": true,
+    "title": "Dr. Habib Khalaf",
+    "content": "<p>Welcome to Khalaf Canon Law, where expertise meets compassion in matters of canon law. With years of dedicated service and specialized training, we provide professional guidance for individuals and families navigating complex ecclesiastical matters.</p>\n<p>Our practice is built on a foundation of deep theological knowledge, extensive legal training, and a genuine commitment to helping clients through sensitive and important matters of faith and family.</p>\n<ul>\n<li>Doctor of Canon Law (J.C.D.)</li>\n<li>Pontifical Lateran University, Rome – Italy</li>\n<li>Licensed Canon Lawyer</li>\n<li>Specialist in Marriage Cases</li>\n<li>Expert in Divorce Consultations</li>\n</ul>",
+    "highlight": "J.C.D., Pontifical Lateran University, Rome",
+    "statValue": "",
+    "statLabel": ""
+  },
+  "studios": {
+    "enabled": false,
+    "title": "",
+    "content": "",
+    "quote": "",
+    "image": ""
+  },
+  "services": {
+    "enabled": true,
+    "title": "Areas of Practice",
+    "intro": "",
+    "items": [
+      {
+        "title": "Marriage Tribunals",
+        "text": "Expert representation and guidance through the canonical marriage tribunal process, ensuring your case is presented clearly and effectively.",
+        "icon": "gavel"
+      },
+      {
+        "title": "Annulment Consultations",
+        "text": "Compassionate and professional assistance in understanding and pursuing the annulment process within the Catholic Church.",
+        "icon": "balance"
+      },
+      {
+        "title": "Canon Law Advisory",
+        "text": "Comprehensive consultation on all matters of canon law, providing clarity and direction for complex ecclesiastical questions.",
+        "icon": "menu_book"
+      },
+      {
+        "title": "Family Matters",
+        "text": "Sensitive guidance for families facing difficult decisions regarding marriage, separation, and related canonical concerns.",
+        "icon": "family_restroom"
+      },
+      {
+        "title": "Case Preparation",
+        "text": "Thorough preparation and documentation assistance for ecclesiastical tribunal cases, ensuring all requirements are met.",
+        "icon": "description"
+      },
+      {
+        "title": "Mediation Services",
+        "text": "Professional mediation in canon law disputes, working toward just and pastoral solutions for all parties involved.",
+        "icon": "handshake"
+      }
+    ]
+  },
+  "team": {
+    "enabled": false,
+    "title": "Counsel",
+    "content": "",
+    "members": [
+      {
+        "name": "Dr. Habib Khalaf",
+        "role": "Canon Lawyer, J.C.D.",
+        "photo": "/uploads/site/portrait.webp",
+        "bio": "Doctor of Canon Law from the Pontifical Lateran University in Rome. Specialist in marriage cases and divorce consultations."
+      }
+    ]
+  },
+  "latestPosts": {
+    "enabled": true,
+    "title": "In The Press",
+    "intro": "Articles and coverage.",
+    "limit": 3
+  },
+  "contact": {
+    "enabled": true,
+    "title": "Get in Touch",
+    "intro": "Schedule a confidential consultation. We are here to help guide you through every step of the process.",
+    "image": ""
+  },
+  "updatedAt": "2026-11-18T00:39:52.931Z"
+}

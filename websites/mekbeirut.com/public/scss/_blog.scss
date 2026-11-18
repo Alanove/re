@@ -1,0 +1,337 @@
+@use 'tokens' as t;
+@use 'mixins' as m;
+
+.post-grid {
+  list-style: none;
+  display: grid;
+  gap: t.$gutter;
+
+  @include m.up(md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include m.up(lg) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  > li {
+    display: flex;
+    min-width: 0;
+  }
+}
+
+.post-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: t.$color-surface-lowest;
+  border: 1px solid t.$color-outline-variant;
+  border-radius: t.$radius-lg;
+  overflow: hidden;
+  transition: transform t.$transition-base, box-shadow t.$transition-base, border-color t.$transition-base;
+
+  &:hover,
+  &:focus-within {
+    transform: translateY(-4px);
+    box-shadow: t.$shadow-lg;
+    border-color: transparent;
+  }
+
+  &__media {
+    display: block;
+    aspect-ratio: 16 / 10;
+    background: t.$color-tertiary;
+    overflow: hidden;
+
+    img {
+      @include m.cover-image;
+      transition: transform t.$transition-slow;
+    }
+  }
+
+  &:hover &__media img {
+    transform: scale(1.04);
+  }
+
+  &__placeholder {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    font-size: 56px;
+    color: t.$color-accent;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+    padding: t.$gutter;
+  }
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    @include m.label-caps;
+    letter-spacing: 0.08em;
+    color: t.$color-secondary;
+  }
+
+  &__title {
+    font-size: 19px;
+    line-height: 1.35;
+    font-weight: 700;
+
+    a {
+      color: t.$color-primary;
+
+      // Stretch the title link so the whole card is one tap target.
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+      }
+
+      &:hover {
+        color: t.$color-secondary;
+      }
+    }
+  }
+
+  &__text {
+    color: t.$color-on-surface-variant;
+    font-size: 15px;
+    line-height: 1.65;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+  }
+
+  &__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: auto;
+    padding-top: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: t.$color-primary;
+
+    .material-symbols-outlined {
+      font-size: 18px;
+      color: t.$color-accent;
+      transition: transform t.$transition-base;
+    }
+  }
+
+  &:hover &__more .material-symbols-outlined {
+    transform: translateX(4px);
+  }
+}
+
+.blog-listing__empty {
+  @include m.type(body-lg);
+  text-align: center;
+  color: t.$color-on-surface-variant;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: t.$space-sm;
+  margin-top: t.$space-xl;
+
+  &__pages {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  &__page,
+  &__step {
+    display: inline-grid;
+    place-items: center;
+    min-width: t.$tap-target;
+    height: t.$tap-target;
+    padding: 0 10px;
+    border: 1px solid t.$color-outline-variant;
+    border-radius: t.$radius-full;
+    color: t.$color-primary;
+    font-weight: 500;
+
+    &:hover {
+      border-color: t.$color-accent;
+      color: t.$color-secondary;
+    }
+  }
+
+  &__page.is-current {
+    background: t.$color-tertiary;
+    border-color: t.$color-tertiary;
+    color: t.$color-white;
+  }
+}
+
+// Single article
+.post-layout {
+  @include m.container;
+  padding-block: t.$space-xl t.$section-gap-mobile;
+
+  @include m.up(lg) {
+    padding-block: 56px 96px;
+  }
+}
+
+.post-article {
+  max-width: 46rem;
+  margin-inline: auto;
+  min-width: 0;
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: t.$space-lg;
+    padding-bottom: t.$gutter;
+    border-bottom: 1px solid t.$color-outline-variant;
+    color: t.$color-on-surface-variant;
+    font-size: 14px;
+
+    .material-symbols-outlined {
+      font-size: 18px;
+      color: t.$color-accent;
+    }
+  }
+
+  &__content {
+    margin-bottom: t.$space-xl;
+
+    img {
+      width: auto;
+      max-width: 100%;
+    }
+
+    // Legacy posts mix Arabic paragraphs into English articles.
+    [dir='rtl'],
+    :lang(ar) {
+      text-align: right;
+    }
+  }
+
+  .gallery {
+    margin-bottom: t.$space-xl;
+  }
+}
+
+.post-share {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px t.$space-md;
+  padding: t.$gutter 0;
+  border-block: 1px solid t.$color-outline-variant;
+
+  &__label {
+    @include m.label-caps;
+    letter-spacing: 0.12em;
+    color: t.$color-primary;
+  }
+
+  &__list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: t.$tap-target;
+    padding: 0 16px 0 12px;
+    border: 1px solid t.$color-outline-variant;
+    border-radius: t.$radius-full;
+    color: t.$color-primary;
+    font-size: 14px;
+    font-weight: 500;
+
+    .material-symbols-outlined {
+      font-size: 18px;
+      color: t.$color-accent;
+    }
+
+    &:hover {
+      background: t.$color-tertiary;
+      border-color: t.$color-tertiary;
+      color: t.$color-white;
+    }
+  }
+}
+
+.post-nav {
+  display: grid;
+  gap: t.$space-md;
+  margin-top: t.$space-lg;
+
+  @include m.up(md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  &__link {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: t.$space-md t.$gutter;
+    border: 1px solid t.$color-outline-variant;
+    border-radius: t.$radius-lg;
+    color: t.$color-primary;
+    transition: border-color t.$transition-base, box-shadow t.$transition-base;
+
+    &:hover {
+      border-color: t.$color-accent;
+      box-shadow: t.$shadow-md;
+      color: t.$color-primary;
+    }
+
+    &--next {
+      text-align: right;
+
+      @include m.up(md) {
+        grid-column: 2;
+      }
+
+      .post-nav__dir {
+        justify-content: flex-end;
+      }
+    }
+  }
+
+  &__dir {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    @include m.label-caps;
+    letter-spacing: 0.1em;
+    color: t.$color-secondary;
+
+    .material-symbols-outlined {
+      font-size: 18px;
+    }
+  }
+
+  &__title {
+    font-weight: 700;
+    line-height: 1.4;
+  }
+}

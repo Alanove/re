@@ -1,0 +1,36 @@
+[
+  {
+    "id": "aws-zouk",
+    "country": "Lebanon",
+    "role": "AWS sal (Tobacco)",
+    "address": "Zouk Mosbeh, King Jesus Main Road, Daccache Bldg, GF & B1",
+    "poBox": "1226 Jounieh Lebanon",
+    "phones": [
+      "+961 9 218 592"
+    ],
+    "fax": "+961 9 225 494",
+    "emails": [
+      "info@wadihco.com"
+    ],
+    "mapQuery": "Zouk Mosbeh, Lebanon",
+    "isPrimary": true,
+    "sort": 0
+  },
+  {
+    "id": "sahel-alma",
+    "country": "Lebanon",
+    "role": "Wadihco SARL",
+    "address": "Sahel Alma, Damaa Bldg, GF & B1",
+    "poBox": "1226 Jounieh Lebanon",
+    "phones": [
+      "+961 9 225 524"
+    ],
+    "fax": "",
+    "emails": [
+      "info@wadihco.com"
+    ],
+    "mapQuery": "Sahel Alma, Lebanon",
+    "isPrimary": false,
+    "sort": 1
+  }
+]

@@ -1,0 +1,58 @@
+{
+  "hero": {
+    "enabled": true,
+    "eyebrow": "",
+    "slogans": [
+      "Dr. Helena Rahme"
+    ],
+    "image": "/uploads/site/splash.webp",
+    "primaryCta": {
+      "label": "",
+      "url": ""
+    },
+    "secondaryCta": {
+      "label": "",
+      "url": ""
+    }
+  },
+  "about": {
+    "enabled": false,
+    "title": "",
+    "content": "",
+    "highlight": "",
+    "statValue": "",
+    "statLabel": ""
+  },
+  "studios": {
+    "enabled": false,
+    "title": "",
+    "content": "",
+    "quote": "",
+    "image": ""
+  },
+  "services": {
+    "enabled": false,
+    "title": "",
+    "intro": "",
+    "items": []
+  },
+  "team": {
+    "enabled": false,
+    "title": "",
+    "content": "",
+    "members": []
+  },
+  "latestPosts": {
+    "enabled": false,
+    "title": "",
+    "intro": "",
+    "limit": 3
+  },
+  "contact": {
+    "enabled": false,
+    "title": "",
+    "intro": "",
+    "image": ""
+  },
+  "updatedAt": "2026-11-18T00:39:52.931Z"
+}

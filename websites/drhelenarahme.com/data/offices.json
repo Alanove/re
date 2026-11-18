@@ -1,0 +1,35 @@
+[
+  {
+    "id": "badaro",
+    "country": "Lebanon",
+    "role": "Badaro clinic",
+    "address": "Badaro, Beirut",
+    "poBox": "",
+    "phones": [
+      "+961 1 388 004",
+      "+961 3 097 036"
+    ],
+    "fax": "",
+    "emails": [
+      "info@drhelenarahme.com"
+    ],
+    "mapQuery": "33°52'35.0\"N 35°31'02.4\"E",
+    "isPrimary": true,
+    "sort": 0
+  },
+  {
+    "id": "jounieh",
+    "country": "Lebanon",
+    "role": "Jounieh clinic",
+    "address": "Jounieh",
+    "poBox": "",
+    "phones": [],
+    "fax": "",
+    "emails": [
+      "info@drhelenarahme.com"
+    ],
+    "mapQuery": "Jounieh, Lebanon",
+    "isPrimary": false,
+    "sort": 1
+  }
+]

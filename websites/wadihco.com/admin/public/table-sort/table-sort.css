@@ -1,0 +1,81 @@
+.table-sortable th.table-sort-header {
+  padding: 0;
+  white-space: nowrap;
+}
+
+.table-sort-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem;
+  width: 100%;
+  margin: 0;
+  padding: 0.5rem;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+
+.table-sm .table-sort-button {
+  padding: 0.25rem;
+}
+
+.text-center > .table-sort-button {
+  justify-content: center;
+}
+
+.text-end > .table-sort-button {
+  justify-content: flex-end;
+}
+
+.table-sort-button:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.table-sort-button:focus-visible {
+  outline: 2px solid var(--bs-primary, #348fe2);
+  outline-offset: -2px;
+}
+
+.table-sort-icon {
+  display: inline-flex;
+  flex-direction: column;
+  flex: 0 0 auto;
+  gap: 2px;
+  opacity: 0.35;
+}
+
+.table-sort-icon::before,
+.table-sort-icon::after {
+  content: '';
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+}
+
+.table-sort-icon::before {
+  border-bottom: 4px solid currentColor;
+}
+
+.table-sort-icon::after {
+  border-top: 4px solid currentColor;
+}
+
+.table-sort-button[data-direction='ascending'] .table-sort-icon,
+.table-sort-button[data-direction='descending'] .table-sort-icon {
+  opacity: 1;
+}
+
+.table-sort-button[data-direction='ascending'] .table-sort-icon::after,
+.table-sort-button[data-direction='descending'] .table-sort-icon::before {
+  opacity: 0.2;
+}
+
+@media (prefers-color-scheme: dark) {
+  .table-sort-button:hover {
+    background: rgba(255, 255, 255, 0.06);
+  }
+}

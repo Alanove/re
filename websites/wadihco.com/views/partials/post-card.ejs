@@ -1,0 +1,24 @@
+<%
+	const postDate = new Date(card.publishedAt);
+	const postDateLabel = postDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+	const headingTag = locals.headingTag || 'h3';
+%>
+<article class="post-card">
+	<a class="post-card__media" href="<%= card.url %>" tabindex="-1" aria-hidden="true">
+		<% if (card.image) { %>
+			<img src="<%= thumbUrl(card.image) %>" alt="" loading="lazy" width="480" height="300" />
+		<% } else { %>
+			<span class="post-card__placeholder material-symbols-outlined" aria-hidden="true">mic</span>
+		<% } %>
+	</a>
+	<div class="post-card__body">
+		<p class="post-card__meta">
+			<time datetime="<%= postDate.toISOString() %>"><%= postDateLabel %></time>
+			<span aria-hidden="true">·</span>
+			<span><%= card.readingMinutes %> min read</span>
+		</p>
+		<<%= headingTag %> class="post-card__title"><a href="<%= card.url %>"><%= card.title %></a></<%= headingTag %>>
+		<% if (card.summary) { %><p class="post-card__text"><%= card.summary %></p><% } %>
+		<span class="post-card__more" aria-hidden="true">Read article <span class="material-symbols-outlined">arrow_forward</span></span>
+	</div>
+</article>

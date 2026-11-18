@@ -1,0 +1,42 @@
+<%
+	const telHref = function (value) { return 'tel:' + String(value || '').replace(/[^+\d]/g, ''); };
+	const copyright = (settings.copyright || ('© {year} ' + settings.siteName + '. All rights reserved.')).replace('{year}', year);
+%>
+<footer class="site-footer">
+	<div class="site-footer__inner">
+		<div class="site-footer__brand">
+			<a class="brand brand--inverse" href="/" aria-label="<%= settings.siteName %> home">
+				<% if (settings.logo) { %><span class="brand__badge brand__badge--lg"><img class="brand__logo" src="<%= settings.logo %>" alt="" width="70" height="60" loading="lazy" /></span><% } %>
+				<span class="brand__name"><%= settings.siteName %></span>
+			</a>
+			<% if (settings.footerText || settings.description) { %><p class="site-footer__text"><%= settings.footerText || settings.description %></p><% } %>
+		</div>
+
+		<div class="site-footer__links">
+			<h2 class="site-footer__heading">Explore</h2>
+			<ul class="footer-links">
+				<% (footerMenu.length ? footerMenu : mainMenu).forEach(function (item) { %>
+					<li><a href="<%= item.url %>"><%= item.title %></a></li>
+				<% }) %>
+			</ul>
+		</div>
+
+		<div class="site-footer__contact">
+			<h2 class="site-footer__heading">Get in touch</h2>
+			<ul class="footer-contact">
+				<% offices.forEach(function (office) { %>
+					<% if (office.address) { %><li><span class="material-symbols-outlined" aria-hidden="true">location_on</span><span><%= office.address %></span></li><% } %>
+					<% office.phones.forEach(function (phone) { %><li><span class="material-symbols-outlined" aria-hidden="true">call</span><a href="<%= telHref(phone) %>"><%= phone %></a></li><% }) %>
+					<% office.emails.forEach(function (email) { %><li><span class="material-symbols-outlined" aria-hidden="true">mail</span><a href="mailto:<%= email %>"><%= email %></a></li><% }) %>
+				<% }) %>
+			</ul>
+			<%- include('social-links', { socialClass: 'social-links social-links--footer' }) %>
+		</div>
+	</div>
+	<div class="site-footer__bottom">
+		<p>
+			<span><%= copyright %></span>
+			<span class="site-footer__credit">by <a href="https://www.liteweb.info" target="_blank" rel="noopener noreferrer">www.liteweb.info</a></span>
+		</p>
+	</div>
+</footer>

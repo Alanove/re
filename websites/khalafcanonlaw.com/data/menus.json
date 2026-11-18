@@ -1,0 +1,70 @@
+[
+  {
+    "id": "main",
+    "name": "Main",
+    "description": "",
+    "items": [
+      {
+        "id": "main-1",
+        "title": "About",
+        "url": "/#AboutUs",
+        "pageId": null,
+        "sort": 0,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "main-2",
+        "title": "Practice",
+        "url": "/#OurServices",
+        "pageId": null,
+        "sort": 1,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "main-3",
+        "title": "In The Press",
+        "url": "/press",
+        "pageId": 2,
+        "sort": 2,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "main-4",
+        "title": "Contact",
+        "url": "/#ContactUs",
+        "pageId": null,
+        "sort": 3,
+        "active": true,
+        "children": []
+      }
+    ]
+  },
+  {
+    "id": "footer",
+    "name": "Footer",
+    "description": "",
+    "items": [
+      {
+        "id": "footer-1",
+        "title": "In The Press",
+        "url": "/press",
+        "pageId": 2,
+        "sort": 0,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "footer-2",
+        "title": "Contact",
+        "url": "/contact",
+        "pageId": 3,
+        "sort": 1,
+        "active": true,
+        "children": []
+      }
+    ]
+  }
+]

@@ -1,0 +1,15 @@
+<%
+	const captchaId = locals.captchaId || 'captcha';
+	const captchaError = locals.captchaError || '';
+%>
+<div class="form-captcha">
+	<input type="hidden" name="captcha" value="" />
+	<div class="site-captcha" data-captcha-status
+		data-text-idle="Spam protection is ready."
+		data-text-solving="Checking that you are human..."
+		data-text-ready="Verified. You can send the form."
+		data-text-error="The spam check could not finish."
+		data-text-retry="Try again"></div>
+	<noscript><p class="site-captcha-noscript">Please turn on JavaScript to send this form. It runs a quick spam check.</p></noscript>
+	<p class="form-error" id="<%= captchaId %>-error" data-error-for="captcha"><%= captchaError %></p>
+</div>

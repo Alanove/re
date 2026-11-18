@@ -1,0 +1,61 @@
+[
+  {
+    "id": "main",
+    "name": "Main",
+    "description": "",
+    "items": [
+      {
+        "id": "main-1",
+        "title": "About",
+        "url": "/#AboutUs",
+        "pageId": null,
+        "sort": 0,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "main-2",
+        "title": "Our Work",
+        "url": "/#OurWork",
+        "pageId": null,
+        "sort": 1,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "main-3",
+        "title": "Contact",
+        "url": "/#ContactUs",
+        "pageId": null,
+        "sort": 2,
+        "active": true,
+        "children": []
+      }
+    ]
+  },
+  {
+    "id": "footer",
+    "name": "Footer",
+    "description": "",
+    "items": [
+      {
+        "id": "footer-1",
+        "title": "Our Work",
+        "url": "/our-work",
+        "pageId": 2,
+        "sort": 0,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "footer-2",
+        "title": "Contact",
+        "url": "/contact",
+        "pageId": 3,
+        "sort": 1,
+        "active": true,
+        "children": []
+      }
+    ]
+  }
+]

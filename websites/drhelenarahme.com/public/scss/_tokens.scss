@@ -1,0 +1,121 @@
+// Design tokens. Sampled from wwwroot/background.jpg (warm peach #efdacc) and icons.png (near-black olive).
+@use 'sass:list';
+@use 'sass:map';
+
+// Brand: warm taupe deepened from the splash peach so white text passes AA.
+$color-primary: #6b5344;
+$color-primary-dark: #4f3c32;
+$color-primary-container: #e8d5c8;
+$color-on-primary-container: #3a2a22;
+$color-deep-burgundy: #6b5344;
+$color-navy: #3a342e;
+$color-accent: #c4a484;
+$color-accent-dark: #9a7a5c;
+$color-accent-on-dark: #efdacc;
+$color-secondary: #8a6f5c;
+$color-secondary-fixed: #f4ebe3;
+$color-industrial-gold: $color-accent;
+
+// Neutrals — warm greys matching the taupe brand
+$color-background: #ffffff;
+$color-surface: #f7f3ef;
+$color-surface-bright: #fbf9f7;
+$color-surface-lowest: #ffffff;
+$color-surface-low: #f3eee9;
+$color-surface-container: #ebe4dd;
+$color-surface-high: #e2d9d0;
+$color-surface-variant: #d6cbc0;
+$color-on-surface: #1f1a17;
+$color-on-surface-variant: #5a514a;
+$color-slate-gray: #6a6159;
+$color-outline: #8f867c;
+$color-outline-variant: #ddd4cb;
+$color-tertiary: #3a342e;
+$color-tertiary-container: #2a2521;
+$color-tertiary-fixed-dim: #b9b3ab;
+$color-white: #ffffff;
+
+$color-error: #ba1a1a;
+$color-error-container: #ffdad6;
+$color-success: #1e6b3a;
+$color-success-container: #d7f2df;
+
+$font-family-base: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+$font-family-heading: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+$font-family-icons: 'Material Symbols Outlined';
+
+$type-scale: (
+  display-lg: (52px, 60px, 600, -0.01em),
+  headline-lg: (34px, 42px, 600, 0.02em),
+  headline-lg-mobile: (26px, 34px, 600, 0.02em),
+  headline-md: (22px, 30px, 600, 0),
+  body-lg: (18px, 28px, 400, 0),
+  body-md: (16px, 24px, 400, 0),
+  body-sm: (14px, 20px, 400, 0),
+  label-caps: (12px, 16px, 600, 0.08em),
+  button: (14px, 20px, 600, 0)
+);
+
+$space-xs: 4px;
+$space-sm: 8px;
+$space-md: 16px;
+$space-lg: 32px;
+$space-xl: 48px;
+$gutter: 24px;
+$margin-mobile: 20px;
+$margin-desktop: 64px;
+$section-gap: 80px;
+$section-gap-mobile: 48px;
+$container-max: 1100px;
+$header-height: 64px;
+$header-height-mobile: 56px;
+$tap-target: 44px;
+$page-bar-height: 52px;
+
+$radius-sm: 0.25rem;
+$radius-md: 0.5rem;
+$radius-lg: 0.75rem;
+$radius-full: 9999px;
+$shadow-sm: 0 1px 2px rgba(31, 26, 23, 0.06);
+$shadow-md: 0 8px 24px rgba(31, 26, 23, 0.1);
+$shadow-lg: 0 18px 40px rgba(31, 26, 23, 0.14);
+$shadow-xl: 0 25px 50px -12px rgba(31, 26, 23, 0.35);
+
+$transition-fast: 150ms ease;
+$transition-base: 200ms ease;
+$transition-slow: 500ms ease;
+
+$breakpoints: (
+  sm: 640px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px
+);
+
+@function type-value($name, $index) {
+  @return list.nth(map.get($type-scale, $name), $index);
+}
+
+$css-colors: (
+  'primary': $color-primary,
+  'primary-dark': $color-primary-dark,
+  'primary-container': $color-primary-container,
+  'accent': $color-accent,
+  'secondary': $color-secondary,
+  'secondary-fixed': $color-secondary-fixed,
+  'industrial-gold': $color-industrial-gold,
+  'on-surface': $color-on-surface,
+  'on-surface-variant': $color-on-surface-variant,
+  'surface': $color-surface,
+  'surface-low': $color-surface-low,
+  'surface-high': $color-surface-high,
+  'slate-gray': $color-slate-gray,
+  'tertiary': $color-tertiary,
+  'white': $color-white
+);
+
+@mixin color-vars {
+  @each $name, $value in $css-colors {
+    --color-#{$name}: #{$value};
+  }
+}

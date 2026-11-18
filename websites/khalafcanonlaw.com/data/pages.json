@@ -1,0 +1,117 @@
+[
+  {
+    "id": 1,
+    "key": "home",
+    "parentId": null,
+    "slug": "home",
+    "title": "Home",
+    "header": "Home",
+    "summary": "",
+    "content": "",
+    "status": "draft",
+    "kind": "page",
+    "sort": 0,
+    "icon": "",
+    "heroImage": "",
+    "heroVideo": "",
+    "seo": {
+      "title": "",
+      "description": "",
+      "keywords": ""
+    },
+    "createdAt": "2026-11-18T00:39:52.931Z",
+    "updatedAt": "2026-11-18T00:39:52.931Z"
+  },
+  {
+    "id": 2,
+    "key": "press",
+    "parentId": null,
+    "slug": "press",
+    "title": "In The Press",
+    "header": "In The Press",
+    "summary": "In The Press — articles and coverage from Khalaf Canon Law.",
+    "content": "",
+    "status": "published",
+    "kind": "blog",
+    "sort": 20,
+    "icon": "",
+    "heroImage": "",
+    "heroVideo": "",
+    "seo": {
+      "title": "",
+      "description": "In The Press — articles and coverage from Khalaf Canon Law.",
+      "keywords": ""
+    },
+    "createdAt": "2026-11-18T00:39:52.931Z",
+    "updatedAt": "2026-11-18T00:39:52.931Z"
+  },
+  {
+    "id": 3,
+    "key": "contact",
+    "parentId": null,
+    "slug": "contact",
+    "title": "Contact",
+    "header": "Contact",
+    "summary": "Schedule a confidential consultation.",
+    "content": "<p>Schedule a confidential consultation to discuss your case.</p>",
+    "status": "published",
+    "kind": "contact",
+    "sort": 30,
+    "icon": "",
+    "heroImage": "",
+    "heroVideo": "",
+    "seo": {
+      "title": "",
+      "description": "Schedule a confidential consultation.",
+      "keywords": ""
+    },
+    "createdAt": "2026-11-18T00:39:52.931Z",
+    "updatedAt": "2026-11-18T00:39:52.931Z"
+  },
+  {
+    "id": 4,
+    "key": "draft-press-test",
+    "parentId": 2,
+    "slug": "draft-press-test",
+    "title": "Draft press test",
+    "header": "",
+    "summary": "",
+    "content": "",
+    "status": "draft",
+    "kind": "page",
+    "sort": 100,
+    "icon": "",
+    "heroImage": "",
+    "heroVideo": "",
+    "seo": {
+      "title": "",
+      "description": "",
+      "keywords": ""
+    },
+    "createdAt": "2026-11-18T00:56:57.555Z",
+    "updatedAt": "2026-11-18T00:56:57.555Z"
+  },
+  {
+    "id": 10,
+    "key": "draft-press-test",
+    "parentId": 2,
+    "slug": "draft-press-test",
+    "title": "Draft press test",
+    "header": "Draft press test",
+    "summary": "Should stay off the public list",
+    "content": "<p>Draft only.</p>",
+    "status": "draft",
+    "kind": "page",
+    "sort": 100,
+    "icon": "",
+    "heroImage": "",
+    "heroVideo": "",
+    "seo": {
+      "title": "",
+      "description": "",
+      "keywords": ""
+    },
+    "createdAt": "2026-11-18T00:57:11.534Z",
+    "updatedAt": "2026-11-18T00:57:11.534Z"
+  }
+]

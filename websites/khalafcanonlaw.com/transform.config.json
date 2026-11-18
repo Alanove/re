@@ -1,0 +1,38 @@
+{
+  "siteKey": "khalaf",
+  "siteName": "Khalaf Canon Law",
+  "legacySiteUrl": "https://www.khalafcanonlaw.com",
+  "cmsSource": "C:/ai/tests/btb/solu-new",
+  "contentWorkbook": "content/unused.xls",
+  "contentSeed": "content/seed.json",
+  "designDir": "design",
+  "outputDir": ".",
+  "port": 3058,
+  "logo": {
+    "url": "https://www.khalafcanonlaw.com/uploads/site/logo.webp",
+    "localPath": "/uploads/site/logo.webp",
+    "note": "Legacy logo.png seal (red and gold)"
+  },
+  "legacy": {
+    "localRoot": "wwwroot",
+    "pageImagePattern": "/Prv/Images/Pages/Page_{pageId}/Large/{fileName}",
+    "footerPageKey": null,
+    "contactPageKey": "contact",
+    "hiddenPageKeys": [],
+    "uploadsMirrorPrefix": "/uploads/legacy"
+  },
+  "blog": {
+    "rootKey": "press"
+  },
+  "cmsSync": {
+    "adminPublicFiles": [
+      "css/vendor.min.css",
+      "css/app.min.css",
+      "js/vendor.min.js",
+      "js/app.min.js",
+      "js/custom.js",
+      "js/theme.js"
+    ],
+    "adminPublicDirs": ["css/images", "webfonts"]
+  }
+}

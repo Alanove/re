@@ -1,0 +1,36 @@
+{
+  "siteKey": "helena",
+  "siteName": "Dr. Helena Rahme",
+  "legacySiteUrl": "https://www.drhelenarahme.com",
+  "cmsSource": "C:/ai/tests/btb/solu-new",
+  "contentWorkbook": "content/unused.xls",
+  "contentSeed": "content/seed.json",
+  "designDir": "design",
+  "outputDir": ".",
+  "port": 3056,
+  "logo": {
+    "url": "https://www.drhelenarahme.com/uploads/site/logo.webp",
+    "localPath": "/uploads/site/logo.webp",
+    "note": "Splash artwork from background.jpg; no separate logo mark"
+  },
+  "legacy": {
+    "localRoot": "wwwroot",
+    "pageImagePattern": "/Prv/Images/Pages/Page_{pageId}/Large/{fileName}",
+    "footerPageKey": null,
+    "contactPageKey": "contact",
+    "hiddenPageKeys": [],
+    "uploadsMirrorPrefix": "/uploads/legacy"
+  },
+  "blog": null,
+  "cmsSync": {
+    "adminPublicFiles": [
+      "css/vendor.min.css",
+      "css/app.min.css",
+      "js/vendor.min.js",
+      "js/app.min.js",
+      "js/custom.js",
+      "js/theme.js"
+    ],
+    "adminPublicDirs": ["css/images", "webfonts"]
+  }
+}

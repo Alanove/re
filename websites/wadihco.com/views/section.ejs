@@ -1,0 +1,53 @@
+<%- include('partials/page-hero') %>
+<div class="inner-layout">
+	<%- include('partials/sidebar') %>
+	<article class="inner-article">
+		<% if (page.content) { %>
+			<div class="prose">
+				<%- page.content %>
+			</div>
+		<% } %>
+
+		<% if (page.children.length) { %>
+			<section class="child-pages" aria-labelledby="child-pages-title">
+				<span class="divider" aria-hidden="true"></span>
+				<h2 class="section-title" id="child-pages-title">In this section</h2>
+				<ul class="section-cards">
+					<% page.children.forEach(function (child) { %>
+						<li>
+							<a class="activity-card" href="<%= child.url %>">
+								<div class="activity-card__media">
+									<% if (child.heroImage) { %>
+										<img src="<%= child.heroImage %>" alt="" loading="lazy" />
+									<% } else if (child.heroVideo) { %>
+										<video src="<%= child.heroVideo %>" muted loop playsinline autoplay preload="metadata" aria-hidden="true"></video>
+									<% } else { %>
+										<span class="activity-card__placeholder material-symbols-outlined" aria-hidden="true"><%= child.icon || 'factory' %></span>
+									<% } %>
+								</div>
+								<div class="activity-card__body">
+									<h3 class="activity-card__title"><%= child.title %></h3>
+									<% if (child.summary) { %><p class="activity-card__text"><%= child.summary %></p><% } %>
+									<span class="activity-card__more">Learn more <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></span>
+								</div>
+							</a>
+						</li>
+					<% }) %>
+				</ul>
+			</section>
+		<% } %>
+
+		<%- include('partials/gallery') %>
+
+		<% if (settings.ctaBand.title) { %>
+			<section class="cta-band">
+				<div>
+					<p class="cta-band__eyebrow"><%= settings.siteName %></p>
+					<p class="cta-band__title"><%= settings.ctaBand.title %></p>
+					<% if (settings.ctaBand.text) { %><p class="cta-band__text"><%= settings.ctaBand.text %></p><% } %>
+				</div>
+				<a class="btn btn--accent" href="<%= settings.brochureUrl || (contactUrl.indexOf('#') === -1 ? contactUrl + '#contact-form' : contactUrl) %>"<% if (settings.brochureUrl) { %> target="_blank" rel="noopener noreferrer"<% } %>><%= settings.ctaBand.label || 'Contact us' %></a>
+			</section>
+		<% } %>
+	</article>
+</div>

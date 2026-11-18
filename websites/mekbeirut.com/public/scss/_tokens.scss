@@ -1,0 +1,119 @@
+// Design tokens. Logo is greyscale; wood tones sampled from project photos (kitchen.png #775b44 / #856b54).
+@use 'sass:list';
+@use 'sass:map';
+
+$color-primary: #5c4330;
+$color-primary-dark: #3f2d20;
+$color-primary-container: #e6d7c8;
+$color-on-primary-container: #2a1c12;
+$color-deep-burgundy: #5c4330;
+$color-navy: #2a2622;
+$color-accent: #856b54;
+$color-accent-dark: #67523f;
+$color-accent-on-dark: #d6c3aa;
+$color-secondary: #696758;
+$color-secondary-fixed: #e8e6dc;
+$color-industrial-gold: $color-accent;
+
+$color-background: #ffffff;
+$color-surface: #f6f4f1;
+$color-surface-bright: #faf9f7;
+$color-surface-lowest: #ffffff;
+$color-surface-low: #f1eee9;
+$color-surface-container: #e8e3db;
+$color-surface-high: #ddd7cd;
+$color-surface-variant: #d0c8bc;
+$color-on-surface: #1c1916;
+$color-on-surface-variant: #534c44;
+$color-slate-gray: #5e574e;
+$color-outline: #8a8278;
+$color-outline-variant: #dcd5cb;
+$color-tertiary: #2a2622;
+$color-tertiary-container: #1c1916;
+$color-tertiary-fixed-dim: #b8b3aa;
+$color-white: #ffffff;
+
+$color-error: #ba1a1a;
+$color-error-container: #ffdad6;
+$color-success: #1e6b3a;
+$color-success-container: #d7f2df;
+
+$font-family-base: 'Inter', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+$font-family-heading: 'Inter', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+$font-family-icons: 'Material Symbols Outlined';
+
+$type-scale: (
+  display-lg: (48px, 56px, 800, -0.02em),
+  headline-lg: (32px, 40px, 700, 0),
+  headline-lg-mobile: (26px, 34px, 700, 0),
+  headline-md: (22px, 30px, 700, 0),
+  body-lg: (18px, 28px, 400, 0),
+  body-md: (16px, 24px, 400, 0),
+  body-sm: (14px, 20px, 400, 0),
+  label-caps: (12px, 16px, 700, 0.06em),
+  button: (14px, 20px, 600, 0)
+);
+
+$space-xs: 4px;
+$space-sm: 8px;
+$space-md: 16px;
+$space-lg: 32px;
+$space-xl: 48px;
+$gutter: 24px;
+$margin-mobile: 20px;
+$margin-desktop: 64px;
+$section-gap: 100px;
+$section-gap-mobile: 64px;
+$container-max: 1200px;
+$header-height: 132px;
+$header-height-mobile: 104px;
+$tap-target: 44px;
+$page-bar-height: 52px;
+
+$radius-sm: 0.25rem;
+$radius-md: 0.5rem;
+$radius-lg: 0.75rem;
+$radius-full: 9999px;
+$shadow-sm: 0 1px 2px rgba(28, 25, 22, 0.06);
+$shadow-md: 0 8px 24px rgba(28, 25, 22, 0.1);
+$shadow-lg: 0 18px 40px rgba(28, 25, 22, 0.14);
+$shadow-xl: 0 25px 50px -12px rgba(28, 25, 22, 0.35);
+
+$transition-fast: 150ms ease;
+$transition-base: 200ms ease;
+$transition-slow: 500ms ease;
+
+$breakpoints: (
+  sm: 640px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px
+);
+
+@function type-value($name, $index) {
+  @return list.nth(map.get($type-scale, $name), $index);
+}
+
+$css-colors: (
+  'primary': $color-primary,
+  'primary-dark': $color-primary-dark,
+  'primary-container': $color-primary-container,
+  'accent': $color-accent,
+  'secondary': $color-secondary,
+  'secondary-fixed': $color-secondary-fixed,
+  'industrial-gold': $color-industrial-gold,
+  'on-surface': $color-on-surface,
+  'on-surface-variant': $color-on-surface-variant,
+  'surface': $color-surface,
+  'surface-low': $color-surface-low,
+  'surface-high': $color-surface-high,
+  'slate-gray': $color-slate-gray,
+  'tertiary': $color-tertiary,
+  'white': $color-white
+);
+
+@mixin color-vars {
+  @each $name, $value in $css-colors {
+    --color-#{$name}: #{$value};
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "hero": {
+    "enabled": true,
+    "eyebrow": "Wadihco S.A.R.L.",
+    "slogans": [
+      "Agents and distributors of brands"
+    ],
+    "image": "",
+    "primaryCta": {
+      "label": "Our products",
+      "url": "/products"
+    },
+    "secondaryCta": {
+      "label": "Shop now",
+      "url": "https://drinks4lessonline.com/"
+    }
+  },
+  "about": {
+    "enabled": true,
+    "title": "Our mission",
+    "content": "<p>We are agents and distributors of brands. We add value by enhancing demand, ensuring availability of goods, guaranteeing quality, efficient logistics and devoted customer services. We aim the highest customer satisfaction, high job satisfaction for our companions and long term sustainable growth for our vendors. Together, we all win.</p>",
+    "highlight": "Since 1977",
+    "statValue": "1977",
+    "statLabel": "Founded"
+  },
+  "studios": {
+    "enabled": false,
+    "title": "",
+    "content": "",
+    "quote": "",
+    "image": ""
+  },
+  "services": {
+    "enabled": true,
+    "title": "What we do",
+    "intro": "",
+    "items": [
+      {
+        "title": "Brand distribution",
+        "text": "We enhance demand and ensure availability of goods.",
+        "icon": "local_shipping"
+      },
+      {
+        "title": "Quality & logistics",
+        "text": "Guaranteed quality with efficient logistics.",
+        "icon": "inventory_2"
+      },
+      {
+        "title": "Customer service",
+        "text": "Devoted service for modern trade, Horeca and wholesale.",
+        "icon": "support_agent"
+      }
+    ]
+  },
+  "team": {
+    "enabled": false,
+    "title": "",
+    "content": "",
+    "members": []
+  },
+  "latestPosts": {
+    "enabled": false,
+    "title": "",
+    "intro": "",
+    "limit": 3
+  },
+  "contact": {
+    "enabled": true,
+    "title": "Contact Us",
+    "intro": "Reach either of our branches in Jounieh.",
+    "image": ""
+  },
+  "updatedAt": "2026-11-18T00:39:52.931Z"
+}

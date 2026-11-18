@@ -1,0 +1,58 @@
+<%
+	const hero = home.hero;
+	const officeList = Array.isArray(offices) ? offices : (primaryOffice ? [primaryOffice] : []);
+	const list = officeList.length ? officeList : [];
+	const email = settings.contactEmail;
+	const instagram = settings.social && settings.social.instagram ? settings.social.instagram : '';
+%>
+<section class="splash" aria-label="<%= settings.siteName %>">
+	<div class="splash__frame">
+		<% if (hero.image) { %>
+			<img
+				class="splash__art"
+				src="<%= hero.image %>"
+				alt="<%= settings.siteName %>"
+				width="1000"
+				height="699"
+				fetchpriority="high"
+			/>
+		<% } %>
+		<div class="splash__hotspots" aria-hidden="true">
+			<% if (email) { %><a class="splash__hotspot splash__hotspot--email" href="mailto:<%= email %>" tabindex="-1">Email</a><% } %>
+			<% list.forEach(function (office, index) {
+				const cls = index === 0 ? 'badaro' : 'jounieh';
+				const href = office.mapQuery
+					? 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(office.mapQuery)
+					: '#';
+			%>
+				<a class="splash__hotspot splash__hotspot--<%= cls %>" href="<%= href %>" target="_blank" rel="noopener noreferrer" tabindex="-1"><%= office.role || office.address %></a>
+			<% }) %>
+			<% if (instagram) { %><a class="splash__hotspot splash__hotspot--instagram" href="<%= instagram %>" target="_blank" rel="noopener noreferrer" tabindex="-1">Instagram</a><% } %>
+		</div>
+	</div>
+
+	<div class="splash__actions">
+		<h1 class="splash__title"><%= settings.siteName %></h1>
+		<ul class="splash__links">
+			<% if (email) { %>
+				<li><a class="btn btn--primary" href="mailto:<%= email %>"><span class="material-symbols-outlined" aria-hidden="true">mail</span> <%= email %></a></li>
+			<% } %>
+			<% list.forEach(function (office) {
+				const href = office.mapQuery
+					? 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(office.mapQuery)
+					: '#';
+				const label = office.role || office.address || 'Clinic';
+			%>
+				<li>
+					<a class="btn btn--outline" href="<%= href %>" target="_blank" rel="noopener noreferrer">
+						<span class="material-symbols-outlined" aria-hidden="true">location_on</span> <%= label %>
+					</a>
+				</li>
+			<% }) %>
+			<% if (instagram) { %>
+				<li><a class="btn btn--outline" href="<%= instagram %>" target="_blank" rel="noopener noreferrer"><span class="material-symbols-outlined" aria-hidden="true">photo_camera</span> Instagram</a></li>
+			<% } %>
+			<li><a class="btn btn--ghost" href="/contact">Send a message</a></li>
+		</ul>
+	</div>
+</section>

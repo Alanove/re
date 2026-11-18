@@ -1,0 +1,125 @@
+@use 'tokens' as t;
+@use 'mixins' as m;
+
+.form-panel {
+  background: t.$color-surface-low;
+  border: 1px solid t.$color-outline-variant;
+  border-radius: t.$radius-lg;
+  padding: t.$gutter;
+
+  @include m.up(md) {
+    padding: t.$space-lg;
+  }
+
+  &__title {
+    @include m.type(headline-md);
+    color: t.$color-primary;
+    margin-bottom: t.$space-sm;
+  }
+
+  &__intro {
+    color: t.$color-slate-gray;
+    margin-bottom: t.$gutter;
+  }
+}
+
+.form-grid {
+  display: grid;
+  gap: t.$space-md;
+  margin-bottom: t.$gutter;
+
+  @include m.up(sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-sm;
+
+  &--full {
+    @include m.up(sm) {
+      grid-column: 1 / -1;
+    }
+  }
+}
+
+.form-label {
+  @include m.type(body-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: t.$color-slate-gray;
+}
+
+.form-optional {
+  font-weight: 400;
+  text-transform: none;
+  color: t.$color-outline;
+}
+
+.form-control {
+  width: 100%;
+  font: inherit;
+  color: t.$color-on-surface;
+  background: t.$color-surface-lowest;
+  border: 1px solid t.$color-outline-variant;
+  border-radius: t.$radius-md;
+  padding: 12px;
+  transition: border-color t.$transition-fast, box-shadow t.$transition-fast;
+
+  &:focus {
+    outline: none;
+    border-color: t.$color-primary;
+    box-shadow: 0 0 0 2px rgba(t.$color-primary, 0.25);
+  }
+
+  .is-invalid & {
+    border-color: t.$color-error;
+  }
+}
+
+select.form-control {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, t.$color-slate-gray 50%), linear-gradient(135deg, t.$color-slate-gray 50%, transparent 50%);
+  background-position: calc(100% - 20px) 50%, calc(100% - 15px) 50%;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 40px;
+}
+
+textarea.form-control {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.form-error {
+  @include m.type(body-sm);
+  color: t.$color-error;
+  min-height: 0;
+
+  &:empty {
+    display: none;
+  }
+}
+
+.form-status {
+  border-radius: t.$radius-md;
+  padding: 12px t.$space-md;
+  margin-bottom: t.$gutter;
+  font-weight: 600;
+
+  &.is-success {
+    background: t.$color-success-container;
+    color: t.$color-success;
+  }
+
+  &.is-error {
+    background: t.$color-error-container;
+    color: t.$color-error;
+  }
+}
+
+.form-honeypot {
+  @include m.visually-hidden;
+}

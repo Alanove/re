@@ -1,0 +1,19 @@
+---
+description: drhelenarahme.com site rules
+globs:
+  - websites/drhelenarahme.com/**
+alwaysApply: false
+---
+
+# drhelenarahme.com: project rules
+
+Site rule for `websites/drhelenarahme.com/`. It applies in addition to the global rules in `.cursor/rules/`; where they conflict, the global rules win. Paths are relative to the site folder.
+
+## Site shape
+- Splash home built from the legacy one-image artwork (`/uploads/site/splash.webp`). Hotspots on large screens; visible contact buttons on phones.
+- Two offices: Badaro (primary) and Jounieh. Email `info@drhelenarahme.com`. Instagram from Site Settings > Social.
+- Contact form at `/contact`. No invented extra pages.
+
+## Design
+- Colours from `wwwroot/background.jpg` warm peach `#efdacc` and icons near-black. Tokens in `public/scss/_tokens.scss`: primary `#6b5344` (deepened for AA with white text), accent `#c4a484`, warm neutrals.
+- Font: Cormorant Garamond.

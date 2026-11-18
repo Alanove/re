@@ -1,0 +1,71 @@
+[
+  {
+    "id": 1,
+    "key": "home",
+    "parentId": null,
+    "slug": "home",
+    "title": "Home",
+    "header": "Home",
+    "summary": "",
+    "content": "",
+    "status": "draft",
+    "kind": "page",
+    "sort": 0,
+    "icon": "",
+    "heroImage": "",
+    "heroVideo": "",
+    "seo": {
+      "title": "",
+      "description": "",
+      "keywords": ""
+    },
+    "createdAt": "2026-11-18T00:39:52.931Z",
+    "updatedAt": "2026-11-18T00:39:52.931Z"
+  },
+  {
+    "id": 2,
+    "key": "our-work",
+    "parentId": null,
+    "slug": "our-work",
+    "title": "Our Work",
+    "header": "Our Work",
+    "summary": "High-end woodwork and furniture projects by Mek Beirut.",
+    "content": "<p>A selection of recent residential and commercial projects.</p>",
+    "status": "published",
+    "kind": "page",
+    "sort": 10,
+    "icon": "",
+    "heroImage": "",
+    "heroVideo": "",
+    "seo": {
+      "title": "",
+      "description": "High-end woodwork and furniture projects by Mek Beirut.",
+      "keywords": ""
+    },
+    "createdAt": "2026-11-18T00:39:52.931Z",
+    "updatedAt": "2026-11-18T00:39:52.931Z"
+  },
+  {
+    "id": 3,
+    "key": "contact",
+    "parentId": null,
+    "slug": "contact",
+    "title": "Contact",
+    "header": "Contact",
+    "summary": "Contact Mek Beirut.",
+    "content": "<p>Tell us about your project.</p>",
+    "status": "published",
+    "kind": "contact",
+    "sort": 20,
+    "icon": "",
+    "heroImage": "",
+    "heroVideo": "",
+    "seo": {
+      "title": "",
+      "description": "Contact Mek Beirut.",
+      "keywords": ""
+    },
+    "createdAt": "2026-11-18T00:39:52.931Z",
+    "updatedAt": "2026-11-18T00:39:52.931Z"
+  }
+]

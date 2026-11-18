@@ -1,0 +1,22 @@
+---
+description: wadihco.com site rules
+globs:
+  - websites/wadihco.com/**
+alwaysApply: false
+---
+
+# wadihco.com: project rules
+
+Site rule for `websites/wadihco.com/`. It applies in addition to the global rules in `.cursor/rules/`; where they conflict, the global rules win. Paths are relative to the site folder.
+
+## Site shape
+- Multi-page brochure: Home, About, Products (with cigar/X-Plosiv children), Partners, Media, Careers, Contact.
+- Header "Shop now" and CTA band use `settings.brochureUrl` (`https://drinks4lessonline.com/`). Do not also list Shop now in the main menu.
+- Logo includes the wordmark: use `brand--mark-only` (large logo, no text name beside it).
+- Inner-page sidebar repeats the main menu (no Belfay "dubbing" assist card).
+- Two offices (AWS Zouk Mosbeh, Sahel Alma). Legacy `.php`/`.htm` paths redirect via `data/redirects.json`.
+- No careers application upload (legacy ajax stub was empty).
+
+## Design
+- Quieter redesign. Colours from `wwwroot/images/logo.png` charcoal `#231f20`. Tokens: primary `#231f20`, accent `#6b5e52`, warm paper background `#faf9f8`.
+- Fonts: Source Serif 4 (headings), Source Sans 3 (body). Avoid full-bleed saturated banners from the legacy site.

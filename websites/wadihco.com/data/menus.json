@@ -1,0 +1,106 @@
+[
+  {
+    "id": "main",
+    "name": "Main",
+    "description": "",
+    "items": [
+      {
+        "id": "main-1",
+        "title": "Mission",
+        "url": "/",
+        "pageId": null,
+        "sort": 0,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "main-2",
+        "title": "About Us",
+        "url": "/about",
+        "pageId": 2,
+        "sort": 1,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "main-3",
+        "title": "Products",
+        "url": "/products",
+        "pageId": 3,
+        "sort": 2,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "main-4",
+        "title": "Our Partners",
+        "url": "/partners",
+        "pageId": 4,
+        "sort": 3,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "main-5",
+        "title": "Media",
+        "url": "/media",
+        "pageId": 5,
+        "sort": 4,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "main-6",
+        "title": "Careers",
+        "url": "/careers",
+        "pageId": 6,
+        "sort": 5,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "main-7",
+        "title": "Contact Us",
+        "url": "/contact",
+        "pageId": 7,
+        "sort": 6,
+        "active": true,
+        "children": []
+      }
+    ]
+  },
+  {
+    "id": "footer",
+    "name": "Footer",
+    "description": "",
+    "items": [
+      {
+        "id": "footer-1",
+        "title": "About",
+        "url": "/about",
+        "pageId": 2,
+        "sort": 0,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "footer-2",
+        "title": "Products",
+        "url": "/products",
+        "pageId": 3,
+        "sort": 1,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "footer-3",
+        "title": "Contact",
+        "url": "/contact",
+        "pageId": 7,
+        "sort": 2,
+        "active": true,
+        "children": []
+      }
+    ]
+  }
+]

@@ -798,3 +798,13 @@ websites/solutec-lb.com/**/*.temp
 
 # Over GitHub's 100 MB file limit
 websites/emdc.group/public/videos/home1.mp4
+
+# Four brochure sites: legacy dumps and zip backups stay local
+websites/drhelenarahme.com/wwwroot/
+websites/khalafcanonlaw.com/wwwroot/
+websites/mekbeirut.com/wwwroot/
+websites/wadihco.com/wwwroot/
+websites/drhelenarahme.com/*.zip
+websites/khalafcanonlaw.com/*.zip
+websites/mekbeirut.com/*.zip
+websites/wadihco.com/*.zip

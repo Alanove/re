@@ -1,0 +1,43 @@
+[
+  {
+    "id": "main",
+    "name": "Main",
+    "description": "",
+    "items": [
+      {
+        "id": "main-1",
+        "title": "Home",
+        "url": "/",
+        "pageId": null,
+        "sort": 0,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "main-2",
+        "title": "Contact",
+        "url": "/contact",
+        "pageId": 2,
+        "sort": 1,
+        "active": true,
+        "children": []
+      }
+    ]
+  },
+  {
+    "id": "footer",
+    "name": "Footer",
+    "description": "",
+    "items": [
+      {
+        "id": "footer-1",
+        "title": "Contact",
+        "url": "/contact",
+        "pageId": 2,
+        "sort": 0,
+        "active": true,
+        "children": []
+      }
+    ]
+  }
+]

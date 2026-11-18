@@ -1,0 +1,48 @@
+[
+  {
+    "id": 1,
+    "key": "home",
+    "parentId": null,
+    "slug": "home",
+    "title": "Home",
+    "header": "Home",
+    "summary": "Dr. Helena Rahme",
+    "content": "",
+    "status": "draft",
+    "kind": "page",
+    "sort": 0,
+    "icon": "",
+    "heroImage": "",
+    "heroVideo": "",
+    "seo": {
+      "title": "",
+      "description": "Dr. Helena Rahme",
+      "keywords": ""
+    },
+    "createdAt": "2026-11-18T00:39:52.931Z",
+    "updatedAt": "2026-11-18T00:39:52.931Z"
+  },
+  {
+    "id": 2,
+    "key": "contact",
+    "parentId": null,
+    "slug": "contact",
+    "title": "Contact",
+    "header": "Contact",
+    "summary": "Get in touch with Dr. Helena Rahme.",
+    "content": "<p>Send a message and the clinic will get back to you.</p>",
+    "status": "published",
+    "kind": "contact",
+    "sort": 10,
+    "icon": "",
+    "heroImage": "",
+    "heroVideo": "",
+    "seo": {
+      "title": "",
+      "description": "Get in touch with Dr. Helena Rahme.",
+      "keywords": ""
+    },
+    "createdAt": "2026-11-18T00:39:52.931Z",
+    "updatedAt": "2026-11-18T00:39:52.931Z"
+  }
+]
