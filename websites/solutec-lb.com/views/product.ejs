@@ -15,7 +15,9 @@
           </div>
         <% } %>
         <% if (product.pdf) { %>
-          <p class="spacer"><a class="btn solu-pdf" href="<%= product.pdf %>" target="_blank" rel="noopener">Download PDF</a></p>
+          <div class="solu-product-download">
+            <a class="btn solu-pdf" href="<%= product.pdf %>" target="_blank" rel="noopener">Download PDF</a>
+          </div>
         <% } %>
       </div>
     </div>

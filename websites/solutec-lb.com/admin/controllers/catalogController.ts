@@ -90,7 +90,7 @@ export class CatalogController {
     res.render('products/edit-product', {
       title: creating ? 'New product' : 'Edit product',
       pageTitle: creating ? 'New product' : 'Edit product',
-      product,
+      product: product ? { ...product, content: brochure.content } : null,
       pdfUrl: brochure.pdf,
       categories: catalog.getCategories(),
       isCreate: creating,

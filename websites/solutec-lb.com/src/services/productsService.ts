@@ -35,17 +35,56 @@ export interface ProductRecord {
 }
 
 const SPECS_HEADING = 'Product Technical Specifications';
+const DOWNLOAD_TEXT = /^download pdf\.?$/i;
 
+function hrefFrom(attrs: string): string {
+  const quoted = String(attrs).match(/\bhref\s*=\s*["']([^"']+)["']/i);
+  if (quoted) return quoted[1];
+  const bare = String(attrs).match(/\bhref\s*=\s*([^\s>"']+)/i);
+  return bare ? bare[1] : '';
+}
+
+function visibleText(html: string): string {
+  return html
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/** Pull a brochure link out of pasted description HTML. The public page renders that link itself. */
 export function presentProductBody(html: string, storedPdf = ''): { content: string; pdf: string } {
   let extracted = '';
-  let content = String(html || '').replace(
-    /<p\b[^>]*\bclass=["'][^"']*\bspacer\b[^"']*["'][^>]*>\s*<a\b([^>]*)>\s*Download PDF\s*<\/a>\s*<\/p>/gi,
-    (_match, attrs: string) => {
-      const href = (String(attrs).match(/\bhref=["']([^"']+)["']/i) || [])[1] || '';
-      if (href && !extracted) extracted = href;
-      return '';
+  let content = String(html || '');
+  const take = (attrs: string): string => {
+    const href = hrefFrom(attrs);
+    if (href && !extracted) extracted = href;
+    return '';
+  };
+
+  let guard = 0;
+  let changed = true;
+  while (changed && guard < 8) {
+    changed = false;
+    guard += 1;
+    content = content.replace(/<(p|div|font|span)\b[^>]*>([\s\S]*?)<\/\1>/gi, (match, _tag: string, inner: string) => {
+      if (!DOWNLOAD_TEXT.test(visibleText(inner))) return match;
+      const attrs = (inner.match(/<a\b([^>]*)>/i) || [])[1] || '';
+      changed = true;
+      return take(attrs);
+    });
+  }
+
+  content = content.replace(/(?:<br\s*\/?>|\s|&nbsp;)*<a\b([^>]*)>\s*download\s+pdf\.?\s*<\/a>(?:\s|&nbsp;|\.)*/gi, (_match, attrs: string) => take(attrs));
+  let trimmed = '';
+  while (trimmed !== content) {
+    trimmed = content;
+    content = content.replace(/(?:\s|&nbsp;|<br\s*\/?>|\.)+$/gi, '');
+    const trailing = content.match(/<(p|div|font|span)\b[^>]*>(?:(?!<\/\1>)[\s\S])*<\/\1>\s*$/i);
+    if (trailing && visibleText(trailing[0]) === '') {
+      content = content.slice(0, trailing.index).replace(/\s+$/, '');
     }
-  );
+  }
   content = content.replace(/^(?:\s|&nbsp;|<br\s*\/?>|<(?:p|div)\b[^>]*>(?:\s|&nbsp;|<br\s*\/?>)*<\/(?:p|div)>)+/gi, '');
   content = content.replace(new RegExp(`^\\s*<(?:h[1-6]|p)\\b[^>]*>(?:\\s|<(?:strong|b)>|</(?:strong|b)>)*${SPECS_HEADING}(?:\\s|<(?:strong|b)>|</(?:strong|b)>)*</(?:h[1-6]|p)>\\s*`, 'i'), '');
   return { content: content.trim(), pdf: storedPdf.trim() || extracted };
