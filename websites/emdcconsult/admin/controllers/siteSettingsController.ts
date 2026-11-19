@@ -6,6 +6,7 @@ import { SiteSettingsService } from '../services/siteSettingsService';
 import { StorageService } from '../services/storageService';
 import contactInfoService from '../../src/services/contactInfoService';
 import { DATA_PATHS } from '../../src/constants';
+import { IMAGE_UPLOAD_MAX_BYTES, isAllowedImageUpload } from '../services/imageUpload';
 
 const menuService = AdminMenuService.getInstance();
 const siteSettingsService = SiteSettingsService.getInstance();
@@ -43,7 +44,7 @@ const upload = multer({
     }
   }),
   limits: {
-    fileSize: 5 * 1024 * 1024 // 5MB limit
+    fileSize: IMAGE_UPLOAD_MAX_BYTES
   },
   onError: (err: any, next: any) => {
     console.error('Multer error:', err);
@@ -53,14 +54,10 @@ const upload = multer({
     next(err);
   },
       fileFilter: (req: any, file: any, cb: any) => {
-      console.log('File being processed:', file.originalname, 'MIME type:', file.mimetype);
-      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'image/ico', 'image/x-icon'];
-      if (allowedTypes.includes(file.mimetype)) {
-        console.log('File type accepted:', file.mimetype);
+      if (isAllowedImageUpload(file)) {
         cb(null, true);
       } else {
-        console.log('File type rejected:', file.mimetype);
-        cb(new Error(`Invalid file type: ${file.mimetype}. Only images are allowed.`), false);
+        cb(new Error('Only image files are allowed.'), false);
       }
     }
 });

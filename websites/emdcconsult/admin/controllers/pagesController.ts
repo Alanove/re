@@ -281,16 +281,20 @@ export class PagesController {
         
         // Handle page image
         const files = req.files as { [fieldname: string]: Express.Multer.File[] } | undefined;
-        if (files?.['pagePicture'] && files['pagePicture'].length > 0 && files['pagePicture'][0]?.filename) {
-          imagePath = `/pages/${key.trim()}/${files['pagePicture'][0].filename}`;
+        const pagePicture = files?.['pagePicture']?.[0];
+        if (pagePicture?.filename) {
+          const storedName = storageService.ensureUploadedFile(pagePicture, path.join(DATA_PATHS.PAGES_DIR, key.trim()));
+          imagePath = `/pages/${key.trim()}/${storedName}`;
         } else if (pageImage && typeof pageImage === 'string' && pageImage.trim() !== '') {
           // Use existing image path if provided and valid
           imagePath = pageImage.trim();
         }
         
         // Handle SEO image file if uploaded
-        if (files?.['seoImageFile'] && files['seoImageFile'].length > 0 && files['seoImageFile'][0]?.filename) {
-          seoImagePath = `/pages/${key.trim()}/${files['seoImageFile'][0].filename}`;
+        const seoPicture = files?.['seoImageFile']?.[0];
+        if (seoPicture?.filename) {
+          const storedName = storageService.ensureUploadedFile(seoPicture, path.join(DATA_PATHS.PAGES_DIR, key.trim()));
+          seoImagePath = `/pages/${key.trim()}/${storedName}`;
         }
         // Note: seoImagePath defaults to storageService.getDefaultLogo() if no SEO image uploaded
         
@@ -568,12 +572,15 @@ export class PagesController {
         };
         
         let imagePath: string | undefined = normalizeImagePath(existingPage.pageImage);
+        const previousPageImage = imagePath;
         let seoImagePath: string = storageService.getDefaultLogo();
         
         // Handle page image upload
         const files = req.files as { [fieldname: string]: Express.Multer.File[] } | undefined;
-        if (files?.['pagePicture'] && files['pagePicture'].length > 0 && files['pagePicture'][0]?.filename) {
-          imagePath = `/pages/${pageKey}/${files['pagePicture'][0].filename}`;
+        const pagePicture = files?.['pagePicture']?.[0];
+        if (pagePicture?.filename) {
+          const storedName = storageService.ensureUploadedFile(pagePicture, path.join(DATA_PATHS.PAGES_DIR, pageKey));
+          imagePath = `/pages/${pageKey}/${storedName}`;
           console.log('New page image uploaded:', imagePath);
         } else {
           // Check if pageImage from form is valid (shouldn't be empty string)
@@ -586,8 +593,10 @@ export class PagesController {
         
         // Handle SEO image upload (only if not using page image)
         if (!(usePageImage === '1' || usePageImage === true)) {
-          if (files?.['seoImageFile'] && files['seoImageFile'].length > 0 && files['seoImageFile'][0]?.filename) {
-            seoImagePath = `/pages/${pageKey}/${files['seoImageFile'][0].filename}`;
+          const seoPicture = files?.['seoImageFile']?.[0];
+          if (seoPicture?.filename) {
+            const storedName = storageService.ensureUploadedFile(seoPicture, path.join(DATA_PATHS.PAGES_DIR, pageKey));
+            seoImagePath = `/pages/${pageKey}/${storedName}`;
             console.log('New SEO image uploaded:', seoImagePath);
           } else {
             // Check if seoImageUrl was provided from the form
@@ -663,6 +672,10 @@ export class PagesController {
         } else {
           // Explicitly set to empty string to trigger deletion in service
           updateData.pageImage = '';
+        }
+
+        if (previousPageImage && previousPageImage !== imagePath && previousPageImage !== updateData.seo?.pageImage) {
+          storageService.deleteOwnedImage(previousPageImage);
         }
         
         // Update page

@@ -3,6 +3,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { DATA_PATHS, getPublicUrl, getPageEditorDirPath } from '../../src/constants';
 import { SiteSettingsService } from './siteSettingsService';
+import { IMAGE_UPLOAD_MAX_BYTES, isAllowedImageUpload, uniqueImageFilename } from './imageUpload';
 
 const siteSettingsService = SiteSettingsService.getInstance();
 
@@ -90,38 +91,21 @@ export class StorageService {
         cb(null, pageDir);
       },
       filename: (req, file, cb) => {
-        // Get page key from URL params or body
-        let pageKey = req.params['key'] || req.body.key || 'temp';
-        
-        // Use page key and image type for naming
-        const ext = path.extname(file.originalname);
-        let filename;
-        
-        if (file.fieldname === 'seoImageFile') {
-          filename = `${pageKey}-seo${ext}`;
-        } else if (file.fieldname === 'pagePicture') {
-          filename = `${pageKey}-default${ext}`;
-        } else {
-          // Fallback for other file types
-          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-          filename = `${pageKey}-${file.fieldname}-${uniqueSuffix}${ext}`;
-        }
-        
-        cb(null, filename);
+        const prefix = file.fieldname === 'seoImageFile' ? 'seo' : file.fieldname === 'pagePicture' ? 'page' : file.fieldname;
+        cb(null, uniqueImageFilename(prefix, file.originalname));
       }
     });
 
     return multer({
       storage: storage,
       limits: {
-        fileSize: 5 * 1024 * 1024, // 5MB file size limit
-        fieldSize: 10 * 1024 * 1024, // 10MB field size limit for text fields
-        fieldNameSize: 100, // 100 bytes for field name
-        fields: 50 // Maximum number of fields
+        fileSize: IMAGE_UPLOAD_MAX_BYTES,
+        fieldSize: 25 * 1024 * 1024,
+        fieldNameSize: 100,
+        fields: 50
       },
       fileFilter: (req, file, cb) => {
-        // Check file type
-        if (file.mimetype.startsWith('image/')) {
+        if (isAllowedImageUpload(file)) {
           cb(null, true);
         } else {
           cb(new Error('Only image files are allowed'));
@@ -147,38 +131,21 @@ export class StorageService {
         cb(null, newsDir);
       },
       filename: (req, file, cb) => {
-        // Get news key from URL params or body
-        let newsKey = req.params['key'] || req.body.key || 'temp';
-        
-        // Use news key and image type for naming
-        const ext = path.extname(file.originalname);
-        let filename;
-        
-        if (file.fieldname === 'seoImageFile') {
-          filename = `${newsKey}-seo${ext}`;
-        } else if (file.fieldname === 'pagePicture') {
-          filename = `${newsKey}-default${ext}`;
-        } else {
-          // Fallback for other file types
-          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-          filename = `${newsKey}-${file.fieldname}-${uniqueSuffix}${ext}`;
-        }
-        
-        cb(null, filename);
+        const prefix = file.fieldname === 'seoImageFile' ? 'seo' : file.fieldname === 'pagePicture' ? 'news' : file.fieldname;
+        cb(null, uniqueImageFilename(prefix, file.originalname));
       }
     });
 
     return multer({
       storage: storage,
       limits: {
-        fileSize: 5 * 1024 * 1024, // 5MB file size limit
-        fieldSize: 10 * 1024 * 1024, // 10MB field size limit for text fields
-        fieldNameSize: 100, // 100 bytes for field name
-        fields: 50 // Maximum number of fields
+        fileSize: IMAGE_UPLOAD_MAX_BYTES,
+        fieldSize: 25 * 1024 * 1024,
+        fieldNameSize: 100,
+        fields: 50
       },
       fileFilter: (req, file, cb) => {
-        // Check file type
-        if (file.mimetype.startsWith('image/')) {
+        if (isAllowedImageUpload(file)) {
           cb(null, true);
         } else {
           cb(new Error('Only image files are allowed'));
@@ -251,10 +218,10 @@ export class StorageService {
     return multer({
       storage,
       limits: {
-        fileSize: 5 * 1024 * 1024
+        fileSize: IMAGE_UPLOAD_MAX_BYTES
       },
       fileFilter: (req, file, cb) => {
-        if (file.mimetype.startsWith('image/')) {
+        if (isAllowedImageUpload(file)) {
           cb(null, true);
         } else {
           cb(new Error('Only image files are allowed'));
@@ -288,14 +255,13 @@ export class StorageService {
     return multer({
       storage: storage,
       limits: {
-        fileSize: 5 * 1024 * 1024, // 5MB file size limit
-        fieldSize: 10 * 1024 * 1024, // 10MB field size limit for text fields
-        fieldNameSize: 100, // 100 bytes for field name
-        fields: 50 // Maximum number of fields
+        fileSize: IMAGE_UPLOAD_MAX_BYTES,
+        fieldSize: 25 * 1024 * 1024,
+        fieldNameSize: 100,
+        fields: 50
       },
       fileFilter: (req, file, cb) => {
-        // Check file type
-        if (file.mimetype.startsWith('image/')) {
+        if (isAllowedImageUpload(file)) {
           cb(null, true);
         } else {
           cb(new Error('Only image files are allowed'));
@@ -326,6 +292,41 @@ export class StorageService {
       return true;
     }
     return false;
+  }
+
+  /**
+   * Move an upload into the folder the record actually uses.
+   * Multer may have stored it under a temporary key when the form fields were not parsed yet.
+   */
+  public ensureUploadedFile(file: Express.Multer.File, directory: string): string {
+    const filename = path.basename(file.filename);
+    fs.mkdirSync(directory, { recursive: true });
+    const dest = path.join(directory, filename);
+    if (path.resolve(file.path) !== path.resolve(dest)) {
+      this.moveFile(file.path, dest);
+      file.path = dest;
+      file.destination = directory;
+    }
+    return filename;
+  }
+
+  /**
+   * Delete a page or news image that this record owns. Shared files under /images are left alone.
+   */
+  public deleteOwnedImage(url: string | undefined): void {
+    if (!url || typeof url !== 'string') {
+      return;
+    }
+    const relative = url.trim().replace(/\\/g, '/');
+    if ((!relative.startsWith('/pages/') && !relative.startsWith('/news/')) || relative.includes('..')) {
+      return;
+    }
+    const absolute = path.resolve(DATA_PATHS.PUBLIC_DIR, relative.slice(1));
+    const root = path.resolve(DATA_PATHS.PUBLIC_DIR);
+    if (absolute !== root && !absolute.startsWith(root + path.sep)) {
+      return;
+    }
+    this.deleteFile(absolute);
   }
 
   /**

@@ -6,98 +6,72 @@ import { AdminMenuService } from '../services/adminMenuService';
 import { ProjectsService } from '../services/projectsService';
 import { SiteSettingsService } from '../services/siteSettingsService';
 import { TOUrl } from '../utils/urlHelper';
-import { getWorkDirPath, getProjectDirPath } from '../../src/constants';
+import { DATA_PATHS, getWorkDirPath, getProjectDirPath } from '../../src/constants';
+import { IMAGE_UPLOAD_MAX_BYTES, isAllowedImageUpload, uniqueImageFilename } from '../services/imageUpload';
 
 const menuService = AdminMenuService.getInstance();
 const projectsService = ProjectsService.getInstance();
 const siteSettingsService = SiteSettingsService.getInstance();
 
-// Create multer configuration for project uploads
-const projectUpload = multer({
-  storage: multer.diskStorage({
-    destination: (req, file, cb) => {
-      // Get project folder name from title using TOUrl function
-      let folderName = 'temp';
-      if (req.body.title) {
-        folderName = TOUrl(req.body.title);
-      }
-      
-      // Create project-specific directory
-      const projectDir = getProjectDirPath(folderName);
-      if (!fs.existsSync(projectDir)) {
-        fs.mkdirSync(projectDir, { recursive: true });
-      }
-      cb(null, projectDir);
+const incomingDir = path.join(DATA_PATHS.TEMP_DIR, 'incoming');
+
+function stageUpload() {
+  return multer.diskStorage({
+    destination: (_req, _file, cb) => {
+      fs.mkdirSync(incomingDir, { recursive: true });
+      cb(null, incomingDir);
     },
-    filename: (req, file, cb) => {
-      // Generate unique filename
-      const timestamp = Date.now();
-      const randomSuffix = Math.round(Math.random() * 1E9);
-      const ext = path.extname(file.originalname);
-      const filename = `project-${timestamp}-${randomSuffix}${ext}`;
-      cb(null, filename);
+    filename: (_req, file, cb) => {
+      const prefix = file.fieldname === 'projectPicture' ? 'project' : 'work';
+      cb(null, uniqueImageFilename(prefix, file.originalname));
     }
-  }),
-  limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB file size limit
-  },
-  fileFilter: (req, file, cb) => {
-    // Check file type
-    if (file.mimetype.startsWith('image/')) {
-      cb(null, true);
-    } else {
-      cb(new Error('Only image files are allowed'));
-    }
+  });
+}
+
+function imageFileFilter(file: Express.Multer.File, cb: multer.FileFilterCallback): void {
+  if (isAllowedImageUpload(file)) {
+    cb(null, true);
+  } else {
+    cb(new Error('Only image files are allowed'));
   }
+}
+
+function moveIntoDirectory(file: Express.Multer.File, directory: string): string {
+  const filename = path.basename(file.filename);
+  fs.mkdirSync(directory, { recursive: true });
+  const dest = path.join(directory, filename);
+  if (path.resolve(file.path) !== path.resolve(dest)) {
+    fs.renameSync(file.path, dest);
+  }
+  return filename;
+}
+
+function deleteProjectImageFile(folderName: string, imageName: string | undefined): void {
+  if (!imageName || imageName.includes('/') || imageName.includes('\\') || imageName.includes('..')) {
+    return;
+  }
+  const oldPath = path.join(getProjectDirPath(folderName), path.basename(imageName));
+  if (fs.existsSync(oldPath)) {
+    fs.unlinkSync(oldPath);
+  }
+}
+
+// Files are staged first. The handler moves them into the project's real folder
+// after the form body is available, so a title change cannot send the file elsewhere.
+const projectUpload = multer({
+  storage: stageUpload(),
+  limits: {
+    fileSize: IMAGE_UPLOAD_MAX_BYTES
+  },
+  fileFilter: (_req, file, cb) => imageFileFilter(file, cb)
 });
 
-// Create multer configuration for work uploads
 const workUpload = multer({
-  storage: multer.diskStorage({
-    destination: (req, file, cb) => {
-      // Get project ID from URL params
-      const projectId = req.params['projectId'];
-      if (!projectId) {
-        return cb(new Error('Project ID is required'), '');
-      }
-      
-      const project = projectsService.getProjectById(parseInt(projectId));
-      
-      if (project) {
-        // Get work folder name from form data or generate from description
-        const workFolderName = req.body.folder_name || req.body.description || 'temp';
-        const sanitizedWorkFolder = TOUrl(workFolderName);
-        
-        // Create work-specific directory within project folder
-        const workDir = getWorkDirPath(project.folder_name, sanitizedWorkFolder);
-        if (!fs.existsSync(workDir)) {
-          fs.mkdirSync(workDir, { recursive: true });
-        }
-        cb(null, workDir);
-      } else {
-        cb(new Error('Project not found'), '');
-      }
-    },
-    filename: (req, file, cb) => {
-      // Generate unique filename
-      const timestamp = Date.now();
-      const randomSuffix = Math.round(Math.random() * 1E9);
-      const ext = path.extname(file.originalname);
-      const filename = `work-${timestamp}-${randomSuffix}${ext}`;
-      cb(null, filename);
-    }
-  }),
+  storage: stageUpload(),
   limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB file size limit
+    fileSize: IMAGE_UPLOAD_MAX_BYTES
   },
-  fileFilter: (req, file, cb) => {
-    // Check file type
-    if (file.mimetype.startsWith('image/')) {
-      cb(null, true);
-    } else {
-      cb(new Error('Only image files are allowed'));
-    }
-  }
+  fileFilter: (_req, file, cb) => imageFileFilter(file, cb)
 });
 
 export class ProjectsController {
@@ -291,11 +265,11 @@ export class ProjectsController {
         // Generate folder name from title
         const folder_name = TOUrl(title.trim());
         
-        // Handle uploaded file
+        // Handle uploaded file. Place it in the folder this project record uses.
         let imagePath = projectImage || '';
         const file = req.file;
         if (file && file.filename) {
-          imagePath = file.filename;
+          imagePath = moveIntoDirectory(file, getProjectDirPath(folder_name));
           console.log('New project image uploaded:', imagePath);
         }
         
@@ -481,19 +455,15 @@ export class ProjectsController {
         });
         }
         
-        // Handle uploaded file
+        // Keep the existing folder. A changed title must not move the new file somewhere else.
         let imagePath = projectImage || existingProject.project_image || '';
         const file = req.file;
         if (file && file.filename) {
-          // Generate project URL from title
-          const projectUrl = title
-            .toLowerCase()
-            .replace(/[^a-z0-9\s-]/g, '')
-            .replace(/\s+/g, '-')
-            .replace(/-+/g, '-')
-            .trim();
-          
-          imagePath = file.filename;
+          const folderName = existingProject.folder_name || 'temp';
+          imagePath = moveIntoDirectory(file, getProjectDirPath(folderName));
+          if (existingProject.project_image && existingProject.project_image !== imagePath) {
+            deleteProjectImageFile(folderName, existingProject.project_image);
+          }
           console.log('New project image uploaded:', imagePath);
         }
         
@@ -779,13 +749,15 @@ export class ProjectsController {
 
         const finalFolderName = folder_name || TOUrl(description.trim());
         
-        // Handle uploaded files
+        // Handle uploaded files. Move them into this work's folder now that the name is known.
         const uploadedImages: string[] = [];
+        const workDir = getWorkDirPath(project.folder_name, finalFolderName);
         if (req.files && Array.isArray(req.files)) {
           for (const file of req.files) {
             if (file.filename) {
-              uploadedImages.push(file.filename);
-              console.log('Work image uploaded:', file.filename);
+              const storedName = moveIntoDirectory(file, workDir);
+              uploadedImages.push(storedName);
+              console.log('Work image uploaded:', storedName);
             }
           }
         }
@@ -874,13 +846,17 @@ export class ProjectsController {
             });
           }
 
-          // Get uploaded files
+          // Get uploaded files and place them in the work folder this record keeps.
           const uploadedFiles = req.files as Express.Multer.File[];
           const newImageNames: string[] = [];
+          const workFolder = folder_name || existingWork.folder_name || 'work';
+          const workDir = getWorkDirPath(project.folder_name, workFolder);
 
           if (uploadedFiles && uploadedFiles.length > 0) {
             uploadedFiles.forEach(file => {
-              newImageNames.push(file.filename);
+              if (file.filename) {
+                newImageNames.push(moveIntoDirectory(file, workDir));
+              }
             });
           }
 

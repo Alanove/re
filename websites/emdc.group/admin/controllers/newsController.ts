@@ -280,8 +280,10 @@ export class NewsController {
         
         // Handle page image
         const files = req.files as { [fieldname: string]: Express.Multer.File[] } | undefined;
-        if (files?.['pagePicture'] && files['pagePicture'].length > 0 && files['pagePicture'][0]?.filename) {
-          imagePath = `/news/${key.trim()}/${files['pagePicture'][0].filename}`;
+        const newsPicture = files?.['pagePicture']?.[0];
+        if (newsPicture?.filename) {
+          const storedName = storageService.ensureUploadedFile(newsPicture, path.join(DATA_PATHS.NEWS_DIR, key.trim()));
+          imagePath = `/news/${key.trim()}/${storedName}`;
           console.log('New news image uploaded:', imagePath);
         } else if (pageImage && typeof pageImage === 'string' && pageImage.trim() !== '') {
           // Use existing image path if provided and valid
@@ -289,8 +291,10 @@ export class NewsController {
         }
         
         // Handle SEO image file if uploaded
-        if (files?.['seoImageFile'] && files['seoImageFile'].length > 0 && files['seoImageFile'][0]?.filename) {
-          seoImagePath = `/news/${key.trim()}/${files['seoImageFile'][0].filename}`;
+        const seoPicture = files?.['seoImageFile']?.[0];
+        if (seoPicture?.filename) {
+          const storedName = storageService.ensureUploadedFile(seoPicture, path.join(DATA_PATHS.NEWS_DIR, key.trim()));
+          seoImagePath = `/news/${key.trim()}/${storedName}`;
           console.log('New SEO image uploaded:', seoImagePath);
         }
         // Note: seoImagePath defaults to storageService.getDefaultLogo() if no SEO image uploaded
@@ -569,12 +573,15 @@ export class NewsController {
         };
         
         let imagePath: string | undefined = normalizeImagePath(existingNews.pageImage);
+        const previousNewsImage = imagePath;
         let seoImagePath: string = storageService.getDefaultLogo();
         
         // Handle page image upload
         const files = req.files as { [fieldname: string]: Express.Multer.File[] } | undefined;
-        if (files?.['pagePicture'] && files['pagePicture'].length > 0 && files['pagePicture'][0]?.filename) {
-          imagePath = `/news/${newsKey}/${files['pagePicture'][0].filename}`;
+        const newsPicture = files?.['pagePicture']?.[0];
+        if (newsPicture?.filename) {
+          const storedName = storageService.ensureUploadedFile(newsPicture, path.join(DATA_PATHS.NEWS_DIR, newsKey));
+          imagePath = `/news/${newsKey}/${storedName}`;
           console.log('New news image uploaded:', imagePath);
         } else {
           // Check if pageImage from form is valid (shouldn't be empty string)
@@ -587,8 +594,10 @@ export class NewsController {
         
         // Handle SEO image upload (only if not using page image)
         if (!(usePageImage === '1' || usePageImage === true)) {
-          if (files?.['seoImageFile'] && files['seoImageFile'].length > 0 && files['seoImageFile'][0]?.filename) {
-            seoImagePath = `/news/${newsKey}/${files['seoImageFile'][0].filename}`;
+          const seoPicture = files?.['seoImageFile']?.[0];
+          if (seoPicture?.filename) {
+            const storedName = storageService.ensureUploadedFile(seoPicture, path.join(DATA_PATHS.NEWS_DIR, newsKey));
+            seoImagePath = `/news/${newsKey}/${storedName}`;
             console.log('New SEO image uploaded:', seoImagePath);
           } else {
             // Check if seoImageUrl was provided from the form
@@ -664,6 +673,10 @@ export class NewsController {
         } else {
           // Explicitly set to empty string to trigger deletion in service
           updateData.pageImage = '';
+        }
+
+        if (previousNewsImage && previousNewsImage !== imagePath && previousNewsImage !== updateData.seo?.pageImage) {
+          storageService.deleteOwnedImage(previousNewsImage);
         }
         
         // Update news

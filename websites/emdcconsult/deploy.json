@@ -5,5 +5,11 @@
   "nodeBin": null,
   "aapanelProject": "emdcconsult",
   "restartCommand": null,
-  "protect": []
+  "protect": [
+    "public/news",
+    "public/downloads",
+    "public/temp",
+    "public/videos",
+    "public/projects"
+  ]
 }

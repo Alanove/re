@@ -5,6 +5,10 @@
   "main": "dist/src/app.js",
   "scripts": {
     "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit",
+    "media:check": "node scripts/check-media.js",
+    "media:check:prod": "node scripts/check-media.js",
     "captcha:build": "node ../../packages/captcha/esbuild.config.mjs --public public/captcha --server src/vendor/captcha",
     "start": "node dist/src/app.js",
     "prod": "npm run build && node dist/src/app.js",
@@ -44,6 +48,7 @@
     "node-sass": "^9.0.0",
     "officegen": "^0.6.5",
     "pptx2json": "^0.0.10",
+    "sharp": "^0.34.5",
     "tesseract.js": "^5.0.0-alpha.3"
   },
   "devDependencies": {

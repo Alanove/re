@@ -1477,7 +1477,7 @@ class App {
         
         const detailFields = [
             { key: 'country', label: 'Country' },
-            { key: 'bau', label: 'BAU' },
+            { key: 'bau', label: 'BUA' },
             { key: 'area', label: 'Area' },
             { key: 'size', label: 'Size' },
             { key: 'quantity', label: 'Quantity' },
