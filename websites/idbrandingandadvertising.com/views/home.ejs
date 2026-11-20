@@ -1,0 +1,147 @@
+<%
+	const telHref = function (value) { return 'tel:' + String(value || '').replace(/[^+\d]/g, ''); };
+	const hero = home.hero, about = home.about, services = home.services, contact = home.contact;
+	const office = primaryOffice;
+	const phone = office && office.phones.length ? office.phones[0] : settings.contactPhone;
+	const email = office && office.emails.length ? office.emails[0] : settings.contactEmail;
+	const mapQuery = office && office.mapQuery ? office.mapQuery : '';
+	const slogans = hero.slogans.length ? hero.slogans : [settings.tagline || settings.siteName];
+	const workCategories = locals.workCategories || [];
+	const clientBoards = locals.clientBoards || [];
+%>
+<% if (hero.enabled) { %>
+<section class="studio-hero" id="top" aria-label="Introduction">
+	<div class="studio-hero__glow" aria-hidden="true"></div>
+	<div class="studio-hero__inner">
+		<% if (hero.eyebrow) { %><p class="studio-hero__eyebrow"><%= hero.eyebrow %></p><% } %>
+		<h1 class="studio-hero__title">
+			<span class="visually-hidden"><%= settings.siteName %>: </span>
+			<% slogans.forEach(function (slogan, index) { %>
+				<span class="studio-hero__line<%= index === 0 ? ' is-active' : '' %>"><%= slogan %></span>
+			<% }) %>
+		</h1>
+		<p class="studio-hero__lead"><%= settings.description %></p>
+		<% if (hero.primaryCta.label || hero.secondaryCta.label) { %>
+			<div class="studio-hero__actions">
+				<% if (hero.primaryCta.label && hero.primaryCta.url) { %><a class="btn btn--accent btn--lg" href="<%= hero.primaryCta.url %>"><%= hero.primaryCta.label %></a><% } %>
+				<% if (hero.secondaryCta.label && hero.secondaryCta.url) { %><a class="btn btn--ghost btn--lg" href="<%= hero.secondaryCta.url %>"><%= hero.secondaryCta.label %></a><% } %>
+			</div>
+		<% } %>
+	</div>
+	<a class="studio-hero__scroll" href="#services">
+		<span class="material-symbols-outlined" aria-hidden="true">south</span>
+		<span class="visually-hidden">Scroll to services</span>
+	</a>
+</section>
+<% } %>
+
+<% if (services.enabled && services.items.length) { %>
+<section class="section studio-services" id="services" aria-labelledby="services-title">
+	<div class="container">
+		<div class="section-head">
+			<p class="section-eyebrow">01 — Services</p>
+			<h2 class="section-title" id="services-title"><%= services.title %></h2>
+			<% if (services.intro) { %><p class="section-intro"><%= services.intro %></p><% } %>
+		</div>
+		<ol class="studio-services__list">
+			<% services.items.forEach(function (item, index) { %>
+				<li class="studio-services__item">
+					<span class="studio-services__index" aria-hidden="true"><%= String(index + 1).padStart(2, '0') %></span>
+					<div class="studio-services__body">
+						<span class="studio-services__icon material-symbols-outlined" aria-hidden="true"><%= item.icon || 'auto_awesome' %></span>
+						<h3 class="studio-services__title"><%= item.title %></h3>
+						<% if (item.text) { %><p class="studio-services__text"><%= item.text %></p><% } %>
+					</div>
+				</li>
+			<% }) %>
+		</ol>
+	</div>
+</section>
+<% } %>
+
+<% if (workCategories.length) { %>
+<section class="section studio-work" id="work" aria-labelledby="work-title">
+	<div class="container">
+		<div class="section-head section-head--split">
+			<div>
+				<p class="section-eyebrow">02 — Portfolio</p>
+				<h2 class="section-title" id="work-title">Selected work</h2>
+			</div>
+			<a class="btn btn--outline" href="/work">All categories</a>
+		</div>
+		<ul class="studio-mosaic">
+			<% workCategories.forEach(function (category, index) { %>
+				<li class="studio-mosaic__item studio-mosaic__item--<%= (index % 6) + 1 %>">
+					<a class="studio-mosaic__card" href="<%= category.url %>">
+						<% if (category.cover) { %>
+							<img src="<%= category.cover %>" alt="" loading="lazy"<% if (category.width && category.height) { %> width="<%= category.width %>" height="<%= category.height %>"<% } %> />
+						<% } %>
+						<span class="studio-mosaic__meta">
+							<span class="studio-mosaic__index" aria-hidden="true"><%= String(index + 1).padStart(2, '0') %></span>
+							<span class="studio-mosaic__title"><%= category.title %></span>
+							<span class="studio-mosaic__count"><%= category.count %> pieces</span>
+						</span>
+					</a>
+				</li>
+			<% }) %>
+		</ul>
+	</div>
+</section>
+<% } %>
+
+<% if (clientBoards.length) { %>
+<section class="studio-clients" id="clients" aria-labelledby="clients-title">
+	<div class="container">
+		<div class="section-head section-head--split">
+			<div>
+				<p class="section-eyebrow">03 — Clients</p>
+				<h2 class="section-title" id="clients-title">Client boards</h2>
+			</div>
+			<a class="btn btn--outline" href="/clients">View all</a>
+		</div>
+	</div>
+	<div class="studio-marquee" data-marquee>
+		<div class="studio-marquee__track">
+			<% clientBoards.concat(clientBoards).forEach(function (board, index) { %>
+				<figure class="studio-marquee__item"<%- index >= clientBoards.length ? ' aria-hidden="true"' : '' %>>
+					<img src="<%= board.src %>" alt="<%= index < clientBoards.length ? ('Client board ' + (index + 1)) : '' %>" loading="lazy"<% if (board.width && board.height) { %> width="<%= board.width %>" height="<%= board.height %>"<% } %> />
+				</figure>
+			<% }) %>
+		</div>
+	</div>
+</section>
+<% } %>
+
+<% if (contact.enabled) { %>
+<section class="section studio-contact" id="ContactUs" aria-labelledby="contact-title">
+	<div class="container studio-contact__grid">
+		<div class="studio-contact__details">
+			<p class="section-eyebrow">04 — Contact</p>
+			<h2 class="section-title" id="contact-title"><%= contact.title || 'Contact' %></h2>
+			<% if (contact.intro) { %><p class="section-intro"><%= contact.intro %></p><% } %>
+			<ul class="studio-contact__lines">
+				<% if (office && office.address) { %><li><span class="material-symbols-outlined" aria-hidden="true">location_on</span><span><%= office.address %></span></li><% } %>
+				<% if (office) { office.phones.forEach(function (value) { %>
+					<li><span class="material-symbols-outlined" aria-hidden="true">call</span><a href="<%= telHref(value) %>"><%= value %></a></li>
+				<% }); } else if (phone) { %>
+					<li><span class="material-symbols-outlined" aria-hidden="true">call</span><a href="<%= telHref(phone) %>"><%= phone %></a></li>
+				<% } %>
+				<% if (email) { %><li><span class="material-symbols-outlined" aria-hidden="true">mail</span><a href="mailto:<%= email %>"><%= email %></a></li><% } %>
+			</ul>
+			<%- include('partials/social-links', { socialClass: 'social-links social-links--home' }) %>
+			<% if (mapQuery) { %>
+				<div class="studio-contact__map">
+					<iframe src="https://www.google.com/maps?q=<%= encodeURIComponent(mapQuery) %>&amp;output=embed" title="Map of <%= settings.siteName %>" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+				</div>
+			<% } %>
+		</div>
+		<div class="studio-contact__form">
+			<div class="form-panel form-panel--elevated">
+				<p class="form-panel__eyebrow">Start a project</p>
+				<h3 class="form-panel__title">Send a brief</h3>
+				<%- include('partials/contact-form') %>
+			</div>
+		</div>
+	</div>
+</section>
+<% } %>

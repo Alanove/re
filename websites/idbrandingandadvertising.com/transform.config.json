@@ -1,0 +1,36 @@
+{
+  "siteKey": "idbranding",
+  "siteName": "I.D Branding & Advertising",
+  "legacySiteUrl": "https://idbrandingandadvertising.com",
+  "cmsSource": "C:/ai/tests/btb/solu-new",
+  "contentWorkbook": "content/unused.xls",
+  "contentSeed": "content/seed.json",
+  "designDir": "design",
+  "outputDir": ".",
+  "port": 3064,
+  "logo": {
+    "url": "https://idbrandingandadvertising.com/assets/id.png",
+    "localPath": "/uploads/site/logo.webp",
+    "note": "Circular I.D mark from assets/id.png"
+  },
+  "legacy": {
+    "localRoot": "content/legacy-mirror",
+    "pageImagePattern": "/{pageId}/{fileName}",
+    "footerPageKey": null,
+    "contactPageKey": "contact",
+    "hiddenPageKeys": [],
+    "uploadsMirrorPrefix": "/uploads/legacy"
+  },
+  "blog": null,
+  "cmsSync": {
+    "adminPublicFiles": [
+      "css/vendor.min.css",
+      "css/app.min.css",
+      "js/vendor.min.js",
+      "js/app.min.js",
+      "js/custom.js",
+      "js/theme.js"
+    ],
+    "adminPublicDirs": ["css/images", "webfonts"]
+  }
+}

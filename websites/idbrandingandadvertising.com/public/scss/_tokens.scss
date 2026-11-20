@@ -1,0 +1,126 @@
+// Design tokens. Sampled from assets/id.png (legacy logo): charcoal I.D mark #231f20,
+// magenta ampersand #a8178c, yellow period #f5c518. Primary stays charcoal for AA with white text.
+@use 'sass:list';
+@use 'sass:map';
+
+$color-primary: #231f20;
+$color-primary-dark: #100e0f;
+$color-primary-container: #ece8ea;
+$color-on-primary-container: #1a1518;
+$color-deep-burgundy: #231f20;
+$color-navy: #1a1719;
+// Exact magenta from the logo ampersand is #a8178c; deepened for AA text/buttons on white.
+$color-accent-brand: #a8178c;
+$color-accent: #7d1169;
+$color-accent-dark: #5c0c4d;
+$color-accent-on-dark: #f0a3dd;
+$color-secondary: #5c5559;
+$color-secondary-fixed: #f0eaed;
+$color-industrial-gold: #d4a50f;
+$color-highlight: #f5c518;
+
+$color-background: #f7f4f6;
+$color-surface: #f1ecef;
+$color-surface-bright: #fcfafb;
+$color-surface-lowest: #ffffff;
+$color-surface-low: #ebe6e9;
+$color-surface-container: #e2dce0;
+$color-surface-high: #d5ced3;
+$color-surface-variant: #c7bfc4;
+$color-on-surface: #161214;
+$color-on-surface-variant: #524850;
+$color-slate-gray: #5a5257;
+$color-outline: #8a8187;
+$color-outline-variant: #ddd6db;
+$color-tertiary: #1a1719;
+$color-tertiary-container: #0c0a0b;
+$color-tertiary-fixed-dim: #b8b0b5;
+$color-white: #ffffff;
+
+$color-error: #ba1a1a;
+$color-error-container: #ffdad6;
+$color-success: #1e6b3a;
+$color-success-container: #d7f2df;
+
+$font-family-base: 'Manrope', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+$font-family-heading: 'Syne', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+$font-family-icons: 'Material Symbols Outlined';
+
+$type-scale: (
+  display-lg: (64px, 68px, 700, -0.03em),
+  headline-lg: (36px, 42px, 700, -0.02em),
+  headline-lg-mobile: (28px, 34px, 700, -0.02em),
+  headline-md: (22px, 28px, 700, -0.01em),
+  body-lg: (18px, 30px, 400, 0),
+  body-md: (16px, 26px, 400, 0),
+  body-sm: (14px, 22px, 500, 0.01em),
+  label-caps: (12px, 16px, 700, 0.14em),
+  button: (14px, 20px, 700, 0.04em)
+);
+
+$space-xs: 4px;
+$space-sm: 8px;
+$space-md: 16px;
+$space-lg: 32px;
+$space-xl: 48px;
+$gutter: 24px;
+$margin-mobile: 20px;
+$margin-desktop: 64px;
+$section-gap: 112px;
+$section-gap-mobile: 72px;
+$container-max: 1200px;
+$header-height: 80px;
+$header-height-mobile: 68px;
+$tap-target: 44px;
+$page-bar-height: 52px;
+
+$radius-sm: 0;
+$radius-md: 2px;
+$radius-lg: 4px;
+$radius-full: 9999px;
+$shadow-sm: 0 1px 2px rgba(22, 18, 20, 0.06);
+$shadow-md: 0 10px 30px rgba(22, 18, 20, 0.1);
+$shadow-lg: 0 20px 48px rgba(22, 18, 20, 0.14);
+$shadow-xl: 0 28px 60px -12px rgba(22, 18, 20, 0.32);
+
+$transition-fast: 150ms ease;
+$transition-base: 220ms ease;
+$transition-slow: 600ms ease;
+
+$breakpoints: (
+  sm: 640px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px
+);
+
+@function type-value($name, $index) {
+  @return list.nth(map.get($type-scale, $name), $index);
+}
+
+$css-colors: (
+  'primary': $color-primary,
+  'primary-dark': $color-primary-dark,
+  'primary-container': $color-primary-container,
+  'accent': $color-accent,
+  'accent-brand': $color-accent-brand,
+  'accent-dark': $color-accent-dark,
+  'highlight': $color-highlight,
+  'secondary': $color-secondary,
+  'secondary-fixed': $color-secondary-fixed,
+  'industrial-gold': $color-industrial-gold,
+  'on-surface': $color-on-surface,
+  'on-surface-variant': $color-on-surface-variant,
+  'surface': $color-surface,
+  'surface-low': $color-surface-low,
+  'surface-high': $color-surface-high,
+  'slate-gray': $color-slate-gray,
+  'tertiary': $color-tertiary,
+  'white': $color-white
+);
+
+@mixin color-vars {
+  @each $name, $value in $css-colors {
+    --color-#{$name}: #{$value};
+  }
+}

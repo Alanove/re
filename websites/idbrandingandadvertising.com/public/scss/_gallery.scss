@@ -1,0 +1,142 @@
+@use 'tokens' as t;
+@use 'mixins' as m;
+
+.gallery {
+  &__grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    columns: 1;
+    column-gap: t.$space-md;
+
+    @include m.up(sm) {
+      columns: 2;
+    }
+
+    @include m.up(lg) {
+      columns: 3;
+    }
+
+    &--single {
+      columns: 1;
+    }
+  }
+
+  &__item {
+    break-inside: avoid;
+    margin: 0 0 t.$space-md;
+  }
+
+  &__link {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    background: t.$color-surface-variant;
+    border: 1px solid t.$color-outline-variant;
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      transition: transform t.$transition-slow;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(t.$color-accent, 0);
+      transition: background-color t.$transition-base;
+    }
+
+    &:hover img {
+      transform: scale(1.03);
+    }
+
+    &:hover::after {
+      background: rgba(t.$color-accent, 0.12);
+    }
+  }
+
+  &__caption {
+    @include m.type(body-sm);
+    color: t.$color-slate-gray;
+    margin-top: t.$space-sm;
+  }
+}
+
+.lightbox {
+  width: 100vw;
+  height: 100vh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: rgba(18, 20, 22, 0.94);
+  color: t.$color-white;
+
+  &[open] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &::backdrop {
+    background: rgba(18, 20, 22, 0.94);
+  }
+
+  &__figure {
+    max-width: min(1200px, 88vw);
+    text-align: center;
+
+    img {
+      max-width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: t.$radius-sm;
+    }
+
+    figcaption {
+      margin-top: t.$space-md;
+      color: t.$color-tertiary-fixed-dim;
+    }
+  }
+
+  &__close,
+  &__nav {
+    position: absolute;
+    border: 0;
+    background: rgba(t.$color-white, 0.1);
+    color: t.$color-white;
+    width: 48px;
+    height: 48px;
+    border-radius: t.$radius-full;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    &:hover {
+      background: t.$color-primary;
+    }
+  }
+
+  &__close {
+    top: t.$space-md;
+    right: t.$space-md;
+  }
+
+  &__nav {
+    top: 50%;
+    transform: translateY(-50%);
+
+    &--prev {
+      left: t.$space-md;
+    }
+
+    &--next {
+      right: t.$space-md;
+    }
+  }
+}

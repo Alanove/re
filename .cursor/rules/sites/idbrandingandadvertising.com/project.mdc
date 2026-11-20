@@ -1,0 +1,23 @@
+---
+description: idbrandingandadvertising.com site rules
+globs:
+  - websites/idbrandingandadvertising.com/**
+alwaysApply: false
+---
+
+# idbrandingandadvertising.com: project rules
+
+Site rule for `websites/idbrandingandadvertising.com/`. It applies in addition to the global rules in `.cursor/rules/`; where they conflict, the global rules win. Paths are relative to the site folder.
+
+## Site shape
+- Multi-page studio brochure: Home, About, Work (section with six gallery children), Clients, Contact.
+- Content comes from the live Adobe Edge site via `npm run import:id`. Do not invent founder names, founding years, or services beyond the about page competencies.
+- One office: Zalka, Cite Moussa, block C, 6th floor. Phones `+961 1 902 842`, `+961 3 455 102`. Email `info@idbrandingandadvertising.com`.
+- Social: Facebook, X (twitter field), LinkedIn from the legacy contact page. No shop / brochureUrl button.
+- Captcha scopes: `admin-login`, `contact`.
+- Legacy HTML paths redirect through `data/redirects.json`.
+
+## Design
+- Studio redesign (not the Edge splash). Colours from `assets/id.png`: charcoal I.D mark `#231f20`, magenta ampersand sample `#a8178c` (deepened to `#7d1169` for AA text/buttons), yellow period `#f5c518`.
+- Tokens in `public/scss/_tokens.scss`. Fonts: Syne (headings), Manrope (body).
+- Home: type hero, numbered services, work mosaic, client marquee, contact block. Work index uses the mosaic; category pages use the masonry gallery + lightbox.

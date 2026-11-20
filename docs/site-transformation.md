@@ -325,3 +325,11 @@ Four small static backups under `websites/<domain>/` with a gitignored zip and `
 | `khalafcanonlaw.com` | 3058 | `khalafcanonlaw` | One-page home (portrait, six practice cards, contact). Dbayeh office map `33.9302222,35.5910556`. In The Press = blog at `/press`. Instagram `dr.habibkhalaf`. Logo red/gold → primary `#8b2e2e`, accent `#b89a2e`. |
 | `mekbeirut.com` | 3060 | `mekbeirut` | One-page woodwork site; work gallery from page `our-work`; Achrafieh office + WhatsApp. Logo greyscale; wood primary `#5c4330` from project photos. |
 | `wadihco.com` | 3062 | `wadihco` | Quieter multi-page redesign (About, Products + children, Partners, Media, Careers, Contact). Shop now → drinks4lessonline.com. Legacy `.php`/`.htm` redirects. Logo charcoal `#231f20`. |
+
+## Known ID Branding specifics
+
+- Site folder `websites/idbrandingandadvertising.com/`, dev port `3064`, aaPanel project `idbranding`. Scaffolded from the Wadihco brochure core. No workbook: `npm run import:id` fetches the live Adobe Edge HTML and portfolio folders (IPv4-first), writes CMS JSON, and converts images to WebP. The Edge splash and the injected `zdjz.pages.dev` script are not imported.
+- Pages: Home, About, Work (six gallery children: Concepts, Drop Cards, Calendars, Booth & Events, Brochures & Flyers, Posters & Roll Ups), Clients (17 boards), Contact. One Zalka office. Captcha scopes `admin-login`, `contact`.
+- Legacy redirects: `/index.html`, `/menu.html`, `/aboutus.html`, `/contact.html`, `/clients.html`, `/work.html`, and each portfolio HTML file.
+- Logo: `assets/id.png`. Tokens: charcoal primary `#231f20`, magenta sample `#a8178c` (deepened `#7d1169` for AA), yellow `#f5c518`. Fonts Syne and Manrope.
+- Design snapshots (home, work gallery, about, contact at 1440 and 390px) are in `websites/idbrandingandadvertising.com/design/`.

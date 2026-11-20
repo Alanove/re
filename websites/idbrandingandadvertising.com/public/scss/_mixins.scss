@@ -1,0 +1,81 @@
+@use 'sass:map';
+@use 'tokens' as t;
+
+@mixin up($breakpoint) {
+  @media (min-width: map.get(t.$breakpoints, $breakpoint)) {
+    @content;
+  }
+}
+
+@mixin down($breakpoint) {
+  @media (max-width: (map.get(t.$breakpoints, $breakpoint) - 0.02px)) {
+    @content;
+  }
+}
+
+@mixin between($from, $to) {
+  @media (min-width: map.get(t.$breakpoints, $from)) and (max-width: (map.get(t.$breakpoints, $to) - 0.02px)) {
+    @content;
+  }
+}
+
+@mixin type($name) {
+  font-size: t.type-value($name, 1);
+  line-height: t.type-value($name, 2);
+  font-weight: t.type-value($name, 3);
+  letter-spacing: t.type-value($name, 4);
+}
+
+@mixin container {
+  width: 100%;
+  max-width: t.$container-max;
+  margin-inline: auto;
+  padding-inline: t.$margin-mobile;
+
+  @include up(md) {
+    padding-inline: t.$margin-desktop;
+  }
+}
+
+@mixin section-spacing {
+  padding-block: t.$section-gap-mobile;
+
+  @include up(lg) {
+    padding-block: t.$section-gap;
+  }
+}
+
+@mixin card-surface {
+  background: t.$color-surface-lowest;
+  border: 1px solid t.$color-outline-variant;
+  border-radius: t.$radius-md;
+}
+
+@mixin focus-ring($color: t.$color-primary) {
+  outline: 2px solid $color;
+  outline-offset: 2px;
+}
+
+@mixin cover-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@mixin visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@mixin label-caps {
+  @include type(label-caps);
+  text-transform: uppercase;
+}

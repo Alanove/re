@@ -1,0 +1,97 @@
+[
+  {
+    "id": "main",
+    "name": "Main",
+    "description": "",
+    "items": [
+      {
+        "id": "main-1",
+        "title": "Home",
+        "url": "/",
+        "pageId": null,
+        "sort": 0,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "main-2",
+        "title": "About",
+        "url": "/about",
+        "pageId": 2,
+        "sort": 1,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "main-3",
+        "title": "Work",
+        "url": "/work",
+        "pageId": 3,
+        "sort": 2,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "main-4",
+        "title": "Clients",
+        "url": "/clients",
+        "pageId": 10,
+        "sort": 3,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "main-5",
+        "title": "Contact",
+        "url": "/contact",
+        "pageId": 11,
+        "sort": 4,
+        "active": true,
+        "children": []
+      }
+    ]
+  },
+  {
+    "id": "footer",
+    "name": "Footer",
+    "description": "",
+    "items": [
+      {
+        "id": "footer-1",
+        "title": "About",
+        "url": "/about",
+        "pageId": 2,
+        "sort": 0,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "footer-2",
+        "title": "Work",
+        "url": "/work",
+        "pageId": 3,
+        "sort": 1,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "footer-3",
+        "title": "Clients",
+        "url": "/clients",
+        "pageId": 10,
+        "sort": 2,
+        "active": true,
+        "children": []
+      },
+      {
+        "id": "footer-4",
+        "title": "Contact",
+        "url": "/contact",
+        "pageId": 11,
+        "sort": 3,
+        "active": true,
+        "children": []
+      }
+    ]
+  }
+]

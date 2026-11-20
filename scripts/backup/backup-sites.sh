@@ -52,13 +52,15 @@ backup_one() {
   mkdir -p "$dest_dir"
 
   log "START $site -> $out"
-  # Rebuildable trees excluded; keep public/, data/, content/, uploads/images/pages.
+  # Rebuildable / regenerable trees excluded; keep public/, data/, content/, uploads/images/pages.
   # Member names are "<site>/...", so exclude that prefix (./node_modules would not match).
+  # cache/ is huge on some PHP sites (e.g. lebanoninapicture) and must not block the daily run.
   if tar -czf "$partial" \
       --exclude="${site}/node_modules" \
       --exclude="${site}/logs" \
       --exclude="${site}/.git" \
       --exclude="${site}/dist" \
+      --exclude="${site}/cache" \
       -C "$WWWROOT" "$site"; then
     mv -f "$partial" "$out"
     chmod 640 "$out" 2>/dev/null || true

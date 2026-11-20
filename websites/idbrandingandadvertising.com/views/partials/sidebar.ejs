@@ -1,0 +1,27 @@
+<%
+	const linkClass = function (item) {
+		if (item.current) { return 'side-nav__link is-current'; }
+		if (item.active) { return 'side-nav__link is-open'; }
+		return 'side-nav__link';
+	};
+%>
+<aside class="page-sidebar">
+	<div class="page-sidebar__panel">
+		<div class="page-sidebar__head">
+			<p class="page-sidebar__eyebrow">Menu</p>
+			<h2 class="page-sidebar__title"><%= settings.siteName %></h2>
+		</div>
+		<nav class="side-nav" aria-label="Site">
+			<ul>
+				<% mainMenu.forEach(function (item) { %>
+					<li>
+						<a class="<%= linkClass(item) %>" href="<%= item.url %>"<%- item.current ? ' aria-current="page"' : '' %>>
+							<span class="material-symbols-outlined<%= item.current ? ' is-filled' : '' %>" aria-hidden="true">chevron_right</span>
+							<span><%= item.title %></span>
+						</a>
+					</li>
+				<% }) %>
+			</ul>
+		</nav>
+	</div>
+</aside>

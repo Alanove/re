@@ -17,7 +17,7 @@ aaPanel’s old job `Backup Directory[/www/wwwroot]` built ~61 GB `path_wwwroo
 | DB backups | aaPanel “Backup Database[ALL]” ~01:30 | `/www/backup/database/` |
 | Offsite sync | `/www/backup.sh` daily ~00:03 | `rclone copy /www/backup` → `gdrive:/server-backups/ubuntuliteweb/YYYY-MM-DD/` |
 
-Per-site archives exclude rebuildable trees (`node_modules`, `logs`, `.git`, `dist`). They **keep** `public/` (including images, pages, uploads), `data/`, and `content/`. Local retention is **2** newest tars per site.
+Per-site archives exclude rebuildable trees (`node_modules`, `logs`, `.git`, `dist`, `cache`). They **keep** `public/` (including images, pages, uploads), `data/`, and `content/`. Local retention is **2** newest tars per site.
 
 Skipped wwwroot names: `default`, `public`, anything starting with `liteweb-backup-`, and junk names (spaces / quotes).
 

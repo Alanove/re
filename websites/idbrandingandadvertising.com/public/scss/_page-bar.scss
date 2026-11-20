@@ -1,0 +1,112 @@
+@use 'tokens' as t;
+@use 'mixins' as m;
+
+.page-bar {
+  position: fixed;
+  top: t.$header-height-mobile;
+
+  @include m.up(lg) {
+    top: t.$header-height;
+  }
+
+  left: 0;
+  right: 0;
+  z-index: 40;
+  height: t.$page-bar-height;
+  background: rgba(t.$color-surface-lowest, 0.96);
+  border-bottom: 2px solid t.$color-accent;
+  box-shadow: t.$shadow-sm;
+  backdrop-filter: blur(8px);
+  transform: translateY(-100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform t.$transition-base, opacity t.$transition-base, visibility 0s linear 200ms;
+
+  &.is-visible {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+    transition: transform t.$transition-base, opacity t.$transition-base, visibility 0s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+    transform: none;
+
+    &.is-visible {
+      transition: none;
+    }
+  }
+
+  &__inner {
+    @include m.container;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: t.$space-sm;
+    min-width: 0;
+  }
+
+  &__parent {
+    @include m.label-caps;
+    color: t.$color-secondary;
+    white-space: nowrap;
+    flex-shrink: 0;
+
+    &:hover {
+      color: t.$color-primary;
+    }
+
+    @include m.down(sm) {
+      display: none;
+    }
+  }
+
+  &__sep {
+    font-size: 18px;
+    color: t.$color-outline;
+
+    @include m.down(sm) {
+      display: none;
+    }
+  }
+
+  &__title {
+    flex: 1;
+    min-width: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: t.$color-primary;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__top {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+    padding: 6px 12px;
+    border-radius: t.$radius-full;
+    font-size: 13px;
+    font-weight: 600;
+    color: t.$color-on-surface-variant;
+    transition: background-color t.$transition-fast, color t.$transition-fast;
+
+    .material-symbols-outlined {
+      font-size: 18px;
+    }
+
+    &:hover {
+      background: t.$color-surface-high;
+      color: t.$color-primary;
+    }
+  }
+
+  &__top-label {
+    @include m.down(sm) {
+      display: none;
+    }
+  }
+}

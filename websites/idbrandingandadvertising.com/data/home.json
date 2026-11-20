@@ -1,0 +1,89 @@
+{
+  "hero": {
+    "enabled": true,
+    "eyebrow": "I.D Branding & Advertising",
+    "slogans": [
+      "Creative ideas with innovative work methods"
+    ],
+    "image": "",
+    "primaryCta": {
+      "label": "See our work",
+      "url": "/work"
+    },
+    "secondaryCta": {
+      "label": "Contact",
+      "url": "/contact"
+    }
+  },
+  "about": {
+    "enabled": true,
+    "title": "About us",
+    "content": "<p>I.D Branding & Advertising offers creative ideas with innovative work methods. We provide successful communication solutions at the highest standards aiming always at ensuring our clients' satisfaction. We seek perfection and maintain professionalism with our clients in a highly efficient and value-added manner.</p><p>We are committed to delivering the best services across Lebanon & the Middle East region. Our core competencies are: Creative Concepts, Layout & Design, Branding Events, Below the Line Advertising, Booth Design & Production, Promotional Materials & Printing.</p>",
+    "highlight": "Lebanon & the Middle East",
+    "statValue": "",
+    "statLabel": ""
+  },
+  "studios": {
+    "enabled": false,
+    "title": "",
+    "content": "",
+    "quote": "",
+    "image": ""
+  },
+  "services": {
+    "enabled": true,
+    "title": "What we do",
+    "intro": "Core competencies from the company profile.",
+    "items": [
+      {
+        "title": "Creative Concepts",
+        "text": "Ideas shaped for brands across Lebanon and the Middle East.",
+        "icon": "lightbulb"
+      },
+      {
+        "title": "Layout & Design",
+        "text": "Layouts and design systems for print and campaigns.",
+        "icon": "design_services"
+      },
+      {
+        "title": "Branding Events",
+        "text": "Event branding that carries the identity through the room.",
+        "icon": "celebration"
+      },
+      {
+        "title": "Below the Line Advertising",
+        "text": "BTL work that stays close to the audience.",
+        "icon": "campaign"
+      },
+      {
+        "title": "Booth Design & Production",
+        "text": "Booths designed and produced for exhibitions and events.",
+        "icon": "storefront"
+      },
+      {
+        "title": "Promotional Materials & Printing",
+        "text": "Printed materials that finish the campaign.",
+        "icon": "print"
+      }
+    ]
+  },
+  "team": {
+    "enabled": false,
+    "title": "",
+    "content": "",
+    "members": []
+  },
+  "latestPosts": {
+    "enabled": false,
+    "title": "",
+    "intro": "",
+    "limit": 3
+  },
+  "contact": {
+    "enabled": true,
+    "title": "Contact",
+    "intro": "Zalka, Cite Moussa, block C, 6th floor.",
+    "image": ""
+  },
+  "updatedAt": "2026-11-18T01:47:48.782Z"
+}

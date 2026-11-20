@@ -1,0 +1,47 @@
+<%- include('partials/page-hero') %>
+<div class="inner-layout inner-layout--wide">
+	<article class="inner-article inner-article--wide">
+		<% if (page.content) { %>
+			<div class="prose">
+				<%- page.content %>
+			</div>
+		<% } %>
+
+		<% if (page.children.length) { %>
+			<section class="child-pages" aria-labelledby="child-pages-title">
+				<h2 class="section-title visually-hidden" id="child-pages-title">Work categories</h2>
+				<ul class="studio-mosaic studio-mosaic--page">
+					<% page.children.forEach(function (child, index) { %>
+						<li class="studio-mosaic__item studio-mosaic__item--<%= (index % 6) + 1 %>">
+							<a class="studio-mosaic__card" href="<%= child.url %>">
+								<% if (child.heroImage) { %>
+									<img src="<%= child.heroImage %>" alt="" loading="lazy" />
+								<% } else if (child.heroVideo) { %>
+									<video src="<%= child.heroVideo %>" muted loop playsinline autoplay preload="metadata" aria-hidden="true"></video>
+								<% } %>
+								<span class="studio-mosaic__meta">
+									<span class="studio-mosaic__index" aria-hidden="true"><%= String(index + 1).padStart(2, '0') %></span>
+									<span class="studio-mosaic__title"><%= child.title %></span>
+									<% if (child.summary) { %><span class="studio-mosaic__count"><%= child.summary %></span><% } %>
+								</span>
+							</a>
+						</li>
+					<% }) %>
+				</ul>
+			</section>
+		<% } %>
+
+		<%- include('partials/gallery') %>
+
+		<% if (settings.ctaBand.title) { %>
+			<section class="cta-band">
+				<div>
+					<p class="cta-band__eyebrow"><%= settings.siteName %></p>
+					<p class="cta-band__title"><%= settings.ctaBand.title %></p>
+					<% if (settings.ctaBand.text) { %><p class="cta-band__text"><%= settings.ctaBand.text %></p><% } %>
+				</div>
+				<a class="btn btn--accent" href="<%= contactUrl.indexOf('#') === -1 ? contactUrl + '#contact-form' : contactUrl %>"><%= settings.ctaBand.label || 'Contact us' %></a>
+			</section>
+		<% } %>
+	</article>
+</div>
