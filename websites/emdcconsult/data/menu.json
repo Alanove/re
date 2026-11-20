@@ -27,7 +27,7 @@
               "title": "Who We Are",
               "type": "page",
               "link": "who-we-are",
-              "sort": 1,
+              "sort": 2,
               "active": true,
               "children": []
             },
@@ -37,7 +37,7 @@
               "type": "page",
               "link": "past-and-present",
               "sort": 2,
-              "active": true,
+              "active": false,
               "children": []
             },
             {
@@ -63,7 +63,7 @@
               "title": "Our Team",
               "type": "page",
               "link": "our-team",
-              "sort": 100,
+              "sort": 1,
               "active": true,
               "children": []
             }
@@ -138,7 +138,7 @@
               "type": "page",
               "link": "news",
               "sort": 2,
-              "active": true,
+              "active": false,
               "children": []
             }
           ]

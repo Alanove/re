@@ -315,6 +315,22 @@ class ProjectsService implements IProjectsService {
   }
 
   /**
+   * Grid/card thumb for a project. Falls back to the display image when the thumb is missing.
+   */
+  getProjectThumbPath(project: Project): string {
+    const imagePath = this.getProjectImagePath(project);
+    if (!imagePath || !project.project_image) {
+      return imagePath;
+    }
+    const thumbName = project.project_image.replace(/\.[^.]+$/, '') + '-thumb.webp';
+    const thumbDisk = path.join(getProjectDirPath(project.folder_name || 'temp'), path.basename(thumbName));
+    if (fs.existsSync(thumbDisk)) {
+      return getProjectImageUrl(project.folder_name || 'temp', path.basename(thumbName));
+    }
+    return imagePath;
+  }
+
+  /**
    * Get the correct image path for a work (handles both old and new structures)
    */
   getWorkImagePath(project: Project, work: any, imageName: string): string {

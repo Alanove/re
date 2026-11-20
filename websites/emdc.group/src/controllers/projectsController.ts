@@ -5,12 +5,45 @@ import { SiteSettingsService } from '../../admin/services/siteSettingsService';
 import { Project } from '../types';
 
 const siteSettingsService = SiteSettingsService.getInstance();
+const PROJECTS_PAGE_SIZE = 24;
+
+function toProjectCard(project: Project) {
+  return {
+    title: project.title,
+    categories: project.categories,
+    image: projectsService.getProjectImagePath(project),
+    thumb: projectsService.getProjectThumbPath(project),
+    country: project.country,
+    bau: project.bau,
+    area: project.area,
+    size: project.size,
+    quantity: project.quantity,
+    contractor: project.contractor,
+    architect: project.architect,
+    client: project.client,
+    scope: project.scope,
+    land: project.land,
+    capacity: project.capacity,
+    districts: project.districts,
+    owner: project.owner,
+    consultant: project.consultant,
+    all_text: project.all_text,
+    works: project.works ? project.works.map(work => ({
+      details: work.details,
+      scope_of_work: work.scope_of_work,
+      images: work.images ? work.images.map(img => ({
+        url: projectsService.getWorkImagePath(project, work, img)
+      })) : []
+    })) : []
+  };
+}
 
 function showProjects(req: Request, res: Response): void {
   const categoryUrl = req.params['category'];
   const countryUrl = req.params['country'];
   const regionUrl = req.params['region'];
   const filteredProjects = projectsService.getFilteredProjects({ categoryUrl, countryUrl, regionUrl });
+  const initialProjects = filteredProjects.slice(0, PROJECTS_PAGE_SIZE);
   
   // Get categories, countries, and regions with error handling
   let categories: string[] = [];
@@ -104,7 +137,7 @@ function showProjects(req: Request, res: Response): void {
     "name": seoData.pageTitle,
     "description": seoData.pageDescription,
     "numberOfItems": filteredProjects.length,
-    "itemListElement": filteredProjects.map((project: Project, index: number) => ({
+    "itemListElement": initialProjects.map((project: Project, index: number) => ({
       "@type": "ListItem",
       "position": index + 1,
       "item": {
@@ -118,19 +151,51 @@ function showProjects(req: Request, res: Response): void {
   };
   
   res.render('projects', {
-    projects: { projects: filteredProjects },
+    projects: { projects: initialProjects },
     categories,
     countries,
     regions,
     selectedCategory: categoryUrl,
     selectedCountry: countryUrl,
     selectedRegion: regionUrl,
+    projectsTotal: filteredProjects.length,
+    projectsOffset: initialProjects.length,
+    projectsPageSize: PROJECTS_PAGE_SIZE,
+    hasMoreProjects: filteredProjects.length > initialProjects.length,
     bodyClass: (res.locals as any).bodyClass + ' projects-page',
     ...seoData,
     structuredData: JSON.stringify(structuredData),
     projectsService: projectsService,
     siteData: pagesService.getSiteData(),
     siteSettings: siteSettingsService.getAllSettings()
+  });
+}
+
+function listProjectsApi(req: Request, res: Response): void {
+  const filters: { categoryUrl?: string; countryUrl?: string; regionUrl?: string } = {};
+  if (typeof req.query.category === 'string' && req.query.category) {
+    filters.categoryUrl = req.query.category;
+  }
+  if (typeof req.query.country === 'string' && req.query.country) {
+    filters.countryUrl = req.query.country;
+  }
+  if (typeof req.query.region === 'string' && req.query.region) {
+    filters.regionUrl = req.query.region;
+  }
+  const offset = Math.max(0, parseInt(String(req.query.offset || '0'), 10) || 0);
+  const requestedLimit = parseInt(String(req.query.limit || PROJECTS_PAGE_SIZE), 10);
+  const limit = Math.min(48, Math.max(1, Number.isNaN(requestedLimit) ? PROJECTS_PAGE_SIZE : requestedLimit));
+
+  const filteredProjects = projectsService.getFilteredProjects(filters);
+  const slice = filteredProjects.slice(offset, offset + limit);
+  const nextOffset = offset + slice.length;
+
+  res.json({
+    projects: slice.map(toProjectCard),
+    total: filteredProjects.length,
+    offset,
+    nextOffset,
+    hasMore: nextOffset < filteredProjects.length
   });
 }
 
@@ -229,34 +294,12 @@ function getProjectApiData(req: Request, res: Response): void {
     return;
   }
 
-  // Transform project data for API response
-  const apiProject = {
-    title: project.title,
-    categories: project.categories,
-    image: projectsService.getProjectImagePath(project),
-    country: project.country,
-    bau: project.bau,
-    area: project.area,
-    size: project.size,
-    quantity: project.quantity,
-    contractor: project.contractor,
-    architect: project.architect,
-    client: project.client,
-    scope: project.scope,
-    works: project.works?.map(work => ({
-      details: work.details,
-      scope_of_work: work.scope_of_work,
-      images: work.images?.map(img => ({
-        url: projectsService.getWorkImagePath(project, work, img)
-      }))
-    }))
-  };
-
-  res.json(apiProject);
+  res.json(toProjectCard(project));
 }
 
 export {
   showProjects,
   showProjectDetail,
-  getProjectApiData
+  getProjectApiData,
+  listProjectsApi
 }; 

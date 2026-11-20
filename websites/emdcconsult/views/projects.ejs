@@ -1,13 +1,23 @@
 <div class="projects-page">
   <%- include('partials/projects-sidebar') %>
-  <div class="projects-masonry-grid">
+  <div
+    class="projects-masonry-grid"
+    id="projectsMasonryGrid"
+    data-offset="<%= typeof projectsOffset !== 'undefined' ? projectsOffset : (projects && projects.projects ? projects.projects.length : 0) %>"
+    data-page-size="<%= typeof projectsPageSize !== 'undefined' ? projectsPageSize : 24 %>"
+    data-total="<%= typeof projectsTotal !== 'undefined' ? projectsTotal : (projects && projects.projects ? projects.projects.length : 0) %>"
+    data-has-more="<%= typeof hasMoreProjects !== 'undefined' && hasMoreProjects ? 'true' : 'false' %>"
+    data-category="<%= typeof selectedCategory !== 'undefined' && selectedCategory ? selectedCategory : '' %>"
+    data-country="<%= typeof selectedCountry !== 'undefined' && selectedCountry ? selectedCountry : '' %>"
+    data-region="<%= typeof selectedRegion !== 'undefined' && selectedRegion ? selectedRegion : '' %>"
+  >
     <% if (typeof projects !== 'undefined' && projects && projects.projects && projects.projects.length > 0) { %>
       <% projects.projects.forEach(project => { 
-        // Build project data object for modal
         const projectData = {
           title: project.title,
           categories: project.categories,
           image: projectsService.getProjectImagePath(project),
+          thumb: projectsService.getProjectThumbPath(project),
           country: project.country,
           bau: project.bau,
           area: project.area,
@@ -35,7 +45,7 @@
         <div class="masonry-item">
         <a href="#" class="project-link" data-project='<%- JSON.stringify(projectData) %>'>
           <div class="project-image-wrapper">
-            <img src="<%= projectsService.getProjectImagePath(project) %>" alt="<%= project.title %>" loading="lazy" />
+            <img src="<%= projectsService.getProjectThumbPath(project) %>" alt="<%= project.title %>" loading="lazy" />
             <div class="project-overlay">
               <div class="project-info">
                 <div class="project-title"><%= project.title %></div>
@@ -63,6 +73,9 @@
         </div>
       </div>
     <% } %>
+  </div>
+  <div class="projects-load-more" id="projectsLoadMore" aria-hidden="true">
+    <div class="projects-load-more-spinner"></div>
   </div>
 
   <!-- Project Modal -->
@@ -99,4 +112,4 @@
       </div>
     </div>
   </div>
-</div> 
+</div>

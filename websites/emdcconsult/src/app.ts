@@ -5,7 +5,7 @@ import expressLayouts from 'express-ejs-layouts';
 import session from 'express-session';
 import pagesService, { formatDocumentTitle } from './services/pagesService';
 import { SliderService } from './services/sliderService';
-import { showProjects, showProjectDetail, getProjectApiData } from './controllers/projectsController';
+import { showProjects, showProjectDetail, getProjectApiData, listProjectsApi } from './controllers/projectsController';
 import { HomeController } from './controllers/homeController';
 import { ClientsController } from './controllers/clientsController';
 import { PagesController } from './controllers/pagesController';
@@ -122,6 +122,7 @@ app.get('/projects', showProjects);
 app.get('/projects/categories/:category', showProjects);
 app.get('/projects/countries/:country', showProjects);
 app.get('/projects/regions/:region', showProjects);
+app.get('/api/projects', listProjectsApi);
 app.get('/api/projects/:projectUrl', getProjectApiData);
 app.get('/projects/:projectUrl', showProjectDetail);
 

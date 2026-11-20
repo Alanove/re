@@ -19,7 +19,7 @@
           "title": "About",
           "type": "page",
           "link": "about",
-          "sort": 2,
+          "sort": 1,
           "active": true,
           "children": [
             {
@@ -32,19 +32,10 @@
               "children": []
             },
             {
-              "id": "menu_1758062390625_e5lko4x6o",
-              "title": "Our BIM Know-How",
+              "id": "menu_1789135343635_t0j9zl1a8",
+              "title": "Our Director",
               "type": "page",
-              "link": "Our-BIM-Know-How",
-              "sort": 2,
-              "active": true,
-              "children": []
-            },
-            {
-              "id": "menu_1758062403950_bwstrrroa",
-              "title": "Our Success Indicators",
-              "type": "page",
-              "link": "Our-Success-Indicators",
+              "link": "message-from-our-founder",
               "sort": 3,
               "active": true,
               "children": []
@@ -54,15 +45,24 @@
               "title": "Our Team",
               "type": "page",
               "link": "our-team",
+              "sort": 2,
+              "active": true,
+              "children": []
+            },
+            {
+              "id": "menu_1758062390625_e5lko4x6o",
+              "title": "Our BIM Know-How",
+              "type": "page",
+              "link": "Our-BIM-Know-How",
               "sort": 4,
               "active": true,
               "children": []
             },
             {
-              "id": "menu_1789135343635_t0j9zl1a8",
-              "title": "Message from our Founder",
+              "id": "menu_1758062403950_bwstrrroa",
+              "title": "Our Success Indicators",
               "type": "page",
-              "link": "message-from-our-founder",
+              "link": "Our-Success-Indicators",
               "sort": 5,
               "active": true,
               "children": []
@@ -138,7 +138,7 @@
               "type": "page",
               "link": "news",
               "sort": 2,
-              "active": true,
+              "active": false,
               "children": []
             }
           ]

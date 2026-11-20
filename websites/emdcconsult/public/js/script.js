@@ -72,6 +72,7 @@ class App {
         this.setupScrollArrow();
         this.setupBurgerMenu();
         this.setupProjectModal();
+        this.setupProjectsInfiniteScroll();
         this.setupMobileProjectsFilter();
         this.initWorldMap();
         this.delayedInit();
@@ -1292,27 +1293,9 @@ class App {
     setupProjectModal() {
         if (!this.projectModalOverlay) return;
 
-        // Collect all projects data from the page
-        const projectLinks = document.querySelectorAll('.project-link[data-project]');
         this.allProjects = [];
-        
-        projectLinks.forEach((link, index) => {
-            const projectData = link.getAttribute('data-project');
-            if (projectData) {
-                try {
-                    const project = JSON.parse(projectData);
-                    this.allProjects.push(project);
-                    
-                    // Add click event listener
-                    link.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        this.currentProjectIndex = index;
-                        this.openProjectModal(project);
-                    });
-                } catch (error) {
-                    console.error('Error parsing project data:', error);
-                }
-            }
+        document.querySelectorAll('.project-link[data-project]').forEach((link) => {
+            this.bindProjectLink(link);
         });
 
         // Setup navigation buttons
@@ -1365,6 +1348,143 @@ class App {
 
         // Setup touch/swipe navigation
         this.setupTouchNavigation();
+    }
+
+    bindProjectLink(link) {
+        if (!link || link.dataset.boundProject === 'true') {
+            return;
+        }
+        const projectData = link.getAttribute('data-project');
+        if (!projectData) {
+            return;
+        }
+        try {
+            const project = JSON.parse(projectData);
+            const index = this.allProjects.length;
+            this.allProjects.push(project);
+            link.dataset.boundProject = 'true';
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.currentProjectIndex = index;
+                this.openProjectModal(project);
+            });
+        } catch (error) {
+            console.error('Error parsing project data:', error);
+        }
+    }
+
+    setupProjectsInfiniteScroll() {
+        this.projectsGrid = document.getElementById('projectsMasonryGrid');
+        this.projectsLoadMore = document.getElementById('projectsLoadMore');
+        if (!this.projectsGrid || this.projectsGrid.dataset.hasMore !== 'true') {
+            return;
+        }
+
+        this.projectsLoading = false;
+        this.projectsObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    this.loadMoreProjects();
+                }
+            });
+        }, { rootMargin: '400px 0px' });
+
+        if (this.projectsLoadMore) {
+            this.projectsObserver.observe(this.projectsLoadMore);
+        }
+    }
+
+    async loadMoreProjects() {
+        if (!this.projectsGrid || this.projectsLoading || this.projectsGrid.dataset.hasMore !== 'true') {
+            return;
+        }
+
+        this.projectsLoading = true;
+        if (this.projectsLoadMore) {
+            this.projectsLoadMore.classList.add('is-loading');
+        }
+
+        try {
+            const params = new URLSearchParams();
+            params.set('offset', this.projectsGrid.dataset.offset || '0');
+            params.set('limit', this.projectsGrid.dataset.pageSize || '24');
+            if (this.projectsGrid.dataset.category) {
+                params.set('category', this.projectsGrid.dataset.category);
+            }
+            if (this.projectsGrid.dataset.country) {
+                params.set('country', this.projectsGrid.dataset.country);
+            }
+            if (this.projectsGrid.dataset.region) {
+                params.set('region', this.projectsGrid.dataset.region);
+            }
+
+            const response = await fetch(`/api/projects?${params.toString()}`);
+            if (!response.ok) {
+                throw new Error(`Failed to load projects (${response.status})`);
+            }
+            const payload = await response.json();
+            const projects = Array.isArray(payload.projects) ? payload.projects : [];
+
+            projects.forEach((project) => {
+                const item = this.createProjectMasonryItem(project);
+                this.projectsGrid.appendChild(item);
+                const link = item.querySelector('.project-link[data-project]');
+                this.bindProjectLink(link);
+            });
+
+            this.projectsGrid.dataset.offset = String(payload.nextOffset || 0);
+            this.projectsGrid.dataset.total = String(payload.total || 0);
+            this.projectsGrid.dataset.hasMore = payload.hasMore ? 'true' : 'false';
+
+            if (!payload.hasMore && this.projectsObserver && this.projectsLoadMore) {
+                this.projectsObserver.unobserve(this.projectsLoadMore);
+            }
+        } catch (error) {
+            console.error('Error loading more projects:', error);
+        } finally {
+            this.projectsLoading = false;
+            if (this.projectsLoadMore) {
+                this.projectsLoadMore.classList.remove('is-loading');
+            }
+        }
+    }
+
+    createProjectMasonryItem(project) {
+        const item = document.createElement('div');
+        item.className = 'masonry-item';
+
+        const categories = Array.isArray(project.categories) ? project.categories : [];
+        const categoryHtml = categories.length > 0
+            ? categories.slice(0, 5).map((category) => `<span class="category">${this.escapeHtml(category)}</span>`).join('')
+            : '<span class="category">General</span>';
+
+        const link = document.createElement('a');
+        link.href = '#';
+        link.className = 'project-link';
+        link.setAttribute('data-project', JSON.stringify(project));
+        link.innerHTML = `
+          <div class="project-image-wrapper">
+            <img src="${this.escapeHtml(project.thumb || project.image || '')}" alt="${this.escapeHtml(project.title || '')}" loading="lazy" />
+            <div class="project-overlay">
+              <div class="project-info">
+                <div class="project-title">${this.escapeHtml(project.title || '')}</div>
+                <div class="project-categories">${categoryHtml}</div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        item.appendChild(link);
+        return item;
+    }
+
+    escapeHtml(value) {
+        return String(value == null ? '' : value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
     }
 
     setupTouchNavigation() {

@@ -8,6 +8,7 @@ import { SiteSettingsService } from '../services/siteSettingsService';
 import { TOUrl } from '../utils/urlHelper';
 import { DATA_PATHS, getWorkDirPath, getProjectDirPath } from '../../src/constants';
 import { IMAGE_UPLOAD_MAX_BYTES, isAllowedImageUpload, uniqueImageFilename } from '../services/imageUpload';
+import { deleteProjectImageVariants, processUploadedProjectImage } from '../services/projectImageService';
 
 const menuService = AdminMenuService.getInstance();
 const projectsService = ProjectsService.getInstance();
@@ -47,13 +48,7 @@ function moveIntoDirectory(file: Express.Multer.File, directory: string): string
 }
 
 function deleteProjectImageFile(folderName: string, imageName: string | undefined): void {
-  if (!imageName || imageName.includes('/') || imageName.includes('\\') || imageName.includes('..')) {
-    return;
-  }
-  const oldPath = path.join(getProjectDirPath(folderName), path.basename(imageName));
-  if (fs.existsSync(oldPath)) {
-    fs.unlinkSync(oldPath);
-  }
+  deleteProjectImageVariants(getProjectDirPath(folderName), imageName);
 }
 
 // Files are staged first. The handler moves them into the project's real folder
@@ -269,7 +264,8 @@ export class ProjectsController {
         let imagePath = projectImage || '';
         const file = req.file;
         if (file && file.filename) {
-          imagePath = moveIntoDirectory(file, getProjectDirPath(folder_name));
+          moveIntoDirectory(file, getProjectDirPath(folder_name));
+          imagePath = await processUploadedProjectImage(file);
           console.log('New project image uploaded:', imagePath);
         }
         
@@ -460,7 +456,8 @@ export class ProjectsController {
         const file = req.file;
         if (file && file.filename) {
           const folderName = existingProject.folder_name || 'temp';
-          imagePath = moveIntoDirectory(file, getProjectDirPath(folderName));
+          moveIntoDirectory(file, getProjectDirPath(folderName));
+          imagePath = await processUploadedProjectImage(file);
           if (existingProject.project_image && existingProject.project_image !== imagePath) {
             deleteProjectImageFile(folderName, existingProject.project_image);
           }
@@ -755,7 +752,8 @@ export class ProjectsController {
         if (req.files && Array.isArray(req.files)) {
           for (const file of req.files) {
             if (file.filename) {
-              const storedName = moveIntoDirectory(file, workDir);
+              moveIntoDirectory(file, workDir);
+              const storedName = await processUploadedProjectImage(file);
               uploadedImages.push(storedName);
               console.log('Work image uploaded:', storedName);
             }
@@ -853,11 +851,12 @@ export class ProjectsController {
           const workDir = getWorkDirPath(project.folder_name, workFolder);
 
           if (uploadedFiles && uploadedFiles.length > 0) {
-            uploadedFiles.forEach(file => {
+            for (const file of uploadedFiles) {
               if (file.filename) {
-                newImageNames.push(moveIntoDirectory(file, workDir));
+                moveIntoDirectory(file, workDir);
+                newImageNames.push(await processUploadedProjectImage(file));
               }
-            });
+            }
           }
 
           // Prepare work data
