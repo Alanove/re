@@ -1,0 +1,12 @@
+<div class="panel panel-inverse">
+	<div class="panel-heading"><h4 class="panel-title"><%= status %> · <%= title %></h4></div>
+	<div class="panel-body">
+		<p class="fs-15px mb-3"><%= message %></p>
+		<% if (detail) { %><pre class="bg-light p-3 small text-wrap"><%= detail %></pre><% } %>
+		<% if (locals.currentUser) { %>
+			<a href="/admin/dashboard" class="btn btn-primary"><i class="fa fa-arrow-left me-1"></i> Back to dashboard</a>
+		<% } else { %>
+			<a href="/admin/login" class="btn btn-primary">Go to sign in</a>
+		<% } %>
+	</div>
+</div>

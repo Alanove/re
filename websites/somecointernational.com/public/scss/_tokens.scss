@@ -1,0 +1,54 @@
+// Design tokens. Sampled from wwwroot/images/someco-international-logo.png:
+// dominant brand blue #006090 (SCSS template blue #006293 was close), cool silver #b8c0c8,
+// deeper navy #005088. Primary kept at the sampled #006090 (passes AA with white text).
+@use 'sass:list';
+@use 'sass:map';
+
+$color-primary: #006090;
+$color-primary-dark: #00486c;
+$color-primary-container: #d7eaf4;
+$color-on-primary-container: #00324a;
+$color-accent: #0099e6;
+$color-accent-dark: #0077b3;
+$color-secondary: #5c6b75;
+$color-secondary-fixed: #e8eef2;
+$color-background: #ffffff;
+$color-surface: #f7f9fb;
+$color-surface-low: #eef2f5;
+$color-surface-bright: #fcfdfe;
+$color-on-surface: #1a242b;
+$color-on-surface-variant: #4a5963;
+$color-outline: #c5ced4;
+$color-white: #ffffff;
+$color-error: #ba1a1a;
+$color-silver: #b8c0c8;
+$color-navy: #005088;
+
+$font-display: 'K2D', sans-serif;
+$font-body: 'Niramit', Arial, sans-serif;
+
+$container: 1140px;
+$header-height: 72px;
+$radius: 0;
+$space-section: 5rem;
+
+$css-colors: (
+  'primary': $color-primary,
+  'primary-dark': $color-primary-dark,
+  'accent': $color-accent,
+  'secondary': $color-secondary,
+  'background': $color-background,
+  'surface': $color-surface,
+  'on-surface': $color-on-surface,
+  'outline': $color-outline,
+  'white': $color-white,
+  'error': $color-error,
+  'silver': $color-silver,
+  'navy': $color-navy
+);
+
+@mixin color-vars {
+  @each $name, $value in $css-colors {
+    --color-#{$name}: #{$value};
+  }
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title><%= seo.title %></title>
+	<meta name="description" content="<%= seo.description %>" />
+	<% if (seo.keywords) { %><meta name="keywords" content="<%= seo.keywords %>" /><% } %>
+	<link rel="canonical" href="<%= seo.canonical %>" />
+	<meta property="og:title" content="<%= seo.title %>" />
+	<meta property="og:description" content="<%= seo.description %>" />
+	<meta property="og:url" content="<%= seo.canonical %>" />
+	<meta property="og:type" content="<%= seo.type || 'website' %>" />
+	<% if (seo.image) { %><meta property="og:image" content="<%= absoluteUrl(seo.image) %>" /><% } %>
+	<% if (settings.favicon) { %><link rel="icon" href="<%= settings.favicon %>" /><% } %>
+	<link rel="stylesheet" href="/fonts/fontawesome/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="/fonts/ionicons/css/ionicons.min.css" />
+	<link rel="stylesheet" href="/fonts/flaticon/font/flaticon.css" />
+	<link rel="stylesheet" href="/css/animate.css" />
+	<link rel="stylesheet" href="/css/owl.carousel.min.css" />
+	<link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.min.css" />
+	<link rel="stylesheet" href="/css/fonts.css" />
+	<link rel="stylesheet" href="/css/legacy-style.css" />
+	<link rel="stylesheet" href="/css/main.css" />
+	<link rel="stylesheet" href="/admin/editor/rte-content.css" />
+	<link rel="stylesheet" href="/captcha/captcha.css" />
+</head>
+<body class="<%= typeof bodyClass !== 'undefined' ? bodyClass : '' %>">
+	<div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#006293"/></svg></div>
+	<%- include('partials/header') %>
+	<main id="main">
+		<%- body %>
+	</main>
+	<%- include('partials/footer') %>
+	<script src="/js/jquery-3.2.1.min.js"></script>
+	<script src="/js/popper.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/owl.carousel.min.js"></script>
+	<script src="/vendor/fancybox/jquery.fancybox.min.js"></script>
+	<script src="/js/jquery.waypoints.min.js"></script>
+	<script src="/js/main.js"></script>
+	<script src="/captcha/captcha.js" defer></script>
+	<script src="/js/site.js" defer></script>
+</body>
+</html>

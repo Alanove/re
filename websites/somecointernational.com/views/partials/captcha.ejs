@@ -1,0 +1,12 @@
+<div class="site-captcha mb-3"
+	data-captcha-scope="<%= scope %>"
+	data-captcha-status
+	data-text-idle="Spam protection is ready."
+	data-text-solving="Checking that you are human…"
+	data-text-ready="You can send the form."
+	data-text-error="Spam check failed. Please try again.">
+	<input type="hidden" name="captcha" value="" data-captcha-token />
+	<% if (typeof errors !== 'undefined' && errors.captcha) { %>
+		<div class="invalid-feedback d-block"><%= errors.captcha %></div>
+	<% } %>
+</div>

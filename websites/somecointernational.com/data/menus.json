@@ -1,0 +1,294 @@
+[
+  {
+    "id": "main",
+    "name": "Main Menu",
+    "description": "Header and footer navigation",
+    "items": [
+      {
+        "id": "m2",
+        "title": "Home",
+        "url": "/",
+        "pageId": 1,
+        "sort": 1000,
+        "active": true,
+        "htmlContent": "",
+        "children": []
+      },
+      {
+        "id": "m3",
+        "title": "About",
+        "url": "/about",
+        "pageId": 2,
+        "sort": 2000,
+        "active": true,
+        "htmlContent": "",
+        "children": []
+      },
+      {
+        "id": "m4",
+        "title": "Products",
+        "url": "/products",
+        "pageId": 3,
+        "sort": 3000,
+        "active": true,
+        "htmlContent": "",
+        "children": [
+          {
+            "id": "m10",
+            "title": "Construction Equipment",
+            "url": "/products/construction-equipment",
+            "pageId": 4,
+            "sort": 4000,
+            "active": true,
+            "htmlContent": "",
+            "children": [
+              {
+                "id": "m17",
+                "title": "Atlas Copco Construction",
+                "url": "/products/construction-equipment/atlas-copco-construction",
+                "pageId": 5,
+                "sort": 5000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              },
+              {
+                "id": "m18",
+                "title": "Case Construction Equipment",
+                "url": "/products/construction-equipment/case-construction-equipment",
+                "pageId": 6,
+                "sort": 6000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              },
+              {
+                "id": "m19",
+                "title": "Dynapac",
+                "url": "/products/construction-equipment/dynapac",
+                "pageId": 7,
+                "sort": 7000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              },
+              {
+                "id": "m20",
+                "title": "TDI Power Attachments",
+                "url": "/products/construction-equipment/tdi-power-attachments",
+                "pageId": 8,
+                "sort": 8000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              },
+              {
+                "id": "m24",
+                "title": "Landoll Construction Equipment",
+                "url": "/products/construction-equipment/landoll-construction-equipment",
+                "pageId": 29,
+                "sort": 9000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              },
+              {
+                "id": "m-live-34",
+                "title": "Truemax Professional Machinery",
+                "url": "/products/construction-equipment/truemax-professional-machinery",
+                "pageId": 34,
+                "sort": 9500,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              },
+              {
+                "id": "m-live-35",
+                "title": "FM GRU Construction Cranes",
+                "url": "/products/construction-equipment/fm-gru-construction-cranes",
+                "pageId": 35,
+                "sort": 9600,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "m11",
+            "title": "Industrial Equipment",
+            "url": "/products/industrial-equipment",
+            "pageId": 9,
+            "sort": 9000,
+            "active": true,
+            "htmlContent": "",
+            "children": [
+              {
+                "id": "m21",
+                "title": "Atlas Copco Industrial",
+                "url": "/products/industrial-equipment/atlas-copco-industrial",
+                "pageId": 10,
+                "sort": 10000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              },
+              {
+                "id": "m22",
+                "title": "Heli Forklifts",
+                "url": "/products/industrial-equipment/heli-forklifts",
+                "pageId": 11,
+                "sort": 11000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              },
+              {
+                "id": "m23",
+                "title": "Haulotte Aerial Work Platform",
+                "url": "/products/industrial-equipment/haulotte-aerial-work-platform",
+                "pageId": 12,
+                "sort": 12000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              },
+              {
+                "id": "m25",
+                "title": "Landoll Industrial Equipment",
+                "url": "/products/industrial-equipment/landoll-industrial-equipment",
+                "pageId": 30,
+                "sort": 13000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              },
+              {
+                "id": "m-live-36",
+                "title": "Doosan Industrial Vehicle",
+                "url": "/products/industrial-equipment/doosan-industrial-vehicle",
+                "pageId": 36,
+                "sort": 14000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              },
+              {
+                "id": "m-live-37",
+                "title": "Miller ITW Welding",
+                "url": "/products/industrial-equipment/miller-itw-welding",
+                "pageId": 37,
+                "sort": 15000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "m26",
+            "title": "Agriculture Equipment",
+            "url": "/products/agriculture-equipment",
+            "pageId": 31,
+            "sort": 10000,
+            "active": true,
+            "htmlContent": "",
+            "children": [
+              {
+                "id": "m27",
+                "title": "Case Agriculture Equipment",
+                "url": "/products/agriculture-equipment/case-agriculture-equipment",
+                "pageId": 32,
+                "sort": 10000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              },
+              {
+                "id": "m28",
+                "title": "Landoll Agriculture Equipment",
+                "url": "/products/agriculture-equipment/landoll-agriculture-equipment",
+                "pageId": 33,
+                "sort": 10000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "m-live-38",
+            "title": "MIMAR Trading for Building Materials",
+            "url": "/products/mimar-trading-for-building-materials",
+            "pageId": 38,
+            "sort": 11000,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "m5",
+        "title": "News",
+        "url": "/news",
+        "pageId": 14,
+        "sort": 14000,
+        "active": true,
+        "htmlContent": "",
+        "children": []
+      },
+      {
+        "id": "m7",
+        "title": "Services",
+        "url": "/services",
+        "pageId": 16,
+        "sort": 16000,
+        "active": true,
+        "htmlContent": "",
+        "children": [
+          {
+            "id": "m14",
+            "title": "Spare Parts",
+            "url": "/services/overhauling",
+            "pageId": 18,
+            "sort": 18000,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          },
+          {
+            "id": "m15",
+            "title": "Maintenance",
+            "url": "/services/maintenance",
+            "pageId": 19,
+            "sort": 19000,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          },
+          {
+            "id": "m16",
+            "title": "Overhauling",
+            "url": "/services/spare-parts",
+            "pageId": 20,
+            "sort": 20000,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "m8",
+        "title": "Contact",
+        "url": "/contact",
+        "pageId": 21,
+        "sort": 21000,
+        "active": true,
+        "htmlContent": "",
+        "children": []
+      }
+    ]
+  }
+]

@@ -1,0 +1,35 @@
+<%- include('partials/page-hero') %>
+<section class="section section--inner">
+	<div class="container">
+		<% const hasBody = page.content && String(page.content).trim(); %>
+		<% if (hasBody) { %>
+			<div class="row mb-4">
+				<div class="col-12 prose"><%- page.content %></div>
+			</div>
+		<% } else if (page.summary) { %>
+			<p class="lead mb-5"><%= page.summary %></p>
+		<% } %>
+		<% if (page.children.length) { %>
+			<div class="row">
+				<% page.children.forEach(function (child) { %>
+					<div class="col-lg-4 col-md-6 col-12 mb-4 element-animate">
+						<a href="<%= child.url %>" class="media d-block media-feature media-feature--card text-center h-100">
+							<% if (child.heroImage) { %>
+								<span class="media-feature__cover">
+									<img src="<%= thumbUrl(child.heroImage) %>" alt="" class="img-fluid" loading="lazy" />
+								</span>
+							<% } else { %>
+								<span class="flaticon-building-1 icon media-feature__icon" aria-hidden="true"></span>
+							<% } %>
+							<div class="media-body">
+								<h3 class="mt-0 text-black"><%= child.title %></h3>
+								<% if (child.summary) { %><p><%= child.summary %></p><% } %>
+								<span class="media-feature__cta">View details <span class="ion-android-arrow-forward" aria-hidden="true"></span></span>
+							</div>
+						</a>
+					</div>
+				<% }) %>
+			</div>
+		<% } %>
+	</div>
+</section>

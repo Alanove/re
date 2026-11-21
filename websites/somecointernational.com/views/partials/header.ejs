@@ -1,0 +1,81 @@
+<%
+	const telHref = function (value) { return 'tel:' + String(value || '').replace(/[^+\d]/g, ''); };
+	const office = typeof primaryOffice !== 'undefined' ? primaryOffice : null;
+	const phone = office && office.phones.length ? office.phones[0] : settings.contactPhone;
+	const email = office && office.emails.length ? office.emails[0] : settings.contactEmail;
+	const navItems = typeof mainMenu !== 'undefined' ? mainMenu : [];
+	const renderMenu = function (items, depth) {
+		let html = '';
+		items.forEach(function (item) {
+			const hasChildren = item.children && item.children.length;
+			const classes = [];
+			if (depth === 0) classes.push('nav-item');
+			if (hasChildren) classes.push(depth === 0 ? 'dropdown' : 'dropdown-submenu');
+			if (item.active) classes.push('active');
+			html += '<li class="' + classes.join(' ') + '">';
+			const label = item.htmlContent ? item.htmlContent : item.title;
+			if (hasChildren) {
+				html += '<a class="nav-link dropdown-toggle' + (depth ? '' : '') + (item.active ? ' active' : '') + '" href="' + item.url + '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' + label + '</a>';
+				html += '<ul class="dropdown-menu' + (depth ? ' submenu' : '') + '">';
+				item.children.forEach(function (child) {
+					const childHas = child.children && child.children.length;
+					if (childHas) {
+						html += '<li class="dropdown-submenu' + (child.active ? ' active' : '') + '"><a class="dropdown-item dropdown-toggle" href="' + child.url + '">' + (child.htmlContent || child.title) + '</a><ul class="dropdown-menu submenu">';
+						child.children.forEach(function (grand) {
+							html += '<li><a class="dropdown-item' + (grand.current ? ' active' : '') + '" href="' + grand.url + '">' + (grand.htmlContent || grand.title) + '</a></li>';
+						});
+						html += '</ul></li>';
+					} else {
+						html += '<li><a class="dropdown-item' + (child.current ? ' active' : '') + '" href="' + child.url + '">' + (child.htmlContent || child.title) + '</a></li>';
+					}
+				});
+				html += '</ul>';
+			} else {
+				html += '<a class="nav-link' + (item.active ? ' active' : '') + '" href="' + item.url + '"' + (item.current ? ' aria-current="page"' : '') + '>' + label + '</a>';
+			}
+			html += '</li>';
+		});
+		return html;
+	};
+%>
+<header>
+	<div id="top-bar">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="top-bar-info">
+						<ul>
+							<% if (email) { %><li><i class="fa fa-envelope" aria-hidden="true"></i><a href="mailto:<%= email %>"><%= email %></a></li><% } %>
+							<% if (phone) { %><li><i class="fa fa-phone" aria-hidden="true"></i><a href="<%= telHref(phone) %>"><%= phone %></a></li><% } %>
+						</ul>
+					</div>
+					<ul class="top-social-icon">
+						<% if (settings.social.facebook) { %><li><a href="<%= settings.social.facebook %>" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a></li><% } %>
+						<% if (settings.social.twitter) { %><li><a href="<%= settings.social.twitter %>" target="_blank" rel="noopener noreferrer" aria-label="X"><i class="fa fa-twitter" aria-hidden="true"></i></a></li><% } %>
+						<% if (settings.social.instagram) { %><li><a href="<%= settings.social.instagram %>" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fa fa-instagram" aria-hidden="true"></i></a></li><% } %>
+						<% if (settings.social.linkedin) { %><li><a href="<%= settings.social.linkedin %>" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li><% } %>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="container">
+			<a class="navbar-brand" href="/">
+				<% if (settings.logo) { %>
+					<img src="<%= settings.logo %>" alt="<%= settings.siteName %>" width="180" height="60" />
+				<% } else { %>
+					<span><%= settings.siteName %></span>
+				<% } %>
+			</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample05" aria-controls="navbarsExample05" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarsExample05">
+				<ul class="navbar-nav ml-auto">
+					<%- renderMenu(navItems, 0) %>
+				</ul>
+			</div>
+		</div>
+	</nav>
+</header>

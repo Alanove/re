@@ -1,0 +1,16 @@
+{
+  "note": "Someco International content is built by scripts/import-someco.ts from the MySQL dump and local wwwroot. This seed only holds office and settings overrides the dump does not cover cleanly.",
+  "office": {
+    "id": "dora",
+    "country": "Lebanon",
+    "role": "Showroom and service center",
+    "address": "Medawar 1200 Building Beside Sukleen, President Charles Helou avenue, Dora Highway, Beirut",
+    "poBox": "",
+    "phones": ["+961 1 576777"],
+    "fax": "+961 1 561666",
+    "emails": ["info@somecointernational.com"],
+    "mapQuery": "Someco International Dora Highway Beirut",
+    "isPrimary": true,
+    "sort": 10
+  }
+}

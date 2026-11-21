@@ -1,0 +1,11 @@
+<section class="section">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-8 text-center">
+				<h1 class="heading mb-4"><%= typeof status === 'number' ? status : 404 %></h1>
+				<p class="mb-4"><%= typeof message !== 'undefined' ? message : 'Page not found.' %></p>
+				<a class="btn btn-primary" href="/">Back to home</a>
+			</div>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,110 @@
+<%
+	const telHref = function (value) { return 'tel:' + String(value || '').replace(/[^+\d]/g, ''); };
+	const office = typeof primaryOffice !== 'undefined' ? primaryOffice : null;
+	const phone = office && office.phones.length ? office.phones[0] : settings.contactPhone;
+	const fax = office && office.fax ? office.fax : '';
+	const email = office && office.emails.length ? office.emails[0] : settings.contactEmail;
+	const address = office && office.address ? office.address : '';
+	const footerLinks = (typeof mainMenu !== 'undefined' ? mainMenu : []).filter(function (item) {
+		return item.url !== '/feedback' && item.url !== '/';
+	}).slice(0, 6);
+	const form = typeof contactForm !== 'undefined' ? contactForm : { values: {}, errors: {}, sent: false, message: '' };
+	const val = function (name) { return form.values[name] || ''; };
+	const err = function (name) { return form.errors[name]; };
+	const cls = function (name) { return err(name) ? 'form-control form-control-sm is-invalid' : 'form-control form-control-sm'; };
+	const topics = settings.inquiryTopics || [];
+	const hideFooterForm = typeof page !== 'undefined' && page && (page.kind === 'contact' || page.kind === 'feedback');
+	const returnTo = typeof currentPath !== 'undefined' && currentPath ? currentPath : '/';
+%>
+<footer class="site-footer" role="contentinfo" id="footer-contact">
+	<div class="container">
+		<div class="row mb-4">
+			<div class="col-md-4 mb-4 mb-md-0">
+				<h3><%= settings.siteName %></h3>
+				<% if (address) { %><p><span class="mr-3 d-block">Address:</span><span><%= address %></span></p><% } %>
+				<% if (phone) { %><p><span class="mr-3 d-block">Phone:</span><span><a href="<%= telHref(phone) %>"><%= phone %></a></span></p><% } %>
+				<% if (fax) { %><p><span class="mr-3 d-block">Fax:</span><span><%= fax %></span></p><% } %>
+				<% if (email) { %><p><span class="mr-3 d-block">Email:</span><span><a href="mailto:<%= email %>"><%= email %></a></span></p><% } %>
+				<p class="footer-social mt-3 mb-0">
+					<% if (settings.social.facebook) { %><a href="<%= settings.social.facebook %>" class="p-2" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><span class="fa fa-facebook"></span></a><% } %>
+					<% if (settings.social.instagram) { %><a href="<%= settings.social.instagram %>" class="p-2" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><span class="fa fa-instagram"></span></a><% } %>
+					<% if (settings.social.linkedin) { %><a href="<%= settings.social.linkedin %>" class="p-2" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><span class="fa fa-linkedin"></span></a><% } %>
+				</p>
+			</div>
+			<div class="col-md-3 mb-4 mb-md-0">
+				<h3>Quick Links</h3>
+				<ul class="list-unstyled footer-link">
+					<% footerLinks.forEach(function (item) { %>
+						<li><a href="<%= item.url %>"><%= item.title %></a></li>
+					<% }) %>
+				</ul>
+			</div>
+			<div class="col-md-5">
+				<% if (hideFooterForm) { %>
+					<h3>Follow Us</h3>
+					<p>
+						<% if (settings.social.facebook) { %><a href="<%= settings.social.facebook %>" class="p-2" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><span class="fa fa-facebook"></span></a><% } %>
+						<% if (settings.social.instagram) { %><a href="<%= settings.social.instagram %>" class="p-2" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><span class="fa fa-instagram"></span></a><% } %>
+						<% if (settings.social.linkedin) { %><a href="<%= settings.social.linkedin %>" class="p-2" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><span class="fa fa-linkedin"></span></a><% } %>
+					</p>
+				<% } else { %>
+					<h3>Quick contact</h3>
+					<% if (form.sent) { %>
+						<div class="alert alert-success py-2" role="status"><%= settings.thankYouMessage %></div>
+					<% } else { %>
+						<% if (form.message) { %><div class="alert alert-danger py-2" role="alert"><%= form.message %></div><% } %>
+						<form method="post" action="/contact" id="footer-contact-form" class="footer-contact-form" data-captcha="contact" novalidate>
+							<input type="hidden" name="website" value="" tabindex="-1" autocomplete="off" />
+							<input type="hidden" name="source" value="footer" />
+							<input type="hidden" name="returnTo" value="<%= returnTo %>" />
+							<div class="form-row">
+								<div class="form-group col-6">
+									<label class="sr-only" for="footer-name">Full Name</label>
+									<input type="text" class="<%= cls('name') %>" id="footer-name" name="name" value="<%= val('name') %>" required maxlength="120" placeholder="Full name" />
+									<% if (err('name')) { %><div class="invalid-feedback"><%= err('name') %></div><% } %>
+								</div>
+								<div class="form-group col-6">
+									<label class="sr-only" for="footer-email">Email</label>
+									<input type="email" class="<%= cls('email') %>" id="footer-email" name="email" value="<%= val('email') %>" required placeholder="Email" />
+									<% if (err('email')) { %><div class="invalid-feedback"><%= err('email') %></div><% } %>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-6">
+									<label class="sr-only" for="footer-phone">Phone</label>
+									<input type="text" class="<%= cls('phone') %>" id="footer-phone" name="phone" value="<%= val('phone') %>" maxlength="40" placeholder="Phone" />
+									<% if (err('phone')) { %><div class="invalid-feedback"><%= err('phone') %></div><% } %>
+								</div>
+								<div class="form-group col-6">
+									<label class="sr-only" for="footer-topic">Topic</label>
+									<select class="<%= err('topic') ? 'form-control form-control-sm is-invalid' : 'form-control form-control-sm' %>" id="footer-topic" name="topic" required>
+										<option value="">Topic…</option>
+										<% topics.forEach(function (topic) { %>
+											<option value="<%= topic %>" <%= val('topic') === topic ? 'selected' : '' %>><%= topic %></option>
+										<% }) %>
+									</select>
+									<% if (err('topic')) { %><div class="invalid-feedback"><%= err('topic') %></div><% } %>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="sr-only" for="footer-message">Message</label>
+								<textarea class="<%= cls('message') %>" id="footer-message" name="message" rows="3" required placeholder="Message"><%= val('message') %></textarea>
+								<% if (err('message')) { %><div class="invalid-feedback"><%= err('message') %></div><% } %>
+							</div>
+							<%- include('captcha', { scope: 'contact', errors: form.errors }) %>
+							<button type="submit" class="btn btn-primary btn-sm">Send Message</button>
+						</form>
+					<% } %>
+				<% } %>
+			</div>
+		</div>
+		<div class="row border-t pt-4">
+			<div class="col-md-6 copyright text-md-left text-center">
+				<p><%= settings.copyright || ('© ' + settings.siteName) %></p>
+			</div>
+			<div class="col-md-6 text-md-right text-center">
+				<p>Designed &amp; Developed by <a href="https://liteweb.info" target="_blank" rel="noopener noreferrer">www.liteweb.info</a></p>
+			</div>
+		</div>
+	</div>
+</footer>

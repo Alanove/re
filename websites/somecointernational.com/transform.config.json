@@ -1,0 +1,38 @@
+{
+  "siteKey": "someco",
+  "siteName": "Someco International S.A.L.",
+  "legacySiteUrl": "https://www.somecointernational.com",
+  "cmsSource": "C:/ai/tests/re/websites/idbrandingandadvertising.com",
+  "contentWorkbook": "content/unused.xls",
+  "contentSeed": "content/seed.json",
+  "designDir": "design",
+  "outputDir": ".",
+  "port": 3066,
+  "logo": {
+    "url": "https://www.somecointernational.com/images/someco-international.png",
+    "localPath": "/uploads/site/logo.webp",
+    "note": "Wordmark from wwwroot/images/someco-international-logo.png; sampled brand blue #006090"
+  },
+  "legacy": {
+    "localRoot": "legacy/somecointernational.com/somecointernational.com/wwwroot",
+    "dbDump": "legacy/db/db",
+    "pageImagePattern": "/pages/{slug}/{fileName}",
+    "footerPageKey": null,
+    "contactPageKey": "contact",
+    "feedbackPageKey": "feedback",
+    "hiddenPageKeys": ["sections", "who-we-are"],
+    "uploadsMirrorPrefix": "/uploads/legacy"
+  },
+  "blog": null,
+  "cmsSync": {
+    "adminPublicFiles": [
+      "css/vendor.min.css",
+      "css/app.min.css",
+      "js/vendor.min.js",
+      "js/app.min.js",
+      "js/custom.js",
+      "js/theme.js"
+    ],
+    "adminPublicDirs": ["css/images", "webfonts"]
+  }
+}

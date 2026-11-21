@@ -1,0 +1,94 @@
+<%
+	const form = typeof contactForm !== 'undefined' ? contactForm : { values: {}, errors: {}, sent: false, message: '' };
+	const office = typeof primaryOffice !== 'undefined' ? primaryOffice : null;
+	const val = function (name) { return form.values[name] || ''; };
+	const err = function (name) { return form.errors[name]; };
+	const cls = function (name) { return err(name) ? 'form-control form-control-lg is-invalid' : 'form-control form-control-lg'; };
+	const topics = settings.inquiryTopics || [];
+	const mapQuery = office && office.mapQuery ? office.mapQuery : '';
+%>
+<%- include('partials/page-hero') %>
+<section class="section section--inner">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 mb-5 element-animate">
+				<h2 class="text-uppercase heading border-bottom mb-4"><%= page.title %></h2>
+				<%
+					const telHref = function (value) { return 'tel:' + String(value || '').replace(/[^+\d]/g, ''); };
+				%>
+				<% if (office) { %>
+					<p><strong><%= office.role || settings.siteName %></strong></p>
+					<% if (office.address) { %><p><%= office.address %></p><% } %>
+					<% if (office.phones.length) { %>
+						<p>Phone:
+							<% office.phones.forEach(function (phone, index) { %>
+								<% if (index > 0) { %>, <% } %><a href="<%= telHref(phone) %>"><%= phone %></a>
+							<% }) %>
+						</p>
+					<% } %>
+					<% if (office.fax) { %><p>Fax: <%= office.fax %></p><% } %>
+					<% office.emails.forEach(function (email) { %><p><a href="mailto:<%= email %>"><%= email %></a></p><% }) %>
+				<% } %>
+			</div>
+			<div class="col-md-6 element-animate">
+				<% if (form.sent) { %>
+					<div class="alert alert-success" role="status"><%= settings.thankYouMessage %></div>
+				<% } else { %>
+					<% if (form.message) { %><div class="alert alert-danger" role="alert"><%= form.message %></div><% } %>
+					<form method="post" action="/contact" id="contact-form" data-captcha="contact" novalidate>
+						<input type="hidden" name="website" value="" tabindex="-1" autocomplete="off" />
+						<div class="row">
+							<div class="col-md-12 form-group">
+								<label for="name">Full Name</label>
+								<input type="text" class="<%= cls('name') %>" id="name" name="name" value="<%= val('name') %>" required maxlength="120" />
+								<% if (err('name')) { %><div class="invalid-feedback"><%= err('name') %></div><% } %>
+							</div>
+							<div class="col-md-12 form-group">
+								<label for="email">Email</label>
+								<input type="email" class="<%= cls('email') %>" id="email" name="email" value="<%= val('email') %>" required />
+								<% if (err('email')) { %><div class="invalid-feedback"><%= err('email') %></div><% } %>
+							</div>
+							<div class="col-md-6 form-group">
+								<label for="phone">Phone</label>
+								<input type="text" class="<%= cls('phone') %>" id="phone" name="phone" value="<%= val('phone') %>" maxlength="40" />
+								<% if (err('phone')) { %><div class="invalid-feedback"><%= err('phone') %></div><% } %>
+							</div>
+							<div class="col-md-6 form-group">
+								<label for="topic">Topic</label>
+								<select class="<%= err('topic') ? 'form-control form-control-lg is-invalid' : 'form-control form-control-lg' %>" id="topic" name="topic" required>
+									<option value="">Choose…</option>
+									<% topics.forEach(function (topic) { %>
+										<option value="<%= topic %>" <%= val('topic') === topic ? 'selected' : '' %>><%= topic %></option>
+									<% }) %>
+								</select>
+								<% if (err('topic')) { %><div class="invalid-feedback"><%= err('topic') %></div><% } %>
+							</div>
+							<div class="col-md-12 form-group">
+								<label for="company">Company</label>
+								<input type="text" class="<%= cls('company') %>" id="company" name="company" value="<%= val('company') %>" maxlength="160" />
+							</div>
+							<div class="col-md-12 form-group">
+								<label for="message">Message</label>
+								<textarea class="<%= cls('message') %>" id="message" name="message" rows="8" required><%= val('message') %></textarea>
+								<% if (err('message')) { %><div class="invalid-feedback"><%= err('message') %></div><% } %>
+							</div>
+							<div class="col-md-12">
+								<%- include('partials/captcha', { scope: 'contact', errors: form.errors }) %>
+							</div>
+							<div class="col-md-6 form-group">
+								<input type="submit" value="Send Message" class="btn btn-primary btn-lg btn-block" />
+							</div>
+						</div>
+					</form>
+				<% } %>
+			</div>
+		</div>
+		<% if (mapQuery) { %>
+			<div class="contact-map element-animate">
+				<div class="ratio ratio-16x9">
+					<iframe title="Map — <%= settings.siteName %>" src="https://www.google.com/maps?q=<%= encodeURIComponent(mapQuery) %>&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+				</div>
+			</div>
+		<% } %>
+	</div>
+</section>

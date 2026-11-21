@@ -1,0 +1,44 @@
+<%- include('partials/page-hero') %>
+<section class="section section--inner">
+	<div class="container">
+		<div class="row align-items-start">
+			<% if (sectionRoot && sectionRoot.children && sectionRoot.children.length) { %>
+				<div class="col-lg-3 col-md-4 mb-4">
+					<%- include('partials/sidebar') %>
+				</div>
+				<div class="col-lg-9 col-md-8">
+			<% } else { %>
+				<div class="col-12">
+			<% } %>
+				<% const hasBody = page.content && String(page.content).trim(); %>
+				<% const contentTitle = page.header || page.title; %>
+				<% if (contentTitle) { %>
+					<h1 class="page-content-title"><%= contentTitle %></h1>
+				<% } %>
+				<% if (hasBody) { %>
+					<div class="prose content"><%- page.content %></div>
+				<% } else if (page.summary) { %>
+					<p class="lead"><%= page.summary %></p>
+					<% if (typeof contactUrl !== 'undefined' && contactUrl) { %>
+						<p class="mt-4"><a class="btn btn-primary" href="<%= contactUrl %>">Contact us</a></p>
+					<% } %>
+				<% } else if (typeof contactUrl !== 'undefined' && contactUrl) { %>
+					<p class="lead">Get in touch to learn more about <%= page.title %>.</p>
+					<p class="mt-4"><a class="btn btn-primary" href="<%= contactUrl %>">Contact us</a></p>
+				<% } %>
+				<% if (gallery && gallery.length) { %>
+					<div class="gallery-grid row mt-5">
+						<% gallery.forEach(function (image) { %>
+							<div class="col-6 col-md-4 col-xl-3 mb-4">
+								<a href="<%= image.src %>" class="gallery-item d-block" data-fancybox="gallery" data-caption="<%= image.caption || page.title %>">
+									<img src="<%= thumbUrl(image.src) %>" alt="<%= image.caption || page.title %>" class="img-fluid" loading="lazy" width="<%= image.width || '' %>" height="<%= image.height || '' %>" />
+									<% if (image.caption) { %><span class="gallery-caption"><%= image.caption %></span><% } %>
+								</a>
+							</div>
+						<% }) %>
+					</div>
+				<% } %>
+			</div>
+		</div>
+	</div>
+</section>

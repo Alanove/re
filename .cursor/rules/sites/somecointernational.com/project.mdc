@@ -1,0 +1,23 @@
+---
+description: somecointernational.com site rules
+globs:
+  - websites/somecointernational.com/**
+alwaysApply: false
+---
+
+# somecointernational.com: project rules
+
+Site rule for `websites/somecointernational.com/`. It applies in addition to the global rules in `.cursor/rules/`; where they conflict, the global rules win. Paths are relative to the site folder.
+
+## Site shape
+- Multi-page equipment brochure from the .NET Core LiteWeb rebuild (MySQL dump + wwwroot), not the older WebForms live site.
+- Pages: About, Products (construction / industrial / agriculture trees), News, Services, Contact, Feedback. Home is driven by `data/home.json` (slides, Who We Are, clients carousel from the home page gallery).
+- One office: Dora Highway / Medawar, Beirut. Phone `+961 1 576777`, fax `+961 1 561666`, email `info@somecointernational.com`.
+- Social: Facebook, Instagram, LinkedIn from the dump settings.
+- Captcha scopes: `admin-login`, `contact`, `feedback`.
+- Import with `npm run import:legacy` (`scripts/import-someco.ts`). The `legacy/` tree is gitignored.
+
+## Design
+- Keep the Bootstrap 4 / Owl public template from the rebuild (`public/css/legacy-style.css` plus local Font Awesome, Ionicons, Flaticon). Do not restyle with another site's brochure layout.
+- Colours from `wwwroot/images/someco-international-logo.png`: brand blue `#006090` (admin `themeColor` the same), accent `#0099e6`, silver `#b8c0c8`, navy `#005088`. Tokens in `public/scss/_tokens.scss`.
+- Fonts: K2D (headings), Niramit (body), self-hosted under `public/fonts/google/`.

@@ -333,3 +333,10 @@ Four small static backups under `websites/<domain>/` with a gitignored zip and `
 - Legacy redirects: `/index.html`, `/menu.html`, `/aboutus.html`, `/contact.html`, `/clients.html`, `/work.html`, and each portfolio HTML file.
 - Logo: `assets/id.png`. Tokens: charcoal primary `#231f20`, magenta sample `#a8178c` (deepened `#7d1169` for AA), yellow `#f5c518`. Fonts Syne and Manrope.
 - Design snapshots (home, work gallery, about, contact at 1440 and 390px) are in `websites/idbrandingandadvertising.com/design/`.
+
+## Known Someco International specifics
+
+- Site folder `websites/somecointernational.com/`, dev port `3066`, aaPanel project `someco`. Scaffolded from the ID Branding brochure core. Content comes from the .NET Core LiteWeb rebuild: MySQL dump `legacy/db/db` and `legacy/.../wwwroot` via `npm run import:legacy` (`scripts/import-someco.ts`). The older WebForms live site is not the design source. The `legacy/` tree is gitignored.
+- Public design keeps the rebuild’s Bootstrap 4 / Owl template (`public/css/legacy-style.css`). The LiteWeb admin is replaced by the shared CMS admin.
+- Pages: About, nested Products (construction / industrial / agriculture), News, Services, Contact, Feedback. Home uses Admin > Home Page (slides, Who We Are, clients carousel from the home page gallery). Captcha scopes `admin-login`, `contact`, `feedback`.
+- One Dora / Medawar office. Logo from `wwwroot/images/someco-international-logo.png`. Tokens: brand blue `#006090`, accent `#0099e6`, silver `#b8c0c8`. Fonts K2D and Niramit (self-hosted).

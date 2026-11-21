@@ -1,0 +1,21 @@
+<div class="panel panel-inverse">
+	<div class="panel-heading">
+		<h4 class="panel-title">Home page sections</h4>
+		<div class="panel-heading-btn"><a href="/" target="_blank" rel="noopener" class="btn btn-xs btn-default"><i class="fa fa-external-link-alt"></i> View home page</a></div>
+	</div>
+	<div class="panel-body p-0">
+		<table class="table table-hover align-middle mb-0">
+			<thead><tr><th>Section</th><th>Heading</th><th>Status</th><th style="width:1%"></th></tr></thead>
+			<tbody>
+				<% sections.forEach(function (section) { %>
+					<tr>
+						<td class="fw-bold"><%= section.label %></td>
+						<td><%= section.title %></td>
+						<td><% if (section.enabled) { %><span class="badge bg-success">Visible</span><% } else { %><span class="badge bg-secondary">Hidden</span><% } %></td>
+						<td><a href="/admin/home/<%= section.key %>/edit" class="btn btn-sm btn-primary"><i class="fa fa-edit me-1"></i> Edit</a></td>
+					</tr>
+				<% }) %>
+			</tbody>
+		</table>
+	</div>
+</div>
