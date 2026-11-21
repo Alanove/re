@@ -290,8 +290,12 @@ main() {
     if [[ -d "$previous_build/dist" ]]; then
       copy_tree "$previous_build/dist" "$build_dir/dist" || die "Could not copy dist from previous build."
     fi
-    if [[ -d "$previous_build/public/css" ]]; then
-      copy_tree "$previous_build/public/css" "$build_dir/public/css" || die "Could not copy public/css from previous build."
+    # Only reuse compiled Sass outputs. Tracked static files under public/css/
+    # (legacy vendor CSS, etc.) come from the git extract and must not be wiped.
+    if [[ -f "$previous_build/public/css/main.css" ]]; then
+      mkdir -p "$build_dir/public/css"
+      cp -a "$previous_build/public/css/main.css" "$build_dir/public/css/main.css" \
+        || die "Could not copy main.css from previous build."
     fi
     if [[ -f "$previous_build/admin/public/css/admin.css" ]]; then
       mkdir -p "$build_dir/admin/public/css"
