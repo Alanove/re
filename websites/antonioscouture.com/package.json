@@ -15,7 +15,7 @@
     "dev:debug": "cross-env NODE_ENV=development ts-node-dev --respawn --transpile-only --inspect=9229 src/app.ts",
     "dev:debug-brk": "cross-env NODE_ENV=development ts-node-dev --respawn --transpile-only --inspect-brk=9299 ./src/app.ts",
     "start:test": "cross-env NODE_ENV=testing ts-node-dev --respawn --transpile-only src/app.ts",
-    "start:prod": "cross-env NODE_ENV=production node dist/src/app.js",
+    "start:prod": "NODE_ENV=production node dist/src/app.js",
     "start:debug": "node --inspect dist/src/app.js",
     "scss": "sass public/css/styles.scss public/css/styles.css --style=compressed --watch --no-source-map",
     "scss:once": "sass public/css/styles.scss public/css/styles.css --style=compressed --no-source-map",
