@@ -29,7 +29,10 @@ export interface PageUploads {
   gallery: UploadedImage[];
 }
 
-const ROUTABLE_KINDS = new Set<Page['kind']>(['page', 'section', 'contact', 'feedback', 'blog']);
+const ROUTABLE_KINDS = new Set<Page['kind']>(['page', 'section', 'contact', 'feedback', 'news']);
+const PRODUCTS_PAGE_KEY = 'products';
+const NEWS_PAGE_KEY = 'news';
+const SINGLETON_KINDS = new Set<Page['kind']>(['contact', 'feedback', 'news', 'footer']);
 
 function bySort(a: Page, b: Page): number {
   return a.sort - b.sort || a.id - b.id;
@@ -179,85 +182,204 @@ export class PagesService {
     return pageImagesRepository.countByPage();
   }
 
-  public async getBlogRoot(): Promise<PageNode | null> {
-    return (await this.getFlatList()).find((node) => node.kind === 'blog') ?? null;
+  public async getProductsRoot(): Promise<PageNode | null> {
+    return (await this.getFlatList()).find((node) => node.key === PRODUCTS_PAGE_KEY) ?? null;
   }
 
-  public isPost(page: Pick<Page, 'parentId'>, blogRoot: Pick<Page, 'id'> | null): boolean {
-    return blogRoot !== null && page.parentId === blogRoot.id;
+  public async getNewsRoot(): Promise<PageNode | null> {
+    const list = await this.getFlatList();
+    return list.find((node) => node.kind === 'news' || node.key === NEWS_PAGE_KEY) ?? null;
   }
 
+  public isUnderRoot(page: Pick<PageNode, 'id' | 'ancestors'>, root: Pick<Page, 'id'> | null): boolean {
+    return root !== null && (page.id === root.id || page.ancestors.some((ancestor) => ancestor.id === root.id));
+  }
+
+  public isNewsStory(page: Pick<Page, 'parentId'>, newsRoot: Pick<Page, 'id'> | null): boolean {
+    return newsRoot !== null && page.parentId === newsRoot.id;
+  }
+
+  public isProductPage(page: PageNode, productsRoot: PageNode | null): boolean {
+    if (!productsRoot || page.id === productsRoot.id || page.kind === 'section') {
+      return false;
+    }
+    return this.isUnderRoot(page, productsRoot) && page.parentId !== productsRoot.id;
+  }
+
+  public isProductCategory(page: PageNode, productsRoot: PageNode | null): boolean {
+    return productsRoot !== null && page.parentId === productsRoot.id && page.kind === 'section';
+  }
+
+  /** Content pages only — excludes the products and news trees. */
   public async getPagesList(): Promise<PageNode[]> {
     const list = await this.getFlatList();
-    const blogIds = new Set(list.filter((node) => node.kind === 'blog').map((node) => node.id));
-    return list.filter((node) => !blogIds.has(node.id) && !node.ancestors.some((ancestor) => blogIds.has(ancestor.id)));
+    const productsRoot = list.find((node) => node.key === PRODUCTS_PAGE_KEY) ?? null;
+    const newsRoot = list.find((node) => node.kind === 'news' || node.key === NEWS_PAGE_KEY) ?? null;
+    return list.filter((node) => !this.isUnderRoot(node, productsRoot) && !this.isUnderRoot(node, newsRoot));
   }
 
-  public async getBlogOverview(): Promise<{ root: PageNode | null; posts: PageNode[] }> {
-    const root = await this.getBlogRoot();
+  public async getProductsList(): Promise<PageNode[]> {
+    const root = await this.getProductsRoot();
     if (!root) {
-      return { root: null, posts: [] };
+      return [];
     }
-    const posts = [...root.children].sort((a, b) => b.createdAt.localeCompare(a.createdAt) || b.id - a.id);
-    return { root, posts };
+    return flatten(root.children).filter((node) => this.isProductPage(node, root)).sort(bySort);
+  }
+
+  public async getCategoriesList(): Promise<PageNode[]> {
+    const root = await this.getProductsRoot();
+    if (!root) {
+      return [];
+    }
+    return root.children.filter((node) => node.kind === 'section').sort(bySort);
+  }
+
+  public async getNewsOverview(): Promise<{ root: PageNode | null; entries: PageNode[] }> {
+    const root = await this.getNewsRoot();
+    if (!root) {
+      return { root: null, entries: [] };
+    }
+    const entries = [...root.children].sort((a, b) => b.createdAt.localeCompare(a.createdAt) || b.id - a.id);
+    return { root, entries };
   }
 
   public async createPage(input: PageFormInput, uploads: PageUploads): Promise<PageNode> {
     const pages = await pagesRepository.findAll();
-    this.assertOutsideBlog(pages, input, null);
+    this.assertOutsideCollections(pages, input, null);
     return this.create(input, uploads);
   }
 
   public async updatePage(id: number, input: PageFormInput, uploads: PageUploads): Promise<PageNode> {
     const pages = await pagesRepository.findAll();
     const existing = pages.find((page) => page.id === id);
-    const blogRoot = pages.find((page) => page.kind === 'blog') ?? null;
-    if (!existing || this.isPost(existing, blogRoot)) {
+    const newsRoot = pages.find((page) => page.kind === 'news' || page.key === NEWS_PAGE_KEY) ?? null;
+    const productsRoot = pages.find((page) => page.key === PRODUCTS_PAGE_KEY) ?? null;
+    if (!existing) {
       throw new NotFoundError('Page not found.');
     }
-    if (existing.kind === 'blog') {
-      return this.update(id, { ...input, kind: 'blog', parentId: existing.parentId }, uploads);
+    if (this.isNewsStory(existing, newsRoot) || (productsRoot && (existing.id === productsRoot.id || this.isDescendantOf(pages, existing.id, productsRoot.id)))) {
+      throw new NotFoundError('Page not found.');
     }
-    this.assertOutsideBlog(pages, input, id);
+    if (SINGLETON_KINDS.has(existing.kind) && existing.kind !== 'footer') {
+      return this.update(id, { ...input, kind: existing.kind, parentId: existing.parentId }, uploads);
+    }
+    this.assertOutsideCollections(pages, input, id);
     return this.update(id, input, uploads);
   }
 
-  public async createPost(input: PageFormInput, uploads: PageUploads): Promise<PageNode> {
-    const blogRoot = await this.requireBlogRoot();
-    return this.create({ ...input, kind: 'page', parentId: blogRoot.id }, uploads);
+  public async createProduct(input: PageFormInput, uploads: PageUploads): Promise<PageNode> {
+    await this.requireProductsRoot();
+    const categories = await this.getCategoriesList();
+    const parentId = input.parentId;
+    if (parentId === null || !categories.some((category) => category.id === parentId)) {
+      throw new BadRequestError('Please correct the highlighted fields.', { parentId: 'Choose a product category' });
+    }
+    return this.create({ ...input, kind: 'page', parentId }, uploads);
   }
 
-  public async updatePost(id: number, input: PageFormInput, uploads: PageUploads): Promise<PageNode> {
-    const blogRoot = await this.requireBlogRoot();
+  public async updateProduct(id: number, input: PageFormInput, uploads: PageUploads): Promise<PageNode> {
+    const root = await this.requireProductsRoot();
+    const existing = await this.getById(id);
+    if (!this.isProductPage(existing, root)) {
+      throw new NotFoundError('Product not found.');
+    }
+    const categories = await this.getCategoriesList();
+    const parentId = input.parentId;
+    if (parentId === null || !categories.some((category) => category.id === parentId)) {
+      throw new BadRequestError('Please correct the highlighted fields.', { parentId: 'Choose a product category' });
+    }
+    return this.update(id, { ...input, kind: 'page', parentId }, uploads);
+  }
+
+  public async createCategory(input: PageFormInput, uploads: PageUploads): Promise<PageNode> {
+    const root = await this.requireProductsRoot();
+    return this.create({ ...input, kind: 'section', parentId: root.id }, uploads);
+  }
+
+  public async updateCategory(id: number, input: PageFormInput, uploads: PageUploads): Promise<PageNode> {
+    const root = await this.requireProductsRoot();
+    const existing = await this.getById(id);
+    if (!this.isProductCategory(existing, root)) {
+      throw new NotFoundError('Category not found.');
+    }
+    return this.update(id, { ...input, kind: 'section', parentId: root.id }, uploads);
+  }
+
+  public async createStory(input: PageFormInput, uploads: PageUploads): Promise<PageNode> {
+    const root = await this.requireNewsRoot();
+    return this.create({ ...input, kind: 'page', parentId: root.id }, uploads);
+  }
+
+  public async updateStory(id: number, input: PageFormInput, uploads: PageUploads): Promise<PageNode> {
+    const root = await this.requireNewsRoot();
     const existing = await pagesRepository.findById(id);
-    if (!existing || !this.isPost(existing, blogRoot)) {
-      throw new NotFoundError('Post not found.');
+    if (!existing || existing.parentId !== root.id) {
+      throw new NotFoundError('News story not found.');
     }
-    return this.update(id, { ...input, kind: 'page', parentId: blogRoot.id }, uploads);
+    return this.update(id, { ...input, kind: 'page', parentId: root.id }, uploads);
   }
 
-  private async requireBlogRoot(): Promise<Page> {
-    const blogRoot = (await pagesRepository.findAll()).find((page) => page.kind === 'blog');
-    if (!blogRoot) {
-      throw new NotFoundError('The blog page does not exist.');
+  public async updateNewsRoot(id: number, input: PageFormInput, uploads: PageUploads): Promise<PageNode> {
+    const root = await this.requireNewsRoot();
+    if (id !== root.id) {
+      throw new NotFoundError('News page not found.');
     }
-    return blogRoot;
+    return this.update(id, { ...input, kind: 'news', parentId: root.parentId }, uploads);
   }
 
-  private assertOutsideBlog(pages: Page[], input: PageFormInput, selfId: number | null): void {
-    if (input.kind === 'blog' && pages.some((page) => page.kind === 'blog' && page.id !== selfId)) {
-      throw new BadRequestError('Please correct the highlighted fields.', { kind: 'The site already has a blog page' });
+  public async updateProductsRoot(id: number, input: PageFormInput, uploads: PageUploads): Promise<PageNode> {
+    const root = await this.requireProductsRoot();
+    if (id !== root.id) {
+      throw new NotFoundError('Products page not found.');
     }
+    return this.update(id, { ...input, kind: 'section', parentId: root.parentId }, uploads);
+  }
+
+  private async requireProductsRoot(): Promise<PageNode> {
+    const root = await this.getProductsRoot();
+    if (!root) {
+      throw new NotFoundError('The Products page does not exist.');
+    }
+    return root;
+  }
+
+  private async requireNewsRoot(): Promise<PageNode> {
+    const root = await this.getNewsRoot();
+    if (!root) {
+      throw new NotFoundError('The News page does not exist.');
+    }
+    return root;
+  }
+
+  private isDescendantOf(pages: Page[], id: number, ancestorId: number): boolean {
     const byId = new Map(pages.map((page) => [page.id, page]));
-    let cursor = input.parentId;
+    let cursor: number | null = id;
     const seen = new Set<number>();
     while (cursor !== null && !seen.has(cursor)) {
-      seen.add(cursor);
-      const parent = byId.get(cursor);
-      if (parent?.kind === 'blog') {
-        throw new BadRequestError('Please correct the highlighted fields.', { parentId: 'Write blog posts from the Blog screen' });
+      if (cursor === ancestorId) {
+        return true;
       }
-      cursor = parent?.parentId ?? null;
+      seen.add(cursor);
+      cursor = byId.get(cursor)?.parentId ?? null;
+    }
+    return false;
+  }
+
+  private assertOutsideCollections(pages: Page[], input: PageFormInput, selfId: number | null): void {
+    if (SINGLETON_KINDS.has(input.kind) && pages.some((page) => page.kind === input.kind && page.id !== selfId)) {
+      throw new BadRequestError('Please correct the highlighted fields.', { kind: `The site already has a ${input.kind} page` });
+    }
+    const productsRoot = pages.find((page) => page.key === PRODUCTS_PAGE_KEY) ?? null;
+    const newsRoot = pages.find((page) => page.kind === 'news' || page.key === NEWS_PAGE_KEY) ?? null;
+    if (input.parentId !== null) {
+      if (newsRoot && (input.parentId === newsRoot.id || this.isDescendantOf(pages, input.parentId, newsRoot.id))) {
+        throw new BadRequestError('Please correct the highlighted fields.', { parentId: 'Write news stories from the News screen' });
+      }
+      if (productsRoot && (input.parentId === productsRoot.id || this.isDescendantOf(pages, input.parentId, productsRoot.id))) {
+        throw new BadRequestError('Please correct the highlighted fields.', {
+          parentId: 'Manage products and categories from the Products screens'
+        });
+      }
     }
   }
 
@@ -360,8 +482,11 @@ export class PagesService {
     if (!target) {
       throw new NotFoundError('Page not found.');
     }
-    if (target.kind === 'blog') {
-      throw new ConflictError('The blog page cannot be deleted.');
+    if (target.kind === 'news' || target.key === NEWS_PAGE_KEY) {
+      throw new ConflictError('The News page cannot be deleted.');
+    }
+    if (target.key === PRODUCTS_PAGE_KEY) {
+      throw new ConflictError('The Products page cannot be deleted.');
     }
     if (pages.some((page) => page.parentId === id)) {
       throw new ConflictError('Move or delete the child pages first.');

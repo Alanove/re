@@ -42,6 +42,28 @@ const defaultChallengeUrl = currentScript?.dataset.captchaUrl || '/captcha/chall
 
 const registry = new WeakMap<HTMLFormElement, FormCaptcha>();
 
+/** Opt in with `?captchaDebug=1` (persists in localStorage); turn off with `?captchaDebug=0`. */
+function applyCaptchaDebugFlag(): void {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const flag = params.get('captchaDebug');
+    if (flag === '1') {
+      localStorage.setItem('captchaDebug', '1');
+    } else if (flag === '0') {
+      localStorage.removeItem('captchaDebug');
+    }
+    if (localStorage.getItem('captchaDebug') === '1') {
+      document.documentElement.classList.add('captcha-debug');
+    } else {
+      document.documentElement.classList.remove('captcha-debug');
+    }
+  } catch {
+    /* private mode / blocked storage */
+  }
+}
+
+applyCaptchaDebugFlag();
+
 function text(entry: FormCaptcha, key: keyof typeof DEFAULT_TEXT): string {
   const attr = `text${key.charAt(0).toUpperCase()}${key.slice(1)}`;
   return entry.status.dataset[attr] || entry.form.dataset[`captcha${attr.charAt(0).toUpperCase()}${attr.slice(1)}`] || DEFAULT_TEXT[key];

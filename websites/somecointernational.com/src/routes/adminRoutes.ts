@@ -1,14 +1,16 @@
 import { Router } from 'express';
 import { devLoginCredentials } from '../config/env.js';
 import { AuthController } from '../controllers/admin/authController.js';
-import { BlogAdminController } from '../controllers/admin/blogAdminController.js';
+import { CategoriesAdminController } from '../controllers/admin/categoriesAdminController.js';
 import { DashboardController } from '../controllers/admin/dashboardController.js';
 import { HomeAdminController } from '../controllers/admin/homeAdminController.js';
 import { InquiriesAdminController } from '../controllers/admin/inquiriesAdminController.js';
 import { MediaApiController } from '../controllers/admin/mediaApiController.js';
 import { MenusAdminController } from '../controllers/admin/menusAdminController.js';
+import { NewsAdminController } from '../controllers/admin/newsAdminController.js';
 import { OfficesAdminController } from '../controllers/admin/officesAdminController.js';
 import { PagesAdminController } from '../controllers/admin/pagesAdminController.js';
+import { ProductsAdminController } from '../controllers/admin/productsAdminController.js';
 import { SettingsAdminController } from '../controllers/admin/settingsAdminController.js';
 import { UsersAdminController } from '../controllers/admin/usersAdminController.js';
 import { adminLocals } from '../middleware/adminLocals.js';
@@ -61,11 +63,26 @@ export function createAdminRouter(): Router {
   router.delete('/pages/:id', asyncHandler(PagesAdminController.remove));
   router.post('/pages/:key/upload-file', uploadDocument('file'), asyncHandler(MediaApiController.uploadFile));
 
-  router.get('/blog', asyncHandler(BlogAdminController.list));
-  router.get('/blog/create', asyncHandler(BlogAdminController.createForm));
-  router.post('/blog/create', pageUploads, asyncHandler(BlogAdminController.create));
-  router.get('/blog/:id/edit', asyncHandler(BlogAdminController.editForm));
-  router.post('/blog/:id/edit', pageUploads, asyncHandler(BlogAdminController.update));
+  router.get('/products', asyncHandler(ProductsAdminController.list));
+  router.get('/products/create', asyncHandler(ProductsAdminController.createForm));
+  router.post('/products/create', pageUploads, asyncHandler(ProductsAdminController.create));
+  router.get('/products/:id/edit', asyncHandler(ProductsAdminController.editForm));
+  router.post('/products/:id/edit', pageUploads, asyncHandler(ProductsAdminController.update));
+  router.delete('/products/:id', asyncHandler(ProductsAdminController.remove));
+
+  router.get('/categories', asyncHandler(CategoriesAdminController.list));
+  router.get('/categories/create', asyncHandler(CategoriesAdminController.createForm));
+  router.post('/categories/create', pageUploads, asyncHandler(CategoriesAdminController.create));
+  router.get('/categories/:id/edit', asyncHandler(CategoriesAdminController.editForm));
+  router.post('/categories/:id/edit', pageUploads, asyncHandler(CategoriesAdminController.update));
+  router.delete('/categories/:id', asyncHandler(CategoriesAdminController.remove));
+
+  router.get('/news', asyncHandler(NewsAdminController.list));
+  router.get('/news/create', asyncHandler(NewsAdminController.createForm));
+  router.post('/news/create', pageUploads, asyncHandler(NewsAdminController.create));
+  router.get('/news/:id/edit', asyncHandler(NewsAdminController.editForm));
+  router.post('/news/:id/edit', pageUploads, asyncHandler(NewsAdminController.update));
+  router.delete('/news/:id', asyncHandler(NewsAdminController.remove));
 
   router.get('/home', asyncHandler(HomeAdminController.list));
   router.get('/home/:key/edit', asyncHandler(HomeAdminController.editForm));

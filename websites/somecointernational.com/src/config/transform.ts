@@ -25,10 +25,12 @@ const transformConfigSchema = z.object({
     footerPageKey: z.string().min(1).nullable(),
     contactPageKey: z.string().min(1),
     feedbackPageKey: z.string().min(1).optional(),
+    productsPageKey: z.string().min(1).nullable().default('products'),
+    newsPageKey: z.string().min(1).nullable().default('news'),
     hiddenPageKeys: z.array(z.string().min(1)).default([]),
     uploadsMirrorPrefix: z.string().startsWith('/uploads/')
   }),
-  blog: z.object({ rootKey: z.string().min(1) }).nullable().default(null),
+  blog: z.null().default(null),
   cmsSync: z.object({
     adminPublicFiles: z.array(z.string().min(1)),
     adminPublicDirs: z.array(z.string().min(1))

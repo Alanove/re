@@ -1,9 +1,11 @@
 <%
 	const formMode = locals.mode || 'page';
-	const basePath = formMode === 'page' ? '/admin/pages' : '/admin/blog';
+	const collection = locals.collection || null;
+	const root = locals.root || null;
+	const basePath = collection ? collection.basePath : '/admin/pages';
 	const action = isCreate ? basePath + '/create' : basePath + '/' + page.id + '/edit';
-	const blogUrl = locals.blogRoot ? locals.blogRoot.url : '/blog';
 	const seo = page.seo || { title: '', description: '', keywords: '' };
+	const lockedKind = formMode === 'root' ? (page.kind || 'section') : (collection && collection.basePath === '/admin/categories' ? 'section' : 'page');
 %>
 <form method="POST" action="<%= action %>?_csrf=<%= encodeURIComponent(csrfToken) %>" enctype="multipart/form-data" id="page-form" novalidate
 	data-slug-check="/admin/api/pages/check-slug" data-page-id="<%= page.id || '' %>">
@@ -112,14 +114,25 @@
 							</select>
 							<%- include('../partials/field-error', { name: 'parentId' }) %>
 						</div>
+					<% } else if (formMode === 'entry' && parents.length) { %>
+						<div class="mb-3">
+							<label class="form-label" for="parentId">Category</label>
+							<select class="form-select <%= errors.parentId ? 'is-invalid' : '' %>" id="parentId" name="parentId">
+								<% parents.forEach(function (option) { %>
+									<option value="<%= option.id %>" <%= page.parentId === option.id ? 'selected' : '' %>><%= option.label %></option>
+								<% }) %>
+							</select>
+							<%- include('../partials/field-error', { name: 'parentId' }) %>
+						</div>
+						<input type="hidden" name="kind" value="<%= lockedKind %>" />
 					<% } else { %>
 						<input type="hidden" id="parentId" name="parentId" value="<%= page.parentId === null || page.parentId === undefined ? '' : page.parentId %>" />
-						<input type="hidden" name="kind" value="<%= formMode === 'blogRoot' ? 'blog' : 'page' %>" />
+						<input type="hidden" name="kind" value="<%= lockedKind %>" />
 						<div class="alert alert-light border small mb-3">
-							<% if (formMode === 'post') { %>
-								Published under the blog: <a href="<%= blogUrl %>" target="_blank" rel="noopener"><%= blogUrl %></a>
-							<% } else { %>
-								This is the blog listing page. Its posts are listed newest first. It cannot be deleted or moved.
+							<% if (formMode === 'root' && root) { %>
+								This is the <%= collection ? collection.label : 'listing' %> page. It cannot be deleted or moved.
+							<% } else if (root) { %>
+								Managed under <%= collection ? collection.label : 'this collection' %>: <a href="<%= root.url %>" target="_blank" rel="noopener"><%= root.url %></a>
 							<% } %>
 							<%- include('../partials/field-error', { name: 'parentId' }) %>
 							<%- include('../partials/field-error', { name: 'kind' }) %>
@@ -157,7 +170,7 @@
 					</div>
 					<small class="text-muted d-block mb-3">Icons use <a href="https://fonts.google.com/icons" target="_blank" rel="noopener">Material Symbols</a> names.</small>
 					<div class="d-flex gap-2">
-						<button type="submit" class="btn btn-success flex-fill"><i class="fa fa-save me-1"></i> <%= isCreate ? (formMode === 'post' ? 'Create post' : 'Create page') : 'Save changes' %></button>
+						<button type="submit" class="btn btn-success flex-fill"><i class="fa fa-save me-1"></i> <%= isCreate ? (typeof collection !== 'undefined' && collection ? `Create ${collection.singular}` : 'Create page') : 'Save changes' %></button>
 						<a href="<%= basePath %>" class="btn btn-default">Cancel</a>
 					</div>
 				</div>

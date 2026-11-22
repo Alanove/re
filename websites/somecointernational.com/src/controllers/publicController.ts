@@ -230,7 +230,9 @@ export class PublicController {
         ? 'contact'
         : published.kind === 'feedback'
           ? 'feedback'
-          : published.kind === 'section' || (published.content.trim() === '' && published.children.length > 0)
+          : published.kind === 'section' ||
+              published.kind === 'news' ||
+              (published.content.trim() === '' && published.children.length > 0)
             ? 'section'
             : 'page';
     res.render(view, {

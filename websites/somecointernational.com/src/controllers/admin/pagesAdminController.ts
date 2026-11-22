@@ -27,6 +27,23 @@ function parentOptions(pages: PageNode[], excludeId: number | null): { id: numbe
     .map((page) => ({ id: page.id, label: `${'— '.repeat(page.depth)}${page.title}` }));
 }
 
+async function redirectIfCollection(page: PageNode, res: Response): Promise<boolean> {
+  const [productsRoot, newsRoot] = await Promise.all([pagesService.getProductsRoot(), pagesService.getNewsRoot()]);
+  if (newsRoot && (page.id === newsRoot.id || pagesService.isNewsStory(page, newsRoot))) {
+    res.redirect(`/admin/news/${page.id}/edit`);
+    return true;
+  }
+  if (productsRoot && pagesService.isUnderRoot(page, productsRoot)) {
+    if (pagesService.isProductCategory(page, productsRoot)) {
+      res.redirect(`/admin/categories/${page.id}/edit`);
+      return true;
+    }
+    res.redirect(`/admin/products/${page.id}/edit`);
+    return true;
+  }
+  return false;
+}
+
 export class PagesAdminController {
   public static async list(_req: Request, res: Response): Promise<void> {
     const [pages, imageCounts] = await Promise.all([pagesService.getPagesList(), pagesService.getImageCounts()]);
@@ -44,8 +61,7 @@ export class PagesAdminController {
       isCreate: true,
       page: blankPage(null),
       gallery: [],
-      parents: parentOptions(pages, null),
-      blogRoot: null
+      parents: parentOptions(pages, null)
     });
   }
 
@@ -73,9 +89,8 @@ export class PagesAdminController {
 
   public static async editForm(req: Request, res: Response): Promise<void> {
     const { id } = params(idParamSchema, req);
-    const [page, blogRoot] = await Promise.all([pagesService.getById(id), pagesService.getBlogRoot()]);
-    if (page.kind === 'blog' || pagesService.isPost(page, blogRoot)) {
-      res.redirect(`/admin/blog/${page.id}/edit`);
+    const page = await pagesService.getById(id);
+    if (await redirectIfCollection(page, res)) {
       return;
     }
     const [gallery, pages] = await Promise.all([pagesService.getPageImages(id), pagesService.getPagesList()]);
@@ -85,8 +100,7 @@ export class PagesAdminController {
       isCreate: false,
       page,
       gallery,
-      parents: parentOptions(pages, id),
-      blogRoot: null
+      parents: parentOptions(pages, id)
     });
   }
 
@@ -149,7 +163,6 @@ export class PagesAdminController {
       page: valuesFromBody(body, existing ? { ...existing } : blankPage(null)),
       gallery,
       parents: parentOptions(pages, id),
-      blogRoot: null,
       error: message,
       errors: fields
     });

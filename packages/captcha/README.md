@@ -1,6 +1,6 @@
 # @local/captcha
 
-Self-hosted spam check for the CMS forms. No Google or Cloudflare account, no keys to request, no usage limits. Visitors see a small "Verified" line under the form; nobody clicks traffic lights.
+Self-hosted spam check for the CMS forms. No Google or Cloudflare account, no keys to request, no usage limits. The verified/idle/solving line stays hidden for visitors; only failures show. Append `?captchaDebug=1` to see status text while testing (persists in localStorage; `?captchaDebug=0` turns it off).
 
 Used today on the admin login and every public form of: belfaystudios.com, bypec-lb.com, feed-lb.org, jahidawehbe.com (login only), re-petroleum.com, thronetrading.com, zadwbarakat.com, bluefieldco, capitalprogroup.ca, emdc.group (login only), emdcconsult (login only) and solutec-lb.com. Sites that already run Turnstile or reCAPTCHA (antonioscouture.com, guerrasports, santamariabouar.com) keep them.
 

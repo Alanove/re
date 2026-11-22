@@ -93,7 +93,7 @@ A secret by hand: `node -e "console.log(require('crypto').randomBytes(32).toStri
 - Helmet sites: add `workerSrc: ["'self'"]` to the CSP directives (the worker is a same-origin file, no third-party origins are needed).
 - Add `'/captcha/captcha'` to any static-path list used to skip middleware.
 - Run `npm run typecheck`, `npm run lint` and `npm run build` (older CMS: `npm run build`).
-- Browser checklist: every protected form shows "Verified", sends successfully, and refuses a tampered token; the admin login signs in with the right password and still says "Invalid email or password" with a wrong one.
+- Browser checklist: protected forms submit successfully with no visible status line (add `?captchaDebug=1` to see idle/solving/ready text); errors still show; a tampered token is refused; the admin login signs in with the right password and still says "Invalid email or password" with a wrong one.
 
 ## 7. Troubleshooting
 

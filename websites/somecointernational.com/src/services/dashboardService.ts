@@ -6,40 +6,64 @@ import { usersService } from './usersService.js';
 
 export interface DashboardSummary {
   pages: { total: number; published: number; drafts: number };
+  products: { total: number; published: number; drafts: number };
+  news: { stories: number; published: number; drafts: number; listingId: number | null };
   galleryImages: number;
-  blog: { posts: number; published: number; drafts: number; listingId: number | null };
   offices: number;
   users: number;
   inquiries: { total: number; unread: number; latest: Submission[] };
   recentPages: { id: number; title: string; url: string; updatedAt: string; editUrl: string }[];
 }
 
+function editUrlFor(page: { id: number; kind: string; parentId: number | null; key: string }, productsRootId: number | null, newsRootId: number | null, categoryIds: Set<number>): string {
+  if (newsRootId !== null && (page.id === newsRootId || page.parentId === newsRootId)) {
+    return `/admin/news/${page.id}/edit`;
+  }
+  if (productsRootId !== null) {
+    if (page.id === productsRootId || (page.parentId !== null && categoryIds.has(page.parentId))) {
+      return `/admin/products/${page.id}/edit`;
+    }
+    if (categoryIds.has(page.id)) {
+      return `/admin/categories/${page.id}/edit`;
+    }
+  }
+  return `/admin/pages/${page.id}/edit`;
+}
+
 export class DashboardService {
   public async summary(): Promise<DashboardSummary> {
-    const [pages, imageCounts, offices, users, inquiries] = await Promise.all([
-      pagesService.getFlatList(),
+    const [contentPages, products, newsOverview, imageCounts, offices, users, inquiries, productsRoot] = await Promise.all([
+      pagesService.getPagesList(),
+      pagesService.getProductsList(),
+      pagesService.getNewsOverview(),
       pagesService.getImageCounts(),
       officesService.list(),
       usersService.list(),
-      contactService.list()
+      contactService.list(),
+      pagesService.getProductsRoot()
     ]);
-    const blogIds = new Set(pages.filter((page) => page.kind === 'blog').map((page) => page.id));
-    const posts = pages.filter((page) => page.parentId !== null && blogIds.has(page.parentId));
-    const routable = pages.filter((page) => page.kind !== 'footer');
-    const contentPages = routable.filter((page) => !blogIds.has(page.id) && !page.ancestors.some((ancestor) => blogIds.has(ancestor.id)));
+    const categories = await pagesService.getCategoriesList();
+    const categoryIds = new Set(categories.map((category) => category.id));
+    const stories = newsOverview.entries;
+    const recentSource = [...contentPages, ...products, ...stories, ...(newsOverview.root ? [newsOverview.root] : [])];
     return {
       pages: {
         total: contentPages.length,
         published: contentPages.filter((page) => page.status === 'published').length,
         drafts: contentPages.filter((page) => page.status === 'draft').length
       },
-      galleryImages: [...imageCounts.values()].reduce((sum, count) => sum + count, 0),
-      blog: {
-        posts: posts.length,
-        published: posts.filter((page) => page.status === 'published').length,
-        drafts: posts.filter((page) => page.status === 'draft').length,
-        listingId: [...blogIds][0] ?? null
+      products: {
+        total: products.length,
+        published: products.filter((page) => page.status === 'published').length,
+        drafts: products.filter((page) => page.status === 'draft').length
       },
+      news: {
+        stories: stories.length,
+        published: stories.filter((page) => page.status === 'published').length,
+        drafts: stories.filter((page) => page.status === 'draft').length,
+        listingId: newsOverview.root?.id ?? null
+      },
+      galleryImages: [...imageCounts.values()].reduce((sum, count) => sum + count, 0),
       offices: offices.length,
       users: users.length,
       inquiries: {
@@ -47,7 +71,7 @@ export class DashboardService {
         unread: inquiries.filter((item) => !item.read).length,
         latest: inquiries.slice(0, 5)
       },
-      recentPages: [...routable]
+      recentPages: recentSource
         .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
         .slice(0, 6)
         .map((page) => ({
@@ -55,7 +79,7 @@ export class DashboardService {
           title: page.title,
           url: page.url,
           updatedAt: page.updatedAt,
-          editUrl: page.kind === 'blog' || blogIds.has(page.parentId ?? 0) ? `/admin/blog/${page.id}/edit` : `/admin/pages/${page.id}/edit`
+          editUrl: editUrlFor(page, productsRoot?.id ?? null, newsOverview.root?.id ?? null, categoryIds)
         }))
     };
   }

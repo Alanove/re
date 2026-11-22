@@ -44,7 +44,3 @@ export const feedbackFormSchema = z.object({
 });
 
 export type FeedbackFormInput = z.infer<typeof feedbackFormSchema>;
-
-export const blogListQuerySchema = z.object({
-  page: z.coerce.number().int().min(1).max(1000).optional().default(1)
-});

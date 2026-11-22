@@ -5,20 +5,37 @@ import { mediaService } from '../../services/mediaService.js';
 import type { PageNode, PageUploads } from '../../services/pagesService.js';
 import { render } from './helpers.js';
 
-export type PageFormMode = 'page' | 'post' | 'blogRoot';
+/** `page` is a normal page; `root` a collection listing; `entry` a story/product/category under a collection. */
+export type PageFormMode = 'page' | 'root' | 'entry';
+
+export interface CollectionMeta {
+  label: string;
+  singular: string;
+  basePath: string;
+}
+
+export const NEWS_COLLECTION: CollectionMeta = { label: 'News', singular: 'story', basePath: '/admin/news' };
+export const PRODUCTS_COLLECTION: CollectionMeta = { label: 'Products', singular: 'product', basePath: '/admin/products' };
+export const CATEGORIES_COLLECTION: CollectionMeta = {
+  label: 'Product Categories',
+  singular: 'category',
+  basePath: '/admin/categories'
+};
+
+const KIND_LABELS: Record<string, string> = {
+  page: 'Content page',
+  section: 'Section landing (lists child pages)',
+  contact: 'Contact page',
+  feedback: 'Feedback page',
+  footer: 'Footer data (not routed)',
+  news: 'News listing'
+};
 
 export const PAGE_KIND_OPTIONS = pageKindSchema.options
-  .filter((kind) => kind !== 'blog')
+  .filter((kind) => kind !== 'news')
   .map((kind) => ({
     value: kind,
-    label: {
-      page: 'Content page',
-      section: 'Section landing (lists child pages)',
-      contact: 'Contact page',
-      feedback: 'Feedback page',
-      footer: 'Footer data (not routed)',
-      blog: 'Blog listing'
-    }[kind]
+    label: KIND_LABELS[kind] ?? kind
   }));
 
 export function blankPage(parentId: number | null): Record<string, unknown> {
@@ -89,7 +106,8 @@ export interface PageFormLocals {
   page: Record<string, unknown> | PageNode;
   gallery: PageImage[];
   parents: { id: number; label: string }[];
-  blogRoot: PageNode | null;
+  collection?: CollectionMeta | null;
+  root?: PageNode | null;
   error?: string;
   errors?: Record<string, string>;
 }
@@ -97,6 +115,8 @@ export interface PageFormLocals {
 export function renderPageForm(res: Response, locals: PageFormLocals): void {
   render(res, 'pages/edit', {
     ...locals,
+    collection: locals.collection ?? null,
+    root: locals.root ?? null,
     kinds: PAGE_KIND_OPTIONS,
     errors: locals.errors ?? {},
     error: locals.error ?? null,

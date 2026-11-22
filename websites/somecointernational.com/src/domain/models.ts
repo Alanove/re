@@ -4,7 +4,7 @@ const localOrRemoteUrl = z.string().max(2048);
 const isoDate = z.iso.datetime();
 
 export const pageStatusSchema = z.enum(['published', 'draft']);
-export const pageKindSchema = z.enum(['page', 'section', 'contact', 'feedback', 'footer', 'blog']);
+export const pageKindSchema = z.enum(['page', 'section', 'contact', 'feedback', 'footer', 'news']);
 
 export const pageSchema = z.object({
   id: z.number().int().positive(),

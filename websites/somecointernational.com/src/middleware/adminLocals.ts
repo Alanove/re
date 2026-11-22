@@ -14,8 +14,10 @@ interface AdminMenuEntry {
 const ADMIN_MENU: AdminMenuEntry[] = [
   { id: 'dashboard', text: 'Dashboard', icon: 'fa fa-laptop', url: '/admin/dashboard', adminOnly: false },
   { id: 'home', text: 'Home Page', icon: 'fa fa-home', url: '/admin/home', adminOnly: false },
+  { id: 'products', text: 'Products', icon: 'fa fa-box-open', url: '/admin/products', adminOnly: false },
+  { id: 'categories', text: 'Product Categories', icon: 'fa fa-th-large', url: '/admin/categories', adminOnly: false },
   { id: 'pages', text: 'Pages', icon: 'fa fa-file-alt', url: '/admin/pages', adminOnly: false },
-  { id: 'blog', text: 'Blog', icon: 'fa fa-newspaper', url: '/admin/blog', adminOnly: false },
+  { id: 'news', text: 'News', icon: 'fa fa-newspaper', url: '/admin/news', adminOnly: false },
   { id: 'menus', text: 'Menus', icon: 'fa fa-bars', url: '/admin/menus', adminOnly: false },
   { id: 'offices', text: 'Offices', icon: 'fa fa-map-marker-alt', url: '/admin/offices', adminOnly: false },
   { id: 'inquiries', text: 'Inquiries', icon: 'fa fa-envelope', url: '/admin/inquiries', adminOnly: false },

@@ -922,16 +922,6 @@ header .navbar .nav-link:has(.border) {
   text-align: center;
 }
 
-html:not(.captcha-debug) .site-captcha:not([data-state='error']) {
-  display: none;
-  margin: 0;
-  min-height: 0;
-}
-
-.site-captcha {
-  min-height: 0;
-}
-
 .ratio {
   position: relative;
   width: 100%;

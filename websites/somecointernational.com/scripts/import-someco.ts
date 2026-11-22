@@ -370,6 +370,8 @@ async function main(): Promise<void> {
       kind = 'contact';
     } else if (key === (config.legacy.feedbackPageKey ?? 'feedback')) {
       kind = 'feedback';
+    } else if (key === (config.legacy.newsPageKey ?? 'news')) {
+      kind = 'news';
     } else if (key === 'home') {
       kind = 'page';
     } else if ((!page.content || page.content.trim() === '') && kids.length > 0) {
@@ -593,14 +595,23 @@ async function main(): Promise<void> {
 
   const logoSource = path.join(wwwRoot, 'images', 'someco-international-logo.png');
   const logo = await processLocalImage(logoSource, config.logo.localPath, 'logo');
-  const favicon = await processLocalImage(logoSource, '/uploads/site/favicon.png', 'favicon');
+  // Keep the raw wordmark so favicon generation can crop the mark (not the full logo).
+  const logoSourceDest = path.join(PATHS.public, 'uploads', 'site', 'logo-source.png');
+  if (existsSync(logoSource)) {
+    await mkdir(path.dirname(logoSourceDest), { recursive: true });
+    await writeFile(logoSourceDest, await readFile(logoSource));
+  }
+  const { generateFavicon } = await import('./generate-favicon.js');
+  const favicon = existsSync(logoSourceDest)
+    ? await generateFavicon(logoSourceDest, path.join(PATHS.public, 'uploads', 'site', 'favicon.png'))
+    : null;
 
   const settings: Settings = {
     siteName,
     tagline: '',
     description: siteDescription || 'Someco International showroom and service center, Dora Highway, Beirut, Lebanon.',
     logo: logo?.url ?? '',
-    favicon: favicon?.url ?? '',
+    favicon: favicon?.url ?? '/uploads/site/favicon.png',
     contactEmail: settingsMap.get('EmailAddress') || 'info@somecointernational.com',
     contactPhone: settingsMap.get('PhoneNumber') || '+961 1 576777',
     whatsappNumber: settingsMap.get('Whatsapp') || '',
