@@ -24,32 +24,6 @@
     <!-- Horizontal line -->
     <div class="footer-divider"></div>
 
-    <!-- Social Media Links -->
-    <% if (typeof siteData !== 'undefined' && siteData.social) { %>
-      <div class="footer-social">
-        <% if (siteData.social.facebook && siteData.social.facebook.trim() !== '') { %>
-          <a href="<%= siteData.social.facebook %>" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook">
-            <i class="bi bi-facebook"></i>
-          </a>
-        <% } %>
-        <% if (siteData.social.twitter && siteData.social.twitter.trim() !== '') { %>
-          <a href="<%= siteData.social.twitter %>" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Twitter">
-            <i class="bi bi-twitter"></i>
-          </a>
-        <% } %>
-        <% if (siteData.social.instagram && siteData.social.instagram.trim() !== '') { %>
-          <a href="<%= siteData.social.instagram %>" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
-            <i class="bi bi-instagram"></i>
-          </a>
-        <% } %>
-        <% if (siteData.social.linkedin && siteData.social.linkedin.trim() !== '') { %>
-          <a href="<%= siteData.social.linkedin %>" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
-            <i class="bi bi-linkedin"></i>
-          </a>
-        <% } %>
-      </div>
-    <% } %>
-
     <!-- Copyright notice right aligned -->
     <div class="footer-copyright">
       &copy; 2025 <%= typeof siteData !== 'undefined' && siteData.name ? siteData.name : '' %>. All rights reserved.
