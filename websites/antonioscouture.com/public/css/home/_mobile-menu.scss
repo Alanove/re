@@ -115,6 +115,8 @@
 
     .lux-mobile-accordion-inner {
         min-height: 0;
+        min-width: 0;
+        max-width: 100%;
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -164,14 +166,21 @@
     }
 
     // Category accordion: equal-width horizontal season strip (last 5 years)
+    // Width is capped to the drawer content (+ side bleed) so cards scroll instead of growing the row.
     .lux-mobile-cards {
         display: flex;
         gap: 10px;
+        width: calc(100% + 48px);
+        max-width: calc(100% + 48px);
+        box-sizing: border-box;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
         margin: 0 -24px 16px;
         padding: 0 24px 4px;
         scrollbar-width: none;
+        touch-action: pan-x;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
 
         &::-webkit-scrollbar {
             display: none;
