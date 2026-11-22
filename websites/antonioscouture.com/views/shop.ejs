@@ -393,7 +393,7 @@
                 <!-- Shop Product Start -->
                 <div class="col-lg-9 col-md-8">
                     <% if (typeof currentCategory !== 'undefined' && currentCategory && typeof pageTitle !== 'undefined' && pageTitle) { %>
-                        <h1 class="shop-collection-title d-none d-md-block text-uppercase mb-3"><%= pageTitle %></h1>
+                        <h1 class="shop-collection-title text-uppercase mb-3"><%= pageTitle %></h1>
                     <% } %>
                     <!-- Search Bar -->
                     <% if (!(typeof hideSearch !== 'undefined' && hideSearch)) { %>
@@ -414,44 +414,6 @@
                                             </div>
                                         </div>
                             </form>
-                        </div>
-                    </div>
-                    <% } %>
-
-                    <% var currentCategorySubcategories = [];
-                       var sameLevelCategories = [];
-                       if (typeof currentCategory !== 'undefined' && currentCategory && typeof filterCategories !== 'undefined' && filterCategories && filterCategories.length > 0) {
-                         for (var ci = 0; ci < filterCategories.length; ci++) {
-                           var cat = filterCategories[ci];
-                           if (cat.slug === currentCategory) {
-                             if (cat.children && cat.children.length > 0) currentCategorySubcategories = cat.children;
-                             sameLevelCategories = filterCategories.slice();
-                             break;
-                           }
-                           if (cat.children) {
-                             for (var cj = 0; cj < cat.children.length; cj++) {
-                               if (cat.children[cj].slug === currentCategory) {
-                                 if (cat.children[cj].children && cat.children[cj].children.length > 0) currentCategorySubcategories = cat.children[cj].children;
-                                 sameLevelCategories = cat.children.slice();
-                                 break;
-                               }
-                             }
-                             if (sameLevelCategories.length > 0 || currentCategorySubcategories.length > 0) break;
-                           }
-                         }
-                       }
-                       var mobileCategoryLinks = (typeof shopMode !== 'undefined' && shopMode === 'collections' && typeof collectionSidebar !== 'undefined' && collectionSidebar.length > 0)
-                           ? collectionSidebar
-                           : sameLevelCategories.concat(currentCategorySubcategories);
-                    %>
-                    <% if (mobileCategoryLinks && mobileCategoryLinks.length > 0) { %>
-                    <div class="row">
-                        <div class="col-12 d-md-none mb-3">
-                            <div class="d-flex flex-wrap align-items-center">
-                                <% mobileCategoryLinks.forEach(function(item) { %>
-                                    <a href="/shop/category/<%= item.slug %>" class="mr-3 mb-2 mobile-category-link<%= item.slug === currentCategory ? ' mobile-category-link--selected' : ' text-dark' %>"><%= item.name %></a>
-                                <% }); %>
-                            </div>
                         </div>
                     </div>
                     <% } %>
