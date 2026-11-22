@@ -57,36 +57,25 @@
   function syncRichTextFromEditor(textareaId) {
     var ta = document.getElementById(textareaId);
     if (!ta) return;
-    var container = ta.parentNode.querySelector('.custom-editor-container');
-    if (container && container.id && typeof initCustomEditor === 'function') {
-      var editorInstance = window['__editor_' + container.id];
-      if (editorInstance && editorInstance.getHTML) {
-        ta.value = editorInstance.getHTML();
-      }
+    if (ta.customEditor && ta.customEditor.getHTML) {
+      ta.value = ta.customEditor.getHTML();
     }
   }
 
   function initModalRichText(textareaId, initialHtml) {
     var ta = document.getElementById(textareaId);
-    if (!ta || typeof initCustomEditor !== 'function') return null;
-
-    var existing = ta.parentNode.querySelector('.custom-editor-container');
-    if (existing) existing.remove();
-    ta.style.display = 'none';
+    if (!ta) return null;
     ta.value = initialHtml || '';
-
-    var editorContainer = document.createElement('div');
-    editorContainer.id = 'block-modal-editor-' + textareaId;
-    editorContainer.className = 'custom-editor-container';
-    ta.parentNode.insertBefore(editorContainer, ta);
-
-    var editor = initCustomEditor(editorContainer.id, {
-      height: '220px',
-      placeholder: '',
-      initialContent: initialHtml || ''
-    });
-    window['__editor_' + editorContainer.id] = editor;
-    return editor;
+    ta.setAttribute('data-editor-height', '220px');
+    ta.dataset.rteMounted = '';
+    if (window.AntonioRichText && typeof window.AntonioRichText.mount === 'function') {
+      var mounted = window.AntonioRichText.mount(ta);
+      if (mounted && mounted.setHTML) {
+        mounted.setHTML(initialHtml || '');
+      }
+      return mounted;
+    }
+    return null;
   }
 
   function buildTextForm(block) {
@@ -253,6 +242,12 @@
         radio.addEventListener('change', function () {
           var wrap = document.getElementById('blockVideoFields');
           if (wrap) wrap.style.display = radio.value === 'video' ? '' : 'none';
+          if (radio.value === 'video' && !activeModalEditor) {
+            activeModalEditor = initModalRichText(
+              'blockIntroHtml',
+              (block.config && block.config.introHtml) || ''
+            );
+          }
         });
       });
       if ((block.config && block.config.displayMode) === 'video') {

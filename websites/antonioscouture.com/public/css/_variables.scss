@@ -99,6 +99,10 @@ $lux-toolbar-bi-size: 1.32rem;
 // Centered wordmark — desktop base, then −25% per band (see `_header.scss`)
 $lux-logo-height-desktop: 43.2px;
 $lux-logo-max-width-desktop: 336px;
+// Above HD: larger wordmark only (min-width media in `_header.scss`)
+$lux-logo-bp-hd-min: 1921px;
+$lux-logo-height-hd: 54px;
+$lux-logo-max-width-hd: 420px;
 $lux-logo-bp-xl: 1200px;
 $lux-logo-bp-md: 800px;
 // Hero carousel portrait video shows below this width (desktop video at ≥ breakpoint)

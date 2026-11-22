@@ -1,7 +1,32 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import sharp from 'sharp';
+import type { Sharp } from 'sharp';
 import { DATA_PATHS } from '../constants/data-paths';
+
+type SharpFactory = typeof import('sharp');
+
+let sharpFactory: SharpFactory | null = null;
+
+async function loadSharp(): Promise<SharpFactory> {
+  if (sharpFactory) return sharpFactory;
+  try {
+    const mod = await import('sharp');
+    // CJS/ESM interop: prefer default when present
+    sharpFactory = ((mod as { default?: SharpFactory }).default || mod) as SharpFactory;
+    return sharpFactory;
+  } catch (e) {
+    console.error(
+      'imageThumbService: failed to load sharp',
+      {
+        platform: process.platform,
+        arch: process.arch,
+        node: process.version,
+      },
+      e
+    );
+    throw e;
+  }
+}
 
 /** 3:4 portrait listing thumb — scale both dimensions together if higher-res is needed. */
 export const THUMB_WIDTH = 900;
@@ -27,7 +52,7 @@ export function resolveThumbCropMode(sourceWidth: number, sourceHeight: number):
   return 'cover-centre';
 }
 
-async function writePaddedListingThumb(rotated: sharp.Sharp, thumbAbs: string): Promise<void> {
+async function writePaddedListingThumb(sharp: SharpFactory, rotated: Sharp, thumbAbs: string): Promise<void> {
   const { data, info } = await rotated
     .clone()
     .resize(THUMB_WIDTH, THUMB_HEIGHT, { fit: 'inside' })
@@ -68,9 +93,9 @@ async function writePaddedListingThumb(rotated: sharp.Sharp, thumbAbs: string): 
   }
 }
 
-async function writeListingThumb(rotated: sharp.Sharp, thumbAbs: string, mode: ThumbCropMode): Promise<void> {
+async function writeListingThumb(sharp: SharpFactory, rotated: Sharp, thumbAbs: string, mode: ThumbCropMode): Promise<void> {
   if (mode === 'pad') {
-    await writePaddedListingThumb(rotated, thumbAbs);
+    await writePaddedListingThumb(sharp, rotated, thumbAbs);
     return;
   }
 
@@ -141,10 +166,11 @@ export async function generateThumbForPublicUrl(imagePublicUrl: string): Promise
   const thumbAbs = path.join(thumbDirAbs, `${baseName}.webp`);
 
   try {
+    const sharp = await loadSharp();
     const rotated = sharp(absSource).rotate();
     const meta = await rotated.metadata();
     const mode = resolveThumbCropMode(meta.width ?? 0, meta.height ?? 0);
-    await writeListingThumb(rotated, thumbAbs, mode);
+    await writeListingThumb(sharp, rotated, thumbAbs, mode);
   } catch (e) {
     console.error('imageThumbService: sharp failed for', absSource, e);
     return null;

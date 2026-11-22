@@ -7,7 +7,7 @@
 import { Express, Request, Response, NextFunction } from 'express';
 import pagesService from './pagesService';
 import { SiteSettingsService } from '../../admin/services/siteSettingsService';
-import { sortCollectionsBySeason, isFashionLineSlug, groupCollectionsByYear } from '../utils/fashionLineHelpers';
+import { sortCollectionsBySeason, isFashionLineSlug, groupCollectionsByYear, parseSeasonYear } from '../utils/fashionLineHelpers';
 import { categoryListingImageUrl, formatMoneyAmount, formatTrademarks, formatLookLabel } from '../utils/viewHelpers';
 import { envConfig } from '../config/env.config';
 import {
@@ -192,6 +192,7 @@ export class MiddlewareService {
         (res.locals as any).sortCollectionsBySeason = sortCollectionsBySeason;
         (res.locals as any).isFashionLineSlug = isFashionLineSlug;
         (res.locals as any).groupCollectionsByYear = groupCollectionsByYear;
+        (res.locals as any).parseSeasonYear = parseSeasonYear;
         (res.locals as any).categoryListingImageUrl = categoryListingImageUrl;
 
         // Pass user data from session to templates (for public site)

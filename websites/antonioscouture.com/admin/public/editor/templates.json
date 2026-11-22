@@ -1,0 +1,62 @@
+[
+  {
+    "id": "twoImages",
+    "title": "Two images side by side",
+    "availableIn": ["full"],
+    "content": "<div class=\"rte-two-images\"><figure><img src=\"{{templatesBase}}placeholder.svg\" alt=\"Image description\" /></figure><figure><img src=\"{{templatesBase}}placeholder.svg\" alt=\"Image description\" /></figure></div><p><br></p>"
+  },
+  {
+    "id": "threeImages",
+    "title": "Three images in a row",
+    "availableIn": ["full"],
+    "content": "<div class=\"rte-three-images\"><figure><img src=\"{{templatesBase}}placeholder.svg\" alt=\"Image description\" /></figure><figure><img src=\"{{templatesBase}}placeholder.svg\" alt=\"Image description\" /></figure><figure><img src=\"{{templatesBase}}placeholder.svg\" alt=\"Image description\" /></figure></div><p><br></p>"
+  },
+  {
+    "id": "textBlock",
+    "title": "Highlighted text block",
+    "availableIn": ["full"],
+    "content": "<div class=\"rte-text-block\"><h3>Section heading</h3><p>Use this block to draw attention to a key message, a summary, or a call to action.</p></div><p><br></p>"
+  },
+  {
+    "id": "splitLine",
+    "title": "Left and right text on one line",
+    "availableIn": ["full", "mini"],
+    "content": "<div class=\"rte-split-line\"><span>Left text</span><span>Right text</span></div>"
+  },
+  {
+    "id": "titleWithLine",
+    "title": "Title with accent line",
+    "availableIn": ["full"],
+    "content": "<div class=\"rte-title-with-line\"><h2>Section title</h2></div><p>Start writing the section here.</p>"
+  },
+  {
+    "id": "statColumns",
+    "title": "Key figures",
+    "availableIn": ["full"],
+    "content": "<div class=\"rte-stat-columns\"><div class=\"rte-stat\"><div class=\"rte-stat-value\">25+</div><div class=\"rte-stat-label\">Years of experience</div></div><div class=\"rte-stat\"><div class=\"rte-stat-value\">120</div><div class=\"rte-stat-label\">Completed projects</div></div><div class=\"rte-stat\"><div class=\"rte-stat-value\">15</div><div class=\"rte-stat-label\">Countries served</div></div></div><p><br></p>"
+  },
+  {
+    "id": "twoColumnList",
+    "title": "Heading with two-column list",
+    "availableIn": ["full"],
+    "content": "<div class=\"rte-two-column-list\"><h3>List heading</h3><ul><li>First item</li><li>Second item</li><li>Third item</li><li>Fourth item</li><li>Fifth item</li><li>Sixth item</li></ul></div><p><br></p>"
+  },
+  {
+    "id": "imageCards",
+    "title": "Image cards with captions",
+    "availableIn": ["full"],
+    "content": "<div class=\"rte-image-cards\"><figure class=\"rte-image-card\"><img src=\"{{templatesBase}}placeholder.svg\" alt=\"Image description\" /><figcaption class=\"rte-image-card-caption\">Caption</figcaption></figure><figure class=\"rte-image-card\"><img src=\"{{templatesBase}}placeholder.svg\" alt=\"Image description\" /><figcaption class=\"rte-image-card-caption\">Caption</figcaption></figure><figure class=\"rte-image-card\"><img src=\"{{templatesBase}}placeholder.svg\" alt=\"Image description\" /><figcaption class=\"rte-image-card-caption\">Caption</figcaption></figure></div><p><br></p>"
+  },
+  {
+    "id": "mediaCards",
+    "title": "Image and text cards",
+    "availableIn": ["full"],
+    "content": "<div class=\"rte-media-cards\"><div class=\"rte-media-card\"><div class=\"rte-media-card-media\"><img src=\"{{templatesBase}}placeholder.svg\" alt=\"Card image\" /></div><div class=\"rte-media-card-content\"><h3 class=\"rte-media-card-title\">Card title</h3><p class=\"rte-media-card-body\">A short description for this card.</p></div></div><div class=\"rte-media-card\"><div class=\"rte-media-card-media\"><img src=\"{{templatesBase}}placeholder.svg\" alt=\"Card image\" /></div><div class=\"rte-media-card-content\"><h3 class=\"rte-media-card-title\">Card title</h3><p class=\"rte-media-card-body\">A short description for this card.</p></div></div></div><p><br></p>"
+  },
+  {
+    "id": "quote",
+    "title": "Quote",
+    "availableIn": ["full"],
+    "content": "<blockquote class=\"rte-quote\"><p>A short, memorable quote goes here.</p><cite>Name, Role</cite></blockquote><p><br></p>"
+  }
+]

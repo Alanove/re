@@ -22,6 +22,15 @@ websites/antonioscouture.com/**/logs
 websites/antonioscouture.com/**/cert
 websites/antonioscouture.com/**/*.log
 websites/antonioscouture.com/**/*.zip
+# Live media copied from the deployment server for local testing — never commit or redeploy
+websites/antonioscouture.com/public/uploads/
+websites/antonioscouture.com/public/images/
+websites/antonioscouture.com/public/pages/
+websites/antonioscouture.com/data-backup/media-missing-report.txt
+websites/antonioscouture.com/data-backup/media-paths-from-db.tsv
+websites/antonioscouture.com/data-backup/media-paths-from-html.txt
+websites/antonioscouture.com/data-backup/_tmp_*.sql
+websites/antonioscouture.com/data-backup/_tmp_*.txt
 websites/antonioscouture.com/public/images/2019
 websites/antonioscouture.com/public/images/2020
 websites/antonioscouture.com/public/images/2021

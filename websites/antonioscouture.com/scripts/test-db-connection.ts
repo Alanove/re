@@ -11,12 +11,17 @@ async function testConnection() {
   dotenv.config({ path: envPath });
   dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 
+  const dbName = (process.env.DB_NAME || '').trim();
+  if (!dbName) {
+    throw new Error('DB_NAME is required. Set it in .env / .env.development / .env.production.');
+  }
+
   const config = {
     host: process.env.DB_HOST || 'localhost',
     port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3306,
     user: process.env.DB_USER || 'sa',
     password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME || 'povdorie-beirut',
+    database: dbName,
   };
 
   console.log('Connection Config:', { ...config, password: '****' });

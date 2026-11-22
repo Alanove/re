@@ -392,6 +392,9 @@
 
                 <!-- Shop Product Start -->
                 <div class="col-lg-9 col-md-8">
+                    <% if (typeof currentCategory !== 'undefined' && currentCategory && typeof pageTitle !== 'undefined' && pageTitle) { %>
+                        <h1 class="shop-collection-title d-none d-md-block text-uppercase mb-3"><%= pageTitle %></h1>
+                    <% } %>
                     <!-- Search Bar -->
                     <% if (!(typeof hideSearch !== 'undefined' && hideSearch)) { %>
                     <div class="row pb-3">

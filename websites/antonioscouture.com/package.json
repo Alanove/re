@@ -4,6 +4,11 @@
   "description": "TypeScript Node.js CMS Project",
   "main": "dist/src/app.js",
   "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit",
+    "editor:build": "node ../../packages/rich-text-editor/esbuild.config.mjs --out admin/public/editor",
+    "media:check": "ts-node scripts/check-media.ts",
+    "media:check:prod": "node dist/scripts/check-media.js",
     "build": "tsc && npm run js:minify",
     "start": "node dist/src/app.js",
     "dev": "cross-env NODE_ENV=development ts-node-dev --respawn --transpile-only src/app.ts",

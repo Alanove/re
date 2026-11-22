@@ -315,6 +315,118 @@
         max-width: $lux-megamenu-archive-max-width;
     }
 
+    // Horizontal season strip (equal share up to a max card width; sparse rows stay centered)
+    .lux-megamenu--strip {
+        padding-top: 24px;
+        padding-bottom: 28px;
+    }
+
+    .lux-megamenu-strip-wrap {
+        width: 100%;
+    }
+
+    .lux-megamenu-strip {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: stretch;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        height: 380px;
+        max-height: 380px;
+        overflow: hidden;
+    }
+
+    .lux-megamenu-strip-card {
+        position: relative;
+        flex: 1 1 0%;
+        min-width: 0;
+        max-width: 220px;
+        height: 100%;
+        overflow: hidden;
+        background: $lux-megamenu-image-bg;
+        text-decoration: none;
+        color: inherit;
+
+        img,
+        .lux-megamenu-visual-placeholder {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+            transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: transform;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                180deg,
+                rgba($white, 0) 52%,
+                rgba($white, 0.55) 78%,
+                rgba($white, 0.92) 100%
+            );
+            pointer-events: none;
+            transition: background 0.35s ease;
+        }
+
+        .lux-megamenu-visual-label {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+            padding: 28px 10px 12px;
+            color: $lux-megamenu-text;
+            font-family: $headings-font-family;
+            font-size: 0.68rem;
+            font-weight: 400;
+            letter-spacing: 0.14em;
+            line-height: 1.35;
+            text-transform: uppercase;
+            text-align: center;
+            transition: color 0.25s ease;
+        }
+
+        &:hover,
+        &:focus-visible {
+            img,
+            .lux-megamenu-visual-placeholder {
+                transform: scale(1.06);
+            }
+
+            &::after {
+                background: linear-gradient(
+                    180deg,
+                    rgba($white, 0) 45%,
+                    rgba($white, 0.45) 74%,
+                    rgba($white, 0.88) 100%
+                );
+            }
+
+            .lux-megamenu-visual-label {
+                color: $lux-megamenu-link-hover;
+            }
+        }
+
+        &:focus-visible {
+            outline: 2px solid rgba($black, 0.25);
+            outline-offset: 2px;
+        }
+    }
+
+    .lux-megamenu-visual-placeholder {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: $lux-megamenu-image-bg;
+    }
+
     .lux-megamenu-archive-foot {
         margin-top: 22px;
     }
@@ -575,6 +687,14 @@
             outline-offset: 2px;
             border-radius: 2px;
         }
+    }
+}
+
+// Above HD only: larger wordmark (does not change ≤1920)
+@media (min-width: #{$lux-logo-bp-hd-min}) {
+    .luxury-header {
+        --lux-logo-height: #{$lux-logo-height-hd};
+        --lux-logo-max-width: #{$lux-logo-max-width-hd};
     }
 }
 

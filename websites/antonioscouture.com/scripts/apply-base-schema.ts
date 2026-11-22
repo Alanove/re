@@ -19,7 +19,10 @@ async function main(): Promise<void> {
   const sqlPath = path.resolve(process.cwd(), 'src/database/schema.sql');
   const sql = fs.readFileSync(sqlPath, 'utf8');
 
-  const name = process.env.DB_NAME || 'povdorie-beirut';
+  const name = (process.env.DB_NAME || '').trim();
+  if (!name) {
+    throw new Error('DB_NAME is required. Set it in .env / .env.development / .env.production.');
+  }
   const conn = await mysql.createConnection({
     host: process.env.DB_HOST || 'localhost',
     port: parseInt(process.env.DB_PORT || '3306', 10),

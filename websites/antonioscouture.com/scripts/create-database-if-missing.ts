@@ -11,7 +11,10 @@ async function main(): Promise<void> {
   dotenv.config({ path: path.resolve(process.cwd(), `.env.${nodeEnv}`) });
   dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 
-  const name = process.env.DB_NAME || 'povdorie-beirut';
+  const name = (process.env.DB_NAME || '').trim();
+  if (!name) {
+    throw new Error('DB_NAME is required. Set it in .env / .env.development / .env.production.');
+  }
   const c = await mysql.createConnection({
     host: process.env.DB_HOST || 'localhost',
     port: parseInt(process.env.DB_PORT || '3306', 10),

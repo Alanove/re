@@ -203,67 +203,79 @@
                                 const directChildrenM = (item.children || []).filter(function(c) { return c && c.active !== false; });
                                 const catSlugM = item.category && item.category.slug;
                                 const isFashionLineM = !!(catSlugM && typeof isFashionLineSlug !== 'undefined' && isFashionLineSlug(catSlugM));
-                                const yearGroupsM = (typeof groupCollectionsByYear !== 'undefined')
-                                    ? groupCollectionsByYear(directChildrenM, function(c) { return c.title || ''; })
-                                    : [{ year: 0, items: directChildrenM.map(function(c) { return { label: c.title, item: c }; }) }];
-                                const hasYearsM = yearGroupsM.some(function(g) { return g.year > 0; });
-                                const latestCardsM = [];
-                                directChildrenM.forEach(function(child) {
-                                    if (latestCardsM.length >= 3 || !child.category) return;
-                                    let img = '';
-                                    if (typeof categoryListingImageUrl === 'function') {
-                                        const resolved = categoryListingImageUrl(child.category);
-                                        if (resolved && resolved !== '/images/no-image.jpg') img = resolved;
-                                    }
-                                    if (!img) img = child.category.image_url || '';
-                                    if (img) latestCardsM.push({ url: child.url, title: child.title, img: img });
-                                });
-                                const yearsOnlyM = hasYearsM && yearGroupsM.every(function(g) { return !!g.yearLink; });
                                 const viewAllLabelM = isFashionLineM
                                     ? (typeof t !== 'undefined' ? t('ecommerce.viewAllCollections') : 'View All Collections')
                                     : ('View All ' + item.title);
                                 const viewAllUrlM = isFashionLineM ? (item.url + (item.url.indexOf('?') === -1 ? '?' : '&') + 'view=all') : item.url;
+
+                                function resolveMobileCardImg(cat) {
+                                    if (!cat) return '';
+                                    if (typeof categoryListingImageUrl === 'function') {
+                                        const resolved = categoryListingImageUrl(cat);
+                                        if (resolved && resolved !== '/images/no-image.jpg') return resolved;
+                                    }
+                                    return cat.image_url || '';
+                                }
+                                function mobileChildName(child) {
+                                    if (!child) return '';
+                                    if (child.category && child.category.name) return child.category.name;
+                                    return child.title || '';
+                                }
+                                function mobileChildYear(child) {
+                                    const name = mobileChildName(child);
+                                    if (typeof parseSeasonYear === 'function') return parseSeasonYear(name);
+                                    const matches = String(name || '').match(/\b(19|20)\d{2}\b/g);
+                                    if (!matches || !matches.length) return 0;
+                                    return Math.max.apply(null, matches.map(function(m) { return parseInt(m, 10); }));
+                                }
+
+                                const STRIP_MAX_M = 8;
+                                const STRIP_MIN_M = 4;
+                                const minYearM = new Date().getFullYear() - 4;
+                                const sortableAllM = directChildrenM.map(function(c) {
+                                    return {
+                                        item: c,
+                                        name: mobileChildName(c),
+                                        order_index: (c.category && c.category.order_index != null) ? c.category.order_index : 0
+                                    };
+                                });
+                                const sortedAllM = (typeof sortCollectionsBySeason !== 'undefined')
+                                    ? sortCollectionsBySeason(sortableAllM).map(function(x) { return x.item; })
+                                    : directChildrenM.slice();
+                                const recentByYearM = sortedAllM.filter(function(c) {
+                                    const y = mobileChildYear(c);
+                                    return y > 0 && y >= minYearM;
+                                });
+                                let stripSourceM = recentByYearM.slice();
+                                if (stripSourceM.length < STRIP_MIN_M) {
+                                    const seenM = {};
+                                    stripSourceM.forEach(function(c) { seenM[c.url] = true; });
+                                    sortedAllM.forEach(function(c) {
+                                        if (stripSourceM.length >= STRIP_MAX_M) return;
+                                        if (seenM[c.url]) return;
+                                        seenM[c.url] = true;
+                                        stripSourceM.push(c);
+                                    });
+                                }
+                                if (stripSourceM.length > STRIP_MAX_M) stripSourceM = stripSourceM.slice(0, STRIP_MAX_M);
+                                const stripCardsM = stripSourceM.map(function(child) {
+                                    return {
+                                        url: child.url,
+                                        title: child.title || mobileChildName(child),
+                                        img: resolveMobileCardImg(child.category)
+                                    };
+                                });
                             %>
-                            <% if (latestCardsM.length > 0) { %>
-                            <div class="lux-mobile-cards" role="list">
-                                <% latestCardsM.forEach(function(card) { %>
-                                    <a href="<%= card.url %>" class="lux-mobile-card" role="listitem">
-                                        <img src="<%= card.img %>" alt="<%= card.title %>" loading="lazy" />
+                            <% if (stripCardsM.length > 0) { %>
+                            <div class="lux-mobile-cards lux-mobile-strip" role="list">
+                                <% stripCardsM.forEach(function(card) { %>
+                                    <a href="<%= card.url %>" class="lux-mobile-card" role="listitem" aria-label="<%= card.title %>">
+                                        <% if (card.img) { %>
+                                            <img src="<%= card.img %>" alt="<%= card.title %>" loading="lazy" />
+                                        <% } %>
                                         <span class="lux-mobile-card-label"><%= card.title %></span>
                                     </a>
                                 <% }); %>
-                            </div>
-                            <% } %>
-                            <% if (directChildrenM.length > 0) { %>
-                            <div class="lux-mobile-level2-section lux-mobile-archive">
-                                <% if (yearsOnlyM) { %>
-                                    <div class="lux-mobile-archive-pills">
-                                        <% yearGroupsM.forEach(function(group) { %>
-                                            <a href="<%= group.yearLink.url %>" title="<%= group.yearLink.title %>"><%= group.year %></a>
-                                        <% }); %>
-                                    </div>
-                                <% } else if (hasYearsM) { %>
-                                    <% yearGroupsM.forEach(function(group) { %>
-                                        <div class="lux-mobile-archive-year">
-                                            <% if (group.yearLink) { %>
-                                                <a class="lux-mobile-archive-year-num lux-mobile-archive-year-link" href="<%= group.yearLink.url %>" title="<%= group.yearLink.title %>"><%= group.year %></a>
-                                            <% } else { %>
-                                                <span class="lux-mobile-archive-year-num"><%= group.year > 0 ? group.year : (typeof t !== 'undefined' ? t('ecommerce.more') : 'More') %></span>
-                                                <div class="lux-mobile-archive-pills">
-                                                    <% group.items.forEach(function(entry) { %>
-                                                        <a href="<%= entry.item.url %>" title="<%= entry.item.title %>"><%= entry.label %></a>
-                                                    <% }); %>
-                                                </div>
-                                            <% } %>
-                                        </div>
-                                    <% }); %>
-                                <% } else { %>
-                                    <ul>
-                                        <% directChildrenM.forEach(function(child) { %>
-                                            <li><a href="<%= child.url %>"><%= child.title %></a></li>
-                                        <% }); %>
-                                    </ul>
-                                <% } %>
                             </div>
                             <% } %>
                             <a href="<%= viewAllUrlM %>" class="lux-mobile-viewall"><%= viewAllLabelM %></a>

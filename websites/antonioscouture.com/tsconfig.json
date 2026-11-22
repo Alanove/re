@@ -28,7 +28,8 @@
   "include": [
     "src/**/*",
     "admin/**/*",
-    "data-migration/**/*"
+    "data-migration/**/*",
+    "scripts/check-media.ts"
   ],
   "exclude": [
     "node_modules",

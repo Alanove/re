@@ -1,16 +1,16 @@
 module.exports = {
   apps: [{
-    name: 'povdorie-beirut',
+    name: 'antonioscouture',
     script: './dist/src/app.js',
     instances: 1,
     exec_mode: 'fork',
     env: {
       NODE_ENV: 'development',
-      PORT: 3003
+      PORT: 3013
     },
     env_production: {
       NODE_ENV: 'production',
-      PORT: 3003
+      PORT: 3013
     },
     error_file: './logs/pm2-error.log',
     out_file: './logs/pm2-out.log',

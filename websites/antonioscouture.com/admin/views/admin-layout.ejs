@@ -21,11 +21,12 @@
 	<link href="/admin/css/custom.css" rel="stylesheet" />
 	<!-- ================== END core-css ================== -->
 
-	<!-- ================== BEGIN custom-editor ================== -->
+	<!-- ================== BEGIN rich-text-editor ================== -->
 	<% if (typeof includeCustomEditor !=='undefined' && includeCustomEditor) { %>
-		<link href="/admin/editor/custom-editor.css" rel="stylesheet">
+		<link href="/admin/editor/editor.css" rel="stylesheet">
+		<link href="/admin/editor/rte-content.css" rel="stylesheet">
 		<% } %>
-			<!-- ================== END custom-editor ================== -->
+			<!-- ================== END rich-text-editor ================== -->
 
 			<!-- ================== BEGIN page-css ================== -->
 			<% if (typeof pageCSS !=='undefined' && pageCSS) { %>
@@ -225,11 +226,12 @@
 	<% } %>
 	<!-- ================== END core-js ================== -->
 
-	<!-- ================== BEGIN custom-editor ================== -->
+	<!-- ================== BEGIN rich-text-editor ================== -->
 	<% if (typeof includeCustomEditor !=='undefined' && includeCustomEditor) { %>
-		<script src="/admin/editor/custom-editor.js"></script>
+		<script src="/admin/editor/editor.js"></script>
+		<script src="/admin/js/editor-mount.js"></script>
 		<% } %>
-			<!-- ================== END custom-editor ================== -->
+			<!-- ================== END rich-text-editor ================== -->
 
 			<!-- ================== BEGIN theme-js ================== -->
 			<script src="/admin/js/theme.js"></script>
