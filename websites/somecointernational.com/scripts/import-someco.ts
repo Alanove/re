@@ -165,6 +165,15 @@ function asIso(value: string | null, fallback: string): string {
   return Number.isNaN(date.getTime()) ? fallback : date.toISOString();
 }
 
+function legacyMenuPath(raw: string): string {
+  const trimmed = raw.trim();
+  if (!trimmed || trimmed === '/') {
+    return '/';
+  }
+  const withSlash = trimmed.startsWith('/') ? trimmed : `/${trimmed}`;
+  return withSlash.replace(/\/+/g, '/').toLowerCase();
+}
+
 function slugifyKey(value: string): string {
   return value
     .trim()
@@ -207,16 +216,19 @@ function candidateImagePaths(wwwRoot: string, pageSlug: string, fileName: string
     names.push(fileName.replace(/\.[^.]+$/, '.webp'));
   }
   const paths: string[] = [];
+  const pageSlugs = [pageSlug, `${pageSlug}-1`];
   for (const name of names) {
-    if (kind === 'slide') {
-      paths.push(path.join(wwwRoot, 'pages', pageSlug, 'slideshow', 'large', name));
-      paths.push(path.join(wwwRoot, 'pages', pageSlug, 'slideshow', name));
+    for (const slug of pageSlugs) {
+      if (kind === 'slide') {
+        paths.push(path.join(wwwRoot, 'pages', slug, 'slideshow', 'large', name));
+        paths.push(path.join(wwwRoot, 'pages', slug, 'slideshow', name));
+      }
+      if (kind === 'gallery') {
+        paths.push(path.join(wwwRoot, 'pages', slug, 'gallery', 'large', name));
+        paths.push(path.join(wwwRoot, 'pages', slug, 'gallery', name));
+      }
+      paths.push(path.join(wwwRoot, 'pages', slug, name));
     }
-    if (kind === 'gallery') {
-      paths.push(path.join(wwwRoot, 'pages', pageSlug, 'gallery', 'large', name));
-      paths.push(path.join(wwwRoot, 'pages', pageSlug, 'gallery', name));
-    }
-    paths.push(path.join(wwwRoot, 'pages', pageSlug, name));
     paths.push(path.join(wwwRoot, 'img', name));
     paths.push(path.join(wwwRoot, 'images', name));
     paths.push(path.join(wwwRoot, 'files', 'fast-upload', name));
@@ -515,32 +527,7 @@ async function main(): Promise<void> {
 
   const activeMenus = dumpMenus.filter((item) => item.state === 1 && item.menuId !== null);
   const rootMenuId = 1;
-  const buildMenuItems = (parentId: number): MenuItem[] =>
-    activeMenus
-      .filter((item) => item.menuId === parentId)
-      .sort((a, b) => a.sorting - b.sorting)
-      .map((item) => {
-        const page = item.pageId ? pages.find((row) => row.id === item.pageId) : null;
-        let url = '/';
-        if (page) {
-          // Nested URLs are resolved at runtime from pageId; this is the fallback.
-          url = page.key === 'home' ? '/' : `/${page.slug}`;
-        } else if (item.url) {
-          url = item.url.startsWith('/') ? item.url : `/${item.url}`;
-        }
-        return {
-          id: `m${item.id}`,
-          title: item.title,
-          url,
-          pageId: item.pageId,
-          sort: item.sorting,
-          active: true,
-          htmlContent: item.htmlContent ?? '',
-          children: buildMenuItems(item.id)
-        };
-      });
 
-  // Fix nested menu URLs after we know the page tree paths
   const pagePathById = new Map<number, string>();
   const assignPaths = (parentId: number | null, prefix: string): void => {
     for (const page of dumpPages.filter((row) => row.parentId === parentId && row.state !== 0).sort((a, b) => (a.ranking ?? 0) - (b.ranking ?? 0))) {
@@ -552,19 +539,52 @@ async function main(): Promise<void> {
   };
   assignPaths(null, '');
 
-  const fixUrls = (items: MenuItem[]): MenuItem[] =>
-    items.map((item) => ({
-      ...item,
-      url: item.pageId && pagePathById.has(item.pageId) ? pagePathById.get(item.pageId)! : item.url,
-      children: fixUrls(item.children)
-    }));
+  const pageIdByPath = new Map<string, number>();
+  for (const [id, pagePath] of pagePathById) {
+    pageIdByPath.set(pagePath.toLowerCase(), id);
+  }
+
+  const normalizeMenuHtml = (html: string | null): string => {
+    const raw = (html ?? '').trim();
+    if (!raw) return '';
+    // Drop Bootstrap spacing utilities on bordered CTA labels (e.g. Feedback).
+    return raw
+      .replace(/\s*(?:px-\d+|py-\d+|p-\d+|mx-\d+|my-\d+|m-\d+|d-inline-block)\b/g, '')
+      .replace(/class="\s*"/g, '')
+      .replace(/class="\s+/g, 'class="')
+      .replace(/\s+"/g, '"')
+      .replace(/\s{2,}/g, ' ')
+      .trim();
+  };
+
+  // Match the legacy menu partial: href is the menu Url column, not PageId.
+  // Home stays unlinked from the draft home page so the item is not dropped.
+  const buildMenuItems = (parentId: number): MenuItem[] =>
+    activeMenus
+      .filter((item) => item.menuId === parentId)
+      .sort((a, b) => a.sorting - b.sorting)
+      .map((item) => {
+        const url = legacyMenuPath(item.url);
+        const matchedId = pageIdByPath.get(url) ?? null;
+        const pageId = url === '/' ? null : matchedId;
+        return {
+          id: `m${item.id}`,
+          title: item.title,
+          url,
+          pageId,
+          sort: item.sorting,
+          active: true,
+          htmlContent: normalizeMenuHtml(item.htmlContent),
+          children: buildMenuItems(item.id)
+        };
+      });
 
   const menus: Menu[] = [
     {
       id: 'main',
       name: 'Main Menu',
       description: 'Header and footer navigation',
-      items: fixUrls(buildMenuItems(rootMenuId))
+      items: buildMenuItems(rootMenuId)
     }
   ];
 
@@ -588,7 +608,7 @@ async function main(): Promise<void> {
     footerText: '',
     copyright: `© ${new Date().getFullYear()} ${siteName}`,
     inquiryTopics: ['General inquiry', 'Products', 'Services', 'Feedback'],
-    themeColor: '#006293',
+    themeColor: '#006090',
     social: {
       facebook: settingsMap.get('Facebook') || '',
       instagram: settingsMap.get('Instagram') || '',

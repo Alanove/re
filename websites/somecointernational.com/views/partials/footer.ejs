@@ -42,10 +42,10 @@
 			<div class="col-md-5">
 				<% if (hideFooterForm) { %>
 					<h3>Follow Us</h3>
-					<p>
-						<% if (settings.social.facebook) { %><a href="<%= settings.social.facebook %>" class="p-2" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><span class="fa fa-facebook"></span></a><% } %>
-						<% if (settings.social.instagram) { %><a href="<%= settings.social.instagram %>" class="p-2" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><span class="fa fa-instagram"></span></a><% } %>
-						<% if (settings.social.linkedin) { %><a href="<%= settings.social.linkedin %>" class="p-2" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><span class="fa fa-linkedin"></span></a><% } %>
+					<p class="footer-social mb-0">
+						<% if (settings.social.facebook) { %><a href="<%= settings.social.facebook %>" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><span class="fa fa-facebook"></span></a><% } %>
+						<% if (settings.social.instagram) { %><a href="<%= settings.social.instagram %>" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><span class="fa fa-instagram"></span></a><% } %>
+						<% if (settings.social.linkedin) { %><a href="<%= settings.social.linkedin %>" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><span class="fa fa-linkedin"></span></a><% } %>
 					</p>
 				<% } else { %>
 					<h3>Quick contact</h3>

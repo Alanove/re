@@ -110,17 +110,35 @@ header #top-bar .top-social-icon li a {
   gap: 0.15rem;
 }
 
-.navbar-nav .nav-link {
-  padding: 0.55rem 0.85rem;
+// Beat legacy `header .navbar .nav-link { padding: 1.7rem … !important }`
+header .navbar .nav-link {
+  display: flex;
+  align-items: center;
+  padding: 0.45rem 0.75rem !important;
   font-size: 0.95rem;
+  line-height: 1.25;
   color: $color-on-surface-variant;
   white-space: nowrap;
 }
 
-.navbar-nav .nav-link:hover,
-.navbar-nav .nav-link.active,
-.navbar-nav .nav-item.active > .nav-link {
+header .navbar .nav-link:hover,
+header .navbar .nav-link.active,
+header .navbar .nav-item.active > .nav-link {
   color: $color-primary;
+}
+
+// Feedback CTA: bordered label from legacy htmlContent — keep text on the same baseline
+header .navbar .nav-link .border {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.85rem;
+  line-height: 1.25;
+  border-color: $color-outline !important;
+}
+
+// Flush Feedback with the top-bar social icons (same container right edge)
+header .navbar .nav-link:has(.border) {
+  padding-right: 0 !important;
 }
 
 // Desktop hover: nested submenus without a second click
@@ -130,6 +148,7 @@ header #top-bar .top-social-icon li a {
     top: 100%;
     left: 0;
     margin-top: 0;
+    min-width: 15.5rem;
     border-radius: 0;
     border-color: $color-outline;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
@@ -174,17 +193,18 @@ header #top-bar .top-social-icon li a {
     color: $color-primary;
   }
 
-  // Nested carets flush to the right edge of the dropdown row
+  // Keep a gap between the label and the submenu caret
   .navbar .dropdown-menu .dropdown-item.dropdown-toggle {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 0.85rem;
     width: 100%;
-    padding-right: 1rem;
+    padding-right: 1.15rem;
   }
 
   .navbar .dropdown-menu .dropdown-item.dropdown-toggle::after {
-    margin-left: auto;
+    margin-left: 0.85rem;
     flex-shrink: 0;
   }
 }
@@ -829,6 +849,38 @@ header #top-bar .top-social-icon li a {
   line-height: 1.25;
 }
 
+.contact-page-form .form-group {
+  margin-bottom: 0.75rem;
+}
+
+.contact-page-form label {
+  margin-bottom: 0.25rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: $color-on-surface;
+}
+
+.contact-page-form .form-control {
+  height: auto;
+  padding: 0.4rem 0.7rem;
+  font-size: 0.9rem;
+  background: #fff;
+  border-color: $color-outline;
+}
+
+.contact-page-form textarea.form-control {
+  min-height: 6.5rem;
+}
+
+.contact-page-form .site-captcha {
+  margin-bottom: 0.75rem;
+}
+
+.contact-page-form .btn {
+  min-width: 9.5rem;
+  padding: 0.45rem 1.25rem;
+}
+
 .contact-map {
   margin-top: 2rem;
 }
@@ -870,8 +922,14 @@ header #top-bar .top-social-icon li a {
   text-align: center;
 }
 
+html:not(.captcha-debug) .site-captcha:not([data-state='error']) {
+  display: none;
+  margin: 0;
+  min-height: 0;
+}
+
 .site-captcha {
-  min-height: 48px;
+  min-height: 0;
 }
 
 .ratio {

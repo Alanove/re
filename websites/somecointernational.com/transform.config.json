@@ -15,7 +15,7 @@
   },
   "legacy": {
     "localRoot": "legacy/somecointernational.com/somecointernational.com/wwwroot",
-    "dbDump": "legacy/db/db",
+    "dbDump": "legacy/db/db.sql",
     "pageImagePattern": "/pages/{slug}/{fileName}",
     "footerPageKey": null,
     "contactPageKey": "contact",

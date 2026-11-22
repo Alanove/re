@@ -9,7 +9,7 @@
 	<div class="container">
 		<div class="row justify-content-center">
 			<div class="col-md-8 element-animate">
-				<h2 class="text-uppercase heading border-bottom mb-4"><%= page.title %></h2>
+				<h1 class="page-content-title"><%= page.header || page.title %></h1>
 				<% if (form.sent) { %>
 					<div class="alert alert-success" role="status"><%= settings.thankYouMessage %></div>
 				<% } else { %>
