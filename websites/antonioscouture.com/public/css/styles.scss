@@ -1832,28 +1832,73 @@ body.home .home-shop-banner .shop-banner {
         flex: 0 0 100%;
     }
 
-    // Shop category product grid: 3 products per row on mobile, taller image area
+    // Shop category product grid: 3 products per row on mobile, tighter gaps (half of desktop gutters / mb-4)
+    .col-lg-9.col-md-8 {
+        .shop-collection-title {
+            margin-bottom: 0.5rem !important;
+        }
+
+        // Showing / SORTING toolbar → first product row (was mb-4 + pb-3)
+        > .row.pb-3:has(.d-flex.align-items-center.justify-content-between) {
+            padding-bottom: 0 !important;
+
+            .d-flex.align-items-center.justify-content-between.mb-4 {
+                margin-bottom: 0.25rem !important;
+            }
+        }
+
+        > .row.pb-3 {
+            margin-left: -7.5px;
+            margin-right: -7.5px;
+        }
+    }
+
     .col-lg-4.col-md-6.col-sm-12.pb-1 {
         flex: 0 0 33.333333%;
         max-width: 33.333333%;
+        padding-left: 7.5px;
+        padding-right: 7.5px;
+        padding-bottom: 0 !important;
+        margin-top: 0 !important; // override cart mobile .col-lg-4 { margin-top: 20px }
 
         .product-item {
+            margin-bottom: 0.35rem !important;
+
             .product-img {
-                max-height: 160px;
+                max-height: 200px;
                 img {
-                    height: 160px !important;
-                    min-height: 160px;
+                    height: 200px !important;
+                    min-height: 200px;
                     object-fit: cover;
                 }
             }
             .text-center {
-                padding-top: 0.4rem !important;
-                padding-bottom: 0.5rem !important;
+                padding-top: 0.15rem !important;
+                padding-bottom: 0.15rem !important;
                 font-size: 0.9rem;
 
                 .h6 {
                     font-size: 0.85rem;
                 }
+            }
+        }
+    }
+
+    // Fashion-line listings: taller portrait thumbs, less space under each card
+    .shop-page--fashion-line .col-lg-4.col-md-6.col-sm-12.pb-1 {
+        .product-item {
+            margin-bottom: 0.3rem !important;
+
+            .product-img,
+            .product-img.position-relative {
+                max-height: none;
+                aspect-ratio: 2 / 3;
+            }
+
+            .product-img img,
+            .product-card-img {
+                height: 100% !important;
+                min-height: 0 !important;
             }
         }
     }
@@ -1876,8 +1921,9 @@ body.home .home-shop-banner .shop-banner {
         flex-shrink: 0;
     }
 
-    // Mobile cart summary adjustments
-    .col-lg-4 {
+    // Mobile cart summary adjustments (scoped — bare .col-lg-4 was pushing shop product rows)
+    .cart-page .col-lg-4,
+    .container-fluid .row > .col-lg-4:not(.col-md-6):not(.col-sm-12) {
         margin-top: 20px;
     }
 

@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import * as path from 'path';
 import { StorageService } from '../services/storageService';
 import { securityService } from '../../src/services/securityService';
 import HomePageContentService, {
@@ -12,7 +13,7 @@ import HomePageBlockService, {
   ProductsListBlockConfig,
   TextBlockConfig
 } from '../../src/services/homePageBlockService';
-import { getPublicUrl } from '../../src/constants';
+import { DATA_PATHS, getPublicUrl } from '../../src/constants';
 
 const storageService = StorageService.getInstance();
 const homePageContentService = HomePageContentService.getInstance();
@@ -29,6 +30,13 @@ function fileFromReq(req: Request, field: string): { path: string } | undefined 
   const files = (req as any).files as Record<string, { path: string }[]> | undefined;
   const list = files?.[field];
   return list?.[0];
+}
+
+function deletePublicMediaUrl(publicUrl: string | undefined): void {
+  if (!publicUrl || !String(publicUrl).trim()) return;
+  const normalized = String(publicUrl).trim().replace(/^\/+/, '').replace(/\\/g, '/');
+  if (!normalized.startsWith('images/home-content/')) return;
+  storageService.deleteFile(path.join(DATA_PATHS.PUBLIC_DIR, normalized));
 }
 
 async function verifyCsrf(req: Request, res: Response): Promise<boolean> {
@@ -231,11 +239,36 @@ window.HOME_PAGE_BUILDER = {
         } else {
           const categoryIdRaw = str(body, 'category_id');
           const displayMode = str(body, 'display_mode');
-          config = {
+          const existingCfg = existing.config as CategoryDisplayBlockConfig;
+          let videoUrl = existingCfg.videoUrl?.trim() || '';
+          let videoPosterUrl = existingCfg.videoPosterUrl?.trim() || '';
+
+          const videoFile = fileFromReq(req, 'block_video');
+          if (videoFile) {
+            deletePublicMediaUrl(videoUrl);
+            videoUrl = getPublicUrl(videoFile.path);
+          } else if (str(body, 'remove_block_video') === '1') {
+            deletePublicMediaUrl(videoUrl);
+            videoUrl = '';
+          }
+
+          const posterFile = fileFromReq(req, 'block_video_poster');
+          if (posterFile) {
+            deletePublicMediaUrl(videoPosterUrl);
+            videoPosterUrl = getPublicUrl(posterFile.path);
+          } else if (str(body, 'remove_block_video_poster') === '1') {
+            deletePublicMediaUrl(videoPosterUrl);
+            videoPosterUrl = '';
+          }
+
+          const categoryConfig: CategoryDisplayBlockConfig = {
             categoryId: categoryIdRaw ? parseInt(categoryIdRaw, 10) : null,
             displayMode: displayMode === 'video' ? 'video' : 'shop_the_look',
             introHtml: str(body, 'intro_html')
           };
+          if (videoUrl) categoryConfig.videoUrl = videoUrl;
+          if (videoPosterUrl) categoryConfig.videoPosterUrl = videoPosterUrl;
+          config = categoryConfig;
         }
 
         const isEnabled = str(body, 'is_enabled') !== '0';

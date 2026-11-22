@@ -171,9 +171,28 @@
     );
   }
 
+  function mediaPreviewUrl(u) {
+    if (!u) return '';
+    var s = String(u).trim();
+    if (s.indexOf('http') === 0 || s.indexOf('/') === 0) return s;
+    return '/images/home-content/' + s;
+  }
+
   function buildCategoryForm(block) {
     var c = block.config || {};
     var mode = c.displayMode || 'shop_the_look';
+    var videoSrc = mediaPreviewUrl(c.videoUrl);
+    var posterSrc = mediaPreviewUrl(c.videoPosterUrl);
+    var videoPreview = videoSrc
+      ? '<div class="mb-2"><video src="' +
+        escapeHtml(videoSrc) +
+        '" controls muted playsinline style="max-width:100%;max-height:180px"></video></div>'
+      : '<p class="text-muted small mb-2">No homepage override — category video will be used.</p>';
+    var posterPreview = posterSrc
+      ? '<div class="mb-2"><img src="' +
+        escapeHtml(posterSrc) +
+        '" alt="" class="img-fluid rounded border" style="max-height:120px" /></div>'
+      : '';
     return (
       '<form id="blockEditForm" enctype="multipart/form-data">' +
       '<div class="mb-3">' +
@@ -200,7 +219,23 @@
       '<div id="blockVideoFields"' +
       (mode === 'video' ? '' : ' style="display:none"') +
       '>' +
-      '<p class="text-muted fs-12px mb-3">Video and poster are taken from the selected category (Admin → Categories → edit category → video upload). Parent categories are used when the category has no video.</p>' +
+      '<p class="text-muted fs-12px mb-3">Optional: upload a homepage-only video. Leave empty to use the category video (Admin → Categories). Parent categories are used when the category has no video.</p>' +
+      '<div class="mb-3">' +
+      '<label class="form-label">Homepage video (optional)</label>' +
+      videoPreview +
+      '<input type="file" class="form-control" id="blockVideoFile" name="block_video" accept="video/mp4,video/webm,video/*" />' +
+      (videoSrc
+        ? '<div class="form-check mt-2"><input class="form-check-input" type="checkbox" id="removeBlockVideo" /><label class="form-check-label" for="removeBlockVideo">Remove homepage video (use category)</label></div>'
+        : '') +
+      '</div>' +
+      '<div class="mb-3">' +
+      '<label class="form-label">Video poster (optional)</label>' +
+      posterPreview +
+      '<input type="file" class="form-control" id="blockVideoPosterFile" name="block_video_poster" accept="image/*" />' +
+      (posterSrc
+        ? '<div class="form-check mt-2"><input class="form-check-input" type="checkbox" id="removeBlockVideoPoster" /><label class="form-check-label" for="removeBlockVideoPoster">Remove homepage poster</label></div>'
+        : '') +
+      '</div>' +
       '<div class="mb-3">' +
       '<label class="form-label">Intro text</label>' +
       '<textarea id="blockIntroHtml" class="form-control rich-text" rows="6">' +
@@ -302,6 +337,22 @@
           introHtml = introEl ? introEl.value : '';
         }
         formData.append('intro_html', introHtml);
+        var videoFileEl = document.getElementById('blockVideoFile');
+        if (videoFileEl && videoFileEl.files && videoFileEl.files[0]) {
+          formData.append('block_video', videoFileEl.files[0]);
+        }
+        var posterFileEl = document.getElementById('blockVideoPosterFile');
+        if (posterFileEl && posterFileEl.files && posterFileEl.files[0]) {
+          formData.append('block_video_poster', posterFileEl.files[0]);
+        }
+        var removeVideoEl = document.getElementById('removeBlockVideo');
+        if (removeVideoEl && removeVideoEl.checked) {
+          formData.append('remove_block_video', '1');
+        }
+        var removePosterEl = document.getElementById('removeBlockVideoPoster');
+        if (removePosterEl && removePosterEl.checked) {
+          formData.append('remove_block_video_poster', '1');
+        }
       }
     }
 

@@ -23,9 +23,9 @@ export interface CategoryDisplayBlockConfig {
   categoryId: number | null;
   displayMode: CategoryDisplayMode;
   introHtml?: string;
-  /** @deprecated Video is loaded from the category record */
+  /** Optional homepage override; when empty, category (parent-fallback) video is used */
   videoUrl?: string;
-  /** @deprecated Poster is loaded from the category image */
+  /** Optional homepage poster override; when empty, category poster is used */
   videoPosterUrl?: string;
 }
 
@@ -343,10 +343,14 @@ export class HomePageBlockService {
 
         let videoUrl = '';
         let videoPosterUrl = '';
-        if (cfg.categoryId && cfg.displayMode === 'video') {
-          const media = await categoryService.resolveCategoryHeroMedia(cfg.categoryId);
-          videoUrl = media.video_url?.trim() || '';
-          videoPosterUrl = media.poster_image_url?.trim() || '';
+        if (cfg.displayMode === 'video') {
+          videoUrl = cfg.videoUrl?.trim() || '';
+          videoPosterUrl = cfg.videoPosterUrl?.trim() || '';
+          if (cfg.categoryId && (!videoUrl || !videoPosterUrl)) {
+            const media = await categoryService.resolveCategoryHeroMedia(cfg.categoryId);
+            if (!videoUrl) videoUrl = media.video_url?.trim() || '';
+            if (!videoPosterUrl) videoPosterUrl = media.poster_image_url?.trim() || '';
+          }
         }
 
         resolved.push({

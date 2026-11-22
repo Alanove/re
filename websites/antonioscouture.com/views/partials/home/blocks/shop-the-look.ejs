@@ -43,6 +43,11 @@
                     <% if (category.description) { %>
                         <p><%= stripHtml(category.description).slice(0, 320) %></p>
                     <% } %>
+                    <% if (category.slug) { %>
+                        <p class="home-shop-look-view-all">
+                            <a class="home-section-link" href="/shop/category/<%= category.slug %>">Explore the Collection</a>
+                        </p>
+                    <% } %>
                 </div>
                 <div class="home-shop-look-controls">
                     <div class="home-shop-look-controls-row">

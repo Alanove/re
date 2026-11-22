@@ -148,7 +148,10 @@ export class StorageService {
         const timestamp = Date.now();
         const randomSuffix = Math.round(Math.random() * 1e9);
         const ext = path.extname(file.originalname);
-        const prefix = file.fieldname === 'bridal_video' ? 'home-bridal-video' : 'home-content';
+        const prefix =
+          file.fieldname === 'bridal_video' || file.fieldname === 'block_video'
+            ? 'home-bridal-video'
+            : 'home-content';
         cb(null, `${prefix}-${timestamp}-${randomSuffix}${ext}`);
       }
     });
@@ -162,11 +165,11 @@ export class StorageService {
         fields: 80
       },
       fileFilter: (_req, file, cb) => {
-        if (file.fieldname === 'bridal_video') {
+        if (file.fieldname === 'bridal_video' || file.fieldname === 'block_video') {
           if (file.mimetype.startsWith('video/')) {
             cb(null, true);
           } else {
-            cb(new Error('Bridal video must be a video file (MP4 recommended)'));
+            cb(new Error('Homepage video must be a video file (MP4 recommended)'));
           }
           return;
         }
