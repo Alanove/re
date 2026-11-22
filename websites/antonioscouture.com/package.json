@@ -25,7 +25,6 @@
     "scss-all": "npm run scss && npm run scss-admin",
     "scss-all-dev": "npm run scss-dev && npm run scss-admin-dev",
     "js:minify": "terser public/js/app.js -c passes=2 -m -o public/js/app.min.js --comments false",
-    "prestart:prod": "npm run js:minify",
     "clean": "node scripts/clean.js",
     "prebuild": "npm run clean",
     "test": "playwright test",
