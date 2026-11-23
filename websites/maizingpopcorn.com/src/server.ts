@@ -10,7 +10,7 @@ dotenv.config({
   path: path.resolve(process.cwd(), '.env')
 });
 
-const port = Number(process.env.PORT ?? 3094);
+const port = Number(process.env.PORT ?? 3070);
 const trustProxy = process.env.TRUST_PROXY === '1';
 
 const app = express();
