@@ -1,0 +1,142 @@
+﻿@import url(//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700);
+/*
+
+@LightestGray: #f1f1f1;
+@LightestGray2: #fafafa;*/
+/*@container-tablet: 100%;*/
+/*@container-desktop: 100%;*/
+html body .promo-section {
+  position: relative;
+  overflow: hidden;
+  background: #111;
+}
+html body .promo-section .promo-item {
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+}
+html body .promo-section .promo-item:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.7);
+}
+html body .promo-section .promo-item .promo-item-content {
+  position: relative;
+  top: 50%;
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  width: 50%;
+  z-index: 2;
+  border-left: solid 7px #fe6466;
+  padding-left: 32px;
+}
+html body .promo-section .promo-item .promo-item-content em {
+  position: relative;
+  top: -3px;
+  display: block;
+  font-size: 20px;
+  font-weight: 600;
+  font-style: normal;
+  line-height: 1;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin-bottom: 25px;
+}
+html body .promo-section .promo-item .promo-item-content h3 {
+  font-size: 66px;
+  line-height: 1;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0 0 15px;
+  color: #ffffff;
+}
+html body .promo-section .promo-item .promo-item-content .promo-item-content-description {
+  position: relative;
+  bottom: -4px;
+  color: #f1f1f1;
+}
+html body .promo-section .slick-prev,
+html body .promo-section .slick-next {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  background: #fe6466;
+  color: #ffffff;
+  text-align: center;
+}
+html body .promo-section .slick-prev:hover,
+html body .promo-section .slick-next:hover {
+  background: #cc4b4b;
+  color: #ffffff;
+}
+html body .promo-section .slick-prev {
+  right: 63px;
+}
+html body .promo-section .slick-slide {
+  outline: none;
+}
+html body .promo-section .slick-arrow {
+  -moz-transition: all 0.3s ease-in-out 0s;
+  -o-transition: all 0.3s ease-in-out 0s;
+  -webkit-transition: all 0.3s ease-in-out 0s;
+  transition: all 0.3s ease-in-out 0s;
+  cursor: pointer;
+  z-index: 2;
+}
+@media (max-width: 991px) {
+  html body .promo-section .promo-item .promo-item-content {
+    width: 80%;
+  }
+  html body .promo-section .promo-item .promo-item-content em {
+    margin-bottom: 15px;
+  }
+  html body .promo-section .promo-item .promo-item-content h3 {
+    font-size: 46px;
+  }
+}
+@media (max-width: 767px) {
+  html body .promo-section .promo-item .promo-item-content em {
+    font-size: 14px;
+  }
+  html body .promo-section .promo-item .promo-item-content h3 {
+    font-size: 30px;
+  }
+  html body .promo-section .slick-prev,
+  html body .promo-section .slick-next {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+  }
+  html body .promo-section .slick-prev {
+    right: 53px;
+  }
+}
+@media (max-width: 599px) {
+  html body .promo-section .slick-prev,
+  html body .promo-section .slick-next {
+    top: 20%;
+    left: 0;
+    right: auto;
+  }
+  html body .promo-section .slick-next {
+    left: 53px;
+  }
+}
+/*# sourceMappingURL=slider.css.map */

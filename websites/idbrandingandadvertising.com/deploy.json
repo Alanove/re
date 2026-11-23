@@ -5,5 +5,7 @@
   "nodeBin": null,
   "aapanelProject": "idbranding",
   "restartCommand": null,
-  "protect": []
+  "protect": [
+    "data-backups"
+  ]
 }

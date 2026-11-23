@@ -1,0 +1,40 @@
+<div class="d4l-age" id="d4l-age" hidden>
+    <div class="d4l-age-card" role="dialog" aria-modal="true" aria-labelledby="d4l-age-title">
+        <div class="d4l-age-ok">
+            <h2 id="d4l-age-title">AGE VERIFICATION</h2>
+            <p>This website contains information on tobacco and alcoholic products which are intended for adults. You must be at least 18 years old to enter. By entering, you verify that you meet the legal age requirements for purchasing tobacco and alcoholic products in your location.</p>
+        </div>
+        <div class="d4l-age-no">
+            <h2>Access forbidden</h2>
+            <p>Your access is restricted because of your age.</p>
+        </div>
+        <div class="d4l-age-actions">
+            <button type="button" id="d4l-age-allow">I am 18 or Older</button>
+            <button type="button" id="d4l-age-deny">I am Under 18</button>
+        </div>
+    </div>
+</div>
+<script>
+(function () {
+    var gate = document.getElementById('d4l-age');
+    if (!gate) return;
+    var match = document.cookie.match(/(?:^|; )d4l_age=([^;]*)/);
+    if (match && decodeURIComponent(match[1]) === 'confirmed') return;
+    gate.hidden = false;
+    document.body.classList.add('d4l-age-open');
+    function allow() {
+        var maxAge = 60 * 60 * 24 * 30;
+        document.cookie = 'd4l_age=confirmed; path=/; max-age=' + maxAge + '; samesite=lax';
+        gate.hidden = true;
+        document.body.classList.remove('d4l-age-open');
+    }
+    function deny() {
+        gate.classList.add('forbidden');
+    }
+    document.getElementById('d4l-age-allow').addEventListener('click', allow);
+    document.getElementById('d4l-age-deny').addEventListener('click', deny);
+    document.addEventListener('keydown', function (event) {
+        if (!gate.hidden && event.key === 'Escape') event.preventDefault();
+    });
+})();
+</script>

@@ -1,3 +1,4 @@
+import { writeJsonFileSync } from '../../src/vendor/json-backup/writeJsonFileSync';
 import * as fs from 'fs';
 import * as path from 'path';
 import { DATA_PATHS } from '../../src/constants';
@@ -86,7 +87,7 @@ export class SiteSettingsService {
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
       }
-      fs.writeFileSync(this.settingsPath, JSON.stringify(this.settings, null, 2));
+      writeJsonFileSync(this.settingsPath, JSON.stringify(this.settings, null, 2));
       
       // Update last modified time
       if (fs.existsSync(this.settingsPath)) {

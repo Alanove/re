@@ -1,0 +1,74 @@
+<!-- Generic Confirmation Modal -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalLabel">Confirm Action</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="confirmationModalBody">
+                Are you sure you want to proceed?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmationModalConfirmBtn">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Helper to genericize the modal usage
+    // window.showConfirmationModal = function(title, message, onConfirm) { ... } 
+    // But since this is a partial, let's keep it simple and manageable.
+    // We can attach a method to window for easy calling.
+    
+    window.showConfirmationModal = function(message, confirmCallback, options) {
+        options = options || {};
+        const title = options.title || 'Confirm Action';
+        const confirmText = options.confirmText || 'Confirm';
+        const cancelText = options.cancelText || 'Cancel';
+        const showCancel = options.showCancel !== undefined ? options.showCancel : true;
+        const confirmClass = options.confirmClass || 'btn-danger';
+
+        $('#confirmationModalBody').text(message);
+        $('#confirmationModalLabel').text(title);
+
+        const cancelBtn = $('#confirmationModal .btn-secondary');
+        if (showCancel) {
+            cancelBtn.show().text(cancelText);
+        } else {
+            cancelBtn.hide();
+        }
+
+        const confirmBtn = document.getElementById('confirmationModalConfirmBtn');
+        
+        // Remove previous event listeners to avoid stacking
+        const newBtn = confirmBtn.cloneNode(true);
+        confirmBtn.parentNode.replaceChild(newBtn, confirmBtn);
+        
+        // Update class and text
+        newBtn.className = 'btn ' + confirmClass;
+        newBtn.innerText = confirmText;
+        
+        newBtn.addEventListener('click', function() {
+            if (typeof confirmCallback === 'function') {
+                confirmCallback();
+            }
+            $('#confirmationModal').modal('hide');
+        });
+        
+        $('#confirmationModal').modal('show');
+    };
+
+    window.showAlert = function(message, title) {
+        showConfirmationModal(message, null, {
+            title: title || 'Notice',
+            showCancel: false,
+            confirmText: 'OK',
+            confirmClass: 'btn-primary'
+        });
+    };
+</script>

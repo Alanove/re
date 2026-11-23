@@ -1,0 +1,79 @@
+<!-- Orders Page -->
+
+<!-- Breadcrumb Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark" href="/">Home</a>
+                <a class="breadcrumb-item text-dark" href="/customer/account">Account</a>
+                <span class="breadcrumb-item active"><%= typeof t !== 'undefined' ? t('ecommerce.customer.orders') : 'My Orders' %></span>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Orders Start -->
+<div class="container-fluid pb-5">
+    <div class="row px-xl-5">
+        <!-- Account Sidebar -->
+        <div class="col-lg-3 mb-5">
+            <%- include('../partials/account-sidebar') %>
+        </div>
+
+        <!-- Orders Content -->
+        <div class="col-lg-9">
+            <div class="bg-light">
+                <h4 class="mb-4"><%= typeof t !== 'undefined' ? t('ecommerce.customer.orderHistory') : 'Order History' %></h4>
+                
+                <% if (orders && orders.length > 0) { %>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Order #</th>
+                                    <th>Date</th>
+                                    <th>Items</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% orders.forEach(function(order) { %>
+                                    <tr>
+                                        <td>#<%= order.order_number %></td>
+                                        <td><%= new Date(order.created_at).toLocaleDateString() %></td>
+                                        <td><%= order.item_count || 0 %> items</td>
+                                        <td><%- include('../partials/price', { price: order.total_amount }) %></td>
+                                        <td>
+                                            <span class="badge badge-info"><%= order.status %></span>
+                                        </td>
+                                        <td>
+                                            <a href="/customer/orders/<%= order.order_number %>" class="btn btn-sm btn-primary">
+                                                <%= typeof t !== 'undefined' ? t('common.view') : 'View' %>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                <% } else { %>
+                    <div class="text-center py-5">
+                        <i class="fa fa-shopping-bag fa-3x text-muted mb-3"></i>
+                        <p class="text-muted"><%= typeof t !== 'undefined' ? t('ecommerce.customer.noOrders') : 'No orders yet' %></p>
+                        <a href="/shop" class="btn btn-primary">
+                            <%= typeof t !== 'undefined' ? t('ecommerce.productCatalog') : 'Start Shopping' %>
+                        </a>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Orders End -->
+
+
+

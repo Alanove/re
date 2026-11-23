@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Operators</name>
+    </assembly>
+    <members>
+        <member name="P:lw.Operators.Controls.OperatorsDataSource.NetworkBound">
+            <summary>
+            Makes the list network bound returns only the items that are related to the current member's network
+            </summary>
+        </member>
+        <member name="T:lw.Operators.cte">
+            <summary>
+            Class containing all the constants that are using in the <see cref="N:lw.Operators"/> library
+            </summary>
+        </member>
+        <member name="T:lw.Operators.OperatorsData">
+            <summary>
+            Summary description for OperatorsData.
+            </summary>
+        </member>
+        <member name="F:lw.Operators.OperatorsData.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:lw.Operators.OperatorsData.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:lw.Operators.OperatorsData.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:lw.Operators.OperatorsDataSet">
+             <summary>
+            Represents a strongly typed in-memory cache of data.
+            </summary>
+        </member>
+        <member name="T:lw.Operators.OperatorsDataSet.OperatorGroupsDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:lw.Operators.OperatorsDataSet.OperatorGroupsRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:lw.Operators.OperatorsDataSet.OperatorGroupsRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:lw.Operators.OperatorsManager">
+            <summary>
+            Summary description for OperatorsManager.
+            </summary>
+        </member>
+        <member name="T:lw.Operators.Security.Manager">
+            <summary>
+            Summary description for Manager.
+            </summary>
+        </member>
+    </members>
+</doc>

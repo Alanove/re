@@ -1,0 +1,158 @@
+<%- include('../partials/header') %>
+
+<!-- BEGIN content area -->
+<div class="row">
+	<div class="col-xl-12">
+		<!-- BEGIN panel -->
+		<div class="panel panel-inverse">
+			<div class="panel-heading">
+				<h4 class="panel-title"><%= typeof t !== 'undefined' ? t('ecommerce.variantTypes.create') : 'Create Variant Type' %></h4>
+				<div class="panel-heading-btn">
+					<a href="/admin/variant-types" class="btn btn-xs btn-secondary">
+						<i class="fa fa-arrow-left"></i> <%= typeof t !== 'undefined' ? t('common.back') : 'Back' %>
+					</a>
+				</div>
+			</div>
+			<div class="panel-body">
+				<% if (typeof error !== 'undefined' && error) { %>
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<strong>Error!</strong> <%= error %>
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>
+				<% } %>
+
+				<form method="POST" action="/admin/variant-types/create" id="variantTypeForm">
+					<input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+					<div class="row">
+						<div class="col-md-8">
+							<!-- Basic Information -->
+							<div class="card mb-3">
+								<div class="card-header">
+									<h5 class="mb-0">Basic Information</h5>
+								</div>
+								<div class="card-body">
+									<div class="mb-3">
+										<label for="name" class="form-label">Name <span class="text-danger">*</span></label>
+										<input type="text" class="form-control" id="name" name="name" required 
+										       placeholder="e.g., Size, Color, Material" />
+										<small class="form-text text-muted">The name of this variant type (e.g., Size, Color)</small>
+									</div>
+
+									<div class="mb-3">
+										<label for="slug" class="form-label">Slug</label>
+										<input type="text" class="form-control" id="slug" name="slug" 
+										       placeholder="size" />
+										<small class="form-text text-muted">URL-friendly version (auto-generated if left empty)</small>
+									</div>
+
+									<div class="mb-3">
+										<label for="description" class="form-label">Description</label>
+										<textarea class="form-control" id="description" name="description" rows="2" 
+										          placeholder="Optional description"></textarea>
+									</div>
+
+									<div class="mb-3">
+										<div class="form-check form-switch">
+											<input class="form-check-input" type="checkbox" id="has_image" name="has_image" />
+											<label class="form-check-label" for="has_image">
+												<%= typeof t !== 'undefined' ? t('ecommerce.variantTypes.hasImage') : 'Variants of this type can have images' %>
+											</label>
+										</div>
+										<small class="form-text text-muted">Enable this for variant types like Color where each variant needs an image</small>
+									</div>
+
+									<div class="mb-3">
+										<label for="display_order" class="form-label">Display Order</label>
+										<input type="number" class="form-control" id="display_order" name="display_order" 
+										       value="0" min="0" />
+										<small class="form-text text-muted">Lower numbers appear first</small>
+									</div>
+								</div>
+							</div>
+
+							<!-- Values -->
+							<div class="card mb-3">
+								<div class="card-header">
+									<h5 class="mb-0">Possible Values</h5>
+								</div>
+								<div class="card-body">
+									<div class="mb-3">
+										<label for="values" class="form-label">Values (comma-separated) <span class="text-danger">*</span></label>
+										<input type="text" class="form-control" id="values" name="values" required 
+										       placeholder="e.g., Small, Medium, Large, XL" />
+										<small class="form-text text-muted">Enter all possible values for this variant type, separated by commas</small>
+									</div>
+									<div class="alert alert-info">
+										<strong>Example:</strong> For "Size", enter: <code>Small, Medium, Large, XL, XXL</code><br>
+										For "Color", enter: <code>Red, Blue, Green, Black, White</code>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-4">
+							<!-- Settings -->
+							<div class="card mb-3">
+								<div class="card-header">
+									<h5 class="mb-0">Settings</h5>
+								</div>
+								<div class="card-body">
+									<div class="mb-3">
+										<div class="form-check form-switch">
+											<input class="form-check-input" type="checkbox" id="is_active" name="is_active" checked />
+											<label class="form-check-label" for="is_active">
+												<%= typeof t !== 'undefined' ? t('common.active') : 'Active' %>
+											</label>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Actions -->
+							<div class="card">
+								<div class="card-body">
+									<button type="submit" class="btn btn-primary w-100 mb-2">
+										<i class="fa fa-save"></i> <%= typeof t !== 'undefined' ? t('common.create') : 'Create Variant Type' %>
+									</button>
+									<a href="/admin/variant-types" class="btn btn-secondary w-100">
+										<i class="fa fa-times"></i> <%= typeof t !== 'undefined' ? t('common.cancel') : 'Cancel' %>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- END panel -->
+	</div>
+</div>
+<!-- END content area -->
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+	const nameInput = document.getElementById('name');
+	const slugInput = document.getElementById('slug');
+
+	// Auto-generate slug from name
+	nameInput.addEventListener('input', function() {
+		if (slugInput.dataset.manual === 'true') {
+			return;
+		}
+		const slug = this.value
+			.toLowerCase()
+			.trim()
+			.replace(/[^\w\s-]/g, '')
+			.replace(/[\s_-]+/g, '-')
+			.replace(/^-+|-+$/g, '');
+		slugInput.value = slug;
+	});
+
+	// Mark slug as manually edited
+	slugInput.addEventListener('input', function() {
+		this.dataset.manual = 'true';
+	});
+});
+</script>
+
+<%- include('../partials/footer') %>

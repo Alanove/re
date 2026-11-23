@@ -1,0 +1,319 @@
+﻿=== Testing Aramex CreateShipment (SOAP - Production Mode) ===
+
+Configuration:
+  Account: 72478367
+  Sandbox Mode: false
+  From: Tabarja, LB
+  To: Beirut, LB
+  Product: OND (DOM)
+  Weight: 2.5 kg
+  Pieces: 3
+
+
+Calling createShipment (SOAP API)...
+
+[Aramex] CreateShipments SOAP API Request (JSON): {
+  "Shipments": [
+    {
+      "Reference1": "ORDER-TEST-JSON-001",
+      "Reference2": "JSON-API-TEST",
+      "Reference3": "2026-02-11T09:27:36.980Z",
+      "Shipper": {
+        "Reference1": "TEST-SENDER-001",
+        "Reference2": "JSON-API-TEST",
+        "AccountNumber": "72478367",
+        "PartyAddress": {
+          "Line1": "Okaibe Highway",
+          "Line2": "",
+          "Line3": "",
+          "City": "Tabarja",
+          "StateOrProvinceCode": "Keserwan",
+          "PostCode": "0000",
+          "CountryCode": "LB",
+          "Longitude": 0,
+          "Latitude": 0,
+          "BuildingNumber": "",
+          "BuildingName": "",
+          "Floor": "",
+          "Apartment": "",
+          "POBox": "",
+          "Description": ""
+        },
+        "Contact": {
+          "Department": "",
+          "PersonName": "Guerra Sports",
+          "Title": "",
+          "CompanyName": "Skyline Group LLC",
+          "PhoneNumber1": "+961 3446411",
+          "PhoneNumber1Ext": "",
+          "PhoneNumber2": "",
+          "PhoneNumber2Ext": "",
+          "FaxNumber": "",
+          "CellPhone": "+961 3446411",
+          "EmailAddress": "info@guerrasports.com",
+          "Type": ""
+        }
+      },
+      "Consignee": {
+        "Reference1": "TEST-RECEIVER-001",
+        "Reference2": "",
+        "AccountNumber": "",
+        "PartyAddress": {
+          "Line1": "123 Test Street",
+          "Line2": "Apartment 4B",
+          "Line3": "",
+          "City": "Beirut",
+          "StateOrProvinceCode": "Beirut",
+          "PostCode": "1100",
+          "CountryCode": "LB",
+          "Longitude": 0,
+          "Latitude": 0,
+          "BuildingNumber": "",
+          "BuildingName": "",
+          "Floor": "",
+          "Apartment": "",
+          "POBox": "",
+          "Description": ""
+        },
+        "Contact": {
+          "Department": "",
+          "PersonName": "John Doe",
+          "Title": "",
+          "CompanyName": "Test Company",
+          "PhoneNumber1": "+9611234567",
+          "PhoneNumber1Ext": "",
+          "PhoneNumber2": "",
+          "PhoneNumber2Ext": "",
+          "FaxNumber": "",
+          "CellPhone": "+9611234567",
+          "EmailAddress": "test@example.com",
+          "Type": ""
+        }
+      },
+      "ThirdParty": {
+        "Reference1": "",
+        "Reference2": "",
+        "AccountNumber": "",
+        "PartyAddress": {
+          "Line1": "",
+          "Line2": "",
+          "Line3": "",
+          "City": "",
+          "StateOrProvinceCode": "",
+          "PostCode": "",
+          "CountryCode": "",
+          "Longitude": 0,
+          "Latitude": 0,
+          "BuildingNumber": "",
+          "BuildingName": "",
+          "Floor": "",
+          "Apartment": "",
+          "POBox": "",
+          "Description": ""
+        },
+        "Contact": {
+          "Department": "",
+          "PersonName": "",
+          "Title": "",
+          "CompanyName": "",
+          "PhoneNumber1": "",
+          "PhoneNumber1Ext": "",
+          "PhoneNumber2": "",
+          "PhoneNumber2Ext": "",
+          "FaxNumber": "",
+          "CellPhone": "",
+          "EmailAddress": "",
+          "Type": ""
+        }
+      },
+      "ShippingDateTime": "2026-02-11T09:27:36.981Z",
+      "DueDate": "2026-02-12T09:27:36.981Z",
+      "Comments": "Test shipment via JSON API",
+      "PickupLocation": "Reception",
+      "OperationsInstructions": "",
+      "AccountingInstrcutions": "",
+      "Details": {
+        "Dimensions": {
+          "Length": 30,
+          "Width": 20,
+          "Height": 15,
+          "Unit": "cm"
+        },
+        "ActualWeight": {
+          "Unit": "Kg",
+          "Value": 2.5
+        },
+        "ChargeableWeight": {
+          "Unit": "Kg",
+          "Value": 2.5
+        },
+        "DescriptionOfGoods": "Test products for JSON API verification",
+        "GoodsOriginCountry": "LB",
+        "NumberOfPieces": 3,
+        "ProductGroup": "DOM",
+        "ProductType": "OND",
+        "PaymentType": "C",
+        "PaymentOptions": "CASH",
+        "Services": "",
+        "Items": [
+          {
+            "PackageType": "Box",
+            "Quantity": 1,
+            "Weight": {
+              "Unit": "Kg",
+              "Value": 1.5
+            },
+            "Comments": "Test Product 1",
+            "Reference": "TEST001"
+          },
+          {
+            "PackageType": "Box",
+            "Quantity": 2,
+            "Weight": {
+              "Unit": "Kg",
+              "Value": 0.5
+            },
+            "Comments": "Test Product 2",
+            "Reference": "TEST002"
+          }
+        ],
+        "ContainsDangerousGoods": false
+      },
+      "ForeignHAWB": "ORDER-TEST-JSON-001",
+      "TransportType": 0,
+      "PickupGUID": "",
+      "Number": "",
+      "ScheduledDelivery": null
+    }
+  ],
+  "ClientInfo": {
+    "UserName": "info@guerrasports.com",
+    "Password": "Aramexguerra25#",
+    "Version": "v1.0",
+    "AccountNumber": "72478367",
+    "AccountPin": "316198",
+    "AccountEntity": "BEY",
+    "AccountCountryCode": "LB"
+  },
+  "Transaction": {
+    "Reference1": "001",
+    "Reference2": "",
+    "Reference3": "",
+    "Reference4": "",
+    "Reference5": ""
+  },
+  "LabelInfo": {
+    "ReportID": 9729,
+    "ReportType": "URL"
+  }
+}
+
+[Aramex] Raw SOAP Request XML:
+ <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:i0="http://ws.aramex.net/ShippingAPI/v1/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:tns="http://ws.aramex.net/ShippingAPI/v1/"><soap:Body><ShipmentCreationRequest xmlns="http://ws.aramex.net/ShippingAPI/v1/"><Shipments><Reference1>ORDER-TEST-JSON-001</Reference1><Reference2>JSON-API-TEST</Reference2><Reference3>2026-02-11T09:27:36.980Z</Reference3><Shipper><Reference1>TEST-SENDER-001</Reference1><Reference2>JSON-API-TEST</Reference2><AccountNumber>72478367</AccountNumber><PartyAddress><Line1>Okaibe Highway</Line1><Line2></Line2><Line3></Line3><City>Tabarja</City><StateOrProvinceCode>Keserwan</StateOrProvinceCode><PostCode>0000</PostCode><CountryCode>LB</CountryCode><Longitude>0</Longitude><Latitude>0</Latitude><BuildingNumber></BuildingNumber><BuildingName></BuildingName><Floor></Floor><Apartment></Apartment><POBox></POBox><Description></Description></PartyAddress><Contact><Department></Department><PersonName>Guerra Sports</PersonName><Title></Title><CompanyName>Skyline Group LLC</CompanyName><PhoneNumber1>+961 3446411</PhoneNumber1><PhoneNumber1Ext></PhoneNumber1Ext><PhoneNumber2></PhoneNumber2><PhoneNumber2Ext></PhoneNumber2Ext><FaxNumber></FaxNumber><CellPhone>+961 3446411</CellPhone><EmailAddress>info@guerrasports.com</EmailAddress><Type></Type></Contact></Shipper><Consignee><Reference1>TEST-RECEIVER-001</Reference1><Reference2></Reference2><AccountNumber></AccountNumber><PartyAddress><Line1>123 Test Street</Line1><Line2>Apartment 4B</Line2><Line3></Line3><City>Beirut</City><StateOrProvinceCode>Beirut</StateOrProvinceCode><PostCode>1100</PostCode><CountryCode>LB</CountryCode><Longitude>0</Longitude><Latitude>0</Latitude><BuildingNumber></BuildingNumber><BuildingName></BuildingName><Floor></Floor><Apartment></Apartment><POBox></POBox><Description></Description></PartyAddress><Contact><Department></Department><PersonName>John Doe</PersonName><Title></Title><CompanyName>Test Company</CompanyName><PhoneNumber1>+9611234567</PhoneNumber1><PhoneNumber1Ext></PhoneNumber1Ext><PhoneNumber2></PhoneNumber2><PhoneNumber2Ext></PhoneNumber2Ext><FaxNumber></FaxNumber><CellPhone>+9611234567</CellPhone><EmailAddress>test@example.com</EmailAddress><Type></Type></Contact></Consignee><ThirdParty><Reference1></Reference1><Reference2></Reference2><AccountNumber></AccountNumber><PartyAddress><Line1></Line1><Line2></Line2><Line3></Line3><City></City><StateOrProvinceCode></StateOrProvinceCode><PostCode></PostCode><CountryCode></CountryCode><Longitude>0</Longitude><Latitude>0</Latitude><BuildingNumber></BuildingNumber><BuildingName></BuildingName><Floor></Floor><Apartment></Apartment><POBox></POBox><Description></Description></PartyAddress><Contact><Department></Department><PersonName></PersonName><Title></Title><CompanyName></CompanyName><PhoneNumber1></PhoneNumber1><PhoneNumber1Ext></PhoneNumber1Ext><PhoneNumber2></PhoneNumber2><PhoneNumber2Ext></PhoneNumber2Ext><FaxNumber></FaxNumber><CellPhone></CellPhone><EmailAddress></EmailAddress><Type></Type></Contact></ThirdParty><ShippingDateTime>2026-02-11T09:27:36.981Z</ShippingDateTime><DueDate>2026-02-12T09:27:36.981Z</DueDate><Comments>Test shipment via JSON API</Comments><PickupLocation>Reception</PickupLocation><OperationsInstructions></OperationsInstructions><AccountingInstrcutions></AccountingInstrcutions><Details><Dimensions><Length>30</Length><Width>20</Width><Height>15</Height><Unit>cm</Unit></Dimensions><ActualWeight><Unit>Kg</Unit><Value>2.5</Value></ActualWeight><ChargeableWeight><Unit>Kg</Unit><Value>2.5</Value></ChargeableWeight><DescriptionOfGoods>Test products for JSON API verification</DescriptionOfGoods><GoodsOriginCountry>LB</GoodsOriginCountry><NumberOfPieces>3</NumberOfPieces><ProductGroup>DOM</ProductGroup><ProductType>OND</ProductType><PaymentType>C</PaymentType><PaymentOptions>CASH</PaymentOptions><Services></Services><Items><PackageType>Box</PackageType><Quantity>1</Quantity><Weight><Unit>Kg</Unit><Value>1.5</Value></Weight><Comments>Test Product 1</Comments><Reference>TEST001</Reference></Items><Items><PackageType>Box</PackageType><Quantity>2</Quantity><Weight><Unit>Kg</Unit><Value>0.5</Value></Weight><Comments>Test Product 2</Comments><Reference>TEST002</Reference></Items><ContainsDangerousGoods>false</ContainsDangerousGoods></Details><ForeignHAWB>ORDER-TEST-JSON-001</ForeignHAWB><TransportType>0</TransportType><PickupGUID></PickupGUID><Number></Number><ScheduledDelivery xsi:nil="true"></ScheduledDelivery></Shipments><q3:ClientInfo xmlns:q3="http://ws.aramex.net/ShippingAPI/v1/"><q3:UserName>info@guerrasports.com</q3:UserName><q3:Password>Aramexguerra25#</q3:Password><q3:Version>v1.0</q3:Version><q3:AccountNumber>72478367</q3:AccountNumber><q3:AccountPin>316198</q3:AccountPin><q3:AccountEntity>BEY</q3:AccountEntity><q3:AccountCountryCode>LB</q3:AccountCountryCode></q3:ClientInfo><q3:Transaction xmlns:q3="http://ws.aramex.net/ShippingAPI/v1/"><q3:Reference1>001</q3:Reference1><q3:Reference2></q3:Reference2><q3:Reference3></q3:Reference3><q3:Reference4></q3:Reference4><q3:Reference5></q3:Reference5></q3:Transaction><q3:LabelInfo xmlns:q3="http://ws.aramex.net/ShippingAPI/v1/"><q3:ReportID>9729</q3:ReportID><q3:ReportType>URL</q3:ReportType></q3:LabelInfo></ShipmentCreationRequest></soap:Body></soap:Envelope>
+
+[Aramex] Raw SOAP Response XML:
+ <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"><s:Body><s:Fault><faultcode xmlns:a="http://schemas.microsoft.com/net/2005/12/windowscommunicationfoundation/dispatcher">a:InternalServiceFault</faultcode><faultstring xml:lang="en-US">Object reference not set to an instance of an object.</faultstring><detail><ExceptionDetail xmlns="http://schemas.datacontract.org/2004/07/System.ServiceModel" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><HelpLink i:nil="true"/><InnerException i:nil="true"/><Message>Object reference not set to an instance of an object.</Message><StackTrace>   at Corp.Core.BaseProcess.ExecuteWithNoCache(ExceptionHandlingOption ExceptionHandlingOption, Boolean Async)&#xD;
+   at Corp.ShippingAPI.FrontEnd.Shipping.Service_1_0.CreateShipments(ShipmentCreationRequest Request) in F:\Work\Corp.ShippingAPI\Corp.ShippingAPI\Corp.ShippingAPI.FrontEnd.Shipping\Service_1_0.svc.vb:line 29&#xD;
+   at SyncInvokeCreateShipments(Object , Object[] , Object[] )&#xD;
+   at System.ServiceModel.Dispatcher.SyncMethodInvoker.Invoke(Object instance, Object[] inputs, Object[]&amp; outputs)&#xD;
+   at System.ServiceModel.Dispatcher.DispatchOperationRuntime.InvokeBegin(MessageRpc&amp; rpc)&#xD;
+   at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage5(MessageRpc&amp; rpc)&#xD;
+   at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage11(MessageRpc&amp; rpc)&#xD;
+   at System.ServiceModel.Dispatcher.MessageRpc.Process(Boolean isOperationContextSet)</StackTrace><Type>System.NullReferenceException</Type></ExceptionDetail></detail></s:Fault></s:Body></s:Envelope>
+node : Error creating shipment: 
+a:InternalServiceFault: Object reference not set to 
+an instance of an object.: 
+{"ExceptionDetail":{"Message":"Object reference not 
+set to an instance of an object.","StackTrace":"at Co
+rp.Core.BaseProcess.ExecuteWithNoCache(ExceptionHandl
+ingOption ExceptionHandlingOption, Boolean 
+Async)\r\n   at Corp.ShippingAPI.FrontEnd.Shipping.Se
+rvice_1_0.CreateShipments(ShipmentCreationRequest 
+Request) in F:\\Work\\Corp.ShippingAPI\\Corp.Shipping
+API\\Corp.ShippingAPI.FrontEnd.Shipping\\Service_1_0.
+svc.vb:line 29\r\n   at 
+SyncInvokeCreateShipments(Object , Object[] , 
+Object[] )\r\n   at System.ServiceModel.Dispatcher.Sy
+ncMethodInvoker.Invoke(Object instance, Object[] 
+inputs, Object[]& outputs)\r\n   at System.ServiceMod
+el.Dispatcher.DispatchOperationRuntime.InvokeBegin(Me
+ssageRpc& rpc)\r\n   at System.ServiceModel.Dispatche
+r.ImmutableDispatchRuntime.ProcessMessage5(MessageRpc
+& rpc)\r\n   at System.ServiceModel.Dispatcher.Immuta
+bleDispatchRuntime.ProcessMessage11(MessageRpc& 
+rpc)\r\n   at System.ServiceModel.Dispatcher.MessageR
+pc.Process(Boolean isOperationContextSet)","Type":"Sy
+stem.NullReferenceException"}}
+At line:1 char:1
++ node test-create-shipment.js > debug_output.txt 
+2>&1
++ 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Error c 
+   reating ...nceException"}}:String) [], RemoteExc  
+  eption
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Could not save debug XML files: client is not defined
+
+Γ£ù Test FAILED: a:InternalServiceFault: Object 
+reference not set to an instance of an object.: 
+{"ExceptionDetail":{"Message":"Object reference not 
+set to an instance of an object.","StackTrace":"at Co
+rp.Core.BaseProcess.ExecuteWithNoCache(ExceptionHandl
+ingOption ExceptionHandlingOption, Boolean 
+Async)\r\n   at Corp.ShippingAPI.FrontEnd.Shipping.Se
+rvice_1_0.CreateShipments(ShipmentCreationRequest 
+Request) in F:\\Work\\Corp.ShippingAPI\\Corp.Shipping
+API\\Corp.ShippingAPI.FrontEnd.Shipping\\Service_1_0.
+svc.vb:line 29\r\n   at 
+SyncInvokeCreateShipments(Object , Object[] , 
+Object[] )\r\n   at System.ServiceModel.Dispatcher.Sy
+ncMethodInvoker.Invoke(Object instance, Object[] 
+inputs, Object[]& outputs)\r\n   at System.ServiceMod
+el.Dispatcher.DispatchOperationRuntime.InvokeBegin(Me
+ssageRpc& rpc)\r\n   at System.ServiceModel.Dispatche
+r.ImmutableDispatchRuntime.ProcessMessage5(MessageRpc
+& rpc)\r\n   at System.ServiceModel.Dispatcher.Immuta
+bleDispatchRuntime.ProcessMessage11(MessageRpc& 
+rpc)\r\n   at System.ServiceModel.Dispatcher.MessageR
+pc.Process(Boolean isOperationContextSet)","Type":"Sy
+stem.NullReferenceException"}}
+
+Stack trace: Error: a:InternalServiceFault: Object 
+reference not set to an instance of an object.: 
+{"ExceptionDetail":{"Message":"Object reference not 
+set to an instance of an object.","StackTrace":"at Co
+rp.Core.BaseProcess.ExecuteWithNoCache(ExceptionHandl
+ingOption ExceptionHandlingOption, Boolean 
+Async)\r\n   at Corp.ShippingAPI.FrontEnd.Shipping.Se
+rvice_1_0.CreateShipments(ShipmentCreationRequest 
+Request) in F:\\Work\\Corp.ShippingAPI\\Corp.Shipping
+API\\Corp.ShippingAPI.FrontEnd.Shipping\\Service_1_0.
+svc.vb:line 29\r\n   at 
+SyncInvokeCreateShipments(Object , Object[] , 
+Object[] )\r\n   at System.ServiceModel.Dispatcher.Sy
+ncMethodInvoker.Invoke(Object instance, Object[] 
+inputs, Object[]& outputs)\r\n   at System.ServiceMod
+el.Dispatcher.DispatchOperationRuntime.InvokeBegin(Me
+ssageRpc& rpc)\r\n   at System.ServiceModel.Dispatche
+r.ImmutableDispatchRuntime.ProcessMessage5(MessageRpc
+& rpc)\r\n   at System.ServiceModel.Dispatcher.Immuta
+bleDispatchRuntime.ProcessMessage11(MessageRpc& 
+rpc)\r\n   at System.ServiceModel.Dispatcher.MessageR
+pc.Process(Boolean isOperationContextSet)","Type":"Sy
+stem.NullReferenceException"}}
+    at finish (C:\temp\guerrasports\node_modules\soap
+\lib\wsdl\index.js:527:35)
+    at WSDL.xmlToObject (C:\temp\guerrasports\node_mo
+dules\soap\lib\wsdl\index.js:503:16)
+    at parseSync (C:\temp\guerrasports\node_modules\s
+oap\lib\client.js:315:33)
+    at C:\temp\guerrasports\node_modules\soap\lib\cli
+ent.js:540:24
+    at handleBody (C:\temp\guerrasports\node_modules\
+soap\lib\http.js:217:17)
+    at C:\temp\guerrasports\node_modules\soap\lib\htt
+p.js:249:24
+    at process.processTicksAndRejections 
+(node:internal/process/task_queues:95:5)

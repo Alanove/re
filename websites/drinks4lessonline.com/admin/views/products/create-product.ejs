@@ -1,0 +1,496 @@
+<%- include('../partials/header') %>
+
+	<!-- BEGIN content area -->
+	<div class="row">
+		<div class="col-xl-12">
+			<!-- BEGIN panel -->
+			<div class="panel panel-inverse">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<%= typeof t !=='undefined' ? t('ecommerce.products.createProduct') : 'Create Product' %>
+					</h4>
+					<div class="panel-heading-btn">
+						<a href="/admin/products" class="btn btn-xs btn-secondary">
+							<i class="fa fa-arrow-left"></i>
+							<%= typeof t !=='undefined' ? t('common.back') : 'Back' %>
+						</a>
+					</div>
+				</div>
+				<div class="panel-body">
+					<% if (typeof error !=='undefined' && error) { %>
+						<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							<strong>Error!</strong>
+							<%= error %>
+								<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+						</div>
+						<% } %>
+
+							<form method="POST" action="/admin/products/create" id="productForm"
+								enctype="multipart/form-data">
+								<input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+								<div class="row">
+									<div class="col-md-8">
+										<%- include('product-form-fields', { product: {} }) %>
+									</div>
+
+									<div class="col-md-4">
+										<!-- Main Image -->
+										<div class="card mb-3">
+											<div class="card-header">
+												<h5 class="mb-0">Main Image</h5>
+											</div>
+											<div class="card-body">
+												<div class="mb-3">
+													<label for="productImage" class="form-label">Product Image</label>
+													<input type="file" class="form-control" id="productImage"
+														name="image" accept="image/*" onchange="previewImage(this)" />
+													<small class="form-text text-muted">Upload the main product
+														image</small>
+												</div>
+												<div id="imagePreview" class="mb-3" style="display: none;">
+													<label class="form-label">Preview</label>
+													<div class="text-center">
+														<img id="previewImg" src="" alt="Preview"
+															class="img-fluid rounded"
+															style="max-width: 100%; max-height: 200px;" />
+														<button type="button" class="btn btn-sm btn-danger mt-2"
+															onclick="clearImagePreview()">
+															<i class="fa fa-times"></i> Remove
+														</button>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<%- include('product-settings-card', { product: {} }) %>
+
+
+									</div>
+								</div>
+
+
+
+								<!-- Sticky Actions Footer -->
+								<div
+									class="sticky-actions-footer bg-white border-top py-3 px-4 d-flex justify-content-end align-items-center">
+									<a href="/admin/products" class="btn btn-secondary me-2">
+										<i class="fa fa-times"></i>
+										<%= typeof t !=='undefined' ? t('common.cancel') : 'Cancel' %>
+									</a>
+									<button type="submit" class="btn btn-primary">
+										<i class="fa fa-save"></i>
+										<%= typeof t !=='undefined' ? t('common.create') : 'Create Product' %>
+									</button>
+								</div>
+							</form>
+							<!-- Spacer for sticky footer -->
+							<div style="height: 80px;"></div>
+				</div>
+			</div>
+			<!-- END panel -->
+		</div>
+	</div>
+	<!-- END content area -->
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			const nameInput = document.getElementById('name');
+			const slugInput = document.getElementById('slug');
+
+			// Auto-generate slug from name until the user edits the slug field
+			nameInput.addEventListener('input', function () {
+				if (slugInput.dataset.manual === 'true') {
+					return;
+				}
+				const slug = this.value
+					.toLowerCase()
+					.trim()
+					.replace(/[^\w\s-]/g, '')
+					.replace(/[\s_-]+/g, '-')
+					.replace(/^-+|-+$/g, '');
+				slugInput.value = slug;
+			});
+
+			// Mark slug as manually edited
+			slugInput.addEventListener('input', function () {
+				this.dataset.manual = 'true';
+			});
+		});
+
+		function previewImage(input) {
+			if (input.files && input.files[0]) {
+				const reader = new FileReader();
+				reader.onload = function (e) {
+					document.getElementById('previewImg').src = e.target.result;
+					document.getElementById('imagePreview').style.display = 'block';
+				};
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+
+		function clearImagePreview() {
+			document.getElementById('productImage').value = '';
+			document.getElementById('previewImg').src = '';
+			document.getElementById('imagePreview').style.display = 'none';
+		}
+
+		// Variant Management Functions
+		let variantCounter = 0;
+		let newVariants = [];
+		const variantTypes = <%- JSON.stringify(variantTypes || []) %>;
+
+		// Handle variant type checkbox changes
+		document.addEventListener('DOMContentLoaded', function () {
+			document.querySelectorAll('.variant-type-checkbox').forEach(checkbox => {
+				checkbox.addEventListener('change', function () {
+					const variantTypeId = this.getAttribute('data-variant-type-id');
+					const valuesContainer = this.closest('.variant-type-selection').querySelector('.variant-values-selection');
+					if (this.checked) {
+						valuesContainer.style.display = 'block';
+					} else {
+						valuesContainer.style.display = 'none';
+						// Uncheck all value checkboxes
+						valuesContainer.querySelectorAll('.variant-value-checkbox').forEach(cb => cb.checked = false);
+					}
+				});
+			});
+		});
+
+		function generateVariantsFromSelection() {
+			const selectedTypes = [];
+
+			document.querySelectorAll('.variant-type-checkbox:checked').forEach(checkbox => {
+				const variantTypeId = parseInt(checkbox.getAttribute('data-variant-type-id'));
+				const hasImage = checkbox.getAttribute('data-has-image') === 'true';
+				const variantType = variantTypes.find(vt => vt.id === variantTypeId);
+
+				if (!variantType) return;
+
+				const selectedValues = [];
+				const valuesContainer = checkbox.closest('.variant-type-selection').querySelector('.variant-values-selection');
+				valuesContainer.querySelectorAll('.variant-value-checkbox:checked').forEach(valueCheckbox => {
+					selectedValues.push(valueCheckbox.value);
+				});
+
+				if (selectedValues.length > 0) {
+					selectedTypes.push({
+						name: variantType.name,
+						values: selectedValues,
+						has_image: hasImage
+					});
+				}
+			});
+
+			if (selectedTypes.length === 0) {
+				alert('Please select at least one variant type and at least one value for each type');
+				return;
+			}
+
+			// Generate all combinations
+			const combinations = generateCombinations(selectedTypes);
+			const container = document.getElementById('variants-container');
+
+			// Clear existing empty message
+			if (container.querySelector('.text-muted')) {
+				container.innerHTML = '';
+			}
+
+			combinations.forEach((combo, index) => {
+				const variantIndex = variantCounter;
+				const variantName = Object.values(combo).join(' / ');
+				const attributesHtml = Object.entries(combo).map(([key, value]) =>
+					`<div class="input-group mb-2 attribute-row">
+				<input type="text" class="form-control attr-key" value="${key}" readonly />
+				<input type="text" class="form-control attr-value" value="${value}" readonly />
+			</div>`
+				).join('');
+
+				// Check if any selected type has images
+				const variantHasImage = selectedTypes.some(st => st.has_image && Object.keys(combo).includes(st.name));
+
+				const imageUploadHtml = variantHasImage ? `
+			<div class="mb-3">
+				<label class="form-label">Variant Image</label>
+				<input type="file" class="form-control variant-image" accept="image/*" data-variant-index="${variantIndex}" />
+				<small class="form-text text-muted">Upload an image for this variant (recommended for color variations)</small>
+				<div class="mt-2 variant-image-preview" id="preview-${variantIndex}" style="display: none;">
+					<img src="" alt="Preview" style="max-width: 150px; max-height: 150px;" class="img-thumbnail" />
+				</div>
+			</div>
+		` : '';
+
+				const variantHtml = `
+			<div class="variant-item card mb-3" data-variant-index="${variantIndex}" data-has-image="${variantHasImage}">
+				<div class="card-body">
+					<div class="d-flex justify-content-between align-items-center mb-3">
+						<h6 class="mb-0">Variant: ${variantName}</h6>
+						<button type="button" class="btn btn-sm btn-danger" onclick="removeVariant(${variantIndex})">
+							<i class="fa fa-trash"></i> Delete
+						</button>
+					</div>
+					<div class="row">
+						<div class="col-md-6 mb-3">
+							<label class="form-label">Variant Name <span class="text-danger">*</span></label>
+							<input type="text" class="form-control variant-name" value="${variantName}" required />
+						</div>
+						<div class="col-md-6 mb-3">
+							<label class="form-label">SKU</label>
+							<input type="text" class="form-control variant-sku" placeholder="Variant SKU" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4 mb-3">
+							<label class="form-label">Price</label>
+							<input type="number" class="form-control variant-price" step="0.01" placeholder="0.00" />
+						</div>
+						<div class="col-md-4 mb-3">
+							<label class="form-label">Stock Quantity</label>
+							<input type="number" class="form-control variant-stock" value="0" min="0" />
+						</div>
+						<div class="col-md-4 mb-3">
+							<label class="form-label">Weight (kg)</label>
+							<input type="number" class="form-control variant-weight" step="0.01" placeholder="0.00" />
+						</div>
+					</div>
+					${imageUploadHtml}
+					<div class="mb-3">
+						<label class="form-label">Attributes</label>
+						<div id="attributes-${variantIndex}">
+							${attributesHtml}
+						</div>
+					</div>
+				</div>
+			</div>
+		`;
+				container.insertAdjacentHTML('beforeend', variantHtml);
+				variantCounter++;
+			});
+		}
+
+		function generateCombinations(selectedTypes) {
+			if (selectedTypes.length === 0) return [];
+			if (selectedTypes.length === 1) {
+				return selectedTypes[0].values.map(value => ({ [selectedTypes[0].name]: value }));
+			}
+
+			const [first, ...rest] = selectedTypes;
+			const restCombinations = generateCombinations(rest);
+			const combinations = [];
+
+			first.values.forEach(value => {
+				restCombinations.forEach(restCombo => {
+					combinations.push({ [first.name]: value, ...restCombo });
+				});
+			});
+
+			return combinations;
+		}
+
+		function addVariant() {
+			const container = document.getElementById('variants-container');
+			if (container.querySelector('.text-muted')) {
+				container.innerHTML = '';
+			}
+
+			const variantIndex = variantCounter;
+			const variantHtml = `
+		<div class="variant-item card mb-3" data-variant-index="${variantIndex}">
+			<div class="card-body">
+				<div class="d-flex justify-content-between align-items-center mb-3">
+					<h6 class="mb-0">New Variant</h6>
+					<button type="button" class="btn btn-sm btn-danger" onclick="removeVariant(${variantIndex})">
+						<i class="fa fa-trash"></i> Delete
+					</button>
+				</div>
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<label class="form-label">Variant Name <span class="text-danger">*</span></label>
+						<input type="text" class="form-control variant-name" required placeholder="e.g., Large / Red" />
+					</div>
+					<div class="col-md-6 mb-3">
+						<label class="form-label">SKU</label>
+						<input type="text" class="form-control variant-sku" placeholder="Variant SKU" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						<label class="form-label">Price</label>
+						<input type="number" class="form-control variant-price" step="0.01" placeholder="0.00" />
+					</div>
+					<div class="col-md-4 mb-3">
+						<label class="form-label">Stock Quantity</label>
+						<input type="number" class="form-control variant-stock" value="0" min="0" />
+					</div>
+					<div class="col-md-4 mb-3">
+						<label class="form-label">Weight (kg)</label>
+						<input type="number" class="form-control variant-weight" step="0.01" placeholder="0.00" />
+					</div>
+				</div>
+				<div class="mb-3">
+					<label class="form-label">Attributes</label>
+					<div id="attributes-${variantIndex}"></div>
+					<button type="button" class="btn btn-sm btn-secondary" onclick="addAttribute(${variantIndex})">
+						<i class="fa fa-plus"></i> Add Attribute
+					</button>
+				</div>
+			</div>
+		</div>
+	`;
+			container.insertAdjacentHTML('beforeend', variantHtml);
+			variantCounter++;
+		}
+
+		function removeVariant(index) {
+			document.querySelector(`[data-variant-index="${index}"]`).remove();
+			const container = document.getElementById('variants-container');
+			if (container.children.length === 0) {
+				container.innerHTML = '<p class="text-muted">No variants added yet. Click "Add Variant" to create one.</p>';
+			}
+		}
+
+		function addAttribute(variantIndex) {
+			const container = document.getElementById(`attributes-${variantIndex}`);
+			if (!container) {
+				console.error('Container not found for variant:', variantIndex);
+				return;
+			}
+
+			// Get available attribute types from the definition section
+			const attributeTypes = [];
+			document.querySelectorAll('.attribute-type-item').forEach(item => {
+				const name = item.querySelector('.attr-type-name').value.trim();
+				const values = item.querySelector('.attr-type-values').value.split(',').map(v => v.trim()).filter(v => v);
+				if (name && values.length > 0) {
+					attributeTypes.push({ name, values });
+				}
+			});
+
+			let attrKeyInput = '';
+			if (attributeTypes.length > 0) {
+				// Create dropdown for attribute key
+				attrKeyInput = `
+			<select class="form-control attr-key">
+				<option value="">Select Attribute</option>
+				${attributeTypes.map(attr => `<option value="${attr.name}">${attr.name}</option>`).join('')}
+			</select>
+		`;
+			} else {
+				attrKeyInput = `<input type="text" class="form-control attr-key" placeholder="Attribute (e.g., Size)" />`;
+			}
+
+			const attrHtml = `
+		<div class="input-group mb-2 attribute-row">
+			${attrKeyInput}
+			<input type="text" class="form-control attr-value" placeholder="Value (e.g., Large)" list="attr-values-list" />
+			<button type="button" class="btn btn-danger" onclick="removeAttribute(this)">
+				<i class="fa fa-times"></i>
+			</button>
+		</div>
+	`;
+			container.insertAdjacentHTML('beforeend', attrHtml);
+
+			// Add datalist for values if attribute types are defined
+			if (attributeTypes.length > 0 && !document.getElementById('attr-values-list')) {
+				const datalist = document.createElement('datalist');
+				datalist.id = 'attr-values-list';
+				attributeTypes.forEach(attr => {
+					attr.values.forEach(value => {
+						const option = document.createElement('option');
+						option.value = value;
+						datalist.appendChild(option);
+					});
+				});
+				document.body.appendChild(datalist);
+			}
+
+			// Auto-fill values when attribute key is selected
+			const attrKeySelect = container.querySelector('.attribute-row:last-child .attr-key');
+			if (attrKeySelect && attrKeySelect.tagName === 'SELECT') {
+				attrKeySelect.addEventListener('change', function () {
+					const selectedAttr = attributeTypes.find(attr => attr.name === this.value);
+					if (selectedAttr) {
+						const valueInput = this.closest('.attribute-row').querySelector('.attr-value');
+						valueInput.placeholder = `Options: ${selectedAttr.values.join(', ')}`;
+					}
+				});
+			}
+		}
+
+		function removeAttribute(button) {
+			button.closest('.attribute-row').remove();
+		}
+
+		// Handle variant image preview
+		document.addEventListener('change', function (e) {
+			if (e.target.classList.contains('variant-image')) {
+				const file = e.target.files[0];
+				const variantIndex = e.target.getAttribute('data-variant-index');
+				const preview = document.getElementById(`preview-${variantIndex}`);
+
+				if (file && preview) {
+					const reader = new FileReader();
+					reader.onload = function (e) {
+						preview.querySelector('img').src = e.target.result;
+						preview.style.display = 'block';
+					};
+					reader.readAsDataURL(file);
+				}
+			}
+		});
+
+		// Save variants when product is created
+		document.getElementById('productForm').addEventListener('submit', function (e) {
+			const variantItems = document.querySelectorAll('.variant-item');
+			if (variantItems.length > 0) {
+				// Store variants data to be saved after product creation
+				newVariants = [];
+				variantItems.forEach(variantItem => {
+					const name = variantItem.querySelector('.variant-name').value.trim();
+					if (!name) {
+						alert('Please fill in variant name for all variants');
+						e.preventDefault();
+						return;
+					}
+
+					const attributes = {};
+					variantItem.querySelectorAll('.attribute-row').forEach(row => {
+						const keyInput = row.querySelector('.attr-key');
+						const valInput = row.querySelector('.attr-value');
+						const key = keyInput.tagName === 'SELECT' ? keyInput.value : keyInput.value.trim();
+						const val = valInput.value.trim();
+						if (key && val) {
+							attributes[key] = val;
+						}
+					});
+
+					// Check if variant should have image based on attributes
+					let hasImage = false;
+					Object.keys(attributes).forEach(attrKey => {
+						const variantType = variantTypes.find(vt => vt.name === attrKey);
+						if (variantType && variantType.has_image) {
+							hasImage = true;
+						}
+					});
+
+					newVariants.push({
+						name: name,
+						sku: variantItem.querySelector('.variant-sku').value.trim() || null,
+						price: variantItem.querySelector('.variant-price').value ? parseFloat(variantItem.querySelector('.variant-price').value) : null,
+						stock_quantity: parseInt(variantItem.querySelector('.variant-stock').value) || 0,
+						weight: variantItem.querySelector('.variant-weight').value ? parseFloat(variantItem.querySelector('.variant-weight').value) : null,
+						attributes: attributes,
+						has_image: hasImage
+					});
+				});
+
+				// Add hidden input to submit variants data
+				const variantsInput = document.createElement('input');
+				variantsInput.type = 'hidden';
+				variantsInput.name = 'variants';
+				variantsInput.value = JSON.stringify(newVariants);
+				this.appendChild(variantsInput);
+			}
+		});
+	</script>
+
+	<%- include('../partials/footer') %>

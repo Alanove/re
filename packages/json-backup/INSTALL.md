@@ -1,6 +1,6 @@
 # Installing json-backup on a site
 
-Step by step for adding save-time JSON snapshots to a site in `websites/<domain>/`. Paths below are relative to that site folder unless they start with `packages/`. `websites/solutec-lb.com` is the first complete example.
+Step by step for adding save-time JSON snapshots to a site in `websites/<domain>/`. Paths below are relative to that site folder unless they start with `packages/`. `websites/solutec-lb.com` is the older per-service example. `websites/thronetrading.com` is the current CMS example: one call inside `src/repositories/jsonFileStore.ts`.
 
 ## 1. Build the module into the site
 
@@ -21,10 +21,12 @@ It writes `src/vendor/json-backup/writeJsonFileSync.ts`. Commit that file. Never
 
 ## 2. Switch JSON saves
 
-Replace each live `fs.writeFileSync(path, JSON.stringify(...))` (or equivalent) with:
+On the current CMS, `src/repositories/jsonFileStore.ts` `persist()` is the only shared write. Call `writeJsonFileSync` there (NodeNext import ends in `.js`). Do the same in any repository that writes its own JSON files, such as `data/articles/<id>.json`. A nested file snapshots as `data-backups/articles/<id>.json/...`, next to `data/`, not inside it.
+
+On an older CMS, replace each live `fs.writeFileSync(path, JSON.stringify(...))` with:
 
 ```ts
-import { writeJsonFileSync } from '../src/vendor/json-backup/writeJsonFileSync';
+import { writeJsonFileSync } from '../../src/vendor/json-backup/writeJsonFileSync';
 
 writeJsonFileSync(filePath, JSON.stringify(data, null, 2));
 ```

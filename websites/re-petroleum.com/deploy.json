@@ -5,5 +5,7 @@
   "nodeBin": null,
   "aapanelProject": "repetroleum",
   "restartCommand": null,
-  "protect": []
+  "protect": [
+    "data-backups"
+  ]
 }

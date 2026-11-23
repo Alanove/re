@@ -5,5 +5,7 @@
   "nodeBin": null,
   "aapanelProject": "zadwbarakat",
   "restartCommand": null,
-  "protect": []
+  "protect": [
+    "data-backups"
+  ]
 }

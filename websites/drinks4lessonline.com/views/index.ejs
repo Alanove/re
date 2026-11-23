@@ -1,0 +1,211 @@
+<%
+  const roots = (typeof shopRoots !== 'undefined' && shopRoots.length) ? shopRoots : [];
+  const bySlug = {};
+  roots.forEach(function (c) { bySlug[String(c.slug).toLowerCase()] = c; });
+  const mosaic = [
+    { slug: 'cigarettes', area: 'cigarettes', label: 'CIGARETTES' },
+    { slug: 'cigars', area: 'cigars', label: 'CIGARS' },
+    { slug: 'shisha', area: 'shisha', label: 'SHISHA' },
+    { slug: 'spirits', area: 'spirits', label: 'SPIRITS' },
+    { slug: 'wines', area: 'wines', label: 'WINES' },
+    { slug: 'gifts', area: 'gifts', label: 'GIFTS' }
+  ];
+  const heroSlides = (typeof slides !== 'undefined' && slides && slides.length) ? slides : [{
+    image: '/images/d4l/hero.webp',
+    title: 'A PUFF - A DRINK\nTHE RIGHT PRICE',
+    link: '/our-categories',
+    buttonText: 'SHOP NOW'
+  }];
+  const carouselProducts = (typeof featuredProducts !== 'undefined' && featuredProducts && featuredProducts.length)
+    ? featuredProducts
+    : ((typeof recentProducts !== 'undefined' && recentProducts) ? recentProducts : []);
+  const testimonials = [
+    { quote: 'Top service w 3endon min kill chi! El talbiyeh kenet sahle, w el delivery 3al waqt. Ra7 del itlob men hon akid!', name: 'Nabil H.' },
+    { quote: 'Great prices and super reliable delivery! Highly recommended!', name: 'Jad K.' },
+    { quote: 'I recently discovered drinks4lessonline, and I couldn’t be happier! The website is easy to navigate, with a great selection of products and amazing prices. Definitely my go-to for tobacco and beverages.', name: 'Rania R.' },
+    { quote: 'Service kan kteer ra2e! Wide selection of tobacco w mashroobat, w el delivery ken serii3.', name: 'Joe M.' },
+    { quote: 'Se3r momtaz', name: 'Bassel D.' }
+  ];
+%>
+
+<section class="d4l-hero" id="d4l-hero">
+    <% heroSlides.forEach(function (slide, index) { %>
+        <div class="d4l-hero-slide<%= index === 0 ? ' is-active' : '' %>" data-index="<%= index %>" <%= index === 0 ? '' : 'hidden' %>>
+            <% /* Hero art is cropped from legacy/home.png with title + SHOP NOW baked in for pixel match. */ %>
+            <a class="d4l-hero-hit" href="<%= slide.link || '/our-categories' %>" aria-label="<%= slide.buttonText || 'SHOP NOW' %>">
+                <img src="<%= slide.image || '/images/d4l/hero.webp' %>?v=<%= typeof assetVersion !== 'undefined' ? assetVersion : '1' %>" alt="<%= slide.alt || 'A puff - a drink the right price' %>">
+            </a>
+        </div>
+    <% }); %>
+    <div class="d4l-hero-dots">
+        <% heroSlides.forEach(function (_s, i) { %>
+            <button type="button" class="<%= i === 0 ? 'active' : '' %>" data-goto="<%= i %>" aria-label="Slide <%= i + 1 %>"></button>
+        <% }); %>
+    </div>
+</section>
+
+<% if (carouselProducts.length) { %>
+<section class="d4l-featured">
+    <div class="d4l-featured-inner">
+        <div class="d4l-featured-intro">
+            <div class="eyebrow">FEATURED</div>
+            <h2>PRODUCTS</h2>
+            <a class="d4l-pill d4l-pill-light" href="/our-categories">Shop Now</a>
+        </div>
+        <div class="d4l-featured-slider">
+            <button type="button" class="d4l-feat-arrow prev" id="d4l-feat-prev" aria-label="Previous"><i class="fa fa-angle-left"></i></button>
+            <div class="d4l-featured-track" id="d4l-featured-track">
+                <% carouselProducts.forEach(function (product) { %>
+                    <%
+                      const cats = (product.categories && product.categories.length) ? product.categories : (product.category ? [product.category] : []);
+                    %>
+                    <article class="d4l-featured-card">
+                        <a class="d4l-featured-media" href="/shop/product/<%= product.slug %>">
+                            <img class="crown" src="/images/d4l/crown.webp" alt="" aria-hidden="true">
+                            <% if (product.images && product.images.length) { %>
+                                <img src="<%= product.images[0].thumb_url || product.images[0].image_url %>" alt="<%= product.name %>">
+                            <% } else { %>
+                                <img src="/images/logo.png" alt="<%= product.name %>">
+                            <% } %>
+                        </a>
+                        <h3><a href="/shop/product/<%= product.slug %>"><%= product.name %></a></h3>
+                        <% if (cats.length) { %>
+                            <p class="d4l-featured-cats">
+                                <% cats.slice(0, 2).forEach(function (cat, i) { %>
+                                    <% if (i) { %>, <% } %>
+                                    <a href="/shop/category/<%= cat.slug %>"><%= String(cat.name || '').toUpperCase() %></a>
+                                <% }); %>
+                            </p>
+                        <% } %>
+                        <div class="price">
+                            <%- include('partials/product-listing-price', { product, customClass: '', multi_price_display: (typeof ecommerceSettings !== 'undefined' && ecommerceSettings && ecommerceSettings.multi_price_display) ? ecommerceSettings.multi_price_display : '' }) %>
+                        </div>
+                    </article>
+                <% }); %>
+            </div>
+            <button type="button" class="d4l-feat-arrow next" id="d4l-feat-next" aria-label="Next"><i class="fa fa-angle-right"></i></button>
+            <div class="d4l-feat-dots" id="d4l-feat-dots"></div>
+        </div>
+    </div>
+</section>
+<% } %>
+
+<section class="d4l-mosaic">
+    <% mosaic.forEach(function (tile) { %>
+        <% const cat = bySlug[tile.slug]; %>
+        <a class="area-<%= tile.area %>" href="/shop/category/<%= tile.slug %>">
+            <img src="<%= (cat && (cat.image_url || cat.thumb_url)) ? (cat.image_url || cat.thumb_url) : ('/images/d4l/cat-' + tile.slug + '.webp') %>" alt="<%= tile.label %>">
+            <span><%= tile.label %></span>
+        </a>
+    <% }); %>
+</section>
+
+<section class="d4l-testimonials">
+    <div class="d4l-testimonials-track" id="d4l-testimonials-track">
+        <% testimonials.forEach(function (item) { %>
+            <blockquote class="d4l-quote">
+                <div class="stars" aria-hidden="true">★★★★★</div>
+                <p><%= item.quote %></p>
+                <cite><span><%= item.name %></span> - Happy Customer</cite>
+            </blockquote>
+        <% }); %>
+    </div>
+    <div class="d4l-feat-dots d4l-testimonial-dots">
+        <button type="button" class="active" data-t="0" aria-label="Testimonials 1"></button>
+        <button type="button" data-t="1" aria-label="Testimonials 2"></button>
+        <button type="button" data-t="2" aria-label="Testimonials 3"></button>
+    </div>
+</section>
+
+<section class="d4l-editorial">
+    <article class="d4l-editorial-row">
+        <a class="d4l-editorial-media" href="/shop/category/whisky"><img src="/images/d4l/editorial-whisky.webp" alt="Single Malt vs Blended Whisky"></a>
+        <div class="d4l-editorial-copy">
+            <h3><a href="/shop/category/whisky">SINGLE MALT VS BLENDED WHISKY</a></h3>
+            <p>Explore the difference between single malt and blended whisky. While both offer rich and complex flavours, each style has its own character.</p>
+            <a class="d4l-continue" href="/shop/category/whisky">Continue reading</a>
+        </div>
+    </article>
+    <article class="d4l-editorial-row reverse">
+        <a class="d4l-editorial-media" href="/shop/category/e-cigarettes"><img src="/images/d4l/editorial-ecig.webp" alt="E-Cigarettes vs Classic Cigarettes"></a>
+        <div class="d4l-editorial-copy">
+            <h3><a href="/shop/category/e-cigarettes">E-CIGARETTES VS CLASSIC CIGARETTES</a></h3>
+            <p>Compare classic packs and modern e-cigarettes, and shop both ranges with the same cash-on-delivery convenience across Lebanon.</p>
+            <a class="d4l-continue" href="/shop/category/e-cigarettes">Continue reading</a>
+        </div>
+    </article>
+    <article class="d4l-editorial-row">
+        <a class="d4l-editorial-media" href="/our-story"><img src="/images/d4l/editorial-regie.webp" alt="The Regulatory Role of Regie in Lebanon"></a>
+        <div class="d4l-editorial-copy">
+            <h3><a href="/our-story">THE REGULATORY ROLE OF REGIE IN LEBANON</a></h3>
+            <p>Know the rules that keep tobacco retail safe and legal across Lebanon while you shop with confidence.</p>
+            <a class="d4l-continue" href="/our-story">Continue reading</a>
+        </div>
+    </article>
+</section>
+
+<script>
+(function () {
+    var hero = document.getElementById('d4l-hero');
+    if (hero) {
+        var slides = hero.querySelectorAll('.d4l-hero-slide');
+        var dots = hero.querySelectorAll('.d4l-hero-dots button');
+        var i = 0;
+        function show(n) {
+            i = (n + slides.length) % slides.length;
+            slides.forEach(function (s, idx) {
+                if (idx === i) { s.removeAttribute('hidden'); s.classList.add('is-active'); }
+                else { s.setAttribute('hidden', ''); s.classList.remove('is-active'); }
+            });
+            dots.forEach(function (d, idx) { d.classList.toggle('active', idx === i); });
+        }
+        dots.forEach(function (d) {
+            d.addEventListener('click', function () { show(Number(d.getAttribute('data-goto') || 0)); });
+        });
+        if (slides.length > 1) setInterval(function () { show(i + 1); }, 5000);
+    }
+
+    var track = document.getElementById('d4l-featured-track');
+    var prev = document.getElementById('d4l-feat-prev');
+    var next = document.getElementById('d4l-feat-next');
+    var dotsWrap = document.getElementById('d4l-feat-dots');
+    if (track) {
+        function cardStep() {
+            var card = track.querySelector('.d4l-featured-card');
+            return card ? card.getBoundingClientRect().width + 16 : 220;
+        }
+        if (prev) prev.addEventListener('click', function () { track.scrollBy({ left: -cardStep() * 2, behavior: 'smooth' }); });
+        if (next) next.addEventListener('click', function () { track.scrollBy({ left: cardStep() * 2, behavior: 'smooth' }); });
+        if (dotsWrap) {
+            var perPage = 6;
+            var pages = Math.max(1, Math.ceil(track.children.length / perPage));
+            for (var p = 0; p < pages; p++) {
+                var b = document.createElement('button');
+                b.type = 'button';
+                b.setAttribute('aria-label', 'Featured page ' + (p + 1));
+                if (p === 0) b.className = 'active';
+                b.dataset.page = String(p);
+                b.addEventListener('click', function (ev) {
+                    var page = Number(ev.currentTarget.dataset.page || 0);
+                    track.scrollTo({ left: page * cardStep() * perPage, behavior: 'smooth' });
+                });
+                dotsWrap.appendChild(b);
+            }
+            track.addEventListener('scroll', function () {
+                var page = Math.round(track.scrollLeft / (cardStep() * perPage));
+                [...dotsWrap.children].forEach(function (d, idx) { d.classList.toggle('active', idx === page); });
+            }, { passive: true });
+        }
+    }
+
+    var tTrack = document.getElementById('d4l-testimonials-track');
+    document.querySelectorAll('.d4l-testimonial-dots button').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var n = Number(btn.getAttribute('data-t') || 0);
+            if (tTrack) tTrack.scrollTo({ left: n * tTrack.clientWidth, behavior: 'smooth' });
+            document.querySelectorAll('.d4l-testimonial-dots button').forEach(function (b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+        });
+    });
+})();
+</script>

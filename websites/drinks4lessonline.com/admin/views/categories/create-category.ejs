@@ -1,0 +1,149 @@
+<!-- BEGIN content area -->
+<div class="row">
+	<div class="col-xl-12">
+		<!-- BEGIN panel -->
+		<div class="panel panel-inverse">
+			<div class="panel-heading">
+				<h4 class="panel-title"><%= typeof t !== 'undefined' ? t('ecommerce.categories.addNewCategory') : 'Add New Category' %></h4>
+				<div class="panel-heading-btn">
+					<a href="/admin/categories" class="btn btn-xs btn-secondary">
+						<i class="fa fa-arrow-left"></i> <%= typeof t !== 'undefined' ? t('common.back') : 'Back' %>
+					</a>
+				</div>
+			</div>
+			<div class="panel-body">
+				<% if (typeof error !== 'undefined' && error) { %>
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<strong>Error!</strong> <%= error %>
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>
+				<% } %>
+
+				<form method="POST" action="/admin/categories/create" enctype="multipart/form-data" id="categoryForm">
+					<div class="row">
+						<div class="col-md-8">
+							<div class="mb-3">
+								<label for="categoryName" class="form-label"><%= typeof t !== 'undefined' ? t('ecommerce.categories.categoryName') : 'Category Name' %> <span class="text-danger">*</span></label>
+								<input type="text" class="form-control" id="categoryName" name="name" required 
+								       value="<%= typeof category !== 'undefined' && category ? category.name : '' %>">
+							</div>
+
+							<div class="mb-3">
+								<label for="categorySlug" class="form-label">Slug <span class="text-danger">*</span></label>
+								<input type="text" class="form-control" id="categorySlug" name="slug" required 
+								       value="<%= typeof category !== 'undefined' && category ? category.slug : '' %>">
+								<small class="form-text text-muted">URL-friendly version of the name (e.g., "men-shoes")</small>
+							</div>
+
+							<div class="mb-3">
+								<label for="categoryDescription" class="form-label">Description</label>
+								<textarea class="form-control" id="categoryDescription" name="description" rows="5"><%= typeof category !== 'undefined' && category && category.description ? category.description : '' %></textarea>
+							</div>
+
+							<div class="mb-3">
+								<label for="categoryParent" class="form-label"><%= typeof t !== 'undefined' ? t('ecommerce.categories.parentCategory') : 'Parent Category' %></label>
+								<select class="form-select" id="categoryParent" name="parent_id">
+									<option value=""><%= typeof t !== 'undefined' ? t('ecommerce.categories.noParentCategory') : 'No Parent Category' %></option>
+									<% if (typeof categories !== 'undefined' && categories) { %>
+										<% categories.forEach(function(cat) { %>
+											<option value="<%= cat.id %>" <%= typeof category !== 'undefined' && category && category.parent_id == cat.id ? 'selected' : '' %>>
+												<%= cat.name %>
+											</option>
+										<% }); %>
+									<% } %>
+								</select>
+							</div>
+						</div>
+
+						<div class="col-md-4">
+							<div class="mb-3">
+								<label for="categoryImage" class="form-label">Category Image</label>
+								<input type="file" class="form-control" id="categoryImage" name="image" accept="image/*" onchange="previewImage(this)">
+								<small class="form-text text-muted"></small>
+								<div id="imagePreview" class="mt-3" style="display: none;">
+									<img id="previewImg" src="" alt="Preview" class="img-thumbnail" style="max-width: 100%; max-height: 300px;">
+									<button type="button" class="btn btn-sm btn-danger mt-2" onclick="clearImagePreview()">
+										<i class="fa fa-times"></i> Remove
+									</button>
+								</div>
+							</div>
+
+							<div class="mb-3">
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" id="categoryFeatured" name="is_featured" value="true"
+									       <%= typeof category !== 'undefined' && category && category.is_featured ? 'checked' : '' %>>
+									<label class="form-check-label" for="categoryFeatured">
+										<%= typeof t !== 'undefined' ? t('ecommerce.categories.featured') : 'Featured' %>
+									</label>
+								</div>
+							</div>
+
+							<div class="mb-3">
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" id="categoryActive" name="is_active" value="true" checked
+									       <%= typeof category !== 'undefined' && category && category.is_active !== false ? 'checked' : '' %>>
+									<label class="form-check-label" for="categoryActive">
+										<%= typeof t !== 'undefined' ? t('common.active') : 'Active' %>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-actions">
+						<button type="submit" class="btn btn-primary">
+							<i class="fa fa-save"></i> <%= typeof t !== 'undefined' ? t('common.save') : 'Save' %>
+						</button>
+						<a href="/admin/categories" class="btn btn-secondary">
+							<%= typeof t !== 'undefined' ? t('common.cancel') : 'Cancel' %>
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- END panel -->
+	</div>
+</div>
+<!-- END content area -->
+
+<script>
+function previewImage(input) {
+	if (input.files && input.files[0]) {
+		const reader = new FileReader();
+		reader.onload = function(e) {
+			document.getElementById('previewImg').src = e.target.result;
+			document.getElementById('imagePreview').style.display = 'block';
+		};
+		reader.readAsDataURL(input.files[0]);
+	}
+}
+
+function clearImagePreview() {
+	document.getElementById('categoryImage').value = '';
+	document.getElementById('previewImg').src = '';
+	document.getElementById('imagePreview').style.display = 'none';
+}
+
+// Auto-generate slug from name
+document.addEventListener('DOMContentLoaded', function() {
+	const nameInput = document.getElementById('categoryName');
+	const slugInput = document.getElementById('categorySlug');
+	
+	if (nameInput && slugInput && !slugInput.value) {
+		nameInput.addEventListener('input', function() {
+			if (!slugInput.value || slugInput.dataset.autoGenerated === 'true') {
+				const slug = this.value.toLowerCase()
+					.replace(/[^a-z0-9]+/g, '-')
+					.replace(/^-+|-+$/g, '');
+				slugInput.value = slug;
+				slugInput.dataset.autoGenerated = 'true';
+			}
+		});
+		
+		slugInput.addEventListener('input', function() {
+			this.dataset.autoGenerated = 'false';
+		});
+	}
+});
+</script>
+

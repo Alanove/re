@@ -1,0 +1,135 @@
+<!-- Events List Start -->
+<div class="container-fluid pt-5 pb-3">
+    <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-5"><span class="bg-secondary pr-3">Events</span></h2>
+    
+    <% if (typeof events !== 'undefined' && events && events.length > 0) { %>
+        <div class="row px-xl-5">
+            <% events.forEach(function(event) { %>
+                <div class="col-lg-3 col-md-4 col-sm-6 pb-4">
+                    <div class="product-item bg-light mb-4">
+                        <div class="product-img position-relative overflow-hidden">
+                            <% if (event.pageImage) { %>
+                                <a href="/<%= event.slug %>">
+                                    <img class="img-fluid w-100" src="<%= event.pageImage %>" alt="<%= event.title %>" style="height: 300px; object-fit: cover;">
+                                </a>
+                            <% } else { %>
+                                <a href="/<%= event.slug %>">
+                                    <img class="img-fluid w-100" src="/MultiShop/img/product-1.jpg" alt="<%= event.title %>" style="height: 300px; object-fit: cover;">
+                                </a>
+                            <% } %>
+                        </div>
+                        <div class="text-center py-4">
+                            <a class="h6 text-decoration-none text-truncate" href="/<%= event.slug %>"><%= event.title %></a>
+                            <% if (event.publishDate) { %>
+                                <p class="text-muted small mt-2 mb-0">
+                                    <%= new Date(event.publishDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+                                </p>
+                            <% } %>
+                            <% if (event.description) { %>
+                                <p class="text-muted small mt-2 mb-0" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                    <%= event.description %>
+                                </p>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+
+        <!-- Pagination -->
+        <% if (typeof totalPages !== 'undefined' && totalPages > 1) { %>
+            <nav class="mt-5" aria-label="Events pagination">
+                <ul class="pagination justify-content-center">
+                    <% 
+                        const paginationBase = '/events';
+                        // Calculate page range to show (up to 8 numbers for desktop)
+                        let startPage = Math.max(1, currentPage - 3);
+                        let endPage = Math.min(totalPages, currentPage + 4);
+                        
+                        // Adjust if we're near the beginning
+                        if (currentPage <= 4) {
+                            startPage = 1;
+                            endPage = Math.min(8, totalPages);
+                        }
+                        
+                        // Adjust if we're near the end
+                        if (currentPage >= totalPages - 3) {
+                            startPage = Math.max(1, totalPages - 7);
+                            endPage = totalPages;
+                        }
+                        
+                        let showStartEllipsis = startPage > 2;
+                        let showEndEllipsis = endPage < totalPages - 1;
+                    %> 
+                    
+                    <!-- Mobile Pagination (simplified) -->
+                    <li class="page-item pagination-mobile-only">
+                        <% if (hasPrevPage) { %>
+                            <a class="page-link" href="<%= paginationBase %>?page=<%= currentPage - 1 %>">←</a>
+                        <% } else { %>
+                            <span class="page-link disabled">←</span>
+                        <% } %>
+                    </li>
+                    <li class="page-item pagination-mobile-only">
+                        <span class="page-link active"><%= currentPage %> / <%= totalPages %></span>
+                    </li>
+                    <li class="page-item pagination-mobile-only">
+                        <% if (hasNextPage) { %>
+                            <a class="page-link" href="<%= paginationBase %>?page=<%= currentPage + 1 %>">→</a>
+                        <% } else { %>
+                            <span class="page-link disabled">→</span>
+                        <% } %>
+                    </li>
+                    
+                    <!-- Desktop Pagination (full) -->
+                    <% if (hasPrevPage) { %>
+                        <li class="page-item pagination-desktop-only">
+                            <a class="page-link" href="<%= paginationBase %>?page=<%= currentPage - 1 %>">Previous</a>
+                        </li>
+                    <% } %>
+                    
+                    <% if (startPage > 1) { %>
+                        <li class="page-item pagination-desktop-only">
+                            <a class="page-link" href="<%= paginationBase %>?page=1">1</a>
+                        </li>
+                    <% } %>
+                    
+                    <% if (showStartEllipsis) { %>
+                        <li class="page-item disabled pagination-desktop-only">
+                            <span class="page-link">...</span>
+                        </li>
+                    <% } %>
+                    
+                    <% for (let i = startPage; i <= endPage; i++) { %>
+                        <li class="page-item pagination-desktop-only <%= i === currentPage ? 'active' : '' %>">
+                            <a class="page-link" href="<%= paginationBase %>?page=<%= i %>"><%= i %></a>
+                        </li>
+                    <% } %>
+                    
+                    <% if (showEndEllipsis) { %>
+                        <li class="page-item disabled pagination-desktop-only">
+                            <span class="page-link">...</span>
+                        </li>
+                    <% } %>
+                    
+                    <% if (endPage < totalPages) { %>
+                        <li class="page-item pagination-desktop-only">
+                            <a class="page-link" href="<%= paginationBase %>?page=<%= totalPages %>"><%= totalPages %></a>
+                        </li>
+                    <% } %>
+                    
+                    <% if (hasNextPage) { %>
+                        <li class="page-item pagination-desktop-only">
+                            <a class="page-link" href="<%= paginationBase %>?page=<%= currentPage + 1 %>">Next</a>
+                        </li>
+                    <% } %>
+                </ul>
+            </nav>
+        <% } %>
+    <% } else { %>
+        <div class="text-center py-5">
+            <p class="text-muted">No events found.</p>
+        </div>
+    <% } %>
+</div>
+<!-- Events List End -->

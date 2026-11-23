@@ -1,0 +1,74 @@
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark" href="/"><%= typeof t !== 'undefined' ? t('ecommerce.common.home') : 'Home' %></a>
+                <a class="breadcrumb-item text-dark" href="/shop"><%= typeof t !== 'undefined' ? t('ecommerce.common.shop') : 'Shop' %></a>
+                <span class="breadcrumb-item active"><%= typeof t !== 'undefined' ? t('ecommerce.checkout.success') : 'Order Success' %></span>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid pb-5">
+    <div class="row px-xl-5">
+        <div class="col-lg-8 offset-lg-2 text-center">
+            <div class="bg-light p-5 mb-5">
+                <div class="mb-4">
+                    <i class="fa fa-check-circle text-success" style="font-size: 80px;"></i>
+                </div>
+                <h2 class="section-title position-relative text-uppercase mb-4"><span class="bg-light pr-3"><%= typeof t !== 'undefined' ? t('ecommerce.checkout.thankYou') : 'Thank You!' %></span></h2>
+                <h4 class="mb-4"><%= typeof t !== 'undefined' ? t('ecommerce.checkout.orderPlaced') : 'Your order has been placed successfully.' %></h4>
+                
+                <% if (typeof orderNumber !== 'undefined' && orderNumber) { %>
+                <div class="alert alert-secondary d-inline-block px-5 py-3 mb-4">
+                    <span class="h5 m-0"><%= typeof t !== 'undefined' ? t('ecommerce.checkout.orderNumber') : 'Order #' %>: <strong><%= orderNumber %></strong></span>
+                </div>
+                <% } %>
+                
+                <p class="mb-4">
+                    <%= typeof t !== 'undefined' ? t('ecommerce.checkout.confirmationEmailSent') : 'A confirmation email has been sent to your email address.' %>
+                    <br>
+                    <%= typeof t !== 'undefined' ? t('ecommerce.checkout.contactUsMessage') : 'If you have any questions, please contact us.' %>
+                </p>
+
+                <% if (typeof user === 'undefined' || !user) { %>
+                    <div class="mt-4 mb-4 p-4 border rounded bg-white">
+                        <h5 class="mb-3"><%= typeof t !== 'undefined' ? t('ecommerce.checkout.createAccountTitle') : 'Track your order' %></h5>
+                        <p class="mb-3"><%= typeof t !== 'undefined' ? t('ecommerce.checkout.createAccountDesc') : 'Create an account to track your order status and checkout faster next time.' %></p>
+                        <a href="/customer/register<%= typeof orderNumber !== 'undefined' && orderNumber ? '?orderNumber=' + encodeURIComponent(orderNumber) : '' %>" class="btn btn-outline-primary"><%= typeof t !== 'undefined' ? t('ecommerce.customer.register') : 'Create Account' %></a>
+                    </div>
+                <% } else { %>
+                    <div class="mt-4 mb-4">
+                        <a href="/customer/orders" class="btn btn-outline-primary"><%= typeof t !== 'undefined' ? t('ecommerce.customer.viewOrders') : 'View My Orders' %></a>
+                    </div>
+                <% } %>
+                
+                <div class="mt-5">
+                    <a href="/shop" class="btn btn-primary py-2 px-4"><%= typeof t !== 'undefined' ? t('ecommerce.cart.continueShopping') : 'Continue Shopping' %></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<% if (typeof metaPurchase !== 'undefined' && metaPurchase && typeof orderNumber !== 'undefined' && orderNumber) { %>
+<script>
+(function () {
+    var payload = {
+        value: <%= metaPurchase.value %>,
+        currency: <%- JSON.stringify(metaPurchase.currency) %>,
+        content_ids: <%- JSON.stringify(metaPurchase.content_ids) %>,
+        content_type: 'product'
+    };
+    var orderNumber = <%- JSON.stringify(orderNumber) %>;
+    var key = 'meta_pixel_purchase_' + orderNumber;
+    if (sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, '1');
+    if (typeof window.MetaPixel !== 'undefined') {
+        window.MetaPixel.track('Purchase', payload);
+    } else if (typeof window.fbq === 'function') {
+        window.fbq('track', 'Purchase', payload);
+    }
+})();
+</script>
+<% } %>

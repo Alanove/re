@@ -1,0 +1,180 @@
+<%
+  const mainMenu = (typeof menus !== 'undefined' && menus.main) ? menus.main : [];
+  const deptMenu = mainMenu.filter(function (item) {
+    return String(item.title || '').toLowerCase() !== 'help';
+  });
+  const helpMenu = mainMenu.find(function (item) {
+    return String(item.title || '').toLowerCase() === 'help';
+  });
+%>
+<header class="d4l-header">
+    <div class="d4l-topbar">
+        <a href="/faqs">DELIVERY ACROSS LEBANON <span>Details</span></a>
+    </div>
+
+    <div class="d4l-desktop">
+        <%# Live Woodmart: general header (logo/nav/tools) with 4px full-bleed yellow border; slogan is logo-subtitle under the line; search in header-bottom %>
+        <div class="d4l-desktop-main">
+            <div class="d4l-desktop-row">
+                <a href="/" class="d4l-logo" aria-label="Drinks 4 Less">
+                    <img src="/images/logo.png" alt="Drinks 4 Less" width="162" height="72">
+                </a>
+
+                <nav class="d4l-cats-nav" aria-label="Departments">
+                    <% deptMenu.forEach(function (item) { %>
+                        <div class="d4l-nav-item">
+                            <a href="<%= item.url || '#' %>">
+                                <%= String(item.title || '').toUpperCase() %>
+                                <% if (item.children && item.children.length) { %><i class="fa fa-angle-down" aria-hidden="true"></i><% } %>
+                            </a>
+                            <% if (item.children && item.children.length) { %>
+                                <div class="d4l-sub">
+                                    <% item.children.forEach(function (child) { %>
+                                        <a href="<%= child.url %>"><%= child.title %></a>
+                                    <% }); %>
+                                </div>
+                            <% } %>
+                        </div>
+                    <% }); %>
+                </nav>
+
+                <div class="d4l-tools">
+                    <button type="button" class="d4l-icon-btn" id="d4l-account-btn-desktop" aria-label="My account">
+                        <i class="far fa-user"></i>
+                    </button>
+                    <a href="/wishlist" class="d4l-icon-btn" aria-label="Wishlist"><i class="far fa-heart"></i></a>
+                    <a href="/cart" class="d4l-icon-btn d4l-cart" aria-label="Cart">
+                        <i class="fas fa-shopping-bag"></i>
+                        <sup class="d4l-cart-count" id="cartBadge"><%= typeof cartCount !== 'undefined' ? cartCount : 0 %></sup>
+                    </a>
+                    <div class="d4l-help">
+                        <button type="button" class="d4l-help-btn" id="d4l-help-btn" aria-expanded="false" aria-haspopup="true">
+                            Help <i class="fa fa-angle-down" aria-hidden="true"></i>
+                        </button>
+                        <div class="d4l-help-menu" id="d4l-help-menu" hidden>
+                            <% if (helpMenu && helpMenu.children && helpMenu.children.length) { %>
+                                <% helpMenu.children.forEach(function (child) { %>
+                                    <a href="<%= child.url %>"><%= child.title %></a>
+                                <% }); %>
+                            <% } else { %>
+                                <a href="/contact-us">Contact us</a>
+                                <a href="/faqs">FAQs</a>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d4l-desktop-bottom">
+            <div class="d4l-desktop-bottom-inner">
+                <span class="d4l-logo-tag">Buy More Pay Less</span>
+                <form class="d4l-search" action="/shop" method="get">
+                    <button type="submit" aria-label="Search"><i class="fa fa-search"></i></button>
+                    <input type="search" name="search" placeholder="Search Products" required autocomplete="off">
+                </form>
+                <span class="d4l-bottom-spacer" aria-hidden="true"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="d4l-mobile-top">
+        <a href="/" class="d4l-logo" aria-label="Drinks 4 Less">
+            <img src="/images/logo.png" alt="Drinks 4 Less" width="120" height="54">
+        </a>
+        <button type="button" class="d4l-burger" id="d4l-burger" aria-label="Open menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="d4l-tagline">Buy More Pay Less</div>
+        <form class="d4l-search" action="/shop" method="get">
+            <button type="submit" aria-label="Search"><i class="fa fa-search"></i></button>
+            <input type="search" name="search" placeholder="Search Products" required autocomplete="off">
+        </form>
+        <a href="/cart" class="d4l-icon-btn d4l-cart" aria-label="Cart">
+            <i class="fas fa-shopping-bag"></i>
+            <sup class="d4l-cart-count"><%= typeof cartCount !== 'undefined' ? cartCount : 0 %></sup>
+        </a>
+    </div>
+    <nav class="d4l-mobile-nav" id="d4l-nav" hidden>
+        <% mainMenu.forEach(function (item) { %>
+            <div class="d4l-nav-item">
+                <a href="<%= item.url || '#' %>"><%= item.title %></a>
+                <% if (item.children && item.children.length) { %>
+                    <div class="d4l-sub">
+                        <% item.children.forEach(function (child) { %>
+                            <a href="<%= child.url %>"><%= child.title %></a>
+                        <% }); %>
+                    </div>
+                <% } %>
+            </div>
+        <% }); %>
+    </nav>
+
+    <div class="d4l-account-pop" id="d4l-account-pop" hidden>
+        <% if (typeof user !== 'undefined' && user) { %>
+            <p>Welcome, <%= user.name %></p>
+            <a href="/customer/account">My account</a>
+            <a href="/customer/orders">Orders</a>
+            <button type="button" id="headerLogoutBtn">Logout</button>
+        <% } else { %>
+            <h3>For existing users</h3>
+            <form id="headerLoginForm">
+                <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+                <label>Username or email address</label>
+                <input type="email" name="email" required placeholder="Ex: email@email.com">
+                <label>Password</label>
+                <input type="password" name="password" required placeholder="Ex: ***********">
+                <% if (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) { %>
+                    <div class="cf-turnstile" data-sitekey="<%= turnstileSiteKey %>" data-callback="onHeaderLoginTurnstileSuccess" data-error-callback="onHeaderLoginTurnstileError" data-expired-callback="onHeaderLoginTurnstileExpired" data-size="compact"></div>
+                    <div id="header-login-turnstile-error" class="d4l-error" style="display:none;">Please complete the security verification.</div>
+                <% } %>
+                <div id="headerLoginError" class="d4l-error" hidden></div>
+                <button type="submit" id="headerLoginSubmit" <%= (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) ? 'disabled' : '' %>>Log in</button>
+            </form>
+            <a class="d4l-google" href="/auth/google">Continue with Google</a>
+            <p class="d4l-signup">No account yet? <a href="/customer/register">Create an Account</a></p>
+        <% } %>
+    </div>
+</header>
+<nav class="d4l-mobile-bar" aria-label="Mobile shortcuts">
+    <a href="/our-categories" aria-label="Shop"><i class="fas fa-home"></i></a>
+    <a href="/wishlist" aria-label="Wishlist"><i class="far fa-heart"></i></a>
+    <a href="/cart" aria-label="Cart"><i class="fas fa-shopping-bag"></i></a>
+    <button type="button" id="d4l-account-btn" aria-label="My account"><i class="far fa-user"></i></button>
+</nav>
+<script>
+(function () {
+    var burger = document.getElementById('d4l-burger');
+    var nav = document.getElementById('d4l-nav');
+    if (burger && nav) {
+        burger.addEventListener('click', function () {
+            var open = nav.hasAttribute('hidden');
+            if (open) nav.removeAttribute('hidden'); else nav.setAttribute('hidden', '');
+            burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+    }
+    var pop = document.getElementById('d4l-account-pop');
+    function toggleAccount() {
+        if (!pop) return;
+        pop.hidden = !pop.hidden;
+    }
+    var accountBtn = document.getElementById('d4l-account-btn');
+    var accountBtnDesktop = document.getElementById('d4l-account-btn-desktop');
+    if (accountBtn) accountBtn.addEventListener('click', toggleAccount);
+    if (accountBtnDesktop) accountBtnDesktop.addEventListener('click', toggleAccount);
+
+    var helpBtn = document.getElementById('d4l-help-btn');
+    var helpMenu = document.getElementById('d4l-help-menu');
+    if (helpBtn && helpMenu) {
+        helpBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            var open = helpMenu.hasAttribute('hidden');
+            if (open) helpMenu.removeAttribute('hidden'); else helpMenu.setAttribute('hidden', '');
+            helpBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+        document.addEventListener('click', function () {
+            helpMenu.setAttribute('hidden', '');
+            helpBtn.setAttribute('aria-expanded', 'false');
+        });
+    }
+})();
+</script>

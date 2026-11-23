@@ -10,6 +10,7 @@
     "media:check": "node scripts/check-media.js",
     "media:check:prod": "node scripts/check-media.js",
     "captcha:build": "node ../../packages/captcha/esbuild.config.mjs --public public/captcha --server src/vendor/captcha",
+    "json-backup:build": "node ../../packages/json-backup/build.mjs --out src/vendor/json-backup",
     "start": "node dist/src/app.js",
     "prod": "npm run build && node dist/src/app.js",
     "dev": "ts-node-dev --respawn --transpile-only src/app.ts",

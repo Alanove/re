@@ -1,0 +1,28 @@
+{
+  "siteKey": "capitalprogroup.ca",
+  "siteName": "Capital Pro Group",
+  "legacySiteUrl": "https://capitalprogroup.ca",
+  "cmsSource": "",
+  "contentWorkbook": "",
+  "contentSeed": "",
+  "designDir": "",
+  "outputDir": ".",
+  "port": 3092,
+  "logo": {
+    "url": "https://capitalprogroup.ca",
+    "localPath": "/images/capital-group-logo.svg",
+    "note": "Existing Node CMS. Logo file is the current site-settings logo. Colours were not resampled for this deploy."
+  },
+  "legacy": {
+    "pageImagePattern": "",
+    "footerPageKey": null,
+    "contactPageKey": null,
+    "uploadsMirrorPrefix": "",
+    "source": "existing-cms",
+    "note": "Already a Node CMS. No workbook import."
+  },
+  "cmsSync": {
+    "adminPublicFiles": [],
+    "adminPublicDirs": []
+  }
+}

@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'Quadra';
+    src: url('Quadra-Regular.woff2') format('woff2'),
+        url('Quadra-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+

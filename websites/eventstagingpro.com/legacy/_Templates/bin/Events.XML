@@ -1,0 +1,292 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Events</name>
+    </assembly>
+    <members>
+        <member name="T:lw.Events.CalendarDs">
+             <summary>
+            Represents a strongly typed in-memory cache of data.
+            </summary>
+        </member>
+        <member name="T:lw.Events.CalendarDs.CalendarDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:lw.Events.CalendarDs.CalendarCategoriesDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:lw.Events.CalendarDs.CalendarViewDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:lw.Events.CalendarDs.CalendarCategoriesRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:lw.Events.CalendarDs.CalendarViewRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:lw.Events.CalendarDs.CalendarRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:lw.Events.CalendarDs.CalendarCategoriesRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:lw.Events.CalendarDs.CalendarViewRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:lw.Events.CalendarDs.CalendarRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:lw.Events.CalendarDsTableAdapters.CalendarCategoriesTableAdapter">
+             <summary>
+            Represents the connection and commands used to retrieve and save data.
+            </summary>
+        </member>
+        <member name="T:lw.Events.CalendarDsTableAdapters.CalendarViewTableAdapter">
+             <summary>
+            Represents the connection and commands used to retrieve and save data.
+            </summary>
+        </member>
+        <member name="T:lw.Events.CalendarDsTableAdapters.CalendarTableAdapter">
+             <summary>
+            Represents the connection and commands used to retrieve and save data.
+            </summary>
+        </member>
+        <member name="T:lw.Events.CalendarDsTableAdapters.TableAdapterManager">
+             <summary>
+            TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
+            </summary>
+        </member>
+        <member name="M:lw.Events.CalendarDsTableAdapters.TableAdapterManager.UpdateUpdatedRows(lw.Events.CalendarDs,System.Collections.Generic.List{System.Data.DataRow},System.Collections.Generic.List{System.Data.DataRow})">
+             <summary>
+            Update rows in top-down order.
+            </summary>
+        </member>
+        <member name="M:lw.Events.CalendarDsTableAdapters.TableAdapterManager.UpdateInsertedRows(lw.Events.CalendarDs,System.Collections.Generic.List{System.Data.DataRow})">
+             <summary>
+            Insert rows in top-down order.
+            </summary>
+        </member>
+        <member name="M:lw.Events.CalendarDsTableAdapters.TableAdapterManager.UpdateDeletedRows(lw.Events.CalendarDs,System.Collections.Generic.List{System.Data.DataRow})">
+             <summary>
+            Delete rows in bottom-up order.
+            </summary>
+        </member>
+        <member name="M:lw.Events.CalendarDsTableAdapters.TableAdapterManager.GetRealUpdatedRows(System.Data.DataRow[],System.Collections.Generic.List{System.Data.DataRow})">
+             <summary>
+            Remove inserted rows that become updated rows after calling TableAdapter.Update(inserted rows) first
+            </summary>
+        </member>
+        <member name="M:lw.Events.CalendarDsTableAdapters.TableAdapterManager.UpdateAll(lw.Events.CalendarDs)">
+             <summary>
+            Update all changes to the dataset.
+            </summary>
+        </member>
+        <member name="T:lw.Events.CalendarDsTableAdapters.TableAdapterManager.UpdateOrderOption">
+             <summary>
+            Update Order Option
+            </summary>
+        </member>
+        <member name="T:lw.Events.CalendarDsTableAdapters.TableAdapterManager.SelfReferenceComparer">
+             <summary>
+            Used to sort self-referenced table's rows
+            </summary>
+        </member>
+        <member name="M:lw.Events.CalendarManager.GetEvents(System.String)">
+            <summary>
+            Fetches and returns calendar events depending on the condition
+            </summary>
+            <param name="cond">Query condition ex: dateFrom = '1/1/2011' </param>
+            <returns>CalendarDs.CalendarDataTable CalendarEvents</returns>
+        </member>
+        <member name="M:lw.Events.CalendarManager.GetEvents(lw.CTE.Enum.Languages)">
+            <summary>
+            Fetches and returns calendar events on the desired language
+            </summary>
+            <param name="lan">Language</param>
+            <returns>CalendarDs.CalendarDataTable CalendarEvents</returns>
+        </member>
+        <member name="M:lw.Events.CalendarManager.GetEvents(lw.CTE.Enum.Languages,System.String)">
+            <summary>
+            Fetches and returns calendar events on the desired language + condition
+            </summary>
+            <param name="lan">Language</param>
+            <param name="cond">Query condition ex: dateFrom = '1/1/2011' </param>
+            <returns>CalendarDs.CalendarDataTable CalendarEvents</returns>
+        </member>
+        <member name="M:lw.Events.CalendarManager.GetEvents">
+            <summary>
+            Returns all events
+            </summary>
+            <returns>CalendarDs.CalendarDataTable CalendarEvents</returns>
+        </member>
+        <member name="M:lw.Events.CalendarManager.GetEventDetails(System.Int32)">
+            <summary>
+            Returns event details
+            </summary>
+            <param name="EventId">Int if of the event</param>
+            <returns><seealso cref="T:lw.Events.CalendarDs.CalendarRow"/></returns>
+        </member>
+        <member name="M:lw.Events.CalendarManager.GetCategories(System.String)">
+            <summary>
+            Get Calendar Categories
+            </summary>
+            <param name="cond">Condition</param>
+            <returns><seealso cref="T:lw.Events.CalendarDs.CalendarCategoriesDataTable"/>CalendarDs.CalendarCategoriesDataTable</returns>
+        </member>
+        <member name="M:lw.Events.CalendarManager.GetCategoryDetails(System.Int32)">
+            <summary>
+            Get Calendar Category Details
+            </summary>
+            <param name="CategoryId">Category Id</param>
+            <returns><seealso cref="T:lw.Events.CalendarDs.CalendarCategoriesRow"/>CalendarDs.CalendarCategoriesRow</returns>
+        </member>
+        <member name="M:lw.Events.CalendarManager.AddEvent(System.Web.HttpRequest,System.Int32)">
+            <summary>
+            Adds an event to the calendar
+            </summary>
+            <param name="req">HttpRequest object containing the form fields</param>
+            <param name="CategoryId">CategoryId</param>
+            <returns>ID of the created event</returns>
+        </member>
+        <member name="M:lw.Events.CalendarManager.AddEvent(System.Web.HttpRequest,System.Int32,System.Int32)">
+            <summary>
+            Adds an event to the calendar
+            </summary>
+            <param name="req">HttpRequest object containing the form fields</param>
+            <param name="CategoryId">CategoryId</param>
+            <param name="UserId">the User or Member Id that added this event</param>
+            <returns>ID of the created event</returns>
+        </member>
+        <member name="M:lw.Events.CalendarManager.AddEvent(System.DateTime,System.Nullable{System.DateTime},System.String,System.String,System.String,System.Byte,System.String,System.Int32,System.Int32,lw.CTE.Enum.Languages)">
+            <summary>
+            Adds an event to the calendar
+            </summary>
+            <param name="DateFrom">DateFrom Field</param>
+            <param name="DateTo">DateTo Field</param>
+            <param name="Time">Time of the Event (just a string could be from 1:00 pm to 2:00 pm or simply 3:00 pm)</param>
+            <param name="Title">Title of the event</param>
+            <param name="Location">Location</param>
+            <param name="Status">Status 1: enabled 0: disabled</param>
+            <param name="Description">Description of the event</param>
+            <param name="CategoryId">Category Id for the event</param>
+            <param name="UserId">the User or Member Id that added this event</param>
+            <param name="lan">Event Language <seealso cref="T:lw.CTE.Enum.Languages"/></param>
+            <returns>ID of the created event</returns>
+        </member>
+        <member name="M:lw.Events.CalendarManager.UpdateEvent(System.Int32,System.Web.HttpRequest,System.Int32)">
+            <summary>
+            Updates an event to the calendar
+            </summary>
+            <param name="Id">ID of the edited event</param>
+            <param name="req">HttpRequest object containing the form fields</param>
+            <param name="CategoryId">Category Id for the event</param>
+            <returns>true if saved false if not</returns>
+        </member>
+        <member name="M:lw.Events.CalendarManager.UpdateEvent(System.Int32,System.Web.HttpRequest,System.Int32,System.Int32)">
+            <summary>
+            Updates an event to the calendar
+            </summary>
+            <param name="Id">ID of the edited event</param>
+            <param name="req">HttpRequest object containing the form fields</param>
+            <param name="CategoryId">Category Id for the event</param>
+            <param name="UserId">the User or Member Id that added this event</param>
+            <returns>true if saved false if not</returns>
+        </member>
+        <member name="M:lw.Events.CalendarManager.UpdateEvent(System.Int32,System.DateTime,System.Nullable{System.DateTime},System.String,System.String,System.String,System.Byte,System.String,System.Int32,System.Int32,lw.CTE.Enum.Languages)">
+            <summary>
+            Updates an event to the calendar
+            </summary>
+            <param name="Id">ID of the edited event</param>
+            <param name="DateFrom">DateFrom Field</param>
+            <param name="DateTo">DateTo Field</param>
+            <param name="Time">Time of the Event (just a string could be from 1:00 pm to 2:00 pm or simply 3:00 pm)</param>
+            <param name="Title">Title of the event</param>
+            <param name="Location">Location</param>
+            <param name="Status">Status 1: enabled 0: disabled</param>
+            <param name="Description">Description of the event</param>
+            <param name="CategoryId">Category Id for the event</param>
+            <param name="UserId">the User or Member Id that added this event</param>
+            <param name="lan">Event Language <seealso cref="T:lw.CTE.Enum.Languages"/></param>
+            <returns>true if saved false if not</returns>
+            
+        </member>
+        <member name="M:lw.Events.CalendarManager.DeleteEvent(System.Int32)">
+            <summary>
+            Deletes an event from the database
+            </summary>
+            <param name="Id">ID of the event</param>
+        </member>
+        <member name="M:lw.Events.CalendarManager.AddCalendarCategory(System.String)">
+            <summary>
+            Adds a calendar category
+            </summary>
+            <param name="CategoryName">Name</param>
+            <returns>id of the added category</returns>
+        </member>
+        <member name="M:lw.Events.CalendarManager.UpdateCalendarCategory(System.Int32,System.String)">
+            <summary>
+            Update calendar cateogory
+            </summary>
+            <param name="CategoryId">Category Id</param>
+            <param name="CategoryName">New Name</param>
+            <returns>true for success, false for fail</returns>
+        </member>
+        <member name="M:lw.Events.CalendarManager.DeleteCategory(System.Int32)">
+            <summary>
+            Deletes a calendar category
+            </summary>
+            <param name="CategoryId">Category Id</param>
+        </member>
+        <member name="P:lw.Events.Controls.CalendarDataSource.Status">
+            <summary>
+            If left empty it will default to 'All', if set to true it will get status = 1 if set to false it will get status = 0
+            </summary>
+        </member>
+        <member name="P:lw.Events.Controls.CalendarDataSource.NetworkBound">
+            <summary>
+            Makes the list network bound returns only the items that are related to the current member's network
+            </summary>
+        </member>
+        <member name="P:lw.Events.Controls.CalendarDataSource.CMSMode">
+            <summary>
+            Indicates if the tag is used inside the CMS
+            Can also be set in web.config.
+            </summary>
+        </member>
+        <member name="P:lw.Events.Controls.EventImage.LazyLoad">
+            <summary>
+            Delays the loading of the image.
+            For this to work lazy load must be included in lw.js 
+            Included as of version 4.0.4.5, developed with the Creative Newsletter
+            </summary>
+        </member>
+        <member name="P:lw.Events.Controls.EventImage.NoImage">
+            <summary>
+            Display this image if no image is related to the news
+            </summary>
+        </member>
+        <member name="T:lw.Events.cte">
+            <summary>
+            Class containing all the constants that are using in the <see cref="N:lw.Events"/> library
+            </summary>
+        </member>
+    </members>
+</doc>

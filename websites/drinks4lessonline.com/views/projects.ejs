@@ -1,0 +1,42 @@
+<div class="inner-page-bg projects"></div>
+<div class="projects-page">
+  <%- include('partials/projects-sidebar') %>
+  <div class="projects-masonry-grid">
+    <% if (typeof projects !== 'undefined' && projects && projects.projects && projects.projects.length > 0) { %>
+      <% projects.projects.forEach(project => { %>
+        <div class="masonry-item">
+        <a href="/projects/<%= project.url %>" class="project-link">
+          <div class="project-image-wrapper">
+            <img src="<%= projectsService.getProjectImagePath(project) %>" alt="<%= project.title %>" loading="lazy" />
+            <div class="project-overlay">
+              <div class="project-info">
+                <div class="project-title"><%= project.title %></div>
+                <div class="project-categories">
+                  <% if (project.categories && project.categories.length > 0) { %>
+                    <% project.categories.slice(0, 5).forEach(category => { %>
+                      <span class="category"><%= category %></span>
+                    <% }); %>
+                  <% } else { %>
+                    <span class="category">General</span>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+        <a href="<%= projectsService.getProjectImagePath(project) %>" data-fancybox="projects-gallery" data-caption="<%= project.title %>" class="fancybox-link">
+          <i class="bi bi-zoom-in"></i>
+        </a>
+      </div>
+    <% }); %>
+    <% } else { %>
+      <div class="no-projects-message">
+        <div class="text-center">
+          <i class="bi bi-inbox fa-3x text-muted mb-3"></i>
+          <h3>No Projects Found</h3>
+          <p class="text-muted">No projects are currently available. Please check back later.</p>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</div> 

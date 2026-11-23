@@ -1,0 +1,173 @@
+﻿@import "../plugins/bootstrap/less/variables.less";
+@import "../plugins/bootstrap/less/mixins.less";
+
+html {
+    body {
+
+        .promo-section {
+            position: relative;
+            overflow: hidden;
+            background: #111;
+
+            .promo-item {
+                background-repeat: no-repeat;
+                background-size: cover;
+                position: relative;
+                height: 100vh;
+                min-height: 600px;
+
+                &:after {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                    background: rgba(0,0,0,.7);
+                }
+
+
+                .promo-item-content {
+                    position: relative;
+                    top: 50%;
+                    -moz-transform: translateY(-50%);
+                    -ms-transform: translateY(-50%);
+                    -o-transform: translateY(-50%);
+                    -webkit-transform: translateY(-50%);
+                    transform: translateY(-50%);
+                    width: 50%;
+                    z-index: 2;
+                    border-left: solid 7px @Pink;
+                    padding-left: 32px;
+
+                    em {
+                        position: relative;
+                        top: -3px;
+                        display: block;
+                        font-size: 20px;
+                        font-weight: 600;
+                        font-style: normal;
+                        line-height: 1;
+                        text-transform: uppercase;
+                        color: @White;
+                        margin-bottom: 25px;
+                    }
+
+                    h3 {
+                        font-size: 66px;
+                        line-height: 1;
+                        font-weight: 700;
+                        text-transform: uppercase;
+                        margin: 0 0 15px;
+                        color: @White;
+                    }
+
+                    .promo-item-content-description {
+                        position: relative;
+                        bottom: -4px;
+                        color: @LighterGray;
+                    }
+                }
+            }
+
+            .slick-prev, .slick-next {
+                position: absolute;
+                top: 50%;
+                right: 0;
+                -moz-transform: translateY(-50%);
+                -ms-transform: translateY(-50%);
+                -o-transform: translateY(-50%);
+                -webkit-transform: translateY(-50%);
+                transform: translateY(-50%);
+                width: 60px;
+                height: 60px;
+                line-height: 60px;
+                background: @Pink;
+                color: @White;
+                text-align: center;
+
+                &:hover {
+                    background: #cc4b4b;
+                    color: @White;
+                }
+            }
+
+            .slick-prev {
+                right: 63px;
+            }
+
+            .slick-slide {
+                outline: none;
+            }
+
+            .slick-arrow {
+                -moz-transition: all 0.3s ease-in-out 0s;
+                -o-transition: all 0.3s ease-in-out 0s;
+                -webkit-transition: all 0.3s ease-in-out 0s;
+                transition: all 0.3s ease-in-out 0s;
+                cursor: pointer;
+                z-index: 2;
+            }
+        }
+
+        @media (max-width: 991px) {
+
+            .promo-section {
+                .promo-item {
+                    .promo-item-content {
+                        width: 80%;
+
+                        em {
+                            margin-bottom: 15px;
+                        }
+
+                        h3 {
+                            font-size: 46px;
+                        }
+                    }
+                }
+            }
+        }
+
+        @media (max-width: 767px) {
+            .promo-section {
+                .promo-item {
+                    .promo-item-content {
+                        em {
+                            font-size: 14px;
+                        }
+
+                        h3 {
+                            font-size: 30px;
+                        }
+                    }
+                }
+
+                .slick-prev, .slick-next {
+                    width: 40px;
+                    height: 40px;
+                    line-height: 40px;
+                }
+
+                .slick-prev {
+                    right: 53px;
+                }
+            }
+        }
+
+        @media (max-width: 599px) {
+            .promo-section {
+
+                .slick-prev, .slick-next {
+                    top: 20%;
+                    left: 0;
+                    right: auto;
+                }
+
+                .slick-next {
+                    left: 53px;
+                }
+            }
+        }
+    }
+}

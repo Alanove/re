@@ -10,6 +10,7 @@ Act as an elite Node.js backend engineer building high-end, high-performance web
 ## Architecture
 - Strict Service-Repository layering: route -> controller -> service -> repository -> storage.
 - Route handlers and controllers never touch storage (no `fs` on data files, no raw queries). Only repositories do.
+- JSON content saves go through `packages/json-backup` (`writeJsonFileSync`). See the json-backup rule. Do not write `data/` or `content/` JSON with a plain `writeFile` from new code.
 
 ## Coding style
 - ES modules only (`import`/`export`, `"type": "module"`, `.js` suffix on relative imports under NodeNext).

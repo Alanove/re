@@ -1,3 +1,4 @@
+import { writeJsonFileSync } from '../../src/vendor/json-backup/writeJsonFileSync';
 import * as fs from 'fs';
 import { DATA_PATHS } from '../../src/constants';
 
@@ -54,7 +55,7 @@ export class CareersService {
    */
   private saveCareers(): void {
     try {
-      fs.writeFileSync(this.dataPath, JSON.stringify(this.careersData, null, 2), 'utf8');
+      writeJsonFileSync(this.dataPath, JSON.stringify(this.careersData, null, 2));
       // Reload data from file to ensure in-memory data is in sync
       this.careersData = this.loadCareers();
     } catch (error) {

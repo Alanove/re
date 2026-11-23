@@ -5,5 +5,7 @@
   "nodeBin": null,
   "aapanelProject": "mekbeirut",
   "restartCommand": null,
-  "protect": []
+  "protect": [
+    "data-backups"
+  ]
 }

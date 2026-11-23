@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SecurityControls</name>
+    </assembly>
+    <members>
+        <member name="T:lw.SecurityControls.cte">
+            <summary>
+            Class containing all the constants that are using in the <see cref="N:lw.SecurityControls"/> library
+            </summary>
+        </member>
+        <member name="T:lw.SecurityControls.NoCaptchaRecaptcha">
+            <summary>
+            Created the new NoCaptcha Re-Captcha from Google
+            </summary>
+            <example>
+            <code>
+            <![CDATA[
+            <lw:NoCaptchaRecaptcha runat="server" theme="lite" />
+            ]]>
+            </code>
+            </example>
+            <remarks>
+            Secret and Private keys must be added in Parameters.config
+            ReCaptchaPublicKey and ReCaptchaPrivateKey.
+            Get the keys from https://www.google.com/recaptcha/admin
+            </remarks>
+        </member>
+        <member name="M:lw.SecurityControls.NoCaptchaRecaptcha.Validate">
+            <summary>
+            Perform validation of reCAPTCHA.
+            </summary>
+        </member>
+        <member name="M:lw.SecurityControls.NoCaptchaRecaptcha.GenerateChallengeUrl">
+            <summary>
+            This function generates challenge URL.
+            </summary>
+        </member>
+        <member name="T:lw.SecurityControls.NoRecaptchaValidator">
+            <summary>
+            Calls the reCAPTCHA server to validate the answer to a reCAPTCHA challenge. Normally,
+            you will use the RecaptchaControl class to insert a web control on your page. However
+            </summary>
+        </member>
+        <member name="T:lw.SecurityControls.RecaptchaValidator">
+            <summary>
+            Calls the reCAPTCHA server to validate the answer to a reCAPTCHA challenge. Normally,
+            you will use the RecaptchaControl class to insert a web control on your page. However
+            </summary>
+        </member>
+        <member name="T:lw.SecurityControls.RecaptchaResponse">
+            <summary>
+            Encapsulates a response from reCAPTCHA web service.
+            </summary>
+        </member>
+        <member name="M:lw.SecurityControls.RecaptchaResponse.#ctor(System.Boolean,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:lw.SecurityControls.RecaptchaResponse"/> class.
+            </summary>
+            <param name="isValid">Value indicates whether submitted reCAPTCHA is valid.</param>
+            <param name="errorCode">Error code returned from reCAPTCHA web service.</param>
+        </member>
+        <member name="M:lw.SecurityControls.Recaptcha.Validate">
+            <summary>
+            Perform validation of reCAPTCHA.
+            </summary>
+        </member>
+        <member name="M:lw.SecurityControls.Recaptcha.GenerateChallengeUrl(System.Boolean)">
+            <summary>
+            This function generates challenge URL.
+            </summary>
+        </member>
+    </members>
+</doc>

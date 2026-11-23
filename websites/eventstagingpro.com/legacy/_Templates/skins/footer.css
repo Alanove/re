@@ -1,0 +1,88 @@
+﻿@import url(//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700);
+/*
+
+@LightestGray: #f1f1f1;
+@LightestGray2: #fafafa;*/
+/*@container-tablet: 100%;*/
+/*@container-desktop: 100%;*/
+html body .wrapper > footer {
+  padding: 15px 0;
+  background: #111;
+}
+html body .wrapper > footer .copyright {
+  font-size: 13px;
+  color: #f1f1f1;
+}
+html body .wrapper > footer .copyright p {
+  margin: 0;
+}
+html body .wrapper > footer .copyright a {
+  color: #fe6466;
+}
+html body .wrapper > footer .copyright a:hover {
+  color: #ffffff;
+}
+html body .wrapper > footer .social {
+  text-align: right;
+}
+html body .wrapper > footer .social a {
+  color: #ffffff;
+  font-size: 20px;
+  text-decoration: none;
+  margin-right: 10px;
+}
+html body .wrapper > footer .social a:hover {
+  color: #fe6466;
+}
+html body .wrapper > footer .social a:last-child {
+  margin-right: 0;
+}
+html body .scrollup {
+  width: 46px;
+  height: 46px;
+  position: fixed;
+  bottom: 60px;
+  right: 20px;
+  background: url(images/arrows.png) no-repeat;
+  display: none;
+  text-align: center;
+  z-index: 1;
+  outline: none;
+  opacity: 0.8;
+  -moz-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+  -moz-transition: none;
+  -o-transition: none;
+  -webkit-transition: none;
+  transition: none;
+}
+html body .scrollup:hover {
+  opacity: 1;
+  background-position: -82px 0;
+}
+@media only screen and (max-width: 767px) {
+  html body .wrapper .scrollup {
+    width: 36px;
+    height: 36px;
+    background-size: cover;
+  }
+  html body .wrapper .scrollup:hover {
+    background-position: -64px 0;
+  }
+}
+@media only screen and (max-width: 991px) {
+  html body .wrapper > footer {
+    text-align: center;
+  }
+  html body .wrapper > footer .social {
+    margin-top: 10px;
+    text-align: center;
+  }
+  html body .scrollup {
+    bottom: 30px;
+  }
+}
+/*# sourceMappingURL=footer.css.map */

@@ -1,0 +1,278 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MailManager</name>
+    </assembly>
+    <members>
+        <member name="T:lw.Network.cte">
+            <summary>
+            Class containing all the constants that are using in the <see cref="N:lw.Network"/> library
+            </summary>
+        </member>
+        <member name="T:lw.Network.Mail">
+            <summary>
+            Mail object, is used to send emails in the website.
+            Before using this object make sure to update the mail parameters in web.config
+            <![CDATA[
+            <smtp from="from@domain.com" deliveryMethod="Network">
+            	<network host="mailhost" port="25" password="password" userName="username" />
+            </smtp>
+            ]]>
+            
+            Note that when using this method you don't have to worry about the performance of the mail server, 
+            as the e-mails will be prepared on the main server and then sent one by one later on using a threaded timer <seealso cref="T:lw.Network.MailQueue"/>
+            </summary>
+        </member>
+        <member name="M:lw.Network.Mail.#ctor">
+            <summary>
+            Mail Constructor
+            </summary>
+        </member>
+        <member name="M:lw.Network.Mail.#ctor(System.String,System.String,System.String,System.String)">
+            <summary>
+            Creates a Mail Object
+            </summary>
+            <param name="email">The email file located in "Prv/Emails" and defined in "Prv/Conf/emails.config"</param>
+            <param name="from">The from address that this email should send from</param>
+            <param name="to">The to address that this email should send</param>
+            <param name="subject">Subject of the email</param>
+        </member>
+        <member name="M:lw.Network.Mail.#ctor(System.String)">
+            <summary>
+            Mail Constructor
+            </summary>
+            <param name="email">The email defined in Emails.Config with related file in PRV/Emails</param>
+        </member>
+        <member name="M:lw.Network.Mail.#ctor(System.String,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Mail Constructor
+            </summary>
+            <param name="email">The email defined in Emails.Config with related file in PRV/Emails</param>
+            <param name="data">The data to be used inside the mail</param>
+        </member>
+        <member name="M:lw.Network.Mail.Send">
+            <summary>
+            Sends the email to all the <seealso cref="!:TooList"/>, <seealso cref="P:lw.Network.Mail.CCList"/> and <seealso cref="P:lw.Network.Mail.BCCList"/>
+            </summary>
+        </member>
+        <member name="M:lw.Network.Mail.DeleteAttachements">
+            <summary>
+            Deletes all the attachements related to this email
+            </summary>
+        </member>
+        <member name="M:lw.Network.Mail.SendAsAttachement">
+            <summary>
+            Send Email As Attachement File
+            </summary>
+        </member>
+        <member name="M:lw.Network.Mail.SendAsAttachement(System.String,System.String)">
+            <summary>
+            Send Email As Attachement File
+            </summary>
+            <param name="str">Value added to the file name; Default: DateTime in seconds</param>
+        </member>
+        <member name="M:lw.Network.Mail.SendText">
+            <summary>
+            Sends the email in text format
+            </summary>
+        </member>
+        <member name="M:lw.Network.Mail.Attach(System.String)">
+            <summary>
+            Adds an attachement to the mail.
+            Calling this method will automatically set the flag <seealso cref="P:lw.Network.Mail.DeleteAttachementsAfterSend"/> to false, 
+            if you still want to delete the attachement after send you can simply call <seealso cref="P:lw.Network.Mail.DeleteAttachementsAfterSend"/>
+            </summary>
+            <param name="fileName">The file location</param>
+        </member>
+        <member name="P:lw.Network.Mail.IncludeSiteNameInSubject">
+            <summary>
+            Includes the site name in the subject field.
+            </summary>
+        </member>
+        <member name="P:lw.Network.Mail.FromName">
+            <summary>
+            Specifies the from address' name of this email
+            </summary>
+        </member>
+        <member name="P:lw.Network.Mail.From">
+            <summary>
+            Specifies the from address' name of this email
+            </summary>
+        </member>
+        <member name="P:lw.Network.Mail.To">
+            <summary>
+            sets the recipient's email address
+            resets the ToList variable
+            </summary>
+        </member>
+        <member name="P:lw.Network.Mail.CC">
+            <summary>
+            sets the cc email address
+            resets the CCList variable
+            </summary>
+        </member>
+        <member name="P:lw.Network.Mail.DeleteAttachementsAfterSend">
+            <summary>
+            A flag to delete the attached files after sending the email (default to true).
+            Note that when setting this to false, attachements must be manually deleted.
+            To delete the attachements you can also call <seealso cref="M:lw.Network.Mail.DeleteAttachements"/>
+            </summary>
+        </member>
+        <member name="T:lw.Network.MailManager">
+            <summary>
+            Summary description for MailManager.
+            </summary>
+        </member>
+        <member name="M:lw.Network.MailQueue.AddToQueue(System.Net.Mail.MailMessage)">
+            <summary>
+            Adds MailMessage to mailing queue and calls proccess queue
+            </summary>
+            <param name="Msg"><see cref="T:System.Net.Mail.MailMessage"/></param>
+        </member>
+        <member name="M:lw.Network.MailQueue.InitTimer">
+            <summary>
+            Initializes the timer that will send emails
+            </summary>
+        </member>
+        <member name="M:lw.Network.MailQueue.ProccessQueue(System.Object,System.Timers.ElapsedEventArgs)">
+            <summary>
+            Proccesses the mailing queue
+            Stops if no mails are found
+            Adter stop the re-initialazation happens in <seealso cref="M:lw.Network.MailQueue.AddToQueue(System.Net.Mail.MailMessage)"/>
+            this function is called from Cache
+            </summary>
+        </member>
+        <member name="M:lw.Network.MailQueue.ProccessQueue">
+            <summary>
+            Proccesses the mailing queue
+            Stops if no mails are found
+            Adter stop the re-initialazation happens in <seealso cref="M:lw.Network.MailQueue.AddToQueue(System.Net.Mail.MailMessage)"/>
+            </summary>
+        </member>
+        <member name="M:lw.Network.SerializableLinkedResource.GetSerializableLinkedResource(System.Net.Mail.LinkedResource)">
+            <summary>
+            Serializable Linked Resource
+            </summary>
+            <param name="linkedResource">Linked Resource that needs to be serialized</param>
+            <returns>Serializable Linked Resource</returns>
+        </member>
+        <member name="M:lw.Network.SerializableLinkedResource.GetOriginalLinkedResource">
+            <summary>
+            Gets original Linked Resource
+            </summary>
+            <returns>original linked resource</returns>
+        </member>
+        <member name="T:lw.Network.SerializableAlternateView">
+            <summary>
+            SerializableAlternateView
+            </summary>
+        </member>
+        <member name="M:lw.Network.SerializableAlternateView.GetSerializableAlternateView(System.Net.Mail.AlternateView)">
+            <summary>
+            Returns serializable alternate view object
+            </summary>
+            <param name="alternateView"></param>
+            <returns></returns>
+        </member>
+        <member name="M:lw.Network.SerializableAlternateView.GetOriginalAlternateView">
+            <summary>
+            Gets original alternate view back
+            </summary>
+            <returns>original alternate view</returns>
+        </member>
+        <member name="T:lw.Network.SerializableMailAddress">
+            <summary>
+            Serializable Mail Address
+            </summary>
+        </member>
+        <member name="M:lw.Network.SerializableMailAddress.GetSerializableMailAddress(System.Net.Mail.MailAddress)">
+            <summary>
+            Serializes mail address
+            </summary>
+            <param name="mailAddress">original mail address that needs to be serailized</param>
+            <returns></returns>
+        </member>
+        <member name="M:lw.Network.SerializableMailAddress.GetOriginalMailAddress">
+            <summary>
+            Returns the original mail address
+            </summary>
+            <returns>original mail address</returns>
+        </member>
+        <member name="T:lw.Network.SerializableContentDisposition">
+            <summary>
+            Serializable content disposition
+            </summary>
+        </member>
+        <member name="M:lw.Network.SerializableContentDisposition.GetSerializableContentDisposition(System.Net.Mime.ContentDisposition)">
+            <summary>
+            Serailizes ontent disposition
+            </summary>
+            <param name="contentDisposition">content disposition to be serialized</param>
+            <returns>serialized content disposition</returns>
+        </member>
+        <member name="M:lw.Network.SerializableContentDisposition.SetContentDisposition(System.Net.Mime.ContentDisposition)">
+            <summary>
+            Set serialized content disposition properties
+            </summary>
+            <param name="serializedCd">original content disposition</param>
+        </member>
+        <member name="T:lw.Network.SerializableContentType">
+            <summary>
+            Serializable Content Type
+            </summary>
+        </member>
+        <member name="M:lw.Network.SerializableContentType.GetSerializableContentType(System.Net.Mime.ContentType)">
+            <summary>
+            Returns serializable content type
+            </summary>
+            <param name="contentType">Original content type</param>
+            <returns>serialized content type</returns>
+        </member>
+        <member name="M:lw.Network.SerializableContentType.GetOriginalContentType">
+            <summary>
+            Returns Original ContentType
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:lw.Network.SerializableAttachment">
+            <summary>
+            Serializable Attachment
+            </summary>
+        </member>
+        <member name="M:lw.Network.SerializableAttachment.GetSerializeableAttachment(System.Net.Mail.Attachment)">
+            <summary>
+            Returns serializable attachment
+            </summary>
+            <param name="att"></param>
+            <returns></returns>
+        </member>
+        <member name="M:lw.Network.SerializableAttachment.GetOriginalAttachment">
+            <summary>
+            Returns original attachment
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:lw.Network.SerializableCollection">
+            <summary>
+            Serializable Collection
+            </summary>
+        </member>
+        <member name="T:lw.Network.SerializableMailMessage">
+            <summary>
+            Serializable mail message object
+            </summary>
+        </member>
+        <member name="M:lw.Network.SerializableMailMessage.#ctor(System.Net.Mail.MailMessage)">
+            <summary>
+            Serializable Mail Message Contstructor
+            </summary>
+            <param name="mailMessage">Original Mail Message to be serialized</param>
+        </member>
+        <member name="M:lw.Network.SerializableMailMessage.GetOriginalMailObject">
+            <summary>
+            Returns the MailMessge object from the serializeable object
+            </summary>
+            <returns>Original Mail Message Object</returns>
+        </member>
+    </members>
+</doc>

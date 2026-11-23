@@ -1,0 +1,297 @@
+<!-- BEGIN content area -->
+<div class="row">
+	<div class="col-xl-12">
+		<!-- BEGIN panel -->
+		<div class="panel panel-inverse">
+			<div class="panel-heading">
+				<h4 class="panel-title"><%= typeof t !== 'undefined' ? t('ecommerce.orders.title') : 'Orders' %></h4>
+			</div>
+			<div class="panel-body">
+				<% if (typeof success !== 'undefined' && success) { %>
+					<div class="alert alert-success alert-dismissible fade show" role="alert">
+						<strong><%= typeof t !== 'undefined' ? t('messages.success') : 'Success!' %></strong> <%= success %>
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>
+				<% } %>
+				
+				<% if (typeof error !== 'undefined' && error) { %>
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<strong>Error!</strong> <%= error %>
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>
+				<% } %>
+				
+				<!-- BEGIN filters -->
+				<form method="GET" action="/admin/orders" id="filters-form">
+					<div class="row mb-3">
+						<div class="col-md-3">
+							<div class="input-group">
+								<span class="input-group-text">
+									<i class="fa fa-search"></i>
+								</span>
+								<input type="text" class="form-control" name="search" id="searchFilter" 
+								       placeholder="<%= typeof t !== 'undefined' ? t('common.search') : 'Search orders...' %>" 
+								       value="<%= typeof filters !== 'undefined' && filters.search ? filters.search : '' %>" />
+							</div>
+						</div>
+						<div class="col-md-2">
+							<select class="form-select" name="status" id="statusFilter">
+								<option value="">All <%= typeof t !== 'undefined' ? t('ecommerce.orders.status') : 'Status' %></option>
+								<option value="pending" <%= typeof filters !== 'undefined' && filters.status === 'pending' ? 'selected' : '' %>>
+									<%= typeof t !== 'undefined' ? t('ecommerce.orders.pending') : 'Pending' %>
+								</option>
+								<option value="verifying" <%= typeof filters !== 'undefined' && filters.status === 'verifying' ? 'selected' : '' %>>
+									<%= typeof t !== 'undefined' ? t('ecommerce.orders.verifying') : 'Verifying' %>
+								</option>
+								<option value="failed" <%= typeof filters !== 'undefined' && filters.status === 'failed' ? 'selected' : '' %>>
+									<%= typeof t !== 'undefined' ? t('ecommerce.orders.failed') : 'Failed' %>
+								</option>
+								<option value="processing" <%= typeof filters !== 'undefined' && filters.status === 'processing' ? 'selected' : '' %>>
+									<%= typeof t !== 'undefined' ? t('ecommerce.orders.processing') : 'Processing' %>
+								</option>
+								<option value="shipped" <%= typeof filters !== 'undefined' && filters.status === 'shipped' ? 'selected' : '' %>>
+									<%= typeof t !== 'undefined' ? t('ecommerce.orders.shipped') : 'Shipped' %>
+								</option>
+								<option value="delivered" <%= typeof filters !== 'undefined' && filters.status === 'delivered' ? 'selected' : '' %>>
+									<%= typeof t !== 'undefined' ? t('ecommerce.orders.delivered') : 'Delivered' %>
+								</option>
+								<option value="completed" <%= typeof filters !== 'undefined' && filters.status === 'completed' ? 'selected' : '' %>>
+									<%= typeof t !== 'undefined' ? t('ecommerce.orders.completed') : 'Completed' %>
+								</option>
+								<option value="cancelled" <%= typeof filters !== 'undefined' && filters.status === 'cancelled' ? 'selected' : '' %>>
+									<%= typeof t !== 'undefined' ? t('ecommerce.orders.cancelled') : 'Cancelled' %>
+								</option>
+							</select>
+						</div>
+						<div class="col-md-2">
+							<select class="form-select" name="payment_status" id="paymentStatusFilter">
+								<option value="">All Payment Status</option>
+								<option value="pending" <%= typeof filters !== 'undefined' && filters.payment_status === 'pending' ? 'selected' : '' %>>
+									Pending Payment
+								</option>
+								<option value="paid" <%= typeof filters !== 'undefined' && filters.payment_status === 'paid' ? 'selected' : '' %>>
+									Paid
+								</option>
+								<option value="refunded" <%= typeof filters !== 'undefined' && filters.payment_status === 'refunded' ? 'selected' : '' %>>
+									Refunded
+								</option>
+							</select>
+						</div>
+						<div class="col-md-2">
+							<select class="form-select" name="payment_type" id="paymentTypeFilter">
+								<option value="">All Payment Type</option>
+								<option value="cash_on_delivery" <%= typeof filters !== 'undefined' && filters.payment_type === 'cash_on_delivery' ? 'selected' : '' %>>
+									<%= typeof t !== 'undefined' ? t('ecommerce.checkout.cashOnDelivery') : 'Cash On Delivery' %>
+								</option>
+								<option value="netcommerce" <%= typeof filters !== 'undefined' && filters.payment_type === 'netcommerce' ? 'selected' : '' %>>
+									<%= typeof t !== 'undefined' ? t('ecommerce.checkout.creditCard') : 'Bank Card' %>
+								</option>
+							</select>
+						</div>
+						<div class="col-md-3">
+							<button type="submit" class="btn btn-primary me-1">
+								<i class="fa fa-filter"></i> <%= typeof t !== 'undefined' ? t('common.filter') : 'Filter' %>
+							</button>
+							<a href="/admin/orders" class="btn btn-secondary">
+								<i class="fa fa-times"></i> <%= typeof t !== 'undefined' ? t('common.clearFilters') : 'Clear' %>
+							</a>
+						</div>
+					</div>
+				</form>
+				<!-- END filters -->
+				
+				<div class="table-responsive">
+					<table class="table table-striped table-bordered align-middle">
+						<thead>
+							<tr>
+								<th><%= typeof t !== 'undefined' ? t('ecommerce.orders.orderNumber') : 'Order #' %></th>
+								<th><%= typeof t !== 'undefined' ? t('ecommerce.orders.customer') : 'Customer' %></th>
+								<th><%= typeof t !== 'undefined' ? t('ecommerce.orders.items') : 'Items' %></th>
+								<th><%= typeof t !== 'undefined' ? t('ecommerce.orders.total') : 'Total' %></th>
+								<th><%= typeof t !== 'undefined' ? t('ecommerce.orders.status') : 'Status' %></th>
+								<th>Payment Status</th>
+								<th><%= typeof t !== 'undefined' ? t('ecommerce.orders.paymentType') : 'Payment Type' %></th>
+								<th>Date</th>
+								<th width="100"><%= typeof t !== 'undefined' ? t('common.actions') : 'Actions' %></th>
+							</tr>
+						</thead>
+						<tbody>
+							<% if (typeof orders !== 'undefined' && orders && orders.length > 0) { %>
+								<% orders.forEach(function(order) { %>
+									<tr data-order-id="<%= order.id %>">
+										<td>
+											<a href="/admin/orders/<%= order.id %>" class="fw-bold">
+												#<%= order.order_number %>
+											</a>
+										</td>
+										<td>
+											<div>
+												<% if (order.customer_name) { %>
+													<div class="fw-bold"><%= order.customer_name %></div>
+												<% } %>
+												<% if (order.customer_email) { %>
+													<div class="text-muted small"><%= order.customer_email %></div>
+												<% } %>
+											</div>
+										</td>
+										<td>
+											<span class="text-muted"><%= order.item_count != null ? order.item_count : 0 %></span>
+										</td>
+										<td>
+											<span class="fw-bold">$<%= parseFloat(order.total_amount).toFixed(2) %></span>
+										</td>
+										<td>
+											<% 
+											const statusClass = {
+												'pending': 'bg-warning',
+												'verifying': 'bg-info',
+												'failed': 'bg-danger',
+												'processing': 'bg-info',
+												'shipped': 'bg-primary',
+												'delivered': 'bg-success',
+												'completed': 'bg-success',
+												'cancelled': 'bg-danger',
+												'refunded': 'bg-secondary'
+											};
+											const statusLabel = {
+												'pending': typeof t !== 'undefined' ? t('ecommerce.orders.pending') : 'Pending',
+												'verifying': typeof t !== 'undefined' ? t('ecommerce.orders.verifying') : 'Verifying',
+												'failed': typeof t !== 'undefined' ? t('ecommerce.orders.failed') : 'Failed',
+												'processing': typeof t !== 'undefined' ? t('ecommerce.orders.processing') : 'Processing',
+												'shipped': typeof t !== 'undefined' ? t('ecommerce.orders.shipped') : 'Shipped',
+												'delivered': typeof t !== 'undefined' ? t('ecommerce.orders.delivered') : 'Delivered',
+												'completed': typeof t !== 'undefined' ? t('ecommerce.orders.completed') : 'Completed',
+												'cancelled': typeof t !== 'undefined' ? t('ecommerce.orders.cancelled') : 'Cancelled',
+												'refunded': typeof t !== 'undefined' ? t('ecommerce.orders.refunded') : 'Refunded'
+											};
+											%>
+											<span class="badge <%= statusClass[order.status] || 'bg-secondary' %>">
+												<%= statusLabel[order.status] || order.status %>
+											</span>
+										</td>
+										<td>
+											<% 
+											const paymentStatusClass = {
+												'pending': 'bg-warning',
+												'paid': 'bg-success',
+												'refunded': 'bg-danger',
+												'failed': 'bg-danger'
+											};
+											%>
+											<span class="badge <%= paymentStatusClass[order.payment_status] || 'bg-secondary' %>">
+												<%= order.payment_status ? order.payment_status.charAt(0).toUpperCase() + order.payment_status.slice(1) : 'N/A' %>
+											</span>
+										</td>
+										<td>
+											<% 
+											const pm = (order.payment_method || '').toLowerCase();
+											const paymentTypeLabel = pm === 'cash_on_delivery' || pm.includes('cash') 
+												? (typeof t !== 'undefined' ? t('ecommerce.checkout.cashOnDelivery') : 'Cash On Delivery')
+												: pm === 'netcommerce' 
+													? (typeof t !== 'undefined' ? t('ecommerce.checkout.creditCard') : 'Bank Card')
+													: (order.payment_method || '-');
+											%>
+											<%= paymentTypeLabel %>
+										</td>
+										<td>
+											<%= new Date(order.created_at).toLocaleDateString() %>
+											<br>
+											<small class="text-muted"><%= new Date(order.created_at).toLocaleTimeString() %></small>
+										</td>
+										<td>
+											<a href="/admin/orders/<%= order.id %>" class="btn btn-xs btn-primary" title="<%= typeof t !== 'undefined' ? t('common.view') : 'View' %>">
+												<i class="fa fa-eye"></i>
+											</a>
+										</td>
+									</tr>
+								<% }); %>
+							<% } else { %>
+								<tr>
+									<td colspan="9" class="text-center py-4">
+										<i class="fa fa-shopping-cart fa-3x text-muted mb-3"></i>
+										<p class="text-muted"><%= typeof t !== 'undefined' ? t('common.noData') : 'No orders found' %></p>
+									</td>
+								</tr>
+							<% } %>
+						</tbody>
+					</table>
+				</div>
+				
+				<!-- BEGIN pagination -->
+				<% if (typeof pagination !== 'undefined' && pagination.totalPages > 1) { %>
+					<div class="d-flex justify-content-between align-items-center mt-3">
+						<div>
+							<%= typeof t !== 'undefined' ? (t('common.showing') || t('ecommerce.showing')) : 'Showing' %> 
+							<%= ((pagination.page - 1) * pagination.limit) + 1 %> - 
+							<%= Math.min(pagination.page * pagination.limit, pagination.total) %> 
+							<%= typeof t !== 'undefined' ? t('common.of') : 'of' %> 
+							<%= pagination.total %> 
+							<%= typeof t !== 'undefined' ? t('common.items') : 'items' %>
+						</div>
+						<nav>
+							<ul class="pagination mb-0">
+								<% 
+									const currentPage = pagination.page;
+									const totalPages = pagination.totalPages;
+									const queryParams = new URLSearchParams();
+									if (typeof filters !== 'undefined') {
+										if (filters.search) queryParams.set('search', filters.search);
+										if (filters.status) queryParams.set('status', filters.status);
+										if (filters.payment_status) queryParams.set('payment_status', filters.payment_status);
+										if (filters.payment_type) queryParams.set('payment_type', filters.payment_type);
+									}
+									
+									// Previous button
+									if (currentPage > 1) {
+										queryParams.set('page', (currentPage - 1).toString());
+								%>
+									<li class="page-item">
+										<a class="page-link" href="?<%= queryParams.toString() %>">
+											<i class="fa fa-chevron-left"></i>
+										</a>
+									</li>
+								<% } else { %>
+									<li class="page-item disabled">
+										<span class="page-link"><i class="fa fa-chevron-left"></i></span>
+									</li>
+								<% } %>
+
+								<% 
+									// Page numbers
+									let startPage = Math.max(1, currentPage - 2);
+									let endPage = Math.min(totalPages, currentPage + 2);
+									
+									for (let i = startPage; i <= endPage; i++) {
+										queryParams.set('page', i.toString());
+								%>
+									<li class="page-item <%= i === currentPage ? 'active' : '' %>">
+										<a class="page-link" href="?<%= queryParams.toString() %>"><%= i %></a>
+									</li>
+								<% } %>
+
+								<% 
+									// Next button
+									if (currentPage < totalPages) {
+										queryParams.set('page', (currentPage + 1).toString());
+								%>
+									<li class="page-item">
+										<a class="page-link" href="?<%= queryParams.toString() %>">
+											<i class="fa fa-chevron-right"></i>
+										</a>
+									</li>
+								<% } else { %>
+									<li class="page-item disabled">
+										<span class="page-link"><i class="fa fa-chevron-right"></i></span>
+									</li>
+								<% } %>
+							</ul>
+						</nav>
+					</div>
+				<% } %>
+				<!-- END pagination -->
+			</div>
+		</div>
+		<!-- END panel -->
+	</div>
+</div>
+<!-- END content area -->

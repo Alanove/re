@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Utilities</name>
+    </assembly>
+    <members>
+        <member name="P:lw.Utilities.LocalDate.Format">
+            <summary>
+            Sets the format reference for this date
+            </summary>
+        </member>
+        <member name="P:lw.Utilities.LocalDate.CultureInfo">
+            <summary>
+            Sets or gets the culture info of this tag
+            </summary>
+        </member>
+        <member name="T:lw.Utilities.RandomNumber">
+            <summary>
+            Creates a random number between the Min and Max Values (max and min are inclusive)
+            </summary>
+        </member>
+        <member name="P:lw.Utilities.RandomNumber.Format">
+            <summary>
+            Sets the format reference for this date
+            </summary>
+        </member>
+        <member name="P:lw.Utilities.RandomNumber.Min">
+            <summary>
+            Set set minimum number that can be returned
+            </summary>
+        </member>
+        <member name="P:lw.Utilities.RandomNumber.Max">
+            <summary>
+            Set set maximum number that can be returned
+            </summary>
+        </member>
+    </members>
+</doc>

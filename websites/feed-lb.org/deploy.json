@@ -5,5 +5,7 @@
   "nodeBin": null,
   "aapanelProject": "feedlb",
   "restartCommand": null,
-  "protect": []
+  "protect": [
+    "data-backups"
+  ]
 }

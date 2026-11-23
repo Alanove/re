@@ -1,3 +1,4 @@
+import { writeJsonFileSync } from '../vendor/json-backup/writeJsonFileSync';
 import * as fs from 'fs';
 import * as path from 'path';
 import { DATA_PATHS } from '../constants';
@@ -68,7 +69,7 @@ class ContactInfoService {
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
       }
-      fs.writeFileSync(this.contactInfoPath, JSON.stringify(this.contactInfo, null, 2));
+      writeJsonFileSync(this.contactInfoPath, JSON.stringify(this.contactInfo, null, 2));
       
       // Update last modified time
       if (fs.existsSync(this.contactInfoPath)) {

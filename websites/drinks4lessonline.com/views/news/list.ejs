@@ -1,0 +1,227 @@
+<div class="inner-page <%= typeof selected !== 'undefined' && selected ? selected : 'novosti' %>">
+  <div class="inner-page-content">
+    <div class="container">
+      <h1 class="inner-page-title">
+        <% 
+          if (typeof filterType !== 'undefined' && filterType) {
+            if (filterType === 'year') {
+              %>Новости за <%= filterValue %> год<%
+            } else if (filterType === 'month') {
+              const monthNames = ['', 'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+              %>Новости за <%= monthNames[filterValue.month] %> <%= filterValue.year %><%
+            } else if (filterType === 'day') {
+              %>Новости за <%= filterValue.day %> <%= new Date(filterValue.year, filterValue.month - 1, filterValue.day).toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' }) %><%
+            } else if (filterType === 'tag') {
+              // Use tagName from controller, fallback to filterValue (slug)
+              const displayTagName = typeof tagName !== 'undefined' && tagName ? tagName : filterValue;
+              %><%= displayTagName %><%
+            } else {
+              %>Новости<%
+            }
+          } else {
+            %>Новости<%
+          }
+        %>
+      </h1>
+
+      <div class="news-page-layout">
+        <div class="news-content-area">
+    <% 
+      // Define these variables at the top level so they're available throughout the template
+      const isObjavList = typeof selected !== 'undefined' && selected === 'objav';
+      const isVideoList = typeof selected !== 'undefined' && selected === 'video';
+    %>
+
+    <% if (typeof articles !== 'undefined' && articles && articles.length > 0) { %>
+      <div class="news-grid">
+        <% articles.forEach(function(article) { %>
+          <article class="news-item">
+            <% 
+              let articleUrl;
+              // Determine article category based on tags
+              const hasObjavTag = article.tags && article.tags.some(function(tag) { return tag.slug === 'objav'; });
+              const hasVideoTag = article.tags && article.tags.some(function(tag) { return tag.slug === 'video'; });
+              
+              if (isObjavList || hasObjavTag) {
+                articleUrl = `/objav/${article.slug}`;
+              } else if (isVideoList || hasVideoTag) {
+                articleUrl = `/video/${article.slug}`;
+              } else {
+                articleUrl = `/novosti/${article.slug}`;
+              }
+            %>
+            <% if (article.pageImage) { %>
+              <div class="news-image">
+                <a href="<%= articleUrl %>">
+                  <img src="<%= article.pageImage %>" alt="<%= article.title %>">
+                </a>
+              </div>
+            <% } %>
+            <div class="news-content">
+              <h2 class="news-title">
+                <a href="<%= articleUrl %>"><%= article.title %></a>
+              </h2>
+              <% if (article.publishDate) { %>
+                <time class="news-date" datetime="<%= article.publishDate %>">
+                  <%= new Date(article.publishDate).toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+                </time>
+              <% } %>
+              <% if (article.description) { %>
+                <p class="news-excerpt"><%= article.description %></p>
+              <% } else if (article.content) { %>
+                <p class="news-excerpt">
+                  <%= article.content.replace(/<[^>]*>/g, '').substring(0, 200) %>...
+                </p>
+              <% } %>
+              <a href="<%= articleUrl %>" class="news-read-more">Читать далее →</a>
+            </div>
+          </article>
+        <% }); %>
+      </div>
+
+      <!-- Pagination -->
+      <% if (typeof totalPages !== 'undefined' && totalPages > 1) { %>
+        <nav class="news-pagination" aria-label="News pagination">
+          <ul class="pagination">
+            <% 
+              let paginationBase;
+              if (isObjavList) {
+                paginationBase = '/objav';
+              } else if (isVideoList) {
+                paginationBase = '/video';
+              } else {
+                // Handle filtered routes
+                if (typeof filterType !== 'undefined' && filterType) {
+                  if (filterType === 'year') {
+                    paginationBase = `/novosti/year/${filterValue}`;
+                  } else if (filterType === 'month') {
+                    paginationBase = `/novosti/month/${filterValue.month}-${filterValue.year}`;
+                  } else if (filterType === 'day') {
+                    paginationBase = `/novosti/day/${filterValue.day}-${filterValue.month}-${filterValue.year}`;
+                  } else if (filterType === 'tag') {
+                    paginationBase = `/novosti/tag/${filterValue}`;
+                  } else {
+                    paginationBase = '/novosti';
+                  }
+                } else {
+                  paginationBase = '/novosti';
+                }
+              }
+            %>
+            <% 
+              // Calculate page range to show (up to 8 numbers for desktop)
+              let startPage = Math.max(1, currentPage - 3);
+              let endPage = Math.min(totalPages, currentPage + 4);
+              
+              // Adjust if we're near the beginning
+              if (currentPage <= 4) {
+                startPage = 1;
+                endPage = Math.min(8, totalPages);
+              }
+              
+              // Adjust if we're near the end
+              if (currentPage >= totalPages - 3) {
+                startPage = Math.max(1, totalPages - 7);
+                endPage = totalPages;
+              }
+              
+              let showStartEllipsis = startPage > 2;
+              let showEndEllipsis = endPage < totalPages - 1;
+            %> 
+            
+            <!-- Mobile Pagination (simplified) -->
+            <li class="page-item pagination-mobile-only">
+              <% if (hasPrevPage) { %>
+                <a class="page-link" href="<%= paginationBase %>?page=<%= currentPage - 1 %>">←</a>
+              <% } else { %>
+                <span class="page-link disabled">←</span>
+              <% } %>
+            </li>
+            <li class="page-item pagination-mobile-only">
+              <span class="page-link active"><%= currentPage %> / <%= totalPages %></span>
+            </li>
+            <li class="page-item pagination-mobile-only">
+              <% if (hasNextPage) { %>
+                <a class="page-link" href="<%= paginationBase %>?page=<%= currentPage + 1 %>">→</a>
+              <% } else { %>
+                <span class="page-link disabled">→</span>
+              <% } %>
+            </li>
+            
+            <!-- Desktop Pagination (full) -->
+            <% if (hasPrevPage) { %>
+              <li class="page-item pagination-desktop-only">
+                <a class="page-link" href="<%= paginationBase %>?page=<%= currentPage - 1 %>">Предыдущая</a>
+              </li>
+            <% } %>
+            
+            <% if (startPage > 1) { %>
+              <li class="page-item pagination-desktop-only">
+                <a class="page-link" href="<%= paginationBase %>?page=1">1</a>
+              </li>
+            <% } %>
+            
+            <% if (showStartEllipsis) { %>
+              <li class="page-item disabled pagination-desktop-only">
+                <span class="page-link">...</span>
+              </li>
+            <% } %>
+            
+            <% for (let i = startPage; i <= endPage; i++) { %>
+              <li class="page-item pagination-desktop-only <%= i === currentPage ? 'active' : '' %>">
+                <a class="page-link" href="<%= paginationBase %>?page=<%= i %>"><%= i %></a>
+              </li>
+            <% } %>
+            
+            <% if (showEndEllipsis) { %>
+              <li class="page-item disabled pagination-desktop-only">
+                <span class="page-link">...</span>
+              </li>
+            <% } %>
+            
+            <% if (endPage < totalPages) { %>
+              <li class="page-item pagination-desktop-only">
+                <a class="page-link" href="<%= paginationBase %>?page=<%= totalPages %>"><%= totalPages %></a>
+              </li>
+            <% } %>
+            
+            <% if (hasNextPage) { %>
+              <li class="page-item pagination-desktop-only">
+                <a class="page-link" href="<%= paginationBase %>?page=<%= currentPage + 1 %>">Следующая</a>
+              </li>
+            <% } %>
+          </ul>
+        </nav>
+      <% } %>
+    <% } else { %>
+      <div class="no-news">
+        <p>
+          <% 
+            if (typeof selected !== 'undefined' && selected === 'objav') {
+              %>Объявлений пока нет.<%
+            } else if (typeof selected !== 'undefined' && selected === 'video') {
+              %>Видео пока нет.<%
+            } else {
+              %>Новостей пока нет.<%
+            }
+          %>
+        </p>
+      </div>
+    <% } %>
+        </div>
+        
+        <!-- Archive Sidebar -->
+        <% if (typeof newsDates !== 'undefined' && typeof archiveDates !== 'undefined') { %>
+          <div class="news-archive-wrapper">
+            <%- include('partials/news-archive') %>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+

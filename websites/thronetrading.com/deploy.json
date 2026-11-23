@@ -5,5 +5,7 @@
   "nodeBin": null,
   "aapanelProject": "thronetrading",
   "restartCommand": null,
-  "protect": []
+  "protect": [
+    "data-backups"
+  ]
 }

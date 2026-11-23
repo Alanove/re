@@ -1,0 +1,379 @@
+<!-- BEGIN content area -->
+<div class="row">
+	<div class="col-xl-12">
+		<div class="panel panel-inverse">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<%= typeof t !== 'undefined' ? t('ecommerce.orders.editCart') : 'Edit Cart' %> - #<%= order.order_number %>
+				</h4>
+				<div class="panel-heading-btn">
+					<a href="/admin/orders/<%= order.id %>" class="btn btn-xs btn-secondary">
+						<i class="fa fa-arrow-left"></i> <%= typeof t !== 'undefined' ? t('common.back') : 'Back' %>
+					</a>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div id="editCartAlert" class="alert d-none"></div>
+
+				<form id="editCartForm">
+					<input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+
+					<!-- Cart items table -->
+					<div class="card mb-3">
+						<div class="card-header d-flex justify-content-between align-items-center">
+							<h5 class="mb-0">Order Items</h5>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-bordered" id="cartItemsTable">
+									<thead>
+										<tr>
+											<th>Product</th>
+											<th style="width:100px">Quantity</th>
+											<th style="width:120px">Unit Price ($)</th>
+											<th style="width:100px">Total</th>
+											<th style="width:60px"></th>
+										</tr>
+									</thead>
+									<tbody id="cartItemsBody">
+										<% if (order.items && order.items.length > 0) { %>
+											<% order.items.forEach(function(item) { %>
+												<tr data-item-id="<%= item.id %>" data-product-id="<%= item.product_id %>" data-variant-id="<%= item.variant_id != null ? item.variant_id : '' %>">
+													<td>
+														<div class="fw-bold"><%= item.product_name %></div>
+														<% if (item.variant_name) { %>
+															<div class="text-muted small"><%= item.variant_name %></div>
+														<% } %>
+													</td>
+													<td>
+														<input type="number" class="form-control form-control-sm item-qty" min="1" value="<%= item.quantity %>" required>
+													</td>
+													<td>
+														<input type="number" class="form-control form-control-sm item-unit-price" step="0.01" min="0" value="<%= parseFloat(item.unit_price).toFixed(2) %>" required>
+													</td>
+													<td class="item-total fw-bold">$<%= parseFloat(item.total_price).toFixed(2) %></td>
+													<td>
+														<button type="button" class="btn btn-sm btn-outline-danger remove-row" title="Remove"><i class="fa fa-trash"></i></button>
+													</td>
+												</tr>
+											<% }); %>
+										<% } else { %>
+											<tr id="noItemsRow">
+												<td colspan="5" class="text-center text-muted">No items. Add products below.</td>
+											</tr>
+										<% } %>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<!-- Add product -->
+					<div class="card mb-3">
+						<div class="card-header">
+							<h5 class="mb-0">Add Product</h5>
+						</div>
+						<div class="card-body">
+							<div class="row g-2 align-items-end">
+								<div class="col-md-4 position-relative">
+									<label class="form-label">Search product</label>
+									<input type="text" class="form-control" id="productSearch" placeholder="Type to search..." autocomplete="off">
+									<div id="productSearchResults" class="list-group position-absolute d-none" style="z-index:1000; max-height:200px; overflow-y:auto; left:0; right:0;"></div>
+								</div>
+								<div class="col-md-3">
+									<label class="form-label">Variant</label>
+									<select class="form-select" id="variantSelect" disabled>
+										<option value="">Select product first</option>
+									</select>
+								</div>
+								<div class="col-md-2">
+									<label class="form-label">Quantity</label>
+									<input type="number" class="form-control" id="newItemQty" min="1" value="1">
+								</div>
+								<div class="col-md-2">
+									<label class="form-label">Unit Price ($)</label>
+									<input type="number" class="form-control" id="newItemPrice" step="0.01" min="0" value="0">
+								</div>
+								<div class="col-md-1">
+									<button type="button" class="btn btn-primary" id="addProductBtn" disabled>Add</button>
+								</div>
+							</div>
+							<p class="text-muted small mt-2 mb-0">Prices here apply only to this order and do not change the product's catalog price.</p>
+						</div>
+					</div>
+
+					<!-- Shipping (cash on delivery only) -->
+					<div class="card mb-3">
+						<div class="card-header">
+							<h5 class="mb-0">Shipping</h5>
+						</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col-md-4">
+									<label class="form-label">Shipping Amount ($)</label>
+									<input type="number" class="form-control" name="shipping_amount" id="shippingAmount" step="0.01" min="0" value="<%= (order.shipping_amount != null && !isNaN(parseFloat(order.shipping_amount))) ? parseFloat(order.shipping_amount).toFixed(2) : '0.00' %>">
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Summary -->
+					<div class="card mb-3">
+						<div class="card-body">
+							<div class="d-flex justify-content-between mb-2">
+								<span>Subtotal:</span>
+								<span id="summarySubtotal">$0.00</span>
+							</div>
+							<div class="d-flex justify-content-between mb-2">
+								<span>Shipping:</span>
+								<span id="summaryShipping">$0.00</span>
+							</div>
+							<% if (order.discount_amount > 0) { %>
+							<div class="d-flex justify-content-between mb-2 text-success">
+								<span>Discount:</span>
+								<span>-$<%= parseFloat(order.discount_amount).toFixed(2) %></span>
+							</div>
+							<% } %>
+							<% if (order.tax_amount > 0) { %>
+							<div class="d-flex justify-content-between mb-2">
+								<span>Tax:</span>
+								<span>$<%= parseFloat(order.tax_amount).toFixed(2) %></span>
+							</div>
+							<% } %>
+							<hr>
+							<div class="d-flex justify-content-between fw-bold fs-5">
+								<span>Total:</span>
+								<span id="summaryTotal">$0.00</span>
+							</div>
+						</div>
+					</div>
+
+					<button type="submit" class="btn btn-primary" id="saveCartBtn">
+						<i class="fa fa-save"></i> <%= typeof t !== 'undefined' ? t('common.save') : 'Save Cart' %>
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END content area -->
+
+<script>
+(function() {
+	const orderId = <%= order.id %>;
+	const discountAmount = <%= parseFloat(order.discount_amount) || 0 %>;
+	const taxAmount = <%= parseFloat(order.tax_amount) || 0 %>;
+	const csrfToken = '<%= typeof csrfToken !== "undefined" ? (csrfToken || "").replace(/'/g, "\\'") : "" %>';
+
+	let productsCache = [];
+	let selectedProduct = null;
+	let searchTimeout = null;
+
+	function getCsrf() {
+		return document.querySelector('input[name="_csrf"]')?.value || document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || csrfToken;
+	}
+
+	function hideNoItemsRow() {
+		const row = document.getElementById('noItemsRow');
+		if (row) row.remove();
+	}
+
+	function addRow(item) {
+		hideNoItemsRow();
+		const tbody = document.getElementById('cartItemsBody');
+		const tr = document.createElement('tr');
+		tr.dataset.itemId = item.id || '';
+		tr.dataset.productId = item.product_id;
+		tr.dataset.variantId = item.variant_id != null ? String(item.variant_id) : '';
+		tr.innerHTML = `
+			<td><div class="fw-bold">${escapeHtml(item.product_name)}</div>${item.variant_name ? '<div class="text-muted small">' + escapeHtml(item.variant_name) + '</div>' : ''}</td>
+			<td><input type="number" class="form-control form-control-sm item-qty" min="1" value="${item.quantity}" required></td>
+			<td><input type="number" class="form-control form-control-sm item-unit-price" step="0.01" min="0" value="${Number(item.unit_price).toFixed(2)}" required></td>
+			<td class="item-total fw-bold"></td>
+			<td><button type="button" class="btn btn-sm btn-outline-danger remove-row" title="Remove"><i class="fa fa-trash"></i></button></td>
+		`;
+		tbody.appendChild(tr);
+		tr.querySelector('.item-qty').addEventListener('input', updateRowTotal);
+		tr.querySelector('.item-unit-price').addEventListener('input', updateRowTotal);
+		tr.querySelector('.remove-row').addEventListener('click', function() { tr.remove(); updateSummary(); });
+		updateRowTotal.call(tr);
+	}
+
+	function escapeHtml(s) {
+		const div = document.createElement('div');
+		div.textContent = s;
+		return div.innerHTML;
+	}
+
+	function updateRowTotal() {
+		const tr = this.closest('tr');
+		const qty = parseInt(tr.querySelector('.item-qty').value, 10) || 0;
+		const price = parseFloat(tr.querySelector('.item-unit-price').value) || 0;
+		tr.querySelector('.item-total').textContent = '$' + (qty * price).toFixed(2);
+		updateSummary();
+	}
+
+	function updateSummary() {
+		let subtotal = 0;
+		document.querySelectorAll('#cartItemsBody tr').forEach(tr => {
+			if (tr.id === 'noItemsRow') return;
+			const qty = parseInt(tr.querySelector('.item-qty').value, 10) || 0;
+			const price = parseFloat(tr.querySelector('.item-unit-price').value) || 0;
+			subtotal += qty * price;
+		});
+		const shipping = parseFloat(document.getElementById('shippingAmount').value) || 0;
+		const total = subtotal - discountAmount + shipping + taxAmount;
+		document.getElementById('summarySubtotal').textContent = '$' + subtotal.toFixed(2);
+		document.getElementById('summaryShipping').textContent = '$' + shipping.toFixed(2);
+		document.getElementById('summaryTotal').textContent = '$' + Math.max(0, total).toFixed(2);
+	}
+
+	document.querySelectorAll('#cartItemsBody tr').forEach(tr => {
+		if (tr.id === 'noItemsRow') return;
+		tr.querySelector('.item-qty')?.addEventListener('input', updateRowTotal);
+		tr.querySelector('.item-unit-price')?.addEventListener('input', updateRowTotal);
+		tr.querySelector('.remove-row')?.addEventListener('click', function() { tr.remove(); updateSummary(); });
+	});
+
+	document.getElementById('shippingAmount').addEventListener('input', updateSummary);
+
+	// Product search
+	document.getElementById('productSearch').addEventListener('input', function() {
+		const q = this.value.trim();
+		clearTimeout(searchTimeout);
+		if (q.length < 2) {
+			document.getElementById('productSearchResults').classList.add('d-none');
+			document.getElementById('productSearchResults').innerHTML = '';
+			selectedProduct = null;
+			document.getElementById('variantSelect').disabled = true;
+			document.getElementById('variantSelect').innerHTML = '<option value="">Select product first</option>';
+			document.getElementById('addProductBtn').disabled = true;
+			return;
+		}
+		searchTimeout = setTimeout(function() {
+			fetch('/admin/api/orders/products?q=' + encodeURIComponent(q), {
+				headers: { 'Accept': 'application/json' }
+			})
+			.then(r => r.json())
+			.then(products => {
+				productsCache = products;
+				const el = document.getElementById('productSearchResults');
+				el.innerHTML = '';
+				products.forEach((p, i) => {
+					const a = document.createElement('a');
+					a.href = '#';
+					a.className = 'list-group-item list-group-item-action';
+					a.textContent = p.name + (p.sku ? ' (' + p.sku + ')' : '');
+					a.dataset.index = String(i);
+					a.addEventListener('click', function(e) {
+						e.preventDefault();
+						selectedProduct = products[parseInt(this.dataset.index, 10)];
+						document.getElementById('productSearch').value = selectedProduct.name;
+						el.classList.add('d-none');
+						const sel = document.getElementById('variantSelect');
+						sel.innerHTML = '';
+						sel.disabled = false;
+						selectedProduct.variants.forEach((v, j) => {
+							const opt = document.createElement('option');
+							opt.value = v.id != null ? v.id : '';
+							opt.textContent = v.name + ' - $' + Number(v.price).toFixed(2);
+							opt.dataset.price = String(v.price);
+							sel.appendChild(opt);
+						});
+						sel.selectedIndex = 0;
+						document.getElementById('newItemPrice').value = selectedProduct.variants[0] ? Number(selectedProduct.variants[0].price).toFixed(2) : '0';
+						document.getElementById('addProductBtn').disabled = false;
+					});
+					el.appendChild(a);
+				});
+				el.classList.remove('d-none');
+			})
+			.catch(() => {
+				document.getElementById('productSearchResults').classList.add('d-none');
+				document.getElementById('productSearchResults').innerHTML = '';
+			});
+		}, 300);
+	});
+
+	document.getElementById('variantSelect').addEventListener('change', function() {
+		const opt = this.options[this.selectedIndex];
+		if (opt && opt.dataset.price) document.getElementById('newItemPrice').value = opt.dataset.price;
+	});
+
+	document.getElementById('addProductBtn').addEventListener('click', function() {
+		if (!selectedProduct) return;
+		const sel = document.getElementById('variantSelect');
+		const variantId = sel.value === '' ? null : parseInt(sel.value, 10);
+		const opt = sel.options[sel.selectedIndex];
+		const price = opt && opt.dataset.price ? parseFloat(opt.dataset.price) : 0;
+		const variant = selectedProduct.variants.find(v => (v.id == null && variantId === null) || v.id === variantId);
+		addRow({
+			product_id: selectedProduct.id,
+			variant_id: variantId,
+			product_name: selectedProduct.name,
+			variant_name: variant ? variant.name : null,
+			quantity: parseInt(document.getElementById('newItemQty').value, 10) || 1,
+			unit_price: parseFloat(document.getElementById('newItemPrice').value) || price
+		});
+		document.getElementById('newItemQty').value = '1';
+	});
+
+	document.addEventListener('click', function(e) {
+		if (!e.target.closest('#productSearch') && !e.target.closest('#productSearchResults')) {
+			document.getElementById('productSearchResults').classList.add('d-none');
+		}
+	});
+
+	document.getElementById('editCartForm').addEventListener('submit', function(e) {
+		e.preventDefault();
+		const rows = [];
+		document.querySelectorAll('#cartItemsBody tr').forEach(tr => {
+			if (tr.id === 'noItemsRow') return;
+			const qty = parseInt(tr.querySelector('.item-qty').value, 10) || 0;
+			if (qty < 1) return;
+			const unitPrice = parseFloat(tr.querySelector('.item-unit-price').value) || 0;
+			rows.push({
+				id: tr.dataset.itemId || undefined,
+				product_id: parseInt(tr.dataset.productId, 10),
+				variant_id: tr.dataset.variantId === '' ? null : parseInt(tr.dataset.variantId, 10),
+				quantity: qty,
+				unit_price: unitPrice
+			});
+		});
+		const shippingAmount = document.getElementById('shippingAmount').value;
+		const btn = document.getElementById('saveCartBtn');
+		btn.disabled = true;
+		fetch('/admin/orders/' + orderId + '/cart', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'X-CSRF-Token': getCsrf(),
+				'CSRF-Token': getCsrf()
+			},
+			body: JSON.stringify({ items: rows, shipping_amount: shippingAmount !== '' ? parseFloat(shippingAmount) : undefined })
+		})
+		.then(r => r.json())
+		.then(data => {
+			if (data.success) {
+				window.location.href = '/admin/orders/' + orderId + '?success=' + encodeURIComponent('Cart updated successfully.');
+			} else {
+				showAlert('danger', data.error || 'Failed to update cart');
+			}
+		})
+		.catch(err => {
+			showAlert('danger', 'Network error. Please try again.');
+			console.error(err);
+		})
+		.finally(() => { btn.disabled = false; });
+	});
+
+	function showAlert(type, msg) {
+		const el = document.getElementById('editCartAlert');
+		el.className = 'alert alert-' + type + ' alert-dismissible fade show';
+		el.classList.remove('d-none');
+		el.innerHTML = '<strong>' + (type === 'danger' ? 'Error' : 'Success') + '</strong> ' + escapeHtml(msg) + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button>';
+	}
+
+	updateSummary();
+})();
+</script>

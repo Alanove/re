@@ -1,3 +1,4 @@
+import { writeJsonFileSync } from '../../src/vendor/json-backup/writeJsonFileSync';
 import * as fs from 'fs';
 import * as crypto from 'crypto';
 import { DATA_PATHS } from '../../src/constants';
@@ -46,7 +47,7 @@ export class UsersService {
    */
   private saveUsers(): void {
     try {
-      fs.writeFileSync(this.dataPath, JSON.stringify(this.usersData, null, 2), 'utf8');
+      writeJsonFileSync(this.dataPath, JSON.stringify(this.usersData, null, 2));
     } catch (error) {
       console.error('Error saving users:', error);
       throw new Error('Failed to save users data');

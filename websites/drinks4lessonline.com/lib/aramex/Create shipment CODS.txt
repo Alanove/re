@@ -1,0 +1,189 @@
+{
+    "Shipments": [
+        {
+            "Reference1": "",
+            "Reference2": "",
+            "Reference3": "",
+            "Shipper": {
+                "Reference1": "",
+                "Reference2": "",
+                "AccountNumber": "",
+                "PartyAddress": {
+                    "Line1": "address",
+                    "Line2": "",
+                    "Line3": "",
+                    "City": "Beirut",
+                    "StateOrProvinceCode": "",
+                    "PostCode": "",
+                    "CountryCode": "LB",
+                    "Longitude": 0,
+                    "Latitude": 0,
+                    "BuildingNumber": null,
+                    "BuildingName": "",
+                    "Floor": "",
+                    "Apartment": null,
+                    "POBox": null,
+                    "Description": null
+                },
+                "Contact": {
+                    "Department": "",
+                    "PersonName": "",
+                    "Title": "",
+                    "CompanyName": "",
+                    "PhoneNumber1": "",
+                    "PhoneNumber1Ext": "",
+                    "PhoneNumber2": "",
+                    "PhoneNumber2Ext": "",
+                    "FaxNumber": "",
+                    "CellPhone": "",
+                    "EmailAddress": "",
+                    "Type": ""
+                }
+            },
+            "Consignee": {
+                "Reference1": "",
+                "Reference2": "",
+                "AccountNumber": "",
+                "PartyAddress": {
+                    "Line1": "",
+                    "Line2": "",
+                    "Line3": "",
+                    "City": "Beirut",
+                    "StateOrProvinceCode": "",
+                    "PostCode": "",
+                    "CountryCode": "LB",
+                    "Longitude": 0,
+                    "Latitude": 0,
+                    "BuildingNumber": "",
+                    "BuildingName": "",
+                    "Floor": "0",
+                    "Apartment": null,
+                    "POBox": "",
+                    "Description": null
+                },
+                "Contact": {
+                    "Department": "",
+                    "PersonName": "",
+                    "Title": "",
+                    "CompanyName": "",
+                    "PhoneNumber1": "",
+                    "PhoneNumber1Ext": "",
+                    "PhoneNumber2": "",
+                    "PhoneNumber2Ext": "",
+                    "FaxNumber": "",
+                    "CellPhone": "",
+                    "EmailAddress": "",
+                    "Type": ""
+                }
+            },
+            "ThirdParty": {
+                "Reference1": "",
+                "Reference2": "",
+                "AccountNumber": "",
+                "PartyAddress": {
+                    "Line1": "",
+                    "Line2": "",
+                    "Line3": "",
+                    "City": "",
+                    "StateOrProvinceCode": "",
+                    "PostCode": "",
+                    "CountryCode": "",
+                    "Longitude": 0,
+                    "Latitude": 0,
+                    "BuildingNumber": null,
+                    "BuildingName": null,
+                    "Floor": null,
+                    "Apartment": null,
+                    "POBox": null,
+                    "Description": null
+                },
+                "Contact": {
+                    "Department": "",
+                    "PersonName": "",
+                    "Title": "",
+                    "CompanyName": "",
+                    "PhoneNumber1": "",
+                    "PhoneNumber1Ext": "",
+                    "PhoneNumber2": "",
+                    "PhoneNumber2Ext": "",
+                    "FaxNumber": "",
+                    "CellPhone": "",
+                    "EmailAddress": "",
+                    "Type": ""
+                }
+            },
+            "ShippingDateTime": "/Date(1753183767000)/",
+            "DueDate": "/Date(1753183767000)/",
+            "Comments": "",
+            "PickupLocation": "",
+            "OperationsInstructions": "",
+            "AccountingInstrcutions": "",
+            "Details": {
+                "Dimensions": {
+                    "Length": 0,
+                    "Width": 0,
+                    "Height": 0,
+                    "Unit": "cm"
+                },
+                "ActualWeight": {
+                    "Unit": "KG",
+                    "Value": 0.01
+                },
+                "ChargeableWeight": null,
+                "DescriptionOfGoods": "Product",
+                "GoodsOriginCountry": "LB",
+                "NumberOfPieces": 1,
+                "ProductGroup": "DOM",
+                "ProductType": "CDS",
+                "PaymentType": "P",
+                "PaymentOptions": "",
+                "CustomsValueAmount": {
+                    "CurrencyCode": "USD",
+                    "Value": 0
+                },
+                "CashAdditionalAmount": {
+                    "CurrencyCode": "USD",
+                    "Value": 0.0
+                },
+                "InsuranceAmount": null,
+                "CashAdditionalAmountDescription": "",
+                "CollectAmount": null,
+                "Services": "CODS",
+                "CashOnDeliveryAmount": {
+                    "CurrencyCode": "USD",
+                    "Value": 0.0
+                },
+                "Items": null,
+                "DeliveryInstructions": null,
+                "AdditionalProperties": null,
+                "ContainsDangerousGoods": false
+            },
+            "ForeignHAWB": "",
+            "TransportType": 0,
+            "PickupGUID": "",
+            "Number": "",
+            "ScheduledDelivery": null
+        }
+    ],
+    "LabelInfo": {
+        "ReportID": 9729,
+        "ReportType": "URL"
+    },
+    "ClientInfo": {
+        "UserName": "",
+        "Password": "",
+        "Version": "1.0",
+        "AccountNumber": "",
+        "AccountPin": "",
+        "AccountEntity": "BEY",
+        "AccountCountryCode": "LB",
+        "Source": 0
+    },
+    "Transaction": {
+        "Reference1": "",
+        "Reference2": "",
+        "Reference3": "",
+        "Reference4": "",
+        "Reference5": ""
+    }
+}

@@ -5,5 +5,7 @@
   "nodeBin": null,
   "aapanelProject": "wadihco",
   "restartCommand": null,
-  "protect": []
+  "protect": [
+    "data-backups"
+  ]
 }

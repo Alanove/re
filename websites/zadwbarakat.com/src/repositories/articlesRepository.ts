@@ -1,7 +1,8 @@
-import { mkdir, readdir, readFile, rename, unlink, writeFile } from 'node:fs/promises';
+import { mkdir, readdir, readFile, unlink } from 'node:fs/promises';
 import path from 'node:path';
 import { ARTICLES_DIR } from '../config/paths.js';
 import { articleSchema, type Article } from '../domain/models.js';
+import { writeJsonFileSync } from '../vendor/json-backup/writeJsonFileSync.js';
 
 /**
  * Articles are stored one per file (`data/articles/<id>.json`) and held in memory after the first read.
@@ -39,7 +40,7 @@ export class ArticlesRepository {
       const all = await this.load();
       const id = [...all.keys()].reduce((max, value) => Math.max(max, value), 0) + 1;
       const created = articleSchema.parse({ ...article, id });
-      await this.persist(created);
+      this.persist(created);
       all.set(id, created);
       this.version += 1;
       return structuredClone(created);
@@ -53,7 +54,7 @@ export class ArticlesRepository {
         throw new Error(`Article ${article.id} does not exist`);
       }
       const validated = articleSchema.parse(article);
-      await this.persist(validated);
+      this.persist(validated);
       all.set(validated.id, validated);
       this.version += 1;
       return structuredClone(validated);
@@ -93,7 +94,7 @@ export class ArticlesRepository {
       const next = new Map<number, Article>();
       for (const article of articles) {
         const validated = articleSchema.parse(article);
-        await this.persist(validated);
+        this.persist(validated);
         next.set(validated.id, validated);
       }
       this.cache = next;
@@ -105,12 +106,9 @@ export class ArticlesRepository {
     return path.join(ARTICLES_DIR, `${id}.json`);
   }
 
-  private async persist(article: Article): Promise<void> {
-    await mkdir(ARTICLES_DIR, { recursive: true });
+  private persist(article: Article): void {
     const target = this.filePath(article.id);
-    const temp = `${target}.${process.pid}.${Date.now()}.tmp`;
-    await writeFile(temp, `${JSON.stringify(article, null, 2)}\n`, 'utf8');
-    await rename(temp, target);
+    writeJsonFileSync(target, `${JSON.stringify(article, null, 2)}\n`);
   }
 
   private enqueue<R>(task: () => Promise<R>): Promise<R> {

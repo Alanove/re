@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VideoGallery</name>
+    </assembly>
+    <members>
+        <member name="F:lw.VideoGallery.Controls.VideoDataProvider.videoName">
+            <summary>
+            Used to get Vidos by their Name
+            </summary>
+        </member>
+        <member name="P:lw.VideoGallery.Controls.VideoLink.ImEditable">
+            <summary>
+            Indicates if this link should contain the editing parameters
+            </summary>
+        </member>
+        <member name="T:lw.VideoGallery.cte">
+            <summary>
+            Class containing all the constants that are using in the <see cref="N:lw.VideoGallery"/> library
+            </summary>
+        </member>
+    </members>
+</doc>

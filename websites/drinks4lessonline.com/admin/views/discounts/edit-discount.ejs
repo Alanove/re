@@ -1,0 +1,263 @@
+<%- include('../partials/header') %>
+
+<!-- BEGIN content area -->
+<div class="row">
+	<div class="col-xl-12">
+		<!-- BEGIN panel -->
+		<div class="panel panel-inverse">
+			<div class="panel-heading">
+				<h4 class="panel-title"><%= typeof t !== 'undefined' ? t('ecommerce.discounts.editDiscount') : 'Edit Discount' %> - <%= discount.code %></h4>
+				<div class="panel-heading-btn">
+					<a href="/admin/discounts" class="btn btn-xs btn-secondary">
+						<i class="fa fa-arrow-left"></i> <%= typeof t !== 'undefined' ? t('common.back') : 'Back' %>
+					</a>
+				</div>
+			</div>
+			<div class="panel-body">
+				<% if (typeof success !== 'undefined' && success) { %>
+					<div class="alert alert-success alert-dismissible fade show" role="alert">
+						<strong><%= typeof t !== 'undefined' ? t('messages.success') : 'Success!' %></strong> <%= success %>
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>
+				<% } %>
+
+				<% if (typeof error !== 'undefined' && error) { %>
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<strong>Error!</strong> <%= error %>
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>
+				<% } %>
+
+				<form method="POST" action="/admin/discounts/<%= discount.id %>/edit" id="discountForm">
+					<input type="hidden" name="_csrf" value="<%= csrfToken %>">
+					<div class="row">
+						<div class="col-md-8">
+							<!-- Basic Information -->
+							<div class="card mb-3">
+								<div class="card-header">
+									<h5 class="mb-0">Basic Information</h5>
+								</div>
+								<div class="card-body">
+									<div class="mb-3">
+										<label for="code" class="form-label">Discount Code <span class="text-danger">*</span></label>
+										<input type="text" class="form-control" id="code" name="code" required 
+										       value="<%= discount.code %>" maxlength="50" />
+										<small class="form-text text-muted">Unique code customers will use at checkout</small>
+									</div>
+
+									<div class="mb-3">
+										<label for="name" class="form-label">Discount Name <span class="text-danger">*</span></label>
+										<input type="text" class="form-control" id="name" name="name" required 
+										       value="<%= discount.name %>" />
+									</div>
+
+									<div class="mb-3">
+										<label for="description" class="form-label">Description</label>
+										<textarea class="form-control" id="description" name="description" rows="3"><%= discount.description || '' %></textarea>
+									</div>
+								</div>
+							</div>
+
+							<!-- Discount Type & Value -->
+							<div class="card mb-3">
+								<div class="card-header">
+									<h5 class="mb-0">Discount Type & Value</h5>
+								</div>
+								<div class="card-body">
+									<div class="row">
+										<div class="col-md-6 mb-3">
+											<label for="type" class="form-label">Discount Type <span class="text-danger">*</span></label>
+											<select class="form-select" id="type" name="type" required>
+												<option value="percentage" <%= discount.type === 'percentage' ? 'selected' : '' %>>Percentage (%)</option>
+												<option value="fixed_amount" <%= discount.type === 'fixed_amount' ? 'selected' : '' %>>Fixed Amount ($)</option>
+											</select>
+										</div>
+										<div class="col-md-6 mb-3">
+											<label for="value" class="form-label">Discount Value <span class="text-danger">*</span></label>
+											<div class="input-group">
+												<span class="input-group-text" id="valuePrefix"><%= discount.type === 'percentage' ? '%' : '$' %></span>
+												<input type="number" class="form-control" id="value" name="value" required 
+												       min="0" step="0.01" value="<%= discount.value %>" />
+											</div>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-md-6 mb-3">
+											<label for="minimum_purchase" class="form-label">Minimum Purchase Amount</label>
+											<div class="input-group">
+												<span class="input-group-text">$</span>
+												<input type="number" class="form-control" id="minimum_purchase" name="minimum_purchase" 
+												       min="0" step="0.01" value="<%= discount.minimum_purchase || '' %>" />
+											</div>
+										</div>
+										<div class="col-md-6 mb-3">
+											<label for="maximum_discount" class="form-label">Maximum Discount Amount</label>
+											<div class="input-group">
+												<span class="input-group-text">$</span>
+												<input type="number" class="form-control" id="maximum_discount" name="maximum_discount" 
+												       min="0" step="0.01" value="<%= discount.maximum_discount || '' %>" />
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Usage Limits -->
+							<div class="card mb-3">
+								<div class="card-header">
+									<h5 class="mb-0">Usage Limits</h5>
+								</div>
+								<div class="card-body">
+									<div class="row">
+										<div class="col-md-6 mb-3">
+											<label for="usage_limit" class="form-label">Total Usage Limit</label>
+											<input type="number" class="form-control" id="usage_limit" name="usage_limit" 
+											       min="0" value="<%= discount.usage_limit || '' %>" />
+											<small class="form-text text-muted">Current usage: <%= discount.usage_count || 0 %></small>
+										</div>
+										<div class="col-md-6 mb-3">
+											<label for="usage_limit_per_customer" class="form-label">Usage Limit Per Customer</label>
+											<input type="number" class="form-control" id="usage_limit_per_customer" name="usage_limit_per_customer" 
+											       min="0" value="<%= discount.usage_limit_per_customer || '' %>" />
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Validity Period -->
+							<div class="card mb-3">
+								<div class="card-header">
+									<h5 class="mb-0">Validity Period</h5>
+								</div>
+								<div class="card-body">
+									<div class="row">
+										<div class="col-md-6 mb-3">
+											<label for="start_date" class="form-label">Start Date</label>
+											<input type="datetime-local" class="form-control" id="start_date" name="start_date" 
+											       value="<%= discount.start_date ? new Date(discount.start_date).toISOString().slice(0, 16) : '' %>" />
+										</div>
+										<div class="col-md-6 mb-3">
+											<label for="end_date" class="form-label">End Date</label>
+											<input type="datetime-local" class="form-control" id="end_date" name="end_date" 
+											       value="<%= discount.end_date ? new Date(discount.end_date).toISOString().slice(0, 16) : '' %>" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-4">
+							<!-- Settings -->
+							<div class="card mb-3">
+								<div class="card-header">
+									<h5 class="mb-0">Settings</h5>
+								</div>
+								<div class="card-body">
+									<div class="mb-3">
+										<div class="form-check form-switch">
+											<input class="form-check-input" type="checkbox" id="is_active" name="is_active" 
+											       <%= discount.is_active ? 'checked' : '' %> />
+											<label class="form-check-label" for="is_active">
+												<%= typeof t !== 'undefined' ? t('common.active') : 'Active' %>
+											</label>
+										</div>
+									</div>
+
+									<div class="mb-3">
+										<label for="applies_to" class="form-label">Applies To</label>
+										<select class="form-select" id="applies_to" name="applies_to">
+											<option value="all" <%= discount.applies_to === 'all' ? 'selected' : '' %>>
+												<%= typeof t !== 'undefined' ? t('ecommerce.discounts.allProducts') : 'All Products' %>
+											</option>
+											<option value="products" <%= discount.applies_to === 'products' ? 'selected' : '' %>>
+												<%= typeof t !== 'undefined' ? t('ecommerce.discounts.specificProducts') : 'Specific Products' %>
+											</option>
+											<option value="categories" <%= discount.applies_to === 'categories' ? 'selected' : '' %>>
+												<%= typeof t !== 'undefined' ? t('ecommerce.discounts.specificCategories') : 'Specific Categories' %>
+											</option>
+										</select>
+									</div>
+
+									<div class="mb-3" id="productSelection" style="display: <%= discount.applies_to === 'products' ? 'block' : 'none' %>;">
+										<label class="form-label">Product IDs</label>
+										<input type="text" class="form-control" id="product_ids" name="product_ids" 
+										       value="<%= discount.product_ids ? (typeof discount.product_ids === 'string' ? discount.product_ids : JSON.stringify(discount.product_ids)) : '' %>" />
+										<small class="form-text text-muted">JSON array of product IDs</small>
+									</div>
+
+									<div class="mb-3" id="categorySelection" style="display: <%= discount.applies_to === 'categories' ? 'block' : 'none' %>;">
+										<label class="form-label">Category IDs</label>
+										<input type="text" class="form-control" id="category_ids" name="category_ids" 
+										       value="<%= discount.category_ids ? (typeof discount.category_ids === 'string' ? discount.category_ids : JSON.stringify(discount.category_ids)) : '' %>" />
+										<small class="form-text text-muted">JSON array of category IDs</small>
+									</div>
+
+									<div class="mb-3">
+										<div class="form-check form-switch">
+											<input class="form-check-input" type="checkbox" id="first_time_customer_only" name="first_time_customer_only" 
+											       <%= discount.first_time_customer_only ? 'checked' : '' %> />
+											<label class="form-check-label" for="first_time_customer_only">
+												First Time Customer Only
+											</label>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Actions -->
+							<div class="card">
+								<div class="card-body">
+									<button type="submit" class="btn btn-primary w-100 mb-2">
+										<i class="fa fa-save"></i> <%= typeof t !== 'undefined' ? t('common.save') : 'Save Changes' %>
+									</button>
+									<a href="/admin/discounts" class="btn btn-secondary w-100">
+										<i class="fa fa-times"></i> <%= typeof t !== 'undefined' ? t('common.cancel') : 'Cancel' %>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- END panel -->
+	</div>
+</div>
+<!-- END content area -->
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+	const typeSelect = document.getElementById('type');
+	const valuePrefix = document.getElementById('valuePrefix');
+	const appliesToSelect = document.getElementById('applies_to');
+	const productSelection = document.getElementById('productSelection');
+	const categorySelection = document.getElementById('categorySelection');
+
+	// Update value prefix based on type
+	typeSelect.addEventListener('change', function() {
+		if (this.value === 'percentage') {
+			valuePrefix.textContent = '%';
+		} else {
+			valuePrefix.textContent = '$';
+		}
+	});
+
+	// Show/hide product/category selection based on applies_to
+	appliesToSelect.addEventListener('change', function() {
+		if (this.value === 'products') {
+			productSelection.style.display = 'block';
+			categorySelection.style.display = 'none';
+		} else if (this.value === 'categories') {
+			productSelection.style.display = 'none';
+			categorySelection.style.display = 'block';
+		} else {
+			productSelection.style.display = 'none';
+			categorySelection.style.display = 'none';
+		}
+	});
+});
+</script>
+
+<%- include('../partials/footer') %>
+

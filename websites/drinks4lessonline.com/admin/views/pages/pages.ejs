@@ -1,0 +1,427 @@
+<!-- BEGIN content area -->
+<div class="row">
+	<div class="col-xl-12">
+		<!-- BEGIN panel -->
+		<div class="panel panel-inverse">
+			<div class="panel-heading">
+				<h4 class="panel-title"><%= typeof t !== 'undefined' ? t('pages.title') : 'Pages Management' %></h4>
+				<div class="panel-heading-btn">
+					<a href="/admin/pages/create" class="btn btn-xs btn-success">
+						<i class="fa fa-plus"></i> <%= typeof t !== 'undefined' ? t('pages.addNewPage') : 'Add New Page' %>
+					</a>
+				</div>
+			</div>
+			<div class="panel-body">
+				<% if (typeof success !== 'undefined' && success) { %>
+					<div class="alert alert-success alert-dismissible fade show" role="alert">
+						<strong><%= typeof t !== 'undefined' ? t('messages.success') : 'Success!' %></strong> <%= success %>
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>
+				<% } %>
+				
+				<% if (typeof error !== 'undefined' && error) { %>
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<strong><%= typeof t !== 'undefined' ? t('messages.error') : 'Error!' %></strong> <%= error %>
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>
+				<% } %>
+				
+				<!-- BEGIN filters -->
+				<form method="GET" action="/admin/pages" id="filterForm">
+					<div class="row mb-3">
+						<div class="col-md-3">
+							<div class="input-group">
+								<span class="input-group-text">
+									<i class="fa fa-search"></i>
+								</span>
+								<input type="text" class="form-control" name="keyword" id="keywordFilter" 
+									value="<%= typeof currentKeyword !== 'undefined' ? currentKeyword : '' %>"
+									placeholder="<%= typeof t !== 'undefined' ? t('pages.searchPlaceholder') : 'Search by title, key, or URL...' %>" />
+							</div>
+						</div>
+						<div class="col-md-2">
+							<select class="form-select" name="status" id="statusFilter">
+								<option value=""><%= typeof t !== 'undefined' ? t('filters.allStatus') : 'All Status' %></option>
+								<option value="published" <%= typeof currentStatus !== 'undefined' && currentStatus === 'published' ? 'selected' : '' %>><%= typeof t !== 'undefined' ? t('common.published') : 'Published' %></option>
+								<option value="draft" <%= typeof currentStatus !== 'undefined' && currentStatus === 'draft' ? 'selected' : '' %>><%= typeof t !== 'undefined' ? t('common.draft') : 'Draft' %></option>
+							</select>
+						</div>
+						<div class="col-md-3">
+							<select class="form-select" name="tag" id="tagFilter">
+								<option value=""><%= typeof t !== 'undefined' ? t('pages.allTags') : 'All Tags' %></option>
+								<option value="__no_tag__" <%= typeof currentTag !== 'undefined' && currentTag === '__no_tag__' ? 'selected' : '' %>><%= typeof t !== 'undefined' ? t('pages.noTag') : 'No Tag' %></option>
+								<% if (typeof allTags !== 'undefined' && allTags && allTags.length > 0) { %>
+									<% allTags.forEach(function(tag) { %>
+										<option value="<%= tag.slug %>" <%= typeof currentTag !== 'undefined' && currentTag === tag.slug ? 'selected' : '' %>><%= tag.name %></option>
+									<% }); %>
+								<% } %>
+							</select>
+						</div>
+						<div class="col-md-2">
+							<input type="hidden" name="page" value="1" id="pageInput" />
+							<input type="hidden" name="itemsPerPage" value="<%= typeof itemsPerPage !== 'undefined' ? itemsPerPage : 20 %>" id="itemsPerPageInput" />
+							<button type="submit" class="btn btn-primary w-100">
+								<i class="fa fa-search me-1"></i> <%= typeof t !== 'undefined' ? t('common.filter') : 'Filter' %>
+							</button>
+						</div>
+						<div class="col-md-2">
+							<a href="/admin/pages" class="btn btn-secondary w-100">
+								<i class="fa fa-times me-1"></i> <%= typeof t !== 'undefined' ? t('common.clearFilters') : 'Clear Filters' %>
+							</a>
+						</div>
+					</div>
+				</form>
+				<!-- END filters -->
+				
+				<div class="table-responsive">
+					<table class="table table-striped table-bordered align-middle">
+						<thead>
+							<tr>
+								<th><%= typeof t !== 'undefined' ? t('pages.image') : 'Image' %></th>
+								<th class="sortable" data-sort="title">
+									<%= typeof t !== 'undefined' ? t('common.title') : 'Title' %> <i class="fa fa-sort"></i>
+								</th>
+								<th><%= typeof t !== 'undefined' ? t('pages.pageDescription') : 'Description' %></th>
+								<th><%= typeof t !== 'undefined' ? t('pages.url') : 'URL' %></th>
+								<th><%= typeof t !== 'undefined' ? t('pages.pageTags') : 'Tags' %></th>
+								<th class="sortable" data-sort="status">
+									<%= typeof t !== 'undefined' ? t('common.status') : 'Status' %> <i class="fa fa-sort"></i>
+								</th>
+								<th class="sortable" data-sort="publishDate">
+									<%= typeof t !== 'undefined' ? t('pages.publishDate') : 'Publish Date' %> <i class="fa fa-sort"></i>
+								</th>
+								<th width="1%"><%= typeof t !== 'undefined' ? t('common.actions') : 'Actions' %></th>
+							</tr>
+						</thead>
+						<tbody>
+							<% if (typeof pages !== 'undefined' && pages && pages.length > 0) { %>
+								<% pages.forEach(page => { %>
+									<tr data-page-id="<%= page.key %>">
+										<td>
+											<% if (page.pageImage) { %>
+												<img src="<%= page.pageImage %>" alt="Page Image" class="rounded" width="40" height="40" style="object-fit:cover;" />
+											<% } else { %>
+												<div class="bg-light rounded d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+													<i class="fa fa-image text-muted"></i>
+												</div>
+											<% } %>
+										</td>
+										<td>
+											<div class="d-flex align-items-center">
+												<div class="flex-grow-1">
+													<div class="fw-bold"><%= page.title %></div>
+													<% if (page.seo?.pageTitle) { %>
+														<div class="fs-12px text-gray-500-darker"><%= page.seo.pageTitle %></div>
+													<% } %>
+												</div>
+											</div>
+										</td>
+										<td>
+											<% if (page.description) { %>
+												<div class="text-muted" style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="<%= page.description %>">
+													<%= page.description %>
+												</div>
+											<% } else { %>
+												<span class="text-muted">-</span>
+											<% } %>
+										</td>
+										<td>
+											<a href="<%= page.url %>" class="page-url" target="_blank">
+												<%= page.url %>
+											</a>
+										</td>
+										<td>
+											<% if (page.tags && page.tags.length > 0) { %>
+												<% page.tags.forEach(function(tag) { %>
+													<span class="badge bg-primary me-1 mb-1 clickable-tag" data-tag-slug="<%= tag.slug %>" style="cursor: pointer;" title="<%= typeof t !== 'undefined' ? t('pages.clickToFilterByTag') : 'Click to filter by this tag' %>">
+														<%= tag.name %>
+													</span>
+												<% }); %>
+											<% } else { %>
+												<span class="text-muted">-</span>
+											<% } %>
+										</td>
+										<td>
+											<% if (page.status === 'published') { %>
+												<span class="badge bg-success"><%= typeof t !== 'undefined' ? t('common.published') : 'Published' %></span>
+											<% } else { %>
+												<span class="badge bg-secondary"><%= typeof t !== 'undefined' ? t('common.draft') : 'Draft' %></span>
+											<% } %>
+										</td>
+										<td>
+											<% if (page.publishDate) { %>
+												<%= new Date(page.publishDate).toLocaleDateString() %>
+											<% } else { %>
+												-
+											<% } %>
+										</td>
+										<td>
+											<div class="btn-group">
+												<a href="<%= page.url %>" class="btn btn-sm btn-info" target="_blank" title="<%= typeof t !== 'undefined' ? t('pages.preview') : 'Preview' %>">
+													<i class="fa fa-eye"></i>
+												</a>
+												<a href="/admin/pages/<%= page.key %>/edit" class="btn btn-sm btn-primary">
+													<i class="fa fa-edit"></i>
+												</a>
+												<button type="button" class="btn btn-sm btn-danger" onclick="deleteItem('/admin/pages/<%= page.key %>', this)">
+													<i class="fa fa-trash"></i>
+												</button>
+											</div>
+										</td>
+									</tr>
+								<% }) %>
+							<% } else { %>
+								<tr>
+									<td colspan="8" class="text-center text-muted py-4">
+										<i class="fa fa-file-text fa-3x mb-3"></i>
+										<h5><%= typeof t !== 'undefined' ? t('pages.noPagesFound') : 'No Pages Found' %></h5>
+										<p><%= typeof t !== 'undefined' ? t('pages.getStarted') : 'Get started by creating your first page.' %></p>
+										<a href="/admin/pages/create" class="btn btn-success">
+											<i class="fa fa-plus"></i> <%= typeof t !== 'undefined' ? t('pages.addNewPage') : 'Add New Page' %>
+										</a>
+									</td>
+								</tr>
+							<% } %>
+						</tbody>
+					</table>
+				</div>
+				
+				<!-- BEGIN pagination -->
+				<% if (typeof totalItems !== 'undefined' && totalItems > 0) { %>
+					<div class="row mt-3">
+						<div class="col-md-6">
+							<div class="d-flex align-items-center gap-3">
+								<span class="text-muted">
+									<%= typeof t !== 'undefined' ? t('pages.showing') : 'Showing' %> 
+									<strong><%= typeof startIndex !== 'undefined' ? startIndex : 0 %></strong> 
+									<%= typeof t !== 'undefined' ? t('pages.to') : 'to' %> 
+									<strong><%= typeof endIndex !== 'undefined' ? endIndex : 0 %></strong> 
+									<%= typeof t !== 'undefined' ? t('pages.of') : 'of' %> 
+									<strong><%= typeof totalItems !== 'undefined' ? totalItems : 0 %></strong> 
+									<%= typeof t !== 'undefined' ? t('pages.pages') : 'pages' %>
+								</span>
+								<div class="d-flex align-items-center gap-2">
+									<label for="itemsPerPageSelect" class="form-label mb-0 small text-muted">
+										<%= typeof t !== 'undefined' ? t('pages.itemsPerPage') : 'Items per page' %>:
+									</label>
+									<select class="form-select form-select-sm" id="itemsPerPageSelect" style="width: auto;">
+										<option value="10" <%= typeof itemsPerPage !== 'undefined' && itemsPerPage == 10 ? 'selected' : '' %>>10</option>
+										<option value="20" <%= typeof itemsPerPage !== 'undefined' && itemsPerPage == 20 ? 'selected' : '' %>>20</option>
+										<option value="50" <%= typeof itemsPerPage !== 'undefined' && itemsPerPage == 50 ? 'selected' : '' %>>50</option>
+										<option value="100" <%= typeof itemsPerPage !== 'undefined' && itemsPerPage == 100 ? 'selected' : '' %>>100</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<nav aria-label="Page navigation">
+								<ul class="pagination justify-content-end mb-0">
+									<% if (typeof currentPage !== 'undefined' && currentPage > 1) { %>
+										<li class="page-item">
+											<a class="page-link" href="<%= buildPaginationUrl(currentPage - 1) %>">
+												<i class="fa fa-chevron-left"></i>
+											</a>
+										</li>
+									<% } else { %>
+										<li class="page-item disabled">
+											<span class="page-link"><i class="fa fa-chevron-left"></i></span>
+										</li>
+									<% } %>
+									
+									<% 
+									const totalPagesNum = typeof totalPages !== 'undefined' ? totalPages : 1;
+									const currentPageNum = typeof currentPage !== 'undefined' ? currentPage : 1;
+									const maxPagesToShow = 7;
+									let startPage = Math.max(1, currentPageNum - Math.floor(maxPagesToShow / 2));
+									let endPage = Math.min(totalPagesNum, startPage + maxPagesToShow - 1);
+									
+									if (endPage - startPage < maxPagesToShow - 1) {
+										startPage = Math.max(1, endPage - maxPagesToShow + 1);
+									}
+									
+									if (startPage > 1) { %>
+										<li class="page-item">
+											<a class="page-link" href="<%= buildPaginationUrl(1) %>">1</a>
+										</li>
+										<% if (startPage > 2) { %>
+											<li class="page-item disabled">
+												<span class="page-link">...</span>
+											</li>
+										<% } %>
+									<% } %>
+									
+									<% for (let i = startPage; i <= endPage; i++) { %>
+										<li class="page-item <%= i === currentPageNum ? 'active' : '' %>">
+											<a class="page-link" href="<%= buildPaginationUrl(i) %>"><%= i %></a>
+										</li>
+									<% } %>
+									
+									<% if (endPage < totalPagesNum) { %>
+										<% if (endPage < totalPagesNum - 1) { %>
+											<li class="page-item disabled">
+												<span class="page-link">...</span>
+											</li>
+										<% } %>
+										<li class="page-item">
+											<a class="page-link" href="<%= buildPaginationUrl(totalPagesNum) %>"><%= totalPagesNum %></a>
+										</li>
+									<% } %>
+									
+									<% if (currentPageNum < totalPagesNum) { %>
+										<li class="page-item">
+											<a class="page-link" href="<%= buildPaginationUrl(currentPageNum + 1) %>">
+												<i class="fa fa-chevron-right"></i>
+											</a>
+										</li>
+									<% } else { %>
+										<li class="page-item disabled">
+											<span class="page-link"><i class="fa fa-chevron-right"></i></span>
+										</li>
+									<% } %>
+								</ul>
+							</nav>
+						</div>
+					</div>
+				<% } %>
+				<!-- END pagination -->
+			</div>
+		</div>
+		<!-- END panel -->
+	</div>
+</div>
+<!-- END content area -->
+
+<!-- BEGIN page-js -->
+<script>
+	// Sorting functionality (integrated with pagination)
+	let currentSort = { column: null, direction: 'asc' };
+	
+	document.addEventListener('DOMContentLoaded', function() {
+		const sortableHeaders = document.querySelectorAll('.sortable');
+		
+		sortableHeaders.forEach(header => {
+			header.addEventListener('click', function() {
+				const column = this.dataset.sort;
+				const tbody = document.querySelector('table tbody');
+				
+				// Remove existing sort indicators
+				sortableHeaders.forEach(h => {
+					h.classList.remove('sort-asc', 'sort-desc');
+					h.querySelector('i').className = 'fa fa-sort';
+				});
+				
+				// Determine sort direction
+				if (currentSort.column === column && currentSort.direction === 'asc') {
+					currentSort.direction = 'desc';
+					this.classList.add('sort-desc');
+					this.querySelector('i').className = 'fa fa-sort-desc';
+				} else {
+					currentSort.direction = 'asc';
+					this.classList.add('sort-asc');
+					this.querySelector('i').className = 'fa fa-sort-asc';
+				}
+				
+				currentSort.column = column;
+				
+				// Sort visible rows (for pagination integration)
+				const allRows = Array.from(tbody.querySelectorAll('tr'));
+				const dataRows = allRows.filter(row => !row.querySelector('td[colspan]'));
+				
+				dataRows.sort((a, b) => {
+					let aValue = a.querySelector(`td:nth-child(${getColumnIndex(column)})`)?.textContent.trim() || '';
+					let bValue = b.querySelector(`td:nth-child(${getColumnIndex(column)})`)?.textContent.trim() || '';
+					
+					// Handle special cases
+					if (column === 'title') {
+						aValue = a.querySelector('.fw-bold')?.textContent.trim() || '';
+						bValue = b.querySelector('.fw-bold')?.textContent.trim() || '';
+					} else if (column === 'status') {
+						aValue = aValue === '<%= typeof t !== 'undefined' ? t('common.published') : 'Published' %>' ? '1' : '0';
+						bValue = bValue === '<%= typeof t !== 'undefined' ? t('common.published') : 'Published' %>' ? '1' : '0';
+					} else if (column === 'publishDate') {
+						aValue = aValue === '-' ? '0' : new Date(aValue).getTime();
+						bValue = bValue === '-' ? '0' : new Date(bValue).getTime();
+					} else if (column === 'tags') {
+						// Sort by first tag name or empty string
+						const aTags = Array.from(a.querySelectorAll('.clickable-tag')).map(badge => badge.textContent.trim()).join(', ').toLowerCase();
+						const bTags = Array.from(b.querySelectorAll('.clickable-tag')).map(badge => badge.textContent.trim()).join(', ').toLowerCase();
+						aValue = aTags || 'zzz'; // Empty tags go to bottom
+						bValue = bTags || 'zzz';
+					}
+					
+					if (currentSort.direction === 'asc') {
+						return aValue.toString().localeCompare(bValue.toString());
+					} else {
+						return bValue.toString().localeCompare(aValue.toString());
+					}
+				});
+				
+				// Re-append sorted rows to tbody
+				const noPagesRow = allRows.find(row => row.querySelector('td[colspan]'));
+				dataRows.forEach(row => tbody.appendChild(row));
+				if (noPagesRow) {
+					tbody.appendChild(noPagesRow);
+				}
+			});
+		});
+		
+		function getColumnIndex(column) {
+			const columnMap = {
+				'title': 2,
+				'tags': 5,
+				'status': 6,
+				'publishDate': 7
+			};
+			return columnMap[column] || 1;
+		}
+		
+		// Make getColumnIndex available globally
+		window.getColumnIndex = getColumnIndex;
+	});
+	
+	
+	
+	// Auto-hide alerts after 5 seconds
+	document.addEventListener('DOMContentLoaded', function() {
+		const alerts = document.querySelectorAll('.alert');
+		alerts.forEach(alert => {
+			setTimeout(() => {
+				const bsAlert = new bootstrap.Alert(alert);
+				bsAlert.close();
+			}, 5000);
+		});
+	});
+	
+	// Server-side pagination and filtering functionality
+	document.addEventListener('DOMContentLoaded', function() {
+		const itemsPerPageSelect = document.getElementById('itemsPerPageSelect');
+		const filterForm = document.getElementById('filterForm');
+		
+		// Handle items per page change - redirect to page 1 with new items per page
+		if (itemsPerPageSelect) {
+			itemsPerPageSelect.addEventListener('change', function() {
+				const params = new URLSearchParams(window.location.search);
+				params.set('itemsPerPage', this.value);
+				params.set('page', '1'); // Reset to page 1 when changing items per page
+				window.location.href = '/admin/pages?' + params.toString();
+			});
+		}
+		
+		// Make tag badges clickable - submit form with tag filter
+		document.querySelectorAll('.clickable-tag').forEach(badge => {
+			badge.addEventListener('click', function(e) {
+				e.preventDefault();
+				const tagSlug = this.dataset.tagSlug;
+				if (tagSlug && filterForm) {
+					const tagFilter = filterForm.querySelector('[name="tag"]');
+					if (tagFilter) {
+						tagFilter.value = tagSlug;
+						filterForm.querySelector('[name="page"]').value = '1'; // Reset to page 1
+						filterForm.submit();
+					}
+				}
+			});
+		});
+	});
+</script>
+<!-- END page-js --> 

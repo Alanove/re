@@ -1,3 +1,4 @@
+import { writeJsonFileSync } from '../../src/vendor/json-backup/writeJsonFileSync';
 // Service for managing clients
 import * as fs from 'fs';
 import { DATA_PATHS } from '../../src/constants';
@@ -184,6 +185,6 @@ export class ClientsService {
 
   private saveClients(): void {
     // Save only the reduced list
-    fs.writeFileSync(this.clientsPath, JSON.stringify({ clients: this.clients }, null, 2));
+    writeJsonFileSync(this.clientsPath, JSON.stringify({ clients: this.clients }, null, 2));
   }
 }

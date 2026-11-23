@@ -6,7 +6,7 @@ body.home {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 48px;
-            align-items: start;
+            align-items: stretch;
             margin-bottom: 56px;
 
             &.home-shop-look-row--reverse {
@@ -153,20 +153,18 @@ body.home {
         }
 
         .home-shop-look-tiles {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
+            display: flex;
+            align-items: flex-end;
             gap: 12px;
             width: 100%;
-            align-items: stretch;
         }
 
         .home-shop-look-tile {
             position: relative;
             display: block;
-            width: 100%;
+            flex: 1 1 0;
             min-width: 0;
-            // Fixed frame so every thumb shares the same top + bottom edge
-            aspect-ratio: 3 / 4;
+            // Natural photo height; flex-end on the row shares one baseline
             height: auto;
             overflow: hidden;
             background: #fff;
@@ -179,17 +177,10 @@ body.home {
             transition: outline-color 0.25s ease;
 
             img {
-                position: absolute;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                top: 0;
+                position: static;
                 width: 100%;
-                height: 100%;
+                height: auto;
                 display: block;
-                // Full photo (incl. in-image captions) sits on a shared bottom edge
-                object-fit: contain;
-                object-position: center bottom;
                 background: transparent;
             }
 
@@ -228,16 +219,18 @@ body.home {
         }
 
         @media (min-width: 992px) {
-            /* Match hero column height so controls can anchor to bottom */
+            /* Stretch to hero height; keep title + tiles as one block on a shared bottom */
             .home-shop-look-row {
-                align-items: start;
+                align-items: stretch;
             }
 
             .home-shop-look-content {
-                justify-content: flex-start;
+                justify-content: flex-end;
                 gap: 20px;
+                height: 100%;
                 min-height: 100%;
-                align-self: start;
+                align-self: stretch;
+                padding-bottom: 0;
 
                 .home-shop-look-header p {
                     display: -webkit-box;
@@ -248,17 +241,21 @@ body.home {
             }
 
             .home-shop-look-controls {
-                margin-top: auto;
+                margin-top: 0;
             }
 
             .home-shop-look-image {
-                align-self: start;
+                align-self: stretch;
                 width: 100%;
-                height: auto;
+                height: 100%;
+                display: flex;
+                align-items: flex-end;
+                justify-content: center;
 
                 img {
                     width: 100%;
                     height: auto;
+                    max-height: 100%;
                     object-fit: contain;
                     object-position: center bottom;
                 }

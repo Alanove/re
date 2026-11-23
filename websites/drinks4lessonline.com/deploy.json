@@ -1,0 +1,10 @@
+{
+  "serverPath": "/www/wwwroot/drinks4less.liteweb.info",
+  "port": 3068,
+  "healthPath": "/",
+  "nodeBin": null,
+  "aapanelProject": "drinks4less",
+  "restartCommand": null,
+  "protect": [],
+  "migrations": { "dir": "data-migration", "script": "migrate:production" }
+}

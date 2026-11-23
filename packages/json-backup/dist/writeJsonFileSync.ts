@@ -19,15 +19,47 @@ export const JSON_BACKUP_RETENTION: Record<JsonBackupTier, number> = {
 };
 
 const TIERS: JsonBackupTier[] = ['daily', 'weekly', 'monthly', 'quarterly'];
+const CONTENT_DIRS = new Set(['data', 'content']);
+
+export interface JsonBackupLocation {
+  /** Site-level folder, next to data/ or content/ when the file lives under one of those. */
+  backupRoot: string;
+  /** Path under backupRoot. Nested files keep their path under data/ or content/. */
+  snapshotName: string;
+}
+
+/**
+ * Files directly in data/ or content/ snapshot as data-backups/<file>.
+ * Files further down, such as data/articles/5.json, snapshot as data-backups/articles/5.json
+ * so they stay next to the site data folder and do not collide on the file name alone.
+ */
+export function locateJsonBackup(filePath: string): JsonBackupLocation {
+  const resolved = path.resolve(filePath);
+  const segments = [path.basename(resolved)];
+  let dir = path.dirname(resolved);
+  while (true) {
+    const base = path.basename(dir);
+    if (CONTENT_DIRS.has(base)) {
+      return {
+        backupRoot: path.join(path.dirname(dir), 'data-backups'),
+        snapshotName: path.join(...segments)
+      };
+    }
+    const parent = path.dirname(dir);
+    if (parent === dir || base === '.' || base === '..') {
+      break;
+    }
+    segments.unshift(base);
+    dir = parent;
+  }
+  return {
+    backupRoot: path.join(path.dirname(resolved), 'data-backups'),
+    snapshotName: path.basename(resolved)
+  };
+}
 
 export function defaultBackupRoot(filePath: string): string {
-  const resolved = path.resolve(filePath);
-  const dir = path.dirname(resolved);
-  const base = path.basename(dir);
-  if (base === 'data' || base === 'content') {
-    return path.join(path.dirname(dir), 'data-backups');
-  }
-  return path.join(dir, 'data-backups');
+  return locateJsonBackup(filePath).backupRoot;
 }
 
 function pad2(value: number): string {
@@ -77,8 +109,18 @@ function pruneTier(tierDir: string, keep: number): void {
   }
 }
 
-function writeSnapshots(currentBytes: Buffer, fileName: string, backupRoot: string, now: Date): void {
-  const fileRoot = path.join(backupRoot, fileName);
+function snapshotFileRoot(backupRoot: string, snapshotName: string): string {
+  const root = path.resolve(backupRoot);
+  const fileRoot = path.resolve(root, snapshotName);
+  const relative = path.relative(root, fileRoot);
+  if (relative.startsWith('..') || path.isAbsolute(relative)) {
+    throw new Error(`JSON backup path escapes data-backups: ${snapshotName}`);
+  }
+  return fileRoot;
+}
+
+function writeSnapshots(currentBytes: Buffer, snapshotName: string, backupRoot: string, now: Date): void {
+  const fileRoot = snapshotFileRoot(backupRoot, snapshotName);
   const keys = snapshotKeysFor(now);
   for (const tier of TIERS) {
     const key = keys[tier];
@@ -105,8 +147,9 @@ function atomicWrite(filePath: string, text: string): void {
 
 /**
  * Write a JSON text file. When the file already exists and the bytes change,
- * copy the previous contents into data-backups/<file-name>/{daily,weekly,monthly,quarterly}/
- * before replacing it. A period that already has a snapshot is left alone.
+ * copy the previous contents into data-backups/<path>/{daily,weekly,monthly,quarterly}/
+ * before replacing it. A file under data/articles/ keeps that relative path.
+ * A period that already has a snapshot is left alone.
  */
 export function writeJsonFileSync(
   filePath: string,
@@ -116,9 +159,8 @@ export function writeJsonFileSync(
   const resolved = path.resolve(filePath);
   const text = jsonText.endsWith('\n') ? jsonText : `${jsonText}\n`;
   const now = options.now ?? new Date();
-  const backupRoot = options.backupRoot
-    ? path.resolve(options.backupRoot)
-    : defaultBackupRoot(resolved);
+  const located = locateJsonBackup(resolved);
+  const backupRoot = options.backupRoot ? path.resolve(options.backupRoot) : located.backupRoot;
 
   if (!fs.existsSync(resolved)) {
     atomicWrite(resolved, text);
@@ -131,6 +173,6 @@ export function writeJsonFileSync(
     return;
   }
 
-  writeSnapshots(currentBytes, path.basename(resolved), backupRoot, now);
+  writeSnapshots(currentBytes, located.snapshotName, backupRoot, now);
   atomicWrite(resolved, text);
 }

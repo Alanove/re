@@ -5,5 +5,7 @@
   "nodeBin": null,
   "aapanelProject": "bypeclb",
   "restartCommand": null,
-  "protect": []
+  "protect": [
+    "data-backups"
+  ]
 }

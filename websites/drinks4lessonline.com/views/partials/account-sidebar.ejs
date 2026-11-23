@@ -1,0 +1,101 @@
+<div class="bg-light p-4">
+    <h5 class="mb-3">
+        <%= typeof t !=='undefined' ? t('ecommerce.customer.account') : 'My Account' %>
+    </h5>
+    <ul class="list-unstyled">
+        <% const iconMap={ '/customer/account' : 'fa-user' , '/customer/orders' : 'fa-shopping-bag'
+            , '/customer/addresses' : 'fa-map-marker-alt' , '/customer/wishlist' : 'fa-heart' , '/logout'
+            : 'fa-sign-out-alt' }; if (typeof menus !=='undefined' && menus.account && menus.account.length> 0) {
+            menus.account.forEach(function(item) {
+            // Determine icon
+            let iconClass = 'fa-angle-right'; // Default
+            if (iconMap[item.url]) {
+            iconClass = iconMap[item.url];
+            }
+
+            // Determine active state
+            let isActive = false;
+            if (typeof activePage !== 'undefined') {
+            if (activePage === 'account' && item.url === '/customer/account') isActive = true;
+            else if (activePage === 'orders' && item.url === '/customer/orders') isActive = true;
+            else if (activePage === 'addresses' && item.url === '/customer/addresses') isActive = true;
+            else if (activePage === 'wishlist' && item.url === '/customer/wishlist') isActive = true;
+            }
+            // Fallback to searching active class from menu service if passed, or exact URL match
+            if (!isActive && item.url === (typeof currentPath !== 'undefined' ? currentPath : '')) isActive = true;
+            %>
+            <li class="mb-2">
+                <a href="<%= item.url %>" class="<%= isActive ? 'text-primary font-weight-bold' : 'text-dark' %>">
+                    <i class="fa <%= iconClass %> mr-2"></i>
+                    <%= item.title %>
+                </a>
+            </li>
+            <% }); } else { %>
+                <!-- Fallback if menu is empty -->
+                <li class="mb-2">
+                    <a href="/customer/account"
+                        class="<%= (typeof activePage !== 'undefined' && activePage === 'account') ? 'text-primary font-weight-bold' : 'text-dark' %>">
+                        <i class="fa fa-user mr-2"></i>
+                        <%= typeof t !=='undefined' ? t('ecommerce.customer.profile') : 'Profile' %>
+                    </a>
+                </li>
+                <li class="mb-2">
+                    <a href="/customer/orders"
+                        class="<%= (typeof activePage !== 'undefined' && activePage === 'orders') ? 'text-primary font-weight-bold' : 'text-dark' %>">
+                        <i class="fa fa-shopping-bag mr-2"></i>
+                        <%= typeof t !=='undefined' ? t('ecommerce.customer.orders') : 'My Orders' %>
+                    </a>
+                </li>
+                <li class="mb-2">
+                    <a href="/customer/addresses"
+                        class="<%= (typeof activePage !== 'undefined' && activePage === 'addresses') ? 'text-primary font-weight-bold' : 'text-dark' %>">
+                        <i class="fa fa-map-marker-alt mr-2"></i>
+                        <%= typeof t !=='undefined' ? t('ecommerce.customer.addresses') : 'My Addresses' %>
+                    </a>
+                </li>
+                <li class="mb-2">
+                    <a href="/customer/wishlist"
+                        class="<%= (typeof activePage !== 'undefined' && activePage === 'wishlist') ? 'text-primary font-weight-bold' : 'text-dark' %>">
+                        <i class="fa fa-heart mr-2"></i>
+                        <%= typeof t !=='undefined' ? t('ecommerce.customer.wishlist') : 'Wishlist' %>
+                    </a>
+                </li>
+                <% } %>
+                    <li class="mb-2">
+                        <a href="#" id="sidebarLogoutBtn" class="text-dark">
+                            <i class="fa fa-sign-out-alt mr-2"></i>
+                            <%= typeof t !=='undefined' ? t('ecommerce.customer.logout') : 'Logout' %>
+                        </a>
+                    </li>
+    </ul>
+</div>
+
+<script>
+    document.getElementById('sidebarLogoutBtn').addEventListener('click', function (e) {
+        e.preventDefault();
+        fetch('/api/customer/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'CSRF-Token': '<%= typeof csrfToken !== "undefined" ? csrfToken : "" %>'
+            }
+        })
+            .then(response => {
+                console.log('Sidebar logout response:', response);
+                return response.json();
+            })
+            .then(data => {
+                console.log('Sidebar logout data:', data);
+                if (data.success) {
+                    window.location.href = '/';
+                } else {
+                    console.error('Sidebar logout failed:', data.error);
+                    alert('Logout failed: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Logout error');
+            });
+    });
+</script>

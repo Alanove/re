@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{19705634-0C25-4DA0-8BF6-F3A490173BDA}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ShippingClientCSharp</RootNamespace>
+    <AssemblyName>ShippingClientCSharp</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CancelPickup\frmCancelPickup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CancelPickup\frmCancelPickup.Designer.cs">
+      <DependentUpon>frmCancelPickup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CancelPickup\frmCancelPickupCallResponse.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CancelPickup\frmCancelPickupCallResponse.Designer.cs">
+      <DependentUpon>frmCancelPickupCallResponse.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CreatePickup\frmPickup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreatePickup\frmPickup.Designer.cs">
+      <DependentUpon>frmPickup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CreatePickup\frmPickupCallResponse.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreatePickup\frmPickupCallResponse.Designer.cs">
+      <DependentUpon>frmPickupCallResponse.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CreatePickup\frmPickupShipments.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreatePickup\frmPickupShipments.Designer.cs">
+      <DependentUpon>frmPickupShipments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CreateShipments\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateShipments\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CreateShipments\Form2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateShipments\Form2.Designer.cs">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PrintLabel\frmPrintLabel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PrintLabel\frmPrintLabel.Designer.cs">
+      <DependentUpon>frmPrintLabel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PrintLabel\frmPrintLabelCallResponse.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PrintLabel\frmPrintLabelCallResponse.Designer.cs">
+      <DependentUpon>frmPrintLabelCallResponse.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\ShippingReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="CancelPickup\frmCancelPickup.resx">
+      <DependentUpon>frmCancelPickup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CancelPickup\frmCancelPickupCallResponse.resx">
+      <DependentUpon>frmCancelPickupCallResponse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreatePickup\frmPickup.resx">
+      <DependentUpon>frmPickup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreatePickup\frmPickupCallResponse.resx">
+      <DependentUpon>frmPickupCallResponse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreatePickup\frmPickupShipments.resx">
+      <DependentUpon>frmPickupShipments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreateShipments\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreateShipments\Form2.resx">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PrintLabel\frmPrintLabel.resx">
+      <DependentUpon>frmPrintLabel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PrintLabel\frmPrintLabelCallResponse.resx">
+      <DependentUpon>frmPrintLabelCallResponse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="Service References\ShippingReference\Service_1_0.wsdl" />
+    <None Include="Service References\ShippingReference\ShippingClientCSharp.ShippingReference.LabelPrintingResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ShippingReference\ShippingClientCSharp.ShippingReference.PickupCancelationResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ShippingReference\ShippingClientCSharp.ShippingReference.PickupCreationResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ShippingReference\ShippingClientCSharp.ShippingReference.ShipmentCreationResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\ShippingReference\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ShippingReference\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ShippingReference\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ShippingReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1306757232_tow_truck.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1307341992_diagram_v2-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1304582222_marked_price.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1304582255_box.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1304836018_exit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1304926520_autoship.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

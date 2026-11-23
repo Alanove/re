@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>cms</name>
+    </assembly>
+    <members>
+        <member name="T:lw.cms.CMS3Page">
+            <summary>
+            This page must be reffered withing all the cms 2016 version inside pages
+            </summary>
+        </member>
+        <member name="M:lw.cms.CMS3Page.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="T:lw.cms.CMSTools">
+            <summary>
+            This page must be reffered withing all the cms pages
+            </summary>
+        </member>
+        <member name="M:lw.cms.CMSTools.SendNotification(System.Nullable{lw.CTE.Enum.SiteSections},System.Int32,System.Nullable{lw.CTE.Enum.CMSActions},System.String)">
+            <summary>
+            sendNotification to notification email when actions are done through the CMS
+            <param name="ObjectType">Type of the Object submitted </param>
+            <param name="ObjectId">Object Id as saved in database</param>
+            <param name="ChangeAction">Action done on the object</param>
+            <param name="Change">Description of the change done on the object</param>
+            </summary>
+        </member>
+        <member name="T:lw.cms.CMSPage">
+            <summary>
+            This page must be reffered withing all the cms pages
+            </summary>
+        </member>
+        <member name="T:lw.cms.CMS2Page">
+            <summary>
+            This page must be reffered withing all the cms pages
+            </summary>
+        </member>
+        <member name="M:lw.cms.CustomDataGrid.InitDataSource(System.Data.DataView,System.String,System.Web.UI.HtmlControls.HtmlInputHidden)">
+            
+        </member>
+        <member name="T:lw.cms.PageProperties">
+            <summary>
+            This page must be reffered withing all the cms 2016 version inside pages
+            </summary>
+        </member>
+        <member name="M:lw.cms.PageProperties.#ctor">
+            <summary>
+            Constructor
+            </summary> 
+        </member>
+    </members>
+</doc>

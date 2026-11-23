@@ -1,6 +1,7 @@
-import { mkdir, readFile, rename, stat, writeFile } from 'node:fs/promises';
+import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import type { z } from 'zod';
+import { writeJsonFileSync } from '../vendor/json-backup/writeJsonFileSync.js';
 
 export class JsonFileStore<T> {
   private cache: { value: T; mtimeMs: number } | null = null;
@@ -53,10 +54,7 @@ export class JsonFileStore<T> {
   }
 
   private async persist(value: T): Promise<void> {
-    await mkdir(path.dirname(this.filePath), { recursive: true });
-    const tempPath = `${this.filePath}.${process.pid}.${Date.now()}.tmp`;
-    await writeFile(tempPath, `${JSON.stringify(value, null, 2)}\n`, 'utf8');
-    await rename(tempPath, this.filePath);
+    writeJsonFileSync(this.filePath, `${JSON.stringify(value, null, 2)}\n`);
     const mtimeMs = await this.currentMtime();
     this.cache = mtimeMs === null ? null : { value: structuredClone(value), mtimeMs };
   }

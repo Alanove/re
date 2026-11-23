@@ -128,6 +128,19 @@ test('writes monthly and quarterly on the first of a quarter', async () => {
   assert.equal(fs.existsSync(path.join(site, 'data-backups', 'pages.json', 'weekly')), false);
 });
 
+test('keeps a nested data file under the site data-backups folder', async () => {
+  const mod = await compileAndImport();
+  const site = fs.mkdtempSync(path.join(os.tmpdir(), 'json-backup-site-'));
+  const file = path.join(site, 'data', 'articles', '5.json');
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, `${JSON.stringify({ v: 1 }, null, 2)}\n`);
+  mod.writeJsonFileSync(file, JSON.stringify({ v: 2 }, null, 2), { now: sundayInNovember2026() });
+  const daily = path.join(site, 'data-backups', 'articles', '5.json', 'daily', '2026-11-15.json');
+  assert.equal(JSON.parse(fs.readFileSync(daily, 'utf8')).v, 1);
+  assert.equal(JSON.parse(fs.readFileSync(file, 'utf8')).v, 2);
+  assert.equal(fs.existsSync(path.join(site, 'data', 'articles', 'data-backups')), false);
+});
+
 test('prunes daily snapshots beyond seven', async () => {
   const mod = await compileAndImport();
   const site = fs.mkdtempSync(path.join(os.tmpdir(), 'json-backup-site-'));

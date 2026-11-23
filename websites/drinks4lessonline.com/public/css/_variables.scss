@@ -1,0 +1,49 @@
+// SCSS Variables - MultiShop Template
+// Variables from MultiShop template
+
+// Sampled from the live Woodmart header CSS (xts-default_header-css-data):
+// top bar rgba(39, 39, 39) and header border rgba(255, 237, 0).
+// The backup has no brand logo file to sample.
+$teal: #272727;
+$spring-bed: #272727;
+$grey: #707070;
+$white: #ffffff;
+$black: #000000;
+$yellow: #ffed00;
+
+// Dark bar is the brand field. Yellow is the accent. Yellow text on white fails WCAG, so text stays dark.
+$primary: #272727;
+$secondary: $white;
+$light: $white;
+$dark: #1a1a1a;
+
+// Body
+$body-bg: $white;
+$body-color: $teal;
+
+// Headings
+$headings-color: $dark;
+
+// Typography
+$font-family-montserrat: "Montserrat", sans-serif;
+$font-family-quadra: "Quadra", sans-serif;
+$font-family-sui-generis: "Sui Generis", sans-serif;
+
+$font-quadra: $font-family-quadra;
+$font-family-sans-serif: $font-family-montserrat;
+$headings-font-family: $font-family-sui-generis;
+
+// Bootstrap 4 Settings (for reference, Bootstrap is loaded via CDN)
+$enable-responsive-font-sizes: true;
+$enable-rounded: false;
+$btn-focus-box-shadow: none;
+$btn-active-box-shadow: none;
+$input-btn-focus-box-shadow: none;
+$input-placeholder-color: #999999;
+$border-color: #dee2e6;
+
+// Legacy variable names for compatibility
+$primary-color: $primary;
+$secondary-color: $dark;
+$white: $light;
+$black: #000000;

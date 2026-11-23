@@ -1,0 +1,367 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Base</name>
+    </assembly>
+    <members>
+        <member name="T:lw.Base.BaseControl">
+            <summary>
+            Inherit BaseControl instead of Control to gain direct access to 
+            MyPage	lw.Base.CustomPage
+            CMSMode	if working inside the CMS
+            </summary>
+        </member>
+        <member name="M:lw.Base.BaseControl.#ctor">
+            <summary>
+            Creates the base control
+            </summary>
+        </member>
+        <member name="M:lw.Base.BaseControl.#ctor(System.String)">
+            <summary>
+            Creates the base control with an html tag
+            </summary>
+            <param name="tag">The html tag. ex: div, table, etc..</param>
+        </member>
+        <member name="P:lw.Base.BaseControl.MyPage">
+            <summary>
+            Returns the reffered lw.Base.CustomPage where the control belongs
+            </summary>
+        </member>
+        <member name="P:lw.Base.BaseControl.RenderContainerTag">
+            <summary>
+            Flag if the tag surrounding the container should be rendered.
+            Default: false, only children are rendered.
+            </summary>
+        </member>
+        <member name="P:lw.Base.BaseControl.ImageNotFound">
+            <summary>
+            Can be used in the control to display empty images.
+            </summary>
+        </member>
+        <member name="P:lw.Base.BaseControl.CMSMode">
+            <summary>
+            Indicates if the tag is used inside the CMS
+            Can also be set in web.config.
+            </summary>
+        </member>
+        <member name="P:lw.Base.BaseControl.MasterPageFile">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:lw.Base.cte">
+            <summary>
+            Class containing all the constants that are using in the <see cref="N:lw.Base"/> library
+            </summary>
+        </member>
+        <member name="T:lw.Base.CustomPage">
+            <summary>
+            CustomPage is the holder of every control ever created using the lw library.
+            All pages must inherit CustomPage in order for the controls and everything else to work.
+            </summary>
+        </member>
+        <member name="F:lw.Base.CustomPage.Description">
+            <summary>
+            Represents the description of the page that is added to the meta tag "description"
+            The description is automatically read from the Parameters Config files if not declared within the page
+            </summary>
+        </member>
+        <member name="F:lw.Base.CustomPage.Keywords">
+            <summary>
+            Represents the keywords of the page that is added to the meta tag "keywords"
+            The keywords are automatically read from the Parameters Config files if not declared within the page
+            </summary>
+        </member>
+        <member name="F:lw.Base.CustomPage.CustomTitle">
+            <summary>
+            Represents the title of the page that is added to the meta tag "title"
+            The title is automatically read from the Parameters Config files if not declared within the page
+            </summary>
+        </member>
+        <member name="F:lw.Base.CustomPage.Image">
+            <summary>
+            Represents the image of the page that is added to the meta tag "og:image"
+            The image is used to help facebook/social media identify the correct image for the shared page
+            </summary>
+        </member>
+        <member name="F:lw.Base.CustomPage.Url">
+            <summary>
+            Represents the url of the page that is added to the meta tag "og:url" and used for the "canonical" link rel
+            The url is used to help facebook/social media identify the correct URL of the object that will be used as its permanent ID in the graph
+            </summary>
+        </member>
+        <member name="F:lw.Base.CustomPage.isSecure">
+            <summary>
+            Represents the security of the page
+            The IsSecure  is used to open https pages when set to True
+            </summary>
+        </member>
+        <member name="F:lw.Base.CustomPage.UserLoggedIn">
+            <summary>
+            Automatically checks if the user is logged in.
+            </summary>
+        </member>
+        <member name="F:lw.Base.CustomPage.CMSInside">
+            <summary>
+            Check if CMS inside Page
+            </summary>
+        </member>
+        <member name="F:lw.Base.CustomPage.PageProperties">
+            <summary>
+            Check if Page Properties
+            </summary>
+        </member>
+        <member name="F:lw.Base.CustomPage.PageContext">
+            <summary>
+            PageContext is a dictionary variable that lives with the page and destroyed as soon as the page gets destroyed.
+            </summary>
+        </member>
+        <member name="M:lw.Base.CustomPage.AjaxPostBack">
+            <summary>
+            Can be overrided to display ajax posback entries
+            </summary>
+        </member>
+        <member name="M:lw.Base.CustomPage.Page_PreInit(System.Object,System.EventArgs)">
+            <summary>
+            The Page_PreInit method is called at the beginning of the page initialization stage.
+            After the Page_PreInit method is called, personalization information is loaded and the page theme, if any, is initialized. This is also the preferred stage to dynamically define a PageTheme or MasterPage for the Page.
+            Raising an event invokes the event handler through a delegate. For more information, see Handling and Raising Events.
+            The Page_PreInit method also allows derived classes to handle the event without attaching a delegate. This is the preferred technique for handling the event in a derived class.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:lw.Base.CustomPage.FindControlRecursive(System.Web.UI.Control,System.String)">
+            <summary>
+            Recursively finds a control within the root control inside the page. 
+            </summary>
+            <param name="root">The root control, from where should start the search</param>
+            <param name="id">The ID of the control to find.</param>
+            <returns>The found control or null if none found.</returns>
+        </member>
+        <member name="M:lw.Base.CustomPage.FindControl(System.String)">
+            <summary>
+            Finds a control within the the page. 
+            </summary>
+            <param name="id">The ID of the control to find.</param>
+            <returns>The found control or null if none found.</returns>
+        </member>
+        <member name="M:lw.Base.CustomPage.OnError(System.EventArgs)">
+            <summary>
+            Automatically called when an error occurs on the page.
+            It handles the error by adding an entry in the error log files.
+            It also sends an email to the error email of the site.
+            </summary>
+            <param name="e">The event</param>
+        </member>
+        <member name="M:lw.Base.CustomPage.AddDescription(System.String)">
+            <summary>
+            Adds description to the meta name="description" tag in the page.
+            </summary>
+            <param name="desc">The description of the page</param>
+        </member>
+        <member name="M:lw.Base.CustomPage.AddKeywords(System.String)">
+            <summary>
+            Adds keywords to the meta name="keywords" tag in the page.
+            </summary>
+            <param name="desc">The keywords of the page</param>
+        </member>
+        <member name="M:lw.Base.CustomPage.RegisterHeaderScriptFile(System.String,System.String)">
+            <summary>
+            Registers a script file into the page and place it in the <![CDATA[<head>]]> section of the page.
+            Important: For this to work the head tag must have runat="server" <![CDATA[<head runat="server">]]> 
+            </summary>
+            <param name="key">The key of the file, having 2 files registered with same key will have only the last file registered.</param>
+            <param name="file">The file location. Can start with "~"</param>
+        </member>
+        <member name="M:lw.Base.CustomPage.RegisterScriptFile(System.String,System.String)">
+            <summary>
+            Registers a script file into the page and place it at the bottom of the body before the <![CDATA[</body>]]> closing tag for fast loading.
+            Important: For this to work the body tag must have runat="server" <![CDATA[<body runat="server">]]> 
+            Fallback: if <![CDATA[<body runat=server>]]> not found, the scripts will be added to the head.
+            </summary>
+            <param name="key">The key of the file, having 2 files registered with same key will have only the last file registered.</param>
+            <param name="file">The file location. Can start with "~"</param>
+        </member>
+        <member name="M:lw.Base.CustomPage.RegisterStyleSheet(System.String,System.String)">
+            <summary>
+            Registers a stylesheet file into the page and place it in the <![CDATA[<head>]]> section of the page.
+            Important: For this to work the head tag must have runat="server" <![CDATA[<head runat="server">]]> 
+            </summary>
+            <param name="key">The key of the file, having 2 files registered with same key will have only the last file registered.</param>
+            <param name="file">The file location. Can start with "~"</param>
+        </member>
+        <member name="M:lw.Base.CustomPage.AddStyles(System.String,System.String,System.Boolean)">
+            <summary>
+            Adds inline styles block to the page from the code behind.
+            Can be used with tags which must include some styles, or selected menu, etc...
+            </summary>
+            <param name="key">The key of the insereted styles (must be unique)</param>
+            <param name="style">The style parameters</param>
+            <param name="Override">This tells the style of override existing styles with same keys</param>
+        </member>
+        <member name="M:lw.Base.CustomPage.RegisterHeaderScript(System.String,System.String,System.Boolean)">
+            <summary>
+            Adds inline script block to the page from the code behind.
+            Can be used with tags which must include some scripts, or selected menus, etc...
+            </summary>
+            <param name="key">The key of the insereted styles (must be unique)</param>
+            <param name="script">The style parameters</param>
+            <param name="Override">This tells the script of override existing scripts with same keys</param>
+        </member>
+        <member name="M:lw.Base.CustomPage.RegisterLoadScript(System.String,System.String)">
+            <summary>
+            Adds inline script block that runs with the page load from the code behind.
+            Can be used with tags which must include some styles, or selected menu, etc...
+            </summary>
+            <param name="key">The key of the insereted styles (must be unique)</param>
+            <param name="script">The style parameters</param>
+        </member>
+        <member name="M:lw.Base.CustomPage.RegisterLoadScript(System.String,System.String,System.Boolean)">
+            <summary>
+            Adds inline script block that runs with the page load from the code behind.
+            Can be used with tags which must include some styles, or selected menu, etc...
+            </summary>
+            <param name="key">The key of the insereted styles (must be unique)</param>
+            <param name="script">The style parameters</param>
+            <param name="Override">Default: true. This tells the script of override existing scripts with same keys</param>
+        </member>
+        <member name="M:lw.Base.CustomPage.RegisterUnLoadScript(System.String,System.String,System.Boolean)">
+            <summary>
+            Register a client script block that runs on page.unload 
+            </summary>
+            <param name="key"></param>
+            <param name="script"></param>
+            <param name="Override"></param>
+        </member>
+        <member name="M:lw.Base.CustomPage.AddWarning(System.String)">
+            <summary>
+            Adds a text warning to the PageWarnings Context.
+            </summary>
+            <param name="warning"></param>
+        </member>
+        <member name="M:lw.Base.CustomPage.AddContext(System.String,System.Object,System.Boolean)">
+            <summary>
+            Adds an object to the PageContext Object.
+            </summary>
+            <param name="key">The key of the object</param>
+            <param name="v"></param>
+            <param name="Override">Specifies if the new object should override old existing objects with same key</param>
+        </member>
+        <member name="M:lw.Base.CustomPage.AddError(System.String)">
+            <summary>
+            Adds an error message to the page's PageErrors Dictionnary.
+            This can be used for validation or if you want to display some errors to the user.
+            </summary>
+            <param name="error"></param>
+        </member>
+        <member name="M:lw.Base.CustomPage.InitEditing(System.Boolean)">
+            <summary>
+            Initialize the inline editing tools.
+            </summary>
+            <param name="MakeEditable"></param>
+        </member>
+        <member name="M:lw.Base.CustomPage.GetQueryValue(System.String)">
+            <summary>
+            returns a value from 
+            1 - Query String
+            2 - RouteData
+            3 - RoutingQuery <seealso cref="P:lw.Base.CustomPage.RoutingQuery"/>
+            </summary>
+            <param name="key">The key</param>
+            <returns>The value if found otherwise null</returns>
+        </member>
+        <member name="P:lw.Base.CustomPage.BodyControl">
+            <summary>
+            Returns the body tag of the page
+            </summary>
+        </member>
+        <member name="P:lw.Base.CustomPage.Head">
+            <summary>
+            Returns the Head element of the page
+            </summary>
+        </member>
+        <member name="P:lw.Base.CustomPage.LogLoadTime">
+            <summary>
+            Logs the load time needed for every step of the page life cycle and adds the total time to the log file
+            </summary>
+        </member>
+        <member name="P:lw.Base.CustomPage.CurrentTemplate">
+            <summary>
+            Gets of sets the current template (Master Page) of the page.
+            By default it reads from the page's querystring: template
+            </summary>
+        </member>
+        <member name="P:lw.Base.CustomPage.InlineEditingEnabled">
+            <summary>
+            If true the inline editing will be enabled
+            This is set in Web.Config App for key "InlineEditingEnabled"
+            </summary>
+        </member>
+        <member name="P:lw.Base.CustomPage.HasDraft">
+            <summary>
+            Set to true if the page contains a draft version
+            </summary>
+        </member>
+        <member name="P:lw.Base.CustomPage.RoutingQuery">
+            <summary>
+            Transforms Routing VirtualPath into a virtual QueryString
+            ex: 
+            <UrlRouting>
+            	<Description>downloads</Description>
+            	<Route>downloads</Route>
+            	<Redirection>~/_Routing/page.aspx?section=downloads&amp;sub=default</Redirection>
+            </UrlRouting>
+            section and sub will not be returned as usual QueryString, instead you can get their values using the RoutingQuery collection
+            </summary>
+        </member>
+        <member name="T:lw.Base.ConfigParam">
+            <summary>
+            returns the virtual directory root
+            muyst be used instead of "~" as ~ sometimes returns the virtual directory path instead of the absolute path.
+            </summary>
+        </member>
+        <member name="T:lw.Base.Server">
+            <summary>
+            Returns the server or domain name.
+            </summary>
+        </member>
+        <member name="T:lw.Base.SVG">
+            <summary>
+            Reads and renders svg content inline
+            </summary>
+        </member>
+        <member name="P:lw.Base.SVG.SRC">
+            <summary>
+            The source of the svg file (can also be external using http or https).
+            </summary>
+        </member>
+        <member name="P:lw.Base.UserControl.Control">
+            <summary>
+            String presenting the path of the Control
+            1 - By Default all controls must be placed in the controls folder
+            2 - Set Relative=true, Controls will be loaded relative to the page.
+            3 - Start Control path with "~" the control will be loaded from its absolute path.
+            </summary>
+        </member>
+        <member name="P:lw.Base.UserControl.HTMLContent">
+            <summary>
+            Returns the HTML Content of the control
+            Usefull for ajax call backs, if you want to render this specific control
+            </summary>
+        </member>
+        <member name="P:lw.Base.UserControl.Relative">
+            <summary>
+            Default: false (Controls will be loaded from _controls folder)
+            If set to true the control will be loaded relative to the page
+            Take caution that routed pages might not work well with Relative=true as the path will change depending on Route
+            </summary>
+        </member>
+        <member name="T:lw.Base.Root">
+            <summary>
+            returns the virtual directory root
+            muyst be used instead of "~" as ~ sometimes returns the virtual directory path instead of the absolute path.
+            </summary>
+        </member>
+    </members>
+</doc>

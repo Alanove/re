@@ -1,0 +1,129 @@
+﻿@import "../plugins/bootstrap/less/variables.less";
+@import "../plugins/bootstrap/less/mixins.less";
+
+
+html {
+	body {
+		.wrapper {
+			> footer {
+				padding: 15px 0;
+				background: #111;
+
+				.copyright {
+					font-size: 13px;
+					color: @LighterGray;
+
+					p {
+						margin: 0;
+					}
+
+					a {
+						color: @Pink;
+
+						&:hover {
+							color: @White;
+						}
+					}
+				}
+
+				.social {
+					text-align: right;
+
+					a {
+						color: @White;
+						font-size: 20px;
+						text-decoration: none;
+						margin-right: 10px;
+
+						&:hover {
+							color: @Pink;
+						}
+
+						&:last-child {
+							margin-right: 0;
+						}
+					}
+				}
+			}
+		}
+
+		.scrollup {
+			width: 46px;
+			height: 46px;
+			position: fixed;
+			bottom: 60px;
+			right: 20px;
+			background: url(images/arrows.png) no-repeat;
+			display: none;
+			text-align: center;
+			z-index: 1;
+			outline: none;
+			opacity: 0.8;
+			-moz-transform: rotate(-90deg);
+			-ms-transform: rotate(-90deg);
+			-o-transform: rotate(-90deg);
+			-webkit-transform: rotate(-90deg);
+			transform: rotate(-90deg);
+			-moz-transition: none;
+			-o-transition: none;
+			-webkit-transition: none;
+			transition: none;
+
+			&:hover {
+				opacity: 1;
+				background-position: -82px 0;
+			}
+		}
+	}
+}
+
+@media (min-width: @screen-md) {
+	html {
+		body {
+			.wrapper {
+			}
+		}
+	}
+}
+
+@media only screen and (max-width:@screen-xs-max) {
+	html {
+		body {
+			.wrapper {
+
+
+				.scrollup {
+					width: 36px;
+					height: 36px;
+					background-size: cover;
+
+					&:hover {
+						background-position: -64px 0;
+					}
+				}
+			}
+		}
+	}
+}
+
+
+@media only screen and (max-width: @screen-sm-max) {
+	html {
+		body {
+			.wrapper {
+				> footer {
+					text-align: center;
+
+					.social {
+						margin-top: 10px;
+						text-align: center;
+					}
+				}
+			}
+
+			.scrollup {
+				bottom: 30px;
+			}
+		}
+	}
+}

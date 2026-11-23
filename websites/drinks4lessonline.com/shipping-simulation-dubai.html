@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>International Shipping Discount Simulation (Beirut → Dubai)</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      color: #1f2937;
+      background: #ffffff;
+      max-width: 1100px;
+      margin: 32px auto;
+      padding: 0 24px 64px;
+      line-height: 1.5;
+    }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 4px;
+      color: #111827;
+    }
+    .subtitle {
+      color: #4b5563;
+      margin-top: 0;
+      margin-bottom: 28px;
+      font-size: 14px;
+    }
+    h2 {
+      font-size: 18px;
+      margin-top: 36px;
+      margin-bottom: 8px;
+      color: #111827;
+      border-bottom: 2px solid #e5e7eb;
+      padding-bottom: 6px;
+    }
+    p.formula {
+      background: #f3f4f6;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 13px;
+      display: inline-block;
+      margin: 4px 0 12px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 24px;
+      font-size: 14px;
+    }
+    th, td {
+      border: 1px solid #d1d5db;
+      padding: 10px 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #f9fafb;
+      font-weight: 600;
+      color: #111827;
+    }
+    tr:nth-child(even) td {
+      background-color: #fcfcfd;
+    }
+    .highlight {
+      font-weight: 700;
+      color: #047857;
+      background-color: #ecfdf5 !important;
+    }
+    .old-price {
+      font-weight: 600;
+      color: #374151;
+    }
+    .note {
+      background: #fffbeb;
+      border-left: 4px solid #f59e0b;
+      padding: 12px 16px;
+      font-size: 14px;
+      margin: 12px 0 24px;
+    }
+    .pros {
+      background: #f0fdf4;
+      border-left: 4px solid #10b981;
+      padding: 12px 16px;
+      font-size: 14px;
+      margin: 12px 0 24px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>International Shipping Discount Simulation (Beirut, LB &rarr; Dubai, AE)</h1>
+  <p class="subtitle">Live quotes fetched from Aramex Rate Calculator (<code>EXP</code> / <code>PPX</code>) using actual products &amp; weights from the Guerra Sports database.</p>
+
+  <h2>1. Real Database Products Used in the 5-Item Cart</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Step</th>
+        <th>Item Added (from DB)</th>
+        <th>Category</th>
+        <th>Item Price</th>
+        <th>Item Weight (DB)</th>
+        <th>Cart Subtotal</th>
+        <th>Cumulative Weight</th>
+        <th>Live Aramex Raw Quote (Dubai)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>1</strong></td>
+        <td><strong>Wrestling/Boxing Shoes</strong> (ID: 44)</td>
+        <td>Shoes</td>
+        <td>$125.00</td>
+        <td>0.80 kg</td>
+        <td>$125.00</td>
+        <td><strong>0.80 kg</strong></td>
+        <td><strong>$32.97</strong></td>
+      </tr>
+      <tr>
+        <td><strong>2</strong></td>
+        <td>+ <strong>Core-X Rope</strong> (ID: 106)</td>
+        <td>Accessories</td>
+        <td>$35.00</td>
+        <td>0.19 kg</td>
+        <td>$160.00</td>
+        <td><strong>0.99 kg</strong></td>
+        <td><strong>$34.31</strong></td>
+      </tr>
+      <tr>
+        <td><strong>3</strong></td>
+        <td>+ <strong>Wrestling/Boxing Shoes</strong> (2nd pair, ID: 44)</td>
+        <td>Shoes</td>
+        <td>$125.00</td>
+        <td>0.80 kg</td>
+        <td>$285.00</td>
+        <td><strong>1.79 kg</strong></td>
+        <td><strong>$43.88</strong></td>
+      </tr>
+      <tr>
+        <td><strong>4</strong></td>
+        <td>+ <strong>The STRYD Unisex Zipper Hoodie</strong> (ID: 33)</td>
+        <td>Athleisure Wear</td>
+        <td>$50.00</td>
+        <td>0.45 kg</td>
+        <td>$335.00</td>
+        <td><strong>2.24 kg</strong></td>
+        <td><strong>$56.09</strong></td>
+      </tr>
+      <tr>
+        <td><strong>5</strong></td>
+        <td>+ <strong>Slouch Socks</strong> (ID: 74)</td>
+        <td>Athleisure Wear</td>
+        <td>$8.00</td>
+        <td>0.08 kg</td>
+        <td>$343.00</td>
+        <td><strong>2.32 kg</strong></td>
+        <td><strong>$56.66</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>2. Simulation 1: Original Formula (100% / 80% / 60% / 40% / 20% of Full Aramex Quote)</h2>
+  <p class="formula">Formula: Math.round(rawAramex * (Math.max(20, 100 - 20 * (quantity - 1)) / 100))</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Qty &amp; Cart Contents</th>
+        <th>Total Weight</th>
+        <th>Cart Subtotal</th>
+        <th>Without Discount (Current)</th>
+        <th>Share Charged</th>
+        <th>With Discount (Proposed)</th>
+        <th>Customer Saves</th>
+        <th>Store Subsidy</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>1:</strong> Shoe</td>
+        <td>0.80 kg</td>
+        <td>$125.00</td>
+        <td class="old-price">$33 ($32.97)</td>
+        <td>100%</td>
+        <td class="highlight">$33 ($32.97)</td>
+        <td>$0</td>
+        <td>$0.00</td>
+      </tr>
+      <tr>
+        <td><strong>2:</strong> + Rope</td>
+        <td>0.99 kg</td>
+        <td>$160.00</td>
+        <td class="old-price">$34 ($34.31)</td>
+        <td>80%</td>
+        <td class="highlight">$27 ($27.45)</td>
+        <td>$7</td>
+        <td>$7.31</td>
+      </tr>
+      <tr>
+        <td><strong>3:</strong> + 2nd Shoe</td>
+        <td>1.79 kg</td>
+        <td>$285.00</td>
+        <td class="old-price">$44 ($43.88)</td>
+        <td>60%</td>
+        <td class="highlight">$26 ($26.33)</td>
+        <td>$18</td>
+        <td>$17.88</td>
+      </tr>
+      <tr>
+        <td><strong>4:</strong> + Hoodie</td>
+        <td>2.24 kg</td>
+        <td>$335.00</td>
+        <td class="old-price">$56 ($56.09)</td>
+        <td>40%</td>
+        <td class="highlight">$22 ($22.44)</td>
+        <td>$34</td>
+        <td>$34.09</td>
+      </tr>
+      <tr>
+        <td><strong>5:</strong> + Socks ($8)</td>
+        <td>2.32 kg</td>
+        <td>$343.00</td>
+        <td class="old-price">$57 ($56.66)</td>
+        <td>20%</td>
+        <td class="highlight">$11 ($11.33)</td>
+        <td>$46</td>
+        <td>$45.66</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="note">
+    <strong>Note on Step 4 &rarr; Step 5:</strong> When the customer adds an <strong>$8.00 pair of Slouch Socks (0.08 kg)</strong> as their 5th item, shipping drops from <strong>$22 to $11</strong> (-$11). That means adding an $8 pair of socks makes their grand total <strong>$3 cheaper</strong> ($335 + $22 = $357 vs $343 + $11 = $354).
+  </div>
+
+  <h2>3. Simulation 2: "Ship 2+ Items for the Price of 1" (Cap Checkout Quote Weight at 0.5 kg)</h2>
+  <p class="formula">Rule: Always quote international checkout shipping at 0.50 kg ($27.96 &rarr; $28 to Dubai)</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Qty &amp; Cart Contents</th>
+        <th>Actual Weight</th>
+        <th>Quote Weight Sent</th>
+        <th>Without Discount (Current)</th>
+        <th>With 0.5 kg Cap (Customer Pays)</th>
+        <th>Customer Saves</th>
+        <th>Store Subsidy (vs Actual Weight Quote)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>1:</strong> Shoe</td>
+        <td>0.80 kg</td>
+        <td>0.50 kg</td>
+        <td class="old-price">$33 ($32.97)</td>
+        <td class="highlight">$28 ($27.96)</td>
+        <td>$5</td>
+        <td>$4.97</td>
+      </tr>
+      <tr>
+        <td><strong>2:</strong> + Rope</td>
+        <td>0.99 kg</td>
+        <td>0.50 kg</td>
+        <td class="old-price">$34 ($34.31)</td>
+        <td class="highlight">$28 ($27.96)</td>
+        <td>$6</td>
+        <td>$6.31</td>
+      </tr>
+      <tr>
+        <td><strong>3:</strong> + 2nd Shoe</td>
+        <td>1.79 kg</td>
+        <td>0.50 kg</td>
+        <td class="old-price">$44 ($43.88)</td>
+        <td class="highlight">$28 ($27.96)</td>
+        <td>$16</td>
+        <td>$15.88</td>
+      </tr>
+      <tr>
+        <td><strong>4:</strong> + Hoodie</td>
+        <td>2.24 kg</td>
+        <td>0.50 kg</td>
+        <td class="old-price">$56 ($56.09)</td>
+        <td class="highlight">$28 ($27.96)</td>
+        <td>$28</td>
+        <td>$28.09</td>
+      </tr>
+      <tr>
+        <td><strong>5:</strong> + Socks ($8)</td>
+        <td>2.32 kg</td>
+        <td>0.50 kg</td>
+        <td class="old-price">$57 ($56.66)</td>
+        <td class="highlight">$28 ($27.96)</td>
+        <td>$29</td>
+        <td>$28.66</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="pros">
+    <strong>Pros:</strong> Simple to explain to customers ("Flat 1-item international shipping on your whole cart"), requires only 1 Aramex API call, and adding low-cost accessories like $8 socks never reduces the grand total.
+  </div>
+
+  <h2>4. Simulation 3: Discount Only the Extra Weight (Base + Discounted Increment)</h2>
+  <p class="formula">Formula: Math.round(baseRate_0_5kg + (rawAramex - baseRate_0_5kg) * (Math.max(20, 100 - 20 * (quantity - 1)) / 100))</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Qty &amp; Cart Contents</th>
+        <th>Actual Weight</th>
+        <th>Base (0.5 kg)</th>
+        <th>Extra Cost Above Base</th>
+        <th>Share of Extra Charged</th>
+        <th>Without Discount (Current)</th>
+        <th>With Extra-Only Discount</th>
+        <th>Customer Saves</th>
+        <th>Store Subsidy</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>1:</strong> Shoe</td>
+        <td>0.80 kg</td>
+        <td>$27.96</td>
+        <td>+$5.01</td>
+        <td>100% (+$5.01)</td>
+        <td class="old-price">$33 ($32.97)</td>
+        <td class="highlight">$33 ($32.97)</td>
+        <td>$0</td>
+        <td>$0.00</td>
+      </tr>
+      <tr>
+        <td><strong>2:</strong> + Rope</td>
+        <td>0.99 kg</td>
+        <td>$27.96</td>
+        <td>+$6.35</td>
+        <td>80% (+$5.08)</td>
+        <td class="old-price">$34 ($34.31)</td>
+        <td class="highlight">$33 ($33.04)</td>
+        <td>$1</td>
+        <td>$1.31</td>
+      </tr>
+      <tr>
+        <td><strong>3:</strong> + 2nd Shoe</td>
+        <td>1.79 kg</td>
+        <td>$27.96</td>
+        <td>+$15.92</td>
+        <td>60% (+$9.55)</td>
+        <td class="old-price">$44 ($43.88)</td>
+        <td class="highlight">$38 ($37.51)</td>
+        <td>$6</td>
+        <td>$5.88</td>
+      </tr>
+      <tr>
+        <td><strong>4:</strong> + Hoodie</td>
+        <td>2.24 kg</td>
+        <td>$27.96</td>
+        <td>+$28.13</td>
+        <td>40% (+$11.25)</td>
+        <td class="old-price">$56 ($56.09)</td>
+        <td class="highlight">$39 ($39.21)</td>
+        <td>$17</td>
+        <td>$17.09</td>
+      </tr>
+      <tr>
+        <td><strong>5:</strong> + Socks ($8)</td>
+        <td>2.32 kg</td>
+        <td>$27.96</td>
+        <td>+$28.70</td>
+        <td>20% (+$5.74)</td>
+        <td class="old-price">$57 ($56.66)</td>
+        <td class="highlight">$34 ($33.70)</td>
+        <td>$23</td>
+        <td>$22.66</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>5. Side-by-Side Comparison (Customer Shipping Price to Dubai)</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Cart Step</th>
+        <th>Without Discount</th>
+        <th>Model 1: Discount Full Quote (100%..20%)</th>
+        <th>Model 2: Cap Weight at 0.5 kg</th>
+        <th>Model 3: Discount Extra Only (Base + 100%..20%)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>1 item</strong> (0.80 kg, $125)</td>
+        <td>$33</td>
+        <td><strong>$33</strong></td>
+        <td><strong>$28</strong></td>
+        <td><strong>$33</strong></td>
+      </tr>
+      <tr>
+        <td><strong>2 items</strong> (0.99 kg, $160)</td>
+        <td>$34</td>
+        <td><strong>$27</strong></td>
+        <td><strong>$28</strong></td>
+        <td><strong>$33</strong></td>
+      </tr>
+      <tr>
+        <td><strong>3 items</strong> (1.79 kg, $285)</td>
+        <td>$44</td>
+        <td><strong>$26</strong></td>
+        <td><strong>$28</strong></td>
+        <td><strong>$38</strong></td>
+      </tr>
+      <tr>
+        <td><strong>4 items</strong> (2.24 kg, $335)</td>
+        <td>$56</td>
+        <td><strong>$22</strong></td>
+        <td><strong>$28</strong></td>
+        <td><strong>$39</strong></td>
+      </tr>
+      <tr>
+        <td><strong>5 items</strong> (2.32 kg, $343)</td>
+        <td>$57</td>
+        <td><strong>$11</strong></td>
+        <td><strong>$28</strong></td>
+        <td><strong>$34</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+</body>
+</html>

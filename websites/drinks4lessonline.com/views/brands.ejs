@@ -1,0 +1,80 @@
+<!-- Breadcrumb Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark" href="/">Home</a>
+                <span class="breadcrumb-item active">Brands</span>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Brands Start -->
+<div class="container-fluid pb-5">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <h2 class="section-title position-relative text-uppercase mb-4">
+                <span class="bg-secondary pr-3">Our Brands</span>
+            </h2>
+        </div>
+    </div>
+    
+    <div class="row px-xl-5">
+        <% if (brands && brands.length > 0) { %>
+            <% brands.forEach(function(brand) { %>
+                <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                    <div class="brand-item bg-light mb-4 text-center p-4" style="min-height: 200px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                        <% if (brand.logo_url) { %>
+                            <% 
+                            let logoUrl = brand.logo_url.trim();
+                            logoUrl = logoUrl.replace(/\\/g, '/');
+                            logoUrl = logoUrl.replace(/^\/+/, '/');
+                            if (!logoUrl.startsWith('/')) {
+                                logoUrl = '/' + logoUrl;
+                            }
+                            logoUrl = logoUrl.replace(/\/+/g, '/');
+                            %>
+                            <img src="<%= logoUrl %>" alt="<%= brand.name %>" class="img-fluid mb-3" style="max-height: 100px; max-width: 100%; object-fit: contain;">
+                        <% } %>
+                        <h5 class="mb-2"><%= brand.name %></h5>
+                        <% if (brand.description) { %>
+                            <p class="text-muted small mb-3"><%= brand.description.substring(0, 100) %><%= brand.description.length > 100 ? '...' : '' %></p>
+                        <% } %>
+                        <div class="d-flex justify-content-center">
+                            <a href="/shop/brand/<%= brand.slug %>" class="btn btn-sm btn-primary mr-2">
+                                <i class="fa fa-shopping-bag"></i> View Products
+                            </a>
+                            <% if (brand.website_url) { %>
+                                <a href="<%= brand.website_url %>" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    <i class="fa fa-external-link-alt"></i> Website
+                                </a>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <div class="col-12">
+                <div class="alert alert-info text-center">
+                    <h5>No brands available at the moment</h5>
+                    <p>Check back soon for our featured brands!</p>
+                </div>
+            </div>
+        <% } %>
+    </div>
+</div>
+<!-- Brands End -->
+
+<style>
+.brand-item {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #ddd;
+}
+
+.brand-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+</style>

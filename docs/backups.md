@@ -69,7 +69,7 @@ Database restore is separate: use a dump from `/www/backup/database/` (or the ma
 
 Sites that use the shared [`packages/json-backup`](../packages/json-backup) package keep dated copies of each JSON file under that site's `data-backups/` folder (next to `data/`, not inside it). On every admin save that changes a file, the previous bytes are written into `daily/`, and on Sunday / the 1st / quarter starts also into `weekly/`, `monthly/` and `quarterly/`. Retention is 7 / 8 / 12 / 8. A period that already has a snapshot is left alone.
 
-Only **solutec-lb.com** uses the package so far. To add it to another site, follow [`packages/json-backup/INSTALL.md`](../packages/json-backup/INSTALL.md) (build into `src/vendor/json-backup/`, switch that site's JSON writes, gitignore `data-backups/`, add `data-backups` to `deploy.json` `protect`).
+Every JSON content site uses the package: belfaystudios.com, bluefieldco, bypec-lb.com, capitalprogroup.ca, drhelenarahme.com, emdc.group, emdcconsult, feed-lb.org, idbrandingandadvertising.com, jahidawehbe.com, khalafcanonlaw.com, mekbeirut.com, re-petroleum.com, solutec-lb.com, somecointernational.com, thronetrading.com, wadihco.com, and zadwbarakat.com. MySQL sites do not. A new JSON site keeps the same wiring (see [`.cursor/rules/json-backup.mdc`](../.cursor/rules/json-backup.mdc) and [`packages/json-backup/INSTALL.md`](../packages/json-backup/INSTALL.md)). Nested files keep their path, so `data/articles/5.json` snapshots as `data-backups/articles/5.json/`.
 
 Restore one file from a snapshot (example on the server):
 

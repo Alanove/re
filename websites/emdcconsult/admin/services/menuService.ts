@@ -1,3 +1,4 @@
+import { writeJsonFileSync } from '../../src/vendor/json-backup/writeJsonFileSync';
 import * as fs from 'fs';
 import { DATA_PATHS } from '../../src/constants';
 
@@ -62,7 +63,7 @@ export class MenuService {
    */
   private saveMenus(): void {
     try {
-      fs.writeFileSync(this.dataPath, JSON.stringify(this.menuData, null, 2), 'utf8');
+      writeJsonFileSync(this.dataPath, JSON.stringify(this.menuData, null, 2));
     } catch (error) {
       console.error('Error saving menus:', error);
       throw new Error('Failed to save menus');

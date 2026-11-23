@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+LIVE=/www/wwwroot/antonioscouture.com
+
+# stop any stuck antonios rsync
+for pid in $(pgrep -f 'rsync .*/antonioscouture.com' || true); do
+  kill "$pid" 2>/dev/null || true
+done
+sleep 1
+rm -f /www/deploy/state/antonioscouture.com/deploy.lock || true
+
+install -o www -g www -m 644 /tmp/antonios-styles.css "$LIVE/public/css/styles.css"
+install -o www -g www -m 644 /tmp/antonios-stl.scss "$LIVE/public/css/home/_shop-the-look.scss"
+cp -f "$LIVE/.env" "/www/deploy/state/antonioscouture.com/env-backups/.env.pre-1.0.8-$(date +%Y%m%d-%H%M%S)" 2>/dev/null || true
+install -o www -g www -m 600 /tmp/antonios-env.production "$LIVE/.env"
+printf '%s\n' '3ac1e156' > /www/deploy/state/antonioscouture.com/current-sha
+chown www:www /www/deploy/state/antonioscouture.com/current-sha
+
+# restart node so ASSET_VERSION updates
+pids=$(ss -lntp | sed -n 's/.*:3013.*pid=\([0-9][0-9]*\).*/\1/p' | sort -u)
+for p in $pids; do kill "$p" 2>/dev/null || true; done
+sleep 2
+for p in $pids; do kill -9 "$p" 2>/dev/null || true; done
+bash /www/server/nodejs/vhost/scripts/antonioscouture.sh
+sleep 4
+
+grep ASSET_VERSION "$LIVE/.env" | tail -1
+curl -s http://127.0.0.1:3013/ | grep -o 'css/styles.css?v=[0-9.]*' | head -1
+curl -s 'http://127.0.0.1:3013/css/styles.css?v=1.0.8' | grep -o 'position:absolute;inset:0' | head -1
+curl -s -o /dev/null -w 'health:%{http_code}\n' http://127.0.0.1:3013/
+rm -f /tmp/antonios-styles.css /tmp/antonios-env.production /tmp/antonios-stl.scss /tmp/antonio-hotfix-stl-align.sh
+echo HOTFIX_OK

@@ -1,0 +1,63 @@
+<footer class="d4l-footer">
+    <div class="d4l-promises-wrap">
+        <div class="d4l-promises">
+            <div class="item">
+                <img src="/images/d4l/icon-buy-more.webp" alt="">
+                <strong>Buy More, Pay Less</strong>
+            </div>
+            <div class="item">
+                <img src="/images/d4l/icon-quality.webp" alt="">
+                <strong>High Quality Products</strong>
+            </div>
+            <div class="item">
+                <img src="/images/d4l/icon-delivery.webp" alt="">
+                <strong>Fast Delivery</strong>
+            </div>
+            <div class="item">
+                <img src="/images/d4l/icon-cod.webp" alt="">
+                <strong>Cash On Delivery</strong>
+            </div>
+        </div>
+        <img class="d4l-promises-art" src="/images/d4l/promises-art.webp" alt="">
+    </div>
+
+    <div class="d4l-footer-grid">
+        <div class="foot-logo">
+            <a href="/"><img src="/images/logo.png" alt="Drinks 4 Less"></a>
+        </div>
+        <%
+          const footerMenu = (typeof menus !== 'undefined' && menus.footer) ? menus.footer : [];
+          const colSize = Math.ceil(footerMenu.length / 3) || 1;
+          const cols = [
+            footerMenu.slice(0, colSize),
+            footerMenu.slice(colSize, colSize * 2),
+            footerMenu.slice(colSize * 2)
+          ];
+        %>
+        <% cols.forEach(function (col) { %>
+            <div>
+                <ul>
+                    <% col.forEach(function (item) { %>
+                        <li><a href="<%= item.url %>"><%= item.title %></a></li>
+                    <% }); %>
+                </ul>
+            </div>
+        <% }); %>
+        <div>
+            <h4>Subscribe To Our Newsletter</h4>
+            <form id="newsletter-form" action="/newsletter" method="post">
+                <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+                <input type="email" name="email" id="newsletter-email" placeholder="Email" required autocomplete="email">
+                <button type="submit" id="newsletter-submit">Subscribe</button>
+            </form>
+            <div class="d4l-social">
+                <a href="https://www.facebook.com/profile.php?id=100083022354012" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/explore/locations/105417708876633/drinks4less-lb/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+    <p class="d4l-copy">
+        &copy; <%= new Date().getFullYear() %> Drinks4Less. All Rights Reserved.
+        | by <a href="https://www.liteweb.info" target="_blank" rel="noopener noreferrer">www.liteweb.info</a>
+    </p>
+</footer>

@@ -5,5 +5,7 @@
   "nodeBin": null,
   "aapanelProject": "belfaystudios",
   "restartCommand": null,
-  "protect": []
+  "protect": [
+    "data-backups"
+  ]
 }

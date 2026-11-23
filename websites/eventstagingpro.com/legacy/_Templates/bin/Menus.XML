@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Menus</name>
+    </assembly>
+    <members>
+        <member name="T:lw.Menus.cte">
+            <summary>
+            Class containing all the constants that are using in the <see cref="N:lw.Menus"/> library
+            </summary>
+        </member>
+        <member name="M:lw.Menus.lwMenu.ToString(System.String)">
+            <summary>
+            Generates the html that will render the menu
+            </summary>
+            <param name="tag">the tag used to render each menu item, can be li, span, div...</param>
+            <returns>HTML String</returns>
+        </member>
+        <member name="M:lw.Menus.lwMenu.ToString(System.String,System.Boolean,System.Boolean,System.String)">
+            <summary>
+            Generates the html that will render the menu
+            </summary>
+            <param name="tag">the tag used to render each menu item, can be li, span, div...</param>
+            <param name="includeParentLink">Include the link of the parent when generating the link hierarchy
+            	this will not override the original property IncludeParentLink
+            </param>
+            <param name="renderChildren">flag to render children or not</param>
+            <param name="childrenParentTag">the tag used to render each menu item, can be li, span, div...</param>
+            <returns>HTML String</returns>
+        </member>
+        <member name="M:lw.Menus.lwMenu.ToString(System.String,System.Boolean,System.Boolean,System.String,System.String)">
+            <summary>
+            Generates the html that will render the menu
+            </summary>
+            <param name="tag">the tag used to render each menu item, can be li, span, div...</param>
+            <param name="includeParentLink">Include the link of the parent when generating the link hierarchy
+            this will not override the original property IncludeParentLink
+            </param>
+            <param name="renderChildren">flag to render children or not</param>
+            <param name="childrenParentTag">The tag container for the children can be ul or div or ol...</param>
+            <param name="childrenTag">the tag used to render each menu item, can be li, span, div...</param>
+            <returns>HTML String</returns>
+        </member>
+        <member name="M:lw.Menus.lwMenu.DefaultSecureDomain(System.String)">
+            <summary>
+            Changes the PathUrl to secure or default domain
+            </summary>
+            <param name="PathUrl">URL to be changed</param>
+            <returns>String</returns>
+        </member>
+        <member name="M:lw.Menus.lwMenu.AddChild(lw.Menus.lwMenu)">
+            <summary>
+            Adds a child to the menu
+            </summary>
+            <param name="m">The added menu</param>
+            <returns>The created menu</returns>
+        </member>
+        <member name="M:lw.Menus.lwMenu.AddChild(System.String,System.String)">
+            <summary>
+            Adds a child to the menu
+            </summary>
+            <param name="menuName">The name of the child</param>
+            <param name="url">the URL</param>
+            <returns>The created menu</returns>
+        </member>
+        <member name="M:lw.Menus.lwMenu.AddChild(System.String)">
+            <summary>
+            Adds a child to the menu
+            </summary>
+            <param name="menuName">The name of the child</param>
+            <returns>The created menu</returns>
+        </member>
+        <member name="M:lw.Menus.lwMenu.AddChild(System.String,System.String,System.Int32)">
+            <summary>
+            Adds a child to the menu
+            </summary>
+            <param name="menuName">The name of the child</param>
+            <param name="url">the URL</param>
+            <param name="id">the ID</param>
+            <returns>The created menu</returns>
+        </member>
+        <member name="M:lw.Menus.lwMenu.NextMenu">
+            <summary>
+            Returns the Next Menu
+            </summary>
+            <returns>the next menu</returns>
+        </member>
+        <member name="M:lw.Menus.lwMenu.PrevMenu">
+            <summary>
+            Returns the Previous menu
+            </summary>
+            <returns>the Previous menu</returns>
+        </member>
+        <member name="M:lw.Menus.lwMenu.GetMenu(System.String)">
+            <summary>
+            Searches and returns the menu with the specified search patern
+            Will search in Names and URLs
+            </summary>
+            <param name="search">Search Keyword</param>
+            <returns>The found menu or null</returns>
+        </member>
+        <member name="M:lw.Menus.lwMenu.SetAddPageExtensionsRecursive(System.Boolean)">
+            <summary>
+            Runs through the menu and all children to change the AddPageExtension property
+            You can use this function instead of calling the menu and each of the children one by one
+            </summary>
+            <param name="extension">boolean to either add entensions or not</param>
+        </member>
+        <member name="M:lw.Menus.lwMenu.SetPagesExtensionRecursive(System.String)">
+            <summary>
+            Runs through the menu and all children to change the page extension
+            You can use this function instead of calling the menu and each of the children one by one
+            </summary>
+            <param name="extension">extension string def: .aspx and can be empty</param>
+        </member>
+        <member name="P:lw.Menus.lwMenu.BreakAt">
+            <summary>
+            Break the menu at a specified number
+            creating containers for each set of menu numbers
+            ex: BreakAt = 2 and ContainerTag = ul
+            we will have <ul></ul> for each set of 2 menu items
+            </summary>
+        </member>
+        <member name="P:lw.Menus.lwMenu.ContainerTag">
+            <summary>
+            Container Tag "ul" or "ol" are the best choices
+            def: ul
+            </summary>
+        </member>
+        <member name="P:lw.Menus.lwMenu.Current">
+            <summary>
+            Returns if the menu item is currently active
+            This variable is recursive
+            If a menu Item has a child that is active it will become active as well.
+            </summary>
+        </member>
+        <member name="P:lw.Menus.lwMenu.noDisplay">
+            <summary>
+            this is old please use CanRender = false instead.
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -5,7 +5,12 @@
   "main": "dist/src/app.js",
   "scripts": {
     "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit",
+    "media:check": "node scripts/check-media.js",
+    "media:check:prod": "node scripts/check-media.js",
     "captcha:build": "node ../../packages/captcha/esbuild.config.mjs --public public/captcha --server src/vendor/captcha",
+    "json-backup:build": "node ../../packages/json-backup/build.mjs --out src/vendor/json-backup",
     "start": "node dist/src/app.js",
     "prod:run": "NODE_ENV=production node dist/src/app.js",
     "prod": "npm run build && npm run prod:run",
@@ -42,10 +47,11 @@
     "express-session": "^1.18.1",
     "mammoth": "^1.9.1",
     "multer": "^2.0.1",
-    "sass": "^1.77.0",
     "nodemailer": "^8.0.7",
     "officegen": "^0.6.5",
     "pptx2json": "^0.0.10",
+    "sass": "^1.77.0",
+    "sharp": "^0.34.5",
     "tesseract.js": "^5.0.0-alpha.3"
   },
   "devDependencies": {

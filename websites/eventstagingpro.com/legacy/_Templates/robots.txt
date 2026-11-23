@@ -1,0 +1,11 @@
+User-agent: *
+
+# Directories
+Disallow: /_cms/
+Disallow: /App_Code/
+Disallow: /prv/
+Disallow: /plugins/
+
+allow: /prv/images/
+
+sitemap: http://http://somecointernational.com/sitemap.xml

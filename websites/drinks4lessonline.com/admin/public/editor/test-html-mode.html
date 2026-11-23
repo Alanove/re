@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quill HTML Source Mode Test</title>
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link href="quill.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .test-instructions {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2196f3;
+        }
+        .test-instructions h3 {
+            margin-top: 0;
+            color: #1976d2;
+        }
+        .test-instructions ol {
+            margin-bottom: 0;
+        }
+        .test-instructions li {
+            margin-bottom: 8px;
+        }
+        .test-html {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+        }
+        .test-html h4 {
+            margin-top: 0;
+            color: #333;
+        }
+        #quill-editor {
+            height: 400px;
+            margin-bottom: 20px;
+        }
+        .debug-info {
+            background: #fff3e0;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            border: 1px solid #ffb74d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Quill HTML Source Mode Test</h1>
+        
+        <div class="test-instructions">
+            <h3>Test Instructions:</h3>
+            <ol>
+                <li>Look for the <strong>HTML</strong> button in the toolbar (should be visible)</li>
+                <li>Click the <strong>HTML</strong> button to switch to HTML Source Mode</li>
+                <li>Paste the test HTML below into the textarea</li>
+                <li>Click the <strong>Rich</strong> button to switch back to visual mode</li>
+                <li>Check if the HTML content is preserved and displayed correctly</li>
+            </ol>
+        </div>
+
+        <div class="test-html">
+            <h4>Test HTML to Paste:</h4>
+            <pre><code>&lt;div class="diagram"&gt;
+    &lt;div class="cloud-services"&gt;
+        &lt;div class="cloud"&gt;Private Cloud (USA)&lt;/div&gt;
+        &lt;div class="cloud main"&gt;Internet&lt;/div&gt;
+        &lt;div class="cloud"&gt;Autodesk Forge&lt;/div&gt;
+        &lt;div class="cloud"&gt;BIM Collaborate&lt;br&gt;Pro &amp; MS 365&lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;div class="offices"&gt;
+        &lt;div class="office"&gt;
+            &lt;div class="office-icon"&gt;&lt;/div&gt;
+            &lt;span&gt;Cairo Office&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class="office"&gt;
+            &lt;div class="office-icon"&gt;&lt;/div&gt;
+            &lt;span&gt;Dubai Office&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class="office"&gt;
+            &lt;div class="office-icon"&gt;&lt;/div&gt;
+            &lt;span&gt;Beirut Office&lt;/span&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+
+        <div id="quill-editor"></div>
+        
+        <div class="debug-info">
+            <strong>Debug Info:</strong><br>
+            <span id="debug-status">Loading...</span><br>
+            <span id="debug-html-button">Checking for HTML button...</span><br>
+            <span id="debug-content">Content will appear here...</span>
+        </div>
+    </div>
+
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+    <script src="quill.js"></script>
+    <script>
+        // Initialize the editor
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, initializing Quill editor...');
+            
+            // Initialize Quill editor
+            const quillEditor = initQuillEditor('quill-editor', {
+                placeholder: 'Test the HTML Source Mode functionality...'
+            });
+            
+            // Debug information
+            const debugStatus = document.getElementById('debug-status');
+            const debugHtmlButton = document.getElementById('debug-html-button');
+            const debugContent = document.getElementById('debug-content');
+            
+            debugStatus.textContent = 'Quill editor initialized successfully';
+            
+            // Check for HTML button
+            setTimeout(() => {
+                const htmlButton = document.querySelector('.ql-view-source');
+                if (htmlButton) {
+                    debugHtmlButton.textContent = 'HTML button found: ' + htmlButton.innerHTML;
+                    console.log('HTML button found:', htmlButton);
+                } else {
+                    debugHtmlButton.textContent = 'HTML button NOT found - checking toolbar...';
+                    console.log('HTML button not found');
+                    
+                    // Check toolbar structure
+                    const toolbar = document.querySelector('.ql-toolbar');
+                    if (toolbar) {
+                        console.log('Toolbar found:', toolbar);
+                        console.log('Toolbar children:', toolbar.children);
+                        
+                        // Try to manually add the button
+                        const formatsContainer = toolbar.querySelector('.ql-formats');
+                        if (formatsContainer) {
+                            console.log('Formats container found:', formatsContainer);
+                            
+                            // Create HTML button manually
+                            const viewSourceBtn = document.createElement('button');
+                            viewSourceBtn.type = 'button';
+                            viewSourceBtn.className = 'ql-view-source';
+                            viewSourceBtn.setAttribute('data-value', 'view-source');
+                            viewSourceBtn.innerHTML = 'HTML';
+                            viewSourceBtn.title = 'View Source (Unrestricted HTML)';
+                            viewSourceBtn.style.cssText = `
+                                background: none;
+                                border: 1px solid transparent;
+                                border-radius: 3px;
+                                cursor: pointer;
+                                display: inline-block;
+                                float: left;
+                                height: 24px;
+                                padding: 3px 8px;
+                                margin: 0 1px;
+                                vertical-align: middle;
+                                font-size: 12px;
+                                font-weight: bold;
+                                color: #495057;
+                                transition: all 0.15s ease-in-out;
+                            `;
+                            
+                            viewSourceBtn.addEventListener('click', () => {
+                                console.log('HTML button clicked manually');
+                                if (quillEditor && quillEditor.toggleSourceView) {
+                                    quillEditor.toggleSourceView();
+                                }
+                            });
+                            
+                            formatsContainer.appendChild(viewSourceBtn);
+                            debugHtmlButton.textContent = 'HTML button added manually';
+                        }
+                    }
+                }
+            }, 1000);
+            
+            // Monitor content changes
+            setInterval(() => {
+                if (quillEditor) {
+                    const html = quillEditor.getHTML();
+                    debugContent.textContent = 'Current content length: ' + html.length + ' characters';
+                }
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

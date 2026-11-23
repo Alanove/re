@@ -1,0 +1,2209 @@
+{
+  "countries": [
+    {
+      "name": "Afghanistan",
+      "code": "AF",
+      "IsoCode": "AFG",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "93"
+    },
+    {
+      "name": "Albania",
+      "code": "AL",
+      "IsoCode": "ALB",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "355"
+    },
+    {
+      "name": "Algeria",
+      "code": "DZ",
+      "IsoCode": "DZA",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "213"
+    },
+    {
+      "name": "American Samoa",
+      "code": "AS",
+      "IsoCode": "ASM",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "1"
+    },
+    {
+      "name": "Andorra",
+      "code": "AD",
+      "IsoCode": "AND",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "376"
+    },
+    {
+      "name": "Angola",
+      "code": "AO",
+      "IsoCode": "AGO",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "244"
+    },
+    {
+      "name": "Anguilla",
+      "code": "AI",
+      "IsoCode": "AIA",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "1"
+    },
+    {
+      "name": "Antigua and Barbuda",
+      "code": "AG",
+      "IsoCode": "ATG",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "1"
+    },
+    {
+      "name": "Argentina",
+      "code": "AR",
+      "IsoCode": "ARG",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "54"
+    },
+    {
+      "name": "Armenia",
+      "code": "AM",
+      "IsoCode": "ARM",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "374"
+    },
+    {
+      "name": "Aruba",
+      "code": "AW",
+      "IsoCode": "ABW",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "297"
+    },
+    {
+      "name": "Australia",
+      "code": "AU",
+      "IsoCode": "AUS",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "61"
+    },
+    {
+      "name": "Austria",
+      "code": "AT",
+      "IsoCode": "AUT",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "43"
+    },
+    {
+      "name": "Azerbaijan",
+      "code": "AZ",
+      "IsoCode": "AZE",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "994"
+    },
+    {
+      "name": "Bahamas",
+      "code": "BS",
+      "IsoCode": "BHS",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "1"
+    },
+    {
+      "name": "Bahrain",
+      "code": "BH",
+      "IsoCode": "BHR",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "973"
+    },
+    {
+      "name": "Bangladesh",
+      "code": "BD",
+      "IsoCode": "BGD",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "880"
+    },
+    {
+      "name": "Barbados",
+      "code": "BB",
+      "IsoCode": "BRB",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "1"
+    },
+    {
+      "name": "Belarus",
+      "code": "BY",
+      "IsoCode": "BLR",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "375"
+    },
+    {
+      "name": "Belgium",
+      "code": "BE",
+      "IsoCode": "BEL",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "32"
+    },
+    {
+      "name": "Belize",
+      "code": "BZ",
+      "IsoCode": "BLZ",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "501"
+    },
+    {
+      "name": "Benin",
+      "code": "BJ",
+      "IsoCode": "BEN",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "229"
+    },
+    {
+      "name": "Bermuda",
+      "code": "BM",
+      "IsoCode": "BMU",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "1"
+    },
+    {
+      "name": "Bhutan",
+      "code": "BT",
+      "IsoCode": "BTN",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "975"
+    },
+    {
+      "name": "Bolivia",
+      "code": "BO",
+      "IsoCode": "BOL",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "591"
+    },
+    {
+      "name": "Bosnia and Herzegovina",
+      "code": "BA",
+      "IsoCode": "BIH",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "387"
+    },
+    {
+      "name": "Botswana",
+      "code": "BW",
+      "IsoCode": "BWA",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "267"
+    },
+    {
+      "name": "Brazil",
+      "code": "BR",
+      "IsoCode": "BRA",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "55"
+    },
+    {
+      "name": "Brunei",
+      "code": "BN",
+      "IsoCode": "BRN",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "673"
+    },
+    {
+      "name": "Bulgaria",
+      "code": "BG",
+      "IsoCode": "BGR",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "359"
+    },
+    {
+      "name": "Burkina Faso",
+      "code": "BF",
+      "IsoCode": "BFA",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "226"
+    },
+    {
+      "name": "Burundi",
+      "code": "BI",
+      "IsoCode": "BDI",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "257"
+    },
+    {
+      "name": "Cambodia",
+      "code": "KH",
+      "IsoCode": "KHM",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "855"
+    },
+    {
+      "name": "Cameroon",
+      "code": "CM",
+      "IsoCode": "CMR",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "237"
+    },
+    {
+      "name": "Canada",
+      "code": "CA",
+      "IsoCode": "CAN",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "1"
+    },
+    {
+      "name": "Canary IS",
+      "code": "IC",
+      "IsoCode": "   ",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "34"
+    },
+    {
+      "name": "Canary IS_Old",
+      "code": "RY",
+      "IsoCode": "   ",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "34"
+    },
+    {
+      "name": "Cape Verde",
+      "code": "CV",
+      "IsoCode": "CPV",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "238"
+    },
+    {
+      "name": "Caribbean Netherlands",
+      "code": "BQ",
+      "IsoCode": "BES",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "599"
+    },
+    {
+      "name": "Cayman IS",
+      "code": "KY",
+      "IsoCode": "CYM",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "1"
+    },
+    {
+      "name": "Central African Republic",
+      "code": "CF",
+      "IsoCode": "CAF",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "236"
+    },
+    {
+      "name": "Chad",
+      "code": "TD",
+      "IsoCode": "TCD",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "235"
+    },
+    {
+      "name": "Channel Islands",
+      "code": "JE",
+      "IsoCode": "JEY",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "44"
+    },
+    {
+      "name": "Chile",
+      "code": "CL",
+      "IsoCode": "CHL",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "56"
+    },
+    {
+      "name": "China",
+      "code": "CN",
+      "IsoCode": "CHN",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "86"
+    },
+    {
+      "name": "Christmas IS",
+      "code": "CX",
+      "IsoCode": "CXR",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "61"
+    },
+    {
+      "name": "Cocos Keeling IS",
+      "code": "CC",
+      "IsoCode": "CCK",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "61"
+    },
+    {
+      "name": "Colombia",
+      "code": "CO",
+      "IsoCode": "COL",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "57"
+    },
+    {
+      "name": "Comoros",
+      "code": "KM",
+      "IsoCode": "COM",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "269"
+    },
+    {
+      "name": "Congo",
+      "code": "CG",
+      "IsoCode": "COG",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "242"
+    },
+    {
+      "name": "Cook IS",
+      "code": "CK",
+      "IsoCode": "COK",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "682"
+    },
+    {
+      "name": "Costa Rica",
+      "code": "CR",
+      "IsoCode": "CRI",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "506"
+    },
+    {
+      "name": "Croatia",
+      "code": "HR",
+      "IsoCode": "HRV",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "385"
+    },
+    {
+      "name": "Cuba",
+      "code": "CU",
+      "IsoCode": "CUB",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "53"
+    },
+    {
+      "name": "Curacao",
+      "code": "CW",
+      "IsoCode": "CUW",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "599"
+    },
+    {
+      "name": "Cyprus",
+      "code": "CY",
+      "IsoCode": "CYP",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "357"
+    },
+    {
+      "name": "Czech Republic",
+      "code": "CZ",
+      "IsoCode": "CZE",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "420"
+    },
+    {
+      "name": "Dem Republic of the Congo",
+      "code": "CD",
+      "IsoCode": "COD",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "243"
+    },
+    {
+      "name": "Denmark",
+      "code": "DK",
+      "IsoCode": "DNK",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "45"
+    },
+    {
+      "name": "Djibouti",
+      "code": "DJ",
+      "IsoCode": "DJI",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "253"
+    },
+    {
+      "name": "Dominica",
+      "code": "DM",
+      "IsoCode": "DMA",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "1"
+    },
+    {
+      "name": "Dominican Republic",
+      "code": "DO",
+      "IsoCode": "DOM",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "1"
+    },
+    {
+      "name": "East Timor",
+      "code": "TP",
+      "IsoCode": "   ",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "0"
+    },
+    {
+      "name": "Ecuador",
+      "code": "EC",
+      "IsoCode": "ECU",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "593"
+    },
+    {
+      "name": "Egypt",
+      "code": "EG",
+      "IsoCode": "EGY",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "20"
+    },
+    {
+      "name": "El Salvador",
+      "code": "SV",
+      "IsoCode": "SLV",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "503"
+    },
+    {
+      "name": "Equatorial Guinea",
+      "code": "GQ",
+      "IsoCode": "GNQ",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "240"
+    },
+    {
+      "name": "Eritrea",
+      "code": "ER",
+      "IsoCode": "ERI",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "291"
+    },
+    {
+      "name": "Estonia",
+      "code": "EE",
+      "IsoCode": "EST",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "372"
+    },
+    {
+      "name": "Ethiopia",
+      "code": "ET",
+      "IsoCode": "ETH",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "251"
+    },
+    {
+      "name": "Falkland IS",
+      "code": "FK",
+      "IsoCode": "FLK",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "500"
+    },
+    {
+      "name": "Faroe IS",
+      "code": "FO",
+      "IsoCode": "FRO",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "298"
+    },
+    {
+      "name": "Fiji",
+      "code": "FJ",
+      "IsoCode": "FJI",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "679"
+    },
+    {
+      "name": "Finland",
+      "code": "FI",
+      "IsoCode": "FIN",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "358"
+    },
+    {
+      "name": "France",
+      "code": "FR",
+      "IsoCode": "FRA",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "33"
+    },
+    {
+      "name": "French Guiana",
+      "code": "GF",
+      "IsoCode": "GUF",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "594"
+    },
+    {
+      "name": "French Polynesia",
+      "code": "PF",
+      "IsoCode": "PYF",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "689"
+    },
+    {
+      "name": "Gabon",
+      "code": "GA",
+      "IsoCode": "GAB",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "241"
+    },
+    {
+      "name": "Gambia",
+      "code": "GM",
+      "IsoCode": "GMB",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "220"
+    },
+    {
+      "name": "Georgia",
+      "code": "GE",
+      "IsoCode": "GEO",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "995"
+    },
+    {
+      "name": "Germany",
+      "code": "DE",
+      "IsoCode": "DEU",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "49"
+    },
+    {
+      "name": "Ghana",
+      "code": "GH",
+      "IsoCode": "GHA",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "233"
+    },
+    {
+      "name": "Gibraltar",
+      "code": "GI",
+      "IsoCode": "GIB",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "350"
+    },
+    {
+      "name": "Greece",
+      "code": "GR",
+      "IsoCode": "GRC",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "30"
+    },
+    {
+      "name": "Greenland",
+      "code": "GL",
+      "IsoCode": "GRL",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "299"
+    },
+    {
+      "name": "Grenada",
+      "code": "GD",
+      "IsoCode": "GRD",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "1"
+    },
+    {
+      "name": "Guadeloupe",
+      "code": "GP",
+      "IsoCode": "GLP",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "590"
+    },
+    {
+      "name": "Guam",
+      "code": "GU",
+      "IsoCode": "GUM",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "1"
+    },
+    {
+      "name": "Guatemala",
+      "code": "GT",
+      "IsoCode": "GTM",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "502"
+    },
+    {
+      "name": "Guinea",
+      "code": "GN",
+      "IsoCode": "GIN",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "224"
+    },
+    {
+      "name": "Guinea Bissau",
+      "code": "GW",
+      "IsoCode": "GNB",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "245"
+    },
+    {
+      "name": "Guyana",
+      "code": "GY",
+      "IsoCode": "GUY",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "592"
+    },
+    {
+      "name": "Haiti",
+      "code": "HT",
+      "IsoCode": "HTI",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "509"
+    },
+    {
+      "name": "Heard & McDonald Islands",
+      "code": "HM",
+      "IsoCode": "HMD",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "0"
+    },
+    {
+      "name": "Honduras",
+      "code": "HN",
+      "IsoCode": "HND",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "504"
+    },
+    {
+      "name": "Hong Kong",
+      "code": "HK",
+      "IsoCode": "HKG",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "852"
+    },
+    {
+      "name": "Hungary",
+      "code": "HU",
+      "IsoCode": "HUN",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "36"
+    },
+    {
+      "name": "Iceland",
+      "code": "IS",
+      "IsoCode": "ISL",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "354"
+    },
+    {
+      "name": "India",
+      "code": "IN",
+      "IsoCode": "IND",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "91"
+    },
+    {
+      "name": "Indonesia",
+      "code": "ID",
+      "IsoCode": "IDN",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "62"
+    },
+    {
+      "name": "Iran",
+      "code": "IR",
+      "IsoCode": "IRN",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "98"
+    },
+    {
+      "name": "Iraq",
+      "code": "IQ",
+      "IsoCode": "IRQ",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "964"
+    },
+    {
+      "name": "Ireland",
+      "code": "IE",
+      "IsoCode": "IRL",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "353"
+    },
+    {
+      "name": "Isle of Man",
+      "code": "IM",
+      "IsoCode": "IMN",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "44"
+    },
+    {
+      "name": "Israel",
+      "code": "IL",
+      "IsoCode": "ISR",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "972"
+    },
+    {
+      "name": "Italy",
+      "code": "IT",
+      "IsoCode": "ITA",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "39"
+    },
+    {
+      "name": "Ivory Coast",
+      "code": "CI",
+      "IsoCode": "CIV",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "225"
+    },
+    {
+      "name": "Jamaica",
+      "code": "JM",
+      "IsoCode": "JAM",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "1"
+    },
+    {
+      "name": "Japan",
+      "code": "JP",
+      "IsoCode": "JPN",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "81"
+    },
+    {
+      "name": "Jordan",
+      "code": "JO",
+      "IsoCode": "JOR",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "962"
+    },
+    {
+      "name": "Kazakhstan",
+      "code": "KZ",
+      "IsoCode": "KAZ",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "7"
+    },
+    {
+      "name": "Kenya",
+      "code": "KE",
+      "IsoCode": "KEN",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "254"
+    },
+    {
+      "name": "Kiribati",
+      "code": "KI",
+      "IsoCode": "KIR",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "686"
+    },
+    {
+      "name": "Korea North",
+      "code": "KP",
+      "IsoCode": "PRK",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "850"
+    },
+    {
+      "name": "Korea South",
+      "code": "KR",
+      "IsoCode": "KOR",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "82"
+    },
+    {
+      "name": "Kosovo",
+      "code": "XZ",
+      "IsoCode": "   ",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "381"
+    },
+    {
+      "name": "Kuwait",
+      "code": "KW",
+      "IsoCode": "KWT",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "965"
+    },
+    {
+      "name": "Kyrgyzstan",
+      "code": "KG",
+      "IsoCode": "KGZ",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "996"
+    },
+    {
+      "name": "Laos",
+      "code": "LA",
+      "IsoCode": "LAO",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "856"
+    },
+    {
+      "name": "Latvia",
+      "code": "LV",
+      "IsoCode": "LVA",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "371"
+    },
+    {
+      "name": "Lebanon",
+      "code": "LB",
+      "IsoCode": "LBN",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "961"
+    },
+    {
+      "name": "Lesotho",
+      "code": "LS",
+      "IsoCode": "LSO",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "266"
+    },
+    {
+      "name": "Liberia",
+      "code": "LR",
+      "IsoCode": "LBR",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "231"
+    },
+    {
+      "name": "Libya",
+      "code": "LY",
+      "IsoCode": "LBY",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "218"
+    },
+    {
+      "name": "Liechtenstein",
+      "code": "LI",
+      "IsoCode": "LIE",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "423"
+    },
+    {
+      "name": "Lithuania",
+      "code": "LT",
+      "IsoCode": "LTU",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "370"
+    },
+    {
+      "name": "Luxembourg",
+      "code": "LU",
+      "IsoCode": "LUX",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "352"
+    },
+    {
+      "name": "Macau",
+      "code": "MO",
+      "IsoCode": "MAC",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "853"
+    },
+    {
+      "name": "Macedonia",
+      "code": "MK",
+      "IsoCode": "MKD",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "389"
+    },
+    {
+      "name": "Madagascar",
+      "code": "MG",
+      "IsoCode": "MDG",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "261"
+    },
+    {
+      "name": "Malawi",
+      "code": "MW",
+      "IsoCode": "MWI",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "265"
+    },
+    {
+      "name": "Malaysia",
+      "code": "MY",
+      "IsoCode": "MYS",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "60"
+    },
+    {
+      "name": "Maldives",
+      "code": "MV",
+      "IsoCode": "MDV",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "960"
+    },
+    {
+      "name": "Mali",
+      "code": "ML",
+      "IsoCode": "MLI",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "223"
+    },
+    {
+      "name": "Malta",
+      "code": "MT",
+      "IsoCode": "MLT",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "356"
+    },
+    {
+      "name": "Marshall IS",
+      "code": "MH",
+      "IsoCode": "MHL",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "692"
+    },
+    {
+      "name": "Martinique",
+      "code": "MQ",
+      "IsoCode": "MTQ",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "596"
+    },
+    {
+      "name": "Mauritania",
+      "code": "MR",
+      "IsoCode": "MRT",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "222"
+    },
+    {
+      "name": "Mauritius",
+      "code": "MU",
+      "IsoCode": "MUS",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "230"
+    },
+    {
+      "name": "Mayotte",
+      "code": "YT",
+      "IsoCode": "MYT",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "262"
+    },
+    {
+      "name": "Mexico",
+      "code": "MX",
+      "IsoCode": "MEX",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "52"
+    },
+    {
+      "name": "Micronesia",
+      "code": "FM",
+      "IsoCode": "FSM",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "691"
+    },
+    {
+      "name": "Moldova",
+      "code": "MD",
+      "IsoCode": "MDA",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "373"
+    },
+    {
+      "name": "Monaco",
+      "code": "MC",
+      "IsoCode": "MCO",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "377"
+    },
+    {
+      "name": "Mongolia",
+      "code": "MN",
+      "IsoCode": "MNG",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "976"
+    },
+    {
+      "name": "Montenegro",
+      "code": "ME",
+      "IsoCode": "MNE",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "382"
+    },
+    {
+      "name": "Montserrat",
+      "code": "MS",
+      "IsoCode": "MSR",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "1"
+    },
+    {
+      "name": "Morocco",
+      "code": "MA",
+      "IsoCode": "MAR",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "212"
+    },
+    {
+      "name": "Mozambique",
+      "code": "MZ",
+      "IsoCode": "MOZ",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "258"
+    },
+    {
+      "name": "Myanmar",
+      "code": "MM",
+      "IsoCode": "MMR",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "95"
+    },
+    {
+      "name": "Namibia",
+      "code": "NA",
+      "IsoCode": "NAM",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "264"
+    },
+    {
+      "name": "Nauru",
+      "code": "NR",
+      "IsoCode": "NRU",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "674"
+    },
+    {
+      "name": "Nepal",
+      "code": "NP",
+      "IsoCode": "NPL",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "977"
+    },
+    {
+      "name": "Netherland Antilles",
+      "code": "AN",
+      "IsoCode": "ANT",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "599"
+    },
+    {
+      "name": "Netherlands",
+      "code": "NL",
+      "IsoCode": "NLD",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "31"
+    },
+    {
+      "name": "New Caledonia",
+      "code": "NC",
+      "IsoCode": "NCL",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "687"
+    },
+    {
+      "name": "New Zealand",
+      "code": "NZ",
+      "IsoCode": "NZL",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "64"
+    },
+    {
+      "name": "Nicaragua",
+      "code": "NI",
+      "IsoCode": "NIC",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "505"
+    },
+    {
+      "name": "Niger",
+      "code": "NE",
+      "IsoCode": "NER",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "227"
+    },
+    {
+      "name": "Nigeria",
+      "code": "NG",
+      "IsoCode": "NGA",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "234"
+    },
+    {
+      "name": "Niue",
+      "code": "NU",
+      "IsoCode": "NIU",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "683"
+    },
+    {
+      "name": "Norfolk Island",
+      "code": "NF",
+      "IsoCode": "NFK",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "672"
+    },
+    {
+      "name": "Northern Mariana IS",
+      "code": "MP",
+      "IsoCode": "MNP",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "1"
+    },
+    {
+      "name": "Norway",
+      "code": "NO",
+      "IsoCode": "NOR",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "47"
+    },
+    {
+      "name": "Oman",
+      "code": "OM",
+      "IsoCode": "OMN",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "968"
+    },
+    {
+      "name": "Pakistan",
+      "code": "PK",
+      "IsoCode": "PAK",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "92"
+    },
+    {
+      "name": "Palau",
+      "code": "PW",
+      "IsoCode": "PLW",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "680"
+    },
+    {
+      "name": "Palestine",
+      "code": "PS",
+      "IsoCode": "PSE",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "970"
+    },
+    {
+      "name": "Panama",
+      "code": "PA",
+      "IsoCode": "PAN",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "507"
+    },
+    {
+      "name": "Papua New Guinea",
+      "code": "PG",
+      "IsoCode": "PNG",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "675"
+    },
+    {
+      "name": "Paraguay",
+      "code": "PY",
+      "IsoCode": "PRY",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "595"
+    },
+    {
+      "name": "Peru",
+      "code": "PE",
+      "IsoCode": "PER",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "51"
+    },
+    {
+      "name": "Philippines",
+      "code": "PH",
+      "IsoCode": "PHL",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "63"
+    },
+    {
+      "name": "Pitcairn IS",
+      "code": "PN",
+      "IsoCode": "PCN",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "64"
+    },
+    {
+      "name": "Poland",
+      "code": "PL",
+      "IsoCode": "POL",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "48"
+    },
+    {
+      "name": "Portugal",
+      "code": "PT",
+      "IsoCode": "PRT",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "351"
+    },
+    {
+      "name": "Puerto Rico",
+      "code": "PR",
+      "IsoCode": "PRI",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "1"
+    },
+    {
+      "name": "Qatar",
+      "code": "QA",
+      "IsoCode": "QAT",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "974"
+    },
+    {
+      "name": "Reunion IS",
+      "code": "RE",
+      "IsoCode": "REU",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "262"
+    },
+    {
+      "name": "Romania",
+      "code": "RO",
+      "IsoCode": "ROU",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "40"
+    },
+    {
+      "name": "Russia",
+      "code": "RU",
+      "IsoCode": "RUS",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "7"
+    },
+    {
+      "name": "Rwanda",
+      "code": "RW",
+      "IsoCode": "RWA",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "250"
+    },
+    {
+      "name": "Saint Martin",
+      "code": "MF",
+      "IsoCode": "MAF",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "590"
+    },
+    {
+      "name": "Samoa",
+      "code": "WS",
+      "IsoCode": "WSM",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "685"
+    },
+    {
+      "name": "San Marino",
+      "code": "SM",
+      "IsoCode": "SMR",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "378"
+    },
+    {
+      "name": "Sao Tome and Principe",
+      "code": "ST",
+      "IsoCode": "STP",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "239"
+    },
+    {
+      "name": "Saudi Arabia",
+      "code": "SA",
+      "IsoCode": "SAU",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "966"
+    },
+    {
+      "name": "Senegal",
+      "code": "SN",
+      "IsoCode": "SEN",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "221"
+    },
+    {
+      "name": "Serbia",
+      "code": "RS",
+      "IsoCode": "SRB",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "381"
+    },
+    {
+      "name": "Seychelles",
+      "code": "SC",
+      "IsoCode": "SYC",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "248"
+    },
+    {
+      "name": "Sierra Leone",
+      "code": "SL",
+      "IsoCode": "SLE",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "232"
+    },
+    {
+      "name": "Singapore",
+      "code": "SG",
+      "IsoCode": "SGP",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "65"
+    },
+    {
+      "name": "Sint Maarten",
+      "code": "SX",
+      "IsoCode": "SXM",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "1"
+    },
+    {
+      "name": "Slovakia",
+      "code": "SK",
+      "IsoCode": "SVK",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "421"
+    },
+    {
+      "name": "Slovenia",
+      "code": "SI",
+      "IsoCode": "SVN",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "386"
+    },
+    {
+      "name": "Solomon IS",
+      "code": "SB",
+      "IsoCode": "SLB",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "677"
+    },
+    {
+      "name": "Somalia",
+      "code": "SO",
+      "IsoCode": "SOM",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "252"
+    },
+    {
+      "name": "Somaliland",
+      "code": "OS",
+      "IsoCode": "SUM",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "252"
+    },
+    {
+      "name": "South Africa",
+      "code": "ZA",
+      "IsoCode": "ZAF",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "27"
+    },
+    {
+      "name": "South Sudan",
+      "code": "SS",
+      "IsoCode": "SSD",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "211"
+    },
+    {
+      "name": "Spain",
+      "code": "ES",
+      "IsoCode": "ESP",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "34"
+    },
+    {
+      "name": "Sri Lanka",
+      "code": "LK",
+      "IsoCode": "LKA",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "94"
+    },
+    {
+      "name": "St Kitts and Nevis",
+      "code": "KN",
+      "IsoCode": "KNA",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "1"
+    },
+    {
+      "name": "St Lucia",
+      "code": "LC",
+      "IsoCode": "LCA",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "1"
+    },
+    {
+      "name": "St Pierre and Miquelon",
+      "code": "PM",
+      "IsoCode": "SPM",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "508"
+    },
+    {
+      "name": "St Vincent and Grenadine",
+      "code": "VC",
+      "IsoCode": "VCT",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "1"
+    },
+    {
+      "name": "Sudan",
+      "code": "SD",
+      "IsoCode": "SDN",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "249"
+    },
+    {
+      "name": "Suriname",
+      "code": "SR",
+      "IsoCode": "SUR",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "597"
+    },
+    {
+      "name": "Svalbard and Jan Mayen",
+      "code": "SJ",
+      "IsoCode": "SJM",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "47"
+    },
+    {
+      "name": "Swaziland",
+      "code": "SZ",
+      "IsoCode": "SWZ",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "268"
+    },
+    {
+      "name": "Sweden",
+      "code": "SE",
+      "IsoCode": "SWE",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "46"
+    },
+    {
+      "name": "Switzerland",
+      "code": "CH",
+      "IsoCode": "CHE",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "41"
+    },
+    {
+      "name": "Syria",
+      "code": "SY",
+      "IsoCode": "SYR",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "963"
+    },
+    {
+      "name": "Taiwan",
+      "code": "TW",
+      "IsoCode": "TWN",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "886"
+    },
+    {
+      "name": "Tajikistan",
+      "code": "TJ",
+      "IsoCode": "TJK",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "992"
+    },
+    {
+      "name": "Tanzania",
+      "code": "TZ",
+      "IsoCode": "TZA",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "255"
+    },
+    {
+      "name": "Thailand",
+      "code": "TH",
+      "IsoCode": "THA",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "66"
+    },
+    {
+      "name": "Timor-Lestev",
+      "code": "TL",
+      "IsoCode": "TLS",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "670"
+    },
+    {
+      "name": "Togo",
+      "code": "TG",
+      "IsoCode": "TGO",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "228"
+    },
+    {
+      "name": "Tokelau",
+      "code": "TK",
+      "IsoCode": "TKL",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "690"
+    },
+    {
+      "name": "Tonga",
+      "code": "TO",
+      "IsoCode": "TON",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "676"
+    },
+    {
+      "name": "Trinidad and Tobago",
+      "code": "TT",
+      "IsoCode": "TTO",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "1"
+    },
+    {
+      "name": "Tunisia",
+      "code": "TN",
+      "IsoCode": "TUN",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "216"
+    },
+    {
+      "name": "Turkey",
+      "code": "TR",
+      "IsoCode": "TUR",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "90"
+    },
+    {
+      "name": "Turkmenistan",
+      "code": "TM",
+      "IsoCode": "TKM",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "993"
+    },
+    {
+      "name": "Turks and Caicos IS",
+      "code": "TC",
+      "IsoCode": "TCA",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "1"
+    },
+    {
+      "name": "Tuvalu",
+      "code": "TV",
+      "IsoCode": "TUV",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "688"
+    },
+    {
+      "name": "Uganda",
+      "code": "UG",
+      "IsoCode": "UGA",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "256"
+    },
+    {
+      "name": "Ukraine",
+      "code": "UA",
+      "IsoCode": "UKR",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "380"
+    },
+    {
+      "name": "United Arab Emirates",
+      "code": "AE",
+      "IsoCode": "ARE",
+      "StateRequired": true,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "971"
+    },
+    {
+      "name": "United Kingdom",
+      "code": "GB",
+      "IsoCode": "GBR",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "44"
+    },
+    {
+      "name": "United States",
+      "code": "US",
+      "IsoCode": "USA",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "1"
+    },
+    {
+      "name": "Uruguay",
+      "code": "UY",
+      "IsoCode": "URY",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "598"
+    },
+    {
+      "name": "Uzbekistan",
+      "code": "UZ",
+      "IsoCode": "UZB",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "998"
+    },
+    {
+      "name": "Vanuatu",
+      "code": "VU",
+      "IsoCode": "VUT",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "678"
+    },
+    {
+      "name": "Vatican City",
+      "code": "VA",
+      "IsoCode": "VAT",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "39"
+    },
+    {
+      "name": "Venezuela",
+      "code": "VE",
+      "IsoCode": "VEN",
+      "StateRequired": false,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "58"
+    },
+    {
+      "name": "Vietnam",
+      "code": "VN",
+      "IsoCode": "VNM",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "84"
+    },
+    {
+      "name": "Virgin IS - British",
+      "code": "VG",
+      "IsoCode": "VGB",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "1"
+    },
+    {
+      "name": "Virgin Islands - US",
+      "code": "VI",
+      "IsoCode": "VIR",
+      "StateRequired": true,
+      "PostCodeRequired": true,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "1"
+    },
+    {
+      "name": "Wallis and Futuna IS",
+      "code": "WF",
+      "IsoCode": "WLF",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "681"
+    },
+    {
+      "name": "Western Sahara",
+      "code": "EH",
+      "IsoCode": "ESH",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "212"
+    },
+    {
+      "name": "Yemen",
+      "code": "YE",
+      "IsoCode": "YEM",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "967"
+    },
+    {
+      "name": "Zambia",
+      "code": "ZM",
+      "IsoCode": "ZMB",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "260"
+    },
+    {
+      "name": "Zimbabwe",
+      "code": "ZW",
+      "IsoCode": "ZWE",
+      "StateRequired": false,
+      "PostCodeRequired": false,
+      "PostCodeRegex": [],
+      "InternationalCallingNumber": "263"
+    }
+  ]
+}

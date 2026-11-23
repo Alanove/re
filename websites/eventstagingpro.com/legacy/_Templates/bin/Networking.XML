@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Networking</name>
+    </assembly>
+    <members>
+        <member name="P:lw.Networking.Controls.NetworksDataSource.OnlyPreferred">
+            <summary>
+            Determines if the source should display only the prefered networks for the logged in member
+            </summary>
+        </member>
+        <member name="P:lw.Networking.Controls.NetworksDataSource.CMSMode">
+            <summary>
+            Indicates if the tag is used inside the CMS
+            Can also be set in web.config.
+            </summary>
+        </member>
+        <member name="P:lw.Networking.Controls.NetworksDataSource.TableName">
+            <summary>
+            the table name where this datasource should read from
+            can be any table or view 
+            default: Networks
+            </summary>
+        </member>
+        <member name="P:lw.Networking.Controls.NetworksDataSource.OrderBy">
+            <summary>
+            the table name where this datasource should read from
+            can be any table or view 
+            default: Networks
+            </summary>
+        </member>
+        <member name="T:lw.Networking.Controls.NetworkImageLink">
+            <summary>
+            Links to the network's image
+            </summary>
+        </member>
+        <member name="M:lw.Networking.NetworkRelations.GetRelatedNetworks(System.String,System.String,System.Int32,System.String)">
+            <summary>
+            Returns the networks related to the specified ID
+            </summary>
+            <param name="TableName">The table name used in <seealso cref="M:lw.Networking.NetworkRelations.CreateRelation(System.String,System.String,System.String)">CreateRelation</seealso>.</param>
+            <param name="RelateToId">the name of the related field (ItemId, DownloadId, NewsId...)</param>
+            <param name="ItemId">The value of the RelateToId</param>
+            <param name="Condition">Optional: Condition to add at the end of the query</param>
+            <returns>List of networks</returns>
+        </member>
+        <member name="M:lw.Networking.NetworkRelations.GetRelatedNetworks(System.String,System.String,System.Int32)">
+            <summary>
+            Returns the networks related to the specified ID
+            </summary>
+            <param name="TableName">The table name used in <seealso cref="M:lw.Networking.NetworkRelations.CreateRelation(System.String,System.String,System.String)">CreateRelation</seealso>.</param>
+            <param name="ID">The Id of the item (ItemId, DownloadId, NewsId...)</param>
+            <returns>List of networks</returns>
+        </member>
+        <member name="M:lw.Networking.NetworkRelations.GetRelatedItems(System.String,System.Int32)">
+            <summary>
+            Returns datatable containing all the items related to the specified network
+            Ex: all the downloads related to network id = 1
+            </summary>
+            <param name="TableName">Table Name ex: DownloadNetworks</param>
+            <param name="RelateToField">Field Name ex: DownloadId</param>
+            <param name="NetworkId">The NetworkId</param>
+            <returns>Returns datatable containing all the items related to the specified network</returns>
+        </member>
+        <member name="M:lw.Networking.NetworkRelations.CreateRelation(System.String,System.String,System.String)">
+            <summary>
+            Creates the database relation between a table and the network
+            </summary>
+            <param name="TableName">TableName that's related to network, ex: Members, Downloads...</param>
+            <param name="NetworkRelationTableName">The Relation table name ex: MemberNetworks, DownloadNetworks...</param>
+            <param name="RelateToField">The Name of ID column, ex: MemberId, DownloadId...</param>
+        </member>
+        <member name="M:lw.Networking.NetworkRelations.UpdateItemRelations(System.String,System.String,System.Int32,System.Collections.ArrayList)">
+            <summary>
+            Updates the relation between Network and Items
+            </summary>
+            <param name="TableName"></param>
+            <param name="TableName">Table Name ex: Downloads</param>
+            <param name="RelateToField">Field Name ex: DownloadId</param>
+            <param name="ItemId">The value of the RelateToField</param>
+            <param name="NetworkIds">the new networkids array</param>
+        </member>
+        <member name="M:lw.Networking.NetworkRelations.GetRelationQueryByMember(System.String,System.String,System.Int32)">
+            <summary>
+            Returns the query that will filter the items depending on the member networks
+            Can be used inside any other Select on a table that is network bound.
+            </summary>
+            <param name="TableName">Table Name ex: DownloadNetworks</param>
+            <param name="RelateToField">Field Name ex: DownloadId</param>
+            <param name="MemberId">MemberId Profile.UserId</param>
+            <returns></returns>
+        </member>
+        <member name="M:lw.Networking.NetworksManager.GetNetwork(System.String,System.Int32)">
+            <summary>
+            Selects the network with a specific name having parentId
+            If no network is found null is returned
+            </summary>
+            <param name="name">Name or the unique name (url name) of the network</param>
+            <param name="parentId">The Id of the parent network</param>
+            <returns><seealso cref="T:lw.Networking.Network"/> Object</returns>
+        </member>
+        <member name="M:lw.Networking.NetworksManager.GetNetwork(System.Int32)">
+            <summary>
+            Selects the network with a specific id
+            If no network is found null is returned
+            </summary>
+            <param name="networkId">The NetworkId</param>
+            <returns><seealso cref="T:lw.Networking.Network"/> Object</returns>
+        </member>
+        <member name="M:lw.Networking.NetworksManager.GetNetwork(System.String)">
+            <summary>
+            Selects the first network with a specific name 
+            If no network is found null is returned
+            </summary>
+            <param name="name">Name or the unique name (url name) of the network</param>
+            <returns><seealso cref="T:lw.Networking.Network"/> Object</returns>
+        </member>
+        <member name="M:lw.Networking.NetworksManager.GetNetworkByStatus(System.Nullable{System.Int32})">
+            <summary>
+            Selects the last Network added with a specific status
+            If no network is found null is returned
+            </summary>
+            <param name="name">Status of the Network (Enabled/Disabled)</param>
+        </member>
+        <member name="M:lw.Networking.NetworksManager.GetNetworks">
+            <summary>
+            return all the networks
+            </summary>
+        </member>
+        <member name="M:lw.Networking.NetworksManager.GetNetworks(System.Nullable{System.Int32})">
+            <summary>
+            return all the networks related to a certain parentId
+            </summary>
+        </member>
+        <member name="M:lw.Networking.NetworksManager.AddNetwork(System.String,System.String,System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            Adds a network without an image
+            </summary>
+            <param name="name"></param>
+            <param name="description"></param>
+            <param name="parentId"></param>
+            <param name="operatorId"></param>
+            <param name="website"></param>
+            <param name="xmlField"></param>
+            <returns></returns>
+        </member>
+        <member name="M:lw.Networking.NetworksManager.AddNetwork(System.String,System.Nullable{System.Int32},System.String,System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            Adds a network without an image
+            </summary>
+            <param name="name"></param>
+            <param name="status"></param>
+            <param name="description"></param>
+            <param name="parentId"></param>
+            <param name="operatorId"></param>
+            <param name="website"></param>
+            <param name="xmlField"></param>
+            <returns></returns>
+        </member>
+        <member name="M:lw.Networking.NetworksManager.AddNetwork(System.String,System.Nullable{System.Int32},System.String,System.Int32,System.Int32,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Web.HttpPostedFile)">
+            <summary>
+            Adds a network with an image.
+            For default Image sizes please use 0.
+            </summary>
+            <param name="name"></param>
+            <param name="description"></param>
+            <param name="parentId"></param>
+            <param name="operatorId"></param>
+            <param name="website"></param>
+            <param name="xmlField"></param>
+            <returns></returns>
+        </member>
+        <member name="M:lw.Networking.NetworksManager.RemoveNetwork(System.Int32)">
+            <summary>
+            Removes the network
+            </summary>
+            <param name="networkId"></param>
+        </member>
+        <member name="M:lw.Networking.NetworksManager.UpdateImage(System.Int32,System.IO.Stream,System.String,System.Boolean,System.Boolean,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Default Image sizes is 0.
+            </summary>>
+        </member>
+    </members>
+</doc>

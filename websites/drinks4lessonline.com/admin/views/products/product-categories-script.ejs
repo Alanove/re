@@ -1,0 +1,58 @@
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		const categories = <%- JSON.stringify(categories || []) %>;
+		const selectedIds = <%- JSON.stringify(typeof product !== 'undefined' && product.category_ids ? product.category_ids : (typeof product !== 'undefined' && product.category_id ? [product.category_id] : [])) %>;
+		const container = document.getElementById('categories-tree');
+
+		if (!categories || categories.length === 0) {
+			container.innerHTML = '<p class="text-muted">No categories available</p>';
+			return;
+		}
+
+		// Build tree structure
+		const categoryMap = {};
+		const rootCategories = [];
+
+		categories.forEach(cat => {
+			categoryMap[cat.id] = { ...cat, children: [] };
+		});
+
+		categories.forEach(cat => {
+			if (cat.parent_id && categoryMap[cat.parent_id]) {
+				categoryMap[cat.parent_id].children.push(categoryMap[cat.id]);
+			} else {
+				rootCategories.push(categoryMap[cat.id]);
+			}
+		});
+
+		// Function to render tree
+		function renderTree(cats, level = 0) {
+			if (!cats || cats.length === 0) return '';
+
+			let html = '<ul class="list-unstyled" style="margin-left: ' + (level * 20) + 'px">';
+			cats.forEach(cat => {
+				const isChecked = selectedIds.includes(cat.id) ? 'checked' : '';
+				html += `
+					<li class="mb-1">
+						<div class="form-check">
+							<input class="form-check-input category-checkbox" 
+								type="checkbox" 
+								name="category_ids[]" 
+								value="${cat.id}" 
+								id="cat-${cat.id}"
+								${isChecked}>
+							<label class="form-check-label" for="cat-${cat.id}">
+								${cat.name}
+							</label>
+						</div>
+						${renderTree(cat.children, level + 1)}
+					</li>
+				`;
+			});
+			html += '</ul>';
+			return html;
+		}
+
+		container.innerHTML = renderTree(rootCategories);
+	});
+</script>

@@ -1,0 +1,143 @@
+<div class="inner-page <%= typeof selected !== 'undefined' && selected ? selected : 'novosti' %>">
+  <div class="inner-page-content">
+    <div class="container">
+      <h1 class="inner-page-title"><%= article.title %></h1>
+      <% if (article.publishDate) { %>
+        <div class="article-date-wrapper mb-3">
+          <time class="article-date" datetime="<%= article.publishDate %>">
+            <i class="bi bi-calendar"></i>
+            <%= new Date(article.publishDate).toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+          </time>
+        </div>
+      <% } %>
+      
+      <% if (article.tags && article.tags.length > 0) { %>
+        <% 
+          // Determine page type
+          const isObjav = typeof selected !== 'undefined' && selected && selected.startsWith('objav');
+          const isVideo = typeof selected !== 'undefined' && selected && selected.startsWith('video');
+          
+          // Filter out category tags (news, video, objav) as they're the default categories
+          const displayTags = article.tags.filter(function(tag) { 
+            return tag.slug !== 'news' && tag.slug !== 'video' && tag.slug !== 'objav'; 
+          });
+        %>
+        <% if (displayTags.length > 0) { %>
+          <div class="article-tags-wrapper mb-4">
+            <% displayTags.forEach(function(tag) { %>
+              <a href="/novosti/tag/<%= tag.slug %>" class="article-tag">
+                <%= tag.name %>
+              </a>
+            <% }); %>
+          </div>
+        <% } %>
+      <% } %>
+      
+      <div class="inner-page-layout">
+        <div class="inner-page-box">
+          <div class="page-content-wrapper">
+            <%- article.content %>
+          </div>
+        </div>
+        
+        <!-- Archive Sidebar -->
+        <% if (typeof newsDates !== 'undefined' && typeof archiveDates !== 'undefined') { %>
+          <div class="news-archive-wrapper">
+            <%- include('partials/news-archive') %>
+          </div>
+        <% } %>
+      </div>
+      
+      <% if (typeof pagePhotos !== 'undefined' && pagePhotos && pagePhotos.length > 0) { %>
+        <div class="page-gallery-section">
+          <div class="row g-3">
+            <% pagePhotos.forEach(function(photo) { %>
+              <div class="col-6 col-md-4 col-lg-3">
+                <a href="<%= photo.filePath %>" 
+                   data-fancybox="page-gallery" 
+                   data-caption="<%= article.title %>" 
+                   class="gallery-photo-link">
+                  <div class="gallery-photo-item">
+                    <img 
+                      src="<%= typeof photo.thumbSrc !== 'undefined' && photo.thumbSrc ? photo.thumbSrc : photo.filePath %>" 
+                      alt="<%= article.title %>" 
+                      class="img-fluid gallery-photo-img"
+                      loading="lazy"
+                    >
+                    <div class="gallery-photo-overlay">
+                      <i class="bi bi-eye"></i>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            <% }); %>
+          </div>
+        </div>
+      <% } %>
+      
+      <div class="text-center mt-4">
+        <% 
+          const isObjav = typeof selected !== 'undefined' && selected && selected.startsWith('objav');
+          const isVideo = typeof selected !== 'undefined' && selected && selected.startsWith('video');
+          let backUrl, backText;
+          if (isObjav) {
+            backUrl = '/objav';
+            backText = '← Вернуться к объявлениям';
+          } else if (isVideo) {
+            backUrl = '/video';
+            backText = '← Вернуться к видео';
+          } else {
+            backUrl = '/novosti';
+            backText = '← Вернуться к новостям';
+          }
+        %>
+        <a href="<%= backUrl %>" class="back-link"><%= backText %></a>
+      </div>
+
+      <% if (typeof relatedArticles !== 'undefined' && relatedArticles && relatedArticles.length > 0) { %>
+        <section class="related-articles mt-5">
+          <h2 class="section-title">Похожие статьи</h2>
+          <div class="related-grid">
+            <% relatedArticles.forEach(function(related) { %>
+              <% 
+                let relatedUrl;
+                if (isObjav) {
+                  relatedUrl = `/objav/${related.slug}`;
+                } else if (isVideo) {
+                  relatedUrl = `/video/${related.slug}`;
+                } else {
+                  relatedUrl = `/novosti/${related.slug}`;
+                }
+              %>
+              <div class="related-item">
+                <% if (related.pageImage) { %>
+                  <div class="related-image">
+                    <a href="<%= relatedUrl %>">
+                      <img src="<%= related.pageImage %>" alt="<%= related.title %>">
+                    </a>
+                  </div>
+                <% } %>
+                <div class="related-content">
+                  <h3>
+                    <a href="<%= relatedUrl %>"><%= related.title %></a>
+                  </h3>
+                  <% if (related.publishDate) { %>
+                    <time class="related-date" datetime="<%= related.publishDate %>">
+                      <%= new Date(related.publishDate).toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+                    </time>
+                  <% } %>
+                </div>
+              </div>
+            <% }); %>
+          </div>
+        </section>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+

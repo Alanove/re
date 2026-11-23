@@ -1,0 +1,264 @@
+<!-- Dashboard switcher -->
+<div class="mb-4">
+	<ul class="nav nav-pills nav-pills-lg">
+		<li class="nav-item">
+			<a class="nav-link active" href="/admin/dashboard">
+				<i class="fa fa-shopping-cart me-2"></i><%= typeof t !== 'undefined' ? t('dashboard.ecommerce') : 'E-commerce' %>
+			</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="/admin/dashboard/cms">
+				<i class="fa fa-file-text me-2"></i><%= typeof t !== 'undefined' ? t('dashboard.cms') : 'CMS Dashboard' %>
+			</a>
+		</li>
+	</ul>
+</div>
+
+<!-- Stats row (last 30 days) -->
+<div class="row mb-4">
+	<div class="col-xl-3 col-md-6">
+		<div class="card mb-3 dashboard-stats-card">
+			<div class="card-body">
+				<div class="d-flex fw-bold">
+					<div class="flex-grow-1">
+						<div class="stats-label">Orders (30 days)</div>
+						<div class="stats-number text-dark"><%= salesReport ? salesReport.totalOrders : 0 %></div>
+					</div>
+					<div class="flex-shrink-0 ms-3">
+						<div class="stats-icon bg-primary bg-opacity-10">
+							<i class="fa fa-shopping-bag text-primary"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-3 col-md-6">
+		<div class="card mb-3 dashboard-stats-card">
+			<div class="card-body">
+				<div class="d-flex fw-bold">
+					<div class="flex-grow-1">
+						<div class="stats-label">Revenue (30 days)</div>
+						<div class="stats-number text-success">$<%= salesReport ? salesReport.totalRevenue.toFixed(2) : '0.00' %></div>
+					</div>
+					<div class="flex-shrink-0 ms-3">
+						<div class="stats-icon bg-success bg-opacity-10">
+							<i class="fa fa-dollar-sign text-success"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-3 col-md-6">
+		<div class="card mb-3 dashboard-stats-card">
+			<div class="card-body">
+				<div class="d-flex fw-bold">
+					<div class="flex-grow-1">
+						<div class="stats-label">Customers</div>
+						<div class="stats-number text-info"><%= customerAnalytics ? customerAnalytics.totalCustomers : 0 %></div>
+					</div>
+					<div class="flex-shrink-0 ms-3">
+						<div class="stats-icon bg-info bg-opacity-10">
+							<i class="fa fa-users text-info"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-3 col-md-6">
+		<div class="card mb-3 dashboard-stats-card">
+			<div class="card-body">
+				<div class="d-flex fw-bold">
+					<div class="flex-grow-1">
+						<div class="stats-label">Low stock items</div>
+						<div class="stats-number text-warning"><%= lowStock ? lowStock.length : 0 %></div>
+					</div>
+					<div class="flex-shrink-0 ms-3">
+						<div class="stats-icon bg-warning bg-opacity-10">
+							<i class="fa fa-exclamation-triangle text-warning"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Quick links -->
+<div class="row mb-4">
+	<div class="col-12">
+		<div class="d-flex flex-wrap gap-2">
+			<a href="/admin/orders" class="btn btn-primary">
+				<i class="fa fa-list me-2"></i><%= typeof t !== 'undefined' ? t('ecommerce.orders.title') : 'Orders' %>
+			</a>
+			<a href="/admin/shipments" class="btn btn-outline-primary">
+				<i class="fa fa-truck me-2"></i><%= typeof t !== 'undefined' ? t('ecommerce.shipments.title') : 'Shipments' %>
+			</a>
+			<a href="/admin/shipments" class="btn btn-outline-success">
+				<i class="fa fa-truck-loading me-2"></i><%= typeof t !== 'undefined' ? t('ecommerce.shipments.schedulePickup') : 'Create Pickup' %>
+			</a>
+			<a href="/admin/products" class="btn btn-outline-primary">
+				<i class="fa fa-box me-2"></i><%= typeof t !== 'undefined' ? t('menu.products') : 'Products' %>
+			</a>
+			<a href="/admin/customers" class="btn btn-outline-primary">
+				<i class="fa fa-users me-2"></i><%= typeof t !== 'undefined' ? t('menu.customers') : 'Customers' %>
+			</a>
+			<a href="/admin/reports" class="btn btn-outline-primary">
+				<i class="fa fa-chart-bar me-2"></i><%= typeof t !== 'undefined' ? t('menu.reports') : 'Reports' %>
+			</a>
+		</div>
+	</div>
+</div>
+
+<!-- Latest Orders -->
+<div class="row">
+	<div class="col-xl-12">
+		<div class="panel panel-inverse">
+			<div class="panel-heading">
+				<h4 class="panel-title"><%= typeof t !== 'undefined' ? t('dashboard.latestOrders') : 'Latest Orders' %></h4>
+				<div class="panel-heading-btn">
+					<a href="/admin/orders" class="btn btn-xs btn-primary"><%= typeof t !== 'undefined' ? t('common.viewAll') : 'View all' %></a>
+				</div>
+			</div>
+			<div class="panel-body">
+				<% if (recentOrders && recentOrders.length > 0) { %>
+					<div class="table-responsive recent-items-table">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th><%= typeof t !== 'undefined' ? t('ecommerce.orders.orderNumber') : 'Order #' %></th>
+									<th><%= typeof t !== 'undefined' ? t('ecommerce.orders.customer') : 'Customer' %></th>
+									<th><%= typeof t !== 'undefined' ? t('ecommerce.orders.total') : 'Total' %></th>
+									<th><%= typeof t !== 'undefined' ? t('ecommerce.orders.status') : 'Status' %></th>
+									<th><%= typeof t !== 'undefined' ? t('ecommerce.orders.paymentStatus') : 'Payment Status' %></th>
+									<th>Date</th>
+									<th><%= typeof t !== 'undefined' ? t('common.actions') : 'Actions' %></th>
+								</tr>
+							</thead>
+							<tbody>
+								<% recentOrders.forEach(function(order) { %>
+									<tr>
+										<td>
+											<a href="/admin/orders/<%= order.id %>" class="fw-bold">#<%= order.order_number %></a>
+										</td>
+										<td>
+											<% if (order.customer_name) { %><div><%= order.customer_name %></div><% } %>
+											<% if (order.customer_email) { %><div class="text-muted small"><%= order.customer_email %></div><% } %>
+										</td>
+										<td>$<%= parseFloat(order.total_amount).toFixed(2) %></td>
+										<td>
+											<% const statusClass = { pending: 'bg-warning', processing: 'bg-info', shipped: 'bg-primary', delivered: 'bg-success', completed: 'bg-success', cancelled: 'bg-danger' }; %>
+											<span class="badge <%= statusClass[order.status] || 'bg-secondary' %>"><%= order.status %></span>
+										</td>
+										<td>
+											<% const paymentStatusClass = { pending: 'bg-warning', paid: 'bg-success', refunded: 'bg-danger', failed: 'bg-danger' }; %>
+											<span class="badge <%= paymentStatusClass[order.payment_status] || 'bg-secondary' %>"><%= order.payment_status ? order.payment_status.charAt(0).toUpperCase() + order.payment_status.slice(1) : 'N/A' %></span>
+										</td>
+										<td><small><%= new Date(order.created_at).toLocaleDateString() %></small></td>
+										<td>
+											<a href="/admin/orders/<%= order.id %>" class="btn btn-sm btn-outline-primary"><i class="fa fa-eye"></i></a>
+										</td>
+									</tr>
+								<% }); %>
+							</tbody>
+						</table>
+					</div>
+				<% } else { %>
+					<p class="text-muted mb-0"><%= typeof t !== 'undefined' ? t('ecommerce.orders.noOrders') : 'No orders yet' %></p>
+					<a href="/admin/orders" class="btn btn-outline-primary mt-2"><%= typeof t !== 'undefined' ? t('ecommerce.orders.title') : 'Orders' %></a>
+				<% } %>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Low stock + Recent customers -->
+<div class="row">
+	<div class="col-xl-6">
+		<div class="panel panel-inverse">
+			<div class="panel-heading">
+				<h4 class="panel-title"><%= typeof t !== 'undefined' ? t('dashboard.lowStock') : 'Low inventory' %></h4>
+				<div class="panel-heading-btn">
+					<a href="/admin/products" class="btn btn-xs btn-outline-primary"><%= typeof t !== 'undefined' ? t('common.viewAll') : 'View all' %></a>
+				</div>
+			</div>
+			<div class="panel-body">
+				<% if (lowStock && lowStock.length > 0) { %>
+					<div class="table-responsive">
+						<table class="table table-sm">
+							<thead>
+								<tr>
+									<th>Product</th>
+									<th>SKU</th>
+									<th>Stock</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<% lowStock.forEach(function(product) { %>
+									<tr>
+										<td>
+											<a href="/admin/products/<%= product.id %>/edit"><%= product.name %></a>
+										</td>
+										<td><%= product.sku || '–' %></td>
+										<td><span class="badge bg-danger"><%= product.stock_quantity %></span></td>
+										<td>
+											<a href="/admin/products/<%= product.id %>/edit" class="btn btn-xs btn-outline-primary"><i class="fa fa-edit"></i></a>
+										</td>
+									</tr>
+								<% }); %>
+							</tbody>
+						</table>
+					</div>
+				<% } else { %>
+					<p class="text-muted mb-0"><%= typeof t !== 'undefined' ? t('dashboard.noLowStock') : 'No low stock products' %></p>
+				<% } %>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-6">
+		<div class="panel panel-inverse">
+			<div class="panel-heading">
+				<h4 class="panel-title"><%= typeof t !== 'undefined' ? t('dashboard.recentCustomers') : 'Recent customers' %></h4>
+				<div class="panel-heading-btn">
+					<a href="/admin/customers" class="btn btn-xs btn-outline-primary"><%= typeof t !== 'undefined' ? t('common.viewAll') : 'View all' %></a>
+				</div>
+			</div>
+			<div class="panel-body">
+				<% if (recentCustomers && recentCustomers.length > 0) { %>
+					<div class="table-responsive">
+						<table class="table table-sm">
+							<thead>
+								<tr>
+									<th>Email</th>
+									<th>Orders</th>
+									<th>Spent</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<% recentCustomers.forEach(function(c) { %>
+									<tr>
+										<td>
+											<a href="/admin/customers/<%= c.id %>"><%= c.email %></a>
+										</td>
+										<td><%= c.total_orders || 0 %></td>
+										<td>$<%= (c.total_spent != null) ? parseFloat(c.total_spent).toFixed(2) : '0.00' %></td>
+										<td>
+											<a href="/admin/customers/<%= c.id %>" class="btn btn-xs btn-outline-primary"><i class="fa fa-eye"></i></a>
+										</td>
+									</tr>
+								<% }); %>
+							</tbody>
+						</table>
+					</div>
+				<% } else { %>
+					<p class="text-muted mb-0"><%= typeof t !== 'undefined' ? t('dashboard.noCustomers') : 'No customers yet' %></p>
+					<a href="/admin/customers" class="btn btn-outline-primary mt-2"><%= typeof t !== 'undefined' ? t('menu.customers') : 'Customers' %></a>
+				<% } %>
+			</div>
+		</div>
+	</div>
+</div>

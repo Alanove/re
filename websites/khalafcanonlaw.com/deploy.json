@@ -5,5 +5,7 @@
   "nodeBin": null,
   "aapanelProject": "khalafcanonlaw",
   "restartCommand": null,
-  "protect": []
+  "protect": [
+    "data-backups"
+  ]
 }

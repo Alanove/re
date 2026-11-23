@@ -106,7 +106,7 @@ Never put site copy or colors in `src/`. Never put data access in `views/`.
 
 ## Steps for a new site
 
-1. Create `websites/<domain>/` by copying the latest finished site, then delete its `data/*.json`, `public/uploads/`, `dist/`, and `node_modules/`.
+1. Create `websites/<domain>/` by copying the latest finished site, then delete its `data/*.json`, `public/uploads/`, `dist/`, and `node_modules/`. Keep the JSON save backup that comes with the copy: `src/vendor/json-backup/`, the `json-backup:build` script, `data-backups/` in `.gitignore`, and `data-backups` in `deploy.json` `protect`. Live JSON writes stay on `writeJsonFileSync` (see `.cursor/rules/json-backup.mdc`).
 2. Fill in `transform.config.json`.
 3. `npm install`, then `npm run cms:sync` to copy admin theme assets from `cmsSource`.
 4. Write `content/seed.json` for the site. Values prefixed `legacy:/path` become downloaded assets under `/uploads/legacy/path`; values prefixed `page:key` become that page's URL. `assetAliases` maps a dead legacy path to the path that works on the live server. Each `offices.<id>` override can set `mapQuery` (an address or place name); the Contact page shows a tabbed Google Map embed (`https://www.google.com/maps?q=...&output=embed`, no API key) for offices that have one, and editors can change it under Admin > Offices. `https://www.google.com` is in the CSP `frame-src` for this.

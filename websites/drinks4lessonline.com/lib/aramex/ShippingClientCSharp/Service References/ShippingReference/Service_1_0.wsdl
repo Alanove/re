@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://ws.aramex.net/ShippingAPI/v1/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Service_1_0" targetNamespace="http://ws.aramex.net/ShippingAPI/v1/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" elementFormDefault="qualified" targetNamespace="http://ws.aramex.net/ShippingAPI/v1/">
+      <xsd:element name="ShipmentCreationRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="ClientInfo" nillable="true" type="tns:ClientInfo" />
+            <xsd:element minOccurs="0" name="Transaction" nillable="true" type="tns:Transaction" />
+            <xsd:element minOccurs="0" name="Shipments" nillable="true" type="tns:ArrayOfShipment" />
+            <xsd:element minOccurs="0" name="LabelInfo" nillable="true" type="tns:LabelInfo" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="ClientInfo">
+        <xsd:sequence>
+          <xsd:element name="UserName" nillable="true" type="xsd:string" />
+          <xsd:element name="Password" nillable="true" type="xsd:string" />
+          <xsd:element name="Version" nillable="true" type="xsd:string" />
+          <xsd:element name="AccountNumber" nillable="true" type="xsd:string" />
+          <xsd:element name="AccountPin" nillable="true" type="xsd:string" />
+          <xsd:element name="AccountEntity" nillable="true" type="xsd:string" />
+          <xsd:element name="AccountCountryCode" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="ClientInfo" nillable="true" type="tns:ClientInfo" />
+      <xsd:complexType name="Transaction">
+        <xsd:sequence>
+          <xsd:element name="Reference1" nillable="true" type="xsd:string" />
+          <xsd:element name="Reference2" nillable="true" type="xsd:string" />
+          <xsd:element name="Reference3" nillable="true" type="xsd:string" />
+          <xsd:element name="Reference4" nillable="true" type="xsd:string" />
+          <xsd:element name="Reference5" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="Transaction" nillable="true" type="tns:Transaction" />
+      <xsd:complexType name="ArrayOfShipment">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="Shipment" nillable="true" type="tns:Shipment" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="ArrayOfShipment" nillable="true" type="tns:ArrayOfShipment" />
+      <xsd:complexType name="Shipment">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="Reference1" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="Reference2" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="Reference3" nillable="true" type="xsd:string" />
+          <xsd:element name="Shipper" nillable="true" type="tns:Party" />
+          <xsd:element name="Consignee" nillable="true" type="tns:Party" />
+          <xsd:element minOccurs="0" name="ThirdParty" nillable="true" type="tns:Party" />
+          <xsd:element name="ShippingDateTime" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" name="DueDate" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" name="Comments" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="PickupLocation" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="OperationsInstructions" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="AccountingInstrcutions" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="Details" nillable="true" type="tns:ShipmentDetails" />
+          <xsd:element minOccurs="0" name="Attachments" nillable="true" type="tns:ArrayOfAttachment" />
+          <xsd:element minOccurs="0" name="ForeignHAWB" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="TransportType_x0020_" type="xsd:int" />
+          <xsd:element minOccurs="0" name="PickupGUID" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="Shipment" nillable="true" type="tns:Shipment" />
+      <xsd:complexType name="Party">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="Reference1" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="Reference2" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="AccountNumber" nillable="true" type="xsd:string" />
+          <xsd:element name="PartyAddress" nillable="true" type="tns:Address" />
+          <xsd:element name="Contact" nillable="true" type="tns:Contact" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="Party" nillable="true" type="tns:Party" />
+      <xsd:complexType name="Address">
+        <xsd:sequence>
+          <xsd:element name="Line1" nillable="true" type="xsd:string" />
+          <xsd:element name="Line2" nillable="true" type="xsd:string" />
+          <xsd:element name="Line3" nillable="true" type="xsd:string" />
+          <xsd:element name="City" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="StateOrProvinceCode" nillable="true" type="xsd:string" />
+          <xsd:element name="PostCode" nillable="true" type="xsd:string" />
+          <xsd:element name="CountryCode" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="Address" nillable="true" type="tns:Address" />
+      <xsd:complexType name="Contact">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="Department" nillable="true" type="xsd:string" />
+          <xsd:element name="PersonName" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="Title" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="CompanyName" nillable="true" type="xsd:string" />
+          <xsd:element name="PhoneNumber1" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="PhoneNumber1Ext" nillable="true" type="xsd:string" />
+          <xsd:element name="PhoneNumber2" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="PhoneNumber2Ext" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="FaxNumber" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="CellPhone" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="EmailAddress" nillable="true" type="xsd:string" />
+          <xsd:element name="Type" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="Contact" nillable="true" type="tns:Contact" />
+      <xsd:complexType name="ShipmentDetails">
+        <xsd:sequence>
+          <xsd:element name="Dimensions" nillable="true" type="tns:Dimensions" />
+          <xsd:element name="ActualWeight" nillable="true" type="tns:Weight" />
+          <xsd:element name="ChargeableWeight" nillable="true" type="tns:Weight" />
+          <xsd:element name="DescriptionOfGoods" nillable="true" type="xsd:string" />
+          <xsd:element name="GoodsOriginCountry" nillable="true" type="xsd:string" />
+          <xsd:element name="NumberOfPieces" type="xsd:int" />
+          <xsd:element name="ProductGroup" nillable="true" type="xsd:string" />
+          <xsd:element name="ProductType" nillable="true" type="xsd:string" />
+          <xsd:element name="PaymentType" nillable="true" type="xsd:string" />
+          <xsd:element name="PaymentOptions" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="CustomsValueAmount" nillable="true" type="tns:Money" />
+          <xsd:element minOccurs="0" name="CashOnDeliveryAmount" nillable="true" type="tns:Money" />
+          <xsd:element minOccurs="0" name="InsuranceAmount" nillable="true" type="tns:Money" />
+          <xsd:element minOccurs="0" name="CashAdditionalAmount" nillable="true" type="tns:Money" />
+          <xsd:element minOccurs="0" name="CashAdditionalAmountDescription" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="CollectAmount" nillable="true" type="tns:Money" />
+          <xsd:element minOccurs="0" name="Services" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="Items" nillable="true" type="tns:ArrayOfShipmentItem" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="ShipmentDetails" nillable="true" type="tns:ShipmentDetails" />
+      <xsd:complexType name="Dimensions">
+        <xsd:sequence>
+          <xsd:element name="Length" type="xsd:double" />
+          <xsd:element name="Width" type="xsd:double" />
+          <xsd:element name="Height" type="xsd:double" />
+          <xsd:element name="Unit" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="Dimensions" nillable="true" type="tns:Dimensions" />
+      <xsd:complexType name="Weight">
+        <xsd:sequence>
+          <xsd:element name="Unit" nillable="true" type="xsd:string" />
+          <xsd:element name="Value" type="xsd:double" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="Weight" nillable="true" type="tns:Weight" />
+      <xsd:complexType name="Money">
+        <xsd:sequence>
+          <xsd:element name="CurrencyCode" nillable="true" type="xsd:string" />
+          <xsd:element name="Value" type="xsd:double" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="Money" nillable="true" type="tns:Money" />
+      <xsd:complexType name="ArrayOfShipmentItem">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="ShipmentItem" nillable="true" type="tns:ShipmentItem" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="ArrayOfShipmentItem" nillable="true" type="tns:ArrayOfShipmentItem" />
+      <xsd:complexType name="ShipmentItem">
+        <xsd:sequence>
+          <xsd:element name="PackageType" nillable="true" type="xsd:string" />
+          <xsd:element name="Quantity" type="xsd:int" />
+          <xsd:element name="Weight" nillable="true" type="tns:Weight" />
+          <xsd:element minOccurs="0" name="Comments" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="Reference" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="ShipmentItem" nillable="true" type="tns:ShipmentItem" />
+      <xsd:complexType name="ArrayOfAttachment">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="Attachment" nillable="true" type="tns:Attachment" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="ArrayOfAttachment" nillable="true" type="tns:ArrayOfAttachment" />
+      <xsd:complexType name="Attachment">
+        <xsd:sequence>
+          <xsd:element name="FileName" nillable="true" type="xsd:string" />
+          <xsd:element name="FileExtension" nillable="true" type="xsd:string" />
+          <xsd:element name="FileContents" nillable="true" type="xsd:base64Binary" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="Attachment" nillable="true" type="tns:Attachment" />
+      <xsd:complexType name="LabelInfo">
+        <xsd:sequence>
+          <xsd:element name="ReportID" type="xsd:int" />
+          <xsd:element name="ReportType" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="LabelInfo" nillable="true" type="tns:LabelInfo" />
+      <xsd:element name="ShipmentCreationResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="Transaction" nillable="true" type="tns:Transaction" />
+            <xsd:element minOccurs="0" name="Notifications" nillable="true" type="tns:ArrayOfNotification" />
+            <xsd:element minOccurs="0" name="HasErrors" type="xsd:boolean" />
+            <xsd:element minOccurs="0" name="Shipments" nillable="true" type="tns:ArrayOfProcessedShipment" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="ArrayOfNotification">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="Notification" nillable="true" type="tns:Notification" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="ArrayOfNotification" nillable="true" type="tns:ArrayOfNotification" />
+      <xsd:complexType name="Notification">
+        <xsd:sequence>
+          <xsd:element name="Code" nillable="true" type="xsd:string" />
+          <xsd:element name="Message" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="Notification" nillable="true" type="tns:Notification" />
+      <xsd:complexType name="ArrayOfProcessedShipment">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="ProcessedShipment" nillable="true" type="tns:ProcessedShipment" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="ArrayOfProcessedShipment" nillable="true" type="tns:ArrayOfProcessedShipment" />
+      <xsd:complexType name="ProcessedShipment">
+        <xsd:sequence>
+          <xsd:element name="ID" nillable="true" type="xsd:string" />
+          <xsd:element name="Reference1" nillable="true" type="xsd:string" />
+          <xsd:element name="Reference2" nillable="true" type="xsd:string" />
+          <xsd:element name="Reference3" nillable="true" type="xsd:string" />
+          <xsd:element name="ForeignHAWB" nillable="true" type="xsd:string" />
+          <xsd:element name="HasErrors" type="xsd:boolean" />
+          <xsd:element name="Notifications" nillable="true" type="tns:ArrayOfNotification" />
+          <xsd:element name="ShipmentLabel" nillable="true" type="tns:ShipmentLabel" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="ProcessedShipment" nillable="true" type="tns:ProcessedShipment" />
+      <xsd:complexType name="ShipmentLabel">
+        <xsd:sequence>
+          <xsd:element name="LabelURL" nillable="true" type="xsd:string" />
+          <xsd:element name="LabelFileContents" nillable="true" type="xsd:base64Binary" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="ShipmentLabel" nillable="true" type="tns:ShipmentLabel" />
+      <xsd:element name="LabelPrintingRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="ClientInfo" nillable="true" type="tns:ClientInfo" />
+            <xsd:element minOccurs="0" name="Transaction" nillable="true" type="tns:Transaction" />
+            <xsd:element minOccurs="0" name="ShipmentNumber" nillable="true" type="xsd:string" />
+            <xsd:element minOccurs="0" name="ProductGroup" nillable="true" type="xsd:string" />
+            <xsd:element minOccurs="0" name="OriginEntity" nillable="true" type="xsd:string" />
+            <xsd:element minOccurs="0" name="LabelInfo" nillable="true" type="tns:LabelInfo" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="LabelPrintingResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="Transaction" nillable="true" type="tns:Transaction" />
+            <xsd:element minOccurs="0" name="Notifications" nillable="true" type="tns:ArrayOfNotification" />
+            <xsd:element minOccurs="0" name="HasErrors" type="xsd:boolean" />
+            <xsd:element minOccurs="0" name="ShipmentNumber" nillable="true" type="xsd:string" />
+            <xsd:element minOccurs="0" name="ShipmentLabel" nillable="true" type="tns:ShipmentLabel" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="PickupCreationRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="ClientInfo" nillable="true" type="tns:ClientInfo" />
+            <xsd:element minOccurs="0" name="Transaction" nillable="true" type="tns:Transaction" />
+            <xsd:element minOccurs="0" name="Pickup" nillable="true" type="tns:Pickup" />
+            <xsd:element minOccurs="0" name="LabelInfo" nillable="true" type="tns:LabelInfo" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="Pickup">
+        <xsd:sequence>
+          <xsd:element name="PickupAddress" nillable="true" type="tns:Address" />
+          <xsd:element name="PickupContact" nillable="true" type="tns:Contact" />
+          <xsd:element name="PickupLocation" nillable="true" type="xsd:string" />
+          <xsd:element name="PickupDate" type="xsd:dateTime" />
+          <xsd:element name="ReadyTime" type="xsd:dateTime" />
+          <xsd:element name="LastPickupTime" type="xsd:dateTime" />
+          <xsd:element name="ClosingTime" type="xsd:dateTime" />
+          <xsd:element name="Comments" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="Reference1" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="Reference2" nillable="true" type="xsd:string" />
+          <xsd:element name="Vehicle" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="Shipments" nillable="true" type="tns:ArrayOfShipment" />
+          <xsd:element name="PickupItems" nillable="true" type="tns:ArrayOfPickupItemDetail" />
+          <xsd:element minOccurs="0" name="Status" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="Pickup" nillable="true" type="tns:Pickup" />
+      <xsd:complexType name="ArrayOfPickupItemDetail">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="PickupItemDetail" nillable="true" type="tns:PickupItemDetail" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="ArrayOfPickupItemDetail" nillable="true" type="tns:ArrayOfPickupItemDetail" />
+      <xsd:complexType name="PickupItemDetail">
+        <xsd:sequence>
+          <xsd:element name="ProductGroup" nillable="true" type="xsd:string" />
+          <xsd:element name="ProductType" nillable="true" type="xsd:string" />
+          <xsd:element name="NumberOfShipments" type="xsd:int" />
+          <xsd:element name="PackageType" nillable="true" type="xsd:string" />
+          <xsd:element name="Payment" nillable="true" type="xsd:string" />
+          <xsd:element name="ShipmentWeight" nillable="true" type="tns:Weight" />
+          <xsd:element name="ShipmentVolume" nillable="true" type="tns:Volume" />
+          <xsd:element name="NumberOfPieces" type="xsd:int" />
+          <xsd:element name="CashAmount" nillable="true" type="tns:Money" />
+          <xsd:element name="ExtraCharges" nillable="true" type="tns:Money" />
+          <xsd:element name="ShipmentDimensions" nillable="true" type="tns:Dimensions" />
+          <xsd:element name="Comments" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="PickupItemDetail" nillable="true" type="tns:PickupItemDetail" />
+      <xsd:complexType name="Volume">
+        <xsd:sequence>
+          <xsd:element name="Unit" nillable="true" type="xsd:string" />
+          <xsd:element name="Value" type="xsd:double" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="Volume" nillable="true" type="tns:Volume" />
+      <xsd:element name="PickupCreationResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="Transaction" nillable="true" type="tns:Transaction" />
+            <xsd:element minOccurs="0" name="Notifications" nillable="true" type="tns:ArrayOfNotification" />
+            <xsd:element minOccurs="0" name="HasErrors" type="xsd:boolean" />
+            <xsd:element minOccurs="0" name="ProcessedPickup" nillable="true" type="tns:ProcessedPickup" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="ProcessedPickup">
+        <xsd:sequence>
+          <xsd:element name="ID" nillable="true" type="xsd:string" />
+          <xsd:element name="GUID" type="ser:guid" />
+          <xsd:element name="Reference1" nillable="true" type="xsd:string" />
+          <xsd:element name="Reference2" nillable="true" type="xsd:string" />
+          <xsd:element name="ProcessedShipments" nillable="true" type="tns:ArrayOfProcessedShipment" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="ProcessedPickup" nillable="true" type="tns:ProcessedPickup" />
+      <xsd:element name="PickupCancelationRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="ClientInfo" nillable="true" type="tns:ClientInfo" />
+            <xsd:element minOccurs="0" name="Transaction" nillable="true" type="tns:Transaction" />
+            <xsd:element minOccurs="0" name="PickupGUID" nillable="true" type="xsd:string" />
+            <xsd:element minOccurs="0" name="Comments" nillable="true" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="PickupCancelationResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="Transaction" nillable="true" type="tns:Transaction" />
+            <xsd:element minOccurs="0" name="Notifications" nillable="true" type="tns:ArrayOfNotification" />
+            <xsd:element minOccurs="0" name="HasErrors" type="xsd:boolean" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+    <xs:schema xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="anyType" nillable="true" type="xs:anyType" />
+      <xs:element name="anyURI" nillable="true" type="xs:anyURI" />
+      <xs:element name="base64Binary" nillable="true" type="xs:base64Binary" />
+      <xs:element name="boolean" nillable="true" type="xs:boolean" />
+      <xs:element name="byte" nillable="true" type="xs:byte" />
+      <xs:element name="dateTime" nillable="true" type="xs:dateTime" />
+      <xs:element name="decimal" nillable="true" type="xs:decimal" />
+      <xs:element name="double" nillable="true" type="xs:double" />
+      <xs:element name="float" nillable="true" type="xs:float" />
+      <xs:element name="int" nillable="true" type="xs:int" />
+      <xs:element name="long" nillable="true" type="xs:long" />
+      <xs:element name="QName" nillable="true" type="xs:QName" />
+      <xs:element name="short" nillable="true" type="xs:short" />
+      <xs:element name="string" nillable="true" type="xs:string" />
+      <xs:element name="unsignedByte" nillable="true" type="xs:unsignedByte" />
+      <xs:element name="unsignedInt" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="unsignedLong" nillable="true" type="xs:unsignedLong" />
+      <xs:element name="unsignedShort" nillable="true" type="xs:unsignedShort" />
+      <xs:element name="char" nillable="true" type="tns:char" />
+      <xs:simpleType name="char">
+        <xs:restriction base="xs:int" />
+      </xs:simpleType>
+      <xs:element name="duration" nillable="true" type="tns:duration" />
+      <xs:simpleType name="duration">
+        <xs:restriction base="xs:duration">
+          <xs:pattern value="\-?P(\d*D)?(T(\d*H)?(\d*M)?(\d*(\.\d*)?S)?)?" />
+          <xs:minInclusive value="-P10675199DT2H48M5.4775808S" />
+          <xs:maxInclusive value="P10675199DT2H48M5.4775807S" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="guid" nillable="true" type="tns:guid" />
+      <xs:simpleType name="guid">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:attribute name="FactoryType" type="xs:QName" />
+      <xs:attribute name="Id" type="xs:ID" />
+      <xs:attribute name="Ref" type="xs:IDREF" />
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="ShipmentCreationRequest">
+    <wsdl:part name="parameters" element="tns:ShipmentCreationRequest" />
+  </wsdl:message>
+  <wsdl:message name="ShipmentCreationResponse">
+    <wsdl:part name="parameters" element="tns:ShipmentCreationResponse" />
+  </wsdl:message>
+  <wsdl:message name="LabelPrintingRequest">
+    <wsdl:part name="parameters" element="tns:LabelPrintingRequest" />
+  </wsdl:message>
+  <wsdl:message name="LabelPrintingResponse">
+    <wsdl:part name="parameters" element="tns:LabelPrintingResponse" />
+  </wsdl:message>
+  <wsdl:message name="PickupCreationRequest">
+    <wsdl:part name="parameters" element="tns:PickupCreationRequest" />
+  </wsdl:message>
+  <wsdl:message name="PickupCreationResponse">
+    <wsdl:part name="parameters" element="tns:PickupCreationResponse" />
+  </wsdl:message>
+  <wsdl:message name="PickupCancelationRequest">
+    <wsdl:part name="parameters" element="tns:PickupCancelationRequest" />
+  </wsdl:message>
+  <wsdl:message name="PickupCancelationResponse">
+    <wsdl:part name="parameters" element="tns:PickupCancelationResponse" />
+  </wsdl:message>
+  <wsdl:portType name="Service_1_0">
+    <wsdl:operation name="CreateShipments">
+      <wsdl:input wsaw:Action="http://ws.aramex.net/ShippingAPI/v1/Service_1_0/CreateShipments" name="ShipmentCreationRequest" message="tns:ShipmentCreationRequest" />
+      <wsdl:output wsaw:Action="http://ws.aramex.net/ShippingAPI/v1/Service_1_0/CreateShipmentsResponse" name="ShipmentCreationResponse" message="tns:ShipmentCreationResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="PrintLabel">
+      <wsdl:input wsaw:Action="http://ws.aramex.net/ShippingAPI/v1/Service_1_0/PrintLabel" name="LabelPrintingRequest" message="tns:LabelPrintingRequest" />
+      <wsdl:output wsaw:Action="http://ws.aramex.net/ShippingAPI/v1/Service_1_0/PrintLabelResponse" name="LabelPrintingResponse" message="tns:LabelPrintingResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="CreatePickup">
+      <wsdl:input wsaw:Action="http://ws.aramex.net/ShippingAPI/v1/Service_1_0/CreatePickup" name="PickupCreationRequest" message="tns:PickupCreationRequest" />
+      <wsdl:output wsaw:Action="http://ws.aramex.net/ShippingAPI/v1/Service_1_0/CreatePickupResponse" name="PickupCreationResponse" message="tns:PickupCreationResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="CancelPickup">
+      <wsdl:input wsaw:Action="http://ws.aramex.net/ShippingAPI/v1/Service_1_0/CancelPickup" name="PickupCancelationRequest" message="tns:PickupCancelationRequest" />
+      <wsdl:output wsaw:Action="http://ws.aramex.net/ShippingAPI/v1/Service_1_0/CancelPickupResponse" name="PickupCancelationResponse" message="tns:PickupCancelationResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Service_1_0" type="tns:Service_1_0">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CreateShipments">
+      <soap:operation soapAction="http://ws.aramex.net/ShippingAPI/v1/Service_1_0/CreateShipments" style="document" />
+      <wsdl:input name="ShipmentCreationRequest">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="ShipmentCreationResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PrintLabel">
+      <soap:operation soapAction="http://ws.aramex.net/ShippingAPI/v1/Service_1_0/PrintLabel" style="document" />
+      <wsdl:input name="LabelPrintingRequest">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="LabelPrintingResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreatePickup">
+      <soap:operation soapAction="http://ws.aramex.net/ShippingAPI/v1/Service_1_0/CreatePickup" style="document" />
+      <wsdl:input name="PickupCreationRequest">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="PickupCreationResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelPickup">
+      <soap:operation soapAction="http://ws.aramex.net/ShippingAPI/v1/Service_1_0/CancelPickup" style="document" />
+      <wsdl:input name="PickupCancelationRequest">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="PickupCancelationResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Service_1_0">
+    <wsdl:port name="Service_1_0" binding="tns:Service_1_0">
+      <soap:address location="https://ws.aramex.net/shippingapi/shipping/service_1_0.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

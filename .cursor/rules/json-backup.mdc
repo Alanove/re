@@ -1,0 +1,29 @@
+---
+description: Dated JSON save snapshots for every site whose content lives in JSON files
+alwaysApply: true
+---
+
+# JSON save backups
+
+Applies to every site under `websites/` whose content is stored in JSON, and to every new site copied from the latest finished site. Shared code lives in `packages/json-backup`. MySQL sites are out of this rule.
+
+## Live writes
+- Admin and public saves of JSON under `data/` or `content/` go through `writeJsonFileSync` from `src/vendor/json-backup/writeJsonFileSync`. On the current CMS that call sits in `src/repositories/jsonFileStore.ts` `persist()`, and in any other repository that writes its own JSON files (for example one file per article).
+- On an older CMS, each service that saves JSON calls `writeJsonFileSync` instead of `fs.writeFileSync`.
+- A changed file keeps the previous bytes in `data-backups/<path>/{daily,weekly,monthly,quarterly}/`. A period that already has a snapshot is left alone.
+- One-off import and migration scripts keep a plain write.
+
+```ts
+import { writeJsonFileSync } from '../vendor/json-backup/writeJsonFileSync.js';
+
+writeJsonFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`);
+```
+
+Use a `.js` suffix on that import when the site compiles with NodeNext. Adjust the relative path for the file you are in.
+
+## Keep it on every new site
+- Do not remove `src/vendor/json-backup/`, the `json-backup:build` script, the `data-backups/` line in `.gitignore`, or `data-backups` in `deploy.json` `protect` when cleaning a copied site.
+- Rebuild the vendor file with `npm run json-backup:build` after changing `packages/json-backup`. Do not edit the vendor file by hand.
+- `data-backups/` stays out of git. Deploy must not delete it (`protect`).
+
+Install steps are in `packages/json-backup/INSTALL.md`.
