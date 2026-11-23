@@ -1,0 +1,190 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Embossers</title>
+<meta name="generator" content="WYSIWYG Web Builder 18 - https://www.wysiwygwebbuilder.com">
+<link href="font-awesome.min.css" rel="stylesheet">
+<link href="CABSLB.css" rel="stylesheet">
+<link href="Screen-Reader.css" rel="stylesheet">
+<script src="jquery-3.7.1.min.js"></script>
+<script>
+$(document).ready(function()
+{
+   $('#headerMegaMenu .submenu ul li .heading a').addClass('ui-widget-header');
+   $('#headerMegaMenu .submenu ul li a').hover(function()
+   {
+      $(this).addClass('ui-state-hover');
+   }, function()
+   {
+      $(this).removeClass('ui-state-hover');
+   });
+   $('.ui-state-default').hover(function()
+   {
+      $(this).addClass('ui-state-hover');
+   }, function()
+   {
+      $(this).removeClass('ui-state-hover');
+   });
+   $('#headerMegaMenu li').hover(function()
+   {
+      var top = $(this).find('.button').outerHeight();
+      $(this).find('.submenu').css( {'top': top });
+      $(this).find('.submenu').show();
+      var maxWidth = 0;
+      $(this).find('ul').each(function()
+      {
+         $(this).find('li').each(function()
+         {
+            $(this).css('width', 'auto');
+            if ($(this).width() > maxWidth)
+               maxWidth = $(this).width();
+         });
+      });
+      $(this).find('ul').each(function()
+      {
+         $(this).find('li').width(maxWidth);
+         $(this).css({'width' : maxWidth+4});
+      });
+      if ($(this).find('.row').length > 0 )
+      {
+         var maxRowWidth = 0;
+         $(this).find('.row').each(function()
+         {
+            var width = 0;
+            $(this).find('ul').each(function()
+            {
+               width += $(this).width();
+            });
+            if (width > maxRowWidth)
+            {
+               maxRowWidth = width;
+            }
+         });
+         $(this).find('.submenu').css({'width' : maxRowWidth});
+         $(this).find('.row:last').css({'margin': '0'});
+      }
+      else
+      {
+         var width = 0;
+         $(this).find('ul').each(function()
+         {
+            width += $(this).width();
+         });
+         $(this).find('.submenu').css({'width' : width});
+      }
+      $(this).find('.submenu').slideDown();
+   }, function()
+   {
+      $(this).find('.submenu').hide();
+   })
+   $('#headerMegaMenu li .submenu').hide();
+   $('#headerMegaMenu-nav').click(function()
+   {
+      $('body').removeClass('overflow-no-scroll');
+      $('#wb_headerMegaMenu').removeClass('open');
+   });
+   $('#headerMegaMenu-hamburger').click(function()
+   {
+      $('body').addClass('overflow-no-scroll');
+      $('#wb_headerMegaMenu').addClass('open');
+   });
+});
+</script>
+</head>
+<body>
+<div id="PageFooter1" style="position:absolute;overflow:hidden;text-align:center;left:0px;top:983px;width:100%;height:42px;z-index:-1;">
+<div id="PageFooter1_Container" style="width:1000px;position:relative;margin-left:auto;margin-right:auto;text-align:left;">
+<div id="wb_FooterText" style="position:absolute;left:302px;top:800px;width:579px;height:18px;text-align:center;z-index:2;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><strong>Copyright © 2023 by &quot;CABS&quot;&nbsp; ·&nbsp; All Rights reserved&nbsp; ·&nbsp; E-Mail: d.issa@cabslb.com</strong></span></div>
+<div id="wb_Footertext" style="position:absolute;left:10px;top:801px;width:535px;height:16px;text-align:center;z-index:3;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:15px;"><strong>Copyright © 2023 by &quot;CABS&quot;&nbsp; ·&nbsp; All Rights reserved&nbsp; ·&nbsp; E-Mail: d.issa@cabslb.com</strong></span></div>
+<div id="wb_Text11" style="position:absolute;left:10px;top:800px;width:585px;height:18px;text-align:center;z-index:4;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><strong>Copyright © 2020 by &quot;CABS&quot;&nbsp; ·&nbsp; All Rights reserved&nbsp; ·&nbsp; E-Mail: d.issa@cabslb.com</strong></span></div>
+<div id="wb_Text6" style="position:absolute;left:414px;top:737px;width:572px;height:18px;z-index:5;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><strong>Copyright © 2023 by &quot;CABS&quot;&nbsp; ·&nbsp; All Rights reserved&nbsp; ·&nbsp; E-Mail: d.issa@cabslb.com</strong></span></div>
+<div id="wb_Text12" style="position:absolute;left:10px;top:15px;width:1100px;height:15px;z-index:6;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:13px;"><strong>Copyright © 2023 by &quot;CABS&quot; · All Rights reserved · Sed Al-Bauchrieh, Raymond Fayad Center, 6th Floor · E-Mail: d.issa@cabslb.com · Tel: +961 1 885 370 · Mobile: +961 3 777 804</strong></span></div>
+</div>
+</div>
+<div id="container">
+<div id="wb_Image1" style="position:absolute;left:33px;top:115px;width:244px;height:73px;z-index:7;">
+<img src="images/InfoVox4-Logo.jpg" id="Image1" alt="" width="244" height="71"></div>
+<div id="wb_Text3" style="position:absolute;left:297px;top:115px;width:703px;height:756px;z-index:8;">
+<span style="color:#FF0000;font-family:'Times New Roman';font-size:27px;"><strong>Infovox4</strong></span><span style="color:#000000;font-family:'Times New Roman';font-size:24px;"><strong><br></strong></span><span style="color:#FF0000;font-family:'Times New Roman';font-size:21px;">All-in-one local &amp; portable Talking companion for visually impaired users</span><span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><br></span><span style="color:#000080;font-family:'Times New Roman';font-size:13px;"><br></span><span style="color:#000080;font-family:'Times New Roman';font-size:16px;">Innovative yet simple and all-in-one product for seamless access to written information, no matter where the user is, at home, in the office or on the move using different computers. Infovox4 uses Acapela speech synthesis, speech empowers any PC with pleasant voices, transforming any written text into speech, in real time.<br> </span><span style="color:#000080;font-family:'Times New Roman';font-size:13px;"><br></span><span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><strong>NEW BENEFITS!</strong><br> - Windows 7/8/8.1/10/11 support<br> - Improved intelligibility at high reading speed using the new “small and fast” Colibri voices, based on a brand new technology developed by Acapela Group.<br> - Possibility to modify pitch with the new Colibri voices.<br> - On/off switch for verbose mode that expands acronyms, abbreviations and datum.<br> - Add and remove voices at any time and free of charge, using the new Download Manager application.<br> - Menu-based GUI for easier navigation using screen reader applications.<br> - 26 languages / 62 voices including Australian English (voice Tyler) &amp; Swedish dialects Scania (voice Mia) and Gothenburg (voice Kal).<br></span><span style="color:#000080;font-family:'Times New Roman';font-size:13px;"><br></span><span style="color:#000080;font-family:'Times New Roman';font-size:16px;">Includes both a portable USB solution and 3 local installations, which follow users as they work on different PCs.<br> - Portable usage from USB allows immediate access to any computer, without need of installing locally or admin rights.<br> - Local installations will function even without a USB plugged into the computer.<br> - Possibility to transfer local installations to and from the USB at any time.<br>The end user has access to all voices in all languages included in the license – with different genders and voice personas – so that user feels fully comfortable with the voices that become daily companions.<br></span><span style="color:#000080;font-family:'Times New Roman';font-size:13px;"><br></span><span style="color:#000080;font-family:'Times New Roman';font-size:16px;">The choice between languages provides access to information in foreign languages as well as language learning. infovox4 is packaged with several useful applications, that can be easily launched from the infovox4 LaunchPad application.<br></span><span style="color:#000080;font-family:'Times New Roman';font-size:13px;"><br></span><span style="color:#000080;font-family:'Times New Roman';font-size:16px;">The NVDA screen reader help the user accessing a computer when no other screen reader is pre-installed.<br></span><span style="color:#000080;font-family:'Times New Roman';font-size:13px;"><br></span><span style="color:#000080;font-family:'Times New Roman';font-size:16px;">The Speech Creator enables easy creation of MP3 files for personal use, from any text file.<br></span><span style="color:#000080;font-family:'Times New Roman';font-size:13px;"><br></span><span style="color:#000080;font-family:'Times New Roman';font-size:16px;">The Pronunciation Editor allows easy management of lexicons and exceptions, to fine tune and customize the way names and exceptions are pronounced.<br></span><span style="color:#000080;font-family:'Times New Roman';font-size:13px;"><br></span><span style="color:#000080;font-family:'Times New Roman';font-size:16px;">The Download Manager allows to add and remove voices locally.<br></span><span style="color:#000080;font-family:'Times New Roman';font-size:13px;"><br></span><span style="color:#000080;font-family:'Times New Roman';font-size:16px;">The Voice Manager allows to create new voices with particular settings. The Configuration Wizard will guide step by step through installation and configuration of infovox4 on the computer.</span></div>
+</div>
+<div id="PageHeader1" style="position:fixed;text-align:center;left:0;top:0;right:0;height:85px;z-index:7777;">
+<div id="PageHeader1_Container" style="width:1000px;position:relative;margin-left:auto;margin-right:auto;text-align:left;">
+<div id="wb_Text15" style="position:absolute;left:12px;top:12px;width:975px;height:30px;text-align:center;z-index:0;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:27px;"><strong>CABS-Computer And Braille Systems</strong></span></div>
+<div id="wb_headerMegaMenu" style="position:absolute;left:12px;top:45px;width:973px;height:30px;text-align:center;z-index:1;">
+<div id="headerMegaMenu-hamburger">
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"></span>
+</div>
+<div id="headerMegaMenu-nav">
+<div id="headerMegaMenu-close"><a role="button" aria-hidden="true" href="#">&times;</a></div>
+<ul role="menubar" class="ui-widget" id="headerMegaMenu">
+<li role="menuitem">
+<a href="./Default.html" class="nav-link button ui-state-default">Home</a>
+</li>
+<li role="menuitem">
+<a href="./IT-Products.html" class="nav-link button ui-state-default">IT Products</a>
+</li>
+<li role="menuitem">
+<a href="#" class="button ui-state-default"><i class="fa fa-caret-down arrow"></i>Assistive Technology</a>
+<div class="submenu ui-widget-content">
+<div class="row">
+<ul>
+<li><div class="heading">Braillers</div></li>
+<li role="menuitem"><a href="./Braillers.html" title="Perkins Braillers"><i class="fa fa-check-square-o bullet"></i>Perkins Braillers</a></li>
+</ul>
+</div>
+<div class="row">
+<ul>
+<li><div class="heading">Embossers</div></li>
+<li role="menuitem"><a href="./Embossers.html" title="Index Braille"><i class="fa fa-check-square-o bullet"></i>Index Braille</a></li>
+</ul>
+</div>
+<div class="row">
+<ul>
+<li><div class="heading">Display Terminals</div></li>
+<li role="menuitem"><a href="./Braille-Displays.html" title="Braille Display"><i class="fa fa-check-square-o bullet"></i>Braille Display</a></li>
+<li role="menuitem"><a href="./Notetaker-Notebooks.html" title="Notetakers &amp; Notebooks"><i class="fa fa-check-square-o bullet"></i>Notetakers / Notebooks</a></li>
+</ul>
+</div>
+<div class="row">
+<ul>
+<li><div class="heading">Magnifiers</div></li>
+<li role="menuitem"><a href="./Hanheld-5inch-Magnifiers.html" title="Handheld 5inch Magnifiers"><i class="fa fa-check-square-o bullet"></i>Handheld 5inch Magnifiers</a></li>
+<li role="menuitem"><a href="./Hanheld-7inch-Magnifiers.html" title="Handheld 5inch Magnifiers"><i class="fa fa-check-square-o bullet"></i>Handheld 7inch Magnifiers</a></li>
+<li role="menuitem"><a href="./Desktop-Magnifiers.html" title="Desktop Magnifiers"><i class="fa fa-check-square-o bullet"></i>Desktop Magnifiers</a></li>
+</ul>
+</div>
+<div class="row">
+<ul>
+<li><div class="heading">Software</div></li>
+<li role="menuitem"><a href="./Screen-Reader.html" title="Screen Reader"><i class="fa fa-check-square-o bullet"></i>Screen Reader</a></li>
+<li role="menuitem"><a href="./Braille-Translator.html" title="Braille Translator"><i class="fa fa-check-square-o bullet"></i>Braille Translator</a></li>
+</ul>
+</div>
+</div>
+</li>
+<li role="menuitem">
+<a href="#" class="button ui-state-default"><i class="fa fa-caret-down arrow"></i>Office Technology</a>
+<div class="submenu ui-widget-content">
+<div class="row">
+<ul>
+<li><div class="heading">Office Solutions</div></li>
+<li role="menuitem"><a href="./Office-Technology.html" title="Printers / Photocopiers"><i class="fa fa-check-square-o bullet"></i>Printers / Photocopiers</a></li>
+</ul>
+</div>
+</div>
+</li>
+</ul>
+</div></div>
+</div>
+</div>
+</body>
+</html>

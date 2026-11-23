@@ -1,0 +1,9 @@
+{
+  "serverPath": "/www/wwwroot/tigercontractingco.com",
+  "port": 3073,
+  "healthPath": "/",
+  "nodeBin": null,
+  "aapanelProject": "tigercontracting",
+  "restartCommand": "PIDFILE=/www/server/nodejs/vhost/pids/tigercontracting.pid; if [ -f \"$PIDFILE\" ]; then kill \"$(tr -dc 0-9 < \"$PIDFILE\")\" 2>/dev/null || true; fi; fuser -k 3073/tcp 2>/dev/null || true; sleep 1; nohup /www/server/nodejs/v22.20.0/bin/npm run start >>/www/wwwlogs/nodejs/tigercontracting.log 2>&1 & echo $! > \"$PIDFILE\"",
+  "protect": []
+}

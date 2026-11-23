@@ -1,0 +1,20 @@
+---
+description: tigercontractingco.com site rules
+globs:
+  - websites/tigercontractingco.com/**
+alwaysApply: false
+---
+
+# tigercontractingco.com: project rules
+
+Site rule for `websites/tigercontractingco.com/`. It applies in addition to the global rules in `.cursor/rules/`; where they conflict, the global rules win. Paths are relative to the site folder.
+
+## Site shape
+- Static HTML only. Public pages under `site/`: home (`index.html` at `/`), About Us, Projects (Education), Residential, Hospitals, Other Projects, Contact Us.
+- A small Node Express process in `src/server.ts` serves `site/` for deploy. There is no CMS, admin, JSON content, database, captcha, or image pipeline.
+- Contact is a `mailto:info@tigercontractingco.com` link on the contact page. Do not add a server-side contact form.
+- Port `3073`. aaPanel project `tigercontracting` (server folder `/www/wwwroot/tigercontractingco.com`). Deploy with `deploy.json` and `.env.production`.
+
+## Design
+- Keep the existing Liteweb HTML, CSS, images, copy, and page structure. Do not restyle or redesign.
+- Do not migrate this site onto the shared Node CMS. Footer credit: `by www.liteweb.info`.

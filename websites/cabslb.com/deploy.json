@@ -1,0 +1,9 @@
+{
+  "serverPath": "/www/wwwroot/cabslb.com",
+  "port": 3071,
+  "healthPath": "/",
+  "nodeBin": null,
+  "aapanelProject": "cabslb",
+  "restartCommand": "PIDFILE=/www/server/nodejs/vhost/pids/cabslb.pid; if [ -f \"$PIDFILE\" ]; then kill \"$(tr -dc 0-9 < \"$PIDFILE\")\" 2>/dev/null || true; fi; fuser -k 3071/tcp 2>/dev/null || true; sleep 1; nohup /www/server/nodejs/v22.20.0/bin/npm run start >>/www/wwwlogs/nodejs/cabslb.log 2>&1 & echo $! > \"$PIDFILE\"",
+  "protect": []
+}

@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="us-ascii">
+<title>CABS Leabnon</title>
+<meta name="generator" content="WYSIWYG Web Builder 18 - http://www.wysiwygwebbuilder.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="font-awesome.min.css" rel="stylesheet">
+<link href="CABSLB.css" rel="stylesheet">
+<link href="Default.css" rel="stylesheet">
+<script src="popper.min.js"></script>
+<script src="bootstrap.min.js"></script>
+<script src="jquery-1.12.4.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function(event)
+{
+   var SlideShow1 = new bootstrap.Carousel("#SlideShow1", {interval:1500, ride: true});
+   var SlideShow2 = new bootstrap.Carousel("#SlideShow2", {interval:1500, ride: true});
+   var SlideShow3 = new bootstrap.Carousel("#SlideShow3", {interval:1500, ride: true});
+});
+</script>
+<script>
+$(document).ready(function()
+{
+   $('#headerMegaMenu .submenu ul li .heading a').addClass('ui-widget-header');
+   $('#headerMegaMenu .submenu ul li a').hover(function()
+   {
+      $(this).addClass('ui-state-hover');
+   }, function()
+   {
+      $(this).removeClass('ui-state-hover');
+   });
+   $('.ui-state-default').hover(function()
+   {
+      $(this).addClass('ui-state-hover');
+   }, function()
+   {
+      $(this).removeClass('ui-state-hover');
+   });
+   $('#headerMegaMenu li').hover(function()
+   {
+      var top = $(this).find('.button').outerHeight();
+      $(this).find('.submenu').css( {'top': top });
+      $(this).find('.submenu').show();
+      var maxWidth = 0;
+      $(this).find('ul').each(function()
+      {
+         $(this).find('li').each(function()
+         {
+            $(this).css('width', 'auto');
+            if ($(this).width() > maxWidth)
+               maxWidth = $(this).width();
+         });
+      });
+      $(this).find('ul').each(function()
+      {
+         $(this).find('li').width(maxWidth);
+         $(this).css({'width' : maxWidth+4});
+      });
+      if ($(this).find('.row').length > 0 )
+      {
+         var maxRowWidth = 0;
+         $(this).find('.row').each(function()
+         {
+            var width = 0;
+            $(this).find('ul').each(function()
+            {
+               width += $(this).width();
+            });
+            if (width > maxRowWidth)
+            {
+               maxRowWidth = width;
+            }
+         });
+         $(this).find('.submenu').css({'width' : maxRowWidth});
+         $(this).find('.row:last').css({'margin': '0'});
+      }
+      else
+      {
+         var width = 0;
+         $(this).find('ul').each(function()
+         {
+            width += $(this).width();
+         });
+         $(this).find('.submenu').css({'width' : width});
+      }
+      $(this).find('.submenu').slideDown();
+   }, function()
+   {
+      $(this).find('.submenu').hide();
+   })
+   $('#headerMegaMenu li .submenu').hide();
+   $('#headerMegaMenu-nav').click(function()
+   {
+      $('body').removeClass('overflow-no-scroll');
+      $('#wb_headerMegaMenu').removeClass('open');
+   });
+   $('#headerMegaMenu-hamburger').click(function()
+   {
+      $('body').addClass('overflow-no-scroll');
+      $('#wb_headerMegaMenu').addClass('open');
+   });
+});
+</script>
+</head>
+<body>
+<div id="PageFooter1">
+<div id="PageFooter1_Container">
+<div id="wb_FooterText">
+<span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><strong>Copyright C 2023 by &quot;CABS&quot;&nbsp; .&nbsp; All Rights reserved&nbsp; .&nbsp; E-Mail: d.issa@cabslb.com</strong></span></div>
+<div id="wb_Footertext">
+<span style="color:#000080;font-family:'Times New Roman';font-size:15px;"><strong>Copyright C 2023 by &quot;CABS&quot;&nbsp; .&nbsp; All Rights reserved&nbsp; .&nbsp; E-Mail: d.issa@cabslb.com</strong></span></div>
+<div id="wb_Text11">
+<span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><strong>Copyright C 2020 by &quot;CABS&quot;&nbsp; .&nbsp; All Rights reserved&nbsp; .&nbsp; E-Mail: d.issa@cabslb.com</strong></span></div>
+<div id="wb_Text6">
+<span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><strong>Copyright C 2023 by &quot;CABS&quot;&nbsp; .&nbsp; All Rights reserved&nbsp; .&nbsp; E-Mail: d.issa@cabslb.com</strong></span></div>
+<div id="wb_Text12">
+<span style="color:#000080;font-family:'Times New Roman';font-size:13px;"><strong>Copyright C 2023 by &quot;CABS&quot; . All Rights reserved . Sed Al-Bauchrieh, Raymond Fayad Center, 6th Floor . E-Mail: d.issa@cabslb.com . Tel: +961 1 885 370 . Mobile: +961 3 777 804</strong></span></div>
+</div>
+</div>
+<div id="container">
+<div id="wb_Shape1">
+<div id="Shape1"></div></div>
+<div id="wb_Text2">
+<div style="position:absolute;left:0px;top:0px;width:205px;height:19px;"><span style="color:#FFFFFF;font-family:'Times New Roman';font-size:16px;"><strong>IT Products</strong></span></div></div>
+<div id="wb_Text3">
+<div style="position:absolute;left:0px;top:0px;width:106px;height:29px;"><span style="color:#03354E;font-family:'Trebuchet MS';font-size:24px;">Welcome</span></div></div>
+<div id="wb_Shape3">
+<div id="Shape3"></div></div>
+<div id="wb_Text5">
+<div style="position:absolute;left:0px;top:0px;width:205px;height:19px;"><span style="color:#FFFFFF;font-family:'Times New Roman';font-size:16px;"><strong>Assistive Technology</strong></span></div></div>
+<div id="wb_Shape5">
+<div id="Shape5"></div></div>
+<div id="wb_Text4">
+<span style="color:#FFFFFF;font-family:'Trebuchet MS';font-size:20px;"><strong>IT Products</strong></span><span style="color:#FFFFFF;font-family:'Trebuchet MS';font-size:13px;"><br></span><span style="color:#B7C2C8;font-family:Arial;font-size:13px;">Our IT products are of braned Desktops, Notebooks &amp; MiniPC's with latest CPU generation, Graphic Cards, Screens.<br>After sales services and support is managed by our support team.</span></div>
+<div id="wb_Text7">
+<span style="color:#FFFFFF;font-family:'Trebuchet MS';font-size:20px;"><strong>Braille Printing</strong></span><span style="color:#FFFFFF;font-family:'Trebuchet MS';font-size:13px;"><br></span><span style="color:#B7C2C8;font-family:Arial;font-size:13px;">Our Braille printing section involves in producing Braille books, booklets &amp; magazine with latest Braille embossers from manufacturers have more than 4 decades of experience.</span></div>
+<div id="wb_Text8">
+<span style="color:#FFFFFF;font-family:'Trebuchet MS';font-size:20px;"><strong>Assistive Technoloy</strong></span><span style="color:#FFFFFF;font-family:'Trebuchet MS';font-size:13px;"><br></span><span style="color:#B7C2C8;font-family:Arial;font-size:13px;">Our Assistive Technology department is divided into sections for Braille Typewriters, Braille printing, Braille Display Terminals + Notetakers + Notebooks &amp; Low Vision technology.</span></div>
+<div id="wb_Text9">
+<div style="position:absolute;left:0px;top:0px;width:220px;height:26px;"><span style="color:#FFFFFF;font-family:'Trebuchet MS';font-size:20px;"><strong>Braille Terminals</strong></span></div>
+<div style="position:absolute;left:0px;top:23px;width:220px;height:18px;"><span style="color:#B7C2C8;font-family:'Trebuchet MS';font-size:13px;">Braille Terminals/Display ranges </span></div>
+<div style="position:absolute;left:0px;top:39px;width:220px;height:18px;"><span style="color:#B7C2C8;font-family:'Trebuchet MS';font-size:13px;">from 20cells up to 80cells with PC </span></div>
+<div style="position:absolute;left:0px;top:54px;width:220px;height:18px;"><span style="color:#B7C2C8;font-family:'Trebuchet MS';font-size:13px;">support via software.</span></div>
+<div style="position:absolute;left:0px;top:70px;width:220px;height:18px;"><span style="color:#B7C2C8;font-family:'Trebuchet MS';font-size:13px;">Braille Notetakers ranges from </span></div>
+<div style="position:absolute;left:0px;top:85px;width:220px;height:18px;"><span style="color:#B7C2C8;font-family:'Trebuchet MS';font-size:13px;">32cells up to 40cells with RAM </span></div>
+<div style="position:absolute;left:0px;top:101px;width:220px;height:18px;"><span style="color:#B7C2C8;font-family:'Trebuchet MS';font-size:13px;">512Mb &amp; SD storage up to 64GB.</span></div>
+<div style="position:absolute;left:0px;top:116px;width:220px;height:18px;"><span style="color:#B7C2C8;font-family:'Trebuchet MS';font-size:13px;">Braille Notebooks with 32cells is a </span></div>
+<div style="position:absolute;left:0px;top:132px;width:220px;height:18px;"><span style="color:#B7C2C8;font-family:'Trebuchet MS';font-size:13px;">computer compatible with Windows </span></div>
+<div style="position:absolute;left:0px;top:147px;width:220px;height:18px;"><span style="color:#B7C2C8;font-family:'Trebuchet MS';font-size:13px;">10 equipped with a speech </span></div>
+<div style="position:absolute;left:0px;top:163px;width:220px;height:18px;"><span style="color:#B7C2C8;font-family:'Trebuchet MS';font-size:13px;">syntheiser &amp; its own educational </span></div>
+<div style="position:absolute;left:0px;top:178px;width:220px;height:29px;"><span style="color:#B7C2C8;font-family:'Trebuchet MS';font-size:13px;">software.</span></div></div>
+<div id="wb_Text10">
+<span style="color:#000000;font-family:Arial;font-size:13px;">In 1999 by the effort of two persons, looking in achieving well being standard for citizens of their country, CABS was established.<br><br>Its aim in providing IT products for normal persons &amp; persons of special need.<br><br>Our compnay main products are IT and Assistive Technology including after sales services and support.</span></div>
+<div id="wb_SlideShow1">
+<div id="SlideShow1" data-bs-ride="carousel" class="carousel slide">
+<div class="carousel-inner">
+<div class="carousel-item active">
+<div class="thumbnails">
+<div class="thumbnail">
+<img class="image" width="224" height="196" src="Desktop PC.jpeg" alt="Desktop PC&apos;s" title="Desktop PC&apos;s">
+</div>
+</div>
+</div>
+<div class="carousel-item">
+<div class="thumbnails">
+<div class="thumbnail">
+<img class="image" width="224" height="196" src="Notebook PC.jpeg" alt="Notebook PC&apos;s" title="Notebook PC&apos;s">
+</div>
+</div>
+</div>
+<div class="carousel-item">
+<div class="thumbnails">
+<div class="thumbnail">
+<img class="image" width="224" height="196" src="Mini PC.jpeg" alt="Mini PC&apos;s" title="Mini PC&apos;s">
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="wb_SlideShow2">
+<div id="SlideShow2" data-bs-ride="carousel" class="carousel slide">
+<div class="carousel-inner">
+<div class="carousel-item active">
+<div class="thumbnails">
+<div class="thumbnail">
+<img class="image" width="960" height="640" src="images/Index Braille V5 Embossers.jpg" alt="Index Braille Basic-D Embosser" title="Index Braille Basic-D Embosser">
+</div>
+</div>
+</div>
+<div class="carousel-item">
+<div class="thumbnails">
+<div class="thumbnail">
+<img class="image" width="960" height="640" src="images/IVT DT-1 Desktop Magnifier.jpg" alt="IVT DT-1 Desktop Magnifier" title="IVT DT-1 Desktop Magnifier">
+</div>
+</div>
+</div>
+<div class="carousel-item">
+<div class="thumbnails">
+<div class="thumbnail">
+<img class="image" width="960" height="640" src="images/IVT VD600SE Magnifier.jpg" alt="IVT VD600SE Handheld Magnifier" title="IVT VD600SE Handheld Magnifier">
+</div>
+</div>
+</div>
+<div class="carousel-item">
+<div class="thumbnails">
+<div class="thumbnail">
+<img class="image" width="960" height="640" src="images/Perkins Brailler Standard Classic.jpg" alt="Perkins Standard Brailler Classic" title="Perkins Standard Brailler Classic">
+</div>
+</div>
+</div>
+<div class="carousel-item">
+<div class="thumbnails">
+<div class="thumbnail">
+<img class="image" width="960" height="640" src="images/Perkins SMART Brailler.jpg" alt="Perkin SMARt Brailler" title="Perkin SMARt Brailler">
+</div>
+</div>
+</div>
+<div class="carousel-item">
+<div class="thumbnails">
+<div class="thumbnail">
+<img class="image" width="960" height="640" src="images/EB-esys80.jpg" alt="EB esys-80 Braille Display" title="EB esys-80 Braille Display">
+</div>
+</div>
+</div>
+<div class="carousel-item">
+<div class="thumbnails">
+<div class="thumbnail">
+<img class="image" width="960" height="640" src="images/EB-b.note40.jpg" alt="EB b.note 40 Braille Display" title="EB b.note 40 Braille Display">
+</div>
+</div>
+</div>
+<div class="carousel-item">
+<div class="thumbnails">
+<div class="thumbnail">
+<img class="image" width="960" height="640" src="images/EB-b.book32.jpg" alt="EB b.book 32 Braille Notataker &amp; Notebook" title="EB b.book 32 Braille Notataker &amp; Notebook">
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="wb_Text13">
+<span style="color:#FFFFFF;font-family:'Trebuchet MS';font-size:20px;"><strong>Low Vision Products</strong></span><span style="color:#FFFFFF;font-family:'Trebuchet MS';font-size:13px;"><br></span><span style="color:#B7C2C8;font-family:Arial;font-size:13px;">Our Low Vision section consist of Desktop and Handheld video magnifiers ranges from 5inch single/dual camera to 12.5inch book format including touch screen &amp; OCR capability.</span></div>
+<div id="wb_Text14">
+<div style="position:absolute;left:0px;top:0px;width:204px;height:19px;"><span style="color:#FFFFFF;font-family:'Times New Roman';font-size:16px;"><strong>Office Technology</strong></span></div></div>
+<div id="wb_SlideShow3">
+<div id="SlideShow3" data-bs-ride="carousel" class="carousel slide">
+<div class="carousel-inner">
+<div class="carousel-item active">
+<div class="thumbnails">
+<div class="thumbnail">
+<img class="image" width="635" height="626" src="images/Printers.jpg" alt="Office Printers" title="Office Printers">
+</div>
+</div>
+</div>
+<div class="carousel-item">
+<div class="thumbnails">
+<div class="thumbnail">
+<img class="image" width="635" height="626" src="images/Photocopier.jpg" alt="Office Photocopiers" title="Office Photocopiers">
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="wb_Image1">
+<img src="images/CABS Logo-WEB Site_01.jpg" id="Image1" alt="" width="253" height="159"></div>
+</div>
+<div id="PageHeader1">
+<div id="PageHeader1_Container">
+<div id="wb_Text15">
+<span style="color:#000080;font-family:'Times New Roman';font-size:27px;"><strong>CABS-Computer And Braille Systems</strong></span></div>
+<div id="wb_headerMegaMenu">
+<div id="headerMegaMenu-hamburger">
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"></span>
+</div>
+<div id="headerMegaMenu-nav">
+<div id="headerMegaMenu-close"><a role="button" aria-hidden="true" href="#">&times;</a></div>
+<ul role="menubar" class="ui-widget" id="headerMegaMenu">
+<li role="menuitem">
+<a href="./Default.html" class="nav-link button ui-state-default">Home</a>
+</li>
+<li role="menuitem">
+<a href="./IT-Products.html" class="nav-link button ui-state-default">IT Products</a>
+</li>
+<li role="menuitem">
+<a href="#" class="button ui-state-default"><i class="fa fa-caret-down arrow"></i>Assistive Technology</a>
+<div class="submenu ui-widget-content">
+<div class="row">
+<ul>
+<li><div class="heading">Braillers</div></li>
+<li role="menuitem"><a href="./Braillers.html" title="Perkins Braillers"><i class="fa fa-check-square-o bullet"></i>Perkins Braillers</a></li>
+</ul>
+</div>
+<div class="row">
+<ul>
+<li><div class="heading">Embossers</div></li>
+<li role="menuitem"><a href="./Embossers.html" title="Index Braille"><i class="fa fa-check-square-o bullet"></i>Index Braille</a></li>
+</ul>
+</div>
+<div class="row">
+<ul>
+<li><div class="heading">Display Terminals</div></li>
+<li role="menuitem"><a href="./Braille-Displays.html" title="Braille Display"><i class="fa fa-check-square-o bullet"></i>Braille Display</a></li>
+<li role="menuitem"><a href="./Notetaker-Notebooks.html" title="Notetakers &amp; Notebooks"><i class="fa fa-check-square-o bullet"></i>Notetakers / Notebooks</a></li>
+</ul>
+</div>
+<div class="row">
+<ul>
+<li><div class="heading">Magnifiers</div></li>
+<li role="menuitem"><a href="./Hanheld-5inch-Magnifiers.html" title="Handheld 5inch Magnifiers"><i class="fa fa-check-square-o bullet"></i>Handheld 5inch Magnifiers</a></li>
+<li role="menuitem"><a href="./Hanheld-7inch-Magnifiers.html" title="Handheld 5inch Magnifiers"><i class="fa fa-check-square-o bullet"></i>Handheld 7inch Magnifiers</a></li>
+<li role="menuitem"><a href="./Desktop-Magnifiers.html" title="Desktop Magnifiers"><i class="fa fa-check-square-o bullet"></i>Desktop Magnifiers</a></li>
+</ul>
+</div>
+<div class="row">
+<ul>
+<li><div class="heading">Software</div></li>
+<li role="menuitem"><a href="./Screen-Reader.html" title="Screen Reader"><i class="fa fa-check-square-o bullet"></i>Screen Reader</a></li>
+<li role="menuitem"><a href="./Braille-Translator.html" title="Braille Translator"><i class="fa fa-check-square-o bullet"></i>Braille Translator</a></li>
+</ul>
+</div>
+</div>
+</li>
+<li role="menuitem">
+<a href="#" class="button ui-state-default"><i class="fa fa-caret-down arrow"></i>Office Technology</a>
+<div class="submenu ui-widget-content">
+<div class="row">
+<ul>
+<li><div class="heading">Office Solutions</div></li>
+<li role="menuitem"><a href="./Office-Technology.html" title="Printers / Photocopiers"><i class="fa fa-check-square-o bullet"></i>Printers / Photocopiers</a></li>
+</ul>
+</div>
+</div>
+</li>
+</ul>
+</div></div>
+</div>
+</div>
+</body>
+</html>

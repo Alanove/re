@@ -1,0 +1,100 @@
+@charset "utf-8";
+body{
+	margin:0;
+	padding:0;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:11px;
+	color:#636466;
+	background:#636466;
+}
+a img, a{
+	border:none;
+	outline:none;
+}
+a{
+	color:#f39f1b;
+	text-decoration:none;
+}
+a:hover{
+	color:#636466;
+}
+td, th{
+	vertical-align:top;
+}
+ul, li, ol, dl, dt, dd, h1, h2, h3, h4, h5, h6, p{
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+p{
+	padding-bottom:10px;
+	line-height:16px;
+}
+.topMenuHolder{
+	padding:10px 0 0 0;
+}
+.mainMenu{
+	vertical-align:bottom;
+}
+.secondLevelMenu{
+	height:15px;
+	padding-bottom:15px;
+}
+.secondLevelMenu a{
+	color:#636466;
+}
+.secondLevelMenu a:hover, .secondLevelMenu a.selected{
+	color:#f6be6c;
+}
+.slideHolder, .topMenuHolder, .homeContentHolder, .subHolder{
+	width:960px;
+	margin:0 auto;
+}
+.titleSection{
+	padding-bottom:5px;
+	min-height:22px;
+}
+.whiteBg{
+	background:#FFF;
+}
+.homeContentHolder{
+	padding-bottom:30px;
+}
+.footerMenu{
+	color:#fff;
+	width:960px;
+	margin:0 auto;
+	text-align:left;
+	line-height:18px;
+	padding-bottom:10px;
+}
+.footerMenu a{
+	color:#fff;
+}
+.footerMenu a:hover, .footerMenu a.selected{
+	color:#f39f1b;
+}
+a.downloadPdf{
+	background:url(../images/pdf.gif) no-repeat left 0px;
+	padding:3px 0 3px 20px;
+	display:block;
+}
+h2{
+	font-size:14px;
+	font-weight:bold;
+	color:#f29e22;
+	padding-bottom:5px;
+}
+h3{
+	font-size:12px;
+	font-weight:bold;
+	padding-bottom:5px;
+}
+.subHolder ul{
+	padding-bottom:10px;
+}
+.subHolder li{
+	background:url(../images/bulletList.gif) no-repeat left 5px;
+	padding:0 0 0 10px;
+	margin:0 0 0 15px;
+}

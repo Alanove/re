@@ -1,0 +1,19 @@
+---
+description: cabslb.com site rules
+globs:
+  - websites/cabslb.com/**
+alwaysApply: false
+---
+
+# cabslb.com: project rules
+
+Site rule for `websites/cabslb.com/`. It applies in addition to the global rules in `.cursor/rules/`; where they conflict, the global rules win. Paths are relative to the site folder.
+
+## Site shape
+- Static HTML only. Public pages live under `site/` (home is `site/Default.html` at `/`). Product pages cover IT Products, Braillers, Embossers, Braille Displays, Braille Translator, Notetaker Notebooks, Desktop Magnifiers, Handheld Magnifiers, Office Technology, and Screen Reader.
+- A small Node Express process in `src/server.ts` serves `site/` for deploy. There is no CMS, admin, JSON content, database, captcha, or image pipeline.
+- Port `3071`. aaPanel project `cabslb` (server folder `/www/wwwroot/cabslb.com`). Deploy with `deploy.json` and `.env.production`.
+
+## Design
+- Keep the existing WYSIWYG Web Builder layout, CSS, images, copy, and page structure. Do not restyle or redesign.
+- Do not migrate this site onto the shared Node CMS. Do not invent a new palette; brand colours are already in the legacy CSS.

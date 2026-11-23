@@ -1,0 +1,190 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Notetakers</title>
+<meta name="generator" content="WYSIWYG Web Builder 18 - https://www.wysiwygwebbuilder.com">
+<link href="font-awesome.min.css" rel="stylesheet">
+<link href="CABSLB.css" rel="stylesheet">
+<link href="Notetaker-Notebooks.css" rel="stylesheet">
+<script src="jquery-3.7.1.min.js"></script>
+<script>
+$(document).ready(function()
+{
+   $('#headerMegaMenu .submenu ul li .heading a').addClass('ui-widget-header');
+   $('#headerMegaMenu .submenu ul li a').hover(function()
+   {
+      $(this).addClass('ui-state-hover');
+   }, function()
+   {
+      $(this).removeClass('ui-state-hover');
+   });
+   $('.ui-state-default').hover(function()
+   {
+      $(this).addClass('ui-state-hover');
+   }, function()
+   {
+      $(this).removeClass('ui-state-hover');
+   });
+   $('#headerMegaMenu li').hover(function()
+   {
+      var top = $(this).find('.button').outerHeight();
+      $(this).find('.submenu').css( {'top': top });
+      $(this).find('.submenu').show();
+      var maxWidth = 0;
+      $(this).find('ul').each(function()
+      {
+         $(this).find('li').each(function()
+         {
+            $(this).css('width', 'auto');
+            if ($(this).width() > maxWidth)
+               maxWidth = $(this).width();
+         });
+      });
+      $(this).find('ul').each(function()
+      {
+         $(this).find('li').width(maxWidth);
+         $(this).css({'width' : maxWidth+4});
+      });
+      if ($(this).find('.row').length > 0 )
+      {
+         var maxRowWidth = 0;
+         $(this).find('.row').each(function()
+         {
+            var width = 0;
+            $(this).find('ul').each(function()
+            {
+               width += $(this).width();
+            });
+            if (width > maxRowWidth)
+            {
+               maxRowWidth = width;
+            }
+         });
+         $(this).find('.submenu').css({'width' : maxRowWidth});
+         $(this).find('.row:last').css({'margin': '0'});
+      }
+      else
+      {
+         var width = 0;
+         $(this).find('ul').each(function()
+         {
+            width += $(this).width();
+         });
+         $(this).find('.submenu').css({'width' : width});
+      }
+      $(this).find('.submenu').slideDown();
+   }, function()
+   {
+      $(this).find('.submenu').hide();
+   })
+   $('#headerMegaMenu li .submenu').hide();
+   $('#headerMegaMenu-nav').click(function()
+   {
+      $('body').removeClass('overflow-no-scroll');
+      $('#wb_headerMegaMenu').removeClass('open');
+   });
+   $('#headerMegaMenu-hamburger').click(function()
+   {
+      $('body').addClass('overflow-no-scroll');
+      $('#wb_headerMegaMenu').addClass('open');
+   });
+});
+</script>
+</head>
+<body>
+<div id="PageFooter1" style="position:absolute;overflow:hidden;text-align:center;left:0px;top:1323px;width:100%;height:42px;z-index:-1;">
+<div id="PageFooter1_Container" style="width:1000px;position:relative;margin-left:auto;margin-right:auto;text-align:left;">
+<div id="wb_FooterText" style="position:absolute;left:302px;top:800px;width:579px;height:18px;text-align:center;z-index:2;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><strong>Copyright © 2023 by &quot;CABS&quot;&nbsp; ·&nbsp; All Rights reserved&nbsp; ·&nbsp; E-Mail: d.issa@cabslb.com</strong></span></div>
+<div id="wb_Footertext" style="position:absolute;left:10px;top:801px;width:535px;height:16px;text-align:center;z-index:3;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:15px;"><strong>Copyright © 2023 by &quot;CABS&quot;&nbsp; ·&nbsp; All Rights reserved&nbsp; ·&nbsp; E-Mail: d.issa@cabslb.com</strong></span></div>
+<div id="wb_Text11" style="position:absolute;left:10px;top:800px;width:585px;height:18px;text-align:center;z-index:4;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><strong>Copyright © 2020 by &quot;CABS&quot;&nbsp; ·&nbsp; All Rights reserved&nbsp; ·&nbsp; E-Mail: d.issa@cabslb.com</strong></span></div>
+<div id="wb_Text6" style="position:absolute;left:414px;top:737px;width:572px;height:18px;z-index:5;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><strong>Copyright © 2023 by &quot;CABS&quot;&nbsp; ·&nbsp; All Rights reserved&nbsp; ·&nbsp; E-Mail: d.issa@cabslb.com</strong></span></div>
+<div id="wb_Text12" style="position:absolute;left:10px;top:15px;width:1100px;height:15px;z-index:6;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:13px;"><strong>Copyright © 2023 by &quot;CABS&quot; · All Rights reserved · Sed Al-Bauchrieh, Raymond Fayad Center, 6th Floor · E-Mail: d.issa@cabslb.com · Tel: +961 1 885 370 · Mobile: +961 3 777 804</strong></span></div>
+</div>
+</div>
+<div id="container">
+<div id="wb_Image1" style="position:absolute;left:21px;top:113px;width:244px;height:197px;z-index:7;">
+<img src="images/EB-b.book32.jpg" id="Image1" alt="" title="EB b.book 32 Notetaker / Notebook" width="244" height="152"></div>
+<div id="wb_Text1" style="position:absolute;left:284px;top:113px;width:652px;height:1104px;z-index:8;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:21px;"><strong>EB Notetaker/Notebook b.book 32 cells</strong></span><span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><br>- b.book is a new generation Braille device. This is a notetaker, a Braille computer and a Braille display, all-in-one, compact and autonomous.<br>- b.book is equipped with a 32-cell braille display, a 10-key keyboard, 2 joysticks, 6 function keys, and a 10-hour battery life.<br>- Same as bnote braille display, the routing cursor keys of b.book have a double function : a slight click will move the display forward or backward whereas a stronger click will select or validate.<br>- For sure, the arrow keys can also be used for this forward/backward feature.<br><br><strong>A real braille computer<br></strong>- No need for a computer/braille display setup, you will be able to navigate through the Internet or manage your emails thanks to Wifi connection : b.book will do the job !<br>- Even though the integrated software esysuite provides a screen reader feature, a blind user may still use any other screen reader available in the market : Jaws, Supernova, … or other compatible Windows softwares needed.<br>- Using its Braille terminal mode, b.book can be connected to your computer, smartphone or tablet for reading or working via Bluetooth or USB port.<br>- External peripherals such as printers or scanners can be connected to b.book as well.<br><br><strong>esysuite, the powerful built-in software<br></strong>- The integrated esysuite software, that was already set in the esytime evolution device, has already proven itself and remains a sure value in the world of education and teaching for the blind.<br>- esysuite will turn b.book into a notebook independent of Windows 10, and not requiring advanced computer skills.<br>- As it evolves, esysuite regularly adds new features for Braille users.<br>- esysuite consists of several software modules:<br>- esynote : offers different types of Braille in a same document, such as 8-dot computer Braille, Grade 1 and Grade 2 (contracted Braille), mathematics (scientific calculations) Braille code and international Braille music code. Therefore, a single document can be printed in braille or black. esynote does the conversion work for the black printing document.<br>- esyfile : file manager to organize your files and datas.<br>- esycalc : scientific calculator<br>- esyschool : manages the schedule, timeline and homework of the student.<br>- OCR function : can scan documents, display braille characters and use the speech synthesis when combined with a scanner. It turns book into a reading machine.<br>- High quality speech synthesis.<br>- esysuite can also give access to Internet, and be used as an audio and Daisy player !<br><br><strong>Features<br></strong>- 32 Braille cells<br>- 8 dots per cell<br>- 32 routing cursor keys<br>- 10-key Braille keyboard<br>- 2 Joysticks<br>- Windows 10<br>- Processor SMARC Adilink Pentium N4200 / 1.1Gh/2.5Gh/4 cores<br>- 8 GB RAM up to 16GB<br>- 120 GB SSD up to 512GB SSD<br>- Screen readers installed : NVDA, Libre Office<br>- Removable battery<br>- 1 Microphone / 2 Speakers<br>- 2 USB 3.1 / 2 USB 2 Type A / 1 USB-B Mini / 1 USB-C Supply connector<br>- 1 HDMI<br>- 1 Ethernet RJ45<br>- 1 Audio input<br>- SD card reader<br>- Wifi / Bluetooth 4.0<br>- Dust cover included<br>- Dimensions 270 x 197 x 26,5 mm<br>- Weight 1,1kg<br>Note : Any Windows 10 compatible software or device can be used with b.book.<br><strong>This version is not compatible with Windows 11.</strong></span></div>
+</div>
+<div id="PageHeader1" style="position:fixed;text-align:center;left:0;top:0;right:0;height:85px;z-index:7777;">
+<div id="PageHeader1_Container" style="width:1000px;position:relative;margin-left:auto;margin-right:auto;text-align:left;">
+<div id="wb_Text15" style="position:absolute;left:12px;top:12px;width:975px;height:30px;text-align:center;z-index:0;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:27px;"><strong>CABS-Computer And Braille Systems</strong></span></div>
+<div id="wb_headerMegaMenu" style="position:absolute;left:12px;top:45px;width:973px;height:30px;text-align:center;z-index:1;">
+<div id="headerMegaMenu-hamburger">
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"></span>
+</div>
+<div id="headerMegaMenu-nav">
+<div id="headerMegaMenu-close"><a role="button" aria-hidden="true" href="#">&times;</a></div>
+<ul role="menubar" class="ui-widget" id="headerMegaMenu">
+<li role="menuitem">
+<a href="./Default.html" class="nav-link button ui-state-default">Home</a>
+</li>
+<li role="menuitem">
+<a href="./IT-Products.html" class="nav-link button ui-state-default">IT Products</a>
+</li>
+<li role="menuitem">
+<a href="#" class="button ui-state-default"><i class="fa fa-caret-down arrow"></i>Assistive Technology</a>
+<div class="submenu ui-widget-content">
+<div class="row">
+<ul>
+<li><div class="heading">Braillers</div></li>
+<li role="menuitem"><a href="./Braillers.html" title="Perkins Braillers"><i class="fa fa-check-square-o bullet"></i>Perkins Braillers</a></li>
+</ul>
+</div>
+<div class="row">
+<ul>
+<li><div class="heading">Embossers</div></li>
+<li role="menuitem"><a href="./Embossers.html" title="Index Braille"><i class="fa fa-check-square-o bullet"></i>Index Braille</a></li>
+</ul>
+</div>
+<div class="row">
+<ul>
+<li><div class="heading">Display Terminals</div></li>
+<li role="menuitem"><a href="./Braille-Displays.html" title="Braille Display"><i class="fa fa-check-square-o bullet"></i>Braille Display</a></li>
+<li role="menuitem"><a href="./Notetaker-Notebooks.html" title="Notetakers &amp; Notebooks"><i class="fa fa-check-square-o bullet"></i>Notetakers / Notebooks</a></li>
+</ul>
+</div>
+<div class="row">
+<ul>
+<li><div class="heading">Magnifiers</div></li>
+<li role="menuitem"><a href="./Hanheld-5inch-Magnifiers.html" title="Handheld 5inch Magnifiers"><i class="fa fa-check-square-o bullet"></i>Handheld 5inch Magnifiers</a></li>
+<li role="menuitem"><a href="./Hanheld-7inch-Magnifiers.html" title="Handheld 5inch Magnifiers"><i class="fa fa-check-square-o bullet"></i>Handheld 7inch Magnifiers</a></li>
+<li role="menuitem"><a href="./Desktop-Magnifiers.html" title="Desktop Magnifiers"><i class="fa fa-check-square-o bullet"></i>Desktop Magnifiers</a></li>
+</ul>
+</div>
+<div class="row">
+<ul>
+<li><div class="heading">Software</div></li>
+<li role="menuitem"><a href="./Screen-Reader.html" title="Screen Reader"><i class="fa fa-check-square-o bullet"></i>Screen Reader</a></li>
+<li role="menuitem"><a href="./Braille-Translator.html" title="Braille Translator"><i class="fa fa-check-square-o bullet"></i>Braille Translator</a></li>
+</ul>
+</div>
+</div>
+</li>
+<li role="menuitem">
+<a href="#" class="button ui-state-default"><i class="fa fa-caret-down arrow"></i>Office Technology</a>
+<div class="submenu ui-widget-content">
+<div class="row">
+<ul>
+<li><div class="heading">Office Solutions</div></li>
+<li role="menuitem"><a href="./Office-Technology.html" title="Printers / Photocopiers"><i class="fa fa-check-square-o bullet"></i>Printers / Photocopiers</a></li>
+</ul>
+</div>
+</div>
+</li>
+</ul>
+</div></div>
+</div>
+</div>
+</body>
+</html>

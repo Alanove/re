@@ -1,0 +1,206 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Embossers</title>
+<meta name="generator" content="WYSIWYG Web Builder 18 - https://www.wysiwygwebbuilder.com">
+<link href="font-awesome.min.css" rel="stylesheet">
+<link href="CABSLB.css" rel="stylesheet">
+<link href="Braille-Displays.css" rel="stylesheet">
+<script src="jquery-3.7.1.min.js"></script>
+<script>
+$(document).ready(function()
+{
+   $('#headerMegaMenu .submenu ul li .heading a').addClass('ui-widget-header');
+   $('#headerMegaMenu .submenu ul li a').hover(function()
+   {
+      $(this).addClass('ui-state-hover');
+   }, function()
+   {
+      $(this).removeClass('ui-state-hover');
+   });
+   $('.ui-state-default').hover(function()
+   {
+      $(this).addClass('ui-state-hover');
+   }, function()
+   {
+      $(this).removeClass('ui-state-hover');
+   });
+   $('#headerMegaMenu li').hover(function()
+   {
+      var top = $(this).find('.button').outerHeight();
+      $(this).find('.submenu').css( {'top': top });
+      $(this).find('.submenu').show();
+      var maxWidth = 0;
+      $(this).find('ul').each(function()
+      {
+         $(this).find('li').each(function()
+         {
+            $(this).css('width', 'auto');
+            if ($(this).width() > maxWidth)
+               maxWidth = $(this).width();
+         });
+      });
+      $(this).find('ul').each(function()
+      {
+         $(this).find('li').width(maxWidth);
+         $(this).css({'width' : maxWidth+4});
+      });
+      if ($(this).find('.row').length > 0 )
+      {
+         var maxRowWidth = 0;
+         $(this).find('.row').each(function()
+         {
+            var width = 0;
+            $(this).find('ul').each(function()
+            {
+               width += $(this).width();
+            });
+            if (width > maxRowWidth)
+            {
+               maxRowWidth = width;
+            }
+         });
+         $(this).find('.submenu').css({'width' : maxRowWidth});
+         $(this).find('.row:last').css({'margin': '0'});
+      }
+      else
+      {
+         var width = 0;
+         $(this).find('ul').each(function()
+         {
+            width += $(this).width();
+         });
+         $(this).find('.submenu').css({'width' : width});
+      }
+      $(this).find('.submenu').slideDown();
+   }, function()
+   {
+      $(this).find('.submenu').hide();
+   })
+   $('#headerMegaMenu li .submenu').hide();
+   $('#headerMegaMenu-nav').click(function()
+   {
+      $('body').removeClass('overflow-no-scroll');
+      $('#wb_headerMegaMenu').removeClass('open');
+   });
+   $('#headerMegaMenu-hamburger').click(function()
+   {
+      $('body').addClass('overflow-no-scroll');
+      $('#wb_headerMegaMenu').addClass('open');
+   });
+});
+</script>
+</head>
+<body>
+<div id="PageFooter1" style="position:absolute;overflow:hidden;text-align:center;left:0px;top:2058px;width:100%;height:42px;z-index:-1;">
+<div id="PageFooter1_Container" style="width:1000px;position:relative;margin-left:auto;margin-right:auto;text-align:left;">
+<div id="wb_FooterText" style="position:absolute;left:302px;top:800px;width:579px;height:18px;text-align:center;z-index:2;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><strong>Copyright © 2023 by &quot;CABS&quot;&nbsp; ·&nbsp; All Rights reserved&nbsp; ·&nbsp; E-Mail: d.issa@cabslb.com</strong></span></div>
+<div id="wb_Footertext" style="position:absolute;left:10px;top:801px;width:535px;height:16px;text-align:center;z-index:3;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:15px;"><strong>Copyright © 2023 by &quot;CABS&quot;&nbsp; ·&nbsp; All Rights reserved&nbsp; ·&nbsp; E-Mail: d.issa@cabslb.com</strong></span></div>
+<div id="wb_Text11" style="position:absolute;left:10px;top:800px;width:585px;height:18px;text-align:center;z-index:4;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><strong>Copyright © 2020 by &quot;CABS&quot;&nbsp; ·&nbsp; All Rights reserved&nbsp; ·&nbsp; E-Mail: d.issa@cabslb.com</strong></span></div>
+<div id="wb_Text6" style="position:absolute;left:414px;top:737px;width:572px;height:18px;z-index:5;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><strong>Copyright © 2023 by &quot;CABS&quot;&nbsp; ·&nbsp; All Rights reserved&nbsp; ·&nbsp; E-Mail: d.issa@cabslb.com</strong></span></div>
+<div id="wb_Text12" style="position:absolute;left:10px;top:15px;width:1100px;height:15px;z-index:6;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:13px;"><strong>Copyright © 2023 by &quot;CABS&quot; · All Rights reserved · Sed Al-Bauchrieh, Raymond Fayad Center, 6th Floor · E-Mail: d.issa@cabslb.com · Tel: +961 1 885 370 · Mobile: +961 3 777 804</strong></span></div>
+</div>
+</div>
+<div id="container">
+<div id="wb_Image1" style="position:absolute;left:23px;top:115px;width:246px;height:124px;z-index:7;">
+<img src="images/EB-esys64.jpg" id="Image1" alt="" title="EB esys-64 Braille Display" width="246" height="104"></div>
+<div id="wb_Image3" style="position:absolute;left:23px;top:793px;width:245px;height:184px;z-index:8;">
+<img src="images/EB-b.note20.jpg" id="Image3" alt="" title="EB b.note-20 Braille Note" width="245" height="140"></div>
+<div id="wb_Image2" style="position:absolute;left:23px;top:446px;width:246px;height:124px;z-index:9;">
+<img src="images/EB-esys80.jpg" id="Image2" alt="" title="EB esys-80 Braille Display" width="246" height="99"></div>
+<div id="wb_Image4" style="position:absolute;left:23px;top:1220px;width:245px;height:184px;z-index:10;">
+<img src="images/EB-b.note40.jpg" id="Image4" alt="" title="EB b.note-40 Braille Note" width="245" height="135"></div>
+<div id="wb_Image5" style="position:absolute;left:21px;top:1635px;width:245px;height:184px;z-index:11;">
+<img src="images/EB-b.note40.-Lightjpg.jpg" id="Image5" alt="" title="EB b.not Light 40 Braille Note" width="245" height="129"></div>
+<div id="wb_Text1" style="position:absolute;left:288px;top:115px;width:721px;height:289px;z-index:12;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:21px;"><strong>EB Display Terminal esys 64</strong></span><span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><br>- 64 braille cells / 64 routing cursor keys / 4 scrolling wheels / 2 joysticks<br>- 8 dots per cell<br>- 10 key braille keyboard<br>- Battery life around 17 hours<br>- Lithium-Ion Battery / USB power supply<br>- USB and Bluetooth connections<br>- Micro-SD card slot (2Go card provided)<br>- Documentation and drivers provided with CD<br>- Dimensions : 555 (64 cel.) / 658 (80 cel.) x 94 x 22 mm<br>- Weight : 1 200 gr. (64 cel.) / 1 400 gr. (80 cel.)<br><strong>Compatibility features<br></strong>- Systems : Windows, Apple OSX et iOS, Android, Linux<br>- Screen readers : Jaws, VoiceOver, Talk Back, Supernova, Window-Eyes, NVDA… etc<br>- File formats : .brl, .brf, .rtf, .txt, .dbt and access to the french library BNFA...<br><strong>Note that esys 64 is also available as a display with no Perkins keyboard esys 64 light</strong></span></div>
+<div id="wb_Text2" style="position:absolute;left:288px;top:446px;width:721px;height:307px;z-index:13;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:21px;"><strong>EB Display Terminal esys 80</strong></span><span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><strong><br>Braille Display esys 80<br></strong>- 80 braille cells / 80 routing cursor keys / 4 scrolling wheels / 2 joysticks<br>- 8 dots per cell<br>- 10 key braille keyboard<br>- Battery life around 17 hours<br>- Lithium-Ion Battery / USB power supply<br>- USB and Bluetooth connections<br>- Micro-SD card slot (2Go card provided)<br>- Documentation and drivers provided with CD<br>- Dimensions : 555 (64 cel.) / 658 (80 cel.) x 94 x 22 mm<br>- Weight : 1 200 gr. (64 cel.) / 1 400 gr. (80 cel.)<br><strong>Compatibility features<br></strong>- Systems : Windows, Apple OSX et iOS, Android, Linux<br>- Screen readers : Jaws, VoiceOver, Talk Back, Supernova, Window-Eyes, NVDA… etc<br>- File formats : .brl, .brf, .rtf, .txt, .dbt and access to the french library BNFA...<br><strong>Note that esys 80 is also available as a display with no Perkins keyboard esys 80 light</strong></span></div>
+<div id="wb_Text3" style="position:absolute;left:288px;top:793px;width:723px;height:378px;z-index:14;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:21px;"><strong>EB Braille Note b.note 20</strong></span><span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><strong><br>Braille Note b.note 20<br></strong>- 20 braille cells / 8 dots per cell<br>- 20 routing cursors<br>- 10 keys braille keyboard<br>- 2 keypads of 4 buttons<br>- Processors : STM32L1 / ARM Cortex-A53, quad core, 1.4GHz<br>- RAM: 512MB LPDDR2 (900MHz)<br>- SD Card 64GB<br>- Wifi : 2.4GHz 802.11ac dual band<br>- Bluetooth : 4.2 LS BLE<br>- Audio out : Jack 3,5mm<br>- Battery : 3.7V 6000mAh (22.2 W)<br>- Fast charge with external power supply adaptor USB C (protocol PD Universel 2.0)<br>- Charge at 30% in 25 min., 80% in 1h30<br>- Battery life: around 14 hours<br>- Dimensions : 235 (20 cel.) / 365 (40 cel.) x 105 x 27 mm<br>- Weight : 500 gr. (20 cel.) / 600 gr. (40 cel.)<br>- A dust cover is included<br>- Compatibility with the various screen readers on the market Jaws, NVDA, super nova, Voiceover, talk-back / braille-back, brltty, orca, etc</span></div>
+<div id="wb_Text4" style="position:absolute;left:288px;top:1220px;width:724px;height:360px;z-index:15;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:21px;"><strong>EB Braille Note b.note 40</strong></span><span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><br>- 40 braille cells / 8 dots per cell<br>- 40 routing cursors<br>- 10 keys braille keyboard<br>- 2 keypads of 4 buttons<br>- Processors : STM32L1 / ARM Cortex-A53, quad core, 1.4GHz<br>- RAM: 512MB LPDDR2 (900MHz)<br>- SD Card 64GB<br>- Wifi : 2.4GHz 802.11ac dual band<br>- Bluetooth : 4.2 LS BLE<br>- Audio out : Jack 3,5mm<br>- Battery : 3.7V 6000mAh (22.2 W)<br>- Fast charge with external power supply adaptor USB C (protocol PD Universel 2.0)<br>- Charge at 30% in 25 min., 80% in 1h30<br>- Battery life: around 14 hours<br>- Dimensions : 235 (20 cel.) / 365 (40 cel.) x 105 x 27 mm<br>- Weight : 500 gr. (20 cel.) / 600 gr. (40 cel.)<br>- A dust cover is included<br>- Compatibility with the various screen readers on the market Jaws, NVDA, super nova, Voiceover, talk-back / braille-back, brltty, orca, etc</span></div>
+<div id="wb_Text5" style="position:absolute;left:288px;top:1635px;width:724px;height:378px;z-index:16;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:21px;"><strong>EB Braille Note b.note light 40 (no braille keyboard)</strong></span><span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><br>- 40 braille cells / 8 dots per cell<br>- 40 routing cursors<br>- 2 keypads of 4 buttons<br>- Processors : STM32L1 / ARM Cortex-A53, quad core, 1.4GHz<br>- RAM: 512MB LPDDR2 (900MHz)<br>- SD Card 64GB<br>- Wifi : 2.4GHz 802.11ac dual band<br>- Bluetooth : 4.2 LS BLE<br>- Audio out : Jack 3,5mm<br>- Battery : 3.7V 6000mAh (22.2 W)<br>- Fast charge with external power supply adaptor USB C (protocol PD Universel 2.0)<br>- Charge at 30% in 25 min., 80% in 1h30<br>- Battery life: around 14 hours<br>- Dimensions : 365 (40 cel.) x 105 x 27 mm<br>- Weight : 600 gr. (40 cel.)<br>- A dust cover is included<br><strong>Compatibility features<br></strong>- Bluetooth Connection (up to 4 devices)<br>- Screen readers : JAWS &amp; NVDA<br>- File formats : DOCX, ODT, PDF, TXT &amp; MBE</span></div>
+</div>
+<div id="PageHeader1" style="position:fixed;text-align:center;left:0;top:0;right:0;height:85px;z-index:7777;">
+<div id="PageHeader1_Container" style="width:1000px;position:relative;margin-left:auto;margin-right:auto;text-align:left;">
+<div id="wb_Text15" style="position:absolute;left:12px;top:12px;width:975px;height:30px;text-align:center;z-index:0;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:27px;"><strong>CABS-Computer And Braille Systems</strong></span></div>
+<div id="wb_headerMegaMenu" style="position:absolute;left:12px;top:45px;width:973px;height:30px;text-align:center;z-index:1;">
+<div id="headerMegaMenu-hamburger">
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"></span>
+</div>
+<div id="headerMegaMenu-nav">
+<div id="headerMegaMenu-close"><a role="button" aria-hidden="true" href="#">&times;</a></div>
+<ul role="menubar" class="ui-widget" id="headerMegaMenu">
+<li role="menuitem">
+<a href="./Default.html" class="nav-link button ui-state-default">Home</a>
+</li>
+<li role="menuitem">
+<a href="./IT-Products.html" class="nav-link button ui-state-default">IT Products</a>
+</li>
+<li role="menuitem">
+<a href="#" class="button ui-state-default"><i class="fa fa-caret-down arrow"></i>Assistive Technology</a>
+<div class="submenu ui-widget-content">
+<div class="row">
+<ul>
+<li><div class="heading">Braillers</div></li>
+<li role="menuitem"><a href="./Braillers.html" title="Perkins Braillers"><i class="fa fa-check-square-o bullet"></i>Perkins Braillers</a></li>
+</ul>
+</div>
+<div class="row">
+<ul>
+<li><div class="heading">Embossers</div></li>
+<li role="menuitem"><a href="./Embossers.html" title="Index Braille"><i class="fa fa-check-square-o bullet"></i>Index Braille</a></li>
+</ul>
+</div>
+<div class="row">
+<ul>
+<li><div class="heading">Display Terminals</div></li>
+<li role="menuitem"><a href="./Braille-Displays.html" title="Braille Display"><i class="fa fa-check-square-o bullet"></i>Braille Display</a></li>
+<li role="menuitem"><a href="./Notetaker-Notebooks.html" title="Notetakers &amp; Notebooks"><i class="fa fa-check-square-o bullet"></i>Notetakers / Notebooks</a></li>
+</ul>
+</div>
+<div class="row">
+<ul>
+<li><div class="heading">Magnifiers</div></li>
+<li role="menuitem"><a href="./Hanheld-5inch-Magnifiers.html" title="Handheld 5inch Magnifiers"><i class="fa fa-check-square-o bullet"></i>Handheld 5inch Magnifiers</a></li>
+<li role="menuitem"><a href="./Hanheld-7inch-Magnifiers.html" title="Handheld 5inch Magnifiers"><i class="fa fa-check-square-o bullet"></i>Handheld 7inch Magnifiers</a></li>
+<li role="menuitem"><a href="./Desktop-Magnifiers.html" title="Desktop Magnifiers"><i class="fa fa-check-square-o bullet"></i>Desktop Magnifiers</a></li>
+</ul>
+</div>
+<div class="row">
+<ul>
+<li><div class="heading">Software</div></li>
+<li role="menuitem"><a href="./Screen-Reader.html" title="Screen Reader"><i class="fa fa-check-square-o bullet"></i>Screen Reader</a></li>
+<li role="menuitem"><a href="./Braille-Translator.html" title="Braille Translator"><i class="fa fa-check-square-o bullet"></i>Braille Translator</a></li>
+</ul>
+</div>
+</div>
+</li>
+<li role="menuitem">
+<a href="#" class="button ui-state-default"><i class="fa fa-caret-down arrow"></i>Office Technology</a>
+<div class="submenu ui-widget-content">
+<div class="row">
+<ul>
+<li><div class="heading">Office Solutions</div></li>
+<li role="menuitem"><a href="./Office-Technology.html" title="Printers / Photocopiers"><i class="fa fa-check-square-o bullet"></i>Printers / Photocopiers</a></li>
+</ul>
+</div>
+</div>
+</li>
+</ul>
+</div></div>
+</div>
+</div>
+</body>
+</html>

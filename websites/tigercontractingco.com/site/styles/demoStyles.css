@@ -1,0 +1,54 @@
+a.jScrollArrowUp {
+	background: url(../images/basic_arrow_up.gif) repeat-x 0 0;
+}
+a.jScrollArrowUp:hover {
+	background-position: 0 -15px;
+}
+a.jScrollArrowDown {
+	background: url(../images/basic_arrow_down.gif) repeat-x 0 0;
+}
+a.jScrollArrowDown:hover {
+	background-position: 0 -15px;
+}
+a.jScrollActiveArrowButton, a.jScrollActiveArrowButton:hover {
+	background-position: 0 -30px;
+}
+
+
+.orange-bar .jScrollPaneTrack {
+	background:none;
+}
+.orange-bar .jScrollPaneDrag {
+	background:none;
+}
+.orange-bar .scroll-pane {
+	background:none;
+}
+			
+.holder {
+	float: left;
+	margin: 10px;
+}
+
+.scroll-pane {
+	width:480px;
+	height: 200px;
+	overflow: auto;
+	background:none;
+	float: left;
+}
+
+.wide {
+	width: 400px;
+}
+
+.super-wide {
+	width: 700px;
+}
+
+.tall {
+	height: 400px;
+}
+#pane2 {
+	height:280px;
+}

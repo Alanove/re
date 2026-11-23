@@ -1,0 +1,194 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Embossers</title>
+<meta name="generator" content="WYSIWYG Web Builder 18 - https://www.wysiwygwebbuilder.com">
+<link href="font-awesome.min.css" rel="stylesheet">
+<link href="CABSLB.css" rel="stylesheet">
+<link href="Braille-Translator.css" rel="stylesheet">
+<script src="jquery-3.7.1.min.js"></script>
+<script>
+$(document).ready(function()
+{
+   $('#headerMegaMenu .submenu ul li .heading a').addClass('ui-widget-header');
+   $('#headerMegaMenu .submenu ul li a').hover(function()
+   {
+      $(this).addClass('ui-state-hover');
+   }, function()
+   {
+      $(this).removeClass('ui-state-hover');
+   });
+   $('.ui-state-default').hover(function()
+   {
+      $(this).addClass('ui-state-hover');
+   }, function()
+   {
+      $(this).removeClass('ui-state-hover');
+   });
+   $('#headerMegaMenu li').hover(function()
+   {
+      var top = $(this).find('.button').outerHeight();
+      $(this).find('.submenu').css( {'top': top });
+      $(this).find('.submenu').show();
+      var maxWidth = 0;
+      $(this).find('ul').each(function()
+      {
+         $(this).find('li').each(function()
+         {
+            $(this).css('width', 'auto');
+            if ($(this).width() > maxWidth)
+               maxWidth = $(this).width();
+         });
+      });
+      $(this).find('ul').each(function()
+      {
+         $(this).find('li').width(maxWidth);
+         $(this).css({'width' : maxWidth+4});
+      });
+      if ($(this).find('.row').length > 0 )
+      {
+         var maxRowWidth = 0;
+         $(this).find('.row').each(function()
+         {
+            var width = 0;
+            $(this).find('ul').each(function()
+            {
+               width += $(this).width();
+            });
+            if (width > maxRowWidth)
+            {
+               maxRowWidth = width;
+            }
+         });
+         $(this).find('.submenu').css({'width' : maxRowWidth});
+         $(this).find('.row:last').css({'margin': '0'});
+      }
+      else
+      {
+         var width = 0;
+         $(this).find('ul').each(function()
+         {
+            width += $(this).width();
+         });
+         $(this).find('.submenu').css({'width' : width});
+      }
+      $(this).find('.submenu').slideDown();
+   }, function()
+   {
+      $(this).find('.submenu').hide();
+   })
+   $('#headerMegaMenu li .submenu').hide();
+   $('#headerMegaMenu-nav').click(function()
+   {
+      $('body').removeClass('overflow-no-scroll');
+      $('#wb_headerMegaMenu').removeClass('open');
+   });
+   $('#headerMegaMenu-hamburger').click(function()
+   {
+      $('body').addClass('overflow-no-scroll');
+      $('#wb_headerMegaMenu').addClass('open');
+   });
+});
+</script>
+</head>
+<body>
+<div id="PageFooter1" style="position:absolute;overflow:hidden;text-align:center;left:0px;top:1983px;width:100%;height:42px;z-index:-1;">
+<div id="PageFooter1_Container" style="width:1000px;position:relative;margin-left:auto;margin-right:auto;text-align:left;">
+<div id="wb_FooterText" style="position:absolute;left:302px;top:800px;width:579px;height:18px;text-align:center;z-index:2;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><strong>Copyright © 2023 by &quot;CABS&quot;&nbsp; ·&nbsp; All Rights reserved&nbsp; ·&nbsp; E-Mail: d.issa@cabslb.com</strong></span></div>
+<div id="wb_Footertext" style="position:absolute;left:10px;top:801px;width:535px;height:16px;text-align:center;z-index:3;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:15px;"><strong>Copyright © 2023 by &quot;CABS&quot;&nbsp; ·&nbsp; All Rights reserved&nbsp; ·&nbsp; E-Mail: d.issa@cabslb.com</strong></span></div>
+<div id="wb_Text11" style="position:absolute;left:10px;top:800px;width:585px;height:18px;text-align:center;z-index:4;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><strong>Copyright © 2020 by &quot;CABS&quot;&nbsp; ·&nbsp; All Rights reserved&nbsp; ·&nbsp; E-Mail: d.issa@cabslb.com</strong></span></div>
+<div id="wb_Text6" style="position:absolute;left:414px;top:737px;width:572px;height:18px;z-index:5;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><strong>Copyright © 2023 by &quot;CABS&quot;&nbsp; ·&nbsp; All Rights reserved&nbsp; ·&nbsp; E-Mail: d.issa@cabslb.com</strong></span></div>
+<div id="wb_Text12" style="position:absolute;left:10px;top:14px;width:1100px;height:15px;z-index:6;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:13px;"><strong>Copyright © 2023 by &quot;CABS&quot; · All Rights reserved · Sed Al-Bauchrieh, Raymond Fayad Center, 6th Floor · E-Mail: d.issa@cabslb.com · Tel: +961 1 885 370 · Mobile: +961 3 777 804</strong></span></div>
+</div>
+</div>
+<div id="container">
+<div id="wb_Image1" style="position:absolute;left:12px;top:115px;width:971px;height:135px;z-index:7;">
+<img src="images/Duxsys-Logo.jpg" id="Image1" alt="" width="971" height="178"></div>
+<div id="wb_Text3" style="position:absolute;left:12px;top:263px;width:971px;height:504px;z-index:8;">
+<span style="color:#402000;font-family:'Times New Roman';font-size:24px;"><strong>Duxbury Braille Translator (Windows and Mac)</strong></span><span style="color:#000000;font-family:'Times New Roman';font-size:24px;"><br></span><span style="color:#000080;font-family:'Times New Roman';font-size:17px;">Since 1975, Duxbury Systems has produced the world's leading software for producing braille, the Duxbury Braille Translator. From one language to seven to over 180 different languages, DBT has grown to meet the world's need for braille.</span><span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><br> - Duxbury DBT imports many document formats, translates into braille, and sends the braille to your braille embosser or braille device.<br> - Duxbury DBT accepts Microsoft Word 2003/2007/2010/2013/2016/2019/2021/365 documents, Open Office documents, Excel files, and many other modern file formats.<br> - Duxbury DBT Win contains braille support for the Arabic language. <br> - Duxbury DBT supports all commercial embossers, from very old models to quite recent ones. No other braille translator covers this range of braille embossers.<br> - Duxbury DBT produces mathematics and science text in braille.<br></span><span style="color:#000080;font-family:'Times New Roman';font-size:13px;"><br></span><span style="color:#402000;font-family:'Times New Roman';font-size:27px;"><strong>Presenting Duxbury DBT<br></strong></span><span style="color:#000080;font-family:'Times New Roman';font-size:16px;">DBT has a modern, flexible user interface. Whether you are blind or sighted, our software is fully accessible AND fully in tune with the latest advances in operating systems and sister applications.<br></span><span style="color:#132613;font-family:'Times New Roman';font-size:16px;"><br></span><span style="color:#402000;font-family:'Times New Roman';font-size:27px;"><strong>Who uses software for braille?<br></strong></span><span style="color:#000080;font-family:'Times New Roman';font-size:16px;">Our software is designed for two types of users--those who don't know braille and those who do. Even if all the braille you know comes from reading this page, the Duxbury Braille Translator (DBT) allows you to create highly accurate braille for school books, teaching materials, office memos, bus schedules, personal letters, signs and more.<br>Where you need to be sure of perfection, (just as you would proof-read print books) we would certainly recommend that you also make use of proofreading by a knowledgeable braillist. That braillist may be a DBT user as well because DBT is just as important to professional transcribers--for swift conversion to braille from a wide variety of print sources.</span><span style="color:#132613;font-family:'Times New Roman';font-size:16px;"><br><br></span><span style="color:#402000;font-family:'Times New Roman';font-size:24px;"><strong>Interline Printing<br></strong></span><span style="color:#000080;font-family:'Times New Roman';font-size:16px;">DBT has specialized features such as interline printing of print and braille on the same page. This can be used when the classroom teacher or a parent does not know braille or in certain proofreading applications.</span></div>
+<div id="wb_Image2" style="position:absolute;left:12px;top:817px;width:637px;height:240px;z-index:9;">
+<img src="images/eegpanvqv1.jpg" id="Image2" alt="" width="637" height="240"></div>
+<div id="wb_Text1" style="position:absolute;left:12px;top:1067px;width:977px;height:821px;z-index:10;">
+<span style="color:#402000;font-family:'Times New Roman';font-size:27px;"><strong>More Notable Features of DBT<br></strong></span><span style="color:#000080;font-family:'Times New Roman';font-size:16px;">DBT is simple to use--beginners learn it quickly. Yet its depth, power, and accuracy are such that it is used by most of the major braille production centers throughout the world. The current version provides the following features:<br></span><span style="color:#132613;font-family:'Times New Roman';font-size:16px;"><br></span><span style="color:#402000;font-family:'Times New Roman';font-size:16px;"><strong>DBT imports (opens) an extensive array of text and document formats:<br></strong></span><span style="color:#000080;font-family:'Times New Roman';font-size:16px;"> - Duxbury DBT can import Microsoft Word 2003/2007/2010/2013/2016/2019/2021/365 files.<br> - Duxbury DBT can import Open Office files.<br> - Duxbury DBT can import HTML files or textfiles (and many other file types).<br> - Duxbury DBT can import files from the GOODFEEL Music Translation program from Dancing Dots.<br> - Duxbury DBT can import many types of braille files.<br> - Braille files prepared prior to English UEB can be converted into UEB braille.<br> - DBT can import LaTeX and other mathematics files.<br> - DBT can import TactileView graphics files can be imported into DBT.<br></span><span style="color:#132613;font-family:'Times New Roman';font-size:16px;"><br></span><span style="color:#402000;font-family:'Times New Roman';font-size:16px;"><strong>DBT User Interface Features:<br></strong></span><span style="color:#000080;font-family:'Times New Roman';font-size:16px;"> - Accurate presentation of both print and braille in either WYSIWYG (what-you-see-is-what-you-get) or coded (how-you-get-what-you-want) views in the word-processing screen, with easy switching between views<br> - A &quot;translated line&quot; showing the &quot;other&quot; form in either print or braille files.<br> - Six-key chording software for braille and print entry, compatible with many keyboards.<br> - Help screens throughout the program whenever you press the <strong>F1</strong> key.<br> - Over 100 formatting &amp; translation codes for a high level of flexibility.<br> - A library of user-configurable styles<br></span><span style="color:#132613;font-family:'Times New Roman';font-size:13px;"><br></span><span style="color:#402000;font-family:'Times New Roman';font-size:16px;"><strong>DBT Braille Capabilities:<br></strong></span><span style="color:#000080;font-family:'Times New Roman';font-size:16px;"> - Math and technical translation for UEB, Nemeth in UEB, Nemeth, French Braille, and several other languages.<br> - Duxbury DBT Win handles mathematics (LaTeX files) using the Arabic braille mathematics translator in DBT.<br> - Intermediate contraction levels (between grade 1 and 2) for English UEB<br> - Duxbury DBT can include tactile graphics files to produce mixed text-and-graphics documents.<br> - The current translation table menu includes over 180 different languages plus variations, including contracted braille for almost all of the regions of the world where contracted braille is customarily used.<br> - Duxbury DBT Win contains braille support for the Arabic language. <br> - Duxbury DBT can be used to prepare textbooks to teach foreign languages.<br> - DBT allows languages other than the principal language to be embedded in the same file and treated appropriately for the context. Now braille for foreign-language texts and language teaching texts is a snap.<br> - Bidirectional (print-to-braille and braille-to-print) translation for most languages.<br> - Advanced language students use specialized features of DBT, such as support for IPA (International Phonetic Alphabet) notation, and support for ancient languages to enhance their language studies.<br></span><span style="color:#402000;font-family:'Times New Roman';font-size:13px;"><strong><br></strong></span><span style="color:#402000;font-family:'Times New Roman';font-size:16px;"><strong>DBT Output Options:<br></strong></span><span style="color:#000080;font-family:'Times New Roman';font-size:16px;"> - Create braille with all commercially available braille embossers.<br> - Handles all common braille paper sizes.<br> - Choose from a variety of embossing options (depending on the model of your embosser).<br> - Output of your selected page ranges.<br> - Built-in interline printing (see sample above) to have ink-braille and print together. This makes an easy proofing and teaching tool. Great for the braille-impaired too!<br> - Optional &quot;banner&quot; page for job identification by personnel who don't read braille.</span></div>
+</div>
+<div id="PageHeader1" style="position:fixed;text-align:center;left:0;top:0;right:0;height:85px;z-index:7777;">
+<div id="PageHeader1_Container" style="width:1000px;position:relative;margin-left:auto;margin-right:auto;text-align:left;">
+<div id="wb_Text15" style="position:absolute;left:12px;top:12px;width:975px;height:30px;text-align:center;z-index:0;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:27px;"><strong>CABS-Computer And Braille Systems</strong></span></div>
+<div id="wb_headerMegaMenu" style="position:absolute;left:12px;top:45px;width:973px;height:30px;text-align:center;z-index:1;">
+<div id="headerMegaMenu-hamburger">
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"></span>
+</div>
+<div id="headerMegaMenu-nav">
+<div id="headerMegaMenu-close"><a role="button" aria-hidden="true" href="#">&times;</a></div>
+<ul role="menubar" class="ui-widget" id="headerMegaMenu">
+<li role="menuitem">
+<a href="./Default.html" class="nav-link button ui-state-default">Home</a>
+</li>
+<li role="menuitem">
+<a href="./IT-Products.html" class="nav-link button ui-state-default">IT Products</a>
+</li>
+<li role="menuitem">
+<a href="#" class="button ui-state-default"><i class="fa fa-caret-down arrow"></i>Assistive Technology</a>
+<div class="submenu ui-widget-content">
+<div class="row">
+<ul>
+<li><div class="heading">Braillers</div></li>
+<li role="menuitem"><a href="./Braillers.html" title="Perkins Braillers"><i class="fa fa-check-square-o bullet"></i>Perkins Braillers</a></li>
+</ul>
+</div>
+<div class="row">
+<ul>
+<li><div class="heading">Embossers</div></li>
+<li role="menuitem"><a href="./Embossers.html" title="Index Braille"><i class="fa fa-check-square-o bullet"></i>Index Braille</a></li>
+</ul>
+</div>
+<div class="row">
+<ul>
+<li><div class="heading">Display Terminals</div></li>
+<li role="menuitem"><a href="./Braille-Displays.html" title="Braille Display"><i class="fa fa-check-square-o bullet"></i>Braille Display</a></li>
+<li role="menuitem"><a href="./Notetaker-Notebooks.html" title="Notetakers &amp; Notebooks"><i class="fa fa-check-square-o bullet"></i>Notetakers / Notebooks</a></li>
+</ul>
+</div>
+<div class="row">
+<ul>
+<li><div class="heading">Magnifiers</div></li>
+<li role="menuitem"><a href="./Hanheld-5inch-Magnifiers.html" title="Handheld 5inch Magnifiers"><i class="fa fa-check-square-o bullet"></i>Handheld 5inch Magnifiers</a></li>
+<li role="menuitem"><a href="./Hanheld-7inch-Magnifiers.html" title="Handheld 5inch Magnifiers"><i class="fa fa-check-square-o bullet"></i>Handheld 7inch Magnifiers</a></li>
+<li role="menuitem"><a href="./Desktop-Magnifiers.html" title="Desktop Magnifiers"><i class="fa fa-check-square-o bullet"></i>Desktop Magnifiers</a></li>
+</ul>
+</div>
+<div class="row">
+<ul>
+<li><div class="heading">Software</div></li>
+<li role="menuitem"><a href="./Screen-Reader.html" title="Screen Reader"><i class="fa fa-check-square-o bullet"></i>Screen Reader</a></li>
+<li role="menuitem"><a href="./Braille-Translator.html" title="Braille Translator"><i class="fa fa-check-square-o bullet"></i>Braille Translator</a></li>
+</ul>
+</div>
+</div>
+</li>
+<li role="menuitem">
+<a href="#" class="button ui-state-default"><i class="fa fa-caret-down arrow"></i>Office Technology</a>
+<div class="submenu ui-widget-content">
+<div class="row">
+<ul>
+<li><div class="heading">Office Solutions</div></li>
+<li role="menuitem"><a href="./Office-Technology.html" title="Printers / Photocopiers"><i class="fa fa-check-square-o bullet"></i>Printers / Photocopiers</a></li>
+</ul>
+</div>
+</div>
+</li>
+</ul>
+</div></div>
+</div>
+</div>
+</body>
+</html>

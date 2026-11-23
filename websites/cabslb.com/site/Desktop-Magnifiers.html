@@ -1,0 +1,198 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Embossers</title>
+<meta name="generator" content="WYSIWYG Web Builder 18 - https://www.wysiwygwebbuilder.com">
+<link href="font-awesome.min.css" rel="stylesheet">
+<link href="CABSLB.css" rel="stylesheet">
+<link href="Desktop-Magnifiers.css" rel="stylesheet">
+<script src="jquery-3.7.1.min.js"></script>
+<script>
+$(document).ready(function()
+{
+   $('#headerMegaMenu .submenu ul li .heading a').addClass('ui-widget-header');
+   $('#headerMegaMenu .submenu ul li a').hover(function()
+   {
+      $(this).addClass('ui-state-hover');
+   }, function()
+   {
+      $(this).removeClass('ui-state-hover');
+   });
+   $('.ui-state-default').hover(function()
+   {
+      $(this).addClass('ui-state-hover');
+   }, function()
+   {
+      $(this).removeClass('ui-state-hover');
+   });
+   $('#headerMegaMenu li').hover(function()
+   {
+      var top = $(this).find('.button').outerHeight();
+      $(this).find('.submenu').css( {'top': top });
+      $(this).find('.submenu').show();
+      var maxWidth = 0;
+      $(this).find('ul').each(function()
+      {
+         $(this).find('li').each(function()
+         {
+            $(this).css('width', 'auto');
+            if ($(this).width() > maxWidth)
+               maxWidth = $(this).width();
+         });
+      });
+      $(this).find('ul').each(function()
+      {
+         $(this).find('li').width(maxWidth);
+         $(this).css({'width' : maxWidth+4});
+      });
+      if ($(this).find('.row').length > 0 )
+      {
+         var maxRowWidth = 0;
+         $(this).find('.row').each(function()
+         {
+            var width = 0;
+            $(this).find('ul').each(function()
+            {
+               width += $(this).width();
+            });
+            if (width > maxRowWidth)
+            {
+               maxRowWidth = width;
+            }
+         });
+         $(this).find('.submenu').css({'width' : maxRowWidth});
+         $(this).find('.row:last').css({'margin': '0'});
+      }
+      else
+      {
+         var width = 0;
+         $(this).find('ul').each(function()
+         {
+            width += $(this).width();
+         });
+         $(this).find('.submenu').css({'width' : width});
+      }
+      $(this).find('.submenu').slideDown();
+   }, function()
+   {
+      $(this).find('.submenu').hide();
+   })
+   $('#headerMegaMenu li .submenu').hide();
+   $('#headerMegaMenu-nav').click(function()
+   {
+      $('body').removeClass('overflow-no-scroll');
+      $('#wb_headerMegaMenu').removeClass('open');
+   });
+   $('#headerMegaMenu-hamburger').click(function()
+   {
+      $('body').addClass('overflow-no-scroll');
+      $('#wb_headerMegaMenu').addClass('open');
+   });
+});
+</script>
+</head>
+<body>
+<div id="PageFooter1" style="position:absolute;overflow:hidden;text-align:center;left:0px;top:1283px;width:100%;height:42px;z-index:-1;">
+<div id="PageFooter1_Container" style="width:1000px;position:relative;margin-left:auto;margin-right:auto;text-align:left;">
+<div id="wb_FooterText" style="position:absolute;left:302px;top:800px;width:579px;height:18px;text-align:center;z-index:2;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><strong>Copyright © 2023 by &quot;CABS&quot;&nbsp; ·&nbsp; All Rights reserved&nbsp; ·&nbsp; E-Mail: d.issa@cabslb.com</strong></span></div>
+<div id="wb_Footertext" style="position:absolute;left:10px;top:801px;width:535px;height:16px;text-align:center;z-index:3;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:15px;"><strong>Copyright © 2023 by &quot;CABS&quot;&nbsp; ·&nbsp; All Rights reserved&nbsp; ·&nbsp; E-Mail: d.issa@cabslb.com</strong></span></div>
+<div id="wb_Text11" style="position:absolute;left:10px;top:800px;width:585px;height:18px;text-align:center;z-index:4;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><strong>Copyright © 2020 by &quot;CABS&quot;&nbsp; ·&nbsp; All Rights reserved&nbsp; ·&nbsp; E-Mail: d.issa@cabslb.com</strong></span></div>
+<div id="wb_Text6" style="position:absolute;left:414px;top:737px;width:572px;height:18px;z-index:5;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><strong>Copyright © 2023 by &quot;CABS&quot;&nbsp; ·&nbsp; All Rights reserved&nbsp; ·&nbsp; E-Mail: d.issa@cabslb.com</strong></span></div>
+<div id="wb_Text12" style="position:absolute;left:10px;top:15px;width:1100px;height:15px;z-index:6;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:13px;"><strong>Copyright © 2023 by &quot;CABS&quot; · All Rights reserved · Sed Al-Bauchrieh, Raymond Fayad Center, 6th Floor · E-Mail: d.issa@cabslb.com · Tel: +961 1 885 370 · Mobile: +961 3 777 804</strong></span></div>
+</div>
+</div>
+<div id="container">
+<div id="wb_Image2" style="position:absolute;left:27px;top:108px;width:200px;height:200px;z-index:7;">
+<img src="images/IVT DT-1 Desktop Magnifier.jpg" id="Image2" alt="" title="IVT DT-1 Desktop Magnifiers" width="200" height="200"></div>
+<div id="wb_Image1" style="position:absolute;left:27px;top:403px;width:200px;height:200px;z-index:8;">
+<img src="images/VL CloverBook Pro Magnifier.jpg" id="Image1" alt="" title="VL Clover Book 12.5inch" width="200" height="200"></div>
+<div id="wb_Image3" style="position:absolute;left:26px;top:847px;width:200px;height:165px;z-index:9;">
+<img src="images/VL Clover10 Magnifier.png" id="Image3" alt="" title="VL Clover 10 Desktop Magnifier" width="200" height="133"></div>
+<div id="wb_Text3" style="position:absolute;left:248px;top:847px;width:752px;height:378px;z-index:10;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:21px;"><strong>VL Clover 10 Hand-held/Desktop Video Magnifier</strong></span><span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><br>- Display: 10.1 inch IPS screen<br>- Camera:&nbsp; 12MP, auto focus<br>- Magniﬁcation: 2.2x - 16x<br>- Camera: Dual Full HD camera with IPS screen<br>- View Mode: Near View, Far View, Mirror View<br>- Button panel and Joystick<br>- Lightweight &amp; Thinner<br>- Color Mode:&nbsp; Simpliﬁed 6 modes; Integrated 19 modes<br>- Video Output:	LCD, HDMI dual View<br>- Video Mode: Near / Far / Mirror View Switchable<br>- Snapshot: Freeze / Storage and Playback<br>- Locate: Line/Mask function, Find function<br>- Audio:	 Beep feedback on/off<br>- LCD Brightness: Adjustable<br>- LED Light: On/Off<br>- Battery: 3 hours’ continuous use; 5 hours’ charge<br>- Power Adapter: Input: 110-240V; Output: 5V/3A<br>- Dimension: &lt;= 245*200*22mm<br>- Weight: &lt;= 680 g (Battery included)<br>- Certiﬁcation: CE; FCC; RoHS</span></div>
+<div id="wb_Text4" style="position:absolute;left:248px;top:108px;width:752px;height:254px;z-index:11;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:21px;"><strong>IVT DT-1 Desktop Video Magnifier</strong></span><span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><strong><br>Zoom: 1X-160X Unlimited Zoom Far and Close Lens (10 Optical Zoom, Auto Focus)<br></strong>- 1080P60 design, No lag, No Trail, Super Smooth<br>- Video Output: HDMI 1080P60 / USB 720P60(UVC)<br>- Support Image Brightness Adjustment, Each Detail Matters<br>- High-end Customized Lens, 2In1, No need to switch Far Or Close Lens, Big Angle &amp; Depth Of Field, Easy To Read Continuously<br>- Wireless Mouse or Remote Control, Operation Is More Simple<br>- 26 Color Modes, Meet All Possible Demands<br>- Support Picture Moving,Easy For Reading<br>- Support Reading Line and Voice Memo Function, Easier For Vision Impaired People To Used<br>- Intelligent Design of Saving Power, When No Operation In 3 Mins, Will Auto Turn Off<br>- Size:195mmx125mmx25mm<br>- Weight: 1500g</span></div>
+<div id="wb_Text2" style="position:absolute;left:248px;top:403px;width:752px;height:396px;z-index:12;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:21px;"><strong>VL CloverBook Lite/Plus/Pro Desktop Video Magnifier</strong></span><span style="color:#000080;font-family:'Times New Roman';font-size:16px;"><br>- Display: 12.5 inch IPS touch screen / Screen Resolution: 1920*1080<br>- Camera: Ultra HD 4K auto-focus Camera / Video Resolution: 3840*2160<br>- Magnification: Near-view: 1x - 60x (Relevant to viewing angle)<br>- Color Mode: Distance-view: up to 18x (at 5 m, built-in distance camera) Nature Color, and up to 16 user-defined Enhanced Colors<br>- OCR&amp;TTS: Full page/A4 size and current page OCR&amp;TTS applied<br>- Brightness: LCD brightness adjustable<br>- Contrast: Contrast adjustable in Enhanced Color mode<br>- Video Mode: Near-view, Distance-view, Mirror-view<br>- Split Screen: Virtual horizontal / vertical split screen / Physical split screen with external screen connected<br>- Panning: Live panning; freeze/stored image panning<br>- Snapshot: Image Storage and Playback / Storage capacity: approximately 4GB<br>- Locate: Line / Mask function; Text relocation / Find function<br>- Audio: Button / menu / speech voice control<br>- LED Light: Left/right lights On/Off<br>- Auto memory: Save last using setting<br>- Battery: Detachable rechargeable Li battery Pack, 4-5 hours (Relevant to different application) continuous use, 3 hours full charge time<br>- Power Adapter: Input: 110-240V; Output: 12V/3A<br>- Dimensions: &lt;= 378*262*40mm (Device folded) / Weight: &lt;= 378*262*258mm (Device set up)<br>- Certification: &lt;= 2400g (Battery included) CE; FCC; RoHS</span></div>
+</div>
+<div id="PageHeader1" style="position:fixed;text-align:center;left:0;top:0;right:0;height:85px;z-index:7777;">
+<div id="PageHeader1_Container" style="width:1000px;position:relative;margin-left:auto;margin-right:auto;text-align:left;">
+<div id="wb_Text15" style="position:absolute;left:12px;top:12px;width:975px;height:30px;text-align:center;z-index:0;">
+<span style="color:#000080;font-family:'Times New Roman';font-size:27px;"><strong>CABS-Computer And Braille Systems</strong></span></div>
+<div id="wb_headerMegaMenu" style="position:absolute;left:12px;top:45px;width:973px;height:30px;text-align:center;z-index:1;">
+<div id="headerMegaMenu-hamburger">
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"></span>
+</div>
+<div id="headerMegaMenu-nav">
+<div id="headerMegaMenu-close"><a role="button" aria-hidden="true" href="#">&times;</a></div>
+<ul role="menubar" class="ui-widget" id="headerMegaMenu">
+<li role="menuitem">
+<a href="./Default.html" class="nav-link button ui-state-default">Home</a>
+</li>
+<li role="menuitem">
+<a href="./IT-Products.html" class="nav-link button ui-state-default">IT Products</a>
+</li>
+<li role="menuitem">
+<a href="#" class="button ui-state-default"><i class="fa fa-caret-down arrow"></i>Assistive Technology</a>
+<div class="submenu ui-widget-content">
+<div class="row">
+<ul>
+<li><div class="heading">Braillers</div></li>
+<li role="menuitem"><a href="./Braillers.html" title="Perkins Braillers"><i class="fa fa-check-square-o bullet"></i>Perkins Braillers</a></li>
+</ul>
+</div>
+<div class="row">
+<ul>
+<li><div class="heading">Embossers</div></li>
+<li role="menuitem"><a href="./Embossers.html" title="Index Braille"><i class="fa fa-check-square-o bullet"></i>Index Braille</a></li>
+</ul>
+</div>
+<div class="row">
+<ul>
+<li><div class="heading">Display Terminals</div></li>
+<li role="menuitem"><a href="./Braille-Displays.html" title="Braille Display"><i class="fa fa-check-square-o bullet"></i>Braille Display</a></li>
+<li role="menuitem"><a href="./Notetaker-Notebooks.html" title="Notetakers &amp; Notebooks"><i class="fa fa-check-square-o bullet"></i>Notetakers / Notebooks</a></li>
+</ul>
+</div>
+<div class="row">
+<ul>
+<li><div class="heading">Magnifiers</div></li>
+<li role="menuitem"><a href="./Hanheld-5inch-Magnifiers.html" title="Handheld 5inch Magnifiers"><i class="fa fa-check-square-o bullet"></i>Handheld 5inch Magnifiers</a></li>
+<li role="menuitem"><a href="./Hanheld-7inch-Magnifiers.html" title="Handheld 5inch Magnifiers"><i class="fa fa-check-square-o bullet"></i>Handheld 7inch Magnifiers</a></li>
+<li role="menuitem"><a href="./Desktop-Magnifiers.html" title="Desktop Magnifiers"><i class="fa fa-check-square-o bullet"></i>Desktop Magnifiers</a></li>
+</ul>
+</div>
+<div class="row">
+<ul>
+<li><div class="heading">Software</div></li>
+<li role="menuitem"><a href="./Screen-Reader.html" title="Screen Reader"><i class="fa fa-check-square-o bullet"></i>Screen Reader</a></li>
+<li role="menuitem"><a href="./Braille-Translator.html" title="Braille Translator"><i class="fa fa-check-square-o bullet"></i>Braille Translator</a></li>
+</ul>
+</div>
+</div>
+</li>
+<li role="menuitem">
+<a href="#" class="button ui-state-default"><i class="fa fa-caret-down arrow"></i>Office Technology</a>
+<div class="submenu ui-widget-content">
+<div class="row">
+<ul>
+<li><div class="heading">Office Solutions</div></li>
+<li role="menuitem"><a href="./Office-Technology.html" title="Printers / Photocopiers"><i class="fa fa-check-square-o bullet"></i>Printers / Photocopiers</a></li>
+</ul>
+</div>
+</div>
+</li>
+</ul>
+</div></div>
+</div>
+</div>
+</body>
+</html>

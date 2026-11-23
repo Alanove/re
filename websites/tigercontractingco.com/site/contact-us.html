@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+<title>Tiger Contracting Company</title>
+<link rel="stylesheet" type="text/css" href="styles/tiger.css"/>
+<script type="text/javascript" src="functions/jquery.js"></script>
+
+<script src="functions/jquery.anythingslider.js" type="text/javascript"></script>
+<script src="functions/jquery.easing.1.2.js" type="text/javascript"></script>
+<link rel="Stylesheet" type="text/css" href="styles/slider.css" />
+<script type="text/javascript">
+function formatText(index, panel) {
+	  return index + "";
+  };
+    
+$(function () {
+	$('.anythingSlider').anythingSlider({
+		easing: "easeInOutExpo",        // Anything other than "linear" or "swing" requires the easing plugin
+		autoPlay: true,                 // This turns off the entire FUNCTIONALY, not just if it starts running or not.
+		delay: 8000,                    // How long between slide transitions in AutoPlay mode
+		startStopped: false,            // If autoPlay is on, this can force it to start stopped
+		animationTime: 600,             // How long the slide transition takes
+		hashTags: true,                 // Should links change the hashtag in the URL?
+		buildNavigation: true,          // If true, builds and list of anchor links to link to each slide
+		pauseOnHover: true,             // If true, and autoPlay is enabled, the show will pause on hover
+		startText: "Go",                // Start text
+		stopText: "Stop",               // Stop text
+		navigationFormatter: formatText // Details at the top of the file on this use (advanced use)
+	});
+	
+	$("#slide-jump").click(function(){
+		$('.anythingSlider').anythingSlider(6);
+	});
+	
+});
+</script>
+
+<script type="text/javascript" src="functions/functions.js"></script>
+</head>
+<body onload="MM_preloadImages('images/contact-us-over.gif','images/projects-over.gif','images/about-us-over.gif','images/home-over.gif')">
+<div class="whiteBg">
+<div class="topMenuHolder"><table width="960" border="0" cellspacing="0" cellpadding="0" align="center">
+  <tr>
+    <td align="left"><a href="index.html"><img src="images/logo.gif" alt="" /></a></td>
+    <td align="right" class="mainMenu">
+    	<table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td><a href="index.html" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image8','','images/home-over.gif',1)"><img src="images/home.gif" alt="home" name="Image8" border="0" id="Image8" /></a></td>
+            <td><img src="images/bullet.gif" alt="" /></td>
+            <td><a href="about-us.html" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image7','','images/about-us-over.gif',1)"><img src="images/about-us.gif" alt="about us" name="Image7" border="0" id="Image7" /></a></td>
+            <td><img src="images/bullet.gif" alt="" /></td>
+            <td><a href="projects.html" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image4','','images/projects-over.gif',1)"><img src="images/projects.gif" alt="projects" name="Image4" border="0" id="Image4" /></a></td>
+            <td><img src="images/bullet.gif" alt="" /></td>
+            <td><a href="contact-us.html" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image2','','images/contact-us-over.gif',1)"><img src="images/contact-us.gif" alt="contact us" name="Image2" border="0" id="Image2" /></a></td>
+          </tr>
+        </table>
+        <div><img src="images/shadowUnderMenu.gif" alt="" /></div>
+        <div class="secondLevelMenu">&nbsp;</div>
+    </td>
+  </tr>
+</table></div>
+<div><img src="images/trsp.gif" width="1" height="40" alt="" /></div>
+<div class="subHolder">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="1"><iframe width="640" height="480" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=33.868883,35.520662&amp;num=1&amp;ie=UTF8&amp;t=m&amp;ll=33.868349,35.520258&amp;spn=0.008552,0.013733&amp;z=16&amp;output=embed"></iframe><br /><small><a href="https://maps.google.com/maps?q=33.868883,35.520662&amp;num=1&amp;ie=UTF8&amp;t=m&amp;ll=33.868349,35.520258&amp;spn=0.008552,0.013733&amp;z=16&amp;source=embed" style="color:#0000FF;text-align:left" target="_blank">View Larger Map</a></small></td>
+        <td width="40"><img src="images/trsp.gif" width="40" height="1" alt="" /></td>
+        <td align="left">
+        	<div><img src="images/contactTitle.gif" alt="" /></div>
+       	 	<p>Tiger Contracting Company sarl<br />Furn El Chebbak, Arid Street<br />Etoile Center, 4th Floor, Apt 38<br />Tel / Fax: +961 1 291924<br />Mobile: +961 3 520650 / +961 70 520650<br />E-mail: <a href="mailto:info@tigercontractingco.com" target="_blank">info@tigercontractingco.com</a></p>
+
+        </td>
+      </tr>
+    </table>
+</div>
+<div><img src="images/trsp.gif" width="1" height="30" alt="" /></div>
+</div>
+<div align="center"><img src="images/footerSite.gif" alt="" /></div>
+<div class="footerMenu">
+	<a href="index.html">Home</a>&nbsp;&nbsp;.&nbsp;&nbsp;<a href="about-us.html">About Us</a>&nbsp;&nbsp;.&nbsp;&nbsp;<a href="projects.html">Projects</a>&nbsp;&nbsp;.&nbsp;&nbsp;<a href="contact-us.html" class="selected">Contact Us</a><br />
+	Copyright 2026, TIGER Contracting Company All rights reserved. by <a href="https://www.liteweb.info" target="_blank">www.liteweb.info</a>.
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#Image2').attr('src','images/contact-us-over.gif');
+	})
+</script>
+</body>
+</html>
