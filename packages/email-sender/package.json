@@ -1,0 +1,21 @@
+{
+  "name": "@local/email-sender",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SMTP mailer for CMS and static sites: Zod-checked config and messages, no header injection",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "check": "tsc --noEmit",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "nodemailer": "^10.3.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/nodemailer": "^8.0.2",
+    "typescript": "^5.8.2"
+  }
+}

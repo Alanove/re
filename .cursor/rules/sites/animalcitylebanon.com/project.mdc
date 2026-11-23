@@ -1,0 +1,21 @@
+---
+description: animalcitylebanon.com site rules
+globs:
+  - websites/animalcitylebanon.com/**
+alwaysApply: false
+---
+
+# animalcitylebanon.com: project rules
+
+Site rule for `websites/animalcitylebanon.com/`. It applies in addition to the global rules in `.cursor/rules/`; where they conflict, the global rules win. Paths are relative to the site folder.
+
+## Site shape
+- Static HTML only. Two public pages: home (`public/index.html` at `/`) and Our Animals (`public/ouranimals.html`).
+- A small Node Express process in `src/server.ts` serves `public/` and accepts `POST /contact`. There is no CMS, admin, JSON content, database, or image pipeline.
+- Contact form uses the shared captcha (`packages/captcha`, scope `contact`) and the shared mailer (`packages/email-sender` via `src/vendor/email-sender/`). Do not copy either package by hand; rebuild with `npm run captcha:build` and `npm run email-sender:build`.
+- Port `3072`. aaPanel project `animalcitylebanon` (server folder `/www/wwwroot/animalcitylebanon.com`). Deploy with `deploy.json` and `.env.production`.
+- SMTP and `MAIL_TO` stay empty until the inbox is known; a valid submit then returns a clear not-configured error.
+
+## Design
+- Keep the existing Angry Monkey HTML, CSS, fonts, and images. Do not restyle or migrate onto the shared Node CMS.
+- Footer credit: `by www.liteweb.info` (replaces the old Angry Monkey line).
