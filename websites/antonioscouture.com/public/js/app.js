@@ -1284,6 +1284,206 @@
             }
         });
 
+        // Home: Couture rail — 4 visible (2 mobile); one item; continuous; swipeable
+        document.querySelectorAll('[data-couture-rail]').forEach(function (viewport) {
+            var track = viewport.querySelector('.home-couture-rail-track');
+            var prevBtn = viewport.querySelector('[data-couture-prev]');
+            var nextBtn = viewport.querySelector('[data-couture-next]');
+            if (!track) return;
+
+            var originals = Array.prototype.slice.call(track.querySelectorAll('[data-couture-slide]'));
+            if (originals.length < 2) return;
+
+            var total = originals.length;
+            var animating = false;
+            var index = 0;
+            var doneTimer = null;
+            var drag = null;
+            var suppressClick = false;
+
+            function makeClone(slide) {
+                var clone = slide.cloneNode(true);
+                clone.removeAttribute('data-couture-slide');
+                clone.setAttribute('aria-hidden', 'true');
+                clone.tabIndex = -1;
+                return clone;
+            }
+
+            track.innerHTML = '';
+            originals.forEach(function (slide) { track.appendChild(makeClone(slide)); });
+            originals.forEach(function (slide) { track.appendChild(slide); });
+            originals.forEach(function (slide) { track.appendChild(makeClone(slide)); });
+            originals.forEach(function (slide) { track.appendChild(makeClone(slide)); });
+
+            function slideStep() {
+                var first = track.querySelector('.home-couture-rail-slide');
+                if (!first) return viewport.clientWidth / 4;
+                var w = first.getBoundingClientRect().width;
+                var gap = parseFloat(getComputedStyle(track).gap) || 0;
+                return w + gap;
+            }
+
+            function setOffset(i, animate, extraPx) {
+                var w = slideStep();
+                var x = (-i * w) + (extraPx || 0);
+                track.style.transition = animate
+                    ? 'transform 0.45s cubic-bezier(0.22, 1, 0.36, 1)'
+                    : 'none';
+                track.style.transform = 'translate3d(' + x + 'px, 0, 0)';
+                if (!animate) {
+                    void track.offsetWidth;
+                }
+            }
+
+            index = total;
+            setOffset(index, false);
+
+            function normalize() {
+                if (index >= total * 2) {
+                    index -= total;
+                    setOffset(index, false);
+                } else if (index < total) {
+                    index += total;
+                    setOffset(index, false);
+                }
+            }
+
+            function step(dir) {
+                if (animating) return;
+                animating = true;
+                index += dir;
+                setOffset(index, true);
+
+                function finish() {
+                    if (!animating) return;
+                    animating = false;
+                    if (doneTimer) {
+                        clearTimeout(doneTimer);
+                        doneTimer = null;
+                    }
+                    track.removeEventListener('transitionend', onEnd);
+                    normalize();
+                }
+
+                function onEnd(e) {
+                    if (e.target !== track) return;
+                    finish();
+                }
+
+                track.addEventListener('transitionend', onEnd);
+                doneTimer = setTimeout(finish, 520);
+            }
+
+            if (prevBtn) {
+                prevBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    step(-1);
+                });
+            }
+            if (nextBtn) {
+                nextBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    step(1);
+                });
+            }
+
+            // Touch / pointer swipe — one item per gesture
+            function pointerPos(e) {
+                if (e.touches && e.touches.length) {
+                    return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+                }
+                if (e.changedTouches && e.changedTouches.length) {
+                    return { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
+                }
+                return { x: e.clientX, y: e.clientY };
+            }
+
+            function onPointerDown(e) {
+                if (animating) return;
+                if (e.button != null && e.button !== 0) return;
+                var p = pointerPos(e);
+                drag = {
+                    startX: p.x,
+                    startY: p.y,
+                    lastX: p.x,
+                    axis: null,
+                    active: true
+                };
+            }
+
+            function onPointerMove(e) {
+                if (!drag || !drag.active) return;
+                var p = pointerPos(e);
+                var dx = p.x - drag.startX;
+                var dy = p.y - drag.startY;
+
+                if (!drag.axis) {
+                    if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+                    drag.axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+                    if (drag.axis === 'y') {
+                        drag.active = false;
+                        drag = null;
+                        return;
+                    }
+                }
+
+                if (drag.axis !== 'x') return;
+                e.preventDefault();
+                drag.lastX = p.x;
+                setOffset(index, false, dx);
+            }
+
+            function onPointerUp(e) {
+                if (!drag) return;
+                var wasActive = drag.active && drag.axis === 'x';
+                var dx = wasActive ? (pointerPos(e).x - drag.startX) : 0;
+                drag = null;
+                if (!wasActive) return;
+
+                var threshold = Math.max(40, slideStep() * 0.18);
+                if (Math.abs(dx) >= threshold) {
+                    suppressClick = true;
+                    step(dx < 0 ? 1 : -1);
+                } else {
+                    setOffset(index, true);
+                }
+            }
+
+            viewport.addEventListener('touchstart', onPointerDown, { passive: true });
+            viewport.addEventListener('touchmove', onPointerMove, { passive: false });
+            viewport.addEventListener('touchend', onPointerUp, { passive: true });
+            viewport.addEventListener('touchcancel', onPointerUp, { passive: true });
+
+            // Desktop drag as well (optional nicety)
+            viewport.addEventListener('pointerdown', function (e) {
+                if (e.pointerType === 'touch') return;
+                onPointerDown(e);
+            });
+            window.addEventListener('pointermove', function (e) {
+                if (e.pointerType === 'touch') return;
+                onPointerMove(e);
+            });
+            window.addEventListener('pointerup', function (e) {
+                if (e.pointerType === 'touch') return;
+                onPointerUp(e);
+            });
+
+            track.addEventListener('click', function (e) {
+                if (!suppressClick) return;
+                e.preventDefault();
+                e.stopPropagation();
+                suppressClick = false;
+            }, true);
+
+            var resizeTimer = null;
+            window.addEventListener('resize', function () {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function () {
+                    setOffset(index, false);
+                }, 120);
+            });
+        });
+
     });
 
     // Utility functions for updating header badges

@@ -30,23 +30,41 @@
 
 <div class="pdp-container pb-5">
     <div class="pdp-layout">
-        <!-- Left: vertical image gallery -->
-        <div class="pdp-gallery-col" <%= (product.images && product.images.length > 0) ? 'id="product-gallery-root"' : '' %>>
-            <% if (product.images && product.images.length > 0) { %>
+        <!-- Left: vertical image gallery (video first when present) -->
+        <%
+            var pdpVideoUrl = product.video_url ? String(product.video_url).trim() : '';
+            if (pdpVideoUrl && pdpVideoUrl.indexOf('/') !== 0 && pdpVideoUrl.indexOf('http') !== 0) {
+                pdpVideoUrl = '/' + pdpVideoUrl;
+            }
+            var pdpHasGallery = !!(pdpVideoUrl || (product.images && product.images.length > 0));
+            var pdpMobileSlideCount = (pdpVideoUrl ? 1 : 0) + (product.images && product.images.length ? product.images.length : 0);
+        %>
+        <div class="pdp-gallery-col" <%= pdpHasGallery ? 'id="product-gallery-root"' : '' %>>
+            <% if (pdpHasGallery) { %>
                 <div class="pdp-gallery-stack d-none d-lg-flex">
-                    <% product.images.forEach(function(image, index) { %>
-                        <% const imgCaption = String(image.alt_text || product.name || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); %>
-                        <a href="<%= image.image_url %>"
-                           class="pdp-gallery-item product-carousel-lightbox"
-                           data-fancybox="product-detail-gallery"
-                           data-gallery-index="<%= index %>"
-                           data-caption="<%= imgCaption %>"
-                           aria-label="View larger image <%= index + 1 %>">
-                            <img src="<%= image.image_url %>"
-                                 alt="<%= image.alt_text || product.name %>"
-                                 loading="<%= index === 0 ? 'eager' : 'lazy' %>">
-                        </a>
-                    <% }); %>
+                    <% if (pdpVideoUrl) { %>
+                        <div class="pdp-gallery-item pdp-gallery-item--video">
+                            <video class="pdp-gallery-video" muted loop playsinline autoplay preload="metadata" controls>
+                                <source src="<%= pdpVideoUrl %>" type="video/mp4" />
+                            </video>
+                        </div>
+                    <% } %>
+                    <% if (product.images && product.images.length > 0) { %>
+                        <% product.images.forEach(function(image, index) { %>
+                            <% const imgCaption = String(image.alt_text || product.name || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); %>
+                            <% const galleryIndex = (pdpVideoUrl ? 1 : 0) + index; %>
+                            <a href="<%= image.image_url %>"
+                               class="pdp-gallery-item product-carousel-lightbox"
+                               data-fancybox="product-detail-gallery"
+                               data-gallery-index="<%= galleryIndex %>"
+                               data-caption="<%= imgCaption %>"
+                               aria-label="View larger image <%= index + 1 %>">
+                                <img src="<%= image.image_url %>"
+                                     alt="<%= image.alt_text || product.name %>"
+                                     loading="<%= (!pdpVideoUrl && index === 0) ? 'eager' : 'lazy' %>">
+                            </a>
+                        <% }); %>
+                    <% } %>
                 </div>
 
                 <div id="pdp-mobile-carousel"
@@ -55,32 +73,44 @@
                      data-touch="true"
                      data-wrap="true">
                     <div class="carousel-inner">
-                        <% product.images.forEach(function(image, index) { %>
-                            <% const imgCaption = String(image.alt_text || product.name || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); %>
-                            <div class="carousel-item<%= index === 0 ? ' active' : '' %>" data-gallery-index="<%= index %>">
-                                <a href="<%= image.image_url %>"
-                                   class="pdp-gallery-item product-carousel-lightbox"
-                                   data-fancybox="product-detail-gallery"
-                                   data-gallery-index="<%= index %>"
-                                   data-caption="<%= imgCaption %>"
-                                   aria-label="View larger image <%= index + 1 %>">
-                                    <img src="<%= image.image_url %>"
-                                         class="pdp-mobile-carousel-img"
-                                         alt="<%= image.alt_text || product.name %>"
-                                         loading="<%= index === 0 ? 'eager' : 'lazy' %>"
-                                         draggable="false">
-                                </a>
+                        <% if (pdpVideoUrl) { %>
+                            <div class="carousel-item active" data-gallery-index="0">
+                                <div class="pdp-gallery-item pdp-gallery-item--video">
+                                    <video class="pdp-mobile-carousel-img pdp-gallery-video" muted loop playsinline autoplay preload="metadata" controls>
+                                        <source src="<%= pdpVideoUrl %>" type="video/mp4" />
+                                    </video>
+                                </div>
                             </div>
-                        <% }); %>
-                    </div>
-                    <% if (product.images.length > 1) { %>
-                        <ol class="carousel-indicators pdp-mobile-carousel-indicators">
+                        <% } %>
+                        <% if (product.images && product.images.length > 0) { %>
                             <% product.images.forEach(function(image, index) { %>
-                                <li data-target="#pdp-mobile-carousel"
-                                    data-slide-to="<%= index %>"
-                                    class="<%= index === 0 ? 'active' : '' %>"
-                                    aria-label="Image <%= index + 1 %>"></li>
+                                <% const imgCaption = String(image.alt_text || product.name || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); %>
+                                <% const galleryIndex = (pdpVideoUrl ? 1 : 0) + index; %>
+                                <div class="carousel-item<%= (!pdpVideoUrl && index === 0) ? ' active' : '' %>" data-gallery-index="<%= galleryIndex %>">
+                                    <a href="<%= image.image_url %>"
+                                       class="pdp-gallery-item product-carousel-lightbox"
+                                       data-fancybox="product-detail-gallery"
+                                       data-gallery-index="<%= galleryIndex %>"
+                                       data-caption="<%= imgCaption %>"
+                                       aria-label="View larger image <%= index + 1 %>">
+                                        <img src="<%= image.image_url %>"
+                                             class="pdp-mobile-carousel-img"
+                                             alt="<%= image.alt_text || product.name %>"
+                                             loading="<%= (!pdpVideoUrl && index === 0) ? 'eager' : 'lazy' %>"
+                                             draggable="false">
+                                    </a>
+                                </div>
                             <% }); %>
+                        <% } %>
+                    </div>
+                    <% if (pdpMobileSlideCount > 1) { %>
+                        <ol class="carousel-indicators pdp-mobile-carousel-indicators">
+                            <% for (var slideI = 0; slideI < pdpMobileSlideCount; slideI++) { %>
+                                <li data-target="#pdp-mobile-carousel"
+                                    data-slide-to="<%= slideI %>"
+                                    class="<%= slideI === 0 ? 'active' : '' %>"
+                                    aria-label="<%= (pdpVideoUrl && slideI === 0) ? 'Video' : ('Image ' + (pdpVideoUrl ? slideI : slideI + 1)) %>"></li>
+                            <% } %>
                         </ol>
                     <% } %>
                 </div>

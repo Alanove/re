@@ -54,6 +54,7 @@ export interface Product {
   track_inventory: boolean;
   is_featured: boolean;
   is_new_arrival: boolean;
+  video_url?: string | null;
   is_active: boolean;
   status: string;
   category_id: number | null;

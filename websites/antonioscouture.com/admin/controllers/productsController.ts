@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import * as path from 'path';
 import { AdminMenuService } from '../services/adminMenuService';
 import { SiteSettingsService } from '../services/siteSettingsService';
 import { ProductManagementService } from '../services/productManagementService';
@@ -383,6 +384,64 @@ export class ProductsController {
           ? 'This product has been purchased and cannot be deleted. You can deactivate it instead.'
           : 'Failed to delete product'
       });
+    }
+  }
+
+  /**
+   * Upload product video (replaces existing video_url)
+   */
+  public static async uploadVideo(req: Request, res: Response): Promise<void> {
+    try {
+      const productId = parseInt(req.params.id, 10);
+      const file = req.file;
+      if (!file) {
+        res.status(400).json({ success: false, error: 'No video uploaded' });
+        return;
+      }
+
+      const existing = await productService.getProductById(productId);
+      if (!existing) {
+        res.status(404).json({ success: false, error: 'Product not found' });
+        return;
+      }
+
+      if (existing.video_url) {
+        const normalized = String(existing.video_url).replace(/^\/+/, '').replace(/\\/g, '/');
+        storageService.deleteFile(path.join(DATA_PATHS.PUBLIC_DIR, normalized));
+      }
+
+      const videoUrl = getPublicUrl(file.path);
+      await productService.updateProduct(productId, { video_url: videoUrl });
+
+      res.json({ success: true, video_url: videoUrl });
+    } catch (error: any) {
+      console.error('Error uploading product video:', error);
+      res.status(500).json({ success: false, error: error.message || 'Failed to upload video' });
+    }
+  }
+
+  /**
+   * Remove product video
+   */
+  public static async deleteVideo(req: Request, res: Response): Promise<void> {
+    try {
+      const productId = parseInt(req.params.id, 10);
+      const existing = await productService.getProductById(productId);
+      if (!existing) {
+        res.status(404).json({ success: false, error: 'Product not found' });
+        return;
+      }
+
+      if (existing.video_url) {
+        const normalized = String(existing.video_url).replace(/^\/+/, '').replace(/\\/g, '/');
+        storageService.deleteFile(path.join(DATA_PATHS.PUBLIC_DIR, normalized));
+      }
+
+      await productService.updateProduct(productId, { video_url: null });
+      res.json({ success: true });
+    } catch (error: any) {
+      console.error('Error deleting product video:', error);
+      res.status(500).json({ success: false, error: error.message || 'Failed to delete video' });
     }
   }
 

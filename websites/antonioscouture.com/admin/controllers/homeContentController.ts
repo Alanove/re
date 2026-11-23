@@ -227,6 +227,7 @@ window.HOME_PAGE_BUILDER = {
         } else if (existing.type === 'products_list') {
           const source = str(body, 'source') as ProductsListBlockConfig['source'];
           const categoryIdRaw = str(body, 'category_id');
+          const layoutRaw = str(body, 'layout');
           config = {
             title: str(body, 'title'),
             discoverLink: str(body, 'discover_link'),
@@ -234,7 +235,11 @@ window.HOME_PAGE_BUILDER = {
               ? source
               : 'new_arrivals',
             categoryId: categoryIdRaw ? parseInt(categoryIdRaw, 10) : null,
-            limit: Math.min(Math.max(parseInt(str(body, 'limit') || '4', 10) || 4, 1), 12)
+            limit: Math.min(
+              Math.max(parseInt(str(body, 'limit') || (layoutRaw === 'couture_rail' ? '12' : '4'), 10) || 4, 1),
+              layoutRaw === 'couture_rail' ? 24 : 12
+            ),
+            layout: layoutRaw === 'couture_rail' ? 'couture_rail' : 'default'
           };
         } else {
           const categoryIdRaw = str(body, 'category_id');
@@ -242,6 +247,13 @@ window.HOME_PAGE_BUILDER = {
           const existingCfg = existing.config as CategoryDisplayBlockConfig;
           let videoUrl = existingCfg.videoUrl?.trim() || '';
           let videoPosterUrl = existingCfg.videoPosterUrl?.trim() || '';
+
+          const resolvedMode: CategoryDisplayBlockConfig['displayMode'] =
+            displayMode === 'fullscreen'
+              ? 'fullscreen'
+              : displayMode === 'video'
+                ? 'video'
+                : 'shop_the_look';
 
           const videoFile = fileFromReq(req, 'block_video');
           if (videoFile) {
@@ -263,7 +275,7 @@ window.HOME_PAGE_BUILDER = {
 
           const categoryConfig: CategoryDisplayBlockConfig = {
             categoryId: categoryIdRaw ? parseInt(categoryIdRaw, 10) : null,
-            displayMode: displayMode === 'video' ? 'video' : 'shop_the_look',
+            displayMode: resolvedMode,
             introHtml: str(body, 'intro_html')
           };
           if (videoUrl) categoryConfig.videoUrl = videoUrl;

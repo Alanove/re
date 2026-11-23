@@ -1,0 +1,30 @@
+<%
+    function homeContentMediaUrl(u) {
+        if (!u) return '';
+        var s = String(u).trim();
+        if (s.indexOf('http') === 0 || s.indexOf('https') === 0 || s.indexOf('/') === 0) return s;
+        return '/images/home-content/' + s;
+    }
+%>
+<% var videoSrc = block ? homeContentMediaUrl(block.videoUrl) : ''; %>
+<% var posterSrc = block ? homeContentMediaUrl(block.videoPosterUrl) : ''; %>
+<% var imageSrc = block ? homeContentMediaUrl(block.imageUrl) : ''; %>
+<% var category = block && block.category ? block.category : null; %>
+<% if (category && (videoSrc || imageSrc || posterSrc)) { %>
+<section class="home-fullscreen-category">
+    <a class="home-fullscreen-category-link" href="/shop/category/<%= category.slug %>" aria-label="<%= category.name %>">
+        <div class="home-fullscreen-category-media">
+            <% if (videoSrc) { %>
+                <video muted loop playsinline autoplay preload="metadata"<% if (posterSrc || imageSrc) { %> poster="<%= posterSrc || imageSrc %>"<% } %>>
+                    <source src="<%= videoSrc %>" type="video/mp4" />
+                </video>
+            <% } else { %>
+                <img src="<%= imageSrc || posterSrc %>" alt="<%= category.name %>" loading="lazy" />
+            <% } %>
+        </div>
+        <div class="home-fullscreen-category-caption">
+            <h2 class="home-fullscreen-category-title"><%= category.name %></h2>
+        </div>
+    </a>
+</section>
+<% } %>

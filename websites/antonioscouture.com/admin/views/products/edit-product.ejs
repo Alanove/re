@@ -151,6 +151,34 @@
 															</div>
 														</div>
 
+														<!-- Product Video (plays first on storefront) -->
+														<div class="mb-4">
+															<label class="form-label fw-bold">Product Video <span class="text-muted fw-normal">(optional — plays first on product page)</span></label>
+															<%
+																var productVideoUrl = product && product.video_url ? String(product.video_url).trim() : '';
+																if (productVideoUrl && productVideoUrl.indexOf('/') !== 0 && productVideoUrl.indexOf('http') !== 0) {
+																	productVideoUrl = '/' + productVideoUrl;
+																}
+															%>
+															<% if (productVideoUrl) { %>
+																<div class="mb-2 border rounded p-2 bg-light">
+																	<video src="<%= productVideoUrl %>" controls muted playsinline style="max-width:100%;max-height:220px;"></video>
+																</div>
+																<button type="button" class="btn btn-outline-danger btn-sm mb-2" id="delete-product-video-btn">
+																	<i class="fa fa-trash"></i> Remove video
+																</button>
+															<% } else { %>
+																<p class="text-muted small mb-2">No video uploaded yet.</p>
+															<% } %>
+															<div class="input-group">
+																<input type="file" class="form-control" id="productVideoUpload" accept="video/mp4,video/webm,video/ogg,video/quicktime,video/*" />
+																<button type="button" class="btn btn-primary" id="upload-product-video-btn">
+																	<i class="fa fa-upload"></i> Upload video
+																</button>
+															</div>
+															<small class="form-text text-muted">MP4 or WebM recommended. Max 100MB.</small>
+														</div>
+
 														<!-- Upload New Images -->
 														<div class="mb-3">
 															<label for="productImagesUpload" class="form-label">Upload
@@ -543,6 +571,54 @@
 
 		// Upload button event listener
 		document.getElementById('upload-product-images-btn')?.addEventListener('click', uploadProductImages);
+
+		document.getElementById('upload-product-video-btn')?.addEventListener('click', function () {
+			const fileInput = document.getElementById('productVideoUpload');
+			if (!fileInput.files || !fileInput.files[0]) {
+				alert('Please select a video file');
+				return;
+			}
+			const formData = new FormData();
+			formData.append('video', fileInput.files[0]);
+			const btn = document.getElementById('upload-product-video-btn');
+			const original = btn.innerHTML;
+			btn.disabled = true;
+			btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Uploading...';
+			fetch(`/admin/products/${productId}/video`, { method: 'POST', body: formData })
+				.then(function (r) { return r.json(); })
+				.then(function (data) {
+					if (data.success) {
+						location.reload();
+					} else {
+						alert('Error: ' + (data.error || 'Failed to upload video'));
+						btn.disabled = false;
+						btn.innerHTML = original;
+					}
+				})
+				.catch(function (err) {
+					console.error(err);
+					alert('Error uploading video');
+					btn.disabled = false;
+					btn.innerHTML = original;
+				});
+		});
+
+		document.getElementById('delete-product-video-btn')?.addEventListener('click', function () {
+			if (!confirm('Remove this product video?')) return;
+			fetch(`/admin/products/${productId}/video`, { method: 'DELETE' })
+				.then(function (r) { return r.json(); })
+				.then(function (data) {
+					if (data.success) {
+						location.reload();
+					} else {
+						alert('Error: ' + (data.error || 'Failed to remove video'));
+					}
+				})
+				.catch(function (err) {
+					console.error(err);
+					alert('Error removing video');
+				});
+		});
 
 		// Open image in new tab event listener
 		document.addEventListener('click', function (e) {

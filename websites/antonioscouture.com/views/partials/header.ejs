@@ -169,7 +169,11 @@
                 <span class="lux-cart-badge" aria-hidden="true"><%= luxHeaderCartCount %></span>
                 <% } %>
             </a>
-            <a class="lux-util lux-util--icon lux-toolbar-mobile" href="<%= (typeof user !== 'undefined' && user) ? '/customer/account' : '/customer/login' %>" aria-label="<%= (typeof user !== 'undefined' && user) ? 'Account' : 'Sign in' %>">
+            <%
+                var myAccountLabel = (typeof t !== 'undefined') ? t('ecommerce.myAccount') : 'My Account';
+                if (!myAccountLabel || myAccountLabel === 'ecommerce.myAccount') myAccountLabel = 'My Account';
+            %>
+            <a class="lux-util lux-util--icon lux-toolbar-mobile" href="<%= (typeof user !== 'undefined' && user) ? '/customer/account' : '/customer/login' %>" aria-label="<%= myAccountLabel %>">
                 <i class="bi bi-person" aria-hidden="true"></i>
             </a>
         </div>
@@ -294,7 +298,6 @@
                             <% } %>
                         <% } else if (item.children && item.children.length > 0) { %>
                             <div class="lux-mobile-level2-section">
-                                <h4><%= item.title %></h4>
                                 <ul>
                                     <% item.children.forEach(function(child) { %>
                                         <% if (child.active !== false) { %>
@@ -319,8 +322,15 @@
                 </li>
                 <% } %>
             <% }); %>
-            <li class="lux-mobile-l1-item"><a href="<%= (typeof user !== 'undefined' && user) ? '/customer/account' : '/customer/login' %>"><%= (typeof user !== 'undefined' && user) ? 'Account' : 'Sign In' %></a></li>
-            <li class="lux-mobile-l1-item"><a href="/contact-us">Customer Care</a></li>
+            <%
+                var hasMyAccountInNav = allItems.some(function(it) {
+                    var title = (it && it.title) ? String(it.title).trim().toLowerCase() : '';
+                    return title === 'my account' || title === 'account' || title === 'sign in';
+                });
+            %>
+            <% if (!hasMyAccountInNav) { %>
+            <li class="lux-mobile-l1-item"><a href="<%= (typeof user !== 'undefined' && user) ? '/customer/account' : '/customer/login' %>"><%= myAccountLabel %></a></li>
+            <% } %>
             <li class="lux-mobile-l1-item"><a href="/cart">Bag (<%= (typeof cartCount !== 'undefined') ? cartCount : 0 %>)</a></li>
         </ul>
     </div>

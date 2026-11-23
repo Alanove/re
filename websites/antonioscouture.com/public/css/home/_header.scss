@@ -83,21 +83,30 @@
             max-width: var(--lux-logo-max-width);
             object-fit: contain;
         }
+
+        span {
+            font-family: $font-family-logo;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
     }
 
-    // Top-level nav links: Roboto
+    // Top-level nav links: single line, regular weight (submenu keeps its own styles)
     .lux-nav-link {
         position: relative;
         font-family: $font-family-sans-serif;
         font-weight: 400;
-        font-size: 0.82rem;
+        font-size: 0.78rem;
         letter-spacing: 0.08em;
         text-transform: capitalize;
         color: $lux-header-text;
-        padding: 6px 0;
+        padding: 4px 0;
         cursor: pointer;
         background: transparent;
         border: 0;
+        line-height: 1.2;
+        white-space: nowrap;
 
         &:hover,
         &:focus,

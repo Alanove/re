@@ -585,6 +585,47 @@ export class StorageService {
   }
 
   /**
+   * Create multer configuration for product video uploads
+   */
+  public createProductVideoUploadConfig(): multer.Multer {
+    const allowedVideoTypes = ['video/mp4', 'video/webm', 'video/ogg', 'video/quicktime'];
+
+    const storage = multer.diskStorage({
+      destination: (_req, _file, cb) => {
+        const videosDir = path.join(this.imagesDir, 'products', 'videos');
+        if (!fs.existsSync(videosDir)) {
+          fs.mkdirSync(videosDir, { recursive: true });
+        }
+        cb(null, videosDir);
+      },
+      filename: (_req, file, cb) => {
+        const timestamp = Date.now();
+        const randomSuffix = Math.round(Math.random() * 1e9);
+        const ext = path.extname(file.originalname);
+        cb(null, `product-video-${timestamp}-${randomSuffix}${ext}`);
+      }
+    });
+
+    return multer({
+      storage,
+      limits: {
+        fileSize: 100 * 1024 * 1024,
+        fieldSize: 10 * 1024 * 1024,
+        fieldNameSize: 100,
+        fields: 20,
+        files: 1
+      },
+      fileFilter: (_req, file, cb) => {
+        if (allowedVideoTypes.includes(file.mimetype)) {
+          cb(null, true);
+        } else {
+          cb(new Error('Only video files (MP4, WebM, OGG, MOV) are allowed'));
+        }
+      }
+    });
+  }
+
+  /**
    * Create multer configuration for brand logo uploads
    */
   public createBrandUploadConfig(): multer.Multer {

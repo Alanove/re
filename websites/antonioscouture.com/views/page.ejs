@@ -1,4 +1,50 @@
-<% if (typeof pageImage !== 'undefined' && pageImage) { %>
+<%
+  var isDesignerPage = typeof selected !== 'undefined' && String(selected).toLowerCase() === 'the-designer';
+%>
+
+<% if (isDesignerPage) { %>
+    <div class="designer-page">
+        <div class="designer-page-inner">
+            <nav class="designer-page-breadcrumb" aria-label="Breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a class="text-dark" href="/">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><%= typeof pageTitle !== 'undefined' && pageTitle ? pageTitle : 'The Designer' %></li>
+                </ol>
+            </nav>
+            <% if (typeof pageTitle !== 'undefined' && pageTitle) { %>
+                <h1 class="designer-page-title"><%= pageTitle %></h1>
+            <% } %>
+            <div class="designer-page-body" id="designerPageBody">
+                <% if (typeof pageContent !== 'undefined' && pageContent) { %>
+                    <%- pageContent %>
+                <% } else { %>
+                    <p>This page is under construction.</p>
+                <% } %>
+            </div>
+            <script>
+            (function () {
+                var body = document.getElementById('designerPageBody');
+                if (!body) return;
+                var img = body.querySelector('img');
+                if (!img) return;
+                var copy = document.createElement('div');
+                copy.className = 'designer-page-copy';
+                var node = body.firstChild;
+                while (node) {
+                    var next = node.nextSibling;
+                    if (node !== img && !(node.nodeType === 1 && node.tagName === 'IMG')) {
+                        copy.appendChild(node);
+                    }
+                    node = next;
+                }
+                if (!copy.childNodes.length) return;
+                body.insertBefore(img, body.firstChild);
+                body.appendChild(copy);
+            })();
+            </script>
+        </div>
+    </div>
+<% } else if (typeof pageImage !== 'undefined' && pageImage) { %>
     <!-- Hero Section -->
     <div class="container-fluid mb-5 p-0 page-hero-container">
         <div class="page-hero" style="background-image: url('<%= pageImage %>');">

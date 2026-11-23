@@ -1,0 +1,182 @@
+// Couture carousel: full-viewport images; 4 visible (2 on mobile); one-at-a-time; continuous; swipeable
+// 8px gutters between slides and adjacent sections (desktop + mobile)
+$home-bleed-gap: 8px;
+
+body.home {
+  .home-couture-rail {
+    position: relative;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    background: $white;
+    display: flex;
+    flex-direction: column;
+  }
+
+  // When there is no title, keep a small gap from the section above
+  .home-couture-rail:not(.home-couture-rail--has-title) {
+    margin-top: $home-bleed-gap;
+  }
+
+  .home-couture-rail-intro {
+    flex: 0 0 auto;
+    text-align: center;
+    padding: 56px 24px 24px;
+    font-family: $font-family-sans-serif;
+    text-transform: uppercase;
+
+    .home-couture-rail-intro-body {
+      margin: 0 auto;
+      max-width: 960px;
+    }
+
+    .home-section-title {
+      font-family: $font-family-sans-serif;
+      font-size: clamp(1rem, 1.2vw + 0.5rem, 1.35rem);
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin: 0 0 16px;
+      color: $black;
+    }
+
+    .luxury-hero-tagline-shop {
+      margin-top: 0;
+    }
+
+    .home-section-link {
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+    }
+
+    @media (max-width: 575.98px) {
+      padding: 40px 16px 16px;
+    }
+  }
+
+  .home-couture-rail-viewport {
+    position: relative;
+    flex: 0 0 auto;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    touch-action: pan-y;
+    cursor: grab;
+    background: $white;
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  .home-couture-rail--has-title .home-couture-rail-viewport {
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  .home-couture-rail-track {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    height: 100%;
+    gap: $home-bleed-gap;
+    will-change: transform;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  // Four visible: account for 3 gutters between them
+  .home-couture-rail-slide {
+    position: relative;
+    flex: 0 0 calc((100% - (#{$home-bleed-gap} * 3)) / 4);
+    width: calc((100% - (#{$home-bleed-gap} * 3)) / 4);
+    max-width: calc((100% - (#{$home-bleed-gap} * 3)) / 4);
+    height: 100%;
+    overflow: hidden;
+    background: #f5f3ee;
+    text-decoration: none;
+    color: inherit;
+    -webkit-user-drag: none;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      pointer-events: none;
+      transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @media (hover: hover) {
+      &:hover img,
+      &:focus-visible img {
+        transform: scale(1.04);
+      }
+    }
+  }
+
+  .home-couture-rail-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba($black, 0.2);
+    background: rgba($white, 0.85);
+    color: $black;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    transition: background 0.2s ease, border-color 0.2s ease;
+
+    &:hover,
+    &:focus-visible {
+      background: $white;
+      border-color: rgba($black, 0.45);
+      outline: none;
+    }
+  }
+
+  .home-couture-rail-prev {
+    left: 12px;
+  }
+
+  .home-couture-rail-next {
+    right: 12px;
+  }
+
+  @media (max-width: 991.98px) {
+    .home-couture-rail-viewport,
+    .home-couture-rail--has-title .home-couture-rail-viewport {
+      height: 85vh;
+      height: 85dvh;
+    }
+
+    // Two visible: one gutter between them
+    .home-couture-rail-slide {
+      flex: 0 0 calc((100% - #{$home-bleed-gap}) / 2);
+      width: calc((100% - #{$home-bleed-gap}) / 2);
+      max-width: calc((100% - #{$home-bleed-gap}) / 2);
+    }
+
+    .home-couture-rail-arrow {
+      width: 36px;
+      height: 36px;
+      opacity: 0.85;
+    }
+
+    .home-couture-rail-prev {
+      left: 8px;
+    }
+
+    .home-couture-rail-next {
+      right: 8px;
+    }
+  }
+}

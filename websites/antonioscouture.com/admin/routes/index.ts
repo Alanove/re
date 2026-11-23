@@ -184,6 +184,8 @@ router.post('/products/:id/images', AdminController.requireAuth, requireRole(['S
 router.delete('/products/:id/images/:imageId', AdminController.requireAuth, requireRole(['Super Admin', 'Admin', 'Content Manager']), ProductsController.deleteImage);
 router.post('/products/:id/images/set-primary', AdminController.requireAuth, requireRole(['Super Admin', 'Admin', 'Content Manager']), ProductsController.setPrimaryImage);
 router.get('/products/:id/images', AdminController.requireAuth, requireRole(['Super Admin', 'Admin', 'Content Manager']), ProductsController.getImages);
+router.post('/products/:id/video', AdminController.requireAuth, requireRole(['Super Admin', 'Admin', 'Content Manager']), (storageService.createProductVideoUploadConfig().single('video') as unknown as RequestHandler), ProductsController.uploadVideo);
+router.delete('/products/:id/video', AdminController.requireAuth, requireRole(['Super Admin', 'Admin', 'Content Manager']), ProductsController.deleteVideo);
 // router.post('/products/:id/variants/bulk', AdminController.requireAuth, requireRole(['Super Admin', 'Admin', 'Content Manager']), ProductsController.bulkCreateVariants);
 router.post('/products/:id/variants', AdminController.requireAuth, requireRole(['Super Admin', 'Admin', 'Content Manager']), (storageService.createProductImageUploadConfig().single('image') as unknown as RequestHandler), ProductsController.createVariant);
 router.put('/products/:id/variants/:variantId', AdminController.requireAuth, requireRole(['Super Admin', 'Admin', 'Content Manager']), (storageService.createProductImageUploadConfig().single('image') as unknown as RequestHandler), ProductsController.updateVariant);

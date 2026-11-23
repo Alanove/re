@@ -81,15 +81,44 @@
         if (b.type === 'products_list' && b.products && b.products.length) showHomeConfirmationModal = true;
         if (b.type === 'category_display' && b.config && b.config.displayMode === 'shop_the_look' && b.products && b.products.length) showHomeConfirmationModal = true;
     });
+
+    function isFullscreenCategoryBlock(b) {
+        return b && b.type === 'category_display' && b.config && b.config.displayMode === 'fullscreen';
+    }
+
+    // Group consecutive fullscreen category blocks so they sit side-by-side (GH desktop).
+    var homeBlockGroups = [];
+    for (var bi = 0; bi < homeBlocksList.length; bi++) {
+        var cur = homeBlocksList[bi];
+        if (isFullscreenCategoryBlock(cur)) {
+            var pair = [cur];
+            while (bi + 1 < homeBlocksList.length && isFullscreenCategoryBlock(homeBlocksList[bi + 1])) {
+                bi++;
+                pair.push(homeBlocksList[bi]);
+            }
+            homeBlockGroups.push({ kind: 'fullscreen_row', blocks: pair });
+        } else {
+            homeBlockGroups.push({ kind: 'single', block: cur });
+        }
+    }
 %>
-<% homeBlocksList.forEach(function(block) { %>
-    <% if (block.type === 'text') { %>
-        <%- include('partials/home/blocks/text', { block }) %>
-    <% } else if (block.type === 'products_list') { %>
-        <%- include('partials/home/blocks/products-list', { block }) %>
-    <% } else if (block.type === 'category_display') { %>
-        <% var stlIdx = (block.config && block.config.displayMode === 'shop_the_look') ? shopLookIndex++ : 0; %>
-        <%- include('partials/home/blocks/category-display', { block, blockIndex: stlIdx }) %>
+<% homeBlockGroups.forEach(function(group) { %>
+    <% if (group.kind === 'fullscreen_row') { %>
+        <div class="home-fullscreen-row<%= group.blocks.length > 1 ? ' home-fullscreen-row--split' : '' %>">
+            <% group.blocks.forEach(function(block) { %>
+                <%- include('partials/home/blocks/category-fullscreen', { block }) %>
+            <% }); %>
+        </div>
+    <% } else { %>
+        <% var block = group.block; %>
+        <% if (block.type === 'text') { %>
+            <%- include('partials/home/blocks/text', { block }) %>
+        <% } else if (block.type === 'products_list') { %>
+            <%- include('partials/home/blocks/products-list', { block }) %>
+        <% } else if (block.type === 'category_display') { %>
+            <% var stlIdx = (block.config && block.config.displayMode === 'shop_the_look') ? shopLookIndex++ : 0; %>
+            <%- include('partials/home/blocks/category-display', { block, blockIndex: stlIdx }) %>
+        <% } %>
     <% } %>
 <% }); %>
 

@@ -138,7 +138,8 @@ export class ShopController {
       let fashionLineRootSlug: string | null = null;
       let shopMode: 'default' | 'collections' = 'default';
       let hideSearch = true;
-      let hidePriceFilter = false;
+      // Price filter UI kept in shop.ejs but hidden site-wide for now
+      let hidePriceFilter = true;
       let hideAddToCartListing = false;
       let hidePriceSort = false;
       let collectionSidebar: any[] = [];

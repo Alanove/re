@@ -1,11 +1,15 @@
-<% if (block && block.products && block.products.length > 0) { %>
+<% if (block && block.config && block.config.layout === 'couture_rail') { %>
+    <%- include('./couture-rail', { block }) %>
+<% } else if (block && block.products && block.products.length > 0) { %>
 <section class="home-new-arrivals">
+    <% if (block.config.title) { %>
     <div class="home-section-header">
-        <h2 class="home-section-title"><%= block.config.title || 'Products' %></h2>
+        <h2 class="home-section-title"><%= block.config.title %></h2>
         <% if (block.config.discoverLink) { %>
             <a href="<%= block.config.discoverLink %>" class="home-section-link">Discover</a>
         <% } %>
     </div>
+    <% } %>
     <div class="home-arrivals-grid">
         <% var productLimit = block.config.limit || 4; %>
         <% block.products.slice(0, productLimit).forEach(function(product) { %>

@@ -89,7 +89,7 @@ body.home {
 $home-site-max-width: 1400px;
 
 @media (min-width: 992px) {
-    body.home .main > *:not(.luxury-hero):not(.lux-mobile-drawer):not(.lux-mobile-search):not(.modal):not(.variant-selection-drawer):not(.luxury-header):not(.home-shop-banner):not(.home-service-strip):not(.home-customer-care-strip):not(.home-pre-footer-faq-brand):not(.site-footer) {
+    body.home .main > *:not(.luxury-hero):not(.home-fullscreen-row):not(.home-couture-rail):not(.lux-mobile-drawer):not(.lux-mobile-search):not(.modal):not(.variant-selection-drawer):not(.luxury-header):not(.home-shop-banner):not(.home-service-strip):not(.home-customer-care-strip):not(.home-pre-footer-faq-brand):not(.site-footer) {
         max-width: $home-site-max-width;
         margin-left: auto;
         margin-right: auto;
@@ -97,9 +97,13 @@ $home-site-max-width: 1400px;
         box-sizing: border-box;
     }
 
-    body.home .main > .luxury-hero {
+    body.home .main > .luxury-hero,
+    body.home .main > .home-fullscreen-row,
+    body.home .main > .home-couture-rail {
         max-width: none;
         width: 100%;
+        margin-left: 0;
+        margin-right: 0;
     }
 }
 

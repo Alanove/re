@@ -4,7 +4,9 @@ export type HomeBlockType = 'text' | 'products_list' | 'category_display';
 
 export type ProductsListSource = 'featured' | 'new_arrivals' | 'category';
 
-export type CategoryDisplayMode = 'shop_the_look' | 'video';
+export type CategoryDisplayMode = 'shop_the_look' | 'video' | 'fullscreen';
+
+export type ProductsListLayout = 'default' | 'couture_rail';
 
 export interface TextBlockConfig {
   html: string;
@@ -17,6 +19,7 @@ export interface ProductsListBlockConfig {
   source: ProductsListSource;
   categoryId?: number | null;
   limit?: number;
+  layout?: ProductsListLayout;
 }
 
 export interface CategoryDisplayBlockConfig {
@@ -60,6 +63,8 @@ export interface ResolvedCategoryDisplayBlock extends HomePageBlock {
   products: any[];
   videoUrl: string;
   videoPosterUrl: string;
+  /** Category (or parent) image for fullscreen fallback when no video */
+  imageUrl: string;
 }
 
 export type ResolvedHomeBlock =
@@ -105,12 +110,19 @@ function blockLabel(block: HomePageBlock, categoryName?: string): string {
     }
     case 'products_list': {
       const cfg = block.config as ProductsListBlockConfig;
+      if (cfg.layout === 'couture_rail') {
+        return `Couture rail — ${cfg.title || 'Untitled'}`;
+      }
       return `Products — ${cfg.title || 'Untitled'}`;
     }
     case 'category_display': {
       const cfg = block.config as CategoryDisplayBlockConfig;
       const mode =
-        cfg.displayMode === 'video' ? 'Video' : 'Shop The Look';
+        cfg.displayMode === 'fullscreen'
+          ? 'Fullscreen'
+          : cfg.displayMode === 'video'
+            ? 'Video'
+            : 'Shop The Look';
       const name = categoryName || (cfg.categoryId ? `Category #${cfg.categoryId}` : 'No category');
       return `Category — ${name} (${mode})`;
     }
@@ -230,12 +242,13 @@ export class HomePageBlockService {
           title: 'New Arrivals',
           discoverLink: '/shop?new_arrival=true',
           source: 'new_arrivals',
-          limit: 4
+          limit: 4,
+          layout: 'default'
         };
       case 'category_display':
         return {
           categoryId: null,
-          displayMode: 'shop_the_look',
+          displayMode: 'fullscreen',
           introHtml: ''
         };
       default:
@@ -304,7 +317,9 @@ export class HomePageBlockService {
 
       if (block.type === 'products_list') {
         const cfg = block.config as ProductsListBlockConfig;
-        const limit = Math.min(Math.max(cfg.limit ?? 4, 1), 12);
+        const maxLimit = cfg.layout === 'couture_rail' ? 24 : 12;
+        const defaultLimit = cfg.layout === 'couture_rail' ? 12 : 4;
+        const limit = Math.min(Math.max(cfg.limit ?? defaultLimit, 1), maxLimit);
         const query: Record<string, unknown> = {
           is_active: true,
           status: 'published',
@@ -343,13 +358,19 @@ export class HomePageBlockService {
 
         let videoUrl = '';
         let videoPosterUrl = '';
-        if (cfg.displayMode === 'video') {
+        let imageUrl = '';
+        if (cfg.displayMode === 'video' || cfg.displayMode === 'fullscreen') {
           videoUrl = cfg.videoUrl?.trim() || '';
           videoPosterUrl = cfg.videoPosterUrl?.trim() || '';
-          if (cfg.categoryId && (!videoUrl || !videoPosterUrl)) {
+          if (cfg.categoryId && (!videoUrl || !videoPosterUrl || cfg.displayMode === 'fullscreen')) {
             const media = await categoryService.resolveCategoryHeroMedia(cfg.categoryId);
             if (!videoUrl) videoUrl = media.video_url?.trim() || '';
             if (!videoPosterUrl) videoPosterUrl = media.poster_image_url?.trim() || '';
+            if (cfg.displayMode === 'fullscreen') {
+              imageUrl = media.poster_image_url?.trim() || category?.image_url?.trim() || '';
+            }
+          } else if (cfg.displayMode === 'fullscreen' && category?.image_url) {
+            imageUrl = String(category.image_url).trim();
           }
         }
 
@@ -360,7 +381,8 @@ export class HomePageBlockService {
           category,
           products,
           videoUrl,
-          videoPosterUrl
+          videoPosterUrl,
+          imageUrl
         });
       }
     }

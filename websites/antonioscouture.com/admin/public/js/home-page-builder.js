@@ -112,19 +112,35 @@
   function buildProductsForm(block) {
     var c = block.config || {};
     var source = c.source || 'new_arrivals';
+    var layout = c.layout || 'default';
     return (
       '<form id="blockEditForm">' +
       '<div class="mb-3">' +
-      '<label class="form-label">Section title</label>' +
+      '<label class="form-label">Layout</label>' +
+      '<div class="form-check">' +
+      '<input class="form-check-input" type="radio" name="blockLayout" id="layoutDefault" value="default"' +
+      (layout !== 'couture_rail' ? ' checked' : '') +
+      ' />' +
+      '<label class="form-check-label" for="layoutDefault">Product grid</label>' +
+      '</div>' +
+      '<div class="form-check">' +
+      '<input class="form-check-input" type="radio" name="blockLayout" id="layoutRail" value="couture_rail"' +
+      (layout === 'couture_rail' ? ' checked' : '') +
+      ' />' +
+      '<label class="form-check-label" for="layoutRail">Couture rail (full-screen horizontal)</label>' +
+      '</div>' +
+      '</div>' +
+      '<div class="mb-3">' +
+      '<label class="form-label">Section title <span class="text-muted fw-normal">(optional — overlays the rail)</span></label>' +
       '<input type="text" class="form-control" id="blockTitle" value="' +
       escapeHtml(c.title || '') +
-      '" />' +
+      '" placeholder="e.g. Couture" maxlength="80" />' +
       '</div>' +
       '<div class="mb-3">' +
       '<label class="form-label">Discover link</label>' +
       '<input type="text" class="form-control" id="blockDiscoverLink" value="' +
       escapeHtml(c.discoverLink || '') +
-      '" placeholder="/shop?new_arrival=true" />' +
+      '" placeholder="/shop/category/haute-couture" />' +
       '</div>' +
       '<div class="mb-3">' +
       '<label class="form-label">Product source</label>' +
@@ -157,9 +173,14 @@
       '</div>' +
       '<div class="mb-3">' +
       '<label class="form-label">Products to show</label>' +
-      '<input type="number" class="form-control" id="blockLimit" min="1" max="12" value="' +
-      (c.limit || 4) +
+      '<input type="number" class="form-control" id="blockLimit" min="1" max="' +
+      (layout === 'couture_rail' ? '24' : '12') +
+      '" value="' +
+      (c.limit || (layout === 'couture_rail' ? 12 : 4)) +
       '" />' +
+      '<div class="form-text" id="blockLimitHint"' +
+      (layout === 'couture_rail' ? '' : ' style="display:none"') +
+      '>Couture carousel shows 4 images per page; use 8–24 products for multiple pages.</div>' +
       '</div>' +
       '<div class="form-check">' +
       '<input class="form-check-input" type="checkbox" id="blockEnabled" ' +
@@ -204,6 +225,12 @@
       '<div class="mb-3">' +
       '<label class="form-label">Display mode</label>' +
       '<div class="form-check">' +
+      '<input class="form-check-input" type="radio" name="blockDisplayMode" id="modeFullscreen" value="fullscreen"' +
+      (mode === 'fullscreen' ? ' checked' : '') +
+      ' />' +
+      '<label class="form-check-label" for="modeFullscreen">Fullscreen section (image or video)</label>' +
+      '</div>' +
+      '<div class="form-check">' +
       '<input class="form-check-input" type="radio" name="blockDisplayMode" id="modeStl" value="shop_the_look"' +
       (mode === 'shop_the_look' ? ' checked' : '') +
       ' />' +
@@ -213,13 +240,13 @@
       '<input class="form-check-input" type="radio" name="blockDisplayMode" id="modeVideo" value="video"' +
       (mode === 'video' ? ' checked' : '') +
       ' />' +
-      '<label class="form-check-label" for="modeVideo">Category with video</label>' +
+      '<label class="form-check-label" for="modeVideo">Category with video (split layout)</label>' +
       '</div>' +
       '</div>' +
       '<div id="blockVideoFields"' +
-      (mode === 'video' ? '' : ' style="display:none"') +
+      (mode === 'video' || mode === 'fullscreen' ? '' : ' style="display:none"') +
       '>' +
-      '<p class="text-muted fs-12px mb-3">Optional: upload a homepage-only video. Leave empty to use the category video (Admin → Categories). Parent categories are used when the category has no video.</p>' +
+      '<p class="text-muted fs-12px mb-3">Optional: upload a homepage-only video. Leave empty to use the category video/image (Admin → Categories).</p>' +
       '<div class="mb-3">' +
       '<label class="form-label">Homepage video (optional)</label>' +
       videoPreview +
@@ -236,7 +263,9 @@
         ? '<div class="form-check mt-2"><input class="form-check-input" type="checkbox" id="removeBlockVideoPoster" /><label class="form-check-label" for="removeBlockVideoPoster">Remove homepage poster</label></div>'
         : '') +
       '</div>' +
-      '<div class="mb-3">' +
+      '<div class="mb-3" id="blockIntroWrap"' +
+      (mode === 'video' ? '' : ' style="display:none"') +
+      '>' +
       '<label class="form-label">Intro text</label>' +
       '<textarea id="blockIntroHtml" class="form-control rich-text" rows="6">' +
       safeTextareaContent(c.introHtml || '') +
@@ -271,12 +300,21 @@
           if (wrap) wrap.style.display = radio.value === 'category' ? '' : 'none';
         });
       });
+      modalBody.querySelectorAll('input[name="blockLayout"]').forEach(function (radio) {
+        radio.addEventListener('change', function () {
+          var hint = document.getElementById('blockLimitHint');
+          if (hint) hint.style.display = radio.value === 'couture_rail' ? '' : 'none';
+        });
+      });
     } else if (block.type === 'category_display') {
       modalBody.innerHTML = buildCategoryForm(block);
       modalBody.querySelectorAll('input[name="blockDisplayMode"]').forEach(function (radio) {
         radio.addEventListener('change', function () {
           var wrap = document.getElementById('blockVideoFields');
-          if (wrap) wrap.style.display = radio.value === 'video' ? '' : 'none';
+          var introWrap = document.getElementById('blockIntroWrap');
+          var needsMedia = radio.value === 'video' || radio.value === 'fullscreen';
+          if (wrap) wrap.style.display = needsMedia ? '' : 'none';
+          if (introWrap) introWrap.style.display = radio.value === 'video' ? '' : 'none';
           if (radio.value === 'video' && !activeModalEditor) {
             activeModalEditor = initModalRichText(
               'blockIntroHtml',
@@ -319,24 +357,29 @@
       formData.append('style', document.getElementById('blockTextStyle').value);
     } else if (block.type === 'products_list') {
       var sourceEl = document.querySelector('input[name="blockSource"]:checked');
+      var layoutEl = document.querySelector('input[name="blockLayout"]:checked');
       formData.append('title', document.getElementById('blockTitle').value);
       formData.append('discover_link', document.getElementById('blockDiscoverLink').value);
       formData.append('source', sourceEl ? sourceEl.value : 'new_arrivals');
       formData.append('category_id', document.getElementById('blockCategoryId').value);
       formData.append('limit', document.getElementById('blockLimit').value);
+      formData.append('layout', layoutEl ? layoutEl.value : 'default');
     } else if (block.type === 'category_display') {
       var modeEl = document.querySelector('input[name="blockDisplayMode"]:checked');
+      var modeVal = modeEl ? modeEl.value : 'fullscreen';
       formData.append('category_id', document.getElementById('blockCategoryId').value);
-      formData.append('display_mode', modeEl ? modeEl.value : 'shop_the_look');
-      if (modeEl && modeEl.value === 'video') {
-        var introHtml = '';
-        if (activeModalEditor && activeModalEditor.getHTML) {
-          introHtml = activeModalEditor.getHTML();
-        } else {
-          var introEl = document.getElementById('blockIntroHtml');
-          introHtml = introEl ? introEl.value : '';
+      formData.append('display_mode', modeVal);
+      if (modeVal === 'video' || modeVal === 'fullscreen') {
+        if (modeVal === 'video') {
+          var introHtml = '';
+          if (activeModalEditor && activeModalEditor.getHTML) {
+            introHtml = activeModalEditor.getHTML();
+          } else {
+            var introEl = document.getElementById('blockIntroHtml');
+            introHtml = introEl ? introEl.value : '';
+          }
+          formData.append('intro_html', introHtml);
         }
-        formData.append('intro_html', introHtml);
         var videoFileEl = document.getElementById('blockVideoFile');
         if (videoFileEl && videoFileEl.files && videoFileEl.files[0]) {
           formData.append('block_video', videoFileEl.files[0]);

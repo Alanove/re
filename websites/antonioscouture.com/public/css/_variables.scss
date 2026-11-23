@@ -29,14 +29,15 @@ $link-hover-text: #0a0a0a;
 // Headings
 $headings-color: $black;
 
-// Typography — Roboto for UI/body; Montserrat for h1–h4; Square 721 BT for other display labels
+// Typography — Roboto for UI/body and display labels; Montserrat for h1–h4; Square 721 BT only for logo wordmark fallback
 $font-family-roboto: "Roboto", sans-serif;
 $font-family-montserrat: "Montserrat", sans-serif;
 $font-family-square721: "Square721 BT", sans-serif;
+$font-family-logo: $font-family-square721;
 $font-family-sans-serif: $font-family-roboto;
 $title-font-family: $font-family-montserrat;
 $title-font-weight: 400;
-$headings-font-family: $font-family-square721;
+$headings-font-family: $font-family-roboto;
 $headings-font-weight: 700;
 
 // Bootstrap 4 Settings (for reference, Bootstrap is loaded via CDN)

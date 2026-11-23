@@ -20,6 +20,7 @@ export interface ProductCreateData {
   track_inventory?: boolean | undefined;
   is_featured?: boolean | undefined;
   is_new_arrival?: boolean | undefined;
+  video_url?: string | null | undefined;
   is_active?: boolean | undefined;
   status?: string | undefined;
   category_id?: number | undefined;
