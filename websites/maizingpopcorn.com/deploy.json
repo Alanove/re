@@ -4,6 +4,6 @@
   "healthPath": "/",
   "nodeBin": null,
   "aapanelProject": "maizingpopcorn",
-  "restartCommand": null,
+  "restartCommand": "PIDFILE=/www/server/nodejs/vhost/pids/maizingpopcorn.pid; if [ -f \"$PIDFILE\" ]; then kill \"$(tr -dc 0-9 < \"$PIDFILE\")\" 2>/dev/null || true; fi; fuser -k 3070/tcp 2>/dev/null || true; sleep 1; nohup /www/server/nodejs/v22.20.0/bin/npm run start >>/www/wwwlogs/nodejs/maizingpopcorn.log 2>&1 & echo $! > \"$PIDFILE\"",
   "protect": []
 }
