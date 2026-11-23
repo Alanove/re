@@ -1,0 +1,20 @@
+---
+description: maizingpopcorn.com site rules
+globs:
+  - websites/maizingpopcorn.com/**
+alwaysApply: false
+---
+
+# maizingpopcorn.com: project rules
+
+Site rule for `websites/maizingpopcorn.com/`. It applies in addition to the global rules in `.cursor/rules/`; where they conflict, the global rules win. Paths are relative to the site folder.
+
+## Site shape
+- Static HTML only. Three public pages: home (`site/default.htm` at `/`), Retail Packaging (`site/retail.htm`), News (`site/news.html`).
+- A small Node Express process in `src/server.ts` serves `site/` for deploy. There is no CMS, admin, JSON content, database, captcha, or image pipeline.
+- Contact form opens `mailto:info@maizingpopcorn.com` with the typed fields (see `site/Scripts/maizing.js`). Do not restore the old `proxies/contact.ashx` handler or put mailbox passwords in env files.
+- Port `3070`. aaPanel project `maizinpopcorn`. Deploy with `deploy.json` and `.env.production`.
+
+## Design
+- Keep the existing Bootstrap 4 layout, SCSS-compiled `css/maizing.min.css`, images, copy, and page structure. Do not restyle or redesign.
+- Do not migrate this site onto the shared Node CMS. Do not invent a new palette; the brand reds are already in the legacy CSS (`#930308`, `#6c0d00`).
