@@ -13,7 +13,7 @@ Site rule for `websites/maizingpopcorn.com/`. It applies in addition to the glob
 - Static HTML only. Three public pages: home (`site/default.htm` at `/`), Retail Packaging (`site/retail.htm`), News (`site/news.html`).
 - A small Node Express process in `src/server.ts` serves `site/` for deploy. There is no CMS, admin, JSON content, database, captcha, or image pipeline.
 - Contact form opens `mailto:info@maizingpopcorn.com` with the typed fields (see `site/Scripts/maizing.js`). Do not restore the old `proxies/contact.ashx` handler or put mailbox passwords in env files.
-- Port `3070`. aaPanel project `mainzingpopcorn` (server folder `/www/wwwroot/mainzingpopcorn.com`). Deploy with `deploy.json` and `.env.production`.
+- Port `3070`. aaPanel project `maizingpopcorn` (server folder `/www/wwwroot/maizingpopcorn.com`). Deploy with `deploy.json` and `.env.production`.
 
 ## Design
 - Keep the existing Bootstrap 4 layout, SCSS-compiled `css/maizing.min.css`, images, copy, and page structure. Do not restyle or redesign.
