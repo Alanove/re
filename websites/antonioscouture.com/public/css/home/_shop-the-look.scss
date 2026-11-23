@@ -157,7 +157,7 @@ body.home {
             grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 12px;
             width: 100%;
-            align-items: end; // keep bottoms flush even if a tile fails aspect-ratio
+            align-items: stretch;
         }
 
         .home-shop-look-tile {
@@ -165,26 +165,30 @@ body.home {
             display: block;
             width: 100%;
             min-width: 0;
-            aspect-ratio: 2 / 3;
+            // Fixed frame so every thumb shares the same top + bottom edge
+            aspect-ratio: 3 / 4;
             height: auto;
             overflow: hidden;
-            background: #f3f3f3;
+            background: #fff;
             padding: 0;
             border: 0;
             box-sizing: border-box;
             cursor: pointer;
-            // outline does not affect box size (border did on the active tile)
             outline: 1px solid transparent;
             outline-offset: 0;
             transition: outline-color 0.25s ease;
 
             img {
                 position: absolute;
-                inset: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                top: 0;
                 width: 100%;
                 height: 100%;
                 display: block;
-                object-fit: cover;
+                // Full photo (incl. in-image captions) sits on a shared bottom edge
+                object-fit: contain;
                 object-position: center bottom;
                 background: transparent;
             }
