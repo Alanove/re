@@ -1,0 +1,64 @@
+<% const errs = locals.errors || {}; %>
+<form method="POST" action="/admin/videos/<%= video.id %>/edit" enctype="multipart/form-data" novalidate>
+	<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+	<div class="row">
+		<div class="col-xl-8">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title"><%= video.title %></h4></div>
+				<div class="panel-body">
+					<% if (locals.error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+					<div class="mb-3">
+						<label class="form-label" for="title">Title <span class="text-danger">*</span></label>
+						<input class="form-control<%= errs.title ? ' is-invalid' : '' %>" id="title" name="title" value="<%= video.title %>" maxlength="200" required />
+						<%- include('../partials/field-error', { name: 'title' }) %>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="summary">Description</label>
+						<textarea class="form-control" id="summary" name="summary" rows="4" maxlength="2000"><%= video.summary %></textarea>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="provider">Source</label>
+						<select class="form-select" id="provider" name="provider">
+							<option value="youtube" <%= video.provider === 'youtube' ? 'selected' : '' %>>YouTube</option>
+							<option value="facebook" <%= video.provider === 'facebook' ? 'selected' : '' %>>Facebook</option>
+						</select>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="watchUrl">Video link <span class="text-danger">*</span></label>
+						<input class="form-control<%= errs.watchUrl ? ' is-invalid' : '' %>" id="watchUrl" name="watchUrl" value="<%= video.watchUrl %>" maxlength="500" required />
+						<%- include('../partials/field-error', { name: 'watchUrl' }) %>
+					</div>
+					<div class="mb-0">
+						<label class="form-label">Photo</label>
+						<%- include('../partials/media-picker', { id: 'thumbFile', field: 'thumbFile', kind: 'image', current: video.thumb || '', valueName: 'thumb', removeName: 'removeThumb', label: 'photo', hint: 'Shown on the video card.' }) %>
+					</div>
+				</div>
+				<div class="panel-footer">
+					<button type="submit" class="btn btn-primary">Save video</button>
+					<a class="btn btn-default" href="/admin/videos">Back</a>
+					<% if (video.status === 'published') { %>
+						<a class="btn btn-default" href="/media-gallery/videos/<%= video.key %>" target="_blank" rel="noopener">View</a>
+					<% } %>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-4">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Publish</h4></div>
+				<div class="panel-body">
+					<div class="mb-3">
+						<label class="form-label" for="status">Status</label>
+						<select class="form-select" id="status" name="status">
+							<option value="published" <%= video.status === 'published' ? 'selected' : '' %>>Published</option>
+							<option value="draft" <%= video.status === 'draft' ? 'selected' : '' %>>Draft</option>
+						</select>
+					</div>
+					<div class="mb-0">
+						<label class="form-label" for="sort">Sort</label>
+						<input class="form-control" id="sort" name="sort" type="number" value="<%= video.sort %>" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

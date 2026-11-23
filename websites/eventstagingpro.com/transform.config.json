@@ -1,0 +1,38 @@
+{
+  "siteKey": "eventstagingpro",
+  "siteName": "Event Staging Professionals",
+  "legacySiteUrl": "https://www.eventstagingpro.com",
+  "cmsSource": "C:/ai/tests/re/websites/somecointernational.com",
+  "contentWorkbook": "legacy/bk.xls",
+  "contentSeed": "content/seed.json",
+  "designDir": "design",
+  "outputDir": ".",
+  "port": 3074,
+  "logo": {
+    "url": "https://www.eventstagingpro.com/images/logo.png",
+    "localPath": "/uploads/site/logo.webp",
+    "note": "Sampled from legacy/_Templates/images/logo.png. Dominant black #000000. Chromatic red sample #fe0203, deepened to #c40002 so white text passes WCAG AA."
+  },
+  "legacy": {
+    "localRoot": "legacy/_Templates",
+    "pageImagePattern": "/PRV/Images/Pages/Page_{id}/{file}",
+    "footerPageKey": null,
+    "contactPageKey": "contact-us",
+    "productsPageKey": null,
+    "newsPageKey": "news-events",
+    "hiddenPageKeys": [],
+    "uploadsMirrorPrefix": "/uploads/legacy"
+  },
+  "blog": null,
+  "cmsSync": {
+    "adminPublicFiles": [
+      "css/vendor.min.css",
+      "css/app.min.css",
+      "js/vendor.min.js",
+      "js/app.min.js",
+      "js/custom.js",
+      "js/theme.js"
+    ],
+    "adminPublicDirs": ["css/images", "webfonts"]
+  }
+}

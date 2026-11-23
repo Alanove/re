@@ -1,0 +1,61 @@
+<%
+	const linkClass = function (node) {
+		if (node.id === page.id) { return 'side-nav__link is-current'; }
+		if (page.ancestors.some(function (a) { return a.id === node.id; })) { return 'side-nav__link is-open'; }
+		return 'side-nav__link';
+	};
+	const hasKids = function (node) { return node.children && node.children.length; };
+	const isExpanded = function (node) {
+		return node.id === page.id || page.ancestors.some(function (a) { return a.id === node.id; });
+	};
+	const office = typeof primaryOffice !== 'undefined' ? primaryOffice : null;
+	const assistEmail = office && office.emails && office.emails.length ? office.emails[0] : settings.contactEmail;
+	const assistPhone = office && office.phones && office.phones.length ? office.phones[0] : settings.contactPhone;
+	const telHref = function (value) { return 'tel:' + String(value || '').replace(/[^+\d]/g, ''); };
+%>
+<aside class="page-sidebar">
+	<div class="page-sidebar__panel">
+		<p class="page-sidebar__heading">In this section</p>
+		<p class="page-sidebar__title"><a href="<%= sectionRoot.url %>"><%= sectionRoot.title %></a></p>
+		<% if (sectionRoot.children && sectionRoot.children.length) { %>
+			<nav class="side-nav" aria-label="<%= sectionRoot.title %>">
+				<ul class="side-nav__list">
+					<% sectionRoot.children.forEach(function (node) { %>
+						<li class="side-nav__item<%= hasKids(node) && isExpanded(node) ? ' is-expanded' : '' %>">
+							<a class="<%= linkClass(node) %>" href="<%= node.url %>"<%- node.id === page.id ? ' aria-current="page"' : '' %>>
+								<span class="side-nav__label"><%= node.title %></span>
+								<% if (hasKids(node)) { %>
+									<span class="side-nav__meta" aria-hidden="true">
+										<span class="side-nav__count"><%= node.children.length %></span>
+										<span class="side-nav__caret<%= isExpanded(node) ? ' is-open' : '' %>"></span>
+									</span>
+								<% } %>
+							</a>
+							<% if (hasKids(node) && isExpanded(node)) { %>
+								<ul class="side-nav__sub">
+									<% node.children.forEach(function (child) { %>
+										<li>
+											<a class="<%= linkClass(child) %>" href="<%= child.url %>"<%- child.id === page.id ? ' aria-current="page"' : '' %>>
+												<span class="side-nav__label"><%= child.title %></span>
+											</a>
+										</li>
+									<% }) %>
+								</ul>
+							<% } %>
+						</li>
+					<% }) %>
+				</ul>
+			</nav>
+		<% } %>
+	</div>
+	<div class="assist-card">
+		<p class="assist-card__eyebrow">Need assistance?</p>
+		<p class="assist-card__text">Contact our team for product advice, quotations and service visits.</p>
+		<% if (assistEmail) { %>
+			<a class="assist-card__link" href="mailto:<%= assistEmail %>"><i class="fa fa-envelope" aria-hidden="true"></i><%= assistEmail %></a>
+		<% } %>
+		<% if (assistPhone) { %>
+			<a class="assist-card__link" href="<%= telHref(assistPhone) %>"><i class="fa fa-phone" aria-hidden="true"></i><%= assistPhone %></a>
+		<% } %>
+	</div>
+</aside>

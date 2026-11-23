@@ -340,3 +340,10 @@ Four small static backups under `websites/<domain>/` with a gitignored zip and `
 - Public design keeps the rebuild’s Bootstrap 4 / Owl template (`public/css/legacy-style.css`). The LiteWeb admin is replaced by the shared CMS admin.
 - Pages: About, nested Products (construction / industrial / agriculture), News, Services, Contact, Feedback. Home uses Admin > Home Page (slides, Who We Are, clients carousel from the home page gallery). Captcha scopes `admin-login`, `contact`, `feedback`.
 - One Dora / Medawar office. Logo from `wwwroot/images/someco-international-logo.png`. Tokens: brand blue `#006090`, accent `#0099e6`, silver `#b8c0c8`. Fonts K2D and Niramit (self-hosted).
+
+## Known Event Staging Professionals specifics
+
+- Site folder `websites/eventstagingpro.com/`, dev port `3074`, aaPanel project `eventstagingpro`. Scaffolded from the Someco International CMS. Content comes from the LiteWeb workbook `legacy/bk.xls` and the template tree `legacy/_Templates` via `npm run import:legacy` (`scripts/import-esp.ts`). The `legacy/` tree is gitignored.
+- Public design keeps the legacy skin (`public/skins/site.min.css`, slick, swiper, cubeportfolio). The LiteWeb admin is replaced by the shared CMS admin.
+- Pages: About, What we do, Products (a normal section, not a catalog), Media Gallery, News & Events, Contact. Home uses Admin > Home Page (four slides from `Slider.ascx`, about excerpt, latest three news posts, photo and video tabs). Photo albums are `/media-gallery/photos/:key`. Videos are `/media-gallery/videos/:key`. Captcha scopes `admin-login`, `contact`.
+- One Bsous office, near Al Sayde Church. Logo from `legacy/_Templates/images/logo.png`. Tokens: black `#000000`, logo red `#fe0203`, deepened accent `#c40002`. Public type stays Open Sans from the legacy skin.

@@ -1,0 +1,11 @@
+{
+  "serverPath": "/www/wwwroot/eventstagingpro.com",
+  "port": 3074,
+  "healthPath": "/",
+  "nodeBin": null,
+  "aapanelProject": "eventstagingpro",
+  "restartCommand": null,
+  "protect": [
+    "data-backups"
+  ]
+}

@@ -1,0 +1,111 @@
+<%
+	function clipText(value, max) {
+		const text = String(value || '').replace(/\s+/g, ' ').trim();
+		if (text.length <= max) return text;
+		const cut = text.slice(0, Math.max(1, max - 3));
+		const space = cut.lastIndexOf(' ');
+		const base = (space > cut.length * 0.6 ? cut.slice(0, space) : cut).trim();
+		return base + '...';
+	}
+%>
+<% if (home.hero.enabled && home.hero.slides.length) { %>
+<section class="promo-section">
+	<% home.hero.slides.forEach(function (slide) { %>
+		<div class="promo-item" style="background-image: url('<%= slide.image %>')">
+			<div class="promo-item-content">
+				<h3><%= slide.title %></h3>
+				<% if (slide.label) { %>
+					<div class="promo-item-content-description"><p><%= slide.label %></p></div>
+				<% } %>
+			</div>
+		</div>
+	<% }) %>
+</section>
+<% } %>
+<% if (home.about.enabled) { %>
+<section class="pt-100 pb-100">
+	<div class="container">
+		<article class="text-center max-width-770">
+			<header><h2><%= home.about.title %></h2></header>
+			<p><%= home.about.content %></p>
+			<a href="<%= aboutUrl %>" class="more" title="Learn more about Event Staging Professionals">Learn More</a>
+		</article>
+	</div>
+</section>
+<% } %>
+<% if (home.latestPosts.enabled && posts.length) { %>
+<section class="posts-section pt-100 pb-70">
+	<div class="container">
+		<div class="heading">
+			<h2><%= home.latestPosts.title %></h2>
+			<% if (home.latestPosts.intro) { %><p><%= home.latestPosts.intro %></p><% } %>
+		</div>
+		<div class="posts-list">
+			<% posts.forEach(function (post) { %>
+				<article>
+					<figure>
+						<a href="<%= post.url %>">
+							<% if (post.heroImage) { %>
+								<img src="<%= thumbUrl(post.heroImage) %>" alt="<%= post.title %>" width="<%= post.heroImage ? '' : '' %>" />
+							<% } else { %>
+								<img src="/skins/images/news.jpg" alt="" />
+							<% } %>
+						</a>
+					</figure>
+					<div class="post-content">
+						<header>
+							<h3><a href="<%= post.url %>"><%= clipText(post.title, 60) %></a></h3>
+						</header>
+						<time datetime="<%= post.createdAt %>"><%= new Date(post.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) %></time>
+						<% if (post.summary) { %><p><%= clipText(post.summary, 220) %></p><% } %>
+					</div>
+				</article>
+			<% }) %>
+		</div>
+	</div>
+</section>
+<% } %>
+<% if (home.gallery.enabled && (albums.length || videos.length)) { %>
+<section class="media-gallery pt-100 pb-100">
+	<div class="container">
+		<div class="heading">
+			<h2><%= home.gallery.title %></h2>
+			<% if (home.gallery.intro) { %><p><%= home.gallery.intro %></p><% } %>
+		</div>
+		<ul class="nav nav-tabs" role="tablist">
+			<li data-role="media-gallery" class="active"><a href="#photos" aria-controls="photos" role="tab" data-toggle="tab">Photos</a></li>
+			<li data-role="media-gallery"><a href="#videos" aria-controls="videos" role="tab" data-toggle="tab">Videos</a></li>
+		</ul>
+		<div class="tab-content">
+			<div data-role="media-gallery" class="tab-pane fade in active" id="photos">
+				<div class="swiper-container clearfix photoscontainer">
+					<div class="swiper-wrapper">
+						<% albums.forEach(function (album) { %>
+							<div class="swiper-slide">
+								<a href="/media-gallery/photos/<%= album.key %>">
+									<% if (album.cover) { %><img src="<%= thumbUrl(album.cover) %>" alt="<%= album.title %>" class="img-responsive" /><% } %>
+								</a>
+							</div>
+						<% }) %>
+					</div>
+					<div class="swiper-pagination photos-pagination"></div>
+				</div>
+			</div>
+			<div data-role="media-gallery" class="tab-pane fade" id="videos">
+				<div class="swiper-container clearfix videoscontainer">
+					<div class="swiper-wrapper">
+						<% videos.forEach(function (video) { %>
+							<div class="swiper-slide">
+								<a href="/media-gallery/videos/<%= video.key %>">
+									<% if (video.thumb) { %><img src="<%= thumbUrl(video.thumb) %>" alt="<%= video.title %>" class="img-responsive" /><% } %>
+								</a>
+							</div>
+						<% }) %>
+					</div>
+					<div class="swiper-pagination videos-pagination"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<% } %>

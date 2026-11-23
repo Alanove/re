@@ -1,0 +1,47 @@
+<%
+	const office = primaryOffice;
+	const mapQuery = office ? (office.mapQuery || office.address) : 'Bsous, Lebanon';
+%>
+<section id="HeaderImg">
+	<div class="banner">
+		<div id="map-canvas">
+			<iframe title="Map" src="https://www.google.com/maps?q=<%= encodeURIComponent(mapQuery) %>&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+		</div>
+	</div>
+</section>
+<section id="content" class="main-container">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8">
+				<h1><%= page.header || page.title %></h1>
+				<%- page.content %>
+				<%- include('partials/contact-form') %>
+			</div>
+			<aside class="col-md-4">
+				<div class="sidebar">
+					<div class="side vertical-divider-left">
+						<h3 class="title"><%= settings.siteName %></h3>
+						<% if (office) { %>
+							<ul class="list">
+								<li><i class="fa fa-map-marker"></i><div><%= office.address %></div></li>
+								<% if (office.phones[0]) { %><li><i class="fa fa-phone"></i><%= office.phones[0] %></li><% } %>
+								<% if (office.phones.length > 1) { %>
+									<li><i class="fa fa-mobile"></i><div><% office.phones.slice(1).forEach(function (phone) { %><%= phone %><br /><% }) %></div></li>
+								<% } %>
+								<% if (office.emails.length) { %>
+									<li><i class="fa fa-envelope"></i>
+										<div>
+											<% office.emails.forEach(function (email) { %>
+												<a href="mailto:<%= email %>"><%= email %></a><br />
+											<% }) %>
+										</div>
+									</li>
+								<% } %>
+							</ul>
+						<% } %>
+					</div>
+				</div>
+			</aside>
+		</div>
+	</div>
+</section>

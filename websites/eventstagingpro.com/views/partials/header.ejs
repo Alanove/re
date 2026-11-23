@@ -1,0 +1,50 @@
+<%
+	function slugOf(url) {
+		if (url === '/') return 'home';
+		const parts = String(url || '').split('/').filter(Boolean);
+		return parts[parts.length - 1] || 'item';
+	}
+%>
+<header>
+	<div class="main-navigation">
+		<nav class="esp-page-header navbar navbar-default navbar-fixed-top" data-role="navigation">
+			<div class="container">
+				<div class="menu-container">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".mainMenu">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="/">
+						<% if (settings.logo) { %>
+							<img src="<%= settings.logo %>" alt="<%= settings.siteName %>" />
+						<% } else { %>
+							<%= settings.siteName %>
+						<% } %>
+					</a>
+				</div>
+				<div class="collapse navbar-collapse mainMenu">
+					<div class="menu-container" id="mainMenu">
+						<ul class="nav navbar-nav dd-list">
+							<% (mainMenu || []).forEach(function (item) { %>
+								<li class="<%= slugOf(item.url) %><%= item.current || item.active ? ' current' : '' %>">
+									<a href="<%= item.url %>"><%= item.title %></a>
+									<% if (item.children && item.children.length) { %>
+										<ul>
+											<% item.children.forEach(function (child) { %>
+												<li class="<%= slugOf(child.url) %><%= child.current ? ' current' : '' %>">
+													<a href="<%= child.url %>"><%= child.title %></a>
+												</li>
+											<% }) %>
+										</ul>
+									<% } %>
+								</li>
+							<% }) %>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</nav>
+	</div>
+</header>

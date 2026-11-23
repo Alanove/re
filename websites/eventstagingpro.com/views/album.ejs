@@ -1,0 +1,29 @@
+<section id="HeaderImg">
+	<img src="/uploads/legacy/site/mea.webp" class="img-responsive" alt="<%= album.title %>" />
+</section>
+<section id="content" class="main-container">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-10"><h1><%= album.title %></h1></div>
+			<div class="col-sm-2 back"><a href="/media-gallery/photos">&laquo; Back</a></div>
+		</div>
+		<div class="galleryContainer">
+			<div id="grid-container" class="cbp-l-grid-masonry-projects">
+				<% album.images.forEach(function (image) { %>
+					<div class="cbp-item">
+						<div class="cbp-caption">
+							<div class="cbp-item-wrapper">
+								<a href="<%= image.src %>" class="cbp-lightbox zoomer" data-title="<%= image.caption %>">
+									<span class="overlay-zoom">
+										<img src="<%= thumbUrl(image.src) %>" alt="<%= image.caption %>"<% if (image.width) { %> width="<%= image.width %>" height="<%= image.height %>"<% } %> />
+										<span class="zoom-icon"></span>
+									</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				<% }) %>
+			</div>
+		</div>
+	</div>
+</section>

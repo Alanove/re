@@ -1,0 +1,21 @@
+<% if (listing.pages > 1) { %>
+	<nav class="pagination" aria-label="Pagination">
+		<% if (listing.page > 1) { %>
+			<a class="pagination__step" href="<%= pageUrl(listing.page - 1) %>" rel="prev"><span class="material-symbols-outlined" aria-hidden="true">chevron_left</span><span class="visually-hidden">Previous page</span></a>
+		<% } %>
+		<ol class="pagination__pages">
+			<% for (let n = 1; n <= listing.pages; n += 1) { %>
+				<li>
+					<% if (n === listing.page) { %>
+						<span class="pagination__page is-current" aria-current="page"><%= n %></span>
+					<% } else { %>
+						<a class="pagination__page" href="<%= pageUrl(n) %>"><span class="visually-hidden">Page </span><%= n %></a>
+					<% } %>
+				</li>
+			<% } %>
+		</ol>
+		<% if (listing.page < listing.pages) { %>
+			<a class="pagination__step" href="<%= pageUrl(listing.page + 1) %>" rel="next"><span class="material-symbols-outlined" aria-hidden="true">chevron_right</span><span class="visually-hidden">Next page</span></a>
+		<% } %>
+	</nav>
+<% } %>

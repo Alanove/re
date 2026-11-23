@@ -1,0 +1,22 @@
+.form-error {
+  color: #c40002;
+  font-size: 13px;
+  margin: 4px 0 0;
+}
+
+.form-honeypot {
+  position: absolute;
+  left: -9999px;
+}
+
+.banner iframe,
+#map-canvas iframe {
+  width: 100%;
+  height: 450px;
+  border: 0;
+  display: block;
+}
+
+.site-captcha {
+  margin: 8px 0 12px;
+}

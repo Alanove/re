@@ -1,0 +1,182 @@
+[
+  {
+    "id": "main",
+    "name": "Main",
+    "description": "Primary navigation",
+    "items": [
+      {
+        "id": "home",
+        "title": "Home",
+        "url": "/",
+        "pageId": null,
+        "sort": 0,
+        "active": true,
+        "htmlContent": "",
+        "children": []
+      },
+      {
+        "id": "p1",
+        "title": "About us",
+        "url": "/about-us",
+        "pageId": 1,
+        "sort": 1,
+        "active": true,
+        "htmlContent": "",
+        "children": []
+      },
+      {
+        "id": "p2",
+        "title": "What we do",
+        "url": "/what-we-do",
+        "pageId": 2,
+        "sort": 2,
+        "active": true,
+        "htmlContent": "",
+        "children": [
+          {
+            "id": "p7",
+            "title": "Festivals",
+            "url": "/what-we-do/festivals",
+            "pageId": 7,
+            "sort": 7,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          },
+          {
+            "id": "p8",
+            "title": "Concerts",
+            "url": "/what-we-do/concerts",
+            "pageId": 8,
+            "sort": 8,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          },
+          {
+            "id": "p9",
+            "title": "Weddings",
+            "url": "/what-we-do/weddings",
+            "pageId": 9,
+            "sort": 9,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          },
+          {
+            "id": "p10",
+            "title": "Others",
+            "url": "/what-we-do/others",
+            "pageId": 10,
+            "sort": 10,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "p3",
+        "title": "Products",
+        "url": "/products",
+        "pageId": 3,
+        "sort": 3,
+        "active": true,
+        "htmlContent": "",
+        "children": [
+          {
+            "id": "p11",
+            "title": "Decoration Sets",
+            "url": "/products/decoration-sets",
+            "pageId": 11,
+            "sort": 11,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          },
+          {
+            "id": "p12",
+            "title": "Towers",
+            "url": "/products/towers",
+            "pageId": 12,
+            "sort": 12,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          },
+          {
+            "id": "p13",
+            "title": "Stadium",
+            "url": "/products/stadium",
+            "pageId": 13,
+            "sort": 13,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          },
+          {
+            "id": "p14",
+            "title": "Layher Products",
+            "url": "/products/layher-products",
+            "pageId": 14,
+            "sort": 14,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "p4",
+        "title": "Media Gallery",
+        "url": "/media-gallery",
+        "pageId": 4,
+        "sort": 4,
+        "active": true,
+        "htmlContent": "",
+        "children": [
+          {
+            "id": "p16",
+            "title": "Photos",
+            "url": "/media-gallery/photos",
+            "pageId": 16,
+            "sort": 16,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          },
+          {
+            "id": "p17",
+            "title": "Videos",
+            "url": "/media-gallery/videos",
+            "pageId": 17,
+            "sort": 17,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "p5",
+        "title": "News & Events",
+        "url": "/news-events",
+        "pageId": 5,
+        "sort": 5,
+        "active": true,
+        "htmlContent": "",
+        "children": []
+      },
+      {
+        "id": "p6",
+        "title": "Contact us",
+        "url": "/contact-us",
+        "pageId": 6,
+        "sort": 6,
+        "active": true,
+        "htmlContent": "",
+        "children": []
+      }
+    ]
+  }
+]

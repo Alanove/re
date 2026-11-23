@@ -1,0 +1,26 @@
+<%- include('partials/page-banner') %>
+<section id="content" class="main-container">
+	<div class="container">
+		<header><h1><%= page.header || page.title %></h1></header>
+		<% if (albums.length === 0) { %>
+			<p>No photo albums at the moment, keep checking this page for further updates.</p>
+		<% } else { %>
+			<div class="galleryContainer">
+				<div id="grid-container" class="cbp-l-grid-masonry-projects">
+					<% albums.forEach(function (album) { %>
+						<div class="cbp-item">
+							<div class="cbp-caption">
+								<div class="cbp-caption-defaultWrap">
+									<a href="/media-gallery/photos/<%= album.key %>">
+										<% if (album.cover) { %><img src="<%= thumbUrl(album.cover) %>" alt="<%= album.title %>" /><% } %>
+									</a>
+								</div>
+							</div>
+							<a href="/media-gallery/photos/<%= album.key %>" class="cbp-l-grid-masonry-projects-title"><%= album.title %></a>
+						</div>
+					<% }) %>
+				</div>
+			</div>
+		<% } %>
+	</div>
+</section>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title><%= seo.title %></title>
+	<meta name="description" content="<%= seo.description %>" />
+	<% if (seo.keywords) { %><meta name="keywords" content="<%= seo.keywords %>" /><% } %>
+	<link rel="canonical" href="<%= seo.canonical %>" />
+	<meta property="og:title" content="<%= seo.title %>" />
+	<meta property="og:description" content="<%= seo.description %>" />
+	<meta property="og:url" content="<%= seo.canonical %>" />
+	<meta property="og:type" content="<%= seo.type || 'website' %>" />
+	<meta property="og:site_name" content="<%= settings.siteName %>" />
+	<% if (seo.image) { %><meta property="og:image" content="<%= absoluteUrl(seo.image) %>" /><% } %>
+	<% if (settings.favicon) { %><link rel="icon" href="<%= settings.favicon %>" /><% } %>
+	<link rel="stylesheet" href="/plugins/slick/slick.min.css" />
+	<link rel="stylesheet" href="/plugins/swiper/css/swiper.min.css" />
+	<link rel="stylesheet" href="/plugins/cube-portfolio/cubeportfolio/css/cubeportfolio.min.css" />
+	<link rel="stylesheet" href="/skins/site.min.css" />
+	<link rel="stylesheet" href="/css/adjust.css" />
+	<link rel="stylesheet" href="/admin/editor/rte-content.css" />
+	<link rel="stylesheet" href="/captcha/captcha.css" />
+</head>
+<body class="<%= typeof bodyClass !== 'undefined' ? bodyClass : '' %>">
+	<div class="wrapper">
+		<%- include('partials/header') %>
+		<%- body %>
+		<%- include('partials/footer') %>
+	</div>
+	<script src="/plugins/jquery/jquery.min.js"></script>
+	<script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/js/plugins.min.js"></script>
+	<script src="/plugins/slick/slick.min.js"></script>
+	<script src="/plugins/swiper/js/swiper.jquery.min.js"></script>
+	<script src="/plugins/cube-portfolio/cubeportfolio/js/jquery.cubeportfolio.min.js"></script>
+	<script src="/js/legacy-shim.js"></script>
+	<script src="/js/site.min.js"></script>
+	<script src="/captcha/captcha.js" defer></script>
+</body>
+</html>

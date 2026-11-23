@@ -1,0 +1,39 @@
+<%
+	function clipText(value, max) {
+		const text = String(value || '').replace(/\s+/g, ' ').trim();
+		if (text.length <= max) return text;
+		const cut = text.slice(0, Math.max(1, max - 3));
+		const space = cut.lastIndexOf(' ');
+		const base = (space > cut.length * 0.6 ? cut.slice(0, space) : cut).trim();
+		return base + '...';
+	}
+%>
+<%- include('partials/page-banner') %>
+<section id="content" class="main-container">
+	<div class="container">
+		<header><h1><%= page.header || page.title %></h1></header>
+		<% if (posts.length === 0) { %>
+			<p>No news at the moment, keep checking this page for further updates.</p>
+		<% } else { %>
+			<div class="newsContainer">
+				<div id="grid-container" class="cbp-l-grid-blog">
+					<% posts.forEach(function (post) { %>
+						<div class="cbp-item">
+							<a href="<%= post.url %>" class="cbp-caption">
+								<div class="cbp-caption-defaultWrap">
+									<% if (post.heroImage) { %>
+										<img src="<%= thumbUrl(post.heroImage) %>" alt="<%= post.title %>" />
+									<% } %>
+								</div>
+							</a>
+							<div class="desc">
+								<a href="<%= post.url %>" class="cbp-l-grid-blog-title"><%= post.title %></a>
+								<% if (post.summary) { %><div class="cbp-l-grid-blog-desc"><%= clipText(post.summary, 160) %></div><% } %>
+							</div>
+						</div>
+					<% }) %>
+				</div>
+			</div>
+		<% } %>
+	</div>
+</section>

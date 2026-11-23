@@ -1,0 +1,30 @@
+<%
+	const rowError = function (name) { return errors['members.' + i + '.' + name]; };
+	const rowClass = function (name) { return rowError(name) ? 'form-control form-control-sm is-invalid' : 'form-control form-control-sm'; };
+	const p = 'members[' + i + ']';
+	const idp = 'members-' + i + '-';
+%>
+<div class="admin-spec-row" data-repeater-row>
+	<div class="row g-3 align-items-start">
+		<div class="col-md-5">
+			<label class="form-label small mb-1" for="<%= idp %>photoFile">Photo</label>
+			<%- include('../partials/media-picker', { id: idp + 'photoFile', field: p + '[photoFile]', kind: 'image', current: member.photo || '', valueName: p + '[photo]', label: 'photo', small: true, hint: 'Portrait photo. Converted to WebP, max 800px.' }) %>
+			<% if (rowError('photo')) { %><div class="invalid-feedback d-block"><%= rowError('photo') %></div><% } %>
+		</div>
+		<div class="col-md-6">
+			<label class="form-label small mb-1" for="<%= idp %>name">Name</label>
+			<input type="text" class="<%= rowClass('name') %>" id="<%= idp %>name" name="<%= p %>[name]" value="<%= member.name %>" maxlength="120" />
+			<% if (rowError('name')) { %><div class="invalid-feedback"><%= rowError('name') %></div><% } %>
+			<label class="form-label small mb-1 mt-2" for="<%= idp %>role">Role</label>
+			<input type="text" class="<%= rowClass('role') %>" id="<%= idp %>role" name="<%= p %>[role]" value="<%= member.role %>" maxlength="120" placeholder="Co-Founder / CEO" />
+			<label class="form-label small mb-1 mt-2" for="<%= idp %>bio">Bio</label>
+			<textarea class="<%= rowClass('bio') %>" id="<%= idp %>bio" name="<%= p %>[bio]" rows="5" maxlength="1200"><%= member.bio %></textarea>
+			<% if (rowError('bio')) { %><div class="invalid-feedback"><%= rowError('bio') %></div><% } %>
+		</div>
+		<div class="col-md-1 d-flex flex-md-column gap-1 justify-content-end">
+			<button type="button" class="btn btn-sm btn-default" data-row-up title="Move up" aria-label="Move member up"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+			<button type="button" class="btn btn-sm btn-default" data-row-down title="Move down" aria-label="Move member down"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+			<button type="button" class="btn btn-sm btn-danger" data-repeater-remove title="Remove" aria-label="Remove member"><i class="fa fa-trash" aria-hidden="true"></i></button>
+		</div>
+	</div>
+</div>

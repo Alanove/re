@@ -1,0 +1,50 @@
+{
+  "hero": {
+    "enabled": true,
+    "interval": 6,
+    "slides": [
+      {
+        "title": "MEA 70 Years",
+        "label": "For the special occasion marking MEA’s 70th anniversary, BDL and MEA together with more than 1500 distinguished guests, gathered in MEA’s hangar on a stage specially designed and built by Event Staging Professionals.",
+        "url": "",
+        "image": "/uploads/legacy/slides/mea-70-years.webp"
+      },
+      {
+        "title": "Festivals",
+        "label": "Event Staging Professionals built a reputation in being part of major festivals in Lebanon, including Baalbeck, Tyr and Sidon international festivals.",
+        "url": "",
+        "image": "/uploads/legacy/slides/festivals.webp"
+      },
+      {
+        "title": "Concerts",
+        "label": "Event Staging Professionals is proud to have contributed in the success of concerts, musicals and performances in Beirut and other areas of Lebanon.",
+        "url": "",
+        "image": "/uploads/legacy/slides/concerts.webp"
+      },
+      {
+        "title": "Wedding",
+        "label": "At Event Staging Professionals we have contributed in making the dream wedding come true for hundreds of couples all over Lebanon.",
+        "url": "",
+        "image": "/uploads/legacy/slides/wedding-slider.webp"
+      }
+    ]
+  },
+  "about": {
+    "enabled": true,
+    "title": "About us",
+    "content": "Event Staging Professionals is a major factor in Lebanon for all your festivals, concerts, weddings, engagements, sport competitions, political meetings, corporate events and the like. Through the years, many of the most prestigious names have trusted us in being part of their special day and continue to do so. In addition to designing, building and installing event stages, we also provide...",
+    "image": "/uploads/legacy/pages/about-us.webp"
+  },
+  "latestPosts": {
+    "enabled": true,
+    "title": "Latest Posts",
+    "intro": "Event Staging Professionals provided staging solutions to some of the biggest events in Lebanon. We have chosen to share with you some of the most incredible experiences we were lucky to be part of.",
+    "limit": 3
+  },
+  "gallery": {
+    "enabled": true,
+    "title": "Media Gallery",
+    "intro": "Event Staging Professionals provided staging solutions to some of the biggest events in Lebanon. We have chosen to share with you some of the most incredible experiences we were lucky to be part of."
+  },
+  "updatedAt": "2026-11-23T12:42:31.532Z"
+}

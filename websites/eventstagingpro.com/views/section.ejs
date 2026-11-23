@@ -1,0 +1,20 @@
+<%- include('partials/page-banner') %>
+<section id="content" class="main-container">
+	<div class="container">
+		<header><h1><%= page.header || page.title %></h1></header>
+		<% if (page.content) { %><%- page.content %><% } %>
+		<div class="row">
+			<% page.children.forEach(function (child) { %>
+				<div class="col-sm-6 col-md-4" style="margin-bottom:30px">
+					<article>
+						<% if (child.heroImage) { %>
+							<a href="<%= child.url %>"><img src="<%= thumbUrl(child.heroImage) %>" alt="<%= child.title %>" class="img-responsive" /></a>
+						<% } %>
+						<h3><a href="<%= child.url %>"><%= child.title %></a></h3>
+						<% if (child.summary) { %><p><%= child.summary %></p><% } %>
+					</article>
+				</div>
+			<% }) %>
+		</div>
+	</div>
+</section>

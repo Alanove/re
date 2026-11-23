@@ -1,0 +1,23 @@
+---
+description: eventstagingpro.com site rules
+globs:
+  - websites/eventstagingpro.com/**
+alwaysApply: false
+---
+
+# eventstagingpro.com: project rules
+
+Site rule for `websites/eventstagingpro.com/`. It applies in addition to the global rules in `.cursor/rules/`; where they conflict, the global rules win. Paths are relative to the site folder.
+
+## Site shape
+- Legacy LiteWeb WebForms site. Content comes from `legacy/bk.xls` (pages, photo albums, videos) plus the home slider, Bsous office and Facebook link in `legacy/_Templates`. Import with `npm run import:legacy` (`scripts/import-esp.ts`). The `legacy/` tree is gitignored.
+- Keep the existing public design (`public/skins`, slick, swiper, cubeportfolio). Do not restyle it with another site's brochure layout.
+- Pages: About, What we do, Products (a normal section, not a catalog), Media Gallery, News & Events, Contact. Home is Admin > Home Page (slides, about excerpt, latest posts, media gallery).
+- Photo albums live at `/media-gallery/photos/:key`. Videos live at `/media-gallery/videos/:key`.
+- One office: Bsous, near Al Sayde Church. Phones `+961 5 940704`, `+961 3 626479`, `+961 70 185838`. Emails `info@eventstagingpro.com` and `e.stagingpro@gmail.com`.
+- Captcha scopes: `admin-login`, `contact`.
+
+## Design
+- Public CSS is the copied legacy skin. Brand tokens are for the admin theme and for reference.
+- Colours from `legacy/_Templates/images/logo.png`: black `#000000` (admin `themeColor`), logo red `#fe0203`, deepened accent `#c40002` so white text passes WCAG AA. Tokens in `public/scss/_tokens.scss`.
+- Public type is Open Sans, loaded by the legacy skin.

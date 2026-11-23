@@ -1,0 +1,55 @@
+// Sampled from legacy/_Templates/images/logo.png.
+// Dominant colour is black #000000 (white text passes WCAG AA). The small chromatic
+// sample is red #fe0203; white text on that red fails AA (about 4.0:1), so the accent
+// used for text and buttons is deepened to #c40002 (about 6.3:1). Neutrals are warm
+// because the accent is warm. The public site keeps the legacy CSS; these tokens
+// drive the admin theme.
+@use 'sass:list';
+@use 'sass:map';
+
+$color-primary: #000000;
+$color-primary-dark: #2a2422;
+$color-primary-container: #f3e8e6;
+$color-on-primary-container: #3a1212;
+$color-logo-red: #fe0203;
+$color-accent: #c40002;
+$color-accent-dark: #8e0001;
+$color-secondary: #6b5e58;
+$color-secondary-fixed: #f3eeeb;
+$color-background: #ffffff;
+$color-surface: #f6f3f1;
+$color-surface-low: #efeae7;
+$color-surface-bright: #fcfbfa;
+$color-on-surface: #1c1614;
+$color-on-surface-variant: #5c534f;
+$color-outline: #d5ccc7;
+$color-white: #ffffff;
+$color-error: #c40002;
+
+$font-display: 'Open Sans', Arial, sans-serif;
+$font-body: 'Open Sans', Arial, sans-serif;
+
+$container: 1140px;
+$header-height: 72px;
+$radius: 0;
+$space-section: 5rem;
+
+$css-colors: (
+  'primary': $color-primary,
+  'primary-dark': $color-primary-dark,
+  'accent': $color-accent,
+  'logo-red': $color-logo-red,
+  'secondary': $color-secondary,
+  'background': $color-background,
+  'surface': $color-surface,
+  'on-surface': $color-on-surface,
+  'outline': $color-outline,
+  'white': $color-white,
+  'error': $color-error
+);
+
+@mixin color-vars {
+  @each $name, $value in $css-colors {
+    --color-#{$name}: #{$value};
+  }
+}

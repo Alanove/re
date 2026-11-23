@@ -1,0 +1,24 @@
+<% const heading = page.header || page.title; %>
+<% const crumbs = typeof page !== 'undefined' && page.ancestors && page.ancestors.length ? page.ancestors : []; %>
+<section class="home-slider inner-page">
+	<div class="slider-item" style="background-image: url('<%= page.heroImage || '/img-static/slider-1.jpg' %>');">
+		<div class="container">
+			<div class="row slider-text align-items-center">
+				<div class="col-12 element-animate">
+					<% if (crumbs.length) { %>
+						<nav class="breadcrumbs breadcrumbs--hero" aria-label="Breadcrumb">
+							<ol>
+								<li><a href="/">Home</a></li>
+								<% crumbs.forEach(function (crumb) { %>
+									<li><a href="<%= crumb.url %>"><%= crumb.title %></a></li>
+								<% }) %>
+								<li aria-current="page"><%= page.title %></li>
+							</ol>
+						</nav>
+					<% } %>
+					<h1 class="text-white"><%= heading %></h1>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
