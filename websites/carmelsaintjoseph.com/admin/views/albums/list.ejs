@@ -1,0 +1,57 @@
+<div class="panel panel-inverse">
+	<div class="panel-heading">
+		<h4 class="panel-title">Photo Albums <span class="badge bg-light text-dark ms-1"><%= albums.length %></span></h4>
+		<div class="panel-heading-btn">
+			<a href="/admin/albums/create" class="btn btn-xs btn-success"><i class="fa fa-plus"></i> Add album</a>
+		</div>
+	</div>
+	<div class="panel-body">
+		<p class="text-muted">Albums appear on the home page and at <a href="/media-gallery/photos" target="_blank" rel="noopener">/media-gallery/photos</a>.</p>
+		<div class="table-responsive">
+			<table class="table table-striped table-bordered align-middle" id="albums-table">
+				<thead>
+					<tr>
+						<th style="width:56px">Cover</th>
+						<th>Title</th>
+						<th class="text-center">Photos</th>
+						<th>Status</th>
+						<th style="width:1%">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% albums.forEach(function (album) { %>
+						<tr>
+							<td>
+								<% if (album.cover) { %>
+									<img src="<%= thumbUrl(album.cover) %>" alt="" class="rounded admin-thumb" loading="lazy" data-fallback-src="<%= album.cover %>" />
+								<% } else { %>
+									<div class="admin-thumb admin-thumb-empty rounded"><i class="fa fa-image text-muted"></i></div>
+								<% } %>
+							</td>
+							<td>
+								<a href="/admin/albums/<%= album.id %>/edit" class="fw-bold"><%= album.title %></a>
+								<div class="small text-muted">/media-gallery/photos/<%= album.key %></div>
+							</td>
+							<td class="text-center"><%= album.images.length %></td>
+							<td>
+								<% if (album.status === 'published') { %><span class="badge bg-success">Published</span><% } else { %><span class="badge bg-secondary">Draft</span><% } %>
+							</td>
+							<td class="text-nowrap">
+								<a href="/admin/albums/<%= album.id %>/edit" class="btn btn-sm btn-primary" title="Edit"><i class="fa fa-edit"></i></a>
+								<button type="button" class="btn btn-sm btn-danger" title="Delete"
+									data-delete-url="/admin/albums/<%= album.id %>"
+									data-delete-title="Delete album"
+									data-delete-message="Delete “<%= album.title %>” and its photos?">
+									<i class="fa fa-trash"></i>
+								</button>
+							</td>
+						</tr>
+					<% }) %>
+					<% if (albums.length === 0) { %>
+						<tr><td colspan="5" class="text-center text-muted py-4">No albums yet. <a href="/admin/albums/create">Add the first album</a>.</td></tr>
+					<% } %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

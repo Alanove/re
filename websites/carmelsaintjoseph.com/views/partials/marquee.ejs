@@ -1,0 +1,14 @@
+<%
+	const marqueeContent = (locals.home && locals.home.marquee)
+		? locals.home.marquee
+		: (typeof locals.marqueeHtml === 'string' ? locals.marqueeHtml : '');
+%>
+<% if (marqueeContent) { %>
+	<div class="marquee-container content-text">
+		<div class="container">
+			<div class="marquee">
+				<%- marqueeContent %>
+			</div>
+		</div>
+	</div>
+<% } %>

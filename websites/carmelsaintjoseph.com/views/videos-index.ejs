@@ -1,0 +1,26 @@
+<%- include('partials/page-banner') %>
+<section id="content" class="main-container">
+	<div class="container">
+		<header><h1><%= page.header || page.title %></h1></header>
+		<% if (videos.length === 0) { %>
+			<p>No videos at the moment, keep checking this page for further updates.</p>
+		<% } else { %>
+			<div class="galleryContainer">
+				<div id="grid-container" class="cbp-l-grid-masonry-projects">
+					<% videos.forEach(function (video) { %>
+						<div class="cbp-item">
+							<div class="cbp-caption">
+								<div class="cbp-caption-defaultWrap">
+									<a href="/media-gallery/videos/<%= video.key %>">
+										<% if (video.thumb) { %><img src="<%= thumbUrl(video.thumb) %>" alt="<%= video.title %>" /><% } %>
+									</a>
+								</div>
+							</div>
+							<a href="/media-gallery/videos/<%= video.key %>" class="cbp-l-grid-masonry-projects-title"><%= video.title %></a>
+						</div>
+					<% }) %>
+				</div>
+			</div>
+		<% } %>
+	</div>
+</section>

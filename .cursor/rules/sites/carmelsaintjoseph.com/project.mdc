@@ -1,0 +1,22 @@
+---
+description: carmelsaintjoseph.com (Collège du Carmel Saint Joseph) - French school brochure site on the shared Node CMS; pages, actualités, albums
+globs: websites/carmelsaintjoseph.com/**
+alwaysApply: false
+---
+
+# carmelsaintjoseph.com: project rules
+
+Site rule for `websites/carmelsaintjoseph.com/`. It applies in addition to the global rules in `.cursor/rules/`; where they conflict, the global rules win. Paths are relative to the site folder.
+
+## Site shape
+- French school brochure site. Content comes from the LiteWeb SQL Server `.bak` (`npm run export:bak` → `content/bak-export.json`) plus the local `wwwroot/` tree via `npm run import:legacy` (`scripts/import-carmel.ts`). `wwwroot/` is gitignored.
+- Keep the existing public design (`public/skins`, Bootstrap 4.1, Font Awesome Pro, cubeportfolio). Do not restyle it with another site's brochure layout.
+- Pages: nested school sections under Le CCSJ, Enseignements, La Vie au CCSJ, and related top-level pages. Actualités live under `/actualites` with year/month archive routes. Albums live at `/nos-albums/:key` and `/visite-virtuelle/:key`.
+- Home is Admin > Home Page (slides, Mot de la Directrice, Historique, tiles, marquee, Fundahope banner, latest posts, Visite Virtuelle teaser). Pronote stays an external link.
+- Card donations are out of scope (legacy CyberSource test checkout). Keep the Fundahope appeal link.
+- One office: Mechref - Damour. Captcha scopes: `admin-login` (and `contact` if a form is added later).
+
+## Design
+- Public CSS is the copied legacy skin. Brand tokens are for the admin theme and for reference.
+- Colours from `wwwroot/images/college-du-carmel-saint-joseph.svg`: brown `#623D19` / `#613C19`, orange `#F26725`. Tokens in `public/scss/_tokens.scss`. Admin `themeColor` uses the brown primary.
+- Public type is Roboto, loaded by the legacy skin / layout.

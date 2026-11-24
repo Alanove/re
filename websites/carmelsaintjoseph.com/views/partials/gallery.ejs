@@ -1,0 +1,15 @@
+<% if (gallery.length) { %>
+	<section class="gallery" aria-label="Photo gallery" data-gallery>
+		<ul class="gallery__grid<%= gallery.length === 1 ? ' gallery__grid--single' : '' %>">
+			<% gallery.forEach(function (image, index) { %>
+				<li class="gallery__item">
+					<a class="gallery__link" href="<%= image.src %>" data-gallery-item data-index="<%= index %>" data-caption="<%= image.caption %>">
+						<img src="<%= image.src %>" alt="<%= image.caption || (page.title + ' photo ' + (index + 1)) %>" loading="lazy"<% if (image.width && image.height) { %> width="<%= image.width %>" height="<%= image.height %>"<% } %> />
+					</a>
+					<% if (image.caption) { %><p class="gallery__caption"><%= image.caption %></p><% } %>
+				</li>
+			<% }) %>
+		</ul>
+	</section>
+	<%- include('lightbox') %>
+<% } %>

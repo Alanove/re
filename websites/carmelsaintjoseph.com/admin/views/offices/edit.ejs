@@ -1,0 +1,82 @@
+<%
+	const action = isCreate ? '/admin/offices/create' : '/admin/offices/' + originalId + '/edit';
+	const fieldClass = function (name) { return errors[name] ? 'form-control is-invalid' : 'form-control'; };
+	const asLines = function (value) { return Array.isArray(value) ? value.join('\n') : (value || ''); };
+%>
+<form method="POST" action="<%= action %>" novalidate>
+	<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+	<div class="row">
+		<div class="col-xl-8">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Office details</h4></div>
+				<div class="panel-body">
+					<div class="row g-3">
+						<div class="col-md-6">
+							<label class="form-label" for="country">Country <span class="text-danger">*</span></label>
+							<input type="text" class="<%= fieldClass('country') %>" id="country" name="country" value="<%= office.country %>" required data-slug-source="#office-id" />
+							<%- include('../partials/field-error', { name: 'country' }) %>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label" for="office-id">ID <span class="text-danger">*</span></label>
+							<input type="text" class="<%= fieldClass('id') %>" id="office-id" name="id" value="<%= office.id %>" required />
+							<small class="text-muted">Lowercase letters, numbers and dashes, e.g. lebanon.</small>
+							<%- include('../partials/field-error', { name: 'id' }) %>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label" for="role">Role</label>
+							<input type="text" class="<%= fieldClass('role') %>" id="role" name="role" value="<%= office.role %>" placeholder="Head office" />
+						</div>
+						<div class="col-md-6">
+							<label class="form-label" for="poBox">P.O. Box</label>
+							<input type="text" class="<%= fieldClass('poBox') %>" id="poBox" name="poBox" value="<%= office.poBox %>" />
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="address">Address</label>
+							<textarea class="<%= fieldClass('address') %>" id="address" name="address" rows="2"><%= office.address %></textarea>
+						</div>
+						<div class="col-md-4">
+							<label class="form-label" for="phones">Phones (one per line)</label>
+							<textarea class="<%= fieldClass('phones') %>" id="phones" name="phones" rows="4"><%= asLines(office.phones) %></textarea>
+							<%- include('../partials/field-error', { name: 'phones' }) %>
+						</div>
+						<div class="col-md-4">
+							<label class="form-label" for="emails">Emails (one per line)</label>
+							<textarea class="<%= fieldClass('emails') %>" id="emails" name="emails" rows="4"><%= asLines(office.emails) %></textarea>
+							<% Object.keys(errors).filter(function (key) { return key.indexOf('emails') === 0; }).forEach(function (key) { %><div class="invalid-feedback d-block"><%= errors[key] %></div><% }) %>
+						</div>
+						<div class="col-md-4">
+							<label class="form-label" for="fax">Fax</label>
+							<input type="text" class="<%= fieldClass('fax') %>" id="fax" name="fax" value="<%= office.fax %>" />
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="mapQuery">Map location</label>
+							<input type="text" class="<%= fieldClass('mapQuery') %>" id="mapQuery" name="mapQuery" value="<%= office.mapQuery %>" maxlength="200" placeholder="Sed El Bauchrieh, Lebanon" />
+							<small class="text-muted">Address or place name shown on the Contact page Google Map. Leave empty to hide this office from the map.</small>
+							<%- include('../partials/field-error', { name: 'mapQuery' }) %>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-4">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Display</h4></div>
+				<div class="panel-body">
+					<div class="form-check form-switch mb-3">
+						<input class="form-check-input" type="checkbox" id="isPrimary" name="isPrimary" value="1" <%= office.isPrimary ? 'checked' : '' %> />
+						<label class="form-check-label" for="isPrimary">Primary office (used in the header)</label>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="sort">Sort order</label>
+						<input type="number" class="<%= fieldClass('sort') %>" id="sort" name="sort" value="<%= office.sort %>" min="0" />
+						<%- include('../partials/field-error', { name: 'sort' }) %>
+					</div>
+					<div class="d-flex gap-2">
+						<button type="submit" class="btn btn-success flex-fill"><i class="fa fa-save me-1"></i> Save office</button>
+						<a href="/admin/offices" class="btn btn-default">Cancel</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

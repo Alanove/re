@@ -1,0 +1,289 @@
+/* Small enhancements on top of the legacy Carmel skin. */
+
+/* Main nav: white links (legacy targets ul.nav; Bootstrap .nav-link is darker/orange). */
+html body header nav .nav > li > a,
+html body header nav .navbar-nav > .nav-item > .nav-link {
+  color: #fff;
+}
+
+html body header nav .nav > li > a:hover,
+html body header nav .navbar-nav > .nav-item > .nav-link:hover,
+html body header nav .nav > li.current > a,
+html body header nav .navbar-nav > .nav-item.current > .nav-link,
+html body header nav .navbar-nav > .nav-item.active > .nav-link {
+  color: #f26725;
+}
+
+html body header nav .dropdown-menu {
+  border: 0;
+  border-radius: 0;
+  background: #1b3058;
+}
+
+html body header nav .dropdown-menu .dropdown-item {
+  color: #fff;
+}
+
+html body header nav .dropdown-menu .dropdown-item:hover,
+html body header nav .dropdown-menu .dropdown-item:focus,
+html body header nav .dropdown-menu .dropdown-item.current,
+html body header nav .dropdown-menu .dropdown-item.active {
+  color: #f26725;
+  background: #fff;
+}
+
+/* Desktop: hover dropdown with a simple slide (no legacy scale pop). */
+@media (min-width: 992px) {
+  html body header nav .nav > .dropdown > .dropdown-menu,
+  html body header nav .navbar-nav > .dropdown > .dropdown-menu {
+    display: block;
+    position: absolute;
+    left: 0;
+    z-index: 99;
+    margin-top: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    pointer-events: none;
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+  }
+
+  html body header nav .nav > .dropdown:hover > .dropdown-menu,
+  html body header nav .navbar-nav > .dropdown:hover > .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  html body header nav .nav-submenu-toggle,
+  html body header nav .nav-drawer-header,
+  html body header nav .nav-drawer-backdrop {
+    display: none !important;
+  }
+}
+
+/* Mobile: full-screen drawer from the left. */
+@media (max-width: 991.98px) {
+  body.nav-drawer-open {
+    overflow: hidden;
+  }
+
+  html body header nav .navbar-toggler {
+    position: relative;
+    z-index: 1051;
+  }
+
+  html body header nav .navbar-toggler.is-open {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  html body header nav .nav-drawer-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 1040;
+    background: rgba(0, 0, 0, 0.45);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  html body header nav .nav-drawer-backdrop.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  html body header nav .mainMenu.navbar-collapse {
+    display: block !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    z-index: 1050;
+    margin: 0;
+    padding: 0 0 2rem;
+    background: #1b3058;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    transform: translateX(-100%);
+    transition: transform 0.28s ease;
+    visibility: visible;
+  }
+
+  html body header nav .mainMenu.navbar-collapse.is-open {
+    transform: translateX(0);
+  }
+
+  html body header nav .nav-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  html body header nav .nav-drawer-title {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+
+  html body header nav .nav-drawer-close {
+    border: 0;
+    background: transparent;
+    color: #fff;
+    font-size: 2rem;
+    line-height: 1;
+    padding: 0 0.25rem;
+  }
+
+  html body header nav .mainMenu .nav {
+    display: block !important;
+    width: 100%;
+    margin: 0;
+    padding: 0.5rem 0;
+  }
+
+  html body header nav .mainMenu .nav-item {
+    position: relative;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  html body header nav .mainMenu .nav-item > .nav-link {
+    padding: 0.9rem 3.25rem 0.9rem 1.25rem;
+    color: #fff;
+  }
+
+  html body header nav .mainMenu .nav-item > .nav-link.dropdown-toggle::after {
+    display: none;
+  }
+
+  html body header nav .mainMenu .nav-submenu-toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 3rem;
+    height: 3.1rem;
+    border: 0;
+    background: transparent;
+    color: #fff;
+  }
+
+  html body header nav .mainMenu .nav-submenu-toggle::before {
+    content: '+';
+    display: block;
+    font-size: 1.5rem;
+    line-height: 3.1rem;
+    text-align: center;
+  }
+
+  html body header nav .mainMenu .nav-item.is-expanded > .nav-submenu-toggle::before {
+    content: '-';
+  }
+
+  html body header nav .mainMenu .dropdown-menu {
+    display: none;
+    position: static;
+    float: none;
+    width: 100%;
+    margin: 0;
+    padding: 0 0 0.5rem;
+    border: 0;
+    background: rgba(0, 0, 0, 0.18);
+    box-shadow: none;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  html body header nav .mainMenu .nav-item.is-expanded > .dropdown-menu {
+    display: block;
+  }
+
+  html body header nav .mainMenu .dropdown-item {
+    padding: 0.65rem 1.25rem 0.65rem 1.75rem;
+    white-space: normal;
+  }
+}
+
+/* Legacy skin sizes .navbar-brand svg only; the CMS header uses an img of the same wordmark. */
+html body header .logo .navbar-brand img,
+html body header .logo .navbar-brand svg {
+  display: block;
+  max-width: 100%;
+  width: auto;
+  height: 100px;
+}
+
+html body header .aefe img {
+  max-height: 110px;
+  width: auto;
+  height: auto;
+}
+
+@media (max-width: 575.98px) {
+  html body header .logo .navbar-brand img,
+  html body header .logo .navbar-brand svg {
+    height: 80px;
+  }
+}
+
+@media (max-width: 485px) {
+  html body header .logo .navbar-brand img,
+  html body header .logo .navbar-brand svg {
+    height: 70px;
+  }
+}
+
+@media (max-width: 439px) {
+  html body header .logo .navbar-brand img,
+  html body header .logo .navbar-brand svg {
+    height: 60px;
+  }
+}
+
+@media (max-width: 390px) {
+  html body header .logo .navbar-brand img,
+  html body header .logo .navbar-brand svg {
+    height: 55px;
+  }
+}
+
+@media (max-width: 366px) {
+  html body header .logo .navbar-brand img,
+  html body header .logo .navbar-brand svg {
+    height: 45px;
+  }
+}
+
+.carmel-slider .carousel-item img {
+  max-height: 560px;
+  object-fit: cover;
+}
+
+.imgHeader {
+  min-height: 220px;
+  background-size: cover;
+  background-position: center;
+}
+
+.mt-8px {
+  margin-top: 8px;
+}
+
+.galleryContainer img {
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 991.98px) {
+  .header-top-menu {
+    display: none;
+  }
+}

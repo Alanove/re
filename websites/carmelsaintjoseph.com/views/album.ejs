@@ -1,0 +1,38 @@
+<div id="content">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8">
+				<div class="content-text">
+					<div class="title d-flex">
+						<h1><%= album.title %></h1>
+						<a href="/<%= album.section %>" class="ml-auto align-self-start mt-8px"><i class="fal fa-angle-double-left mr-1"></i>Retour</a>
+					</div>
+					<div class="text">
+						<% if (album.summary) { %><p><%= album.summary %></p><% } %>
+						<div class="galleryContainer">
+							<div id="grid-container" class="cbp-l-grid-masonry-projects">
+								<% album.images.forEach(function (image) { %>
+									<div class="cbp-item">
+										<div class="cbp-caption">
+											<div class="cbp-item-wrapper details">
+												<a href="<%= image.src %>" class="cbp-lightbox zoomer" data-title="<%= image.caption %>">
+													<span class="overlay-zoom">
+														<img src="<%= thumbUrl(image.src) || image.src %>" alt="<%= image.caption || album.title %>" />
+														<span class="zoom-icon"></span>
+													</span>
+												</a>
+											</div>
+										</div>
+									</div>
+								<% }) %>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4 mt-4 mt-lg-0">
+				<%- include('partials/pronote') %>
+			</div>
+		</div>
+	</div>
+</div>

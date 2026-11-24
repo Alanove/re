@@ -1,0 +1,14 @@
+<% const barParent = breadcrumbs.length > 1 ? breadcrumbs[breadcrumbs.length - 2] : null; %>
+<div class="page-bar" data-page-bar aria-hidden="true">
+	<div class="page-bar__inner">
+		<% if (barParent) { %>
+			<a class="page-bar__parent" href="<%= barParent.url %>" tabindex="-1"><%= barParent.title %></a>
+			<span class="page-bar__sep material-symbols-outlined" aria-hidden="true">chevron_right</span>
+		<% } %>
+		<p class="page-bar__title"><%= page.header || page.title %></p>
+		<a class="page-bar__top" href="#main" tabindex="-1">
+			<span class="material-symbols-outlined" aria-hidden="true">arrow_upward</span>
+			<span class="page-bar__top-label">Top</span>
+		</a>
+	</div>
+</div>

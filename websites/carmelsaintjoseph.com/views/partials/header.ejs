@@ -1,0 +1,81 @@
+<%
+	const headerTopLinks = Array.isArray(locals.topMenu) ? locals.topMenu : [];
+%>
+<header>
+	<div class="header-top">
+		<div class="container">
+			<div class="d-flex align-items-center">
+				<div class="menu header-top-menu">
+					<ul class="list-inline mb-0 d-none d-lg-block">
+						<% headerTopLinks.forEach(function (item) { %>
+							<li class="list-inline-item"><a href="<%= item.url %>"><%= item.title %></a></li>
+						<% }) %>
+					</ul>
+				</div>
+				<div class="ml-auto align-self-center">
+					<ul class="list-inline mb-0 social">
+						<% if (settings.social.facebook) { %>
+							<li class="list-inline-item"><a href="<%= settings.social.facebook %>" target="_blank" rel="noopener" class="facebook" aria-label="Facebook"><i class="fab fa-facebook fa-lg"></i></a></li>
+						<% } %>
+						<% if (settings.social.instagram) { %>
+							<li class="list-inline-item"><a href="<%= settings.social.instagram %>" target="_blank" rel="noopener" class="instagram" aria-label="Instagram"><i class="fab fa-instagram fa-lg"></i></a></li>
+						<% } %>
+						<% if (settings.social.youtube) { %>
+							<li class="list-inline-item"><a href="<%= settings.social.youtube %>" target="_blank" rel="noopener" class="youtube" aria-label="YouTube"><i class="fab fa-youtube fa-lg"></i></a></li>
+						<% } %>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="d-flex">
+			<div class="logo w-100">
+				<a class="navbar-brand" href="/" title="<%= settings.siteName %>">
+					<img src="/images/college-du-carmel-saint-joseph.svg" alt="<%= settings.siteName %>" />
+				</a>
+			</div>
+			<div class="aefe align-self-center">
+				<a href="https://www.aefe.fr/" target="_blank" rel="noopener" title="Agence pour l'enseignement français à l'étranger">
+					<img src="/images/aefe.png" alt="Agence pour l'enseignement français à l'étranger" class="img-fluid" />
+				</a>
+			</div>
+		</div>
+	</div>
+	<nav class="navbar navbar-expand-lg">
+		<div class="container">
+			<button class="navbar-toggler collapsed ml-auto" type="button" aria-controls="navbarText" aria-expanded="false" aria-label="Menu" id="navDrawerToggle">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="nav-drawer-backdrop" id="navDrawerBackdrop" hidden></div>
+			<div class="collapse navbar-collapse menu mainMenu" id="navbarText">
+				<div class="nav-drawer-header d-lg-none">
+					<span class="nav-drawer-title">Menu</span>
+					<button type="button" class="nav-drawer-close" id="navDrawerClose" aria-label="Fermer le menu">&times;</button>
+				</div>
+				<ul class="nav navbar-nav mr-auto d-lg-flex">
+					<% (mainMenu || []).forEach(function (item) { %>
+						<li class="nav-item<%= item.children && item.children.length ? ' dropdown' : '' %><%= item.current || item.active ? ' current active' : '' %>">
+							<% if (item.children && item.children.length) { %>
+								<a class="nav-link dropdown-toggle" href="<%= item.url %>"><%= item.title %></a>
+								<button type="button" class="nav-submenu-toggle d-lg-none" aria-label="Sous-menu <%= item.title %>" aria-expanded="false"></button>
+								<div class="dropdown-menu">
+									<% item.children.forEach(function (child) { %>
+										<a class="dropdown-item<%= child.current || child.active ? ' current active' : '' %>" href="<%= child.url %>"><%= child.title %></a>
+									<% }) %>
+								</div>
+							<% } else { %>
+								<a class="nav-link" href="<%= item.url %>"><%= item.title %></a>
+							<% } %>
+						</li>
+					<% }) %>
+					<% headerTopLinks.forEach(function (item) { %>
+						<li class="nav-item d-lg-none">
+							<a class="nav-link" href="<%= item.url %>"><%= item.title %></a>
+						</li>
+					<% }) %>
+				</ul>
+			</div>
+		</div>
+	</nav>
+</header>

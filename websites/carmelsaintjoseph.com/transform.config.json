@@ -1,0 +1,45 @@
+{
+  "siteKey": "carmelsaintjoseph",
+  "siteName": "Collège du Carmel Saint Joseph",
+  "legacySiteUrl": "https://www.carmelsaintjoseph.edu.lb",
+  "cmsSource": "C:/ai/tests/re/websites/eventstagingpro.com",
+  "contentWorkbook": "content/bak-export.json",
+  "contentSeed": "content/seed.json",
+  "designDir": "design",
+  "outputDir": ".",
+  "port": 3094,
+  "logo": {
+    "url": "https://www.carmelsaintjoseph.edu.lb/images/college-du-carmel-saint-joseph.svg",
+    "localPath": "/uploads/site/logo.webp",
+    "note": "Sampled from wwwroot/images/college-du-carmel-saint-joseph.svg. Brown #623D19 / #613C19, orange #F26725. Primary deepened to #4f3014 when needed so white text passes WCAG AA."
+  },
+  "legacy": {
+    "localRoot": "wwwroot",
+    "pageImagePattern": "/PRV/Images/Pages/Page_{pageId}/Large/{fileName}",
+    "footerPageKey": null,
+    "contactPageKey": "contactez-nous",
+    "newsPageKey": "actualites",
+    "albumsPageKey": "nos-albums",
+    "virtualTourPageKey": "visite-virtuelle",
+    "hiddenPageKeys": [],
+    "uploadsMirrorPrefix": "/uploads/legacy",
+    "legacyHosts": [
+      "www.carmelsaintjoseph.edu.lb",
+      "carmelsaintjoseph.edu.lb",
+      "carmel.liteweb.info",
+      "localhost"
+    ]
+  },
+  "blog": null,
+  "cmsSync": {
+    "adminPublicFiles": [
+      "css/vendor.min.css",
+      "css/app.min.css",
+      "js/vendor.min.js",
+      "js/app.min.js",
+      "js/custom.js",
+      "js/theme.js"
+    ],
+    "adminPublicDirs": ["css/images", "webfonts"]
+  }
+}

@@ -1,0 +1,55 @@
+// Sampled from wwwroot/images/college-du-carmel-saint-joseph.svg.
+// Logo fills: brown #623D19 / #613C19, orange #F26725.
+// White text on #623D19 is about 8.5:1 (passes AA). White on #F26725 fails AA,
+// so buttons and text accents use the brown primary; orange stays a decorative accent.
+// Neutrals are warm to match the brown brand.
+@use 'sass:list';
+@use 'sass:map';
+
+$color-primary: #623D19;
+$color-primary-dark: #4f3014;
+$color-primary-container: #f3ebe3;
+$color-on-primary-container: #3a2410;
+$color-logo-brown: #623D19;
+$color-logo-orange: #F26725;
+$color-accent: #F26725;
+$color-accent-dark: #c44f16;
+$color-secondary: #6b5a48;
+$color-secondary-fixed: #f3eee9;
+$color-background: #ffffff;
+$color-surface: #f7f4f0;
+$color-surface-low: #efeae4;
+$color-surface-bright: #fcfbfa;
+$color-on-surface: #1c1612;
+$color-on-surface-variant: #5c534c;
+$color-outline: #d5ccc4;
+$color-white: #ffffff;
+$color-error: #b42318;
+
+$font-display: 'Roboto', Arial, sans-serif;
+$font-body: 'Roboto', Arial, sans-serif;
+
+$container: 1140px;
+$header-height: 72px;
+$radius: 0;
+$space-section: 5rem;
+
+$css-colors: (
+  'primary': $color-primary,
+  'primary-dark': $color-primary-dark,
+  'accent': $color-accent,
+  'logo-orange': $color-logo-orange,
+  'secondary': $color-secondary,
+  'background': $color-background,
+  'surface': $color-surface,
+  'on-surface': $color-on-surface,
+  'outline': $color-outline,
+  'white': $color-white,
+  'error': $color-error
+);
+
+@mixin color-vars {
+  @each $name, $value in $css-colors {
+    --color-#{$name}: #{$value};
+  }
+}

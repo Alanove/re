@@ -1,0 +1,19 @@
+<% const values = locals.values || {}; const errs = locals.errors || {}; %>
+<form method="POST" action="/admin/videos/create" novalidate>
+	<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+	<div class="panel panel-inverse">
+		<div class="panel-heading"><h4 class="panel-title">New video</h4></div>
+		<div class="panel-body">
+			<% if (locals.error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+			<div class="mb-3">
+				<label class="form-label" for="title">Title <span class="text-danger">*</span></label>
+				<input class="form-control<%= errs.title ? ' is-invalid' : '' %>" id="title" name="title" value="<%= values.title || '' %>" maxlength="200" required />
+				<%- include('../partials/field-error', { name: 'title' }) %>
+			</div>
+		</div>
+		<div class="panel-footer">
+			<button type="submit" class="btn btn-primary">Create video</button>
+			<a class="btn btn-default" href="/admin/videos">Back</a>
+		</div>
+	</div>
+</form>

@@ -1,0 +1,596 @@
+[
+  {
+    "id": "main",
+    "name": "Main",
+    "description": "Primary navigation",
+    "items": [
+      {
+        "id": "accueil",
+        "title": "Accueil",
+        "url": "/",
+        "pageId": null,
+        "sort": 0,
+        "active": true,
+        "htmlContent": "",
+        "children": []
+      },
+      {
+        "id": "p1",
+        "title": "Le CCSJ",
+        "url": "/le-ccsj",
+        "pageId": 1,
+        "sort": 19000,
+        "active": true,
+        "htmlContent": "",
+        "children": [
+          {
+            "id": "p13",
+            "title": "Mot de la Directrice",
+            "url": "/le-ccsj/mot-de-la-directrice",
+            "pageId": 13,
+            "sort": 19000,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          },
+          {
+            "id": "p14",
+            "title": "Historique et Mission",
+            "url": "/le-ccsj/historique-et-mission",
+            "pageId": 14,
+            "sort": 19000,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          },
+          {
+            "id": "p15",
+            "title": "Organigramme",
+            "url": "/le-ccsj/organigramme",
+            "pageId": 15,
+            "sort": 19000,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          },
+          {
+            "id": "p16",
+            "title": "Campus du CCSJ",
+            "url": "/le-ccsj/campus-du-ccsj",
+            "pageId": 16,
+            "sort": 19000,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          },
+          {
+            "id": "p17",
+            "title": "Projet Educatif",
+            "url": "/le-ccsj/projet-educatif",
+            "pageId": 17,
+            "sort": 19000,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          },
+          {
+            "id": "p18",
+            "title": "Projet d’Etablissement",
+            "url": "/le-ccsj/projet-d-etablissement",
+            "pageId": 18,
+            "sort": 19000,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          },
+          {
+            "id": "p3078",
+            "title": "Projet d'Ecole",
+            "url": "/le-ccsj/projet-d-ecole",
+            "pageId": 3078,
+            "sort": 19000,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "p2",
+        "title": "Enseignements et Formation",
+        "url": "/enseignements-et-formation",
+        "pageId": 2,
+        "sort": 19010,
+        "active": true,
+        "htmlContent": "",
+        "children": [
+          {
+            "id": "p19",
+            "title": "Modèle Pédagogique",
+            "url": "/enseignements-et-formation/modele-pedagogique",
+            "pageId": 19,
+            "sort": 19000,
+            "active": true,
+            "htmlContent": "",
+            "children": [
+              {
+                "id": "p20",
+                "title": "Objectifs, Double Programme",
+                "url": "/enseignements-et-formation/modele-pedagogique/objectifs-double-programme",
+                "pageId": 20,
+                "sort": 19000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              },
+              {
+                "id": "p21",
+                "title": "Enseignements",
+                "url": "/enseignements-et-formation/modele-pedagogique/enseignements",
+                "pageId": 21,
+                "sort": 19000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "p22",
+            "title": "Structure Pédagogique",
+            "url": "/enseignements-et-formation/structure-pedagogique",
+            "pageId": 22,
+            "sort": 19000,
+            "active": true,
+            "htmlContent": "",
+            "children": [
+              {
+                "id": "p23",
+                "title": "Effectifs",
+                "url": "/enseignements-et-formation/structure-pedagogique/effectifs",
+                "pageId": 23,
+                "sort": 19000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              },
+              {
+                "id": "p24",
+                "title": "Primaire",
+                "url": "/enseignements-et-formation/structure-pedagogique/primaire",
+                "pageId": 24,
+                "sort": 19000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              },
+              {
+                "id": "p25",
+                "title": "Collège",
+                "url": "/enseignements-et-formation/structure-pedagogique/college",
+                "pageId": 25,
+                "sort": 19000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              },
+              {
+                "id": "p26",
+                "title": "Lycée",
+                "url": "/enseignements-et-formation/structure-pedagogique/lycee",
+                "pageId": 26,
+                "sort": 19000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "p27",
+            "title": "Fonctionnement Pédagogique",
+            "url": "/enseignements-et-formation/fonctionnement-pedagogique",
+            "pageId": 27,
+            "sort": 19000,
+            "active": true,
+            "htmlContent": "",
+            "children": [
+              {
+                "id": "p28",
+                "title": "Organisation Générale",
+                "url": "/enseignements-et-formation/fonctionnement-pedagogique/organisation-generale",
+                "pageId": 28,
+                "sort": 19000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              },
+              {
+                "id": "p29",
+                "title": "Ephémérides",
+                "url": "/enseignements-et-formation/fonctionnement-pedagogique/ephemerides",
+                "pageId": 29,
+                "sort": 19000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              },
+              {
+                "id": "p30",
+                "title": "Enseignements",
+                "url": "/enseignements-et-formation/fonctionnement-pedagogique/enseignements_2",
+                "pageId": 30,
+                "sort": 19000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              },
+              {
+                "id": "p33",
+                "title": "Projets Scolaires",
+                "url": "/enseignements-et-formation/fonctionnement-pedagogique/projets-scolaires",
+                "pageId": 33,
+                "sort": 19000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "p34",
+            "title": "Evaluation et Suivi",
+            "url": "/enseignements-et-formation/evaluation-et-suivi",
+            "pageId": 34,
+            "sort": 19000,
+            "active": true,
+            "htmlContent": "",
+            "children": [
+              {
+                "id": "p35",
+                "title": "L’évaluation et le Suivi",
+                "url": "/enseignements-et-formation/evaluation-et-suivi/l-evaluation-et-le-suivi",
+                "pageId": 35,
+                "sort": 19000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              },
+              {
+                "id": "p37",
+                "title": "Diplômes / Résultats",
+                "url": "/enseignements-et-formation/evaluation-et-suivi/diplomes-resultats",
+                "pageId": 37,
+                "sort": 19000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "p38",
+            "title": "Orientation",
+            "url": "/enseignements-et-formation/orientation",
+            "pageId": 38,
+            "sort": 19000,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          },
+          {
+            "id": "p39",
+            "title": "Ressources de Recherche et de Culture",
+            "url": "/enseignements-et-formation/ressources-de-recherche-et-de-culture",
+            "pageId": 39,
+            "sort": 19000,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "p3",
+        "title": "La Vie au CCSJ",
+        "url": "/la-vie-au-ccsj",
+        "pageId": 3,
+        "sort": 19020,
+        "active": true,
+        "htmlContent": "",
+        "children": [
+          {
+            "id": "p40",
+            "title": "Organisation et Fonctionnement",
+            "url": "/la-vie-au-ccsj/organisation-et-fonctionnement",
+            "pageId": 40,
+            "sort": 19000,
+            "active": true,
+            "htmlContent": "",
+            "children": [
+              {
+                "id": "p42",
+                "title": "Règlement Intérieur",
+                "url": "/la-vie-au-ccsj/organisation-et-fonctionnement/reglement-interieur",
+                "pageId": 42,
+                "sort": 19000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              },
+              {
+                "id": "p43",
+                "title": "Instances Scolaires",
+                "url": "/la-vie-au-ccsj/organisation-et-fonctionnement/instances-scolaires",
+                "pageId": 43,
+                "sort": 19000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              },
+              {
+                "id": "p44",
+                "title": "Médiation Scolaire",
+                "url": "/la-vie-au-ccsj/organisation-et-fonctionnement/mediation-scolaire",
+                "pageId": 44,
+                "sort": 19000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              },
+              {
+                "id": "p46",
+                "title": "Comité des Professeurs",
+                "url": "/la-vie-au-ccsj/organisation-et-fonctionnement/comite-des-professeurs",
+                "pageId": 46,
+                "sort": 19000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              },
+              {
+                "id": "p47",
+                "title": "Comité des Parents",
+                "url": "/la-vie-au-ccsj/organisation-et-fonctionnement/comite-des-parents",
+                "pageId": 47,
+                "sort": 19000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "p48",
+            "title": "Projets Périscolaires et Sociaux",
+            "url": "/la-vie-au-ccsj/projets-periscolaires-et-sociaux",
+            "pageId": 48,
+            "sort": 19000,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          },
+          {
+            "id": "p51",
+            "title": "Jumelage",
+            "url": "/la-vie-au-ccsj/jumelage",
+            "pageId": 51,
+            "sort": 19000,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          },
+          {
+            "id": "p52",
+            "title": "Services et Vie Pratique",
+            "url": "/la-vie-au-ccsj/services-et-vie-pratique",
+            "pageId": 52,
+            "sort": 19000,
+            "active": true,
+            "htmlContent": "",
+            "children": [
+              {
+                "id": "p53",
+                "title": "Services de Direction et d’Administration",
+                "url": "/la-vie-au-ccsj/services-et-vie-pratique/services-de-direction-et-d-administration",
+                "pageId": 53,
+                "sort": 19000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              },
+              {
+                "id": "p54",
+                "title": "Service de Santé",
+                "url": "/la-vie-au-ccsj/services-et-vie-pratique/service-de-sante",
+                "pageId": 54,
+                "sort": 19000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              },
+              {
+                "id": "p55",
+                "title": "Restauration, Transports et Fournitures",
+                "url": "/la-vie-au-ccsj/services-et-vie-pratique/restauration-transports-et-fournitures",
+                "pageId": 55,
+                "sort": 19000,
+                "active": true,
+                "htmlContent": "",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "p3103",
+            "title": "EDD",
+            "url": "/la-vie-au-ccsj/edd",
+            "pageId": 3103,
+            "sort": 19000,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "p4",
+        "title": "Locaux et Espaces",
+        "url": "/locaux-et-espaces",
+        "pageId": 4,
+        "sort": 19030,
+        "active": true,
+        "htmlContent": "",
+        "children": [
+          {
+            "id": "p57",
+            "title": "Les Salles de Classe",
+            "url": "/locaux-et-espaces/les-salles-de-classe",
+            "pageId": 57,
+            "sort": 19000,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          },
+          {
+            "id": "p58",
+            "title": "Les Espaces Scientifiques",
+            "url": "/locaux-et-espaces/les-espaces-scientifiques",
+            "pageId": 58,
+            "sort": 19000,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          },
+          {
+            "id": "p59",
+            "title": "La BCD et le CDI",
+            "url": "/locaux-et-espaces/la-bcd-et-le-cdi",
+            "pageId": 59,
+            "sort": 19000,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          },
+          {
+            "id": "p60",
+            "title": "Les Espaces Artistiques et Culturels",
+            "url": "/locaux-et-espaces/les-espaces-artistiques-et-culturels",
+            "pageId": 60,
+            "sort": 19000,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          },
+          {
+            "id": "p61",
+            "title": "Les Espaces Sportifs",
+            "url": "/locaux-et-espaces/les-espaces-sportifs",
+            "pageId": 61,
+            "sort": 19000,
+            "active": true,
+            "htmlContent": "",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "p5",
+        "title": "Comité des Anciens",
+        "url": "/comite-des-anciens",
+        "pageId": 5,
+        "sort": 19040,
+        "active": true,
+        "htmlContent": "",
+        "children": []
+      },
+      {
+        "id": "p6",
+        "title": "Communauté Religieuse",
+        "url": "/communaute-religieuse",
+        "pageId": 6,
+        "sort": 19050,
+        "active": true,
+        "htmlContent": "",
+        "children": []
+      },
+      {
+        "id": "p7",
+        "title": "Inscriptions et Tarifs",
+        "url": "/inscriptions-et-tarifs",
+        "pageId": 7,
+        "sort": 19060,
+        "active": true,
+        "htmlContent": "",
+        "children": []
+      }
+    ]
+  },
+  {
+    "id": "top",
+    "name": "Top",
+    "description": "Header top links",
+    "items": [
+      {
+        "id": "top-actualites",
+        "title": "Actualités",
+        "url": "/actualites",
+        "pageId": 8,
+        "sort": 1,
+        "active": true,
+        "htmlContent": "",
+        "children": []
+      },
+      {
+        "id": "top-visite",
+        "title": "Visite Virtuelle",
+        "url": "/visite-virtuelle",
+        "pageId": 9,
+        "sort": 2,
+        "active": true,
+        "htmlContent": "",
+        "children": []
+      },
+      {
+        "id": "top-albums",
+        "title": "Nos Albums",
+        "url": "/nos-albums",
+        "pageId": 10,
+        "sort": 3,
+        "active": true,
+        "htmlContent": "",
+        "children": []
+      },
+      {
+        "id": "top-colonie",
+        "title": "La Colonie d'été",
+        "url": "/la-colonie-d-ete",
+        "pageId": 941,
+        "sort": 4,
+        "active": true,
+        "htmlContent": "",
+        "children": []
+      },
+      {
+        "id": "top-recrutement",
+        "title": "Recrutement",
+        "url": "/recrutement",
+        "pageId": 11,
+        "sort": 5,
+        "active": true,
+        "htmlContent": "",
+        "children": []
+      },
+      {
+        "id": "top-contact",
+        "title": "Contactez-nous",
+        "url": "/contactez-nous",
+        "pageId": 12,
+        "sort": 6,
+        "active": true,
+        "htmlContent": "",
+        "children": []
+      }
+    ]
+  }
+]

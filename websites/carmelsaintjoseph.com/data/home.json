@@ -1,0 +1,129 @@
+{
+  "hero": {
+    "enabled": true,
+    "interval": 6,
+    "slides": [
+      {
+        "title": "img1-2",
+        "label": "",
+        "url": "",
+        "image": "/uploads/legacy/slides/img1-2.webp"
+      },
+      {
+        "title": "img2-3",
+        "label": "",
+        "url": "",
+        "image": "/uploads/legacy/slides/img2-3.webp"
+      },
+      {
+        "title": "img3-4",
+        "label": "",
+        "url": "",
+        "image": "/uploads/legacy/slides/img3-4.webp"
+      },
+      {
+        "title": "img4-5",
+        "label": "",
+        "url": "",
+        "image": "/uploads/legacy/slides/img4-5.webp"
+      },
+      {
+        "title": "30",
+        "label": "",
+        "url": "",
+        "image": "/uploads/legacy/slides/30.webp"
+      },
+      {
+        "title": "31",
+        "label": "",
+        "url": "",
+        "image": "/uploads/legacy/slides/31.webp"
+      },
+      {
+        "title": "img5-6",
+        "label": "",
+        "url": "",
+        "image": "/uploads/legacy/slides/img5-6.webp"
+      },
+      {
+        "title": "img6-7",
+        "label": "",
+        "url": "",
+        "image": "/uploads/legacy/slides/img6-7.webp"
+      },
+      {
+        "title": "img7-8",
+        "label": "",
+        "url": "",
+        "image": "/uploads/legacy/slides/img7-8.webp"
+      },
+      {
+        "title": "9",
+        "label": "",
+        "url": "",
+        "image": "/uploads/legacy/slides/9.webp"
+      },
+      {
+        "title": "20",
+        "label": "",
+        "url": "",
+        "image": "/uploads/legacy/slides/20.webp"
+      },
+      {
+        "title": "10",
+        "label": "",
+        "url": "",
+        "image": "/uploads/legacy/slides/10.webp"
+      }
+    ]
+  },
+  "about": {
+    "enabled": true,
+    "title": "Mot de la Directrice",
+    "content": "Le mot de la directrice : la mission éducative, les valeurs, le socle des quatre savoirs par le double programme, la formation à l'humanisme et à la responsabilité du citoyen libanais et citoyen du monde.",
+    "image": "/uploads/legacy/pages/mot-de-la-directrice.webp"
+  },
+  "mission": {
+    "enabled": true,
+    "title": "Historique et Mission",
+    "content": "L'origine et l'histoire du Collège du Carmel Saint Joseph, entre Beyrouth et Mechref : la fidélité à des valeurs et à une mission.",
+    "image": "",
+    "url": "/le-ccsj/historique-et-mission"
+  },
+  "tiles": [
+    {
+      "title": "Projet Educatif",
+      "url": "/le-ccsj/projet-educatif",
+      "imageClass": "img-1"
+    },
+    {
+      "title": "Projets Scolaires",
+      "url": "/enseignements-et-formation/fonctionnement-pedagogique/projets-scolaires",
+      "imageClass": "img-2"
+    },
+    {
+      "title": "Projets Périscolaires",
+      "url": "/la-vie-au-ccsj/projets-periscolaires-et-sociaux",
+      "imageClass": "img-3"
+    }
+  ],
+  "marquee": "<div align=\"justify\">\n<p>\nLes demandes d'inscription pour l'année scolaire 2026-2027 sont reçues à la direction de l'établissement selon des rendez-vous fixés à l’avance.\n</p>\n<p>\n+961 25 601 171 <br />\n+961 25 601 172 <br />\n+961 3 669 641 <br />\n</p>\n\n</div>\n\t\t<br /><br /><br /><br />",
+  "solidarity": {
+    "enabled": true,
+    "image": "/uploads/legacy/site/carmel-solidarite.webp",
+    "url": "https://www.fundahope.com/fundraisers/assurons-lavenir-du-college-du-carmel-st-joseph",
+    "title": "Assurons l'avenir du Collège du Carmel St. Joseph!"
+  },
+  "latestPosts": {
+    "enabled": true,
+    "title": "Actualités",
+    "intro": "",
+    "limit": 3
+  },
+  "gallery": {
+    "enabled": true,
+    "title": "Visite Virtuelle",
+    "intro": ""
+  },
+  "updatedAt": "2026-11-24T13:01:36.122Z"
+}

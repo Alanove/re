@@ -1,0 +1,29 @@
+<% if (page.heroImage) { %>
+	<div class="header-img">
+		<div class="imgHeader" style="background-image: url('<%= page.heroImage %>')"></div>
+	</div>
+<% } %>
+<div id="content">
+	<div class="container">
+		<div class="content-text">
+			<div class="title"><h1><%= page.header || page.title %></h1></div>
+			<div class="text">
+				<div class="row">
+					<div class="col-lg-5 rte-content"><%- page.content %></div>
+					<div class="col-lg-7">
+						<% if (primaryOffice && primaryOffice.mapQuery) { %>
+							<iframe
+								title="Carte Carmel Saint Joseph"
+								src="https://www.google.com/maps?q=<%= encodeURIComponent(primaryOffice.mapQuery) %>&output=embed"
+								style="border:0;width:100%;height:450px"
+								loading="lazy"
+								referrerpolicy="no-referrer-when-downgrade"
+								allowfullscreen
+							></iframe>
+						<% } %>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

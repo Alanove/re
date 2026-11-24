@@ -1,0 +1,11 @@
+{
+  "serverPath": "/www/wwwroot/carmel.liteweb.info",
+  "port": 3096,
+  "healthPath": "/",
+  "nodeBin": null,
+  "aapanelProject": "carmelsaintjoseph",
+  "restartCommand": "PIDFILE=/www/server/nodejs/vhost/pids/carmelsaintjoseph.pid; if [ -f \"$PIDFILE\" ]; then kill \"$(tr -dc 0-9 < \"$PIDFILE\")\" 2>/dev/null || true; fi; fuser -k 3096/tcp 2>/dev/null || true; sleep 1; nohup /www/server/nodejs/v22.20.0/bin/npm run start >>/www/wwwlogs/nodejs/carmelsaintjoseph.log 2>&1 & echo $! > \"$PIDFILE\"",
+  "protect": [
+    "data-backups"
+  ]
+}

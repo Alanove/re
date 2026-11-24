@@ -1,0 +1,40 @@
+<% if (page.heroImage) { %>
+	<div class="header-img">
+		<div class="imgHeader" style="background-image: url('<%= page.heroImage %>')"></div>
+	</div>
+<% } %>
+<div id="content">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8">
+				<div class="content-text">
+					<div class="title"><h1><%= page.header || page.title %></h1></div>
+					<div class="text rte-content">
+						<%- page.content %>
+						<div class="galleryContainer">
+							<div id="albums" class="cbp-l-grid-masonry-projects">
+								<% (albums || []).forEach(function (album) { %>
+									<div class="cbp-item">
+										<div class="cbp-caption">
+											<div class="cbp-caption-defaultWrap">
+												<a href="<%= album.url %>">
+													<% if (album.cover) { %>
+														<img src="<%= thumbUrl(album.cover) || album.cover %>" alt="<%= album.title %>" />
+													<% } %>
+												</a>
+											</div>
+										</div>
+										<a href="<%= album.url %>" class="cbp-l-grid-masonry-projects-title"><%= album.title %></a>
+									</div>
+								<% }) %>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4 mt-4 mt-lg-0">
+				<%- include('partials/sidebar') %>
+			</div>
+		</div>
+	</div>
+</div>

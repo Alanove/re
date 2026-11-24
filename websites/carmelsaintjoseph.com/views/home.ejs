@@ -1,0 +1,83 @@
+<%- include('partials/slider') %>
+<div id="home">
+	<div class="container">
+		<div class="row zoom-media mb-3">
+			<% (home.tiles || []).forEach(function (tile) { %>
+				<div class="col-md-4">
+					<div class="zoom-media-img <%= tile.imageClass %>">
+						<a href="<%= tile.url %>">
+							<div><span><%= tile.title %></span></div>
+						</a>
+					</div>
+				</div>
+			<% }) %>
+		</div>
+		<div class="row">
+			<div class="col-lg-8">
+				<% if (home.about.enabled) { %>
+					<div class="content-text">
+						<div class="title"><h3><%= home.about.title %></h3></div>
+						<div class="text">
+							<p><%= home.about.content %></p>
+							<a href="/le-ccsj/mot-de-la-directrice" class="btn btn-primary">Lire Plus <i class="fal fa-angle-double-right"></i></a>
+						</div>
+					</div>
+				<% } %>
+				<% if (home.latestPosts.enabled && posts && posts.length) { %>
+					<div class="content-text">
+						<div class="title"><h3><%= home.latestPosts.title %></h3></div>
+						<div class="text">
+							<% posts.forEach(function (post) { %>
+								<div class="post-block clearfix mb-3">
+									<% if (post.heroImage) { %>
+										<a href="<%= post.url %>" class="d-block mb-2">
+											<img src="<%= thumbUrl(post.heroImage) || post.heroImage %>" alt="<%= post.title %>" class="img-fluid" />
+										</a>
+									<% } %>
+									<h4 class="post-title"><a href="<%= post.url %>"><%= post.header || post.title %></a></h4>
+									<p class="mb-1 text-muted"><%= new Date(post.createdAt).toLocaleDateString('fr-FR') %></p>
+									<p><%= post.summary %></p>
+								</div>
+							<% }) %>
+							<a href="/actualites" class="btn btn-primary">Toutes les actualités <i class="fal fa-angle-double-right"></i></a>
+						</div>
+					</div>
+				<% } %>
+			</div>
+			<div class="col-lg-4 mt-4 mt-lg-0">
+				<% if (home.mission.enabled) { %>
+					<div class="content-text">
+						<div class="title"><h3><%= home.mission.title %></h3></div>
+						<div class="text">
+							<p><%= home.mission.content %></p>
+							<a href="<%= home.mission.url || '/le-ccsj/historique-et-mission' %>" class="btn btn-primary">Lire Plus <i class="fal fa-angle-double-right"></i></a>
+						</div>
+					</div>
+				<% } %>
+				<% if (home.solidarity.enabled && home.solidarity.image) { %>
+					<div id="comite-des-anciens" class="content-text">
+						<div class="text">
+							<div class="d-flex justify-content-center">
+								<a href="<%= home.solidarity.url %>" target="_blank" rel="noopener" title="<%= home.solidarity.title %>">
+									<img src="<%= home.solidarity.image %>" class="img-fluid" style="height:150px" alt="<%= home.solidarity.title %>" />
+								</a>
+							</div>
+						</div>
+					</div>
+				<% } %>
+				<%- include('partials/marquee') %>
+				<%- include('partials/pronote') %>
+				<% if (home.gallery.enabled) { %>
+					<div class="content-text">
+						<div class="title"><h3><%= home.gallery.title %></h3></div>
+						<div class="text">
+							<a href="/visite-virtuelle">
+								<img src="/uploads/legacy/site/visite-virtuelle.webp" class="img-fluid" alt="Visite Virtuelle" />
+							</a>
+						</div>
+					</div>
+				<% } %>
+			</div>
+		</div>
+	</div>
+</div>
