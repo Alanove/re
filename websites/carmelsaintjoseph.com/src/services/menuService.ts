@@ -69,7 +69,7 @@ export class MenuService {
             sectionUrl = page.url;
           }
           const children = build(item.children);
-          const href = children.length > 0 ? children[0]!.url : sectionUrl;
+          const href = children.length > 0 ? children[0].url : sectionUrl;
           const isCurrent = sectionUrl === normalizedCurrent || href === normalizedCurrent;
           const isAncestor =
             sectionUrl !== '/' && !sectionUrl.startsWith('#') && normalizedCurrent.startsWith(`${sectionUrl}/`);
