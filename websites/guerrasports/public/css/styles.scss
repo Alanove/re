@@ -394,8 +394,9 @@ h1 .tm-sup {
     top: 0.65rem;
     left: 0.65rem;
     z-index: 3;
-    background: #ff5a6a;
-    color: #fff;
+    // Brand teal $primary (#008e77), deepened so the white label clears WCAG AA.
+    background: #007f6a;
+    color: $white;
     font-size: 0.75rem;
     font-weight: 700;
     line-height: 1.2;
