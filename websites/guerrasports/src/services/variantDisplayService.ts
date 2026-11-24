@@ -455,11 +455,6 @@ export function buildColorOptionsForListing(
     return [];
   }
 
-  const defaultFull =
-    product.images && product.images.length > 0
-      ? normalizeMediaUrl(product.images[0].image_url || '')
-      : '';
-
   const out: Array<{
     value_id: number | null;
     value: string;
@@ -470,7 +465,8 @@ export function buildColorOptionsForListing(
   for (const opt of colorGroup.options) {
     let fullUrl = opt.resolved_image_url || '';
     if (!fullUrl && opt.image_url) fullUrl = normalizeMediaUrl(opt.image_url);
-    if (!fullUrl) fullUrl = defaultFull;
+    // No image on this color. Do not reuse the product's main photo, or the
+    // listing row under the card repeats the hero.
     if (!fullUrl) continue;
 
     const swatchUrl = resolveListingThumbUrl(fullUrl, opt.thumb_url ?? null) || fullUrl;

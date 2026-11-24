@@ -6,15 +6,35 @@
     const seg = String(url).split('?')[0].replace(/\\/g, '/').split('/').filter(Boolean).pop() || '';
     return seg.replace(/\.[^.]+$/, '').toLowerCase();
   }
+  function remember(bucket, full, thumb) {
+    const kFull = mediaKey(full);
+    const kThumb = mediaKey(thumb);
+    if (kFull) bucket[kFull] = true;
+    if (kThumb) bucket[kThumb] = true;
+  }
+  function alreadyUsed(bucket, full, thumb) {
+    const kFull = mediaKey(full);
+    const kThumb = mediaKey(thumb);
+    return !!((kFull && bucket[kFull]) || (kThumb && bucket[kThumb]));
+  }
   if (opts.length > 0) {
-    const showOpts = opts.slice(0, maxSwatches);
-    const rest = opts.length - maxSwatches;
+    const mainUsed = {};
+    const main = product && product.images && product.images.length ? product.images[0] : null;
+    if (main) remember(mainUsed, main.image_url, main.thumb_url);
+    const colorOpts = [];
+    opts.forEach(function(opt) {
+      const full = opt.image_url ? String(opt.image_url) : '';
+      const thumb = opt.swatch_image_url ? String(opt.swatch_image_url) : full;
+      if (!full && !thumb) return;
+      if (alreadyUsed(mainUsed, full, thumb)) return;
+      colorOpts.push(opt);
+    });
+    const showOpts = colorOpts.slice(0, maxSwatches);
+    const rest = colorOpts.length - showOpts.length;
     const used = {};
+    remember(used, main && main.image_url, main && main.thumb_url);
     showOpts.forEach(function(opt) {
-      const kFull = mediaKey(opt.image_url);
-      const kThumb = mediaKey(opt.swatch_image_url);
-      if (kFull) used[kFull] = true;
-      if (kThumb) used[kThumb] = true;
+      remember(used, opt.image_url, opt.swatch_image_url);
     });
     const fillers = [];
     const slotsLeft = maxSwatches - showOpts.length;
@@ -23,12 +43,9 @@
         const img = product.images[i];
         const full = (img && img.image_url) ? String(img.image_url) : '';
         const thumb = (img && img.thumb_url) ? String(img.thumb_url) : full;
-        const kFull = mediaKey(full);
-        const kThumb = mediaKey(thumb);
         if (!full && !thumb) continue;
-        if ((kFull && used[kFull]) || (kThumb && used[kThumb])) continue;
-        if (kFull) used[kFull] = true;
-        if (kThumb) used[kThumb] = true;
+        if (alreadyUsed(used, full, thumb)) continue;
+        remember(used, full, thumb);
         fillers.push({
           image_url: full || thumb,
           swatch_image_url: thumb || full,
@@ -36,6 +53,7 @@
         });
       }
     }
+    if (showOpts.length > 0 || fillers.length > 0) {
 %>
 <div class="product-color-swatches d-flex justify-content-start align-items-center pl-0 pr-0">
     <% showOpts.forEach(function(opt) { %>
@@ -58,7 +76,7 @@
     <% }); %>
     <% if (rest > 0) { %><span class="product-color-more text-muted ml-1"><%= rest %>+</span><% } %>
 </div>
-<% } else if (product && product.images && product.images.length > 1) {
+<% } } else if (product && product.images && product.images.length > 1) {
     const used = {};
     const main = product.images[0];
     const mainFull = mediaKey(main && main.image_url);
