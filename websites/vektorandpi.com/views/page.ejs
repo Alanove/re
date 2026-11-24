@@ -1,0 +1,13 @@
+<% if (page.heroImage) { %>
+	<div class="header-img<%= typeof headerImageClass !== 'undefined' && headerImageClass ? ' ' + headerImageClass : '' %>">
+		<div class="imgHeader" style="background-image: url('<%= page.heroImage %>')"></div>
+	</div>
+<% } %>
+<% if (typeof showCircles !== 'undefined' && showCircles) { %>
+	<%- include('partials/circles') %>
+<% } %>
+<div class="container">
+	<div class="content max-width">
+		<%- page.content %>
+	</div>
+</div>

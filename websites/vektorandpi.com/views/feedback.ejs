@@ -1,0 +1,42 @@
+<%
+	const form = typeof contactForm !== 'undefined' ? contactForm : { values: {}, errors: {}, sent: false, message: '' };
+	const val = function (name) { return form.values[name] || ''; };
+	const err = function (name) { return form.errors[name]; };
+	const cls = function (name) { return err(name) ? 'form-control form-control-lg is-invalid' : 'form-control form-control-lg'; };
+%>
+<%- include('partials/page-hero') %>
+<section class="section section--inner">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-8 element-animate">
+				<h1 class="page-content-title"><%= page.header || page.title %></h1>
+				<% if (form.sent) { %>
+					<div class="alert alert-success" role="status"><%= settings.thankYouMessage %></div>
+				<% } else { %>
+					<% if (form.message) { %><div class="alert alert-danger" role="alert"><%= form.message %></div><% } %>
+					<form method="post" action="/feedback" id="feedback-form" data-captcha="feedback" novalidate>
+						<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+						<input type="hidden" name="website" value="" tabindex="-1" autocomplete="off" />
+						<div class="form-group">
+							<label for="name">Full Name</label>
+							<input type="text" class="<%= cls('name') %>" id="name" name="name" value="<%= val('name') %>" required maxlength="120" />
+							<% if (err('name')) { %><div class="invalid-feedback"><%= err('name') %></div><% } %>
+						</div>
+						<div class="form-group">
+							<label for="email">Email</label>
+							<input type="email" class="<%= cls('email') %>" id="email" name="email" value="<%= val('email') %>" required />
+							<% if (err('email')) { %><div class="invalid-feedback"><%= err('email') %></div><% } %>
+						</div>
+						<div class="form-group">
+							<label for="message">Your Feedback</label>
+							<textarea class="<%= cls('message') %>" id="message" name="message" rows="8" required><%= val('message') %></textarea>
+							<% if (err('message')) { %><div class="invalid-feedback"><%= err('message') %></div><% } %>
+						</div>
+						<%- include('partials/captcha', { scope: 'feedback', errors: form.errors }) %>
+						<input type="submit" value="Send Feedback" class="btn btn-primary btn-lg btn-block" />
+					</form>
+				<% } %>
+			</div>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,28 @@
+<% if (home.hero.enabled && home.hero.slides.length) { %>
+	<div class="carmel-slider">
+		<div id="carmel-hero" class="carousel slide" data-ride="carousel" data-interval="<%= (home.hero.interval || 6) * 1000 %>">
+			<ol class="carousel-indicators">
+				<% home.hero.slides.forEach(function (_slide, index) { %>
+					<li data-target="#carmel-hero" data-slide-to="<%= index %>" class="<%= index === 0 ? 'active' : '' %>"></li>
+				<% }) %>
+			</ol>
+			<div class="carousel-inner">
+				<% home.hero.slides.forEach(function (slide, index) { %>
+					<div class="carousel-item<%= index === 0 ? ' active' : '' %>">
+						<% if (slide.url) { %><a href="<%= slide.url %>"><% } %>
+							<img src="<%= slide.image %>" class="d-block w-100" alt="<%= slide.title %>" />
+						<% if (slide.url) { %></a><% } %>
+					</div>
+				<% }) %>
+			</div>
+			<a class="carousel-control-prev" href="#carmel-hero" role="button" data-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="sr-only">Précédent</span>
+			</a>
+			<a class="carousel-control-next" href="#carmel-hero" role="button" data-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="sr-only">Suivant</span>
+			</a>
+		</div>
+	</div>
+<% } %>

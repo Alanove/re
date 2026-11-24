@@ -1,0 +1,65 @@
+﻿@import "../plugins/bootstrap-4.4.1/scss/_functions.scss";
+
+@font-face {
+	font-family: 'Gotham Book';
+	src: url('font/Gotham-Book.woff2') format('woff2'), url('font/Gotham-Book.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Gotham';
+	src: url('font/Gotham-Medium.woff2') format('woff2'), url('font/Gotham-Medium.woff') format('woff');
+	font-weight: 500;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Gotham';
+	src: url('font/Gotham-Light.woff2') format('woff2'), url('font/Gotham-Light.woff') format('woff');
+	font-weight: 300;
+	font-style: normal;
+}
+
+
+
+$Black: #000000;
+$White: #ffffff;
+$Grey: #f6f6f6;
+$Grey2: #d8d8d8;
+$Blue: #00558c;
+$Green: #5a8748;
+
+/* main fonts */
+$font-family-sans-serif: 'Gotham', sans-serif !default;
+
+// Default font sizes
+$default-font-size: 15px; // for media queries
+$base-font-size: 15px; // == 10px
+$base-line-height: 1.4;
+$header-line-height: 1.2;
+
+
+$body-color: $Black;
+
+$link-color: $Black;
+$link-hover-color: $Black;
+$link-hover-decoration: underline !default;
+
+$navbar-light-color: $Black;
+$navbar-light-hover-color: $Black;
+$navbar-light-active-color: $Black;
+$navbar-light-toggler-icon-bg: str-replace(url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='#{$Black}' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"), "#", "%23") !default;
+$navbar-light-toggler-border-color: $Black;
+
+$nav-pills-border-radius: 0 !default;
+$nav-pills-link-active-color: transparent !default;
+$nav-pills-link-active-bg: transparent !default;
+
+
+
+/* set the overriding variables */
+/*$grid-breakpoints: ( xxxs: 0, xxs: 320px, xs: 568px, sm: 667px, md: 768px, lg: 992px, xl: 1200px, xxl: 1440px, xxxl: 1600px );
+$container-max-widths: ( xxxs: 0, xxs: 320px, xs: 568px, sm: 667px, md: 768px, lg: 992px, xl: 1200px, xxl: 1440px, xxxl: 1600px );*/
+/*$grid-breakpoints: ( xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px );
+$container-max-widths: ( sm: 540px, md: 720px, lg: 960px, xl: 1140px );*/

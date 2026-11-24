@@ -1,0 +1,42 @@
+{
+  "siteKey": "vektorandpi",
+  "siteName": "Vektor & PI",
+  "legacySiteUrl": "https://www.vektorandpi.com",
+  "cmsSource": "C:/ai/tests/re/websites/carmelsaintjoseph.com",
+  "contentWorkbook": "content/bak-export.json",
+  "contentSeed": "content/seed.json",
+  "designDir": "design",
+  "outputDir": ".",
+  "port": 3098,
+  "logo": {
+    "url": "https://www.vektorandpi.com/images/vektor-and-pi.png",
+    "localPath": "/uploads/site/logo.webp",
+    "note": "Sampled from app/images/vektor-and-pi.png. Dominant opaque mark ~#201820; brand primary #231f20."
+  },
+  "legacy": {
+    "localRoot": "app",
+    "pageImagePattern": "/PRV/Images/Pages/Page_{pageId}/Large/{fileName}",
+    "footerPageKey": null,
+    "contactPageKey": "reach-us",
+    "newsPageKey": null,
+    "hiddenPageKeys": ["home", "galleries", "testimonials", "clients"],
+    "uploadsMirrorPrefix": "/uploads/legacy",
+    "legacyHosts": [
+      "www.vektorandpi.com",
+      "vektorandpi.com",
+      "localhost"
+    ]
+  },
+  "blog": null,
+  "cmsSync": {
+    "adminPublicFiles": [
+      "css/vendor.min.css",
+      "css/app.min.css",
+      "js/vendor.min.js",
+      "js/app.min.js",
+      "js/custom.js",
+      "js/theme.js"
+    ],
+    "adminPublicDirs": ["css/images", "webfonts"]
+  }
+}

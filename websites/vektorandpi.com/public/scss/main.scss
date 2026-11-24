@@ -1,0 +1,7 @@
+// Public chrome is the legacy skin (skins/site.min.css). This file only emits
+// design tokens for the rich-text editor and any small CMS overlays.
+@use 'tokens' as *;
+
+:root {
+  @include color-vars;
+}

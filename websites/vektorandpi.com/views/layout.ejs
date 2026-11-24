@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en"<%= settings.analyticsId ? ` data-analytics-id="${settings.analyticsId}"` : '' %>>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
+	<title><%= seo.title %></title>
+	<meta name="description" content="<%= seo.description %>" />
+	<% if (seo.keywords) { %><meta name="keywords" content="<%= seo.keywords %>" /><% } %>
+	<link rel="canonical" href="<%= seo.canonical %>" />
+	<meta property="og:title" content="<%= seo.title %>" />
+	<meta property="og:description" content="<%= seo.description %>" />
+	<meta property="og:url" content="<%= seo.canonical %>" />
+	<meta property="og:type" content="<%= seo.type || 'website' %>" />
+	<meta property="og:site_name" content="<%= settings.siteName %>" />
+	<% if (seo.image) { %><meta property="og:image" content="<%= absoluteUrl(seo.image) %>" /><% } %>
+	<link rel="shortcut icon" href="<%= settings.favicon || '/favicon.ico' %>" />
+	<link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
+	<link rel="apple-touch-icon" sizes="76x76" href="/images/apple-touch-icon-76x76.png" />
+	<link rel="apple-touch-icon" sizes="120x120" href="/images/apple-touch-icon-120x120.png" />
+	<link rel="apple-touch-icon" sizes="152x152" href="/images/apple-touch-icon-152x152.png" />
+	<link rel="apple-touch-icon" sizes="256x256" href="/images/apple-touch-icon-256x256.png" />
+	<link href="/plugins/fontawesome-pro-5.8.2-web/css/all.min.css" rel="stylesheet" />
+	<% if (typeof page !== 'undefined' && page && page.key === 'our-presence') { %>
+		<link rel="stylesheet" href="/plugins/cube-portfolio/cubeportfolio/css/cubeportfolio.min.css" />
+	<% } %>
+	<link rel="stylesheet" href="/skins/site.min.css" />
+	<link rel="stylesheet" href="/css/main.css" />
+	<link rel="stylesheet" href="/admin/editor/rte-content.css" />
+	<link rel="stylesheet" href="/captcha/captcha.css" />
+	<% if (settings.analyticsId) { %>
+		<script async src="https://www.googletagmanager.com/gtag/js?id=<%= settings.analyticsId %>"></script>
+		<script src="/js/analytics.js" defer></script>
+	<% } %>
+</head>
+<body class="<%= typeof bodyClass !== 'undefined' ? bodyClass : '' %>">
+	<% if (typeof bodyClass !== 'undefined' && bodyClass === 'home') { %>
+		<div id="preloader">
+			<div id="dots3">
+				<span></span>
+				<span></span>
+				<span></span>
+				<span></span>
+				<span></span>
+			</div>
+		</div>
+	<% } %>
+	<%- include('partials/header') %>
+	<% if (typeof bodyClass !== 'undefined' && bodyClass === 'home') { %>
+		<div class="container home-menu">
+			<%- include('partials/menu') %>
+		</div>
+	<% } else { %>
+		<div class="container">
+			<%- include('partials/menu') %>
+		</div>
+	<% } %>
+	<%- body %>
+	<footer class="<%= typeof footerClass !== 'undefined' ? footerClass : '' %>">
+		<%- include('partials/footer') %>
+	</footer>
+	<script src="/plugins/jquery/jquery.min.js"></script>
+	<script src="/plugins/bootstrap-4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="/js/legacy-shim.js"></script>
+	<% if (typeof page !== 'undefined' && page && page.key === 'our-presence') { %>
+		<script src="/plugins/jquery.mCustomScrollbar.js"></script>
+		<script src="/plugins/cube-portfolio/cubeportfolio/js/jquery.cubeportfolio.min.js"></script>
+	<% } %>
+	<% if (typeof showMap !== 'undefined' && showMap && settings.googleMapsApiKey) { %>
+		<script src="https://maps.googleapis.com/maps/api/js?key=<%= settings.googleMapsApiKey %>"></script>
+		<script src="/plugins/google.map/google.map.config.js"></script>
+	<% } %>
+	<script src="/js/site.js"></script>
+	<script src="/captcha/captcha.js" defer></script>
+</body>
+</html>

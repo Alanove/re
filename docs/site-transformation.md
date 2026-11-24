@@ -354,3 +354,15 @@ Four small static backups under `websites/<domain>/` with a gitignored zip and `
 - Public design keeps the legacy Carmel skin (`public/skins/site.min.css`, Bootstrap 4.1, Font Awesome Pro, cubeportfolio). Home uses Admin > Home Page (slides from `Slider.config`, Mot de la Directrice, Historique et Mission, three tiles, marquee, Fundahope banner, latest actualités, Visite Virtuelle teaser). Pronote stays an external link. Card donations are not rebuilt (legacy CyberSource test checkout); the Fundahope appeal stays.
 - Actualités are children of `/actualites` with `/actualites/:year` and `/actualites/:year/:month` archives. Albums: `/nos-albums/:key` and `/visite-virtuelle/:key` (`album.section`). Contact is `/contactez-nous` (map, no form). Captcha scopes: `admin-login`.
 - One Mechref / Damour office. Logo from `images/college-du-carmel-saint-joseph.svg`. Tokens: brown `#623D19`, orange `#F26725`. Public type is Roboto.
+
+## Port ledger
+
+- [docs/ports.json](ports.json) records assigned ports from Carmel upward and the next free port. Step is always `2`. After assigning a port, set `next` to that port plus `step`.
+- Carmel: local `3094`, deploy `3096`. Vektor & PI: `3098` (local and deploy). Next: `3100`.
+
+## Known Vektor & PI specifics
+
+- Site folder `websites/vektorandpi.com/`, local and deploy port `3098`, server folder `/www/wwwroot/vektorandpi.com`, aaPanel project `vektorandpi`. Scaffolded from the Carmel Saint Joseph CMS. Content from the LiteWeb `.bak` (`npm run export:bak` → `content/bak-export.json`, then `npm run import:legacy` via `scripts/import-vektor.ts`). Legacy tree is `app/` (gitignored; `app.zip` too).
+- Public design keeps the legacy Vektor skin (`public/skins/site.min.css`, Bootstrap 4.4, Font Awesome Pro 5.8.2, Gotham, cubeportfolio on Our Presence). Home is the CMS page `home` (not Carmel’s section builder). Menu: Our Model, Our Services, Our Presence, About Us, Reach Us. Five navigation dots mirror the menu; on home every dot is black.
+- Our Presence loads Gallery / Testimonials / Clients popups from the page images of hidden pages `galleries`, `testimonials`, and `clients`. Reach Us embeds Google Maps (`settings.googleMapsApiKey`, marker `33.856589,35.535963`); no public contact form. Captcha scopes: `admin-login`.
+- One Beirut office. Logo from `images/vektor-and-pi.png`. Tokens: black `#231f20` (sample `#201820`). Public type is Gotham.

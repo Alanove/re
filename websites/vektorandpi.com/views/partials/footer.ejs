@@ -1,0 +1,24 @@
+<div class="container">
+	<div class="borders d-md-flex justify-content-md-between">
+		<% if (settings.social.facebook) { %>
+			<a href="<%= settings.social.facebook %>" target="_blank" rel="noopener" class="d-block text-center mb-2 mb-md-0">
+				<img src="/images/facebook.png" alt="" />/vektorandpi
+			</a>
+		<% } %>
+		<% if (settings.social.linkedin) { %>
+			<a href="<%= settings.social.linkedin %>" target="_blank" rel="noopener" class="d-block text-center mb-2 mb-md-0">
+				<img src="/images/linkedin.png" alt="" />/vektorandpi
+			</a>
+		<% } %>
+		<% if (settings.social.instagram) { %>
+			<a href="<%= settings.social.instagram %>" target="_blank" rel="noopener" class="d-block text-center mb-2 mb-md-0">
+				<img src="/images/instagram.png" alt="" />@vektorandpi
+			</a>
+		<% } %>
+		<% if (settings.contactEmail) { %>
+			<a href="mailto:<%= settings.contactEmail %>" class="d-block text-center mb-md-0">
+				<img src="/images/email.png" alt="" /><%= settings.contactEmail %>
+			</a>
+		<% } %>
+	</div>
+</div>

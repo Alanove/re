@@ -1,0 +1,60 @@
+<%
+	const form = locals.contactForm || { values: {}, errors: {}, sent: false, message: '' };
+	const v = form.values || {};
+	const e = form.errors || {};
+%>
+<% if (form.sent) { %>
+	<div class="alert alert-success" role="status"><%= settings.thankYouMessage %></div>
+<% } else if (form.message) { %>
+	<div class="alert alert-danger" role="alert"><%= form.message %></div>
+<% } %>
+<form class="form" id="ContactUs" method="POST" action="/contact" novalidate data-captcha="contact">
+	<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+	<input type="hidden" name="topic" value="General inquiry" />
+	<div class="row">
+		<div class="col-xs-12 form-group">
+			<label class="required" for="Name">Name</label>
+			<input class="form-control" id="Name" name="name" value="<%= v.name || '' %>" maxlength="120" required />
+			<% if (e.name) { %><p class="form-error" id="cf-name-error"><%= e.name %></p><% } %>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 form-group">
+			<label class="required" for="Email">E-mail</label>
+			<input class="form-control" id="Email" name="email" type="email" value="<%= v.email || '' %>" maxlength="254" required />
+			<% if (e.email) { %><p class="form-error"><%= e.email %></p><% } %>
+		</div>
+		<div class="col-sm-6 form-group">
+			<label for="Phone">Phone</label>
+			<input class="form-control" id="Phone" name="phone" value="<%= v.phone || '' %>" maxlength="40" />
+			<% if (e.phone) { %><p class="form-error"><%= e.phone %></p><% } %>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12 form-group">
+			<label for="Address">Address</label>
+			<input class="form-control" id="Address" name="company" value="<%= v.company || '' %>" maxlength="160" />
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12 form-group">
+			<label class="required" for="Message">Message</label>
+			<textarea id="Message" name="message" class="form-control" rows="6" minlength="10" maxlength="5000" required><%= v.message || '' %></textarea>
+			<% if (e.message) { %><p class="form-error"><%= e.message %></p><% } %>
+		</div>
+	</div>
+	<div class="form-honeypot" aria-hidden="true">
+		<label for="cf-website">Leave this field empty</label>
+		<input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+	</div>
+	<div class="row captcha">
+		<div class="col-xs-12">
+			<div class="site-captcha" data-captcha-status></div>
+			<% if (e.captcha) { %><p class="form-error"><%= e.captcha %></p><% } %>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-3"><p>(<span class="color-red">*</span>) Required Fields</p></div>
+		<div class="col-sm-9"><button type="submit" class="btn btn-primary pull-right">Submit</button></div>
+	</div>
+</form>

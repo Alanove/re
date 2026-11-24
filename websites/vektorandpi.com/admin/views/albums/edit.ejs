@@ -1,0 +1,93 @@
+<%
+	const errs = locals.errors || {};
+	const images = album.images.slice().sort(function (a, b) { return a.sort - b.sort || a.id - b.id; });
+%>
+<form method="POST" action="/admin/albums/<%= album.id %>/edit" enctype="multipart/form-data" novalidate>
+	<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+	<div class="row">
+		<div class="col-xl-8">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title"><%= album.title %></h4></div>
+				<div class="panel-body">
+					<% if (locals.error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+					<div class="mb-3">
+						<label class="form-label" for="title">Title <span class="text-danger">*</span></label>
+						<input class="form-control<%= errs.title ? ' is-invalid' : '' %>" id="title" name="title" value="<%= album.title %>" maxlength="200" required />
+						<%- include('../partials/field-error', { name: 'title' }) %>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="summary">Description</label>
+						<textarea class="form-control" id="summary" name="summary" rows="4" maxlength="2000"><%= album.summary %></textarea>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="section">Section</label>
+						<select class="form-select" id="section" name="section">
+							<option value="nos-albums" <%= album.section === 'nos-albums' ? 'selected' : '' %>>Nos Albums</option>
+							<option value="visite-virtuelle" <%= album.section === 'visite-virtuelle' ? 'selected' : '' %>>Visite Virtuelle</option>
+						</select>
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Cover</label>
+						<%- include('../partials/media-picker', { id: 'coverFile', field: 'coverFile', kind: 'image', current: album.cover || '', valueName: 'cover', removeName: 'removeCover', label: 'cover', hint: 'Shown on the album card. JPEG, PNG, GIF or WebP.' }) %>
+					</div>
+					<h5 class="mt-4">Photos</h5>
+					<% if (images.length === 0) { %>
+						<p class="text-muted">No photos yet.</p>
+					<% } %>
+					<% images.forEach(function (image, i) { %>
+						<div class="border rounded p-2 mb-2 d-flex gap-3 align-items-start">
+							<img src="<%= thumbUrl(image.src) %>" alt="" width="96" height="72" style="object-fit:cover" loading="lazy" data-fallback-src="<%= image.src %>" />
+							<div class="flex-fill">
+								<input type="hidden" name="images[<%= i %>][id]" value="<%= image.id %>" />
+								<input type="hidden" name="images[<%= i %>][src]" value="<%= image.src %>" />
+								<div class="row g-2">
+									<div class="col-md-8">
+										<label class="form-label" for="cap-<%= image.id %>">Caption</label>
+										<input class="form-control" id="cap-<%= image.id %>" name="images[<%= i %>][caption]" value="<%= image.caption %>" maxlength="300" />
+									</div>
+									<div class="col-md-4">
+										<label class="form-label" for="sort-<%= image.id %>">Order</label>
+										<input class="form-control" id="sort-<%= image.id %>" name="images[<%= i %>][sort]" type="number" value="<%= image.sort %>" />
+									</div>
+								</div>
+								<div class="form-check mt-2">
+									<input class="form-check-input" type="checkbox" id="rm-<%= image.id %>" name="images[<%= i %>][remove]" value="1" />
+									<label class="form-check-label text-danger" for="rm-<%= image.id %>">Remove this photo</label>
+								</div>
+							</div>
+						</div>
+					<% }) %>
+					<div class="mt-3">
+						<label class="form-label">Add photos</label>
+						<%- include('../partials/media-picker', { id: 'imageFiles', field: 'imageFiles', kind: 'image', multiple: true, label: 'photos', hint: 'Up to 24 photos each save. JPEG, PNG, GIF or WebP, converted to WebP.' }) %>
+					</div>
+				</div>
+				<div class="panel-footer">
+					<button type="submit" class="btn btn-primary">Save album</button>
+					<a class="btn btn-default" href="/admin/albums">Back</a>
+					<% if (album.status === 'published') { %>
+						<a class="btn btn-default" href="/<%= album.section %>/<%= album.key %>" target="_blank" rel="noopener">View</a>
+					<% } %>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-4">
+			<div class="panel panel-inverse">
+				<div class="panel-heading"><h4 class="panel-title">Publish</h4></div>
+				<div class="panel-body">
+					<div class="mb-3">
+						<label class="form-label" for="status">Status</label>
+						<select class="form-select" id="status" name="status">
+							<option value="published" <%= album.status === 'published' ? 'selected' : '' %>>Published</option>
+							<option value="draft" <%= album.status === 'draft' ? 'selected' : '' %>>Draft</option>
+						</select>
+					</div>
+					<div class="mb-0">
+						<label class="form-label" for="sort">Sort</label>
+						<input class="form-control" id="sort" name="sort" type="number" value="<%= album.sort %>" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

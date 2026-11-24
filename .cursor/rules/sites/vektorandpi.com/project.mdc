@@ -1,0 +1,24 @@
+---
+description: vektorandpi.com (Vektor & PI) - English brochure site on the shared Node CMS; keep legacy public skin
+globs: websites/vektorandpi.com/**
+alwaysApply: false
+---
+
+# vektorandpi.com: project rules
+
+Site rule for `websites/vektorandpi.com/`. It applies in addition to the global rules in `.cursor/rules/`; where they conflict, the global rules win. Paths are relative to the site folder.
+
+## Site shape
+- English brochure site. Content comes from the LiteWeb SQL Server `.bak` (`npm run export:bak` → `content/bak-export.json`) plus the local `app/` tree via `npm run import:legacy` (`scripts/import-vektor.ts`). `app/` and `app.zip` are gitignored.
+- Keep the existing public design (`public/skins`, Bootstrap 4.4, Font Awesome Pro 5.8.2, Gotham, cubeportfolio on Our Presence). Do not restyle it with another site's brochure layout.
+- Pages: Our Model, Our Services, Our Presence, About Us, Reach Us. Home body is the CMS page `home`. Gallery / Testimonials / Clients are hidden image pages that feed Our Presence popups.
+- Reach Us uses the Google Maps JS API (settings `googleMapsApiKey`) and marker at `33.856589, 35.535963`. No public contact form.
+- Captcha scopes: `admin-login`.
+
+## Design
+- Public CSS is the copied legacy skin. Brand tokens are for the admin theme and for reference.
+- Colours from `app/images/vektor-and-pi.png`: black mark `#231f20` (sample `#201820`). Tokens in `public/scss/_tokens.scss`. Admin `themeColor` uses the black primary.
+- Public type is Gotham / Gotham Book, loaded by the legacy skin.
+
+## Ports
+- Local and deploy port `3098`. Next free port is recorded in `docs/ports.json` (`next`: 3100, step 2).

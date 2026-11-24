@@ -1,0 +1,14 @@
+﻿node_modules/
+dist/
+public/css/main.css
+admin/public/css/admin.css
+data/submissions.json
+data/users.json
+/app/
+app.zip
+*.zip
+*.tar.gz
+content/bak-export.json
+content/sql-data/
+content/crawl-cache/
+data-backups/

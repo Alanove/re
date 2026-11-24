@@ -307,7 +307,7 @@ if ($sshUser -eq $runAs) {
   $remoteCommand = "sudo -n -u $runAs -H bash -s -- $quoted"
 }
 
-$sshArgs = @('-T', '-o', 'BatchMode=yes', '-p', "$sshPort")
+$sshArgs = @('-T', '-o', 'BatchMode=yes', '-o', 'ServerAliveInterval=15', '-o', 'ServerAliveCountMax=40', '-p', "$sshPort")
 if ($identityFile) { $sshArgs += @('-i', [Environment]::ExpandEnvironmentVariables([string]$identityFile)) }
 $sshArgs += @("$sshUser@$sshHost", $remoteCommand)
 

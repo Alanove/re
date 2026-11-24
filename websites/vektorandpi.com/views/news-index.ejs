@@ -1,0 +1,48 @@
+<% if (page.heroImage) { %>
+	<div class="header-img">
+		<div class="imgHeader" style="background-image: url('<%= page.heroImage %>')"></div>
+	</div>
+<% } %>
+<div id="content">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8">
+				<div class="content-text">
+					<div class="title"><h1><%= page.header || page.title %></h1></div>
+					<div class="text">
+						<% if (typeof archiveYears !== 'undefined' && archiveYears.length) { %>
+							<% archiveYears.forEach(function (year) { %>
+								<div class="post-block clearfix">
+									<div class="post-content">
+										<h2 class="post-title"><a href="/actualites/<%= year.year %>">Année <%= year.year %></a></h2>
+										<ul class="months-list">
+											<% year.months.forEach(function (month) { %>
+												<li><a href="/actualites/<%= year.year %>/<%= month.number %>"><%= month.label %></a></li>
+											<% }) %>
+										</ul>
+									</div>
+								</div>
+							<% }) %>
+						<% } else if (posts && posts.length) { %>
+							<% posts.forEach(function (post) { %>
+								<div class="post-block clearfix mb-4">
+									<% if (post.heroImage) { %>
+										<a href="<%= post.url %>"><img src="<%= thumbUrl(post.heroImage) || post.heroImage %>" class="img-fluid mb-2" alt="<%= post.title %>" /></a>
+									<% } %>
+									<h2 class="post-title"><a href="<%= post.url %>"><%= post.header || post.title %></a></h2>
+									<p class="text-muted"><%= new Date(post.createdAt).toLocaleDateString('fr-FR') %></p>
+									<p><%= post.summary %></p>
+								</div>
+							<% }) %>
+						<% } else { %>
+							<p>Pas d'actualités pour le moment, continuez à vérifier cette page pour d'autres mises à jour.</p>
+						<% } %>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4 mt-4 mt-lg-0">
+				<%- include('partials/sidebar', { sideTitle: 'Les Dernières Actualités', sideItems: (latestNews || posts || []).slice(0, 5) }) %>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,10 @@
+<%
+	const keys = ['our-model', 'our-services', 'our-presence', 'about-us', 'reach-us'];
+	const selected = typeof circleSlug !== 'undefined' ? circleSlug : '';
+	const homeMode = typeof homeCircles !== 'undefined' && homeCircles;
+%>
+<div class="fullCircles<%= homeMode ? ' fullCirclesHome' : '' %>">
+	<% keys.forEach(function (key) { %>
+		<div class="<%= key %><%= !homeMode && selected === key ? ' selected' : '' %>"></div>
+	<% }) %>
+</div>

@@ -1,0 +1,54 @@
+// Sampled from public/images/vektor-and-pi.png (app/images/vektor-and-pi.png).
+// Dominant opaque mark colour ~#201820; brand primary recorded as #231f20.
+// White text on #231f20 passes WCAG AA. Neutrals are cool greys to match the black mark.
+@use 'sass:list';
+@use 'sass:map';
+
+$color-primary: #231f20;
+$color-primary-dark: #141213;
+$color-primary-container: #eceaea;
+$color-on-primary-container: #231f20;
+$color-logo-black: #231f20;
+$color-logo-sample: #201820;
+$color-accent: #231f20;
+$color-accent-dark: #141213;
+$color-secondary: #5c5658;
+$color-secondary-fixed: #f3f1f2;
+$color-background: #ffffff;
+$color-surface: #f7f6f6;
+$color-surface-low: #eceaea;
+$color-surface-bright: #fcfcfc;
+$color-on-surface: #231f20;
+$color-on-surface-variant: #5c5658;
+$color-outline: #d5d2d3;
+$color-white: #ffffff;
+$color-error: #b42318;
+
+$font-display: 'Gotham', Arial, sans-serif;
+$font-body: 'Gotham Book', Arial, sans-serif;
+
+$container: 1140px;
+$header-height: 72px;
+$radius: 0;
+$space-section: 5rem;
+
+$css-colors: (
+  'primary': $color-primary,
+  'primary-dark': $color-primary-dark,
+  'accent': $color-accent,
+  'secondary': $color-secondary,
+  'background': $color-background,
+  'surface': $color-surface,
+  'on-surface': $color-on-surface,
+  'on-surface-variant': $color-on-surface-variant,
+  'outline': $color-outline,
+  'white': $color-white,
+  'error': $color-error
+);
+
+@mixin color-vars {
+  @each $name, $value in $css-colors {
+    --color-#{$name}: #{$value};
+  }
+}
+

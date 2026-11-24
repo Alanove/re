@@ -1,0 +1,24 @@
+<%
+	const sidebarItems = Array.isArray(locals.sideItems)
+		? locals.sideItems
+		: (locals.sectionRoot && locals.sectionRoot.children ? locals.sectionRoot.children : []);
+	const sidebarTitle = typeof locals.sideTitle === 'string'
+		? locals.sideTitle
+		: (locals.sectionRoot ? locals.sectionRoot.title : '');
+%>
+<% if (sidebarItems && sidebarItems.length) { %>
+	<div class="content-text sideMenu">
+		<% if (sidebarTitle) { %><h3 class="sideMenuTitle"><%= sidebarTitle %></h3><% } %>
+		<div class="sideMenuList">
+			<ul>
+				<% sidebarItems.forEach(function (item) { %>
+					<li class="<%= item.url === page.url ? 'active' : '' %>">
+						<a class="nav-link" href="<%= item.url %>"><%= item.header || item.title %></a>
+					</li>
+				<% }) %>
+			</ul>
+		</div>
+	</div>
+<% } %>
+<%- include('pronote') %>
+<%- include('marquee') %>

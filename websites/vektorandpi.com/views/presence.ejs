@@ -1,0 +1,94 @@
+<% if (page.heroImage) { %>
+	<div class="header-img bigger">
+		<div class="imgHeader" style="background-image: url('<%= page.heroImage %>')"></div>
+	</div>
+<% } %>
+<div class="container">
+	<div class="content">
+		<div class="row text-center mt-80">
+			<%- page.content %>
+
+			<div class="pop-up pop-up-gallery">
+				<div class="header">
+					<div>GALLERY</div>
+					<div class="close-popup close-popup-gallery">
+						<img src="/images/close-popup.png" alt="" />
+					</div>
+				</div>
+				<div class="scrollbar-inner">
+					<div class="galleryContainer">
+						<div id="albums" class="cbp-l-grid-masonry-projects">
+							<% (galleryImages || []).forEach(function (image) { %>
+								<div class="cbp-item">
+									<div class="cbp-caption">
+										<div class="cbp-item-wrapper details">
+											<a href="<%= image.src %>" class="cbp-lightbox zoomer" data-title="<%= image.caption || '' %>">
+												<span class="overlay-zoom">
+													<img src="<%= image.thumb %>" alt="<%= image.caption || '' %>" />
+													<span class="zoom-icon"></span>
+												</span>
+											</a>
+										</div>
+									</div>
+								</div>
+							<% }) %>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="pop-up pop-up-testimonials">
+				<div class="header">
+					<div>TESTIMONIALS</div>
+					<div class="close-popup close-popup-testimonials">
+						<img src="/images/close-popup.png" alt="" />
+					</div>
+				</div>
+				<div class="scrollbar-inner">
+					<div class="galleryContainer">
+						<div id="testimonials" class="cbp-l-grid-masonry-projects">
+							<% (testimonialImages || []).forEach(function (image) { %>
+								<div class="cbp-item">
+									<div class="cbp-caption">
+										<div class="cbp-item-wrapper details">
+											<a href="<%= image.src %>" class="cbp-lightbox zoomer" data-title="<%= image.caption || '' %>">
+												<span class="overlay-zoom">
+													<img src="<%= image.thumb %>" alt="<%= image.caption || '' %>" />
+													<span class="zoom-icon"></span>
+												</span>
+											</a>
+										</div>
+									</div>
+								</div>
+							<% }) %>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="pop-up pop-up-clients">
+				<div class="header">
+					<div>CLIENTS</div>
+					<div class="close-popup close-popup-clients">
+						<img src="/images/close-popup.png" alt="" />
+					</div>
+				</div>
+				<div class="scrollbar-inner">
+					<div class="galleryContainer">
+						<div id="clients" class="cbp-l-grid-masonry-projects">
+							<% (clientImages || []).forEach(function (image) { %>
+								<div class="cbp-item">
+									<div class="cbp-caption">
+										<div class="cbp-item-wrapper details">
+											<img src="<%= image.src %>" alt="<%= image.caption || '' %>" />
+										</div>
+									</div>
+								</div>
+							<% }) %>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

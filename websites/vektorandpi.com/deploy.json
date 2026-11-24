@@ -1,0 +1,11 @@
+{
+  "serverPath": "/www/wwwroot/vektorandpi.com",
+  "port": 3098,
+  "healthPath": "/",
+  "nodeBin": null,
+  "aapanelProject": "vektorandpi",
+  "restartCommand": "PIDFILE=/www/server/nodejs/vhost/pids/vektorandpi.pid; if [ -f \"$PIDFILE\" ]; then kill \"$(tr -dc 0-9 < \"$PIDFILE\")\" 2>/dev/null || true; fi; fuser -k 3098/tcp 2>/dev/null || true; sleep 1; nohup /www/server/nodejs/v22.20.0/bin/npm run start >>/www/wwwlogs/nodejs/vektorandpi.log 2>&1 & echo $! > \"$PIDFILE\"",
+  "protect": [
+    "data-backups"
+  ]
+}
