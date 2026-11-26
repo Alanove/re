@@ -38,18 +38,19 @@
 	lwSite.siteinit();
 	_activeMenu();
 
-	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-
-		$('a[data-toggle="tab"]').each(function (index, value) {
-			var _id = `${this.id}`;
-			if (e.target.id != _id) {
-				$(this).parent().addClass('not-selected');
+	function markServiceTabSelection($activeTab) {
+		$('a[data-toggle="tab"]').each(function () {
+			var $item = $(this).parent();
+			if ($activeTab && this === $activeTab[0]) {
+				$item.removeClass('not-selected');
 			} else {
-				$(this).parent().removeClass('not-selected');
+				$item.addClass('not-selected');
 			}
 		});
-		//e.target // newly activated tab
-		//e.relatedTarget // previous active tab
+	}
+
+	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+		markServiceTabSelection($(e.target));
 	});
 
 	function showServiceTab(hash) {
@@ -62,6 +63,8 @@
 			$tab = $tabs.first();
 		}
 		if ($tab.hasClass('active') && $($tab.attr('href')).hasClass('show')) {
+			// Already active (e.g. first tab from HTML) — still fade the others.
+			markServiceTabSelection($tab);
 			return;
 		}
 		if (typeof $.fn.tab === 'function') {
@@ -75,6 +78,7 @@
 		if (target) {
 			$(target).addClass('active show');
 		}
+		markServiceTabSelection($tab);
 	}
 
 	// Bootstrap cancels the link, so a click must push the hash itself.
