@@ -10,13 +10,7 @@
 	<div class="content-text sideMenu">
 		<% if (sidebarTitle) { %><h3 class="sideMenuTitle"><%= sidebarTitle %></h3><% } %>
 		<div class="sideMenuList">
-			<ul>
-				<% sidebarItems.forEach(function (item) { %>
-					<li class="<%= item.url === page.url ? 'active' : '' %>">
-						<a class="nav-link" href="<%= item.url %>"><%= item.header || item.title %></a>
-					</li>
-				<% }) %>
-			</ul>
+			<%- include('sidebar-items', { items: sidebarItems, currentUrl: page && page.url ? page.url : '', root: true }) %>
 		</div>
 	</div>
 <% } %>

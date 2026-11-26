@@ -36,6 +36,14 @@ function emptyForm(sent = false): ContactFormState {
   return { values: {}, errors: {}, sent, message: '' };
 }
 
+/** Brochure tree for the site map. News stories stay off the list; Actualités itself stays. */
+function brochurePages(nodes: PageNode[]): PageNode[] {
+  return nodes.map((node) => ({
+    ...node,
+    children: node.kind === 'news' || node.key === 'actualites' ? [] : brochurePages(node.children)
+  }));
+}
+
 function wantsJson(req: Request): boolean {
   return (req.get('accept') ?? '').includes('application/json');
 }
@@ -335,6 +343,7 @@ export class PublicController {
     res.render(view, {
       page: published,
       sectionRoot,
+      sitemapTree: published.key === 'site-map' ? brochurePages(await pagesService.getPublishedTree()) : [],
       gallery,
       albums,
       posts: published.kind === 'news' ? publishedNews : [],

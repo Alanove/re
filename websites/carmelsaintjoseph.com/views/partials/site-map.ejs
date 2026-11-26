@@ -1,0 +1,19 @@
+<%
+	const nodes = Array.isArray(locals.nodes) ? locals.nodes : [];
+	const nested = locals.nested === true;
+%>
+<% if (nodes.length || !nested) { %>
+<ul class="<%= nested ? '' : 'site-map-list' %>">
+	<% if (!nested) { %>
+		<li><a href="/">Accueil</a></li>
+	<% } %>
+	<% nodes.forEach(function (node) { %>
+		<li>
+			<a href="<%= node.url %>"><%= node.title || node.header %></a>
+			<% if (node.children && node.children.length) { %>
+				<%- include('site-map', { nodes: node.children, nested: true }) %>
+			<% } %>
+		</li>
+	<% }) %>
+</ul>
+<% } %>

@@ -1,0 +1,42 @@
+<%
+	const menuItems = Array.isArray(locals.items) ? locals.items : [];
+	const here = typeof locals.currentUrl === 'string' ? locals.currentUrl : '';
+
+	function branchHas(node, url) {
+		if (!node || !url) {
+			return false;
+		}
+		if (node.url === url) {
+			return true;
+		}
+		return Array.isArray(node.children) && node.children.some(function (child) {
+			return branchHas(child, url);
+		});
+	}
+
+	function leafUrl(node) {
+		let current = node;
+		const seen = new Set();
+		while (
+			current
+			&& Array.isArray(current.children)
+			&& current.children.length
+			&& current.id != null
+			&& !seen.has(current.id)
+		) {
+			seen.add(current.id);
+			current = current.children[0];
+		}
+		return current && current.url ? current.url : (node && node.url ? node.url : '#');
+	}
+%>
+<ul<% if (locals.root) { %> class="first"<% } %>>
+	<% menuItems.forEach(function (item, index) { %>
+		<li class="<%= branchHas(item, here) ? 'current' : '' %><%= index === 0 ? ' first' : '' %><%= index === menuItems.length - 1 ? ' last' : '' %>">
+			<a class="nav-link" href="<%= leafUrl(item) %>"<% if (item.url === here) { %> aria-current="page"<% } %>><%= item.header || item.title %></a>
+			<% if (item.children && item.children.length) { %>
+				<%- include('sidebar-items', { items: item.children, currentUrl: here, root: false }) %>
+			<% } %>
+		</li>
+	<% }) %>
+</ul>

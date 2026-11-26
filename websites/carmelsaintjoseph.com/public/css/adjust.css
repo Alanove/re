@@ -282,6 +282,39 @@ html body header .aefe img {
   height: auto;
 }
 
+/* Site map page. The legacy skin hides ul.site-map-list under .contactez-nous. */
+html body .text ul.site-map-list,
+html body .contactez-nous ul.site-map-list {
+  display: block;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+html body .text ul.site-map-list ul {
+  list-style: none;
+  margin: 0.15rem 0 0.4rem;
+  padding-left: 1.25rem;
+}
+
+html body .text ul.site-map-list a {
+  color: #1b3058;
+}
+
+html body .text ul.site-map-list a:hover {
+  color: #f26725;
+}
+
+html body .text ul.site-map-list > li {
+  margin: 0.45rem 0;
+  font-weight: 500;
+}
+
+html body .text ul.site-map-list li li {
+  font-weight: 400;
+  margin: 0.2rem 0;
+}
+
 @media (max-width: 991.98px) {
   .header-top-menu {
     display: none;
