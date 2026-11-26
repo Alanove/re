@@ -5,3 +5,8 @@
 :root {
   @include color-vars;
 }
+
+/* Skin sets body background via shorthand image-only, which clears Bootstrap's white. */
+html body {
+  background-color: #fff;
+}

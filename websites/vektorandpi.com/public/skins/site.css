@@ -14864,7 +14864,7 @@ yx-axis
 
 @-webkit-keyframes dots3 {}/** END of dots3 */
 html body {
-  background: url(images/bg-line-t-7.png) no-repeat 50% 100px;
+  background: #fff url(images/bg-line-t-7.png) no-repeat 50% 100px;
   font-size: 15px;
   counter-reset: section; }
   html body b, html body strong {
