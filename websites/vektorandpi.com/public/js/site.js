@@ -52,6 +52,20 @@
 		//e.relatedTarget // previous active tab
 	});
 
+	function activateServiceTabFromHash() {
+		var hash = window.location.hash;
+		if (!hash || !$('a[data-toggle="tab"]').length) {
+			return;
+		}
+		var $tab = $('a[data-toggle="tab"][href="' + hash + '"]');
+		if ($tab.length && typeof $tab.tab === 'function') {
+			$tab.tab('show');
+		}
+	}
+
+	activateServiceTabFromHash();
+	$(window).on('hashchange', activateServiceTabFromHash);
+
 	if ($(".pop-up").length > 0) {
 		setPopupHeight();
 	}
