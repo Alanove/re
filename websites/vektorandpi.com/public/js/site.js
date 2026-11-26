@@ -52,16 +52,17 @@
 		//e.relatedTarget // previous active tab
 	});
 
-	function activateServiceTabFromHash() {
+	function showServiceTab(hash) {
 		var $tabs = $('a[data-toggle="tab"]');
 		if (!$tabs.length) {
 			return;
 		}
-		var hash = window.location.hash;
 		var $tab = hash ? $tabs.filter('[href="' + hash + '"]') : $();
 		if (!$tab.length) {
-			// No hash (or unknown): show the first service tab so content is never blank.
 			$tab = $tabs.first();
+		}
+		if ($tab.hasClass('active') && $($tab.attr('href')).hasClass('show')) {
+			return;
 		}
 		if (typeof $.fn.tab === 'function') {
 			$tab.tab('show');
@@ -76,9 +77,22 @@
 		}
 	}
 
-	// Defer so location.hash and the Bootstrap tab plugin are ready after load/navigation.
-	setTimeout(activateServiceTabFromHash, 0);
-	$(window).on('hashchange', activateServiceTabFromHash);
+	// Bootstrap cancels the link, so a click must push the hash itself.
+	// Back and forward then fire popstate and the matching tab is shown.
+	$('a[data-toggle="tab"]').on('click', function () {
+		var hash = $(this).attr('href');
+		if (!hash || hash.charAt(0) !== '#' || window.location.hash === hash) {
+			return;
+		}
+		window.history.pushState({ tab: hash }, '', hash);
+	});
+
+	setTimeout(function () {
+		showServiceTab(window.location.hash);
+	}, 0);
+	window.addEventListener('popstate', function () {
+		showServiceTab(window.location.hash);
+	});
 
 	if ($(".pop-up").length > 0) {
 		setPopupHeight();
