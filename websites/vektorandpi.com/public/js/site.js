@@ -53,17 +53,31 @@
 	});
 
 	function activateServiceTabFromHash() {
-		var hash = window.location.hash;
-		if (!hash || !$('a[data-toggle="tab"]').length) {
+		var $tabs = $('a[data-toggle="tab"]');
+		if (!$tabs.length) {
 			return;
 		}
-		var $tab = $('a[data-toggle="tab"][href="' + hash + '"]');
-		if ($tab.length && typeof $tab.tab === 'function') {
+		var hash = window.location.hash;
+		var $tab = hash ? $tabs.filter('[href="' + hash + '"]') : $();
+		if (!$tab.length) {
+			// No hash (or unknown): show the first service tab so content is never blank.
+			$tab = $tabs.first();
+		}
+		if (typeof $.fn.tab === 'function') {
 			$tab.tab('show');
+			return;
+		}
+		$tabs.removeClass('active').attr('aria-selected', 'false');
+		$('.tab-pane').removeClass('active show');
+		$tab.addClass('active').attr('aria-selected', 'true');
+		var target = $tab.attr('href');
+		if (target) {
+			$(target).addClass('active show');
 		}
 	}
 
-	activateServiceTabFromHash();
+	// Defer so location.hash and the Bootstrap tab plugin are ready after load/navigation.
+	setTimeout(activateServiceTabFromHash, 0);
 	$(window).on('hashchange', activateServiceTabFromHash);
 
 	if ($(".pop-up").length > 0) {
