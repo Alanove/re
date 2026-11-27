@@ -9,8 +9,32 @@
     );
   }
 
+  function ua() {
+    return window.navigator.userAgent || '';
+  }
+
   function isIos() {
-    return /iphone|ipad|ipod/i.test(window.navigator.userAgent || '');
+    return /iphone|ipad|ipod/i.test(ua()) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  }
+
+  function isSamsungInternet() {
+    return /SamsungBrowser/i.test(ua());
+  }
+
+  function isAndroid() {
+    return /android/i.test(ua());
+  }
+
+  function isChromeAndroid() {
+    return isAndroid() && /Chrome|CriOS/i.test(ua()) && !isSamsungInternet() && !/EdgA|OPR|Firefox/i.test(ua());
+  }
+
+  function detectHelpKind() {
+    if (isIos()) return 'ios';
+    if (isSamsungInternet()) return 'samsung';
+    if (isChromeAndroid()) return 'chrome-android';
+    if (isAndroid()) return 'android';
+    return 'other';
   }
 
   function registerServiceWorker() {
@@ -27,9 +51,22 @@
         btn.hidden = true;
         return;
       }
-      // Chrome often skips beforeinstallprompt after another app from this site is installed.
-      // Keep a visible Install button only when the deferred prompt is available.
       btn.hidden = !deferredPrompt;
+    });
+    updateHelpPanels();
+  }
+
+  function updateHelpPanels() {
+    if (isStandalone()) {
+      document.querySelectorAll('[data-pwa-help]').forEach(function (el) {
+        el.hidden = true;
+      });
+      return;
+    }
+
+    var kind = deferredPrompt ? 'prompt' : detectHelpKind();
+    document.querySelectorAll('[data-pwa-help]').forEach(function (el) {
+      el.hidden = el.getAttribute('data-pwa-help') !== kind;
     });
   }
 
@@ -48,10 +85,10 @@
 
   function showManualHints() {
     if (isStandalone()) return;
-    document.querySelectorAll('[data-pwa-manual], [data-pwa-ios]').forEach(function (el) {
-      // Always show manual steps: BIP is unreliable once another PWA is installed.
+    document.querySelectorAll('[data-pwa-manual]').forEach(function (el) {
       el.hidden = false;
     });
+    updateHelpPanels();
   }
 
   function setupSuggestBanner() {

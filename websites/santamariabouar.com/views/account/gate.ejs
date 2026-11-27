@@ -6,13 +6,7 @@
       <p class="account-meta">
         Install this app on your home screen. The next time you open it, the main gate opens right away—no extra taps.
       </p>
-      <button type="button" class="account-btn account-btn--primary" data-pwa-install="gate" hidden>
-        Install Open Main Gate
-      </button>
-      <div class="account-pwa-manual" data-pwa-manual>
-        <p><strong>Android / Chrome:</strong> open the browser menu (⋮), then tap <strong>Install app</strong> or <strong>Add to Home screen</strong>.</p>
-        <p><strong>iPhone / iPad:</strong> tap Share, then <strong>Add to Home Screen</strong>.</p>
-      </div>
+      <%- include('partials/pwa-install-help', { pwaInstallKind: 'gate', pwaInstallLabel: 'Install Open Main Gate' }) %>
       <p class="account-meta">
         Already installed? <a href="/account/gate">Open the gate now</a>
         · <a href="/account/apps">Back to Apps</a>

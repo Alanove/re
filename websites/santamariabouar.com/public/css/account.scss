@@ -1665,23 +1665,50 @@
   }
 }
 
+.account-pwa-install-btn {
+  width: 100%;
+  max-width: 20rem;
+}
+
 .account-pwa-ios,
 .account-pwa-manual {
   margin-top: 0.35rem;
-  padding: 0.75rem 0.9rem;
+  padding: 0.9rem 1rem;
   background: $light-bg;
   border-radius: 8px;
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   text-align: left;
   width: 100%;
   box-sizing: border-box;
+}
+
+.account-pwa-help {
+  &__title {
+    margin: 0 0 0.65rem;
+    font-weight: 700;
+    color: $dark-text;
+    font-size: 1rem;
+  }
+
+  &__note {
+    margin: 0.75rem 0 0;
+    color: $light-text;
+    font-size: 0.88rem;
+  }
+
+  ol {
+    margin: 0;
+    padding-left: 1.25rem;
+    color: $dark-text;
+  }
+
+  li {
+    margin: 0.45rem 0;
+    line-height: 1.45;
+  }
 
   p {
     margin: 0;
-
-    + p {
-      margin-top: 0.55rem;
-    }
   }
 }
 
