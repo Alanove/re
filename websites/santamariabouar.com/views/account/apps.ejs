@@ -1,0 +1,36 @@
+<div class="account-page account-page--portal">
+  <div class="account-shell">
+    <%- include('partials/sidebar') %>
+    <div class="account-main">
+      <div class="account-main__header">
+        <h1>Apps</h1>
+        <p class="account-meta">Install a home-screen app for quick access. Sign in once; you stay signed in for a long time.</p>
+      </div>
+
+      <div class="account-apps-grid">
+        <article class="account-panel account-app-card">
+          <img class="account-app-card__icon" src="/pwa/icons/account-192.png" alt="" width="72" height="72" />
+          <h2>Santa Maria Account</h2>
+          <p>Opens your member portal: apartments, payments, wallet, and gate access.</p>
+          <button type="button" class="account-btn account-btn--primary" data-pwa-install="account" hidden>
+            Install Account
+          </button>
+          <p class="account-meta account-app-card__fallback" data-pwa-fallback="account">
+            Use your browser menu: <strong>Install app</strong> or <strong>Add to Home Screen</strong> while on My Account.
+          </p>
+          <div class="account-pwa-ios" data-pwa-ios hidden>
+            <p><strong>iPhone / iPad:</strong> open <a href="/account">My Account</a>, tap Share, then <strong>Add to Home Screen</strong>.</p>
+          </div>
+        </article>
+
+        <article class="account-panel account-app-card">
+          <img class="account-app-card__icon" src="/pwa/icons/gate-192.png" alt="" width="72" height="72" />
+          <h2>Open Main Gate</h2>
+          <p>Opens the compound main gate as soon as you launch the app—nothing else to confirm.</p>
+          <a class="account-btn account-btn--primary" href="/account/gate?install=1">Set up Gate app</a>
+          <p class="account-meta">After install, tapping the icon opens the gate immediately.</p>
+        </article>
+      </div>
+    </div>
+  </div>
+</div>

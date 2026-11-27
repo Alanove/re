@@ -32,13 +32,21 @@
   <meta name="distribution" content="global">
   <meta name="rating" content="general">
   <meta name="theme-color" content="#C87E2F">
+  <% if (typeof pwaManifest !== 'undefined' && pwaManifest) { %>
+  <link rel="manifest" href="<%= pwaManifest %>">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="<%= typeof appleMobileWebAppTitle !== 'undefined' && appleMobileWebAppTitle ? appleMobileWebAppTitle : 'Santa Maria' %>">
+  <link rel="apple-touch-icon" href="<%= pwaManifest.indexOf('gate') !== -1 ? '/pwa/icons/gate-192.png' : '/pwa/icons/account-192.png' %>">
+  <% } %>
   
   <!-- Canonical URL -->
   <link rel="canonical" href="<%= typeof pageUrl !== 'undefined' ? pageUrl : '' %>">
   
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="<%= typeof siteData !== 'undefined' && siteData.favicon ? siteData.favicon : '/images/favicon.ico' %>">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="<%= typeof pwaManifest !== 'undefined' && pwaManifest && pwaManifest.indexOf('gate') !== -1 ? '/pwa/icons/gate-192.png' : '/images/apple-touch-icon.png' %>">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
   
@@ -90,7 +98,12 @@
   })() %>
   </script>
 </head>
-<body<%- typeof bodyClass !== 'undefined' ? ' class="' + bodyClass + '"' : '' %>>
+<%
+  var layoutBodyClasses = [];
+  if (typeof bodyClass !== 'undefined' && bodyClass) layoutBodyClasses.push(String(bodyClass));
+  if (typeof hideSiteChrome !== 'undefined' && hideSiteChrome) layoutBodyClasses.push('pwa-gate-page');
+%>
+<body<%= layoutBodyClasses.length ? ' class="' + layoutBodyClasses.join(' ') + '"' : '' %>>
   <!-- Page Loader -->
   <div class="loader" id="pageLoader">
     <div class="loader-content">
@@ -103,22 +116,28 @@
   <%- include('partials/impersonation-banner') %>
   
   <div class="main">
-    <%- include('partials/header') %>
+    <% if (typeof hideSiteChrome === 'undefined' || !hideSiteChrome) { %>
+      <%- include('partials/header') %>
+    <% } %>
     <%- body %>
-    <%- include('partials/footer') %>
+    <% if (typeof hideSiteChrome === 'undefined' || !hideSiteChrome) { %>
+      <%- include('partials/footer') %>
+    <% } %>
   </div>
 
-  <%- include('partials/menu') %>
-  <% if (typeof member !== 'undefined' && member) { %>
-    <div id="memberMenu" class="slide-menu-panel">
-      <button type="button" class="slide-menu-panel__close" id="memberMenuCloseBtn" aria-label="Close member menu">
-        <i class="bi bi-x-lg" aria-hidden="true"></i>
-      </button>
-      <%- include('partials/member-menu') %>
-    </div>
-    <div class="slide-menu-panel__backdrop" id="memberMenuBackdrop"></div>
+  <% if (typeof hideSiteChrome === 'undefined' || !hideSiteChrome) { %>
+    <%- include('partials/menu') %>
+    <% if (typeof member !== 'undefined' && member) { %>
+      <div id="memberMenu" class="slide-menu-panel">
+        <button type="button" class="slide-menu-panel__close" id="memberMenuCloseBtn" aria-label="Close member menu">
+          <i class="bi bi-x-lg" aria-hidden="true"></i>
+        </button>
+        <%- include('partials/member-menu') %>
+      </div>
+      <div class="slide-menu-panel__backdrop" id="memberMenuBackdrop"></div>
+    <% } %>
+    <%- include('partials/cookie-banner') %>
   <% } %>
-  <%- include('partials/cookie-banner') %>
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
@@ -134,6 +153,9 @@
   <% } %>
   <% if (typeof pageScript !== 'undefined' && pageScript) { %>
     <script src="<%= pageScript %>"></script>
+  <% } %>
+  <% if (typeof pwaManifest !== 'undefined' && pwaManifest) { %>
+    <script src="/js/account-pwa.js"></script>
   <% } %>
   <% if (typeof includeSlideshowAssets !== 'undefined' && includeSlideshowAssets) { %>
     <script src="/js/slideshow.js"></script>

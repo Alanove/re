@@ -1,0 +1,37 @@
+{
+  "id": "/pwa/gate",
+  "name": "Open Main Gate",
+  "short_name": "Open Gate",
+  "description": "Open the Santa Maria Bouar main gate",
+  "start_url": "/account/gate",
+  "scope": "/account",
+  "display": "standalone",
+  "background_color": "#F7F3EE",
+  "theme_color": "#C87E2F",
+  "icons": [
+    {
+      "src": "/pwa/icons/gate-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa/icons/gate-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa/icons/gate-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/pwa/icons/gate-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

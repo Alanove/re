@@ -1,0 +1,37 @@
+{
+  "id": "/pwa/account",
+  "name": "Santa Maria Account",
+  "short_name": "SMB Account",
+  "description": "Santa Maria Bouar member portal",
+  "start_url": "/account",
+  "scope": "/account",
+  "display": "standalone",
+  "background_color": "#F7F3EE",
+  "theme_color": "#C87E2F",
+  "icons": [
+    {
+      "src": "/pwa/icons/account-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa/icons/account-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa/icons/account-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/pwa/icons/account-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

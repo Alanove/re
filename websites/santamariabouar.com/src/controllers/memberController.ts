@@ -252,6 +252,15 @@ function ignoreGoogleCallbackProbe(req: Request, res: Response): void {
   res.status(204).end();
 }
 
+/** Member portal stay-signed-in window (password + Google login). */
+const MEMBER_SESSION_MAX_AGE_MS = 1000 * 60 * 60 * 24 * 90;
+
+function applyLongMemberSession(req: Request): void {
+  if (req.session?.cookie) {
+    req.session.cookie.maxAge = MEMBER_SESSION_MAX_AGE_MS;
+  }
+}
+
 function gateAccessRecipientEmails(ownerEmail?: string | null, targetEmail?: string | null): string[] {
   const seen = new Set<string>();
   const emails: string[] = [];
@@ -291,6 +300,8 @@ export class MemberController {
       member,
       activeNav,
       layout: 'layout',
+      pwaManifest: '/pwa/account.webmanifest',
+      appleMobileWebAppTitle: 'Santa Maria Account',
       ...extras
     };
   }
@@ -323,6 +334,51 @@ export class MemberController {
     } catch (error) {
       console.error('Error loading account home:', error);
       res.status(500).send('Unable to load account');
+    }
+  }
+
+  static async gate(req: Request, res: Response): Promise<void> {
+    try {
+      const user = await MemberController.loadMemberOrRedirect(req, res);
+      if (!user) return;
+
+      const installMode =
+        String(req.query.install || '') === '1' || String(req.query.install || '').toLowerCase() === 'true';
+
+      res.render(
+        'account/gate',
+        MemberController.shellLocals('gate', user, {
+          pageTitle: installMode ? 'Install Open Main Gate' : 'Open Main Gate',
+          pageRobots: 'noindex, nofollow',
+          installMode,
+          hideSiteChrome: true,
+          pwaManifest: '/pwa/gate.webmanifest',
+          appleMobileWebAppTitle: 'Open Main Gate',
+          pageScript: installMode ? undefined : '/js/account-gate-auto.js',
+          csrfToken: (res.locals as any).csrfToken
+        })
+      );
+    } catch (error) {
+      console.error('Error loading gate page:', error);
+      res.status(500).send('Unable to open the gate page');
+    }
+  }
+
+  static async apps(req: Request, res: Response): Promise<void> {
+    try {
+      const user = await MemberController.loadMemberOrRedirect(req, res);
+      if (!user) return;
+
+      res.render(
+        'account/apps',
+        MemberController.shellLocals('apps', user, {
+          pageTitle: 'Apps',
+          pageRobots: 'noindex, nofollow'
+        })
+      );
+    } catch (error) {
+      console.error('Error loading apps page:', error);
+      res.status(500).send('Unable to load apps');
     }
   }
 
@@ -919,6 +975,7 @@ export class MemberController {
       }
 
       await regenerateSession(req);
+      applyLongMemberSession(req);
       req.session.member = {
         id: user.id,
         name: user.name,
@@ -927,6 +984,7 @@ export class MemberController {
         ...(user.phone ? { phone: user.phone } : {})
       };
       await usersService.recordLastLogin(user.id);
+      await saveSession(req);
 
       res.redirect(redirect || '/account');
     } catch (error) {
@@ -1051,6 +1109,7 @@ export class MemberController {
 
     regenerateSession(req)
       .then(async () => {
+        applyLongMemberSession(req);
         req.session.member = {
           id: user.id,
           name: user.name,

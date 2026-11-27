@@ -6,6 +6,17 @@
         <h1><%= welcomeTitle || 'Welcome to Santa Maria Bouar' %></h1>
       </div>
 
+      <div class="account-pwa-suggest" id="accountPwaSuggest" hidden>
+        <div class="account-pwa-suggest__body">
+          <strong>Install an app</strong>
+          <span>Put My Account or Open Main Gate on your home screen for faster access.</span>
+        </div>
+        <div class="account-pwa-suggest__actions">
+          <a class="account-btn account-btn--primary" href="/account/apps">View apps</a>
+          <button type="button" class="account-btn account-btn--ghost" id="accountPwaSuggestDismiss">Not now</button>
+        </div>
+      </div>
+
       <div class="account-panel account-open-gate" id="open-gate">
         <h2>Main Gate</h2>
         <p class="account-meta">Open the compound main gate.</p>

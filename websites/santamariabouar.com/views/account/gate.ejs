@@ -1,0 +1,39 @@
+<div class="account-page account-page--gate<%= typeof installMode !== 'undefined' && installMode ? ' account-page--gate-install' : '' %>">
+  <% if (typeof installMode !== 'undefined' && installMode) { %>
+    <div class="account-gate-install">
+      <img class="account-gate-install__icon" src="/pwa/icons/gate-192.png" alt="" width="96" height="96" />
+      <h1>Open Main Gate</h1>
+      <p class="account-meta">
+        Install this app on your home screen. The next time you open it, the main gate opens right away—no extra taps.
+      </p>
+      <button type="button" class="account-btn account-btn--primary" data-pwa-install="gate" hidden>
+        Install Open Main Gate
+      </button>
+      <div class="account-pwa-ios" data-pwa-ios hidden>
+        <p><strong>iPhone / iPad:</strong> tap Share, then <strong>Add to Home Screen</strong>.</p>
+      </div>
+      <p class="account-meta">
+        Already installed? <a href="/account/gate">Open the gate now</a>
+        · <a href="/account/apps">Back to Apps</a>
+      </p>
+    </div>
+  <% } else { %>
+    <div
+      class="account-gate-auto"
+      id="gateAutoRoot"
+      data-open-url="/account/open-gate"
+      data-csrf="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>"
+    >
+      <img class="account-gate-auto__icon" src="/pwa/icons/gate-192.png" alt="" width="72" height="72" />
+      <h1>Main Gate</h1>
+      <p class="account-gate-auto__status" id="gateAutoStatus" role="status" aria-live="polite">Opening the main gate…</p>
+      <button type="button" class="account-btn account-btn--primary" id="gateAutoAgain" hidden>
+        Open again
+      </button>
+      <p class="account-gate-auto__hint account-meta">
+        <a href="/account">My Account</a>
+        · <a href="/account/apps">Apps</a>
+      </p>
+    </div>
+  <% } %>
+</div>

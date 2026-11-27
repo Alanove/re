@@ -1,0 +1,28 @@
+{
+  "siteKey": "santamariabouar",
+  "siteName": "Santa Maria Bouar",
+  "legacySiteUrl": "https://www.santamariabouar.com",
+  "cmsSource": "",
+  "contentWorkbook": "",
+  "contentSeed": "",
+  "designDir": "",
+  "outputDir": ".",
+  "port": 3002,
+  "logo": {
+    "url": "https://www.santamariabouar.com",
+    "localPath": "/images/logo-1759813853497-882930560.png",
+    "note": "Existing Node CMS. Logo file is the current site-settings logo."
+  },
+  "legacy": {
+    "pageImagePattern": "",
+    "footerPageKey": null,
+    "contactPageKey": null,
+    "uploadsMirrorPrefix": "",
+    "source": "existing-cms",
+    "note": "Already a Node CMS with MySQL. No workbook import. Content and apartments live in the database."
+  },
+  "cmsSync": {
+    "adminPublicFiles": [],
+    "adminPublicDirs": []
+  }
+}

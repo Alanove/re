@@ -1580,3 +1580,168 @@
   inset: 0;
   height: 100%;
 }
+
+.account-btn--ghost {
+  background: transparent;
+  border: 1px solid rgba(61, 42, 28, 0.25);
+  color: $dark-text;
+
+  &:hover {
+    background: rgba(61, 42, 28, 0.06);
+  }
+}
+
+.account-pwa-suggest {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  padding: 1rem 1.15rem;
+  background: #fff8f0;
+  border: 1px solid rgba(200, 126, 47, 0.35);
+  border-radius: 10px;
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 0;
+
+    strong {
+      color: $dark-text;
+      font-size: 1rem;
+    }
+
+    span {
+      color: $light-text;
+      font-size: 0.92rem;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
+
+.account-apps-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+
+  @media (min-width: $small-screen) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.account-app-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.65rem;
+
+  h2 {
+    margin: 0;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .account-btn {
+    margin-top: 0.35rem;
+  }
+
+  &__icon {
+    border-radius: 16px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  }
+
+  &__fallback {
+    margin-top: 0.25rem;
+  }
+}
+
+.account-pwa-ios {
+  margin-top: 0.35rem;
+  padding: 0.75rem 0.9rem;
+  background: $light-bg;
+  border-radius: 8px;
+  font-size: 0.92rem;
+
+  p {
+    margin: 0;
+  }
+}
+
+.account-page--gate {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.25rem 3rem;
+}
+
+.account-gate-auto,
+.account-gate-install {
+  width: min(28rem, 100%);
+  margin: 0 auto;
+  text-align: center;
+  background: $white;
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 8px 28px rgba(61, 42, 28, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+
+  h1 {
+    margin: 0;
+    font-size: 1.6rem;
+  }
+}
+
+.account-gate-auto__icon,
+.account-gate-install__icon {
+  border-radius: 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.account-gate-auto__status {
+  margin: 0.25rem 0 0;
+  font-size: 1.05rem;
+  color: $dark-text;
+  min-height: 1.5em;
+
+  &.is-error {
+    color: #b42318;
+  }
+
+  &.is-success {
+    color: #1b7a3d;
+  }
+}
+
+.account-gate-auto__hint {
+  margin-top: 0.5rem;
+}
+
+body.pwa-gate-page {
+  .loader {
+    display: none !important;
+  }
+
+  .main {
+    min-height: 100vh;
+  }
+
+  @media (display-mode: standalone) {
+    .account-gate-auto__hint {
+      display: none;
+    }
+  }
+}

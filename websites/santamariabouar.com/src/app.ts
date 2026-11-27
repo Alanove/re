@@ -137,6 +137,14 @@ app.use(helmet({
 // Mobile app REST API: Bearer-token auth, so it is mounted before session/CSRF middleware.
 app.use('/api/v1', apiRoutes);
 
+// Service worker must control /account; default SW scope would be /pwa/ only.
+app.get('/pwa/sw.js', (_req: Request, res: Response) => {
+  res.setHeader('Service-Worker-Allowed', '/');
+  res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.sendFile(path.join(projectRoot, 'public/pwa/sw.js'));
+});
+
 app.use(express.static(path.join(projectRoot, 'public')));
 app.use('/admin', express.static(path.join(projectRoot, 'admin/public')));
 app.use(expressLayouts);
@@ -149,12 +157,15 @@ app.use(session({
   resave: false,
   // true so the CSRF token on the login page always gets a session cookie
   saveUninitialized: true,
+  // Refresh maxAge on each request so active members stay signed in
+  rolling: true,
   proxy: true,
   cookie: {
     httpOnly: true,
     // Production is HTTPS (APP_BASE_URL); proto header is ensured above when missing
     secure: isProduction,
     sameSite: 'lax',
+    // Default for anonymous/CSRF sessions; member login extends to 90 days
     maxAge: 1000 * 60 * 60 * 8
   }
 }));

@@ -4,6 +4,10 @@
   "description": "TypeScript Node.js CMS Project",
   "main": "dist/src/app.js",
   "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit",
+    "media:check": "node scripts/check-media.js",
+    "media:check:prod": "node scripts/check-media.js",
     "build": "tsc",
     "start": "node dist/src/app.js",
     "start:production": "node --env-file=.env.production dist/src/app.js",
