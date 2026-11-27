@@ -12,26 +12,30 @@ If PowerShell blocks the script, run it as
 ## What a deploy does
 
 1. On the laptop:
-   - checks that the site folder and `packages/` have no uncommitted changes and that local `HEAD` equals `origin/main`
+   - checks that the site folder and `packages/` have no uncommitted changes (a `deploy.json` whose only local change is `lastDeploy` is allowed) and that local `HEAD` equals `origin/main`
    - checks that `.env.production` is committed, sets `NODE_ENV=production` and uses the same `PORT` as `deploy.json`
-   - runs `npm run typecheck`, `npm run lint` and `npm run build`
+   - reads the last successful deploy from `/www/deploy/state/<domain>/current.sha` (server wins if it disagrees with `deploy.json` `lastDeploy`)
+   - prints the `git diff --name-status` for `websites/<domain>` since that snapshot
+   - runs `npm run typecheck` and `npm run lint` (no local `npm run build` or `npm install`; those run on the server)
    - asks you to confirm with `y` or `n` (any other answer asks again)
 2. Connects over SSH and runs [scripts/deploy/deploy-site.sh](../scripts/deploy/deploy-site.sh) on the server as `www`. The script is sent each time, so nothing has to be updated on the server.
 3. On the server:
    - fetches the commit from GitHub into `/www/deploy/repo`
    - compares the commit to the last successful deploy (`/www/deploy/state/<domain>/current.sha`). If they are the same, exits without rebuilding (use `-Full` to force a rebuild anyway)
-   - extracts `websites/<domain>` into `/www/deploy/builds/<domain>/<time>-<sha>/`
+   - when a previous build exists: hardlinks it into `/www/deploy/builds/<domain>/<time>-<sha>/`, then applies only the git file delta for `websites/<domain>` (unlink before extract so previous-build inodes stay intact). Otherwise extracts the whole site tree
    - installs and builds only what changed since the last deploy (see "Incremental server build" below)
    - for sites with `migrations` in `deploy.json`: backs up the database and runs pending migrations when needed (see "Database migrations" below)
-   - runs `npm prune --omit=dev` in the build folder when install or build ran; the live site is not touched until all of this succeeds
+   - keeps staging `node_modules` (including devDependencies) for the next hardlink; the live site is not touched until all of this succeeds
 4. Copies the build into the site folder (`serverPath`):
-   - **Code**, including `dist`, `src`, `views`, `admin`, `public` (except uploads) and `package*.json`, is mirrored exactly. Old files are removed. **`node_modules` is not copied** (that was the slow step); the server runs `npm ci --omit=dev` in `serverPath` using the shared npm cache when the lockfile changed or modules are missing.
+   - **Incremental deploys** copy only the changed code paths (and `dist/` / compiled CSS when a build ran). Deleted code paths are removed. **Full** deploys mirror the whole code tree and delete stale code files.
+   - **`node_modules` is not copied** from the build folder; the server runs `npm ci --omit=dev` in `serverPath` using the shared npm cache when the lockfile changed or modules are missing.
    - **`data/`, `content/`, `public/uploads/`, `public/images/`, `public/pages/`**: new files from git are added, but files that already exist on the server are never overwritten or deleted. Admin uploads and live media under these trees are kept. To overwrite `data/`/`content/` on purpose, see "Intentionally overwriting live data" below.
    - **`.env`** is written from the commit's `.env.production` with mode 600. If the server `.env` was different, the old copy is saved in `/www/deploy/state/<domain>/env-backups/`.
    - **Never touched**: `deploy.json`, `logs/`, `.user.ini`, `.htaccess`, `.well-known/` and anything listed in `protect`.
 5. Stops the running process from aaPanel's PID file and starts it again with aaPanel's own start script, so the panel still shows the right status.
 6. Checks `http://127.0.0.1:<port><healthPath>` for up to 30 seconds, then runs `npm run media:check:prod` if the site has that script.
-7. If any step after the copy fails, the script copies the previous build back, restarts it and exits with an error. The last 3 builds are kept.
+7. If any step after the copy fails, the script restores the previous build with a full sync, restarts it and exits with an error. The last 3 builds are kept.
+8. On success, the laptop writes `lastDeploy` `{ sha, at }` into `websites/<domain>/deploy.json` (left uncommitted on purpose so the next deploy can show the diff).
 
 ## Intentionally overwriting live data
 
@@ -59,23 +63,25 @@ By default the server's `data/` and `content/` win. To push the committed versio
 .\scripts\deploy\deploy.ps1 -Site thronetrading.com -Ref 1a2b3c4d
 ```
 
-The commit must already be on `origin/main`. Local build checks are skipped for `-Ref`, because that commit is not checked out on the laptop. The server still uses the incremental install/build rules against that commit. Deploy history is in `/www/deploy/state/<domain>/history.log`.
+The commit must already be on `origin/main`. Local typecheck and lint are skipped for `-Ref`, because that commit is not checked out on the laptop. The server still uses the incremental install/build rules against that commit. Deploy history is in `/www/deploy/state/<domain>/history.log`.
 
-Other options: `-SkipChecks` skips the local typecheck, lint and build. `-Yes` skips the confirmation prompt. `-ForceMigrations` runs the site's migrations even when its migrations folder did not change. `-Full` forces a cold `npm ci` and `npm run build` on the server (and rebuilds even when the site is already at that commit).
+Other options: `-SkipChecks` skips the local typecheck and lint. `-Yes` skips the confirmation prompt. `-ForceMigrations` runs the site's migrations even when its migrations folder did not change. `-Full` forces a cold extract, `npm ci` and `npm run build` on the server (and rebuilds even when the site is already at that commit).
 
 ## Incremental server build
 
-The server reuses the previous build under `/www/deploy/builds/<domain>/` when it can, so most deploys avoid a full dependency install and a full rsync of `node_modules`:
+The live record of the last deploy is `/www/deploy/state/<domain>/current.sha`. The laptop mirrors it into `deploy.json` `lastDeploy` after each success so the next run can print the diff. When both exist and disagree, the server commit wins.
+
+The server hardlinks the previous build under `/www/deploy/builds/<domain>/` and overlays only the git delta, so most deploys avoid a full extract and a full tree sync:
 
 | Change since last deploy | Server action |
 | --- | --- |
 | Same commit as `current.sha` | No-op (unless `-Full`) |
-| `package.json`, `package-lock.json` or `.npmrc` | `npm ci --include=dev`, then `npm run build`, then prune |
-| `src/`, `scripts/`, `public/scss/`, any `.scss`, or `tsconfig*.json` (deps unchanged) | Copy previous `node_modules`, `npm install --include=dev`, `npm run build`, then prune |
-| Views, static assets, committed bundles, `data/`, `content/`, `.env.production`, etc. | Copy previous `node_modules`, `dist/` and compiled CSS; skip npm install and build |
-| No previous build, previous build missing `node_modules`, or `-Full` | Full `npm ci` and `npm run build` as before |
+| `package.json`, `package-lock.json` or `.npmrc` | Replace staging `node_modules` with `npm ci --include=dev`, then `npm run build` |
+| `src/`, `scripts/`, `public/scss/`, any `.scss`, or `tsconfig*.json` (deps unchanged) | Reuse hardlinked `node_modules` when `tsc`/`tsx` is present (otherwise `npm install --include=dev`), then `npm run build` |
+| Views, static assets, committed bundles, `data/`, `content/`, `.env.production`, etc. | Hardlink previous build, overlay changed files only; skip npm install and build |
+| No previous build, hardlink failure, or `-Full` | Full extract, `npm ci` and `npm run build` |
 
-Linux sharp binaries still come from the lockfile when `npm ci` runs. The build folder still installs deps for compile/migrations; the live site gets its own production `npm ci` on the server (fast registry + cache) instead of a multi-minute local rsync of `node_modules`. Template-only deploys skip that live install when `package-lock.json` is unchanged.
+Linux sharp binaries still come from the lockfile when `npm ci` runs. Staging keeps devDependencies so the next incremental build does not reinstall them. The live site gets its own production `npm ci` on the server when the lockfile changed; template-only and source-only deploys skip that live install when `package-lock.json` is unchanged.
 
 ## Database migrations
 
@@ -86,7 +92,7 @@ Sites with a MySQL database set `migrations` in `deploy.json`:
 ```
 
 - **When they run:** on the first deploy of the site, when `-ForceMigrations` is given, or when anything in `dir` changed between the last successful deploy (`/www/deploy/state/<site>/current.sha`) and the commit being deployed. Otherwise the step is skipped and logged. A failed deploy does not update `current.sha`, so the next deploy checks the same migrations again.
-- **How they run:** in the new build folder, after `npm run build` and before dev dependencies are pruned (the runners use `ts-node`). The site's script reads `.env.production` and skips migrations already recorded in its tracking table, so running it again is safe.
+- **How they run:** in the new build folder, after `npm run build` when a build ran (the runners use `ts-node` / `tsx`). Staging keeps its `node_modules` so migration tooling is available. The site's script reads `.env.production` and skips migrations already recorded in its tracking table, so running it again is safe.
 - **Backup first:** before migrating, the database named by `DB_NAME` in `.env.production` (with `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`) is dumped with `mysqldump --single-transaction` to `/www/deploy/state/<site>/db-backups/db-<time>.sql.gz` (mode 600). The last 5 backups are kept. If the backup fails, nothing else happens.
 - **On failure:** if a migration fails, the deploy stops before the copy, so the live code is unchanged; the output names the backup. If a later step fails and the code is rolled back, the database is **not** rolled back; the output names the backup to restore if the old code cannot run on the new schema.
 - **Restoring a backup by hand:** `gunzip -c /www/deploy/state/<site>/db-backups/<file> | mysql -h <DB_HOST> -P <DB_PORT> -u <DB_USER> -p <DB_NAME>`, then restart the project in aaPanel.
@@ -102,7 +108,7 @@ Sites with a MySQL database set `migrations` in `deploy.json`:
 - **Migrations:** each site's own migration settings apply as in a single-site deploy. `-ForceMigrations` is not available here.
 - **Before anything is deployed:** the script checks that local `HEAD` equals `origin/main` and that the sites and `packages/` have no uncommitted changes. It then shows the commit and each site's port and server folder.
 - **Confirmation:** type `DEPLOY ALL` exactly, in capitals. Any other answer cancels and nothing is deployed. There is no option to skip this prompt.
-- **How each site runs:** sites are deployed one after another. Each one runs `deploy.ps1 -Site <domain> -Yes` in its own PowerShell process, with the same checks, build, health check, media check and automatic rollback as a single-site deploy. Server `data/` and `content/` are kept on every site.
+- **How each site runs:** sites are deployed one after another. Each one runs `deploy.ps1 -Site <domain> -Yes` in its own PowerShell process, with the same checks, incremental server install/build, health check, media check and automatic rollback as a single-site deploy. Server `data/` and `content/` are kept on every site.
 - **Failures:** a failed site does not stop the run. The remaining sites are still deployed, then a summary lists every site as `OK` or `FAILED` with its duration. The script exits with code 1 if any site failed and prints the `deploy.ps1 -Site <domain>` command to retry each failed site on its own once the cause is fixed.
 
 Options:
@@ -111,7 +117,7 @@ Options:
 # Leave sites out (comma-separated)
 .\scripts\deploy\deploy-all.ps1 -Exclude re-petroleum.com,bypec-lb.com
 
-# Skip the local typecheck, lint and build for every site
+# Skip the local typecheck and lint for every site
 .\scripts\deploy\deploy-all.ps1 -SkipChecks
 ```
 
@@ -127,7 +133,8 @@ Options:
   "nodeBin": null,
   "aapanelProject": null,
   "restartCommand": null,
-  "protect": []
+  "protect": [],
+  "lastDeploy": { "sha": "0123456789abcdef0123456789abcdef01234567", "at": "2026-11-27T02:00:00Z" }
 }
 ```
 
@@ -141,6 +148,7 @@ Options:
 | `restartCommand` | Optional shell command, run as `www` in `serverPath`, that replaces the aaPanel restart. |
 | `protect` | Extra paths, relative to `serverPath`, that a deploy must never change or delete. |
 | `migrations` | Optional. `dir` is the migrations folder inside the site and `script` the npm script that applies pending migrations. See "Database migrations". |
+| `lastDeploy` | Written by `deploy.ps1` after a successful deploy. `sha` is the commit that is live; `at` is when the laptop recorded it. Do not hand-edit. The server file `current.sha` remains the source of truth. |
 
 A site without `deploy.json` cannot be deployed. New sites need one, and the deploy stops while its `port` is still `null`. The site name passed to `-Site` is the folder name in `websites/`; it may be lowercase letters, digits, dots, dashes and underscores.
 

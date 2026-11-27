@@ -1,0 +1,592 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+  member        Member?
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+model Verification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Household {
+  id               String            @id @default(cuid())
+  name             String
+  currency         String            @default("USD")
+  booksCurrency    String            @default("USD")
+  displayCurrency  String            @default("USD")
+  entryCurrency    String            @default("USD")
+  invoiceTaxBps    Int               @default(0)
+  /// Name shown on invoice and receipt PDFs (separate from household display name).
+  invoiceBrandName String            @default("Liteweb")
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  members          Member[]
+  invites          Invite[]
+  businesses       Business[]
+  categories       Category[]
+  incomes          Income[]
+  expenses         Expense[]
+  loans            Loan[]
+  creditCards      CreditCard[]
+  debts            Debt[]
+  forecasts        Forecast[]
+  bills              Bill[]
+  customers          Customer[]
+  invoices           Invoice[]
+  billableCategories BillableCategory[]
+  fxRates            FxRate[]
+  payslipTemplates   PayslipTemplate[]
+  savingsAccounts    SavingsAccount[]
+}
+
+model FxRate {
+  id           String    @id @default(cuid())
+  householdId  String
+  household    Household @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  fromCurrency String
+  toCurrency   String
+  /// How many units of fromCurrency equal 1 unit of toCurrency (e.g. 89500 LBP = 1 USD).
+  rate         String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@unique([householdId, fromCurrency, toCurrency])
+  @@index([householdId])
+}
+
+model Member {
+  id               String            @id @default(cuid())
+  householdId      String
+  household        Household         @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  userId           String            @unique
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role             String
+  displayName      String
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  incomes          Income[]
+  expenses         Expense[]
+  debts            Debt[]
+  invoices         Invoice[]
+  payslipTemplates PayslipTemplate[]
+
+  @@index([householdId])
+}
+
+model Invite {
+  id          String    @id @default(cuid())
+  householdId String
+  household   Household @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  token       String    @unique
+  role        String
+  email       String?
+  createdById String
+  expiresAt   DateTime
+  usedAt      DateTime?
+  createdAt   DateTime  @default(now())
+
+  @@index([householdId])
+}
+
+model Business {
+  id          String     @id @default(cuid())
+  householdId String
+  household   Household  @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  name        String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  expenses    Expense[]
+  invoices    Invoice[]
+
+  @@index([householdId])
+}
+
+model Category {
+  id           String     @id @default(cuid())
+  householdId  String
+  household    Household  @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  name         String
+  kind         String
+  requiresBusiness Boolean @default(false)
+  /// When true, expenses in this category are transfers (e.g. savings) and leave spending charts.
+  excludeFromSpending Boolean @default(false)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  expenses     Expense[]
+  bills        Bill[]
+
+  @@unique([householdId, name])
+  @@index([householdId])
+}
+
+model Income {
+  id             String          @id @default(cuid())
+  householdId    String
+  household      Household       @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  memberId       String
+  member         Member          @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  kind           String
+  amount         Int
+  date           String
+  description    String          @default("")
+  customerId      String?
+  customer        Customer?        @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  invoiceId       String?
+  invoice         Invoice?         @relation(fields: [invoiceId], references: [id], onDelete: SetNull)
+  invoicePayment  InvoicePayment?
+  payslipReceipt  PayslipReceipt?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  @@index([householdId, date])
+  @@index([householdId, customerId])
+  @@index([householdId, invoiceId])
+  @@index([memberId])
+}
+
+model Expense {
+  id           String      @id @default(cuid())
+  householdId  String
+  household    Household   @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  memberId     String
+  member       Member      @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  categoryId   String
+  category     Category    @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  businessId   String?
+  business     Business?   @relation(fields: [businessId], references: [id], onDelete: SetNull)
+  amount       Int
+  date         String
+  description  String      @default("")
+  funding      String
+  creditCardId String?
+  creditCard   CreditCard? @relation(fields: [creditCardId], references: [id], onDelete: SetNull)
+  cardCycleId  String?
+  cardCycle    CardCycle?  @relation(fields: [cardCycleId], references: [id], onDelete: SetNull)
+  loanPaymentId String?    @unique
+  loanPayment  LoanPayment? @relation(fields: [loanPaymentId], references: [id], onDelete: SetNull)
+  debtId       String?     @unique
+  debt         Debt?       @relation(fields: [debtId], references: [id], onDelete: SetNull)
+  billPaymentId String?    @unique
+  billPayment  BillPayment? @relation(fields: [billPaymentId], references: [id], onDelete: SetNull)
+  isCardPayoff Boolean     @default(false)
+  /// Relative path under data/receipts; OCR can read this later.
+  receiptPath  String?
+  receiptMime  String?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@index([householdId, date])
+  @@index([memberId])
+  @@index([categoryId])
+  @@index([cardCycleId])
+}
+
+model Loan {
+  id            String        @id @default(cuid())
+  householdId   String
+  household     Household     @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  name          String
+  monthlyAmount Int
+  startMonth    String
+  endMonth      String
+  archivedAt    DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  payments      LoanPayment[]
+
+  @@index([householdId])
+}
+
+model LoanPayment {
+  id        String   @id @default(cuid())
+  loanId    String
+  loan      Loan     @relation(fields: [loanId], references: [id], onDelete: Cascade)
+  month     String
+  paidAt    DateTime @default(now())
+  expense   Expense?
+
+  @@unique([loanId, month])
+}
+
+model CreditCard {
+  id          String      @id @default(cuid())
+  householdId String
+  household   Household   @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  name        String
+  payoffDay   Int
+  archivedAt  DateTime?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  cycles      CardCycle[]
+  expenses    Expense[]
+
+  @@index([householdId])
+}
+
+model CardCycle {
+  id           String     @id @default(cuid())
+  creditCardId String
+  creditCard   CreditCard @relation(fields: [creditCardId], references: [id], onDelete: Cascade)
+  dueDate      String
+  settledAt    DateTime?
+  settledAmount Int?
+  expenses     Expense[]
+
+  @@index([creditCardId, settledAt])
+}
+
+model Debt {
+  id                   String          @id @default(cuid())
+  householdId          String
+  household            Household       @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  memberId             String
+  member               Member          @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  person               String
+  /// Original principal owed (minor units).
+  principal            Int
+  /// Current balance owed (principal + accrued interest − repayments tracked via amount updates).
+  amount               Int
+  /// One-time fee taken from the advance (minor units). Cash received = principal − feeFixed.
+  feeFixed             Int             @default(0)
+  /// Monthly interest in basis points of remaining balance (150 = 1.5%/mo).
+  monthlyInterestBps   Int             @default(0)
+  /// Last YYYY-MM interest was accrued for (null = never).
+  lastInterestMonth    String?
+  date                 String
+  note                 String          @default("")
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @updatedAt
+  repayments           DebtRepayment[]
+  expense              Expense?
+
+  @@index([householdId])
+}
+
+model DebtRepayment {
+  id        String   @id @default(cuid())
+  debtId    String
+  debt      Debt     @relation(fields: [debtId], references: [id], onDelete: Cascade)
+  amount    Int
+  date      String
+  /// REPAY reduces balance; INTEREST logs an accrual (balance already increased on Debt.amount).
+  kind      String   @default("REPAY")
+  createdAt DateTime @default(now())
+
+  @@index([debtId])
+}
+
+model Forecast {
+  id               String          @id @default(cuid())
+  householdId      String
+  household        Household       @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  name             String
+  amount           Int
+  month            String
+  savingsAccountId String?
+  savingsAccount   SavingsAccount? @relation(fields: [savingsAccountId], references: [id], onDelete: SetNull)
+  archivedAt       DateTime?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  @@index([householdId, month])
+  @@index([savingsAccountId])
+}
+
+model Bill {
+  id          String        @id @default(cuid())
+  householdId String
+  household   Household     @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  name        String
+  amount      Int
+  dueDay      Int
+  categoryId  String?
+  category    Category?     @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  /// Optional YYYY-MM after which the bill no longer appears.
+  endMonth    String?
+  archivedAt  DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  payments    BillPayment[]
+
+  @@index([householdId])
+  @@index([categoryId])
+}
+
+model BillPayment {
+  id        String   @id @default(cuid())
+  billId    String
+  bill      Bill     @relation(fields: [billId], references: [id], onDelete: Cascade)
+  month     String
+  paidAt    DateTime @default(now())
+  expense   Expense?
+
+  @@unique([billId, month])
+  @@index([billId])
+}
+
+model Customer {
+  id          String    @id @default(cuid())
+  householdId String
+  household   Household @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  name        String
+  phone       String    @default("")
+  email       String    @default("")
+  note        String    @default("")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  services    Service[]
+  invoices    Invoice[]
+  incomes     Income[]
+
+  @@index([householdId])
+}
+
+model Service {
+  id           String   @id @default(cuid())
+  customerId   String
+  customer     Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  kind         String
+  name         String
+  price        Int
+  renewalDate  String
+  remindDays   Int      @default(14)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([customerId, renewalDate])
+}
+
+model BillableCategory {
+  id           String        @id @default(cuid())
+  householdId  String
+  household    Household     @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  name         String
+  /// Default unit price in minor units.
+  defaultPrice Int
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  lines        InvoiceLine[]
+
+  @@unique([householdId, name])
+  @@index([householdId])
+}
+
+model Invoice {
+  id           String           @id @default(cuid())
+  householdId  String
+  household    Household        @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  customerId   String
+  customer     Customer         @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  memberId     String
+  member       Member           @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  businessId   String?
+  business     Business?        @relation(fields: [businessId], references: [id], onDelete: SetNull)
+  number       String
+  /// UNPAID | PARTIAL | PAID | VOID
+  status       String           @default("UNPAID")
+  issueDate    String
+  dueDate      String
+  taxBps       Int              @default(0)
+  notes        String           @default("")
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  lines        InvoiceLine[]
+  payments     InvoicePayment[]
+  incomes      Income[]
+
+  @@unique([householdId, number])
+  @@index([householdId, status])
+}
+
+model InvoiceLine {
+  id             String            @id @default(cuid())
+  invoiceId      String
+  invoice        Invoice           @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  categoryId     String?
+  category       BillableCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  description    String
+  quantity       Int               @default(1)
+  unitAmount     Int
+  discountAmount Int               @default(0)
+  sortOrder      Int               @default(0)
+
+  @@index([invoiceId])
+  @@index([categoryId])
+}
+
+model InvoicePayment {
+  id        String   @id @default(cuid())
+  invoiceId String
+  invoice   Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  amount    Int
+  date      String
+  incomeId  String   @unique
+  income    Income   @relation(fields: [incomeId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([invoiceId])
+}
+
+model PayslipTemplate {
+  id              String           @id @default(cuid())
+  householdId     String
+  household       Household        @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  memberId        String
+  member          Member           @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  name            String           @default("Payslip")
+  salaryCurrency  String           @default("LBP")
+  companyBps      Int              @default(600)
+  srspBps         Int              @default(600)
+  srspBase        String           @default("BASIC")
+  appearFromDay   Int              @default(24)
+  savingsAccountId String?
+  savingsAccount  SavingsAccount?  @relation(fields: [savingsAccountId], references: [id], onDelete: SetNull)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  lines           PayslipLine[]
+  receipts        PayslipReceipt[]
+
+  @@index([householdId])
+  @@index([memberId])
+}
+
+model PayslipLine {
+  id          String         @id @default(cuid())
+  templateId  String
+  template    PayslipTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  section     String
+  code        String
+  label       String
+  /// Minor units in salary currency (2 decimal places).
+  amount      BigInt         @default(0)
+  sortOrder   Int            @default(0)
+  startMonth  String?
+  endMonth    String?
+  active      Boolean        @default(true)
+
+  @@unique([templateId, code])
+  @@index([templateId])
+}
+
+model PayslipReceipt {
+  id              String               @id @default(cuid())
+  templateId      String
+  template        PayslipTemplate      @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  month           String
+  fxFromCurrency  String
+  fxToCurrency    String
+  fxRateUsed      String
+  netPaidSalary   BigInt
+  netPaidBooks    Int
+  srspSalary      BigInt
+  srspBooks       Int
+  companyBooks    Int
+  incomeId        String?              @unique
+  income          Income?              @relation(fields: [incomeId], references: [id], onDelete: SetNull)
+  createdAt       DateTime             @default(now())
+  lines           PayslipReceiptLine[]
+  savingsTxns     SavingsTxn[]
+
+  @@unique([templateId, month])
+  @@index([templateId])
+}
+
+model PayslipReceiptLine {
+  id        String         @id @default(cuid())
+  receiptId String
+  receipt   PayslipReceipt @relation(fields: [receiptId], references: [id], onDelete: Cascade)
+  section   String
+  code      String
+  label     String
+  amount    BigInt
+
+  @@index([receiptId])
+}
+
+model SavingsAccount {
+  id          String           @id @default(cuid())
+  householdId String
+  household   Household        @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  name        String
+  kind        String
+  /// ISO currency for this pot (independent from the main cash ledger).
+  currency    String           @default("USD")
+  /// Metal quantity in milligrams (1000 = 1 gram). Unused for CASH/PENSION.
+  quantityMg  BigInt           @default(0)
+  /// Unit price in this pot's currency minor units per gram.
+  unitPricePerGram Int         @default(0)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  txns        SavingsTxn[]
+  templates   PayslipTemplate[]
+  forecasts   Forecast[]
+
+  @@index([householdId])
+}
+
+model SavingsTxn {
+  id        String          @id @default(cuid())
+  accountId String
+  account   SavingsAccount  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  date      String
+  /// Signed amount in the pot's currency minor units.
+  amount    Int
+  kind      String
+  note      String          @default("")
+  receiptId String?
+  receipt   PayslipReceipt? @relation(fields: [receiptId], references: [id], onDelete: SetNull)
+  createdAt DateTime        @default(now())
+
+  @@index([accountId])
+  @@index([receiptId])
+}

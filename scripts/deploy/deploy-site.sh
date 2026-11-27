@@ -104,6 +104,28 @@ path_needs_build() {
   esac
 }
 
+# Paths the live site owns (never deleted / never overwritten unless overwrite flags).
+is_live_owned_path() {
+  case "$1" in
+    data|data/*|content|content/*) return 0 ;;
+    public/uploads|public/uploads/*|public/images|public/images/*|public/pages|public/pages/*) return 0 ;;
+    deploy.json|logs|logs/*|.user.ini|.htaccess|.well-known|.well-known/*) return 0 ;;
+    node_modules|node_modules/*|.env|.env.*) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+is_protected_path() {
+  local rel="$1" item
+  for item in "${protect_items[@]+"${protect_items[@]}"}"; do
+    [[ -n "$item" ]] || continue
+    if [[ "$rel" == "$item" || "$rel" == "$item"/* ]]; then
+      return 0
+    fi
+  done
+  return 1
+}
+
 copy_tree() {
   local src="$1" dest="$2"
   [[ -e "$src" ]] || return 1
@@ -112,11 +134,22 @@ copy_tree() {
   cp -a "$src" "$dest"
 }
 
+# Unlink then extract one path from git so hardlinked previous-build inodes stay intact.
+extract_git_path() {
+  local repo="$1" commit="$2" site_name="$3" rel="$4" dest="$5"
+  local git_path="websites/$site_name/$rel"
+  rm -f "$dest/$rel"
+  mkdir -p "$(dirname "$dest/$rel")"
+  git -C "$repo" archive "$commit" "$git_path" | tar -x -C "$dest" --strip-components=2 \
+    || die "Could not extract $git_path from ${commit:0:8}."
+}
+
 main() {
-  [[ $# -eq 15 ]] || die "Expected 15 arguments, got $#. Run deploys through scripts/deploy/deploy.ps1."
+  [[ $# -eq 16 ]] || die "Expected 16 arguments, got $#. Run deploys through scripts/deploy/deploy.ps1."
   local site="$1" sha="$2" server_path="$3" port="$4" health_path="$5" node_bin_arg="$6" project="$7"
   local restart_b64="$8" protect_list="$9" repo_url="${10}" overwrite_spec="${11}"
   local migrations_dir="${12}" migrations_script="${13}" migrations_mode="${14}" build_mode="${15}"
+  local laptop_base_sha="${16}"
   local restart_command=""
 
   [[ "$(id -un)" == "$REQUIRED_USER" ]] || die "Running as $(id -un); the deploy must run as $REQUIRED_USER."
@@ -128,15 +161,23 @@ main() {
   [[ "$migrations_mode" == "auto" || "$migrations_mode" == "force" ]] || die "Invalid migrations mode: $migrations_mode"
   [[ "$build_mode" == "auto" || "$build_mode" == "full" ]] || die "Invalid build mode: $build_mode"
   [[ "$sha" =~ ^[0-9a-f]{40}$ ]] || die "Invalid commit: $sha"
+  [[ "$laptop_base_sha" == "-" || "$laptop_base_sha" =~ ^[0-9a-f]{40}$ ]] || die "Invalid base commit: $laptop_base_sha"
   [[ "$server_path" =~ ^/[A-Za-z0-9._/-]+$ && "$server_path" != *..* && "$server_path" != "/" ]] || die "Invalid serverPath: $server_path"
   [[ "$port" =~ ^[0-9]+$ ]] || die "Invalid port: $port"
   [[ "$health_path" =~ ^/[A-Za-z0-9._/?=\&-]*$ ]] || die "Invalid healthPath: $health_path"
   local -a overwrite_items=()
+  local -a protect_items=()
   local entry
   if [[ "$overwrite_spec" != "-" && "$overwrite_spec" != "all" ]]; then
     IFS=':' read -r -a overwrite_items <<< "$overwrite_spec"
     for entry in "${overwrite_items[@]}"; do
       [[ "$entry" =~ ^(data|content)/[A-Za-z0-9._/-]+$ && "$entry" != *..* ]] || die "Invalid data file to overwrite: $entry"
+    done
+  fi
+  if [[ "$protect_list" != "-" ]]; then
+    IFS=':' read -r -a protect_items <<< "$protect_list"
+    for entry in "${protect_items[@]}"; do
+      [[ "$entry" =~ ^[A-Za-z0-9._-][A-Za-z0-9._/-]*$ && "$entry" != *..* ]] || die "Invalid protect path: $entry"
     done
   fi
   if [[ "$restart_b64" != "-" ]]; then
@@ -212,6 +253,9 @@ main() {
     warn "Previous deploy SHA ${previous_sha:0:8} is not in the bare repo; treating this as a full build"
     previous_sha=""
   fi
+  if [[ -n "$laptop_base_sha" && "$laptop_base_sha" != "-" && -n "$previous_sha" && "$laptop_base_sha" != "$previous_sha" ]]; then
+    warn "Laptop base ${laptop_base_sha:0:8} differs from server current.sha ${previous_sha:0:8}; using the server commit"
+  fi
 
   if [[ "$build_mode" != "full" && -n "$previous_sha" && "$previous_sha" == "$sha" ]]; then
     log "$site is already deployed at ${sha:0:8}; nothing to do (pass -Full to rebuild)."
@@ -219,44 +263,92 @@ main() {
     exit 0
   fi
 
-  local need_deps=1 need_build=1
+  local need_deps=1 need_build=1 use_delta=0
+  local -a changed_rels=() deleted_rels=()
+  local prefix="websites/$site/"
+
   if [[ "$build_mode" == "full" ]]; then
     log "Full build forced (-Full)"
   elif [[ -z "$previous_sha" || -z "$previous_build" ]]; then
     log "No reusable previous build; running full npm ci and build"
-  elif [[ ! -d "$previous_build/node_modules" ]]; then
-    log "Previous build has no node_modules; running full npm ci and build"
   else
-    local prefix="websites/$site/" rel path
+    use_delta=1
     need_deps=0
     need_build=0
-    while IFS= read -r path; do
-      [[ -n "$path" ]] || continue
-      rel="${path#"$prefix"}"
-      [[ "$rel" != "$path" ]] || continue
+    local status old_git new_git rel
+    while IFS=$'\t' read -r status old_git new_git; do
+      [[ -n "$status" ]] || continue
+      case "$status" in
+        R*|C*)
+          rel="${old_git#"$prefix"}"
+          if [[ "$rel" != "$old_git" ]]; then
+            deleted_rels+=("$rel")
+          fi
+          rel="${new_git#"$prefix"}"
+          [[ "$rel" != "$new_git" && -n "$rel" ]] || continue
+          changed_rels+=("$rel")
+          ;;
+        D)
+          rel="${old_git#"$prefix"}"
+          [[ "$rel" != "$old_git" ]] || continue
+          deleted_rels+=("$rel")
+          continue
+          ;;
+        *)
+          rel="${old_git#"$prefix"}"
+          [[ "$rel" != "$old_git" ]] || continue
+          changed_rels+=("$rel")
+          ;;
+      esac
       if path_needs_deps "$rel"; then
         need_deps=1
         need_build=1
       elif path_needs_build "$rel"; then
         need_build=1
       fi
-    done < <(git -C "$repo_dir" diff --name-only "$previous_sha" "$sha" -- "websites/$site")
+    done < <(git -C "$repo_dir" diff --name-status -M "$previous_sha" "$sha" -- "websites/$site")
+
     if [[ $need_deps -eq 1 ]]; then
       log "Dependencies changed since ${previous_sha:0:8}; running npm ci and build"
     elif [[ $need_build -eq 1 ]]; then
-      log "Build inputs changed since ${previous_sha:0:8}; reusing node_modules, running build"
+      log "Build inputs changed since ${previous_sha:0:8}; reusing node_modules when possible, running build"
     else
       log "No dependency or build-input changes since ${previous_sha:0:8}; reusing node_modules and dist"
     fi
+    log "Delta: ${#changed_rels[@]} changed, ${#deleted_rels[@]} deleted under websites/$site"
   fi
 
   local build_dir
   build_dir="$builds_dir/$(date +%Y%m%d-%H%M%S)-${sha:0:8}"
   BUILD_DIR="$build_dir"
-  mkdir -p "$build_dir"
 
-  log "Extracting websites/$site at ${sha:0:8} into $build_dir"
-  git -C "$repo_dir" archive "$sha" "websites/$site" | tar -x -C "$build_dir" --strip-components=2
+  if [[ $use_delta -eq 1 ]]; then
+    log "Hardlinking previous build $(basename "$previous_build") -> $(basename "$build_dir")"
+    if ! cp -al "$previous_build" "$build_dir"; then
+      warn "Hardlink copy failed; falling back to full extract"
+      rm -rf "$build_dir"
+      use_delta=0
+      need_deps=1
+      need_build=1
+      mkdir -p "$build_dir"
+      log "Extracting websites/$site at ${sha:0:8} into $build_dir"
+      git -C "$repo_dir" archive "$sha" "websites/$site" | tar -x -C "$build_dir" --strip-components=2
+    else
+      local rel
+      for rel in "${deleted_rels[@]}"; do
+        rm -rf "$build_dir/$rel"
+      done
+      for rel in "${changed_rels[@]}"; do
+        extract_git_path "$repo_dir" "$sha" "$site" "$rel" "$build_dir"
+      done
+      # Compiled CSS / dist stay hardlinked until a build rewrites them.
+    fi
+  else
+    mkdir -p "$build_dir"
+    log "Extracting websites/$site at ${sha:0:8} into $build_dir"
+    git -C "$repo_dir" archive "$sha" "websites/$site" | tar -x -C "$build_dir" --strip-components=2
+  fi
+
   [[ -f "$build_dir/package-lock.json" ]] || die "websites/$site has no package-lock.json in commit $sha."
   for entry in "${overwrite_items[@]}"; do
     [[ -f "$build_dir/$entry" ]] || die "$entry is not in commit $sha, so it cannot overwrite the server copy."
@@ -267,40 +359,68 @@ main() {
     die ".env.production sets PORT=$env_port but deploy.json port is $port."
   fi
 
-  local ran_npm=0
+  ensure_dev_deps() {
+    if [[ -x "$build_dir/node_modules/.bin/tsc" || -x "$build_dir/node_modules/.bin/tsx" ]]; then
+      return 0
+    fi
+    log "Dev tooling missing in staging node_modules; running npm install --include=dev"
+    # Break hardlinks to the previous build's pruned modules before reinstalling.
+    if [[ -d "$build_dir/node_modules" ]]; then
+      rm -rf "$build_dir/node_modules"
+    fi
+    (cd "$build_dir" && npm install --include=dev --no-audit --no-fund) || die "npm install --include=dev failed."
+  }
+
   if [[ $need_deps -eq 1 ]]; then
+    if [[ -d "$build_dir/node_modules" ]]; then
+      log "Removing staging node_modules before npm ci"
+      rm -rf "$build_dir/node_modules"
+    fi
     log "Installing dependencies (npm ci)"
     (cd "$build_dir" && npm ci --include=dev --no-audit --no-fund) || die "npm ci failed."
-    ran_npm=1
-  else
+  elif [[ $need_build -eq 1 ]]; then
+    if [[ $use_delta -eq 0 ]]; then
+      if [[ -n "$previous_build" && -d "$previous_build/node_modules" ]]; then
+        log "Reusing node_modules from $(basename "$previous_build")"
+        copy_tree "$previous_build/node_modules" "$build_dir/node_modules" || die "Could not copy node_modules from previous build."
+      fi
+    fi
+    ensure_dev_deps
+  elif [[ $use_delta -eq 0 && -n "$previous_build" && -d "$previous_build/node_modules" ]]; then
     log "Reusing node_modules from $(basename "$previous_build")"
     copy_tree "$previous_build/node_modules" "$build_dir/node_modules" || die "Could not copy node_modules from previous build."
   fi
 
   if [[ $need_build -eq 1 ]]; then
-    if [[ $need_deps -eq 0 ]]; then
-      log "Restoring devDependencies for build (npm install --include=dev)"
-      (cd "$build_dir" && npm install --include=dev --no-audit --no-fund) || die "npm install --include=dev failed."
-      ran_npm=1
+    # Unlink hardlinked dist/css outputs so the build does not mutate the previous build.
+    if [[ $use_delta -eq 1 ]]; then
+      if [[ -d "$build_dir/dist" ]]; then
+        rm -rf "$build_dir/dist"
+      fi
+      for entry in public/css/main.css admin/public/css/admin.css; do
+        [[ -e "$build_dir/$entry" ]] && rm -f "$build_dir/$entry"
+      done
     fi
     log "Building (npm run build)"
     (cd "$build_dir" && npm run build) || die "npm run build failed."
   else
-    log "Reusing dist and compiled CSS from $(basename "$previous_build")"
-    if [[ -d "$previous_build/dist" ]]; then
-      copy_tree "$previous_build/dist" "$build_dir/dist" || die "Could not copy dist from previous build."
-    fi
-    # Only reuse compiled Sass outputs. Tracked static files under public/css/
-    # (legacy vendor CSS, etc.) come from the git extract and must not be wiped.
-    if [[ -f "$previous_build/public/css/main.css" ]]; then
-      mkdir -p "$build_dir/public/css"
-      cp -a "$previous_build/public/css/main.css" "$build_dir/public/css/main.css" \
-        || die "Could not copy main.css from previous build."
-    fi
-    if [[ -f "$previous_build/admin/public/css/admin.css" ]]; then
-      mkdir -p "$build_dir/admin/public/css"
-      cp -a "$previous_build/admin/public/css/admin.css" "$build_dir/admin/public/css/admin.css" \
-        || die "Could not copy admin.css from previous build."
+    if [[ $use_delta -eq 0 ]]; then
+      log "Reusing dist and compiled CSS from $(basename "$previous_build")"
+      if [[ -d "$previous_build/dist" ]]; then
+        copy_tree "$previous_build/dist" "$build_dir/dist" || die "Could not copy dist from previous build."
+      fi
+      if [[ -f "$previous_build/public/css/main.css" ]]; then
+        mkdir -p "$build_dir/public/css"
+        cp -a "$previous_build/public/css/main.css" "$build_dir/public/css/main.css" \
+          || die "Could not copy main.css from previous build."
+      fi
+      if [[ -f "$previous_build/admin/public/css/admin.css" ]]; then
+        mkdir -p "$build_dir/admin/public/css"
+        cp -a "$previous_build/admin/public/css/admin.css" "$build_dir/admin/public/css/admin.css" \
+          || die "Could not copy admin.css from previous build."
+      fi
+    else
+      log "Reusing hardlinked dist and compiled CSS from $(basename "$previous_build")"
     fi
   fi
 
@@ -342,20 +462,15 @@ main() {
       mv "$db_backup.partial" "$db_backup"
       find "$state_dir/db-backups" -maxdepth 1 -name 'db-*.sql.gz' | sort -r | tail -n +$((KEEP_DB_BACKUPS + 1)) | xargs -r rm -f
 
-      if [[ $ran_npm -eq 0 ]]; then
-        log "Restoring devDependencies for migrations (npm install --include=dev)"
-        (cd "$build_dir" && npm install --include=dev --no-audit --no-fund) || die "npm install --include=dev failed."
-        ran_npm=1
-      fi
+      ensure_dev_deps
       log "Running npm run $migrations_script"
       (cd "$build_dir" && npm run "$migrations_script") || die "Migrations failed. The live site was not changed. Database backup from before the migrations: $db_backup"
       migrations_ran=1
     fi
   fi
 
-  if [[ $ran_npm -eq 1 ]]; then
-    (cd "$build_dir" && npm prune --omit=dev --no-audit --no-fund) || die "npm prune failed."
-  fi
+  # Keep staging node_modules intact (including devDependencies) so the next incremental
+  # deploy can hardlink and rebuild without reinstalling. Live site installs separately.
   if [[ -f "$build_dir/dist/src/server.js" ]]; then
     log "Build entry: dist/src/server.js"
   elif [[ -f "$build_dir/dist/src/app.js" ]]; then
@@ -378,12 +493,9 @@ main() {
     --exclude=/logs/ --exclude=/.user.ini --exclude=/.htaccess --exclude=/.well-known/
   )
   local item
-  if [[ "$protect_list" != "-" ]]; then
-    IFS=':' read -r -a protect_items <<< "$protect_list"
-    for item in "${protect_items[@]}"; do
-      excludes+=("--exclude=/$item")
-    done
-  fi
+  for item in "${protect_items[@]+"${protect_items[@]}"}"; do
+    [[ -n "$item" ]] && excludes+=("--exclude=/$item")
+  done
 
   local data_backup=""
   if [[ "$overwrite_spec" != "-" ]]; then
@@ -444,7 +556,49 @@ main() {
     (cd "$server_path" && npm ci --omit=dev --no-audit --no-fund) || return 1
   }
 
-  sync_build() {
+  sync_path_to_live() {
+    local source="$1" rel="$2"
+    if is_protected_path "$rel" || is_live_owned_path "$rel"; then
+      return 0
+    fi
+    if [[ -d "$source/$rel" ]]; then
+      mkdir -p "$server_path/$rel" || return 1
+      rsync -a --delete "$source/$rel/" "$server_path/$rel/" || return 1
+      return 0
+    fi
+    if [[ -e "$source/$rel" ]]; then
+      mkdir -p "$(dirname "$server_path/$rel")" || return 1
+      # Unlink first so a hardlinked previous live file is not truncated in place.
+      rm -f "$server_path/$rel"
+      cp -a "$source/$rel" "$server_path/$rel" || return 1
+      return 0
+    fi
+    return 0
+  }
+
+  remove_live_path() {
+    local rel="$1"
+    if is_protected_path "$rel" || is_live_owned_path "$rel"; then
+      return 0
+    fi
+    if [[ -e "$server_path/$rel" || -L "$server_path/$rel" ]]; then
+      rm -rf "$server_path/$rel" || return 1
+      log "Removed $rel from live site"
+    fi
+  }
+
+  sync_live_owned_additions() {
+    local source="$1" dir
+    for dir in data content public/uploads public/images public/pages; do
+      if [[ -d "$source/$dir" ]]; then
+        mkdir -p "$server_path/$dir" || return 1
+        rsync -a --ignore-existing "$source/$dir/" "$server_path/$dir/" || return 1
+      fi
+    done
+  }
+
+  # Full mirror used for cold deploys and rollback.
+  sync_build_full() {
     local source="$1" with_overwrite="$2" force_npm="${3:-no}" dir
     rsync -a --delete "${excludes[@]}" "$source/" "$server_path/" || return 1
     for dir in data content public/uploads public/images public/pages; do
@@ -456,9 +610,50 @@ main() {
     if [[ "$with_overwrite" == "yes" && "$overwrite_spec" != "-" ]]; then
       overwrite_data "$source" || return 1
     fi
-    # Strip a UTF-8 BOM if a Windows editor left one; bash/Node treat it as part of the first key.
     sed '1s/^\xEF\xBB\xBF//' "$source/.env.production" | install -m 600 /dev/stdin "$server_path/.env" || return 1
     sync_live_node_modules "$source" "$force_npm" || return 1
+  }
+
+  # Copy only paths that changed in this deploy.
+  sync_build_delta() {
+    local source="$1" with_overwrite="$2" force_npm="${3:-no}" rel
+    for rel in "${deleted_rels[@]}"; do
+      remove_live_path "$rel" || return 1
+    done
+    for rel in "${changed_rels[@]}"; do
+      if [[ "$rel" == data/* || "$rel" == content/* ]]; then
+        continue
+      fi
+      sync_path_to_live "$source" "$rel" || return 1
+    done
+    if [[ $need_build -eq 1 ]]; then
+      if [[ -d "$source/dist" ]]; then
+        mkdir -p "$server_path/dist" || return 1
+        rsync -a --delete "$source/dist/" "$server_path/dist/" || return 1
+      fi
+      for rel in public/css/main.css admin/public/css/admin.css; do
+        if [[ -f "$source/$rel" ]]; then
+          mkdir -p "$(dirname "$server_path/$rel")" || return 1
+          rm -f "$server_path/$rel"
+          cp -a "$source/$rel" "$server_path/$rel" || return 1
+        fi
+      done
+    fi
+    sync_live_owned_additions "$source" || return 1
+    if [[ "$with_overwrite" == "yes" && "$overwrite_spec" != "-" ]]; then
+      overwrite_data "$source" || return 1
+    fi
+    sed '1s/^\xEF\xBB\xBF//' "$source/.env.production" | install -m 600 /dev/stdin "$server_path/.env" || return 1
+    sync_live_node_modules "$source" "$force_npm" || return 1
+  }
+
+  sync_build() {
+    local source="$1" with_overwrite="$2" force_npm="${3:-no}"
+    if [[ $use_delta -eq 1 && "$force_npm" != "yes" ]]; then
+      sync_build_delta "$source" "$with_overwrite" "$force_npm"
+    else
+      sync_build_full "$source" "$with_overwrite" "$force_npm"
+    fi
   }
 
   stop_site() {
@@ -522,8 +717,13 @@ main() {
     (cd "$server_path" && npm run --silent media:check:prod) || return 1
   }
 
-  log "Syncing build into $server_path (code only; node_modules installed on the live path)"
+  if [[ $use_delta -eq 1 ]]; then
+    log "Syncing changed paths into $server_path (delta; node_modules installed on the live path when needed)"
+  else
+    log "Syncing build into $server_path (full; node_modules installed on the live path)"
+  fi
   local failed=0
+  # Forward deploy: never force live npm unless deps changed (need_deps).
   sync_build "$build_dir" yes no || failed=1
   if [[ $failed -eq 0 ]]; then
     restart_site || failed=1
@@ -544,7 +744,10 @@ main() {
       die "Deploy of $site failed and there is no previous build to roll back to. Check the aaPanel project log."
     fi
     warn "Deploy failed; rolling back to $previous_build"
-    if restore_data && sync_build "$previous_build" no yes && restart_site && site_healthy; then
+    # Rollback always uses a full sync from the previous build directory.
+    use_delta=0
+    need_deps=1
+    if restore_data && sync_build_full "$previous_build" no yes && restart_site && site_healthy; then
       die "Deploy of ${sha:0:8} failed. $site was rolled back to $(basename "$previous_build")."
     fi
     die "Deploy failed AND rollback failed. $site may be down; check the aaPanel project log."

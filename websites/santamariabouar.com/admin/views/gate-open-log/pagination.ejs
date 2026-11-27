@@ -1,0 +1,58 @@
+<% if (pagination.totalPages > 1) {
+    function pageHref(page) {
+        const params = new URLSearchParams();
+        if (filters.search) params.set('search', filters.search);
+        if (filters.fromDate) params.set('fromDate', filters.fromDate);
+        if (filters.toDate) params.set('toDate', filters.toDate);
+        if (page > 1) params.set('page', String(page));
+        const qs = params.toString();
+        return '/admin/gate-open-log' + (qs ? '?' + qs : '');
+    }
+
+    const items = [];
+    const current = pagination.page;
+    const totalPages = pagination.totalPages;
+    if (totalPages <= 7) {
+        for (let i = 1; i <= totalPages; i++) items.push(i);
+    } else {
+        const windowStart = Math.max(2, current - 2);
+        const windowEnd = Math.min(totalPages - 1, current + 2);
+        items.push(1);
+        if (windowStart > 2) items.push('ellipsis');
+        for (let i = windowStart; i <= windowEnd; i++) items.push(i);
+        if (windowEnd < totalPages - 1) items.push('ellipsis');
+        items.push(totalPages);
+    }
+%>
+<nav class="px-3 py-3" aria-label="<%= pagerLabel || 'Gate open log pages' %>">
+    <ul class="pagination justify-content-center mb-0">
+        <li class="page-item<%= current === 1 ? ' disabled' : '' %>">
+            <% if (current === 1) { %>
+                <span class="page-link">Previous</span>
+            <% } else { %>
+                <a class="page-link" href="<%= pageHref(current - 1) %>">Previous</a>
+            <% } %>
+        </li>
+        <% items.forEach(function(item) { %>
+            <% if (item === 'ellipsis') { %>
+                <li class="page-item disabled" aria-hidden="true"><span class="page-link">…</span></li>
+            <% } else { %>
+                <li class="page-item<%= item === current ? ' active' : '' %>">
+                    <% if (item === current) { %>
+                        <span class="page-link"><%= item %><span class="visually-hidden"> (current)</span></span>
+                    <% } else { %>
+                        <a class="page-link" href="<%= pageHref(item) %>"><%= item %></a>
+                    <% } %>
+                </li>
+            <% } %>
+        <% }); %>
+        <li class="page-item<%= current === totalPages ? ' disabled' : '' %>">
+            <% if (current === totalPages) { %>
+                <span class="page-link">Next</span>
+            <% } else { %>
+                <a class="page-link" href="<%= pageHref(current + 1) %>">Next</a>
+            <% } %>
+        </li>
+    </ul>
+</nav>
+<% } %>

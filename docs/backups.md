@@ -1,10 +1,10 @@
 # Server path backups
 
-Live sites under `/www/wwwroot` are backed up **per site**, not as one giant wwwroot archive. Database dumps stay on aaPanel’s own schedule; this document covers filesystem (path) backups only.
+Live sites under `/www/wwwroot` are backed up **per site**, not as one giant wwwroot archive. Database dumps stay on aaPanel’s own schedule; this document covers filesystem (path) backups and the nightly offsite sync.
 
 ## Why not one `path_wwwroot` tar
 
-aaPanel’s old job `Backup Directory[/www/wwwroot]` built ~61 GB `path_wwwroot_*.tar.gz` archives. The last successful local builds were **2026-08-22** and **2026-08-23**; the Aug 23 Google Drive upload stalled around 8–9%, and that aaPanel cron (id=2) was left **disabled**. Restoring one site meant scanning tens of gigabytes.
+aaPanel’s old job `Backup Directory[/www/wwwroot]` built ~61 GB `path_wwwroot_*.tar.gz` archives. The last successful local builds were **2026-08-22** and **2026-08-23**; the Aug 23 Google Drive upload stalled around 8–9%, and that aaPanel cron (id=2) was left **disabled**. Restoring one site meant scanning tens of gigabytes. Those local monoliths were removed after confirming copies under Drive dated folders (for example `…/2026-11-17/path/wwwroot/`). Prefer restoring from `/www/backup/sites/<site>/` while it still exists locally, or from Drive under `…/sites/<site>/`.
 
 **Do not re-enable** that monolithic path job.
 
@@ -14,31 +14,37 @@ aaPanel’s old job `Backup Directory[/www/wwwroot]` built ~61 GB `path_wwwroo
 |-------|-----------------|------|
 | Per-site path backup | `/www/backup-sites.sh` daily **02:15** (root) | One `.tar.gz` per site under `/www/backup/sites/<site>/` |
 | Source in git | [`scripts/backup/backup-sites.sh`](../scripts/backup/backup-sites.sh) | Copy to `/www/backup-sites.sh` when the script changes |
-| DB backups | aaPanel “Backup Database[ALL]” ~01:30 | `/www/backup/database/` |
-| Offsite sync | `/www/backup.sh` daily ~00:03 | `rclone copy /www/backup` → `gdrive:/server-backups/ubuntuliteweb/YYYY-MM-DD/` |
+| DB backups | aaPanel “Backup Database[ALL]” ~01:30 | Writes `/www/backup/database/`; aaPanel’s own Drive upload may fail — offsite is via `backup.sh` |
+| Offsite sync + local clear | `/www/backup.sh` daily ~00:03 | `rclone copy /www/backup` → `gdrive:/server-backups/ubuntuliteweb/YYYY-MM-DD/` (skips `*.partial` and `path/wwwroot/**`), verify, then delete local files under `sites/`, `database/`, `path/`, `file_history/`, `nodejs/`, `backup_restore/` (keeps any in-progress `*.partial`) |
+| Source in git | [`scripts/backup/backup.sh`](../scripts/backup/backup.sh) | Copy to `/www/backup.sh` when the script changes |
 
-Per-site archives exclude rebuildable trees (`node_modules`, `logs`, `.git`, `dist`, `cache`). They **keep** `public/` (including images, pages, uploads), `data/`, and `content/`. Local retention is **2** newest tars per site.
+Per-site archives exclude rebuildable trees (`node_modules`, `logs`, `.git`, `dist`, `cache`). They **keep** `public/` (including images, pages, uploads), `data/`, and `content/`. Local site tars are **not** pruned by `backup-sites.sh`; `/www/backup.sh` removes them only after a verified Drive copy. A failed upload leaves the local files in place.
 
 Skipped wwwroot names: `default`, `public`, anything starting with `liteweb-backup-`, and junk names (spaces / quotes).
 
-Stale monolith archives under `/www/backup/path/wwwroot/` are **excluded** from rclone via `/www/backup-rclone-exclude.txt` (`path/wwwroot/**`) so nightly sync does not re-upload ~122 GB of August-only path tars. Prefer restoring from `/www/backup/sites/<site>/` (or Drive under `…/sites/<site>/`). Keep the old path tars on disk or Drive only as a one-time historical fallback.
+Stale monolith paths under `/www/backup/path/wwwroot/` stay **excluded** from rclone via `/www/backup-rclone-exclude.txt` (`path/wwwroot/**`) so a leftover archive is never re-uploaded.
 
-## Install / update the script
+Nightly order matters: **00:03** upload-and-clear yesterday’s dumps and site tars → **01:30** new DB dumps → **02:15** new site tars. One generation sits on the server until the next midnight copy.
+
+## Install / update the scripts
 
 From a laptop (repo root), as a user with SSH to the server:
 
 ```bash
 scp scripts/backup/backup-sites.sh litewebchatlb@ubuntu.liteweb.info:/tmp/backup-sites.sh
-ssh litewebchatlb@ubuntu.liteweb.info 'sudo install -m 755 /tmp/backup-sites.sh /www/backup-sites.sh'
+scp scripts/backup/backup.sh litewebchatlb@ubuntu.liteweb.info:/tmp/backup.sh
+ssh litewebchatlb@ubuntu.liteweb.info 'sudo install -m 755 /tmp/backup-sites.sh /www/backup-sites.sh && sudo install -m 755 /tmp/backup.sh /www/backup.sh'
 ```
 
-Cron (root), once:
+Or run [`scripts/backup/install-on-server.sh`](../scripts/backup/install-on-server.sh) on the server as root after scp’ing this folder.
+
+Cron (root), once for site backups:
 
 ```cron
 15 2 * * * /www/backup-sites.sh >> /var/log/site-backup.log 2>&1
 ```
 
-Leave aaPanel cron id=2 (`Backup Directory[/www/wwwroot]`) disabled.
+aaPanel cron “Backgup gdrive” (~00:03) already runs `/www/backup.sh`. Leave aaPanel cron id=2 (`Backup Directory[/www/wwwroot]`) disabled.
 
 ## Manual run
 
@@ -48,13 +54,16 @@ sudo /www/backup-sites.sh
 
 # One site (smoke / before a risky change)
 sudo /www/backup-sites.sh guerrasports
+
+# Offsite sync + local clear (same as nightly)
+sudo /www/backup.sh
 ```
 
-Logs: `/var/log/site-backup.log`. Lock: `/var/lock/site-backup.lock` (`flock`; a second run exits if one is already going).
+Logs: `/var/log/site-backup.log`, `/var/log/server-backup.log`. Site lock: `/var/lock/site-backup.lock` (`flock`; a second run exits if one is already going).
 
 ## Restore one site
 
-Archives store the site as a top-level folder name (for example `guerrasports/...`).
+Archives store the site as a top-level folder name (for example `guerrasports/...`). Prefer a local tar if it still exists; otherwise download from Drive first.
 
 ```bash
 # Example: extract into /www/wwwroot (creates/updates guerrasports/)
@@ -63,7 +72,7 @@ sudo tar -xzf /www/backup/sites/guerrasports/site_guerrasports_YYYYMMDD_HHMMSS.t
 
 To avoid overwriting newer live files, extract to a staging directory first, then copy only the paths you need (for example `public/images`).
 
-Database restore is separate: use a dump from `/www/backup/database/` (or the matching folder on Drive), not the site tar.
+Database restore is separate: use a dump from Drive under `…/database/` (or a local file under `/www/backup/database/` if the midnight clear has not run yet), not the site tar.
 
 ## JSON save copies (`data-backups/`)
 

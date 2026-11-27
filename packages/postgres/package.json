@@ -1,0 +1,21 @@
+{
+  "name": "@local/postgres",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pooled PostgreSQL connector: Zod-checked config, parameterized queries, no process.env",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "check": "tsc --noEmit",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "pg": "^8.16.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/pg": "^8.15.0",
+    "typescript": "^5.8.2"
+  }
+}

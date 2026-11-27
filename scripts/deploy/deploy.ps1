@@ -73,6 +73,108 @@ function Get-OptionalProperty($Object, [string]$Name) {
   return $null
 }
 
+function Get-SshArgumentList {
+  $argsList = @('-T', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=15', '-o', 'ServerAliveInterval=15', '-o', 'ServerAliveCountMax=40', '-p', "$script:SshPort")
+  if ($script:IdentityFile) {
+    $argsList += @('-i', [Environment]::ExpandEnvironmentVariables([string]$script:IdentityFile))
+  }
+  return $argsList
+}
+
+function Invoke-RemoteCommand([string]$RemoteCommand) {
+  $sshArgs = Get-SshArgumentList
+  $sshArgs += @("$script:SshUser@$script:SshHost", $RemoteCommand)
+  $ErrorActionPreference = 'Continue'
+  $output = & ssh @sshArgs 2>&1 | ForEach-Object { "$_" }
+  return @{
+    ExitCode = $LASTEXITCODE
+    Output   = $output
+  }
+}
+
+function Test-OnlyLastDeployDirty {
+  param(
+    [string[]]$PorcelainLines,
+    [string]$SiteName,
+    [string]$DeployJsonPath
+  )
+  if (-not $PorcelainLines -or $PorcelainLines.Count -eq 0) { return $true }
+
+  $deployRel = "websites/$SiteName/deploy.json"
+  foreach ($line in $PorcelainLines) {
+    if ([string]::IsNullOrWhiteSpace($line) -or $line.Length -lt 4) { return $false }
+    $path = $line.Substring(3)
+    if ($path.StartsWith(' ')) { $path = $path.Substring(1) }
+    if ($path -match ' -> ') { $path = ($path -split ' -> ', 2)[1] }
+    $path = $path.Trim().Trim('"')
+    if ($path -ne $deployRel) { return $false }
+  }
+
+  # Write to a temp file: PowerShell strips quotes from node -e inline scripts.
+  $tmp = [System.IO.Path]::GetTempFileName() + '.mjs'
+  @(
+    'import fs from "fs";'
+    'import { execFileSync } from "child_process";'
+    'const path = process.argv[1];'
+    'const repo = process.argv[2];'
+    'const gitPath = process.argv[3];'
+    'function strip(obj) {'
+    '  if (obj && typeof obj === "object" && !Array.isArray(obj)) {'
+    '    const copy = { ...obj };'
+    '    delete copy.lastDeploy;'
+    '    return copy;'
+    '  }'
+    '  return obj;'
+    '}'
+    'const working = JSON.parse(fs.readFileSync(path, "utf8"));'
+    'let headRaw;'
+    'try {'
+    '  headRaw = execFileSync("git", ["-C", repo, "show", `HEAD:${gitPath}`], { encoding: "utf8" });'
+    '} catch {'
+    '  process.exit(2);'
+    '}'
+    'const head = JSON.parse(headRaw);'
+    'const a = JSON.stringify(strip(working));'
+    'const b = JSON.stringify(strip(head));'
+    'process.exit(a === b ? 0 : 1);'
+  ) | ForEach-Object -Begin { $script:__smbLines = @() } -Process { $script:__smbLines += $_ } -End { [System.IO.File]::WriteAllLines($tmp, $script:__smbLines) }
+  $ErrorActionPreference = 'Continue'
+  try {
+    & node $tmp $DeployJsonPath $script:RepoRoot $deployRel
+    return ($LASTEXITCODE -eq 0)
+  } finally {
+    Remove-Item -Force $tmp -ErrorAction SilentlyContinue
+  }
+}
+
+function Set-LastDeploySnapshot {
+  param(
+    [string]$DeployJsonPath,
+    [string]$Sha
+  )
+  # Write to a temp file: PowerShell strips quotes from node -e inline scripts.
+  $tmp = [System.IO.Path]::GetTempFileName() + '.mjs'
+  @(
+    'import fs from "fs";'
+    'const path = process.argv[1];'
+    'const sha = process.argv[2];'
+    'const at = process.argv[3];'
+    'const data = JSON.parse(fs.readFileSync(path, "utf8"));'
+    'data.lastDeploy = { sha, at };'
+    'fs.writeFileSync(path, `${JSON.stringify(data, null, 2)}\n`);'
+  ) | ForEach-Object -Begin { $script:__smbLines = @() } -Process { $script:__smbLines += $_ } -End { [System.IO.File]::WriteAllLines($tmp, $script:__smbLines) }
+  $at = (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ')
+  $ErrorActionPreference = 'Continue'
+  try {
+    & node $tmp $DeployJsonPath $Sha $at
+    if ($LASTEXITCODE -ne 0) {
+      Fail "Could not write lastDeploy into $DeployJsonPath."
+    }
+  } finally {
+    Remove-Item -Force $tmp -ErrorAction SilentlyContinue
+  }
+}
+
 $script:RepoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
 if (-not (Test-Path (Join-Path $script:RepoRoot 'websites'))) {
   Fail 'Could not find the repository root (expected scripts/deploy inside it).'
@@ -155,14 +257,14 @@ if (-not (Test-Path $localJsonPath)) {
   Fail "scripts/deploy/deploy.local.json is missing. Copy deploy.local.example.json and fill in the SSH details."
 }
 $localConfig = Get-Content -Raw $localJsonPath | ConvertFrom-Json
-$sshHost = [string](Get-OptionalProperty $localConfig 'host')
-$sshUser = [string](Get-OptionalProperty $localConfig 'user')
-if ($sshHost -notmatch '^[A-Za-z0-9.-]+$' -or $sshUser -notmatch '^[a-z_][a-z0-9_-]*$') {
+$script:SshHost = [string](Get-OptionalProperty $localConfig 'host')
+$script:SshUser = [string](Get-OptionalProperty $localConfig 'user')
+if ($script:SshHost -notmatch '^[A-Za-z0-9.-]+$' -or $script:SshUser -notmatch '^[a-z_][a-z0-9_-]*$') {
   Fail 'deploy.local.json needs a valid host and user.'
 }
-$sshPort = Get-OptionalProperty $localConfig 'port'
-if (-not $sshPort) { $sshPort = 22 }
-$identityFile = Get-OptionalProperty $localConfig 'identityFile'
+$script:SshPort = Get-OptionalProperty $localConfig 'port'
+if (-not $script:SshPort) { $script:SshPort = 22 }
+$script:IdentityFile = Get-OptionalProperty $localConfig 'identityFile'
 $runAs = Get-OptionalProperty $localConfig 'runAs'
 if (-not $runAs) { $runAs = 'www' }
 if ($runAs -notmatch '^[a-z_][a-z0-9_-]*$') { Fail 'deploy.local.json runAs is not a valid Linux user name.' }
@@ -190,9 +292,12 @@ if ($Ref) {
     Fail "Commit $Ref is not on origin/$branch. Only pushed commits can be deployed."
   }
 } else {
-  $dirty = Invoke-Git status --porcelain -- "websites/$Site" packages
+  $dirty = @(Invoke-Git status --porcelain -- "websites/$Site" packages | Where-Object { $_ })
   if ($dirty) {
-    Fail "Uncommitted changes in websites/$Site or packages/. Commit and push first:`n$($dirty -join "`n")"
+    if (-not (Test-OnlyLastDeployDirty -PorcelainLines $dirty -SiteName $Site -DeployJsonPath $deployJsonPath)) {
+      Fail "Uncommitted changes in websites/$Site or packages/. Commit and push first:`n$($dirty -join "`n")"
+    }
+    Write-Host "Ignoring uncommitted lastDeploy snapshot in websites/$Site/deploy.json." -ForegroundColor Yellow
   }
   $headSha = (Invoke-Git rev-parse HEAD | Out-String).Trim()
   if ($headSha -ne $remoteSha) {
@@ -239,14 +344,53 @@ if ($DataFiles) {
   $overwriteText = 'OVERWRITE every committed file in data/ and content/ (users.json, submissions.json and uploads are untouched)'
 }
 
+# Resolve the last-deploy base: server current.sha wins over deploy.json lastDeploy.
+$laptopLastDeploy = $null
+$lastDeployObj = Get-OptionalProperty $deploy 'lastDeploy'
+if ($null -ne $lastDeployObj) {
+  $candidate = [string](Get-OptionalProperty $lastDeployObj 'sha')
+  if ($candidate -match '^[0-9a-f]{40}$') { $laptopLastDeploy = $candidate }
+}
+
+Step "Reading server deploy snapshot"
+$statePath = "/www/deploy/state/$Site/current.sha"
+if ($script:SshUser -eq $runAs) {
+  $readCmd = "tr -dc '0-9a-f' < '$statePath' 2>/dev/null || true"
+} else {
+  $readCmd = "sudo -n -u $runAs -H bash -c `"tr -dc '0-9a-f' < '$statePath' 2>/dev/null || true`""
+}
+$serverRead = Invoke-RemoteCommand $readCmd
+$serverSha = $null
+if ($serverRead.ExitCode -eq 0) {
+  $serverShaRaw = (($serverRead.Output | Out-String) -replace '\s', '').Trim()
+  if ($serverShaRaw -match '^[0-9a-f]{40}$') { $serverSha = $serverShaRaw }
+} else {
+  Write-Host "Could not read $statePath (exit $($serverRead.ExitCode)); using local lastDeploy if present." -ForegroundColor Yellow
+}
+
+$baseSha = $null
+if ($serverSha -and $laptopLastDeploy -and $serverSha -ne $laptopLastDeploy) {
+  Write-Host "Server current.sha ($($serverSha.Substring(0, 8))) differs from deploy.json lastDeploy ($($laptopLastDeploy.Substring(0, 8))); using the server commit." -ForegroundColor Yellow
+  $baseSha = $serverSha
+} elseif ($serverSha) {
+  $baseSha = $serverSha
+} elseif ($laptopLastDeploy) {
+  $baseSha = $laptopLastDeploy
+}
+
+if ($baseSha -and -not (Test-Git cat-file -e "${baseSha}^{commit}")) {
+  Write-Host "Snapshot $($baseSha.Substring(0, 8)) is not in the local repo; treating this as a full deploy." -ForegroundColor Yellow
+  $baseSha = $null
+}
+
 if ($Ref) {
-  Write-Host 'Local build checks skipped: -Ref deploys a commit that is not checked out here.' -ForegroundColor Yellow
+  Write-Host 'Local checks skipped: -Ref deploys a commit that is not checked out here.' -ForegroundColor Yellow
 } elseif ($SkipChecks) {
-  Write-Host 'Local build checks skipped (-SkipChecks).' -ForegroundColor Yellow
+  Write-Host 'Local checks skipped (-SkipChecks).' -ForegroundColor Yellow
 } else {
   Push-Location $siteDir
   try {
-    foreach ($gate in 'typecheck', 'lint', 'build') {
+    foreach ($gate in 'typecheck', 'lint') {
       Step "npm run $gate"
       & npm run $gate
       if ($LASTEXITCODE -ne 0) { Fail "npm run $gate failed. Nothing was deployed." }
@@ -260,7 +404,22 @@ $subject = (Invoke-Git log -1 --format=%s $sha | Out-String).Trim()
 Write-Host ''
 Write-Host "Site:    $Site"
 Write-Host "Commit:  $($sha.Substring(0, 8))  $subject"
-Write-Host "Server:  $sshUser@${sshHost}:$serverPath (runs as $runAs)"
+Write-Host "Server:  $script:SshUser@${script:SshHost}:$serverPath (runs as $runAs)"
+if ($Full -or -not $baseSha) {
+  Write-Host 'Diff:    full extract (no reusable snapshot, or -Full)'
+} elseif ($baseSha -eq $sha) {
+  Write-Host "Diff:    none (already at $($sha.Substring(0, 8)))"
+} else {
+  Write-Host "Diff:    $($baseSha.Substring(0, 8))..$($sha.Substring(0, 8))"
+  $diffLines = @(Invoke-Git diff --name-status -M $baseSha $sha -- "websites/$Site")
+  if ($diffLines.Count -eq 0) {
+    Write-Host '         (no file changes under this site)'
+  } else {
+    foreach ($line in $diffLines) {
+      Write-Host "         $line"
+    }
+  }
+}
 if ($overwriteSpec -eq '-') {
   Write-Host "Data:    $overwriteText"
 } else {
@@ -279,6 +438,7 @@ if ($Full) {
 } else {
   Write-Host 'Server build: incremental (npm ci / build only when package or build inputs changed since last deploy)'
 }
+Write-Host 'Local build: skipped (install and build run on the server)'
 Write-Host ''
 if (-not $Yes) {
   if (-not (Confirm-YesNo "Deploy $Site now?")) { Fail 'Cancelled.' }
@@ -287,6 +447,7 @@ if (-not $Yes) {
   }
 }
 
+$baseShaArg = if ($baseSha) { $baseSha } else { '-' }
 $remoteArgs = @(
   $Site, $sha, $serverPath, "$port", $healthPath,
   $(if ($nodeBin) { $nodeBin } else { '-' }),
@@ -298,18 +459,18 @@ $remoteArgs = @(
   $(if ($migrationsDir) { $migrationsDir } else { '-' }),
   $(if ($migrationsScript) { $migrationsScript } else { '-' }),
   $(if ($ForceMigrations) { 'force' } else { 'auto' }),
-  $(if ($Full) { 'full' } else { 'auto' })
+  $(if ($Full) { 'full' } else { 'auto' }),
+  $baseShaArg
 )
 $quoted = ($remoteArgs | ForEach-Object { "'$_'" }) -join ' '
-if ($sshUser -eq $runAs) {
+if ($script:SshUser -eq $runAs) {
   $remoteCommand = "bash -s -- $quoted"
 } else {
   $remoteCommand = "sudo -n -u $runAs -H bash -s -- $quoted"
 }
 
-$sshArgs = @('-T', '-o', 'BatchMode=yes', '-o', 'ServerAliveInterval=15', '-o', 'ServerAliveCountMax=40', '-p', "$sshPort")
-if ($identityFile) { $sshArgs += @('-i', [Environment]::ExpandEnvironmentVariables([string]$identityFile)) }
-$sshArgs += @("$sshUser@$sshHost", $remoteCommand)
+$sshArgs = Get-SshArgumentList
+$sshArgs += @("$script:SshUser@$script:SshHost", $remoteCommand)
 
 $scriptText = (Get-Content -Raw (Join-Path $PSScriptRoot 'deploy-site.sh')) -replace "`r`n", "`n"
 # Strip a UTF-8 BOM so bash -s does not treat the shebang as a command name.
@@ -321,7 +482,7 @@ $scriptBytes = [System.Text.UTF8Encoding]::new($false).GetBytes($scriptText)
 $scriptTmp = Join-Path $env:TEMP ("deploy-site-" + [guid]::NewGuid().ToString('N') + ".sh")
 [System.IO.File]::WriteAllBytes($scriptTmp, $scriptBytes)
 
-Step "Deploying $Site to $sshHost"
+Step "Deploying $Site to $script:SshHost"
 try {
   # cmd redirection feeds ssh stdin as raw bytes (no PowerShell encoding layer).
   $argLine = ($sshArgs | ForEach-Object {
@@ -336,4 +497,7 @@ try {
 if ($exitCode -ne 0) {
   Fail "Deploy of $Site failed (exit code $exitCode). See the output above."
 }
+
+Set-LastDeploySnapshot -DeployJsonPath $deployJsonPath -Sha $sha
+Write-Host "Wrote lastDeploy $($sha.Substring(0, 8)) to websites/$Site/deploy.json (uncommitted)." -ForegroundColor Green
 Write-Host "Deployed $Site at $($sha.Substring(0, 8))." -ForegroundColor Green

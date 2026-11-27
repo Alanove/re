@@ -10,8 +10,9 @@ WWWROOT="${WWWROOT:-/www/wwwroot}"
 BACKUP_ROOT="${BACKUP_ROOT:-/www/backup/sites}"
 LOG_FILE="${LOG_FILE:-/var/log/site-backup.log}"
 LOCK_FILE="${LOCK_FILE:-/var/lock/site-backup.lock}"
-KEEP_PER_SITE="${KEEP_PER_SITE:-2}"
 STAMP="$(date +%Y%m%d_%H%M%S)"
+# Local archives are removed by /www/backup.sh after a verified Drive copy.
+# Do not prune here — a failed upload must still leave the tars on disk.
 
 # First-level dirs under wwwroot that are not real sites.
 SKIP_NAMES=(
@@ -71,16 +72,6 @@ backup_one() {
     return 1
   fi
 
-  # Keep the newest KEEP_PER_SITE archives; delete older ones.
-  local -a old
-  mapfile -t old < <(ls -1t "$dest_dir"/site_"${site}"_*.tar.gz 2>/dev/null || true)
-  if ((${#old[@]} > KEEP_PER_SITE)); then
-    local i
-    for ((i = KEEP_PER_SITE; i < ${#old[@]}; i++)); do
-      log "PRUNE ${old[$i]}"
-      rm -f "${old[$i]}"
-    done
-  fi
   return 0
 }
 

@@ -19,6 +19,7 @@
 param(
   [string[]]$Exclude,
 
+  # Skips local typecheck and lint for every site (server install/build still run).
   [switch]$SkipChecks
 )
 
@@ -104,7 +105,7 @@ if ($dirty) {
 $subject = (Invoke-Git log -1 --format=%s $remoteSha | Out-String).Trim()
 Write-Host ''
 Write-Host "Commit:  $($remoteSha.Substring(0, 8))  $subject"
-Write-Host "Checks:  $(if ($SkipChecks) { 'skipped (-SkipChecks)' } else { 'typecheck, lint and build run for each site before it is deployed' })"
+Write-Host "Checks:  $(if ($SkipChecks) { 'skipped (-SkipChecks)' } else { 'typecheck and lint run for each site before it is deployed; install/build run on the server' })"
 Write-Host 'Data:    kept on every site (server copies of data/ and content/ are not overwritten)'
 Write-Host ''
 Write-Host "These $($sites.Count) sites will be deployed one after another:" -ForegroundColor Yellow
