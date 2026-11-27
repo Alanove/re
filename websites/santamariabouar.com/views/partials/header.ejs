@@ -14,16 +14,9 @@
       <a href="/account" class="site-header__account">My Account</a>
       <div class="site-header__mobile-controls">
         <% if (typeof member !== 'undefined' && member) { %>
-          <button
-            class="site-header__member site-header__icon-btn"
-            type="button"
-            id="memberMenuBtn"
-            aria-label="Open member menu"
-            aria-expanded="false"
-            aria-controls="memberMenu"
-          >
+          <a href="/account" class="site-header__member site-header__icon-btn" aria-label="My Account">
             <i class="bi bi-person-fill" aria-hidden="true"></i>
-          </button>
+          </a>
         <% } else { %>
           <a href="/account/login" class="site-header__member site-header__icon-btn" aria-label="Member login">
             <i class="bi bi-person-fill" aria-hidden="true"></i>

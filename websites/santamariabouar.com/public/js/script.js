@@ -51,7 +51,6 @@ class App {
         this.setupHeroQuotes();
         this.setupScrollArrow();
         this.setupBurgerMenu();
-        this.setupMemberMenu();
         this.setupProjectModal();
         this.setupMobileProjectsFilter();
         this.initWorldMap();
@@ -65,10 +64,6 @@ class App {
         this.fullscreenMenu = document.querySelector('#fullscreenMenu');
         this.fullscreenCloseBtn = document.querySelector('#fullscreenCloseBtn');
         this.fullscreenMenuBackdrop = document.querySelector('#fullscreenMenuBackdrop');
-        this.memberMenuBtn = document.querySelector('#memberMenuBtn');
-        this.memberMenu = document.querySelector('#memberMenu');
-        this.memberMenuBackdrop = document.querySelector('#memberMenuBackdrop');
-        this.memberMenuCloseBtn = document.querySelector('#memberMenuCloseBtn');
         this.invertedSections = document.querySelectorAll('.main>section.inverted');
         this.nonInvertedSections = document.querySelectorAll('.main>section:not(.inverted)');
         this.footerTopButton = document.querySelector('#footerTopButton');
@@ -351,14 +346,11 @@ class App {
             });
         }
 
-        // Add escape key listener to close menus
+        // Add escape key listener to close menu
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 if (this.fullscreenMenu && this.fullscreenMenu.classList.contains('is-open')) {
                     this.closeFullscreenMenu();
-                }
-                if (this.memberMenu && this.memberMenu.classList.contains('is-open')) {
-                    this.closeMemberMenu();
                 }
             }
         });
@@ -407,7 +399,6 @@ class App {
     }
 
     openFullscreenMenu() {
-        this.closeMemberMenu();
         this.openSlideMenu(this.fullscreenMenu, this.burgerMenu, this.fullscreenMenuBackdrop);
         if (this.burgerMenu) {
             this.burgerMenu.classList.add('active');
@@ -452,61 +443,9 @@ class App {
             backdrop.classList.remove('is-open');
         }
 
-        if (
-            !this.fullscreenMenu?.classList.contains('is-open') &&
-            !this.memberMenu?.classList.contains('is-open')
-        ) {
+        if (!this.fullscreenMenu?.classList.contains('is-open')) {
             document.body.classList.remove('slide-menu-open');
         }
-    }
-
-    setupMemberMenu() {
-        if (!this.memberMenuBtn || !this.memberMenu) return;
-
-        this.memberMenuBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.toggleMemberMenu();
-        });
-
-        if (this.memberMenuCloseBtn) {
-            this.memberMenuCloseBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.closeMemberMenu();
-            });
-        }
-
-        if (this.memberMenuBackdrop) {
-            this.memberMenuBackdrop.addEventListener('click', () => {
-                this.closeMemberMenu();
-            });
-        }
-
-        this.memberMenu.addEventListener('click', (e) => {
-            if (e.target.tagName === 'A') {
-                this.closeMemberMenu();
-            }
-        });
-    }
-
-    toggleMemberMenu() {
-        if (this.memberMenu.classList.contains('is-open')) {
-            this.closeMemberMenu();
-        } else {
-            this.openMemberMenu();
-        }
-    }
-
-    openMemberMenu() {
-        if (!this.memberMenu || !this.memberMenuBtn) return;
-
-        this.closeFullscreenMenu();
-        this.openSlideMenu(this.memberMenu, this.memberMenuBtn, this.memberMenuBackdrop);
-    }
-
-    closeMemberMenu() {
-        if (!this.memberMenu || !this.memberMenuBtn) return;
-
-        this.closeSlideMenu(this.memberMenu, this.memberMenuBtn, this.memberMenuBackdrop);
     }
 
     showHorizontalSubmenu(menuItem) {

@@ -12,7 +12,24 @@
   </a>
 
   <nav class="account-sidebar__nav main-menu-panel__nav" aria-label="Main navigation">
-    <div class="account-sidebar__group">
+    <% if (typeof member !== 'undefined' && member) { %>
+      <div class="account-sidebar__user main-menu-panel__user">
+        <div class="account-sidebar__avatar"><%= (member.name ? member.name.charAt(0) : 'M').toUpperCase() %></div>
+        <div>
+          <strong><%= member.name || 'Member' %></strong>
+          <% if (member.email) { %>
+            <span><%= member.email %></span>
+          <% } else if (member.phone) { %>
+            <span><%= member.phone %></span>
+          <% } %>
+        </div>
+      </div>
+      <%- include('./member-nav-links') %>
+      <div class="account-sidebar__group main-menu-panel__site-group">
+        <span class="account-sidebar__group-label">Website</span>
+    <% } else { %>
+      <div class="account-sidebar__group">
+    <% } %>
       <% if (typeof items !== 'undefined' && items && items.length > 0) { %>
         <% items.forEach(function(item) { %>
           <% if (item.active) { %>
@@ -29,7 +46,7 @@
           <% } %>
         <% }); %>
       <% } %>
-    </div>
+      </div>
   </nav>
 </div>
 <div class="slide-menu-panel__backdrop" id="fullscreenMenuBackdrop"></div>

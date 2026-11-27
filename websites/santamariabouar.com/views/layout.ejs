@@ -127,15 +127,6 @@
 
   <% if (typeof hideSiteChrome === 'undefined' || !hideSiteChrome) { %>
     <%- include('partials/menu') %>
-    <% if (typeof member !== 'undefined' && member) { %>
-      <div id="memberMenu" class="slide-menu-panel">
-        <button type="button" class="slide-menu-panel__close" id="memberMenuCloseBtn" aria-label="Close member menu">
-          <i class="bi bi-x-lg" aria-hidden="true"></i>
-        </button>
-        <%- include('partials/member-menu') %>
-      </div>
-      <div class="slide-menu-panel__backdrop" id="memberMenuBackdrop"></div>
-    <% } %>
     <%- include('partials/cookie-banner') %>
   <% } %>
 
