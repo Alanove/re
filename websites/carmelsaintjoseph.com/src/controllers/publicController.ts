@@ -36,12 +36,47 @@ function emptyForm(sent = false): ContactFormState {
   return { values: {}, errors: {}, sent, message: '' };
 }
 
+/** Live treats these as leaf links in nav/sidebar; children are listed on the page itself. */
+const CHILD_LISTING_KEYS = new Set(['projets-periscolaires-et-sociaux', 'communaute-religieuse']);
+const CHILD_LISTING_PAGE_SIZE = 10;
+
 /** Brochure tree for the site map. News stories stay off the list; Actualités itself stays. */
 function brochurePages(nodes: PageNode[]): PageNode[] {
   return nodes.map((node) => ({
     ...node,
     children: node.kind === 'news' || node.key === 'actualites' ? [] : brochurePages(node.children)
   }));
+}
+
+/** Sidebar tree: listing hubs stay leaves so their children are not nested in the menu. */
+function sidebarPages(nodes: PageNode[]): PageNode[] {
+  return nodes.map((node) => ({
+    ...node,
+    children: CHILD_LISTING_KEYS.has(node.key) ? [] : sidebarPages(node.children)
+  }));
+}
+
+function findNodeById(nodes: PageNode[], id: number): PageNode | null {
+  for (const node of nodes) {
+    if (node.id === id) {
+      return node;
+    }
+    const nested = findNodeById(node.children, id);
+    if (nested) {
+      return nested;
+    }
+  }
+  return null;
+}
+
+function childListingEntries(children: PageNode[]): PageNode[] {
+  return [...children]
+    .filter((child) => child.status === 'published')
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+    .map((child) => ({
+      ...child,
+      summary: child.summary?.trim() || excerpt(child.content, 140)
+    }));
 }
 
 function wantsJson(req: Request): boolean {
@@ -181,7 +216,9 @@ export class PublicController {
       res.redirect(301, `${page.url}${query}`);
       return;
     }
-    await PublicController.renderPage(res, page, emptyForm(req.query.sent === '1'));
+    const rawListPage = typeof req.query.p === 'string' ? req.query.p : '1';
+    const listPage = Math.max(1, Number.parseInt(rawListPage, 10) || 1);
+    await PublicController.renderPage(res, page, emptyForm(req.query.sent === '1'), listPage);
   }
 
   public static async submitContact(req: Request, res: Response): Promise<void> {
@@ -312,7 +349,12 @@ export class PublicController {
     return pagesService.findPublishedByKey(config.legacy.contactPageKey);
   }
 
-  private static async renderPage(res: Response, page: PageNode, contactForm: ContactFormState): Promise<void> {
+  private static async renderPage(
+    res: Response,
+    page: PageNode,
+    contactForm: ContactFormState,
+    listPage = 1
+  ): Promise<void> {
     const published = await pagesService.inheritHeroForPublish(page);
     const [sectionRoot, gallery, newsRoot] = await Promise.all([
       pagesService.getSectionRoot(published),
@@ -329,6 +371,19 @@ export class PublicController {
     const publishedNews = (newsRoot?.children ?? [])
       .filter((entry) => entry.status === 'published')
       .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+
+    const listingParent =
+      published.parentId !== null ? findNodeById([sectionRoot], published.parentId) : null;
+    const isListingHub = CHILD_LISTING_KEYS.has(published.key);
+    const isListingChild = Boolean(listingParent && CHILD_LISTING_KEYS.has(listingParent.key));
+    const listingEntries = isListingHub ? childListingEntries(published.children) : [];
+    const listingPages = Math.max(1, Math.ceil(listingEntries.length / CHILD_LISTING_PAGE_SIZE));
+    const currentListPage = Math.min(listPage, listingPages);
+    const childPosts = listingEntries.slice(
+      (currentListPage - 1) * CHILD_LISTING_PAGE_SIZE,
+      currentListPage * CHILD_LISTING_PAGE_SIZE
+    );
+
     const view = published.kind === 'contact'
       ? 'contact'
       : isStory
@@ -342,7 +397,16 @@ export class PublicController {
               : 'page';
     res.render(view, {
       page: published,
-      sectionRoot,
+      sectionRoot: {
+        ...sectionRoot,
+        children: sidebarPages(sectionRoot.children)
+      },
+      sideTitle: isListingChild && listingParent ? listingParent.title : undefined,
+      sideItems: isListingChild && listingParent ? listingParent.children : undefined,
+      listingParent: isListingChild ? listingParent : null,
+      childPosts,
+      childListPage: currentListPage,
+      childListPages: listingPages,
       sitemapTree: published.key === 'site-map' ? brochurePages(await pagesService.getPublishedTree()) : [],
       gallery,
       albums,

@@ -282,6 +282,19 @@ html body header .aefe img {
   height: auto;
 }
 
+/* Live page galleries use square Medium/Thumb crops; keep the same look with cover crop. */
+.galleryContainer .cbp-l-grid-masonry-projects .cbp-caption {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+
+.galleryContainer .cbp-l-grid-masonry-projects .cbp-caption img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
 /* Site map page. The legacy skin hides ul.site-map-list under .contactez-nous. */
 html body .text ul.site-map-list,
 html body .contactez-nous ul.site-map-list {
