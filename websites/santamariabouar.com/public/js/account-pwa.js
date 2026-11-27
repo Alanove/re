@@ -23,16 +23,13 @@
   function updateInstallButtons() {
     var buttons = document.querySelectorAll('[data-pwa-install]');
     buttons.forEach(function (btn) {
-      var which = btn.getAttribute('data-pwa-install');
       if (isStandalone()) {
         btn.hidden = true;
         return;
       }
-      if (which === 'account' && deferredPrompt) {
-        btn.hidden = false;
-      } else if (which === 'gate' && deferredPrompt) {
-        btn.hidden = false;
-      }
+      // Chrome often skips beforeinstallprompt after another app from this site is installed.
+      // Keep a visible Install button only when the deferred prompt is available.
+      btn.hidden = !deferredPrompt;
     });
   }
 
@@ -49,9 +46,10 @@
     });
   }
 
-  function showIosHints() {
-    if (!isIos() || isStandalone()) return;
-    document.querySelectorAll('[data-pwa-ios]').forEach(function (el) {
+  function showManualHints() {
+    if (isStandalone()) return;
+    document.querySelectorAll('[data-pwa-manual], [data-pwa-ios]').forEach(function (el) {
+      // Always show manual steps: BIP is unreliable once another PWA is installed.
       el.hidden = false;
     });
   }
@@ -92,7 +90,7 @@
   function init() {
     registerServiceWorker();
     wireInstallButtons();
-    showIosHints();
+    showManualHints();
     setupSuggestBanner();
     updateInstallButtons();
   }

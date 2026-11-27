@@ -382,6 +382,27 @@ export class MemberController {
     }
   }
 
+  static async installAccount(req: Request, res: Response): Promise<void> {
+    try {
+      const user = await MemberController.loadMemberOrRedirect(req, res);
+      if (!user) return;
+
+      res.render(
+        'account/install-account',
+        MemberController.shellLocals('apps', user, {
+          pageTitle: 'Install Santa Maria Account',
+          pageRobots: 'noindex, nofollow',
+          hideSiteChrome: true,
+          pwaManifest: '/pwa/account.webmanifest',
+          appleMobileWebAppTitle: 'Santa Maria Account'
+        })
+      );
+    } catch (error) {
+      console.error('Error loading account install page:', error);
+      res.status(500).send('Unable to load account install page');
+    }
+  }
+
   static async openGate(req: Request, res: Response): Promise<void> {
     const sessionMember = getMemberSession(req);
     if (!sessionMember) {

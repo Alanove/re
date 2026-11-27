@@ -3,7 +3,7 @@
   "name": "Santa Maria Account",
   "short_name": "SMB Account",
   "description": "Santa Maria Bouar member portal",
-  "start_url": "/account",
+  "start_url": "/account?source=pwa-account",
   "scope": "/account",
   "display": "standalone",
   "background_color": "#F7F3EE",

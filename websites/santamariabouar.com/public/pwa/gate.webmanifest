@@ -4,7 +4,7 @@
   "short_name": "Open Gate",
   "description": "Open the Santa Maria Bouar main gate",
   "start_url": "/account/gate",
-  "scope": "/account",
+  "scope": "/account/gate",
   "display": "standalone",
   "background_color": "#F7F3EE",
   "theme_color": "#C87E2F",

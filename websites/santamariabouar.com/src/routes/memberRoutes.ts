@@ -47,6 +47,7 @@ function handleApartmentPhotoUpload(req: Request, res: Response, next: NextFunct
 router.get('/', requireMember, MemberController.index);
 router.get('/gate', requireMember, MemberController.gate);
 router.get('/apps', requireMember, MemberController.apps);
+router.get('/install', requireMember, MemberController.installAccount);
 router.post('/open-gate', requireMember, openGateRateLimiter, validateCsrf, MemberController.openGate);
 router.get('/profile', requireMember, MemberController.profile);
 router.post('/profile', requireMember, MemberController.updateProfile);
