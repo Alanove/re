@@ -4,7 +4,7 @@
   "healthPath": "/",
   "nodeBin": null,
   "aapanelProject": "financealainhaddad",
-  "restartCommand": null,
+  "restartCommand": "PIDFILE=/www/server/nodejs/vhost/pids/financealainhaddad.pid; if [ -f \"$PIDFILE\" ]; then kill \"$(tr -dc 0-9 < \"$PIDFILE\")\" 2>/dev/null || true; fi; fuser -k 3100/tcp 2>/dev/null || true; sleep 1; nohup /www/server/nodejs/v22.20.0/bin/npm run start >>/www/wwwlogs/nodejs/financealainhaddad.log 2>&1 & echo $! > \"$PIDFILE\"",
   "protect": ["data/receipts"],
   "migrations": {
     "dir": "prisma/migrations",
