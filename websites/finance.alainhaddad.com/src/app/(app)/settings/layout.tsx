@@ -12,6 +12,7 @@ export default async function SettingsLayout({
 
   const links = [
     { href: "/settings/household", label: "Household" },
+    { href: "/settings/password", label: "Password" },
     ...(adult
       ? [
           { href: "/settings/money", label: "Money" },

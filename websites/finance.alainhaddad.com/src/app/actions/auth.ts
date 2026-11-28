@@ -7,7 +7,7 @@ import { z } from "zod";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { seedHouseholdCategories } from "@/lib/seed-categories";
-import { requireOwner } from "@/lib/session";
+import { requireOwner, requireUser } from "@/lib/session";
 
 const signupSchema = z.object({
   name: z.string().trim().min(1).max(80),
@@ -106,6 +106,53 @@ export async function signOutAction() {
     headers: await headers(),
   });
   redirect("/login");
+}
+
+const changePasswordSchema = z
+  .object({
+    currentPassword: z.string().min(1).max(128),
+    newPassword: z.string().min(8).max(128),
+    confirmPassword: z.string().min(8).max(128),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "New passwords do not match.",
+    path: ["confirmPassword"],
+  });
+
+export async function changePasswordAction(formData: FormData): Promise<ActionResult> {
+  await requireUser();
+
+  const parsed = changePasswordSchema.safeParse({
+    currentPassword: formData.get("currentPassword"),
+    newPassword: formData.get("newPassword"),
+    confirmPassword: formData.get("confirmPassword"),
+  });
+  if (!parsed.success) {
+    const mismatch = parsed.error.issues.some((issue) => issue.path[0] === "confirmPassword");
+    return {
+      ok: false,
+      error: mismatch ? "New passwords do not match." : "Use at least 8 characters for the new password.",
+    };
+  }
+
+  if (parsed.data.currentPassword === parsed.data.newPassword) {
+    return { ok: false, error: "Pick a new password that is different from the current one." };
+  }
+
+  try {
+    await auth.api.changePassword({
+      body: {
+        currentPassword: parsed.data.currentPassword,
+        newPassword: parsed.data.newPassword,
+        revokeOtherSessions: true,
+      },
+      headers: await headers(),
+    });
+  } catch {
+    return { ok: false, error: "Current password is wrong, or the password could not be updated." };
+  }
+
+  return { ok: true };
 }
 
 export async function createInviteAction(formData: FormData): Promise<ActionResult & { url?: string }> {
