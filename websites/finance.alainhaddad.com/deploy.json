@@ -1,0 +1,13 @@
+{
+  "serverPath": "/www/wwwroot/finance.alainhaddad.com",
+  "port": 3100,
+  "healthPath": "/",
+  "nodeBin": null,
+  "aapanelProject": "financealainhaddad",
+  "restartCommand": null,
+  "protect": ["data/receipts"],
+  "migrations": {
+    "dir": "prisma/migrations",
+    "script": "db:migrate:deploy"
+  }
+}

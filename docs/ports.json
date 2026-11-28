@@ -1,6 +1,6 @@
 {
   "step": 2,
-  "next": 3100,
+  "next": 3102,
   "notes": "Assign the next even port from `next`, then set `next` to that port plus `step`. Ledger starts after Carmel's deploy port 3096. Older sites keep the ports already in their deploy.json files.",
   "sites": {
     "carmelsaintjoseph.com": {
@@ -11,6 +11,10 @@
     "vektorandpi.com": {
       "dev": 3098,
       "deploy": 3098
+    },
+    "finance.alainhaddad.com": {
+      "dev": 3100,
+      "deploy": 3100
     }
   }
 }

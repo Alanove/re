@@ -98,6 +98,8 @@ path_needs_build() {
   path_needs_deps "$p" && return 0
   case "$p" in
     src|src/*|scripts|scripts/*|public/scss|public/scss/*) return 0 ;;
+    prisma|prisma/*) return 0 ;;
+    next.config.js|next.config.mjs|next.config.ts|tailwind.config.js|tailwind.config.ts|postcss.config.js|postcss.config.mjs) return 0 ;;
     tsconfig.json|tsconfig.*.json) return 0 ;;
     *.scss) return 0 ;;
     *) return 1 ;;
@@ -392,10 +394,13 @@ main() {
   fi
 
   if [[ $need_build -eq 1 ]]; then
-    # Unlink hardlinked dist/css outputs so the build does not mutate the previous build.
+    # Unlink hardlinked dist/css/.next outputs so the build does not mutate the previous build.
     if [[ $use_delta -eq 1 ]]; then
       if [[ -d "$build_dir/dist" ]]; then
         rm -rf "$build_dir/dist"
+      fi
+      if [[ -d "$build_dir/.next" ]]; then
+        rm -rf "$build_dir/.next"
       fi
       for entry in public/css/main.css admin/public/css/admin.css; do
         [[ -e "$build_dir/$entry" ]] && rm -f "$build_dir/$entry"
@@ -405,9 +410,12 @@ main() {
     (cd "$build_dir" && npm run build) || die "npm run build failed."
   else
     if [[ $use_delta -eq 0 ]]; then
-      log "Reusing dist and compiled CSS from $(basename "$previous_build")"
+      log "Reusing dist/.next and compiled CSS from $(basename "$previous_build")"
       if [[ -d "$previous_build/dist" ]]; then
         copy_tree "$previous_build/dist" "$build_dir/dist" || die "Could not copy dist from previous build."
+      fi
+      if [[ -d "$previous_build/.next" ]]; then
+        copy_tree "$previous_build/.next" "$build_dir/.next" || die "Could not copy .next from previous build."
       fi
       if [[ -f "$previous_build/public/css/main.css" ]]; then
         mkdir -p "$build_dir/public/css"
@@ -420,7 +428,7 @@ main() {
           || die "Could not copy admin.css from previous build."
       fi
     else
-      log "Reusing hardlinked dist and compiled CSS from $(basename "$previous_build")"
+      log "Reusing hardlinked dist/.next and compiled CSS from $(basename "$previous_build")"
     fi
   fi
 
@@ -475,8 +483,10 @@ main() {
     log "Build entry: dist/src/server.js"
   elif [[ -f "$build_dir/dist/src/app.js" ]]; then
     log "Build entry: dist/src/app.js"
+  elif [[ -d "$build_dir/.next" ]]; then
+    log "Build entry: .next (Next.js)"
   else
-    die "Build did not produce dist/src/server.js or dist/src/app.js."
+    die "Build did not produce dist/src/server.js, dist/src/app.js, or .next/."
   fi
 
   if [[ -f "$server_path/.env" ]] && ! cmp -s "$server_path/.env" "$build_dir/.env.production"; then
@@ -630,6 +640,10 @@ main() {
       if [[ -d "$source/dist" ]]; then
         mkdir -p "$server_path/dist" || return 1
         rsync -a --delete "$source/dist/" "$server_path/dist/" || return 1
+      fi
+      if [[ -d "$source/.next" ]]; then
+        mkdir -p "$server_path/.next" || return 1
+        rsync -a --delete "$source/.next/" "$server_path/.next/" || return 1
       fi
       for rel in public/css/main.css admin/public/css/admin.css; do
         if [[ -f "$source/$rel" ]]; then
