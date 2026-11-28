@@ -5,7 +5,10 @@ import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { convertMinor, roundMinorToWholeMajor } from "@/lib/fx";
 import { toMinorUnits } from "@/lib/money";
-import { getHouseholdCash } from "@/lib/money-service";
+import {
+  getMoneyPlaceBalance,
+  resolveMoneyPlaceId,
+} from "@/lib/money-places";
 import {
   DEFAULT_PAYSLIP_LINES,
   companyMatchFromBasic,
@@ -442,11 +445,20 @@ export async function markPayslipReceivedAction(formData: FormData): Promise<Act
   // Date cash when it arrives (often ~26th), not the 1st of the settlement month.
   const payDate = todayIsoDate();
 
+  const place = await resolveMoneyPlaceId({
+    householdId: member.householdId,
+    memberId: member.id,
+    displayName: member.displayName,
+    moneyPlaceId: String(formData.get("moneyPlaceId") ?? ""),
+  });
+  if (!place.ok) return place;
+
   await prisma.$transaction(async (tx) => {
     const income = await tx.income.create({
       data: {
         householdId: member.householdId,
         memberId: template.memberId,
+        moneyPlaceId: place.placeId,
         kind: "SALARY",
         amount: netBooks,
         date: payDate,
@@ -645,9 +657,16 @@ export async function depositToSavingsAction(formData: FormData): Promise<Action
   }
 
   const category = await ensureSavingsCategory(member.householdId);
-  const cash = await getHouseholdCash(member.householdId);
-  if (amount > cash) {
-    return { ok: false, error: "Not enough cash for this deposit." };
+  const place = await resolveMoneyPlaceId({
+    householdId: member.householdId,
+    memberId: member.id,
+    displayName: member.displayName,
+    moneyPlaceId: String(formData.get("moneyPlaceId") ?? ""),
+  });
+  if (!place.ok) return place;
+  const available = await getMoneyPlaceBalance(member.householdId, place.placeId);
+  if (amount > available) {
+    return { ok: false, error: "Not enough in that place for this deposit." };
   }
 
   await prisma.$transaction(async (tx) => {
@@ -664,6 +683,7 @@ export async function depositToSavingsAction(formData: FormData): Promise<Action
       data: {
         householdId: member.householdId,
         memberId: member.id,
+        moneyPlaceId: place.placeId,
         categoryId: category.id,
         amount,
         date: todayIsoDate(),
@@ -707,6 +727,14 @@ export async function withdrawFromSavingsAction(formData: FormData): Promise<Act
     return { ok: false, error: "Not enough in this pot." };
   }
 
+  const place = await resolveMoneyPlaceId({
+    householdId: member.householdId,
+    memberId: member.id,
+    displayName: member.displayName,
+    moneyPlaceId: String(formData.get("moneyPlaceId") ?? ""),
+  });
+  if (!place.ok) return place;
+
   await prisma.$transaction(async (tx) => {
     await tx.savingsTxn.create({
       data: {
@@ -721,6 +749,7 @@ export async function withdrawFromSavingsAction(formData: FormData): Promise<Act
       data: {
         householdId: member.householdId,
         memberId: member.id,
+        moneyPlaceId: place.placeId,
         kind: "OTHER",
         amount,
         date: todayIsoDate(),

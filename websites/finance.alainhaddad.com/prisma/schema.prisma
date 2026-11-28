@@ -87,6 +87,8 @@ model Household {
   fxRates            FxRate[]
   payslipTemplates   PayslipTemplate[]
   savingsAccounts    SavingsAccount[]
+  moneyPlaces        MoneyPlace[]
+  moneyTransfers     MoneyTransfer[]
 }
 
 model FxRate {
@@ -119,6 +121,8 @@ model Member {
   debts            Debt[]
   invoices         Invoice[]
   payslipTemplates PayslipTemplate[]
+  moneyPlace       MoneyPlace?
+  moneyTransfers   MoneyTransfer[]
 
   @@index([householdId])
 }
@@ -175,6 +179,8 @@ model Income {
   household      Household       @relation(fields: [householdId], references: [id], onDelete: Cascade)
   memberId       String
   member         Member          @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  moneyPlaceId   String?
+  moneyPlace     MoneyPlace?     @relation(fields: [moneyPlaceId], references: [id], onDelete: SetNull)
   kind           String
   amount         Int
   date           String
@@ -185,6 +191,11 @@ model Income {
   invoice         Invoice?         @relation(fields: [invoiceId], references: [id], onDelete: SetNull)
   invoicePayment  InvoicePayment?
   payslipReceipt  PayslipReceipt?
+  /// Cash in this place after this income. Null until the cash ledger is written.
+  placeBalanceAfter   Int?
+  /// Household cash across open places after this income.
+  householdCashAfter  Int?
+  debtEntries         DebtEntry[]
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
 
@@ -192,6 +203,7 @@ model Income {
   @@index([householdId, customerId])
   @@index([householdId, invoiceId])
   @@index([memberId])
+  @@index([moneyPlaceId])
 }
 
 model Expense {
@@ -200,6 +212,8 @@ model Expense {
   household    Household   @relation(fields: [householdId], references: [id], onDelete: Cascade)
   memberId     String
   member       Member      @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  moneyPlaceId String?
+  moneyPlace   MoneyPlace? @relation(fields: [moneyPlaceId], references: [id], onDelete: SetNull)
   categoryId   String
   category     Category    @relation(fields: [categoryId], references: [id], onDelete: Restrict)
   businessId   String?
@@ -214,7 +228,7 @@ model Expense {
   cardCycle    CardCycle?  @relation(fields: [cardCycleId], references: [id], onDelete: SetNull)
   loanPaymentId String?    @unique
   loanPayment  LoanPayment? @relation(fields: [loanPaymentId], references: [id], onDelete: SetNull)
-  debtId       String?     @unique
+  debtId       String?
   debt         Debt?       @relation(fields: [debtId], references: [id], onDelete: SetNull)
   billPaymentId String?    @unique
   billPayment  BillPayment? @relation(fields: [billPaymentId], references: [id], onDelete: SetNull)
@@ -222,6 +236,11 @@ model Expense {
   /// Relative path under data/receipts; OCR can read this later.
   receiptPath  String?
   receiptMime  String?
+  /// Cash in this place after this expense. Unchanged when funding is not own money.
+  placeBalanceAfter  Int?
+  /// Household cash across open places after this expense.
+  householdCashAfter Int?
+  debtEntries        DebtEntry[] @relation("DebtEntryExpense")
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
 
@@ -229,6 +248,55 @@ model Expense {
   @@index([memberId])
   @@index([categoryId])
   @@index([cardCycleId])
+  @@index([moneyPlaceId])
+  @@index([debtId])
+}
+
+/// Day-to-day money location (member own account, bank, Wish, cash with someone, …).
+model MoneyPlace {
+  id             String         @id @default(cuid())
+  householdId    String
+  household      Household      @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  /// When set, this is that member’s personal default “own account”.
+  memberId       String?        @unique
+  member         Member?        @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  name           String
+  kind           String
+  note           String         @default("")
+  openingBalance Int            @default(0)
+  archivedAt     DateTime?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  incomes        Income[]
+  expenses       Expense[]
+  transfersFrom  MoneyTransfer[] @relation("TransferFrom")
+  transfersTo    MoneyTransfer[] @relation("TransferTo")
+
+  @@index([householdId])
+}
+
+model MoneyTransfer {
+  id           String     @id @default(cuid())
+  householdId  String
+  household    Household  @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  memberId     String
+  member       Member     @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  fromPlaceId  String
+  fromPlace    MoneyPlace @relation("TransferFrom", fields: [fromPlaceId], references: [id], onDelete: Restrict)
+  toPlaceId    String
+  toPlace      MoneyPlace @relation("TransferTo", fields: [toPlaceId], references: [id], onDelete: Restrict)
+  amount       Int
+  date         String
+  note         String     @default("")
+  fromPlaceBalanceAfter Int?
+  toPlaceBalanceAfter   Int?
+  householdCashAfter    Int?
+  createdAt    DateTime   @default(now())
+
+  @@index([householdId, date])
+  @@index([fromPlaceId])
+  @@index([toPlaceId])
+  @@index([memberId])
 }
 
 model Loan {
@@ -294,7 +362,7 @@ model Debt {
   person               String
   /// Original principal owed (minor units).
   principal            Int
-  /// Current balance owed (principal + accrued interest − repayments tracked via amount updates).
+  /// Latest balance owed, copied from the last DebtEntry.balanceAfter.
   amount               Int
   /// One-time fee taken from the advance (minor units). Cash received = principal − feeFixed.
   feeFixed             Int             @default(0)
@@ -307,9 +375,31 @@ model Debt {
   createdAt            DateTime        @default(now())
   updatedAt            DateTime        @updatedAt
   repayments           DebtRepayment[]
-  expense              Expense?
+  expenses             Expense[]
+  entries              DebtEntry[]
 
   @@index([householdId])
+}
+
+/// One stored move on a person's balance: borrow, settlement, or interest.
+model DebtEntry {
+  id           String   @id @default(cuid())
+  debtId       String
+  debt         Debt     @relation(fields: [debtId], references: [id], onDelete: Cascade)
+  /// BORROW increases what you owe. REPAY decreases it. INTEREST increases it.
+  kind         String
+  amount       Int
+  /// What was still owed to this person immediately after this move.
+  balanceAfter Int
+  date         String
+  note         String   @default("")
+  incomeId     String?  @unique
+  income       Income?  @relation(fields: [incomeId], references: [id], onDelete: SetNull)
+  expenseId    String?  @unique
+  expense      Expense? @relation("DebtEntryExpense", fields: [expenseId], references: [id], onDelete: SetNull)
+  createdAt    DateTime @default(now())
+
+  @@index([debtId, date])
 }
 
 model DebtRepayment {

@@ -19,9 +19,11 @@ import {
   addIncomeAction,
   repayDebtAction,
 } from "@/app/actions/money";
+import { transferMoneyAction } from "@/app/actions/places";
 import { recordInvoicePaymentAction } from "@/app/actions/work";
 import { CategoryCombobox } from "@/components/category-combobox";
 import { CustomerCombobox } from "@/components/customer-combobox";
+import { MoneyPlaceSelect } from "@/components/money-place-select";
 import { ReceiptCapture } from "@/components/receipt-capture";
 import { netReceived } from "@/lib/debt";
 import { formatMoney, fromMinorUnits, toMinorUnits } from "@/lib/money";
@@ -35,7 +37,7 @@ type OpenInvoice = {
   remainder: number;
 };
 
-type Kind = "income" | "expense" | "borrowed" | "repay";
+type Kind = "income" | "expense" | "borrowed" | "repay" | "transfer";
 type IncomeKind = "SALARY" | "FREELANCE" | "OTHER";
 
 const CATEGORY_MEMORY_KEY = "ff-category-by-desc";
@@ -72,11 +74,14 @@ export function AddSheet({
   cards,
   members,
   debts,
+  people = [],
   onlyAdult,
   currency,
   cashAvailable,
   customers,
   openInvoices = [],
+  moneyPlaces = [],
+  defaultPlaceId,
   trigger = "fab",
 }: {
   role: Role;
@@ -85,11 +90,14 @@ export function AddSheet({
   cards: { id: string; name: string }[];
   members: { id: string; displayName: string }[];
   debts: { id: string; person: string; remaining: number }[];
+  people?: string[];
   onlyAdult: boolean;
   currency: string;
   cashAvailable: number;
   customers: { id: string; name: string }[];
   openInvoices?: OpenInvoice[];
+  moneyPlaces?: { id: string; name: string; balance: number; memberId: string | null }[];
+  defaultPlaceId?: string;
   trigger?: "fab" | "sidebar";
 }) {
   const [open, setOpen] = useState(false);
@@ -124,6 +132,7 @@ export function AddSheet({
   const choices: { id: Kind; label: string; show: boolean }[] = [
     { id: "expense", label: "Expense", show: true },
     { id: "income", label: "Income", show: canAddIncome(role) },
+    { id: "transfer", label: "Transfer", show: moneyPlaces.length > 1 },
     { id: "borrowed", label: "Borrowed", show: canManageDebts(role) },
     { id: "repay", label: "Paid back", show: canManageDebts(role) },
   ];
@@ -210,8 +219,11 @@ export function AddSheet({
     if (kind === "expense" && funding === "OWN") {
       try {
         const ownAmount = toMinorUnits(String(formData.get("amount") ?? "0"));
-        if (ownAmount > cashAvailable) {
-          setError("Not enough cash. Use card or borrow.");
+        const placeId = String(formData.get("moneyPlaceId") ?? defaultPlaceId ?? "");
+        const place = moneyPlaces.find((row) => row.id === placeId);
+        const available = place?.balance ?? cashAvailable;
+        if (ownAmount > available) {
+          setError("Not enough in that place. Use another place, card, or borrow.");
           return;
         }
       } catch {
@@ -245,6 +257,8 @@ export function AddSheet({
             String(formData.get("categoryId") ?? categoryId)
           );
         }
+      } else if (kind === "transfer") {
+        result = await transferMoneyAction(formData);
       } else if (kind === "borrowed") {
         result = await addBorrowedAction(formData);
       } else {
@@ -404,6 +418,43 @@ export function AddSheet({
             />
           </div>
 
+          {(kind === "income" ||
+            kind === "borrowed" ||
+            kind === "repay" ||
+            (kind === "expense" && funding === "OWN")) &&
+            moneyPlaces.length > 0 && (
+              <MoneyPlaceSelect
+                key={`place-${sheetKey}-${kind}`}
+                places={moneyPlaces}
+                defaultPlaceId={defaultPlaceId}
+                currency={currency}
+                label={kind === "income" || kind === "borrowed" ? "Into" : "From"}
+              />
+            )}
+
+          {kind === "transfer" && moneyPlaces.length > 1 && (
+            <>
+              <MoneyPlaceSelect
+                key={`from-${sheetKey}`}
+                name="fromPlaceId"
+                places={moneyPlaces}
+                defaultPlaceId={defaultPlaceId}
+                currency={currency}
+                label="From"
+              />
+              <MoneyPlaceSelect
+                key={`to-${sheetKey}`}
+                name="toPlaceId"
+                places={moneyPlaces.filter((place) => place.id !== defaultPlaceId)}
+                defaultPlaceId={
+                  moneyPlaces.find((place) => place.id !== defaultPlaceId)?.id
+                }
+                currency={currency}
+                label="To"
+              />
+            </>
+          )}
+
           {kind === "income" && (
             <>
               <div className="space-y-1">
@@ -502,9 +553,6 @@ export function AddSheet({
                 valueId={categoryId}
                 onChange={(next) => setCategoryId(next.id)}
               />
-              <p className="text-xs text-muted">
-                Cash available {formatMoney(cashAvailable, currency)}
-              </p>
               <ReceiptCapture key={`receipt-${sheetKey}`} />
               <div className="flex flex-wrap gap-2">
                 {(["OWN", "CARD", "BORROWED"] as const)
@@ -542,7 +590,13 @@ export function AddSheet({
               {funding === "BORROWED" && (
                 <div className="space-y-1">
                   <Label htmlFor="debtPerson">Borrowed from</Label>
-                  <Input id="debtPerson" name="debtPerson" required placeholder="Brother" />
+                  <Input
+                    id="debtPerson"
+                    name="debtPerson"
+                    list="debt-people"
+                    required
+                    placeholder="Existing or new"
+                  />
                 </div>
               )}
               {selectedCategory?.requiresBusiness && (
@@ -570,7 +624,18 @@ export function AddSheet({
             <>
               <div className="space-y-1">
                 <Label htmlFor="person">From</Label>
-                <Input id="person" name="person" required placeholder="Person, bank, or entity" />
+                <Input
+                  id="person"
+                  name="person"
+                  list="debt-people"
+                  required
+                  placeholder="Existing or new"
+                />
+                <datalist id="debt-people">
+                  {people.map((name) => (
+                    <option key={name} value={name} />
+                  ))}
+                </datalist>
               </div>
               <div className="space-y-1">
                 <Label htmlFor="feeFixed">One-time fee (taken from advance)</Label>
@@ -611,7 +676,7 @@ export function AddSheet({
 
           {kind === "repay" && (
             <div className="space-y-1">
-              <Label htmlFor="debtId">Debt</Label>
+              <Label htmlFor="debtId">To whom</Label>
               <select
                 id="debtId"
                 name="debtId"

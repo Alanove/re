@@ -13,6 +13,7 @@ export type ActivityListRow = EditableActivity & {
   label: string;
   meta: string;
   positive: boolean;
+  cashAfter?: number | null;
 };
 
 export function ActivityList({
@@ -21,12 +22,14 @@ export function ActivityList({
   categories,
   businesses,
   customers,
+  moneyPlaces,
 }: {
   rows: ActivityListRow[];
   currency: string;
   categories: { id: string; name: string; requiresBusiness: boolean }[];
   businesses: { id: string; name: string }[];
   customers: { id: string; name: string }[];
+  moneyPlaces: { id: string; name: string; balance: number; memberId: string | null }[];
 }) {
   const [selected, setSelected] = useState<EditableActivity | null>(null);
   const [open, setOpen] = useState(false);
@@ -42,6 +45,7 @@ export function ActivityList({
         kind: row.kind,
         customerId: row.customerId,
         customerName: row.customerName,
+        moneyPlaceId: row.moneyPlaceId,
         locked: row.locked,
         lockReason: row.lockReason,
         canDelete: row.canDelete,
@@ -58,6 +62,7 @@ export function ActivityList({
         categoryName: row.categoryName,
         businessId: row.businessId,
         funding: row.funding,
+        moneyPlaceId: row.moneyPlaceId,
         amountEditable: row.amountEditable,
         hasReceipt: row.hasReceipt,
         locked: row.locked,
@@ -97,6 +102,7 @@ export function ActivityList({
               <p className="text-sm text-muted">
                 {row.date}
                 {row.meta ? ` · ${row.meta}` : ""}
+                {row.cashAfter != null ? ` · cash after ${formatMoney(row.cashAfter, currency)}` : ""}
                 <span className="text-muted/80"> · Edit</span>
               </p>
             </div>
@@ -119,6 +125,7 @@ export function ActivityList({
         categories={categories}
         businesses={businesses}
         customers={customers}
+        moneyPlaces={moneyPlaces}
         currency={currency}
       />
     </>

@@ -2,6 +2,7 @@ import { ObligationCharts } from "@/components/reports-detail-charts";
 import { ReportRangeBar } from "@/components/report-range-bar";
 import { billActiveInMonth } from "@/lib/bills";
 import { prisma } from "@/lib/db";
+import { consolidateHouseholdDebts } from "@/lib/debt-service";
 import { formatMoney } from "@/lib/money";
 import { openCardCycles, openDebts } from "@/lib/money-service";
 import {
@@ -27,7 +28,15 @@ export default async function ObligationsReportPage({
     rangedMonths.length > 0 ? rangedMonths : [currentMonth(), ...defaultReportMonthKeys()].slice(0, 3);
   const uniqueMonths = Array.from(new Set(monthKeys)).sort();
 
-  const [cards, debts, loans, bills] = await Promise.all([
+  await consolidateHouseholdDebts(member.householdId);
+  const entryDate =
+    resolved.start || resolved.end
+      ? {
+          ...(resolved.start ? { gte: resolved.start } : {}),
+          ...(resolved.end ? { lte: resolved.end } : {}),
+        }
+      : undefined;
+  const [cards, debts, loans, bills, rangeEntries] = await Promise.all([
     openCardCycles(member.householdId),
     openDebts(member.householdId),
     prisma.loan.findMany({
@@ -37,7 +46,23 @@ export default async function ObligationsReportPage({
       where: { householdId: member.householdId, archivedAt: null },
       include: { payments: true },
     }),
+    prisma.debtEntry.findMany({
+      where: {
+        debt: { householdId: member.householdId },
+        ...(entryDate ? { date: entryDate } : {}),
+      },
+    }),
   ]);
+
+  const borrowedInRange = rangeEntries
+    .filter((entry) => entry.kind === "BORROW")
+    .reduce((sum, entry) => sum + entry.amount, 0);
+  const interestInRange = rangeEntries
+    .filter((entry) => entry.kind === "INTEREST")
+    .reduce((sum, entry) => sum + entry.amount, 0);
+  const settledInRange = rangeEntries
+    .filter((entry) => entry.kind === "REPAY")
+    .reduce((sum, entry) => sum + entry.amount, 0);
 
   const owedToday =
     cards.reduce((sum, card) => sum + card.total, 0) +
@@ -92,8 +117,11 @@ export default async function ObligationsReportPage({
         <ReportRangeBar range={resolved.range} from={resolved.from} to={resolved.to} />
       </header>
 
-      <section className="grid gap-3 sm:grid-cols-3">
+      <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <SummaryCard label="Still owe today" value={formatMoney(owedToday, currency)} />
+        <SummaryCard label="Borrowed in range" value={formatMoney(borrowedInRange, currency)} />
+        <SummaryCard label="Interest in range" value={formatMoney(interestInRange, currency)} />
+        <SummaryCard label="Settled in range" value={formatMoney(settledInRange, currency)} />
         <SummaryCard label="Bills unpaid in range" value={formatMoney(unpaidBills, currency)} />
         <SummaryCard label="Bills paid in range" value={formatMoney(paidBills, currency)} />
       </section>

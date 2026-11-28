@@ -100,6 +100,7 @@ const TABLE_ORDER = [
   "Bill",
   "Income",
   "Expense",
+  "DebtEntry",
   "LoanPayment",
   "CardCycle",
   "DebtRepayment",

@@ -4,11 +4,13 @@ import {
   markBillPaidAction,
   updateBillAction,
 } from "@/app/actions/plan";
+import { MoneyPlaceSelect } from "@/components/money-place-select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { prisma } from "@/lib/db";
 import { formatMoney, fromMinorUnits } from "@/lib/money";
+import { listMoneyPlaceBalances } from "@/lib/money-places";
 import { unpaidBillsThisMonth } from "@/lib/money-service";
 import { requireAdult } from "@/lib/session";
 import { currentMonth } from "@/lib/utils";
@@ -18,7 +20,7 @@ export default async function PlanBillsPage() {
   const currency = member.household.currency;
   const month = currentMonth();
 
-  const [bills, unpaidBills, categories] = await Promise.all([
+  const [bills, unpaidBills, categories, moneyPlaces] = await Promise.all([
     prisma.bill.findMany({
       where: { householdId: member.householdId, archivedAt: null },
       include: { category: true, payments: { where: { month } } },
@@ -29,10 +31,13 @@ export default async function PlanBillsPage() {
       where: { householdId: member.householdId },
       orderBy: { name: "asc" },
     }),
+    listMoneyPlaceBalances(member.householdId),
   ]);
 
   const unpaidBillIds = new Set(unpaidBills.map((row) => row.id));
   const spendCategories = categories.filter((row) => !row.excludeFromSpending);
+  const defaultPlaceId =
+    moneyPlaces.find((place) => place.memberId === member.id)?.id ?? moneyPlaces[0]?.id;
 
   return (
     <div className="space-y-8">
@@ -60,9 +65,15 @@ export default async function PlanBillsPage() {
                     </p>
                   </div>
                   {unpaid && (
-                    <form action={markBillPaidAction}>
+                    <form action={markBillPaidAction} className="flex flex-col gap-2 items-end">
                       <input type="hidden" name="billId" value={bill.id} />
                       <input type="hidden" name="month" value={month} />
+                      <MoneyPlaceSelect
+                        places={moneyPlaces}
+                        defaultPlaceId={defaultPlaceId}
+                        currency={currency}
+                        className="min-w-[10rem]"
+                      />
                       <Button size="sm" type="submit">
                         Mark paid
                       </Button>

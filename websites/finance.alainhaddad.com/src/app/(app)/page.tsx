@@ -5,11 +5,13 @@ import {
   markBillPaidAction,
   markLoanPaidAction,
 } from "@/app/actions/plan";
-import { repayDebtFormAction } from "@/app/actions/money";
+import { PersonDebtCard } from "@/components/person-debt-card";
 import { MarkPayslipSheet } from "@/components/mark-payslip-sheet";
+import { MoneyPlaceSelect } from "@/components/money-place-select";
 import { OwedBreakdown } from "@/components/owed-breakdown";
 import { Button } from "@/components/ui/button";
 import { formatMoney, fromMinorUnits } from "@/lib/money";
+import { listMoneyPlaceBalances } from "@/lib/money-places";
 import {
   childSpendingThisMonth,
   forecastWithAdvice,
@@ -90,6 +92,7 @@ export default async function HomePage({
     unpaidLoanLists,
     spendSafe,
     position,
+    moneyPlaces,
   ] = await Promise.all([
     prisma.forecast.findMany({
       where: { householdId: member.householdId, archivedAt: null, month: { gte: month } },
@@ -129,10 +132,13 @@ export default async function HomePage({
     ),
     safeToSpend(member.householdId, month),
     householdPosition(member.householdId, month),
+    listMoneyPlaceBalances(member.householdId),
   ]);
 
   const unpaidBills = unpaidBillLists.flat();
   const unpaidLoans = unpaidLoanLists.flat();
+  const defaultPlaceId =
+    moneyPlaces.find((place) => place.memberId === member.id)?.id ?? moneyPlaces[0]?.id;
 
   const recentActivity = [
     ...recentIncomes.map((row) => {
@@ -149,6 +155,7 @@ export default async function HomePage({
         label,
         amount: row.amount,
         positive: true,
+        cashAfter: row.householdCashAfter,
       };
     }),
     ...recentExpenses.map((row) => ({
@@ -158,6 +165,7 @@ export default async function HomePage({
       label: row.description || row.category.name,
       amount: row.amount,
       positive: false,
+      cashAfter: row.householdCashAfter,
     })),
   ]
     .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
@@ -257,9 +265,15 @@ export default async function HomePage({
       amount: bill.amount as number | null,
       amountLabel: null as string | null,
       action: (
-        <form action={markBillPaidAction}>
+        <form action={markBillPaidAction} className="flex flex-col gap-2 sm:items-end">
           <input type="hidden" name="billId" value={bill.id} />
           <input type="hidden" name="month" value={bill.month} />
+          <MoneyPlaceSelect
+            places={moneyPlaces}
+            defaultPlaceId={defaultPlaceId}
+            currency={currency}
+            className="min-w-[10rem]"
+          />
           <Button size="sm" type="submit">
             Mark paid
           </Button>
@@ -277,48 +291,35 @@ export default async function HomePage({
         amount: card.total as number | null,
         amountLabel: null as string | null,
         action: (
-          <form action={payCardCycleAction}>
+          <form action={payCardCycleAction} className="flex flex-col gap-2 sm:items-end">
             <input type="hidden" name="cycleId" value={card.id} />
+            <MoneyPlaceSelect
+              places={moneyPlaces}
+              defaultPlaceId={defaultPlaceId}
+              currency={currency}
+              className="min-w-[10rem]"
+            />
             <Button size="sm" type="submit">
               I paid the card
             </Button>
           </form>
         ),
       })),
-    ...summary.debts.map((debt) => {
-      const remaining = debt.amount - debt.repaid;
-      return {
-        key: `debt-${debt.id}`,
-        label: debt.person,
-        amount: remaining,
-        amountLabel: null as string | null,
-        action: (
-          <form action={repayDebtFormAction} className="flex items-center gap-2">
-            <input type="hidden" name="debtId" value={debt.id} />
-            <input
-              name="amount"
-              inputMode="decimal"
-              required
-              placeholder={(remaining / 100).toFixed(2)}
-              className="h-9 w-24 rounded-xl border border-line bg-card px-2 text-sm tabular"
-              aria-label={`Pay back ${debt.person}`}
-            />
-            <Button size="sm" type="submit">
-              Pay back
-            </Button>
-          </form>
-        ),
-      };
-    }),
     ...unpaidLoans.map((loan) => ({
       key: `loan-${loan.id}-${loan.month}`,
       label: `${loan.name} · ${loan.month}`,
       amount: loan.monthlyAmount,
       amountLabel: null as string | null,
       action: (
-        <form action={markLoanPaidAction}>
+        <form action={markLoanPaidAction} className="flex flex-col gap-2 sm:items-end">
           <input type="hidden" name="loanId" value={loan.id} />
           <input type="hidden" name="month" value={loan.month} />
+          <MoneyPlaceSelect
+            places={moneyPlaces}
+            defaultPlaceId={defaultPlaceId}
+            currency={currency}
+            className="min-w-[10rem]"
+          />
           <Button size="sm" type="submit">
             Mark paid
           </Button>
@@ -352,8 +353,8 @@ export default async function HomePage({
     ...summary.debts.map((debt) => ({
       key: `debt-${debt.id}`,
       label: debt.person,
-      detail: debt.note || "Borrowed",
-      amount: debt.amount - debt.repaid,
+      detail: `Originally ${formatMoney(debt.borrowed, currency)} · settled ${formatMoney(debt.settled, currency)}`,
+      amount: debt.left,
     })),
   ];
 
@@ -388,6 +389,21 @@ export default async function HomePage({
           <p className="tabular mt-2 text-4xl font-semibold tracking-tight text-ok-text xl:text-3xl">
             {formatMoney(summary.cash, currency)}
           </p>
+          {moneyPlaces.length > 0 ? (
+            <ul className="mt-3 space-y-1 border-t border-line pt-3 text-sm">
+              {moneyPlaces.map((place) => (
+                <li key={place.id} className="flex items-center justify-between gap-2">
+                  <span className={place.memberId === member.id ? "font-medium" : "text-muted"}>
+                    {place.name}
+                  </span>
+                  <span className="tabular text-ink">{formatMoney(place.balance, currency)}</span>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+          <Link href="/settings/places" className="mt-2 inline-block text-xs text-muted underline">
+            Manage places
+          </Link>
         </div>
         <div className="rounded-2xl border border-line bg-card p-4 shadow-card">
           <p className="text-xs font-semibold uppercase tracking-wide text-muted">
@@ -430,6 +446,27 @@ export default async function HomePage({
         </div>
       </section>
 
+      {summary.debts.length > 0 ? (
+        <section className="space-y-3">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">
+            People you owe
+          </h2>
+          <div className="grid gap-3 lg:grid-cols-2">
+            {summary.debts.map((debt) => (
+              <PersonDebtCard
+                key={debt.id}
+                debt={debt}
+                currency={currency}
+                next="/"
+                places={moneyPlaces}
+                defaultPlaceId={defaultPlaceId}
+                detailed
+              />
+            ))}
+          </div>
+        </section>
+      ) : null}
+
       <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
         <section className="space-y-3">
           <div className="flex items-center justify-between gap-2">
@@ -453,7 +490,12 @@ export default async function HomePage({
                 >
                   <div>
                     <p className="font-medium">{row.label}</p>
-                    <p className="text-sm text-muted">{row.date}</p>
+                    <p className="text-sm text-muted">
+                      {row.date}
+                      {row.cashAfter != null
+                        ? ` · cash after ${formatMoney(row.cashAfter, currency)}`
+                        : ""}
+                    </p>
                   </div>
                   <p
                     className={cn(

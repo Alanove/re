@@ -1,6 +1,7 @@
 import { AppShell } from "@/components/app-shell";
 import { prisma } from "@/lib/db";
 import { invoiceRemainder } from "@/lib/invoice";
+import { listMoneyPlaceBalances } from "@/lib/money-places";
 import { getHouseholdCash, openDebts } from "@/lib/money-service";
 import { seedHouseholdCategories } from "@/lib/seed-categories";
 import { requireMember } from "@/lib/session";
@@ -9,8 +10,18 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const { member } = await requireMember();
   await seedHouseholdCategories(member.householdId);
 
-  const [categories, businesses, cards, members, debts, cashAvailable, customers, openInvoiceRows] =
-    await Promise.all([
+  const [
+    categories,
+    businesses,
+    cards,
+    members,
+    debts,
+    cashAvailable,
+    customers,
+    openInvoiceRows,
+    moneyPlaces,
+    debtNames,
+  ] = await Promise.all([
       prisma.category.findMany({
         where: { householdId: member.householdId, excludeFromSpending: false },
         orderBy: { name: "asc" },
@@ -45,7 +56,16 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         },
         orderBy: { issueDate: "desc" },
       }),
+      listMoneyPlaceBalances(member.householdId),
+      prisma.debt.findMany({
+        where: { householdId: member.householdId },
+        select: { person: true },
+        orderBy: { person: "asc" },
+      }),
     ]);
+
+  const defaultPlaceId =
+    moneyPlaces.find((place) => place.memberId === member.id)?.id ?? moneyPlaces[0]?.id;
 
   const adults = members.filter((row) => row.role === "OWNER" || row.role === "ADULT");
   const openInvoices = openInvoiceRows
@@ -72,13 +92,21 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         debts: debts.map((row) => ({
           id: row.id,
           person: row.person,
-          remaining: row.amount - row.repaid,
+          remaining: row.left,
         })),
+        people: [...new Set(debtNames.map((row) => row.person.trim()).filter(Boolean))],
         onlyAdult: adults.length <= 1,
         currency: member.household.booksCurrency || member.household.currency,
         cashAvailable,
         customers,
         openInvoices,
+        moneyPlaces: moneyPlaces.map((place) => ({
+          id: place.id,
+          name: place.name,
+          balance: place.balance,
+          memberId: place.memberId,
+        })),
+        defaultPlaceId,
       }}
     >
       {children}

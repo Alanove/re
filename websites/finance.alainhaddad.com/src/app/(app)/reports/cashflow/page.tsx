@@ -1,5 +1,6 @@
 import { CashflowCharts } from "@/components/reports-detail-charts";
 import { ReportRangeBar } from "@/components/report-range-bar";
+import { householdCashAsOf } from "@/lib/cash-ledger-service";
 import { formatMoney } from "@/lib/money";
 import { loadReportCashflow, type ReportPageSearch } from "@/lib/report-page";
 import { leftoverByMonth, rangeTotals } from "@/lib/reports";
@@ -14,6 +15,7 @@ export default async function CashflowReportPage({
   const params = await searchParams;
   const currency = member.household.booksCurrency || member.household.currency;
   const data = await loadReportCashflow(member.householdId, params);
+  const cashAtEnd = await householdCashAsOf(member.householdId, data.end);
 
   const current = rangeTotals(data.reportIncomes, data.reportExpenses);
   const previous = rangeTotals(data.prevIncomes, data.prevExpenses);
@@ -36,7 +38,7 @@ export default async function CashflowReportPage({
         <ReportRangeBar range={data.range} from={data.from} to={data.to} />
       </header>
 
-      <section className="grid gap-3 sm:grid-cols-3">
+      <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <SummaryCard
           label="Income"
           value={formatMoney(current.income, currency)}
@@ -46,6 +48,11 @@ export default async function CashflowReportPage({
           label="Pocket spending"
           value={formatMoney(current.pocket, currency)}
           previous={data.prev ? formatMoney(previous.pocket, currency) : null}
+        />
+        <SummaryCard
+          label="Cash at end of range"
+          value={formatMoney(cashAtEnd, currency)}
+          previous={null}
         />
         <SummaryCard
           label="Leftover"

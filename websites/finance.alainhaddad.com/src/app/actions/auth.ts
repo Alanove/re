@@ -7,6 +7,7 @@ import { z } from "zod";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { seedHouseholdCategories } from "@/lib/seed-categories";
+import { ensureMemberOwnPlace } from "@/lib/money-places";
 import { requireOwner, requireUser } from "@/lib/session";
 
 const signupSchema = z.object({
@@ -219,20 +220,23 @@ export async function acceptInviteAction(formData: FormData): Promise<ActionResu
   // If the first-signup hook incorrectly created a household (race), remove this user's membership first.
   await prisma.member.deleteMany({ where: { userId: user.id } });
 
-  await prisma.$transaction([
-    prisma.member.create({
+  const joined = await prisma.$transaction(async (tx) => {
+    const created = await tx.member.create({
       data: {
         householdId: invite.householdId,
         userId: user.id,
         role: invite.role,
         displayName: parsed.data.name,
       },
-    }),
-    prisma.invite.update({
+    });
+    await tx.invite.update({
       where: { id: invite.id },
       data: { usedAt: new Date() },
-    }),
-  ]);
+    });
+    return created;
+  });
+
+  await ensureMemberOwnPlace(joined);
 
   await prisma.household.deleteMany({
     where: {

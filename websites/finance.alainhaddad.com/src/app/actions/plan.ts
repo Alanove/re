@@ -4,9 +4,13 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { billActiveInMonth } from "@/lib/bills";
+import { debtLedgerTotals } from "@/lib/debt";
 import { prisma } from "@/lib/db";
 import { toMinorUnits } from "@/lib/money";
-import { getHouseholdCash } from "@/lib/money-service";
+import {
+  getMoneyPlaceBalance,
+  resolveMoneyPlaceId,
+} from "@/lib/money-places";
 import { requireAdult } from "@/lib/session";
 import { currentMonth, todayIsoDate } from "@/lib/utils";
 
@@ -97,10 +101,19 @@ export async function markLoanPaidAction(formData: FormData): Promise<void> {
     return;
   }
 
-  const cash = await getHouseholdCash(member.householdId);
-  if (loan.monthlyAmount > cash) {
+  const place = await resolveMoneyPlaceId({
+    householdId: member.householdId,
+    memberId: member.id,
+    displayName: member.displayName,
+    moneyPlaceId: String(formData.get("moneyPlaceId") ?? ""),
+  });
+  if (!place.ok) {
+    redirect(`/?error=${encodeURIComponent(place.error)}`);
+  }
+  const available = await getMoneyPlaceBalance(member.householdId, place.placeId);
+  if (loan.monthlyAmount > available) {
     redirect(
-      `/?error=${encodeURIComponent("Not enough cash for this loan payment. Add income or borrow first.")}`
+      `/?error=${encodeURIComponent("Not enough in that place for this loan payment. Add income or borrow first.")}`
     );
   }
 
@@ -112,6 +125,7 @@ export async function markLoanPaidAction(formData: FormData): Promise<void> {
       data: {
         householdId: member.householdId,
         memberId: member.id,
+        moneyPlaceId: place.placeId,
         categoryId: category.id,
         amount: loan.monthlyAmount,
         date: `${month}-01`,
@@ -179,9 +193,20 @@ export async function payCardCycleAction(formData: FormData): Promise<void> {
     return;
   }
 
-  const cash = await getHouseholdCash(member.householdId);
-  if (total > cash) {
-    redirect(`/?error=${encodeURIComponent("Not enough cash to pay the card. Add income or borrow first.")}`);
+  const place = await resolveMoneyPlaceId({
+    householdId: member.householdId,
+    memberId: member.id,
+    displayName: member.displayName,
+    moneyPlaceId: String(formData.get("moneyPlaceId") ?? ""),
+  });
+  if (!place.ok) {
+    redirect(`/?error=${encodeURIComponent(place.error)}`);
+  }
+  const available = await getMoneyPlaceBalance(member.householdId, place.placeId);
+  if (total > available) {
+    redirect(
+      `/?error=${encodeURIComponent("Not enough in that place to pay the card. Add income or borrow first.")}`
+    );
   }
 
   const category =
@@ -204,6 +229,7 @@ export async function payCardCycleAction(formData: FormData): Promise<void> {
       data: {
         householdId: member.householdId,
         memberId: member.id,
+        moneyPlaceId: place.placeId,
         categoryId: category.id,
         amount: total,
         date: todayIsoDate(),
@@ -351,10 +377,19 @@ export async function markBillPaidAction(formData: FormData): Promise<void> {
     return;
   }
 
-  const cash = await getHouseholdCash(member.householdId);
-  if (bill.amount > cash) {
+  const place = await resolveMoneyPlaceId({
+    householdId: member.householdId,
+    memberId: member.id,
+    displayName: member.displayName,
+    moneyPlaceId: String(formData.get("moneyPlaceId") ?? ""),
+  });
+  if (!place.ok) {
+    redirect(`/?error=${encodeURIComponent(place.error)}`);
+  }
+  const available = await getMoneyPlaceBalance(member.householdId, place.placeId);
+  if (bill.amount > available) {
     redirect(
-      `/?error=${encodeURIComponent("Not enough cash for this bill. Add income or borrow first.")}`
+      `/?error=${encodeURIComponent("Not enough in that place for this bill. Add income or borrow first.")}`
     );
   }
 
@@ -372,6 +407,7 @@ export async function markBillPaidAction(formData: FormData): Promise<void> {
       data: {
         householdId: member.householdId,
         memberId: member.id,
+        moneyPlaceId: place.placeId,
         categoryId: category.id,
         amount: bill.amount,
         date,
@@ -582,16 +618,20 @@ export async function archiveDebtAction(formData: FormData): Promise<void> {
   if (!debtId) return;
   const debt = await prisma.debt.findFirst({
     where: { id: debtId, householdId: member.householdId },
-    include: { repayments: true },
+    include: { entries: true },
   });
   if (!debt) return;
-  const repaid = debt.repayments
-    .filter((row) => row.kind !== "INTEREST")
-    .reduce((sum, row) => sum + row.amount, 0);
-  const interest = debt.repayments
-    .filter((row) => row.kind === "INTEREST")
-    .reduce((sum, row) => sum + row.amount, 0);
-  const remaining = Math.max(0, debt.principal + interest - repaid);
+  const remaining = debt.entries.length
+    ? debtLedgerTotals(
+        debt.entries.map((entry) => ({
+          id: entry.id,
+          kind: entry.kind,
+          amount: entry.amount,
+          date: entry.date,
+          createdAt: entry.createdAt.toISOString(),
+        }))
+      ).left
+    : debt.amount;
   if (remaining > 0) {
     redirect(`/?error=${encodeURIComponent("Pay the debt down to zero before archiving.")}`);
   }

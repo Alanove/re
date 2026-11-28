@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
 import { prisma } from "@/lib/db";
+import { ensureMemberOwnPlace } from "@/lib/money-places";
 import { seedBillableCategories } from "@/lib/seed-billable";
 import { seedHouseholdCategories } from "@/lib/seed-categories";
 
@@ -43,6 +44,10 @@ export const auth = betterAuth({
             });
             await seedHouseholdCategories(household.id);
             await seedBillableCategories(household.id);
+            const owner = await prisma.member.findFirst({
+              where: { householdId: household.id, userId: user.id },
+            });
+            if (owner) await ensureMemberOwnPlace(owner);
             return;
           }
 

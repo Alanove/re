@@ -9,6 +9,7 @@ import {
 } from "@/app/actions/money";
 import { CategoryCombobox } from "@/components/category-combobox";
 import { CustomerCombobox } from "@/components/customer-combobox";
+import { MoneyPlaceSelect } from "@/components/money-place-select";
 import { ReceiptCapture } from "@/components/receipt-capture";
 import { Button } from "@/components/ui/button";
 import {
@@ -32,6 +33,7 @@ export type EditableActivity =
       kind: "SALARY" | "FREELANCE" | "OTHER";
       customerId: string | null;
       customerName: string;
+      moneyPlaceId: string | null;
       locked: boolean;
       lockReason: string | null;
       canDelete: boolean;
@@ -47,6 +49,7 @@ export type EditableActivity =
       categoryName: string;
       businessId: string | null;
       funding: string;
+      moneyPlaceId: string | null;
       amountEditable: boolean;
       hasReceipt: boolean;
       locked: boolean;
@@ -63,6 +66,7 @@ export function EditActivityDialog({
   categories,
   businesses,
   customers,
+  moneyPlaces,
   currency,
 }: {
   row: EditableActivity | null;
@@ -71,6 +75,7 @@ export function EditActivityDialog({
   categories: { id: string; name: string; requiresBusiness: boolean }[];
   businesses: { id: string; name: string }[];
   customers: { id: string; name: string }[];
+  moneyPlaces: { id: string; name: string; balance: number; memberId: string | null }[];
   currency: string;
 }) {
   const [error, setError] = useState<string | null>(null);
@@ -248,6 +253,17 @@ export function EditActivityDialog({
               <Label htmlFor="edit-date">Date</Label>
               <Input id="edit-date" name="date" type="date" defaultValue={row.date} required />
             </div>
+
+            {((row.type === "income" ||
+              (row.type === "expense" && row.funding === "OWN")) &&
+              moneyPlaces.length > 0) && (
+              <MoneyPlaceSelect
+                places={moneyPlaces}
+                defaultPlaceId={row.moneyPlaceId ?? moneyPlaces[0]?.id}
+                currency={currency}
+                label={row.type === "income" ? "Into" : "From"}
+              />
+            )}
 
             {row.type === "income" && (
               <>

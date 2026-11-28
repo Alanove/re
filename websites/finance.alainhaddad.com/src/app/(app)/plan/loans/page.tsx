@@ -4,11 +4,13 @@ import {
   markLoanPaidAction,
   updateLoanAction,
 } from "@/app/actions/plan";
+import { MoneyPlaceSelect } from "@/components/money-place-select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { prisma } from "@/lib/db";
 import { formatMoney, fromMinorUnits, monthsUntil } from "@/lib/money";
+import { listMoneyPlaceBalances } from "@/lib/money-places";
 import { requireAdult } from "@/lib/session";
 import { addMonths, currentMonth } from "@/lib/utils";
 
@@ -17,11 +19,16 @@ export default async function PlanLoansPage() {
   const currency = member.household.currency;
   const month = currentMonth();
 
-  const loans = await prisma.loan.findMany({
-    where: { householdId: member.householdId, archivedAt: null },
-    include: { payments: true },
-    orderBy: { startMonth: "asc" },
-  });
+  const [loans, moneyPlaces] = await Promise.all([
+    prisma.loan.findMany({
+      where: { householdId: member.householdId, archivedAt: null },
+      include: { payments: true },
+      orderBy: { startMonth: "asc" },
+    }),
+    listMoneyPlaceBalances(member.householdId),
+  ]);
+  const defaultPlaceId =
+    moneyPlaces.find((place) => place.memberId === member.id)?.id ?? moneyPlaces[0]?.id;
 
   return (
     <div className="space-y-8">
@@ -54,9 +61,15 @@ export default async function PlanLoansPage() {
                     </p>
                   </div>
                   {monthsLeft > 0 && nextDue === month && (
-                    <form action={markLoanPaidAction}>
+                    <form action={markLoanPaidAction} className="flex flex-col gap-2 items-end">
                       <input type="hidden" name="loanId" value={loan.id} />
                       <input type="hidden" name="month" value={month} />
+                      <MoneyPlaceSelect
+                        places={moneyPlaces}
+                        defaultPlaceId={defaultPlaceId}
+                        currency={currency}
+                        className="min-w-[10rem]"
+                      />
                       <Button size="sm" type="submit">
                         Mark paid
                       </Button>

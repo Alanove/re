@@ -16,6 +16,7 @@ export default async function SettingsLayout({
     ...(adult
       ? [
           { href: "/settings/money", label: "Money" },
+          { href: "/settings/places", label: "Places" },
           { href: "/settings/payslip", label: "Payslip" },
           { href: "/settings/invoices", label: "Invoices" },
         ]

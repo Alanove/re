@@ -1,16 +1,30 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { canAddIncome, canManageDebts, isAdultRole } from "@/lib/roles";
 import { requireAdult, requireMember } from "@/lib/session";
 import { dueDateForCycle, todayIsoDate } from "@/lib/utils";
-import { bpsFromPercent, netReceived } from "@/lib/debt";
-import { accrueDebtInterest, ensureDebtRepaymentCategory } from "@/lib/debt-service";
+import { bpsFromPercent } from "@/lib/debt";
+import {
+  accrueDebtInterest,
+  consolidateHouseholdDebts,
+  deleteDebtEntryForHousehold,
+  dropDebtEntry,
+  ensureDebtRepaymentCategory,
+  entryForExpense,
+  entryForIncome,
+  recordPersonBorrow,
+  recordPersonRepay,
+} from "@/lib/debt-service";
 import { deriveInvoiceStatus } from "@/lib/invoice";
 import { toMinorUnits } from "@/lib/money";
-import { getHouseholdCash } from "@/lib/money-service";
+import {
+  getMoneyPlaceBalance,
+  resolveMoneyPlaceId,
+} from "@/lib/money-places";
 import {
   deleteReceiptFile,
   receiptFileFromFormData,
@@ -76,6 +90,7 @@ export async function addIncomeAction(formData: FormData): Promise<ActionResult>
     customerName: z.string().trim().max(120).optional().or(z.literal("")),
     customerPhone: z.string().trim().max(40).optional().or(z.literal("")),
     customerEmail: z.string().trim().max(320).optional().or(z.literal("")),
+    moneyPlaceId: z.string().optional().or(z.literal("")),
   });
 
   const parsed = schema.safeParse({
@@ -88,6 +103,7 @@ export async function addIncomeAction(formData: FormData): Promise<ActionResult>
     customerName: formData.get("customerName") ?? "",
     customerPhone: formData.get("customerPhone") ?? "",
     customerEmail: formData.get("customerEmail") ?? "",
+    moneyPlaceId: formData.get("moneyPlaceId") ?? "",
   });
   if (!parsed.success) {
     return { ok: false, error: "Check the income fields." };
@@ -100,6 +116,14 @@ export async function addIncomeAction(formData: FormData): Promise<ActionResult>
   if (!target) {
     return { ok: false, error: "Member not found." };
   }
+
+  const place = await resolveMoneyPlaceId({
+    householdId: member.householdId,
+    memberId: member.id,
+    displayName: member.displayName,
+    moneyPlaceId: parsed.data.moneyPlaceId,
+  });
+  if (!place.ok) return place;
 
   let customerId: string | null = null;
   if (parsed.data.kind === "FREELANCE") {
@@ -145,6 +169,7 @@ export async function addIncomeAction(formData: FormData): Promise<ActionResult>
     data: {
       householdId: member.householdId,
       memberId: target.id,
+      moneyPlaceId: place.placeId,
       kind: parsed.data.kind,
       amount: parsed.data.amount,
       date: parsed.data.date,
@@ -171,6 +196,7 @@ export async function addExpenseAction(formData: FormData): Promise<ActionResult
     creditCardId: z.string().optional().or(z.literal("")),
     debtPerson: z.string().trim().max(80).optional().or(z.literal("")),
     memberId: z.string().optional(),
+    moneyPlaceId: z.string().optional().or(z.literal("")),
   });
 
   const parsed = schema.safeParse({
@@ -184,6 +210,7 @@ export async function addExpenseAction(formData: FormData): Promise<ActionResult
     creditCardId: formData.get("creditCardId") ?? "",
     debtPerson: formData.get("debtPerson") ?? "",
     memberId: formData.get("memberId") || undefined,
+    moneyPlaceId: formData.get("moneyPlaceId") ?? "",
   });
   if (!parsed.success) {
     return { ok: false, error: "Check the expense fields." };
@@ -195,10 +222,19 @@ export async function addExpenseAction(formData: FormData): Promise<ActionResult
     }
   }
 
+  let moneyPlaceId: string | null = null;
   if (parsed.data.funding === "OWN") {
-    const cash = await getHouseholdCash(member.householdId);
-    if (parsed.data.amount > cash) {
-      return { ok: false, error: "Not enough cash. Use card or borrow." };
+    const place = await resolveMoneyPlaceId({
+      householdId: member.householdId,
+      memberId: member.id,
+      displayName: member.displayName,
+      moneyPlaceId: parsed.data.moneyPlaceId,
+    });
+    if (!place.ok) return place;
+    moneyPlaceId = place.placeId;
+    const available = await getMoneyPlaceBalance(member.householdId, moneyPlaceId);
+    if (parsed.data.amount > available) {
+      return { ok: false, error: "Not enough in that place. Use another place, card, or borrow." };
     }
   }
 
@@ -256,7 +292,6 @@ export async function addExpenseAction(formData: FormData): Promise<ActionResult
 
   let creditCardId: string | null = null;
   let cardCycleId: string | null = null;
-  let debtId: string | null = null;
 
   if (parsed.data.funding === "CARD") {
     if (!parsed.data.creditCardId) {
@@ -285,6 +320,7 @@ export async function addExpenseAction(formData: FormData): Promise<ActionResult
     cardCycleId = cycle.id;
   }
 
+  let borrowedPerson: string | null = null;
   if (parsed.data.funding === "BORROWED") {
     if (!canManageDebts(member.role)) {
       return { ok: false, error: "Children cannot record borrowed money." };
@@ -293,20 +329,7 @@ export async function addExpenseAction(formData: FormData): Promise<ActionResult
     if (!person) {
       return { ok: false, error: "Name who you borrowed from." };
     }
-    const debt = await prisma.debt.create({
-      data: {
-        householdId: member.householdId,
-        memberId: target.id,
-        person,
-        principal: parsed.data.amount,
-        amount: parsed.data.amount,
-        feeFixed: 0,
-        monthlyInterestBps: 0,
-        date: parsed.data.date,
-        note: parsed.data.description,
-      },
-    });
-    debtId = debt.id;
+    borrowedPerson = person;
   }
 
   const receiptFile = receiptFileFromFormData(formData);
@@ -321,6 +344,7 @@ export async function addExpenseAction(formData: FormData): Promise<ActionResult
     data: {
       householdId: member.householdId,
       memberId: target.id,
+      moneyPlaceId,
       categoryId: category.id,
       businessId,
       amount: parsed.data.amount,
@@ -329,10 +353,28 @@ export async function addExpenseAction(formData: FormData): Promise<ActionResult
       funding: parsed.data.funding,
       creditCardId,
       cardCycleId,
-      debtId,
       isCardPayoff: false,
     },
   });
+
+  if (borrowedPerson) {
+    const borrowed = await recordPersonBorrow({
+      householdId: member.householdId,
+      memberId: target.id,
+      person: borrowedPerson,
+      principal: parsed.data.amount,
+      feeFixed: 0,
+      monthlyInterestBps: 0,
+      date: parsed.data.date,
+      note: parsed.data.description,
+      moneyPlaceId: moneyPlaceId ?? "",
+      expenseId: expense.id,
+    });
+    if (!borrowed.ok) {
+      await prisma.expense.delete({ where: { id: expense.id } });
+      return borrowed;
+    }
+  }
 
   if (receiptFile) {
     try {
@@ -386,41 +428,26 @@ export async function addBorrowedAction(formData: FormData): Promise<ActionResul
     return { ok: false, error: "Check the monthly interest percent." };
   }
 
-  const principal = parsed.data.amount;
-  const feeFixed = parsed.data.feeFixed;
-  if (feeFixed >= principal) {
-    return { ok: false, error: "Fee must be less than the borrowed amount." };
-  }
-  const received = netReceived(principal, feeFixed);
-
-  await prisma.$transaction(async (tx) => {
-    await tx.debt.create({
-      data: {
-        householdId: member.householdId,
-        memberId: member.id,
-        person: parsed.data.person,
-        principal,
-        amount: principal,
-        feeFixed,
-        monthlyInterestBps,
-        date: parsed.data.date,
-        note: parsed.data.note,
-      },
-    });
-    await tx.income.create({
-      data: {
-        householdId: member.householdId,
-        memberId: member.id,
-        kind: "OTHER",
-        amount: received,
-        date: parsed.data.date,
-        description:
-          parsed.data.note ||
-          `Borrowed from ${parsed.data.person}` +
-            (feeFixed > 0 ? ` (fee ${(feeFixed / 100).toFixed(2)})` : ""),
-      },
-    });
+  const place = await resolveMoneyPlaceId({
+    householdId: member.householdId,
+    memberId: member.id,
+    displayName: member.displayName,
+    moneyPlaceId: String(formData.get("moneyPlaceId") ?? ""),
   });
+  if (!place.ok) return place;
+
+  const borrowed = await recordPersonBorrow({
+    householdId: member.householdId,
+    memberId: member.id,
+    person: parsed.data.person,
+    principal: parsed.data.amount,
+    feeFixed: parsed.data.feeFixed,
+    monthlyInterestBps,
+    date: parsed.data.date,
+    note: parsed.data.note,
+    moneyPlaceId: place.placeId,
+  });
+  if (!borrowed.ok) return borrowed;
 
   revalidateBooks();
   return { ok: true };
@@ -432,11 +459,13 @@ export async function repayDebtAction(formData: FormData): Promise<ActionResult>
     debtId: z.string().min(1),
     amount: amountSchema,
     date: dateSchema.default(todayIsoDate()),
+    moneyPlaceId: z.string().optional().or(z.literal("")),
   });
   const parsed = schema.safeParse({
     debtId: formData.get("debtId"),
     amount: formData.get("amount"),
     date: formData.get("date") || todayIsoDate(),
+    moneyPlaceId: formData.get("moneyPlaceId") ?? "",
   });
   if (!parsed.success) {
     return { ok: false, error: "Check the repayment." };
@@ -444,59 +473,29 @@ export async function repayDebtAction(formData: FormData): Promise<ActionResult>
 
   await accrueDebtInterest(parsed.data.debtId);
 
-  const debt = await prisma.debt.findFirst({
-    where: { id: parsed.data.debtId, householdId: member.householdId },
-    include: { repayments: true },
+  const place = await resolveMoneyPlaceId({
+    householdId: member.householdId,
+    memberId: member.id,
+    displayName: member.displayName,
+    moneyPlaceId: parsed.data.moneyPlaceId,
   });
-  if (!debt) {
-    return { ok: false, error: "Debt not found." };
-  }
-
-  const repaidSoFar = debt.repayments
-    .filter((row) => row.kind !== "INTEREST")
-    .reduce((sum, row) => sum + row.amount, 0);
-  const interest = debt.repayments
-    .filter((row) => row.kind === "INTEREST")
-    .reduce((sum, row) => sum + row.amount, 0);
-  const remaining = Math.max(0, debt.principal + interest - repaidSoFar);
-  if (parsed.data.amount > remaining) {
-    return { ok: false, error: "That is more than is still owed." };
-  }
-
-  const cash = await getHouseholdCash(member.householdId);
-  if (parsed.data.amount > cash) {
-    return { ok: false, error: "Not enough cash. Use card or borrow." };
+  if (!place.ok) return place;
+  const available = await getMoneyPlaceBalance(member.householdId, place.placeId);
+  if (parsed.data.amount > available) {
+    return { ok: false, error: "Not enough in that place. Use card or borrow." };
   }
 
   const category = await ensureDebtRepaymentCategory(member.householdId);
-  const newBalance = remaining - parsed.data.amount;
-
-  await prisma.$transaction(async (tx) => {
-    await tx.debtRepayment.create({
-      data: {
-        debtId: debt.id,
-        amount: parsed.data.amount,
-        date: parsed.data.date,
-        kind: "REPAY",
-      },
-    });
-    await tx.debt.update({
-      where: { id: debt.id },
-      data: { amount: newBalance },
-    });
-    await tx.expense.create({
-      data: {
-        householdId: member.householdId,
-        memberId: member.id,
-        categoryId: category.id,
-        amount: parsed.data.amount,
-        date: parsed.data.date,
-        description: `Repay ${debt.person}`,
-        funding: "OWN",
-        isCardPayoff: false,
-      },
-    });
+  const repaid = await recordPersonRepay({
+    householdId: member.householdId,
+    memberId: member.id,
+    debtId: parsed.data.debtId,
+    amount: parsed.data.amount,
+    date: parsed.data.date,
+    moneyPlaceId: place.placeId,
+    categoryId: category.id,
   });
+  if (!repaid.ok) return repaid;
 
   revalidateBooks();
   return { ok: true };
@@ -557,6 +556,7 @@ export async function updateIncomeAction(formData: FormData): Promise<ActionResu
     description: z.string().trim().max(200).default(""),
     customerId: z.string().optional().or(z.literal("")),
     customerName: z.string().trim().max(120).optional().or(z.literal("")),
+    moneyPlaceId: z.string().optional().or(z.literal("")),
   });
 
   const parsed = schema.safeParse({
@@ -567,6 +567,7 @@ export async function updateIncomeAction(formData: FormData): Promise<ActionResu
     description: formData.get("description") ?? "",
     customerId: formData.get("customerId") ?? "",
     customerName: formData.get("customerName") ?? "",
+    moneyPlaceId: formData.get("moneyPlaceId") ?? "",
   });
   if (!parsed.success) {
     return { ok: false, error: "Check the income fields." };
@@ -585,6 +586,21 @@ export async function updateIncomeAction(formData: FormData): Promise<ActionResu
   if (income.payslipReceipt) {
     return { ok: false, error: "Payslip income can’t be edited here." };
   }
+  const linkedBorrow = await entryForIncome(member.householdId, income.id);
+  if (linkedBorrow) {
+    return {
+      ok: false,
+      error: "This is tied to a debt. Delete it to undo, or add and settle on Debts.",
+    };
+  }
+
+  const place = await resolveMoneyPlaceId({
+    householdId: member.householdId,
+    memberId: member.id,
+    displayName: member.displayName,
+    moneyPlaceId: parsed.data.moneyPlaceId,
+  });
+  if (!place.ok) return place;
 
   let customerId: string | null = null;
   if (parsed.data.kind === "FREELANCE") {
@@ -619,6 +635,7 @@ export async function updateIncomeAction(formData: FormData): Promise<ActionResu
       date: parsed.data.date,
       description: parsed.data.description,
       customerId,
+      moneyPlaceId: place.placeId,
     },
   });
 
@@ -652,6 +669,9 @@ export async function deleteIncomeAction(formData: FormData): Promise<ActionResu
     return { ok: false, error: "Payslip income can’t be deleted here." };
   }
 
+  await consolidateHouseholdDebts(member.householdId);
+  const linkedBorrow = await entryForIncome(member.householdId, income.id);
+
   if (income.invoicePayment && income.invoice) {
     const invoiceId = income.invoice.id;
     const remainingPayments = income.invoice.payments.filter(
@@ -673,7 +693,17 @@ export async function deleteIncomeAction(formData: FormData): Promise<ActionResu
       });
     });
   } else {
-    await prisma.income.delete({ where: { id: income.id } });
+    try {
+      await prisma.$transaction(async (tx) => {
+        if (linkedBorrow) await dropDebtEntry(tx, linkedBorrow.id);
+        await tx.income.delete({ where: { id: income.id } });
+      });
+    } catch (error) {
+      return {
+        ok: false,
+        error: error instanceof Error ? error.message : "Could not delete.",
+      };
+    }
   }
 
   revalidateBooks();
@@ -691,6 +721,7 @@ export async function updateExpenseAction(formData: FormData): Promise<ActionRes
     categoryId: z.string().optional().or(z.literal("")),
     categoryName: z.string().trim().max(80).optional().or(z.literal("")),
     businessId: z.string().optional().or(z.literal("")),
+    moneyPlaceId: z.string().optional().or(z.literal("")),
   });
 
   const parsed = schema.safeParse({
@@ -701,6 +732,7 @@ export async function updateExpenseAction(formData: FormData): Promise<ActionRes
     categoryId: formData.get("categoryId") ?? "",
     categoryName: formData.get("categoryName") ?? "",
     businessId: formData.get("businessId") ?? "",
+    moneyPlaceId: formData.get("moneyPlaceId") ?? "",
   });
   if (!parsed.success) {
     return { ok: false, error: "Check the expense fields." };
@@ -721,17 +753,35 @@ export async function updateExpenseAction(formData: FormData): Promise<ActionRes
   if (expense.loanPaymentId) {
     return { ok: false, error: "Loan payment can’t be edited here." };
   }
-  if (expense.debtId) {
-    return { ok: false, error: "Borrowed spend can’t be edited here." };
+  const linkedDebt = await entryForExpense(member.householdId, expense.id);
+  if (expense.debtId || linkedDebt) {
+    return {
+      ok: false,
+      error: "This is tied to a debt. Delete it to undo, or add and settle on Debts.",
+    };
   }
 
   const amountEditable = expense.funding === "OWN";
   const nextAmount = amountEditable ? parsed.data.amount : expense.amount;
 
-  if (amountEditable && nextAmount > expense.amount) {
-    const cash = await getHouseholdCash(member.householdId);
-    if (nextAmount - expense.amount > cash) {
-      return { ok: false, error: "Not enough cash for this increase." };
+  let moneyPlaceId = expense.moneyPlaceId;
+  if (expense.funding === "OWN") {
+    const place = await resolveMoneyPlaceId({
+      householdId: member.householdId,
+      memberId: member.id,
+      displayName: member.displayName,
+      moneyPlaceId: parsed.data.moneyPlaceId,
+    });
+    if (!place.ok) return place;
+    moneyPlaceId = place.placeId;
+
+    if (nextAmount > expense.amount) {
+      const available = await getMoneyPlaceBalance(member.householdId, moneyPlaceId);
+      const samePlace = expense.moneyPlaceId === moneyPlaceId;
+      const headroom = samePlace ? available + expense.amount : available;
+      if (nextAmount > headroom) {
+        return { ok: false, error: "Not enough in that place for this increase." };
+      }
     }
   }
 
@@ -819,6 +869,7 @@ export async function updateExpenseAction(formData: FormData): Promise<ActionRes
       description: parsed.data.description,
       categoryId: category.id,
       businessId,
+      moneyPlaceId,
       receiptPath,
       receiptMime,
     },
@@ -851,18 +902,51 @@ export async function deleteExpenseAction(formData: FormData): Promise<ActionRes
   if (expense.loanPaymentId) {
     return { ok: false, error: "Loan payment can’t be deleted here." };
   }
-  if (expense.debtId) {
-    return { ok: false, error: "Borrowed spend can’t be deleted here." };
+  if (expense.billPaymentId) {
+    return { ok: false, error: "Bill payment can’t be deleted here." };
   }
 
-  await prisma.expense.delete({ where: { id: expense.id } });
+  await consolidateHouseholdDebts(member.householdId);
+  const linkedDebt = await entryForExpense(member.householdId, expense.id);
+  try {
+    await prisma.$transaction(async (tx) => {
+      if (linkedDebt) await dropDebtEntry(tx, linkedDebt.id);
+      await tx.expense.delete({ where: { id: expense.id } });
+    });
+  } catch (error) {
+    return {
+      ok: false,
+      error: error instanceof Error ? error.message : "Could not delete.",
+    };
+  }
   await deleteReceiptFile(expense.receiptPath);
 
   revalidateBooks();
   return { ok: true };
 }
 
+function redirectWithError(formData: FormData, fallback: string, error: string): never {
+  const next = String(formData.get("next") ?? fallback);
+  const safe = next.startsWith("/") && !next.startsWith("//") ? next : fallback;
+  const path = safe.split("?")[0] || fallback;
+  redirect(`${path}?error=${encodeURIComponent(error)}`);
+}
+
 /** Form-compatible wrapper for settle buttons on Home and Plan. */
 export async function repayDebtFormAction(formData: FormData): Promise<void> {
-  await repayDebtAction(formData);
+  const result = await repayDebtAction(formData);
+  if (!result.ok) redirectWithError(formData, "/", result.error);
+}
+
+export async function addBorrowedFormAction(formData: FormData): Promise<void> {
+  const result = await addBorrowedAction(formData);
+  if (!result.ok) redirectWithError(formData, "/", result.error);
+}
+
+export async function deleteDebtEntryFormAction(formData: FormData): Promise<void> {
+  const { member } = await requireAdult();
+  const entryId = String(formData.get("entryId") ?? "");
+  if (!entryId) redirectWithError(formData, "/plan/debts", "Missing debt line.");
+  const result = await deleteDebtEntryForHousehold(member.householdId, entryId);
+  if (!result.ok) redirectWithError(formData, "/plan/debts", result.error);
 }

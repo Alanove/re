@@ -39,6 +39,7 @@ type AddContext = {
   cards: { id: string; name: string }[];
   members: { id: string; displayName: string }[];
   debts: { id: string; person: string; remaining: number }[];
+  people: string[];
   onlyAdult: boolean;
   currency: string;
   cashAvailable: number;
@@ -49,6 +50,8 @@ type AddContext = {
     customerId: string;
     remainder: number;
   }[];
+  moneyPlaces: { id: string; name: string; balance: number; memberId: string | null }[];
+  defaultPlaceId?: string;
 };
 
 function NavLink({

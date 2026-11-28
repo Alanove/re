@@ -1,6 +1,8 @@
 import { billActiveInMonth, billDueDate } from "@/lib/bills";
 import { prisma } from "@/lib/db";
-import { accrueHouseholdDebtInterest } from "@/lib/debt-service";
+import { readHouseholdCash } from "@/lib/cash-ledger-service";
+import { debtLedgerTotals, type DebtMove } from "@/lib/debt";
+import { accrueHouseholdDebtInterest, consolidateHouseholdDebts } from "@/lib/debt-service";
 import { convertMinor } from "@/lib/fx";
 import {
   computeHeadline,
@@ -60,10 +62,10 @@ export async function allTimeSnapshot(householdId: string) {
   };
 }
 
-/** Current cash in the main ledger (never display below 0). */
+/** Current cash from the stored ledger (never display below 0). */
 export async function getHouseholdCash(householdId: string): Promise<number> {
-  const snapshot = await allTimeSnapshot(householdId);
-  return Math.max(0, computeLeft(snapshot));
+  const total = await readHouseholdCash(householdId);
+  return Math.max(0, total);
 }
 
 export async function openCardCycles(householdId: string) {
@@ -90,54 +92,74 @@ export async function openCardCycles(householdId: string) {
   }));
 }
 
-export async function openDebts(householdId: string): Promise<
-  Array<
-    OpenDebt & {
-      id: string;
-      person: string;
-      note: string;
-      date: string;
-      principal: number;
-      feeFixed: number;
-      monthlyInterestBps: number;
-    }
-  >
-> {
+export type DebtEntryView = {
+  id: string;
+  kind: string;
+  amount: number;
+  balanceAfter: number;
+  date: string;
+  note: string;
+};
+
+export type OpenDebtView = OpenDebt & {
+  id: string;
+  person: string;
+  note: string;
+  date: string;
+  principal: number;
+  feeFixed: number;
+  monthlyInterestBps: number;
+  borrowed: number;
+  settled: number;
+  interest: number;
+  left: number;
+  entries: DebtEntryView[];
+};
+
+export async function openDebts(householdId: string): Promise<OpenDebtView[]> {
+  await consolidateHouseholdDebts(householdId);
   await accrueHouseholdDebtInterest(householdId);
 
   const debts = await prisma.debt.findMany({
-    where: { householdId, amount: { gt: 0 } },
-    include: { repayments: true },
+    where: { householdId },
+    include: { entries: { orderBy: [{ date: "asc" }, { createdAt: "asc" }] } },
   });
 
   return debts
     .map((debt) => {
-      const repaid = debt.repayments
-        .filter((row) => row.kind !== "INTEREST")
-        .reduce((sum, row) => sum + row.amount, 0);
-      const interest = debt.repayments
-        .filter((row) => row.kind === "INTEREST")
-        .reduce((sum, row) => sum + row.amount, 0);
-      // Prefer ledger math so legacy repayments (before amount was reduced) still clear.
-      const remaining = Math.max(0, debt.principal + interest - repaid);
+      const moves: DebtMove[] = debt.entries.map((entry) => ({
+        id: entry.id,
+        kind: entry.kind,
+        amount: entry.amount,
+        date: entry.date,
+        createdAt: entry.createdAt.toISOString(),
+      }));
+      const totals = debtLedgerTotals(moves);
       return {
         id: debt.id,
         person: debt.person,
         note: debt.note,
         date: debt.date,
-        principal: debt.principal,
+        principal: totals.borrowed,
         feeFixed: debt.feeFixed,
         monthlyInterestBps: debt.monthlyInterestBps,
-        amount: debt.principal + interest,
-        repaid,
-        remaining,
+        amount: totals.borrowed + totals.interest,
+        repaid: totals.settled,
+        borrowed: totals.borrowed,
+        settled: totals.settled,
+        interest: totals.interest,
+        left: totals.left,
+        entries: debt.entries.map((entry) => ({
+          id: entry.id,
+          kind: entry.kind,
+          amount: entry.amount,
+          balanceAfter: entry.balanceAfter,
+          date: entry.date,
+          note: entry.note,
+        })),
       };
     })
-    .filter((debt) => debt.remaining > 0)
-    .map(({ remaining, ...debt }) => {
-      void remaining;
-      return debt;
-    });
+    .filter((debt) => debt.left > 0);
 }
 
 export async function unpaidLoansThisMonth(householdId: string, month: string) {
@@ -346,16 +368,15 @@ export async function householdMonthSummary(householdId: string, month = current
   };
 }
 
-/** Home ledger: all-time Cash + open Owed (cards + debts). */
+/** Home ledger: stored cash + open Owed (cards + debts). */
 export async function householdCashSummary(householdId: string, month = currentMonth()) {
-  const [snapshot, cards, debts, loans] = await Promise.all([
-    allTimeSnapshot(householdId),
+  const [cashRaw, cards, debts, loans] = await Promise.all([
+    readHouseholdCash(householdId),
     openCardCycles(householdId),
     openDebts(householdId),
     unpaidLoansThisMonth(householdId, month),
   ]);
 
-  const cashRaw = computeLeft(snapshot);
   const cash = Math.max(0, cashRaw);
   const owed = computeOwed(
     cards.map((card) => ({ total: card.total })),

@@ -9,6 +9,7 @@ import {
   lineTotal,
 } from "@/lib/invoice";
 import { toMinorUnits } from "@/lib/money";
+import { resolveMoneyPlaceId } from "@/lib/money-places";
 import { requireAdult } from "@/lib/session";
 import { todayIsoDate } from "@/lib/utils";
 
@@ -490,11 +491,20 @@ export async function recordInvoicePaymentAction(formData: FormData): Promise<Ac
     return { ok: false, error: "Payment cannot exceed the amount still owed." };
   }
 
+  const place = await resolveMoneyPlaceId({
+    householdId: member.householdId,
+    memberId: member.id,
+    displayName: member.displayName,
+    moneyPlaceId: String(formData.get("moneyPlaceId") ?? ""),
+  });
+  if (!place.ok) return place;
+
   const payment = await prisma.$transaction(async (tx) => {
     const income = await tx.income.create({
       data: {
         householdId: member.householdId,
         memberId: member.id,
+        moneyPlaceId: place.placeId,
         kind: "FREELANCE",
         amount: parsed.data.amount,
         date: parsed.data.date,

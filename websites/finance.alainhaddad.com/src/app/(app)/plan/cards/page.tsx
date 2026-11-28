@@ -4,11 +4,13 @@ import {
   payCardCycleAction,
   updateCreditCardAction,
 } from "@/app/actions/plan";
+import { MoneyPlaceSelect } from "@/components/money-place-select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { prisma } from "@/lib/db";
 import { formatMoney } from "@/lib/money";
+import { listMoneyPlaceBalances } from "@/lib/money-places";
 import { openCardCycles } from "@/lib/money-service";
 import { requireAdult } from "@/lib/session";
 
@@ -16,13 +18,16 @@ export default async function PlanCardsPage() {
   const { member } = await requireAdult();
   const currency = member.household.currency;
 
-  const [cards, cycles] = await Promise.all([
+  const [cards, cycles, moneyPlaces] = await Promise.all([
     prisma.creditCard.findMany({
       where: { householdId: member.householdId, archivedAt: null },
       orderBy: { name: "asc" },
     }),
     openCardCycles(member.householdId),
+    listMoneyPlaceBalances(member.householdId),
   ]);
+  const defaultPlaceId =
+    moneyPlaces.find((place) => place.memberId === member.id)?.id ?? moneyPlaces[0]?.id;
 
   return (
     <div className="space-y-8">
@@ -45,8 +50,14 @@ export default async function PlanCardsPage() {
                   </p>
                 </div>
                 {open && open.total > 0 && (
-                  <form action={payCardCycleAction}>
+                  <form action={payCardCycleAction} className="flex flex-col gap-2 items-end">
                     <input type="hidden" name="cycleId" value={open.id} />
+                    <MoneyPlaceSelect
+                      places={moneyPlaces}
+                      defaultPlaceId={defaultPlaceId}
+                      currency={currency}
+                      className="min-w-[10rem]"
+                    />
                     <Button size="sm" type="submit">
                       I paid the card
                     </Button>
